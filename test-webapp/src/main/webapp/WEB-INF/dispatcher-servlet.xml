@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" xmlns:p="http://www.springframework.org/schema/p">
+
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  <property name="prefix">
+    <value>/WEB-INF/jsp/</value>
+  </property>
+
+  <property name="suffix">
+    <value>.jsp</value>
+  </property>
+</bean>
+
+<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+  <property name="interceptors">
+    <list>
+      <ref local="localeChangeInterceptor"/>
+    </list>
+  </property>
+
+  <property name="urlMap">
+    <map>
+      <entry key="/login.html">
+        <ref bean="loginController"/>
+      </entry>
+    </map>
+  </property>
+</bean>
+
+<bean id="loginValidator" class="net.wgen.sli.LoginValidator"/>
+<bean id="loginController" class="net.wgen.sli.LoginFormController">
+  <property name="sessionForm"><value>false</value></property>
+  <property name="commandName"><value>login</value></property>
+  <property name="commandClass"><value>net.wgen.sli.Login</value></property>
+  <property name="validator"><ref bean="loginValidator"/></property>
+  <property name="formView"><value>login</value></property>
+  <property name="successView"><value>success</value></property>
+</bean>
+
+<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+  <property name="paramName" value="hl"/>
+</bean>
+
+<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+
+</beans>
