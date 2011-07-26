@@ -14,8 +14,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<!-- Shared Spring version number properties -->
 	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+	<cxf.version>2.1.2</cxf.version>
+	<slitest.wsdl.location>src/main/wsdl/slitest.simple.asmx.wsdl</slitest.wsdl.location>
   </properties>
-
 
   <build>
 	<plugins>
@@ -28,6 +29,52 @@
 	          <url>http://localhost:8080/manager/text</url>  
 	        </configuration>
 		</plugin>
+		
+		<!-- Generate source from WSDL -->
+		<plugin>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-codegen-plugin</artifactId>
+			<version>${cxf.version}</version>
+			<executions>
+				<execution>
+					<id>generate-sources</id>
+					<phase>generate-sources</phase>
+					<configuration>
+						<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+						<wsdlOptions>
+							<wsdlOption>
+								<wsdl>${basedir}/${slitest.wsdl.location}</wsdl>
+							</wsdlOption>
+						</wsdlOptions>
+					</configuration>
+					<goals>
+						<goal>wsdl2java</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	
+	   <!-- Build generated source -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated/cxf</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>	
+		
 	</plugins>
   </build>
 
@@ -151,6 +198,19 @@
 	    <artifactId>freemarker</artifactId>
 	    <version>2.3.18</version>
 	</dependency>
+
+    <!-- For SOAP Calls -->
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        <version>${cxf.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http</artifactId>
+        <version>${cxf.version}</version>
+    </dependency>
+
 
   </dependencies>
 

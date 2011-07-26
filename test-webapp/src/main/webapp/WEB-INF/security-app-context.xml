@@ -18,20 +18,10 @@
 	    <logout />
 	</http>
 	
-	<beans:bean id="customAuthenticationProvider" class="net.wgen.sli.security.SLIAuthenticationProvider">
-	 
-	</beans:bean>
+	<beans:bean id="customAuthenticationProvider" class="net.wgen.sli.security.SLIAuthenticationProvider" />
 	
     <authentication-manager>
-		
         <authentication-provider ref="customAuthenticationProvider">
-	
-            <!--<user-service>
-                <user name="rod" password="koala" authorities="supervisor, teller, user" />
-                <user name="dianne" password="emu" authorities="teller, user" />
-                <user name="scott" password="wombat" authorities="user" />
-                <user name="peter" password="opal" authorities="user" />
-            </user-service> -->
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

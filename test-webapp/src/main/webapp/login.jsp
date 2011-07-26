@@ -5,11 +5,11 @@
 
 <html>
   <head>
-    <title>CUSTOM SPRING SECURITY LOGIN</title>
+    <title>SLI Test</title>
   </head>
 
   <body onload="document.f.j_username.focus();">
-    <h1>CUSTOM SPRING SECURITY LOGIN</h1>
+    <h1>SLI Test Login</h1>
 
     <%-- this form-login-page form is also used as the
          form-error-page to ask for a login again.

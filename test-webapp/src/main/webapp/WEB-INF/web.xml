@@ -13,6 +13,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/security-app-context.xml
+            /WEB-INF/cfx-context.xml
         </param-value>
     </context-param>
 
