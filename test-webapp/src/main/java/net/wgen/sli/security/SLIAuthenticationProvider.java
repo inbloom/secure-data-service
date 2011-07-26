@@ -6,6 +6,9 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.AuthenticationServiceException;
+
+import javax.xml.ws.soap.SOAPFaultException;
 
 import com.sforce.soap.authentication.Authenticate;
 import com.sforce.soap.authentication.AuthenticateResult;
@@ -44,8 +47,15 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
         auth.setUsername(String.valueOf(authentication.getPrincipal()));
         auth.setPassword(String.valueOf(authentication.getCredentials()));
         auth.setSourceIp("1.1.1.1");
+        AuthenticateResult result = null;
         
-        AuthenticateResult result = slitestAuthSOAP.authenticate(auth);
+        try {
+            result = slitestAuthSOAP.authenticate(auth);
+        } catch (SOAPFaultException e) {
+            throw new AuthenticationServiceException("Error connecting to SLITest domain (1).");
+        } catch (Exception ee) {
+            throw new AuthenticationServiceException("Error connecting to SLITest domain (2).");
+        }
         
         if(result.isAuthenticated()) {
             // authentication.setAuthenticated(true);
