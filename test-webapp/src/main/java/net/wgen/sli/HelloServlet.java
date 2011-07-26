@@ -16,7 +16,10 @@ public class HelloServlet extends HttpServlet {
   {
     PrintWriter out = res.getWriter();
 
-    out.println("Hello, world!");
+    out.println("<html><head><title>Hello World</title></head><body>");
+    out.println("<p>Hello, world!<p>");
+    out.println("<p><a href=\"j_spring_security_logout\">Logout</a>");
+    out.println("</body></html>");
     out.close();
   }
 }

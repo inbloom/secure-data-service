@@ -112,6 +112,30 @@
 	  <version>${org.springframework.version}</version>
 	</dependency>
 
+	<dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-core</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-taglibs</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+
+	<dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-config</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-web</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+
 	<!--
 	    Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
 	    Define this if you use Spring MVC with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*)
