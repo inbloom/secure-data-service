@@ -10,10 +10,11 @@
 
 	<http use-expressions="true">
         <intercept-url pattern="/images/**" access="permitAll" />
+	    <intercept-url pattern="/login.jsp/**" access="permitAll" />
         <intercept-url pattern="/index.html" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
 		<!--<intercept-url pattern="/**" access="denyAll" /> -->
-	    <form-login />
+	    <form-login login-page='/login.jsp'/>
 	    <logout />
 	</http>
 
