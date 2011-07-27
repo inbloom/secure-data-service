@@ -59,10 +59,10 @@
   </wsdl:binding>
   <wsdl:service name="SimpleAdAuth">
     <wsdl:port name="SimpleAdAuthSoap" binding="tns:SimpleAdAuthSoap">
-      <soap:address location="http://184.72.113.29/sftest/simple.asmx" />
+      <soap:address location="https://184.72.113.29/sftest/simple.asmx" />
     </wsdl:port>
     <wsdl:port name="SimpleAdAuthSoap12" binding="tns:SimpleAdAuthSoap12">
-      <soap12:address location="http://184.72.113.29/sftest/simple.asmx" />
+      <soap12:address location="https://184.72.113.29/sftest/simple.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

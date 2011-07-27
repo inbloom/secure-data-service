@@ -14,7 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<!-- Shared Spring version number properties -->
 	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-	<cxf.version>2.1.2</cxf.version>
+	<cxf.version>2.4.1</cxf.version>
 	<slitest.wsdl.location>src/main/wsdl/slitest.simple.asmx.wsdl</slitest.wsdl.location>
   </properties>
 
