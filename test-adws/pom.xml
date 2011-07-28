@@ -17,6 +17,7 @@
 	<cxf.version>2.4.1</cxf.version>
 	<javax.servlet.version>2.5</javax.servlet.version>
 	<taglibs.version>1.1.2</taglibs.version>
+	<slitest.wsdl.location>src/main/wsdl/slitest.simple.asmx.wsdl</slitest.wsdl.location>
   </properties>
 
   <build>
@@ -30,6 +31,36 @@
 	          <url>http://localhost:8080/manager/text</url>  
 	        </configuration>
 		</plugin>
+		
+		<!-- Generate source from WSDL -->
+		<plugin>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-codegen-plugin</artifactId>
+			<version>${cxf.version}</version>
+			<executions>
+				<execution>
+					<id>generate-sources</id>
+					<phase>generate-sources</phase>
+					<configuration>
+						<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+						<wsdlOptions>
+							<wsdlOption>
+								<wsdl>${basedir}/${slitest.wsdl.location}</wsdl>
+								   <extraargs>
+				                     <extraarg>-server</extraarg>
+				                     <extraarg>-verbose</extraarg>
+				                  </extraargs>  
+							</wsdlOption>
+						</wsdlOptions>
+					</configuration>
+					<goals>
+						<goal>wsdl2java</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		
+		
 	 </plugins>
   </build>
 
