@@ -36,6 +36,7 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
         if(users.keySet().contains(username) && users.get(username).equals(password)) {
             // authentication.setAuthenticated(true);
         } else {
+            authentication.setAuthenticated(false);
             throw new BadCredentialsException("UserName and Password Combination not found.");
         }
         return authentication;    
@@ -60,6 +61,7 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
         if(result.isAuthenticated()) {
             // authentication.setAuthenticated(true);
         } else {
+            authentication.setAuthenticated(false);
             throw new BadCredentialsException("UserName and Password Combination not found in slitest domain.");
         }
         return authentication;    
@@ -67,7 +69,9 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         boolean useWebService = true;
-        if(useWebService) {
+        
+        SLIUsernamePasswordAuthenticationToken token = (SLIUsernamePasswordAuthenticationToken)authentication;
+        if(token.getDirectory().equals("slitest")) {
             return authenticateSLITestDomain(authentication);
         } else {
             return authenticateLocal(authentication);
@@ -75,6 +79,6 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
     }
     
     public boolean supports(java.lang.Class<? extends java.lang.Object> authentication) {
-        return true;
+        return (SLIUsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 } 
