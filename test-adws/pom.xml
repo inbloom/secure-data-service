@@ -17,6 +17,7 @@
 	<cxf.version>2.4.1</cxf.version>
 	<javax.servlet.version>2.5</javax.servlet.version>
 	<taglibs.version>1.1.2</taglibs.version>
+	<jaxws.version>2.1.4</jaxws.version>
 	<slitest.wsdl.location>src/main/wsdl/slitest.simple.asmx.wsdl</slitest.wsdl.location>
   </properties>
 
@@ -197,6 +198,11 @@
         <version>${cxf.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-tools</artifactId>
+      <version>${jaxws.version}</version>
+    </dependency>
 
   </dependencies>
 
