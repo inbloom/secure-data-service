@@ -89,6 +89,7 @@
 	    Core Spring utilities used by other modules.
 	    Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
 	-->
+
 	<dependency>
 	  <groupId>org.springframework</groupId>
 	  <artifactId>spring-core</artifactId>
@@ -168,7 +169,7 @@
 	  <groupId>org.springframework.security</groupId>
 	  <artifactId>spring-security-web</artifactId>
 	  <version>${org.springframework.version}</version>
-	</dependency>
+	</dependency> 
 
 	<!--
 	    Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
@@ -181,28 +182,47 @@
 	</dependency>
 
     <dependency>
-	    <groupId>org.freemarker</groupId>
-	    <artifactId>freemarker</artifactId>
-	    <version>2.3.18</version>
-	</dependency>
-
-    <!-- For SOAP Calls -->
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-frontend-jaxws</artifactId>
-        <version>${cxf.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-transports-http</artifactId>
-        <version>${cxf.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-tools</artifactId>
       <version>${jaxws.version}</version>
+    </dependency> 
+
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>${jaxws.version}</version>
     </dependency>
+
+ 	<!-- Library from java.net, integrate Spring with JAX-WS 
+       exclusions are to stop spring-2 jars from being included --> 
+	<dependency>
+		<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+		<artifactId>jaxws-spring</artifactId>
+		<version>1.8</version>
+		<exclusions>
+		  <exclusion>
+           		<groupId>org.springframework</groupId>
+      			<artifactId>spring-core</artifactId>
+        	  </exclusion>
+        	  <exclusion>
+           		<groupId>org.springframework</groupId>
+      			<artifactId>spring-context</artifactId>
+        	  </exclusion>
+   <exclusion>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring</artifactId>
+	</exclusion>
+        	  <exclusion>
+           		<groupId>com.sun.xml.stream.buffer</groupId>
+      			<artifactId>streambuffer</artifactId>
+        	  </exclusion>
+        	  <exclusion>
+           		<groupId>org.jvnet.staxex</groupId>
+      			<artifactId>stax-ex</artifactId>
+        	  </exclusion>
+		</exclusions>
+	</dependency>
+
 
   </dependencies>
 

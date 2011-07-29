@@ -4,36 +4,17 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-   
-    <!--
-      - Location of the XML file that defines the root application context
-      - Applied by ContextLoaderListener.
-     -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            /WEB-INF/cfx-context.xml
-        </param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
-    </listener>
-
     <servlet>
-        <servlet-name>simple.asmx</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+       <servlet-name>jaxws-servlet</servlet-name>
+       <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>simple.asmx</servlet-name>
-        <url-pattern>/*</url-pattern>
+       <servlet-name>jaxws-servlet</servlet-name>
+       <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
 </web-app>
 

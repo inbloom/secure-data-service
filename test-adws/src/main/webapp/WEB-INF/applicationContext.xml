@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+  xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://jax-ws.dev.java.net/spring/core
+    http://jax-ws.dev.java.net/spring/core.xsd
+    http://jax-ws.dev.java.net/spring/servlet
+    http://jax-ws.dev.java.net/spring/servlet.xsd">
+
+  <bean id="springApplicationContext" class="net.wgen.sli.util.SpringApplicationContext"/>
+
+  <wss:binding url="/simple.asmx" service="#simple.asmx" />
+
+  <!-- simplest definition only needs the class name -->
+  <ws:service id="simple.asmx" impl="net.wgenhq.dcoleman_wks3._8443.sftest.SimpleAdAuthSoapImpl" />
+
+  <bean name="retrieveUserAttributes" class="net.wgen.sli.security.RetrieveUserAttributesImpl">
+	<constructor-arg value="ldap://wgdc07.wgenhq.net:389" />
+	<constructor-arg value= "CN=David Coleman,OU=FullTime,OU=Users,OU=Corporate,DC=wgenhq,DC=net" />
+	<constructor-arg value= "fill-in-password" />
+  </bean>
+</beans>
