@@ -1,4 +1,4 @@
-package net.wgenhq.dcoleman_wks3._8443.sftest;
+package net.wgenhq.dcoleman_wks2._8443.sftest;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -20,10 +20,10 @@ import com.sforce.soap.authentication.AuthenticateResult;
 import net.wgen.sli.security.*;
 import net.wgen.sli.util.SpringApplicationContext;
 
- 
-@WebService(targetNamespace = "http://dcoleman-wks3.wgenhq.net:8443/sftest/", name = "SimpleAdAuthSoap")
+
+@WebService(targetNamespace = "http://dcoleman-wks2.wgenhq.net:8443/sftest/", name = "SimpleAdAuthSoap")
 @XmlSeeAlso({com.sforce.soap.authentication.ObjectFactory.class})
-@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE) 
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public class SimpleAdAuthSoapImpl implements SimpleAdAuthSoap {
 
     private static String AD_URL = "ldap://wgdc07.wgenhq.net:389";
@@ -47,12 +47,12 @@ public class SimpleAdAuthSoapImpl implements SimpleAdAuthSoap {
         log.info("done SimpleAdAuthSoapImpl");
         return result;
     }
-    
+
     // @Autowired ToDo - figure out how to get Spring to inject this or something
     public void setRetrieveUserAttributes(RetrieveUserAttributes rua) {
         m_rua = rua;
     }
-    
+
     //ToDo - figure out how to get Spring to inject this or something
     private RetrieveUserAttributes getRetrieveUserAttributes() {
         if(m_rua == null) {
@@ -60,20 +60,20 @@ public class SimpleAdAuthSoapImpl implements SimpleAdAuthSoap {
         }
         return m_rua;
     }
-    
+
     private boolean authenticateLDAP(String username, String password) {
             boolean authenticated = false;
             Logger log = Logger.getLogger(SimpleAdAuthSoapImpl.class.getName());
- 
+
             String cn = getRetrieveUserAttributes().getUserCN(username.trim());
             log.info("cn = " + cn);
             if(cn != null) {
-            
+
             // ToDo: security checks for username and password
         	Hashtable authEnv = new Hashtable(11);
         	String dn = "cn=" + cn.trim() + "," + AD_CONTEXT_STRING;
         	log.info(dn);
-      
+
         	authEnv.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
        		authEnv.put(Context.PROVIDER_URL, AD_URL);
        		authEnv.put(Context.SECURITY_AUTHENTICATION, "simple");
@@ -89,7 +89,7 @@ public class SimpleAdAuthSoapImpl implements SimpleAdAuthSoap {
         	} catch (Exception namEx) {
         	    authenticated = false;
         		log.info("Something went wrong! " + namEx.toString());
-        	} 
+        	}
     	}
         	return authenticated;
     }
