@@ -15,7 +15,7 @@
   <wss:binding url="/simple.asmx" service="#simple.asmx" />
 
   <!-- simplest definition only needs the class name -->
-  <ws:service id="simple.asmx" impl="net.wgenhq.dcoleman_wks3._8443.sftest.SimpleAdAuthSoapImpl" />
+  <ws:service id="simple.asmx" impl="net.wgenhq.dcoleman_wks2._8443.sftest.SimpleAdAuthSoapImpl" />
 
   <bean name="retrieveUserAttributes" class="net.wgen.sli.security.RetrieveUserAttributesImpl">
 	<constructor-arg value="ldap://wgdc07.wgenhq.net:389" />
