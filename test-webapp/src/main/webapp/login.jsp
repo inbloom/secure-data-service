@@ -25,6 +25,7 @@
       <table>	
       <tr><td>Directory:</td><td><select name="authDirectory">
 		       <option value="slitest">slitest.ec2.internal Domain</option>
+			   <option value="wgenhq">WGENHQ Domain</option>
 		       <option value="local">Local Webapp</option>
 		</select></td></tr>
         <tr><td>User:</td><td><input type='text' name='j_username' /></td></tr>

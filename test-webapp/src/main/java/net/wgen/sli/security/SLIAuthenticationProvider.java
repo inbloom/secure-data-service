@@ -14,11 +14,15 @@ import com.sforce.soap.authentication.Authenticate;
 import com.sforce.soap.authentication.AuthenticateResult;
 import _29._113._72._184.sftest.SimpleAdAuth;
 import _29._113._72._184.sftest.SimpleAdAuthSoap;
+import net.wgen.wgenhq.WGenSimpleAdAuth;
+import net.wgen.wgenhq.WGenSimpleAdAuthSoap;
 
 public class SLIAuthenticationProvider implements AuthenticationProvider {
 
     private static SimpleAdAuth slitestAuth = new SimpleAdAuth();
     private static SimpleAdAuthSoap slitestAuthSOAP = slitestAuth.getSimpleAdAuthSoap();
+    private static WGenSimpleAdAuth wgenAuth = new WGenSimpleAdAuth();
+    private static WGenSimpleAdAuthSoap wgenAuthSOAP = wgenAuth.getSimpleAdAuthSoap();
 
     //@Resource DataSource dataSource;
     private static Map<String, String> users = new HashMap<String, String>();
@@ -38,6 +42,31 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
         } else {
             authentication.setAuthenticated(false);
             throw new BadCredentialsException("UserName and Password Combination not found.");
+        }
+        return authentication;    
+    }
+
+    // Please note that this is insecure and should not be used for anything except a demonstration
+    private Authentication authenticateWGenDomain(Authentication authentication) throws AuthenticationException {
+        Authenticate auth = new Authenticate();
+        auth.setUsername(String.valueOf(authentication.getPrincipal()));
+        auth.setPassword(String.valueOf(authentication.getCredentials()));
+        auth.setSourceIp("1.1.1.1");
+        AuthenticateResult result = null;
+        
+        try {
+            result = wgenAuthSOAP.authenticate(auth);
+        } catch (SOAPFaultException e) {
+            throw new AuthenticationServiceException("Error connecting to domain (1).");
+        } catch (Exception ee) {
+            throw new AuthenticationServiceException("Error connecting to domain (2).");
+        }
+        
+        if(result.isAuthenticated()) {
+            // authentication.setAuthenticated(true);
+        } else {
+            authentication.setAuthenticated(false);
+            throw new BadCredentialsException("UserName and Password Combination not found in slitest domain.");
         }
         return authentication;    
     }
@@ -73,6 +102,8 @@ public class SLIAuthenticationProvider implements AuthenticationProvider {
         SLIUsernamePasswordAuthenticationToken token = (SLIUsernamePasswordAuthenticationToken)authentication;
         if(token.getDirectory().equals("slitest")) {
             return authenticateSLITestDomain(authentication);
+        } else if(token.getDirectory().equals("wgenhq")) {
+            return authenticateWGenDomain(authentication);
         } else {
             return authenticateLocal(authentication);
         }
