@@ -10,5 +10,8 @@
 	Hello world!
 </h1>
 ${controllerMessage}
+
+
+<a href="../rest/students" />
 </body>
 </html>
