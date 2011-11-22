@@ -10,7 +10,9 @@ import models.*;
 public class Application extends Controller {
 
     public static void index() {
-        render();
+        List<District> districts = District.findAll();
+        List<IdProvider> idps = IdProvider.findAll();
+        render(districts, idps);
     }
 
 }

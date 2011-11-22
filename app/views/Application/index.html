@@ -1,4 +1,18 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-<h1>A discovery service will be here.</h1>
+#{if districts.size() > 0}
+    Select district:
+    <select id="state">
+        #{list items:districts, as:'district'}
+            <option value=${district.id}>${district.state + " " + district.district}</option>
+        #{/list}
+    </select>
+
+<!-- # {select 'district', items:districts, valueProperty:'state', labelProperty:'state' /} -->
+<!-- # {select 'district', items:districts, valueProperty:'state'/} , labelProperty:'name', value:5, class:'test', id:'select2'/} >
+
+#{/if}
+#{else}
+    No districts. Nothing to do.
+#{/else}
