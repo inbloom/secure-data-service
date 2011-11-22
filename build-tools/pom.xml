@@ -35,19 +35,12 @@
     <url>https://github.com/WGEN-SLI/SLI</url>
   </scm>
 
-  <repositories>
-    <!-- SLI Jenkins repository -->
+  <distributionManagement>
     <repository>
       <id>sliJenkins</id>
       <name>SLI Jenkins Repository</name>
       <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-      <releases>
-        <updatePolicy>always</updatePolicy>
-      </releases>
     </repository>
-  </repositories>
+  </distributionManagement>
 
 </project>
