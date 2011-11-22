@@ -1,0 +1,26 @@
+# you describe your data using the YAML notation here
+# and then load them using Fixtures.load("initial-data.yml")
+
+# User(bob):
+#   email: bob@gmail.com
+#   password: secret
+#   fullname: Bob
+
+IdProvider(sli):
+    domain:         idp.sli.wgen.net
+    redirect:       idp=sli
+
+IdProvider(nyc):
+    domain:         idp.nyc.ny.edu
+    redirect:       idp=nyc
+
+District(forsyth):
+    state:          NC
+    district:       Forsyth
+    idp:            sli
+
+District(newyork):
+    state:          NY
+    district:       New York City
+    idp:            nyc
+
