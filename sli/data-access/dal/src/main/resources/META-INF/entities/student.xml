@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+    http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+
+	<entity class="org.slc.sli.domain.Student">
+		<table name="student" />
+		<attributes>
+			<id name="studentId">
+				<generated-value strategy="IDENTITY" />
+			</id>
+
+			<basic name="studentSchoolId" />
+			<basic name="firstName" />
+			<basic name="middleName" />
+			<basic name="lastSurname" />
+			<basic name="personalTitlePerfix" />
+			<basic name="generationCodeSuffix" />
+			<basic name="maidenName" />
+			<basic name="personalInformationVerification" />
+			<basic name="sex" >
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="birthDate" />
+			<basic name="cityOfBirth" />
+			<basic name="stateOfBirthAbbreviation" />
+			<basic name="countryOfBirth" />
+			<basic name="dateEnteredUS">
+				<column name="date_entered_US" />
+			</basic>
+			<basic name="multipleBirthStatus" />
+			<basic name="profileThumbnail" />
+			<basic name="hispanicLatinoEthnicity" />
+			<basic name="oldEthnicity" >
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="economicDisadvantaged" />
+			<basic name="schoolFoodServicesEligibility" >
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="limitedEnglishProficiency" >
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="displacementStatus" />
+		</attributes>
+	</entity>
+
+</entity-mappings>

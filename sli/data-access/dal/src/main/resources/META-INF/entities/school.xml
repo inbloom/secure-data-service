@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+    http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+
+	<entity class="org.slc.sli.domain.School">
+		<table name="school" />
+		
+		<attributes>
+			<id name="schoolId">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="fullName"/>
+			<basic name="shortName"/>
+			<basic name="stateOrganizationId"/>
+			<basic name="webSite"/>
+			<basic name="schoolType" >
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="charterStatus">
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="titleIPartASchoolDesignation">
+				<column name="title_i_part_a_school_designation"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="magnetSpecialProgramEmphasisSchool">
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="administrativeFundingControl">
+			<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="operationalStatus">
+			<enumerated>STRING</enumerated>
+			</basic>
+		</attributes>
+	</entity>
+
+
+<!--
+	<mapped-superclass class="org.slc.sli.domain.edfi.EducationOrganization">
+		<attributes>
+			<basic name="stateOrganizationId">
+				<column name="state_organization_id"/>
+			</basic>
+			<basic name="operationalStatus">
+				<column name="operational_status"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="nameOfInstitution">
+				<column name="name_of_institution" />
+			</basic>
+			<basic name="shortNameOfInstitution">
+				<column name="short_name_of_institution" />
+			</basic>
+			<basic name="webSite">
+				<column name="web_site" />
+			</basic>
+			-->
+	<!--		<one-to-many name="address" fetch="EAGER"/> -->
+<!--		
+			<transient name="address"/>
+			<transient name="telephone"/>
+			<transient name="localEducationAgencyReference"/>
+			<transient name="classPeriodReference"/>
+			<transient name="locationReference"/>
+			<transient name="gradesOffered"/>
+			<transient name="schoolCategories"/>
+			<transient name="educationOrgIdentificationCode"/>
+			<transient name="accountabilityRatings"/>
+			<transient name="programReference"/>
+			<transient name="educationOrganizationPeerReference"/>
+			<transient name="organizationCategories"/>
+		</attributes>
+	</mapped-superclass>
+
+	<entity class="org.slc.sli.domain.edfi.School">
+		<table name="school" />
+		<inheritance strategy="SINGLE_TABLE"/>
+		
+		<attributes>
+			<id name="schoolId">
+				<column name="school_id" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			
+			
+			<basic name="schoolType">
+				<column name="school_type" />
+				<enumerated>STRING</enumerated>
+			</basic>
+
+			<basic name="charterStatus">
+				<column name="charter_status" />
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="titleIPartASchoolDesignation">
+				<column name="title_i_part_a_school_designation" />
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="magnetSpecialProgramEmphasisSchool">
+				<column name="magnet_special_program_emphasis_school" />
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="administrativeFundingControl">
+				<column name="administrative_funding_control" />
+				<enumerated>STRING</enumerated>
+			</basic>
+						
+			
+			<transient name="address"/>
+			<transient name="localEducationAgencyReference"/>
+			<transient name="classPeriodReference"/>
+			<transient name="locationReference"/>
+			<transient name="gradesOffered"/>
+			<transient name="schoolCategories"/>
+			<transient name="educationOrgIdentificationCode"/>
+			<transient name="accountabilityRatings"/>
+			<transient name="programReference"/>
+			<transient name="educationOrganizationPeerReference"/>
+			<transient name="organizationCategories"/>
+
+		</attributes>
+	</entity>
+-->
+<!--	
+	<entity class="org.slc.sli.domain.edfi.Address">
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			
+			<basic name="addressType">
+				<column name="address_type"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="streetNumberName">
+				<column name="street_number_name"/>
+			</basic>
+			<basic name="apartmentRoomSuiteNumber">
+				<column name="apartment_room_suite_number"/>
+			</basic>
+			<basic name="buildingSiteNumber">
+				<column name="building_site_number"/>
+			</basic>
+			<basic name="city">
+				<column name="city"/>
+			</basic>
+			<basic name="stateAbbreviation">
+				<column name="state_abbreviation"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="postalCode">
+				<column name="postal_code"/>
+			</basic>
+			<basic name="nameOfCounty">
+				<column name="name_of_county"/>
+			</basic>
+			<basic name="countyFIPSCode">
+				<column name="county_fips_code"/>
+			</basic>
+			<basic name="countryCode">
+				<column name="country_code"/>
+			</basic>
+			<basic name="latitude">
+				<column name="latitude"/>
+			</basic>
+			<basic name="longitude">
+				<column name="longitude"/>
+			</basic>
+			<basic name="beginDate">
+				<column name="begin_date"/>
+				<temporal>DATE</temporal>
+			</basic>
+			<basic name="endDate">
+				<column name="end_date"/>
+				<temporal>DATE</temporal>
+			</basic>
+		</attributes>
+	</entity>
+-->
+</entity-mappings>
