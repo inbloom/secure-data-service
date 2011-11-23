@@ -1,5 +1,7 @@
 package org.sli.ingestion.routes;
 
+import java.util.Properties;
+
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.sli.ingestion.processors.EdFiXmlProcessor;
 import org.sli.ingestion.processors.PersistenceProcessor;
@@ -9,23 +11,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
 
-	@Autowired
-	EdFiXmlProcessor xmlProcessor;
+    @Autowired
+    EdFiXmlProcessor xmlProcessor;
 
-    @Autowired(required=true)
-	PersistenceProcessor persistenceProcessor;
+    @Autowired(required = true)
+    PersistenceProcessor persistenceProcessor;
 
+    @Autowired
+    Properties ingestionProperties;
+    
     @Override
-	public void configure() throws Exception {
+    public void configure() throws Exception {
 
-		
-		// FIXME parameterize ingestion lz directory
-		from("file:/home/ingestion/lz/inbound?move=/home/ingestion/lz/inbound/.done&moveFailed=.error")
-				.process(xmlProcessor)
-				.to("seda:persist");		
-		
-		from("seda:persist").process(persistenceProcessor);
+    	String inboundDir = ingestionProperties.getProperty("landingzone.inbounddir");
+    	
+        from("file:"+inboundDir+"?move="+inboundDir+"/.done&moveFailed="+inboundDir+"/.error")
+                .process(xmlProcessor)
+                .to("seda:persist");        
+        
+        from("seda:persist").process(persistenceProcessor);
 
-	}
+    }
 
 }

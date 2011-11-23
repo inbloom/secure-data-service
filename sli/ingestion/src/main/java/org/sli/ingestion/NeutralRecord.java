@@ -181,7 +181,7 @@ public class NeutralRecord {
         this.attributesCrc = attributesCrc;
     }
     
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     
     /**
      * as a convenience, return pure-json representation for strings by default
@@ -189,7 +189,7 @@ public class NeutralRecord {
     @Override
     public String toString() {
         try {
-            return mapper.writeValueAsString(this);
+            return MAPPER.writeValueAsString(this);
         } catch (Exception e) {
             return super.toString();
         }

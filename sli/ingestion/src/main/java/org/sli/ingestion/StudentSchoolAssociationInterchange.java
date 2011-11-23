@@ -23,6 +23,7 @@ public class StudentSchoolAssociationInterchange extends StudentSchoolAssociatio
 	
     private String studentUniqueStateId;
     private String stateOrganizationId;
+    private StudentSchoolAssociation association = new StudentSchoolAssociation();
     
     public StudentSchoolAssociationInterchange() {
     	super();
@@ -56,6 +57,20 @@ public class StudentSchoolAssociationInterchange extends StudentSchoolAssociatio
         this.stateOrganizationId = stateOrganizationId;
     }
     
+    /**
+     * @return the domain association
+     */
+    public StudentSchoolAssociation getAssociation() {
+        return association;
+    }
+
+    /**
+     * @param association the association to set
+     */
+    public void setAssociation(StudentSchoolAssociation association) {
+        this.association = association;
+    }
+    
 	/**
 	 * Initialize the SLI Ingestion association instance by looking up the associated SLI instances according to the ED-FI identifiers
 	 * 
@@ -83,8 +98,8 @@ public class StudentSchoolAssociationInterchange extends StudentSchoolAssociatio
     	}
     	
     	if ((student != null) && (school != null)) {   		
-    		this.setStudentId(student.getStudentId());
-    		this.setSchoolId(school.getSchoolId());
+    		this.getAssociation().setStudentId(student.getStudentId());
+    		this.getAssociation().setSchoolId(school.getSchoolId());
     	}
     	else {
     		throw new IllegalArgumentException("StudentSchoolAssociation initialization failed.");

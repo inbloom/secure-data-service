@@ -9,6 +9,8 @@
     <!-- the application context definition for the DispatcherServlet -->
     
     <bean name="/login" class="org.slc.sli.controller.LoginController"/>
+    <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController"/>
+    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController"/>
     
     <!-- freemarker config -->
     <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">

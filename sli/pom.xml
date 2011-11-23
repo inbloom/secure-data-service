@@ -771,6 +771,7 @@ vf.version=3
 .classpath
 target
 .git
+.pydevproject
 
                   ]]>
               </content>

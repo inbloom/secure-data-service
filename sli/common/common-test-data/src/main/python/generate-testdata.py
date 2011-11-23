@@ -18,6 +18,25 @@ log = logging.getLogger(__name__)
 
 def _get_sub_dict(d, prefix, strip=False):
     """
+    Given a dictionary, returns a second dictionary with only those items
+    whose key starts with the value of the prefix argument.  In the resulting
+    dictionary, the part of the keys matching the prefix are dropped.  When
+    the strip argument evaluates to True, dictionary items whose values are 
+    empty strings (or contain only whitespace) will be ignored.
+    
+    >>> _get_sub_dict({'sayhello':'world', 'goodbye':'abc'}, 'say')
+    {'hello': 'world'}
+    
+    >>> _get_sub_dict(
+    ...     {'sayhello':'world', 'saygoodbye':'so long', 'saywhat':' '}, 'say'
+    ... ) == {'hello': 'world', 'goodbye': 'so long', 'what': ' '}
+    True
+    
+    >>> _get_sub_dict(
+    ...     {'sayhello':'world', 'saygoodbye':'so long', 'saywhat':' '}, 'say', True
+    ... ) == {'hello': 'world', 'goodbye': 'so long'}
+    True
+
     """
     tmpd = {}
     for k in d:

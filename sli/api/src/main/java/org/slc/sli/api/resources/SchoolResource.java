@@ -46,7 +46,7 @@ import org.slc.sli.domain.StudentSchoolAssociation;
 @Component
 //TODO add application/xml support
 //@Produces({ "application/json", "application/xml" })
-@Produces({ "application/json"})
+@Produces({ "application/json" })
 public class SchoolResource {
     
     private Logger log = LoggerFactory.getLogger(SchoolResource.class);

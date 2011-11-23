@@ -23,7 +23,7 @@
         <extensions>false</extensions>
         <executions>
           <execution>
-            <phase>integration-test</phase>
+            <phase>test</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -50,7 +50,7 @@
         <inherited>false</inherited>
         <executions>
           <execution>
-            <phase>integration-test</phase>
+            <phase>test</phase>
             <goals>
               <goal>validate</goal>
             </goals>

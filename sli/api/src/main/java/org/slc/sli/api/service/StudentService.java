@@ -53,7 +53,7 @@ public interface StudentService {
      * @return
      */
     
-    @PostAuthorize( "hasPermission(returnObject, 'READ') ")
+    @PostAuthorize("hasPermission(returnObject, 'READ')")
     public Student getStudentById(int studentId);
     
     /**

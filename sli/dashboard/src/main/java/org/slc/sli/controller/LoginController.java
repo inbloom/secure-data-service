@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/login")
-public class LoginController{
+public class LoginController {
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(ModelMap model){
-		model.addAttribute("message", "SLI Dashboard Hello World!");
-		return "login";
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public String printWelcome(ModelMap model) {
+        model.addAttribute("message", "SLI Dashboard Hello World!");
+        return "login";
+    }
 }

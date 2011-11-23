@@ -59,11 +59,18 @@ public class PersistenceProcessor extends IngestionProcessor implements Processo
 	        	
 	        	// Initialize Ingestion association instances
 	        	if (ingestionInstance instanceof InterchangeAssociation) {
+	        		
+	        		// Init Ingestion association instance
 	        		((InterchangeAssociation)ingestionInstance).init(this.getContextManager());
+
+		        	// Persist Ingestion association instance
+	        		this.persist(((InterchangeAssociation)ingestionInstance).getAssociation());
 	        	}
-	        	
-	        	// Persist Ingestion instance
-	        	this.persist(ingestionInstance);
+	        	else {
+	        		
+		        	// Persist Ingestion instance
+		        	this.persist(ingestionInstance);		        	
+	        	}
 	        	
 	        	// Update Ingestion counter
 	        	ingestionCounter++;

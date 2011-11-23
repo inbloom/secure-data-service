@@ -1,5 +1,7 @@
 package org.sli.ingestion;
 
+import org.slc.sli.domain.StudentSchoolAssociation;
+
 import org.sli.ingestion.processors.ContextManager;
 
 
@@ -20,4 +22,14 @@ public interface InterchangeAssociation {
 	 */
 	public void init(ContextManager contextManager);
 	
+    /**
+     * Get the SLI domain association
+     */
+    public StudentSchoolAssociation getAssociation();
+    
+    /**
+     * Set the SLI domain association
+     */
+    public void setAssociation(StudentSchoolAssociation association);
+    
 }

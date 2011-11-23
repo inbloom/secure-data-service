@@ -1,5 +1,6 @@
 package org.slc.sli.api.service;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.TestingAuthenticationProvider;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -27,7 +29,7 @@ import org.slc.sli.domain.StudentBuilder;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml", "/spring/securityContext.xml"})
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml", "/spring/securityContext.xml" })
 public class StudentServiceSecurityTest {
     
     @Autowired
@@ -54,9 +56,22 @@ public class StudentServiceSecurityTest {
         context.setAuthentication(authentication);
     }
     
-    @Test
     public void testSecure() throws Exception {
         service.addOrUpdate(student);
+        Student student2 = service.getStudentById(student.getStudentId());
+        assertNotNull(student2);
+    }
+    
+    @Test(expected = AuthenticationCredentialsNotFoundException.class)
+    public void testNoAuthentication() {
+        
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(null);
+        try {
+            service.addOrUpdate(student);
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
         Student student2 = service.getStudentById(student.getStudentId());
         assertNotNull(student2);
     }

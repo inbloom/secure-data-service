@@ -9,8 +9,6 @@ import com.sun.jersey.server.linking.Links;
 import com.sun.jersey.server.linking.Ref;
 import com.sun.jersey.server.linking.Ref.Style;
 
-import org.slc.sli.domain.StudentSchoolAssociation;
-
 /**
  * Decorates a StudentSchoolAssociation with links to the Student and School
  * resource.
@@ -28,16 +26,7 @@ public class StudentSchoolAssociationDetailRepresentation {
     
     private int studentId;
     private int schoolId;
-    private Collection<StudentSchoolAssociation> associations;
     
-    /**
-     * Construct a new representation of these associations.
-     * 
-     * @param association
-     */
-    public StudentSchoolAssociationDetailRepresentation(Collection<StudentSchoolAssociation> associations) {
-        this.associations = associations;
-    }
     
     /**
      * @return the studentId

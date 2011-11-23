@@ -85,9 +85,10 @@
 	<jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap" 
 	    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
 	    
+<!--	    
         <jb:value property="entryDate" decoder="Calendar" data="EntryDate">
             <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
-        </jb:value>
+        </jb:value>       
         <jb:value property="entryGradeLevel" data="EntryGradeLevel" decoder="Enum">
             <jb:decodeParam name="enumType">org.slc.sli.domain.enums.GradeLevelType</jb:decodeParam>
             <jb:decodeParam name="Infant/toddler">INFANT_TODDLER</jb:decodeParam>
@@ -113,6 +114,10 @@
             <jb:decodeParam name="Ungraded">UNGRADED</jb:decodeParam>
             <jb:decodeParam name="Other">OTHER</jb:decodeParam>
         </jb:value>
+-->
+        <jb:value property="entryDate" data="BirthData/BirthDate" />
+        <jb:value property="entryGradeLevel" data="EntryGradeLevel" />
+        
     </jb:bean>
 
 
