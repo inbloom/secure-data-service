@@ -4,15 +4,35 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.slc.sli.repository.SchoolRepository;
-import org.slc.sli.repository.StudentRepository;
-import org.slc.sli.repository.StudentSchoolAssociationRepository;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.sli.ingestion.processors.EdFiProcessor;
+import org.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
-public class StudentSchoolAssociationIngestionTest extends IngestionTest {
+import net.wgen.sli.repository.SchoolRepository;
+import net.wgen.sli.repository.StudentRepository;
+import net.wgen.sli.repository.StudentSchoolAssociationRepository;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ 
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
+
+public class StudentSchoolAssociationIngestionTest {
+
+    @Autowired
+    private EdFiProcessor edFiProcessor;
+
+    @Autowired
+    private PersistenceProcessor persistenceProcessor;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -33,67 +53,67 @@ public class StudentSchoolAssociationIngestionTest extends IngestionTest {
 		
 		studentSchoolAssociationRepository.deleteAll();
 		
-		String xmlRecords = this.createStudentSchoolAssociationInterchangeXml(numberOfStudentSchoolAssociations);
+		String xmlRecords = createStudentSchoolAssociationInterchangeXml(numberOfStudentSchoolAssociations);
 		
-		File xmlRecordsFile = this.createTestFile(xmlRecords);
+		File xmlRecordsFile = IngestionTest.createTestFile(xmlRecords);
 		
-		File ingestionEdFiXmlProcessorOutputFile = this.createTempFile();
+		File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getEdFiXmlProcessor().processIngestionStream(xmlRecordsFile, ingestionEdFiXmlProcessorOutputFile);
+		edFiProcessor.processIngestionStream(xmlRecordsFile, ingestionEdFiProcessorOutputFile);
 		
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(ingestionEdFiXmlProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
 
 	}
 	
-	protected void createStudents(int numberOfStudents) throws IOException, SAXException {
+	private void createStudents(int numberOfStudents) throws IOException, SAXException {
 
 		studentRepository.deleteAll();
 		
 		StudentIngestionTest studentIngestionTest = new StudentIngestionTest();
 		
-		List neutralRecords = studentIngestionTest.createStudentIngestionNeutralRecords(this.getPersistenceProcessor(), numberOfStudents);
+		List neutralRecords = StudentIngestionTest.createStudentIngestionNeutralRecords(persistenceProcessor, numberOfStudents);
 
-		File neutralRecordsFile = this.createNeutralRecordsFile(neutralRecords);
+		File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
 
 	}
 
-	protected void createSchools(int numberOfSchools) throws IOException, SAXException {
+	private void createSchools(int numberOfSchools) throws IOException, SAXException {
 
 		schoolRepository.deleteAll();
 
 		SchoolIngestionTest schoolIngestionTest = new SchoolIngestionTest();
 		
-		List neutralRecords = schoolIngestionTest.createSchoolIngestionNeutralRecords(this.getPersistenceProcessor(), numberOfSchools);
+		List neutralRecords = SchoolIngestionTest.createSchoolIngestionNeutralRecords(persistenceProcessor, numberOfSchools);
 		
-		File neutralRecordsFile = this.createNeutralRecordsFile(neutralRecords);
+		File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
 
 	}
 
-	protected String createStudentSchoolAssociationInterchangeXml(int numberOfAssociations) {
+	public static String createStudentSchoolAssociationInterchangeXml(int numberOfAssociations) {
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append(this.createStudentSchoolAssociationInterchangeXmlHeader());
+		builder.append(createStudentSchoolAssociationInterchangeXmlHeader());
 		
 		for(int index = 1; index <= numberOfAssociations; index++) {
-			StudentSchoolAssociationInterchange studentSchoolAssociation = this.createStudentSchoolAssociation(index);
-			builder.append(this.createStudentSchoolAssociationXml(studentSchoolAssociation));
+			StudentSchoolAssociationInterchange studentSchoolAssociation = createStudentSchoolAssociation(index);
+			builder.append(createStudentSchoolAssociationXml(studentSchoolAssociation));
 		}
-		builder.append(this.createStudentSchoolAssociationInterchangeXmlFooter());
+		builder.append(createStudentSchoolAssociationInterchangeXmlFooter());
 		
 		return builder.toString();
 	}
 	
-	protected String createStudentSchoolAssociationInterchangeXmlHeader() {
+	public static String createStudentSchoolAssociationInterchangeXmlHeader() {
 		
 		String interchangeXmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
 		interchangeXmlHeader += "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">" + "\n";
@@ -101,14 +121,14 @@ public class StudentSchoolAssociationIngestionTest extends IngestionTest {
 		return interchangeXmlHeader;
 	}
 	
-	protected String createStudentSchoolAssociationInterchangeXmlFooter() {
+	public static String createStudentSchoolAssociationInterchangeXmlFooter() {
 		
 		String interchangeXmlFooter = "</InterchangeStudentEnrollment>" + "\n";
 
 		return interchangeXmlFooter;
 	}
 	
-	protected String createStudentSchoolAssociationXml(StudentSchoolAssociationInterchange studentSchoolAssociation) {
+	public static String createStudentSchoolAssociationXml(StudentSchoolAssociationInterchange studentSchoolAssociation) {
 		String studentSchoolAssociationXml = "";
 		
 		studentSchoolAssociationXml += "<StudentSchoolAssociation>" + "\n";
@@ -134,7 +154,7 @@ public class StudentSchoolAssociationIngestionTest extends IngestionTest {
 		return studentSchoolAssociationXml;
 	}
 
-	protected StudentSchoolAssociationInterchange createStudentSchoolAssociation(int associationId) {
+	public static StudentSchoolAssociationInterchange createStudentSchoolAssociation(int associationId) {
 		StudentSchoolAssociationInterchange studentSchoolAssociation =  new StudentSchoolAssociationInterchange();
 		
 		studentSchoolAssociation.setAssociationId(associationId);

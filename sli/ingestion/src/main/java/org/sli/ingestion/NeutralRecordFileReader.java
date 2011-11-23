@@ -52,7 +52,7 @@ public class NeutralRecordFileReader implements Iterator {
         nr.setJobId(getStringNullable(avroRecord, "jobId"));
         nr.setSourceId(getStringNullable(avroRecord, "sourceId"));
         nr.setLocalId(
-                avroRecord.get("localId").toString()); // not null
+                avroRecord.get("localId")); // not null
         nr.setRecordType(
                 avroRecord.get("recordType").toString()); // not null
         
@@ -71,8 +71,8 @@ public class NeutralRecordFileReader implements Iterator {
         return nr;
     }
     
-    protected HashMap<String, String> unencodeMap(Map<Utf8, Utf8> map) {
-        HashMap<String, String> normalMap = new HashMap<String, String>();
+    protected HashMap<String, Object> unencodeMap(Map<Utf8, Utf8> map) {
+        HashMap<String, Object> normalMap = new HashMap<String, Object>();
         String key;
         String value;
         for (Entry<Utf8, Utf8> entry : map.entrySet()) {

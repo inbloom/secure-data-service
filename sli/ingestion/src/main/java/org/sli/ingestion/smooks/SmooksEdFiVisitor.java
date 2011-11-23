@@ -2,13 +2,14 @@ package org.sli.ingestion.smooks;
 
 import java.io.IOException;
 
-import org.milyn.SmooksException;
+import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
 import org.milyn.javabean.context.BeanContext;
-import org.milyn.container.ExecutionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sli.ingestion.NeutralRecord;
 import org.sli.ingestion.NeutralRecordFileWriter;
 
@@ -21,6 +22,9 @@ import org.sli.ingestion.NeutralRecordFileWriter;
 @StreamResultWriter
 public class SmooksEdFiVisitor implements SAXElementVisitor {
 
+    // Logging
+    Logger log = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
+    
     protected String beanId;
     protected NeutralRecordFileWriter nrfWriter;
     
@@ -52,13 +56,20 @@ public class SmooksEdFiVisitor implements SAXElementVisitor {
     @Override
     public void visitAfter(SAXElement element, 
             ExecutionContext executionContext)
-            throws SmooksException, IOException {
+            throws IOException {
 
-        BeanContext bc = executionContext.getBeanContext();
-        NeutralRecord nr = (NeutralRecord) bc.getBean(beanId);
-        // following line is only needed if we are using smooks' internal 
-        // result stream writer.
-        //Writer writer = element.getWriter(this);
-        nrfWriter.writeRecord(nr);
+        BeanContext beanContext = executionContext.getBeanContext();
+        NeutralRecord neutralRecord = (NeutralRecord) beanContext.getBean(beanId);
+        
+        if (executionContext.getTerminationError() != null) {
+            
+            // Indicate Smooks Validation Failure
+            log.error(executionContext.getTerminationError().getMessage());
+            log.error("Invalid Neutral Record: " + neutralRecord.toString());
+        } else {
+            
+            // Write Neutral Record
+            nrfWriter.writeRecord(neutralRecord);
+        }
     }
 }

@@ -10,17 +10,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.slc.sli.domain.Student;
-import org.slc.sli.domain.enums.SexType;
-import org.slc.sli.repository.StudentRepository;
-
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.sli.ingestion.processors.EdFiProcessor;
 import org.sli.ingestion.processors.IngestionProcessor;
+import org.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
-public class StudentIngestionTest extends IngestionTest {
+import net.wgen.sli.domain.Student;
+import net.wgen.sli.domain.enums.SexType;
+import net.wgen.sli.repository.StudentRepository;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ 
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
+
+public class StudentIngestionTest {
+
+    @Autowired
+    private EdFiProcessor edFiProcessor;
+
+    @Autowired
+    private PersistenceProcessor persistenceProcessor;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -31,15 +52,15 @@ public class StudentIngestionTest extends IngestionTest {
 		studentRepository.deleteAll();
 		
 		int numberOfStudents = 2;
-		List neutralRecords = this.createStudentIngestionNeutralRecords(this.getPersistenceProcessor(), numberOfStudents);
+		List neutralRecords = createStudentIngestionNeutralRecords(persistenceProcessor, numberOfStudents);
 		
-		File neutralRecordsFile = this.createNeutralRecordsFile(neutralRecords);
+		File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
 
-		this.verifyStudents(studentRepository, numberOfStudents);
+		verifyStudents(studentRepository, numberOfStudents);
 		
 	}
 	
@@ -49,61 +70,97 @@ public class StudentIngestionTest extends IngestionTest {
 		studentRepository.deleteAll();
 		
 		int numberOfStudents = 2;
-		String xmlRecords = this.createStudentInterchangeXml(numberOfStudents);
+		String xmlRecords = createStudentInterchangeXml(numberOfStudents);
 		
-		File xmlRecordsFile = this.createTestFile(xmlRecords);
+		File xmlRecordsFile =IngestionTest. createTestFile(IngestionTest.INGESTION_FILE_PREFIX, IngestionTest.INGESTION_XML_FILE_SUFFIX, xmlRecords);
 		
-		File ingestionEdFiXmlProcessorOutputFile = this.createTempFile();
+		File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getEdFiXmlProcessor().processIngestionStream(xmlRecordsFile, ingestionEdFiXmlProcessorOutputFile);
+		edFiProcessor.processIngestionStream(xmlRecordsFile, ingestionEdFiProcessorOutputFile);
 		
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(ingestionEdFiXmlProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
 
-		this.verifyStudents(studentRepository, 0);
+		verifyStudents(studentRepository, 0);
 		
 	}
 	
-	protected String createStudentInterchangeXml(int numberOfStudents) {
+	@Test
+	public void testStudentInterchangeCsvParsing() throws IOException, SAXException {
+
+        studentRepository.deleteAll();
+          
+        int numberOfStudents = 2;
+        String csvRecords = createStudentInterchangeCsv(numberOfStudents);
+          
+        File csvRecordsFile = IngestionTest.createTestFile(IngestionTest.INGESTION_FILE_PREFIX, IngestionTest.INGESTION_CSV_FILE_SUFFIX, csvRecords);
+          
+        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
+        
+        edFiProcessor.processIngestionStream(csvRecordsFile, ingestionEdFiProcessorOutputFile);
+          
+        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
+        
+        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
+        
+        verifyStudents(studentRepository, 0);
+      
+	}
+   
+	
+	// Static Methods
+	public static String createStudentInterchangeXml(int numberOfStudents) {
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append(this.createStudentInterchangeXmlHeader());
+		builder.append(createStudentInterchangeXmlHeader());
 		
 		for(int index = 1; index <= numberOfStudents; index++) {
-			Student student = this.createStudent(index);
-			builder.append(this.createStudentXml(student));
+			Student student = createStudent(index);
+			builder.append(createStudentXml(student));
 		}
-		builder.append(this.createStudentInterchangeXmlFooter());
+		builder.append(createStudentInterchangeXmlFooter());
 		
 		return builder.toString();
 	}
 	
-	protected List createStudentIngestionNeutralRecords(IngestionProcessor ingestionProcessor, int numberOfStudents) {
+	public static String createStudentInterchangeCsv(int numberOfStudents) {
+        StringBuilder builder = new StringBuilder();
+          
+        for(int index = 1; index <= numberOfStudents; index++) {
+            Student student = createStudent(index);
+            builder.append(createStudentCsv(student));
+            builder.append(System.getProperty("line.separator"));
+        }
+          
+        return builder.toString();
+	}
+   
+	public static List createStudentIngestionNeutralRecords(IngestionProcessor ingestionProcessor, int numberOfStudents) {
 		List list = new ArrayList();
 		
 		for(int index = 1; index <= numberOfStudents; index++) {
-			Student student = this.createStudent(index);
+			Student student = createStudent(index);
 			
-			list.add(ingestionProcessor.mapToNeutralRecord(student));
+			list.add(Translator.mapToNeutralRecord(student));
 		}
 		
 		return list;
 	}
 	
-	protected String createStudentIngestionJson(IngestionProcessor ingestionProcessor, int numberOfStudents) throws IOException, SAXException {
+	public static String createStudentIngestionJson(IngestionProcessor ingestionProcessor, int numberOfStudents) throws IOException, SAXException {
 		StringBuilder builder = new StringBuilder();
 		
 		for(int index = 1; index <= numberOfStudents; index++) {
-			Student student = this.createStudent(index);
-			builder.append(ingestionProcessor.mapToJson(student, "create"));
+			Student student = createStudent(index);
+			builder.append(Translator.mapToJson(student, "create"));
 			builder.append(System.getProperty("line.separator"));
 		}
 		
 		return builder.toString();
 	}
 	
-	protected String createStudentInterchangeXmlHeader() {
+	public static String createStudentInterchangeXmlHeader() {
 		
 		String interchangeXmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
 		interchangeXmlHeader += "<InterchangeStudent xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-Student.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">" + "\n";
@@ -111,14 +168,14 @@ public class StudentIngestionTest extends IngestionTest {
 		return interchangeXmlHeader;
 	}
 	
-	protected String createStudentInterchangeXmlFooter() {
+	public static String createStudentInterchangeXmlFooter() {
 		
 		String interchangeXmlFooter = "</InterchangeStudent>" + "\n";
 
 		return interchangeXmlFooter;
 	}
 	
-	protected String createStudentXml(Student student) {
+	public static String createStudentXml(Student student) {
 		String studentXml = "";
 		
 		Date birthDate = student.getBirthDate();
@@ -139,7 +196,28 @@ public class StudentIngestionTest extends IngestionTest {
 		return studentXml;
 	}
 
-	protected Student createStudent(int studentId) {
+	public static String createStudentCsv(Student student) {
+        String studentCsv = "";
+          
+        Date birthDate = student.getBirthDate();
+        SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
+        String birthDateFormat = dateFormat.format(birthDate);
+          
+        studentCsv += student.getStudentSchoolId() + ",";
+          
+        // Test Version Only - allow specification of Student ID 
+        studentCsv += student.getStudentId() + ",";
+          
+        studentCsv += student.getFirstName() + ",";
+        studentCsv += student.getMiddleName() + ",";
+        studentCsv += student.getLastSurname() + ",";
+        studentCsv += birthDateFormat + ",";
+        studentCsv += student.getSex();
+          
+        return studentCsv;
+	}
+
+	public static Student createStudent(int studentId) {
 		Student student =  new Student();
 		
 		student.setStudentId(studentId);
@@ -155,14 +233,14 @@ public class StudentIngestionTest extends IngestionTest {
 		
 		student.setSex(sex);
 		
-		String testDate = this.calculateTestDate(studentId);
+		String testDate = calculateTestDate(studentId);
 		
 		student.setBirthDate(java.sql.Date.valueOf( testDate ));
 		
 		return student;
 	}
 	
-	protected void verifyStudents(PagingAndSortingRepository repository, long numberOfStudents) {
+	public static void verifyStudents(PagingAndSortingRepository repository, long numberOfStudents) {
 		
 		long repositorySize = repository.count();
 		
@@ -170,14 +248,16 @@ public class StudentIngestionTest extends IngestionTest {
 			assertEquals(repositorySize, numberOfStudents);
 		}
 		
+		Assert.assertTrue((repositorySize > 0));
+		
 		for(int index = 1; index <= repositorySize; index++) {			
 			Student student = (Student)repository.findOne(index);
-			this.verifyStudent(index, student);
+			verifyStudent(index, student);
 		}
 		
 	}
 	
-	protected void verifyStudent(int studentId, Student student) {
+	public static void verifyStudent(int studentId, Student student) {
 		
 		assertNotNull(student);
 		assertEquals("" + studentId, student.getStudentSchoolId());
@@ -194,4 +274,17 @@ public class StudentIngestionTest extends IngestionTest {
 
 	}
 	
+    public static String calculateTestDate(int studentId) {
+        String testDate = "";
+        
+        int yearId = studentId % 10000;
+        testDate = "" + yearId;
+        if (yearId < 10) testDate = "000" + testDate;
+        else if (yearId < 100) testDate = "00" + testDate;
+        else if (yearId < 1000) testDate = "0" + testDate;
+        
+        testDate = testDate + "-01-01";
+        return testDate;
+    }
+    
 }

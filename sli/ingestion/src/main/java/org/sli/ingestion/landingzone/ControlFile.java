@@ -61,9 +61,9 @@ public class ControlFile {
 
                 configItemMatcher = configItemPattern.matcher(line);
                 if (configItemMatcher.matches()) {
-                	configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).getBytes()));
-                	//System.err.println("found configItem: ["+configItemMatcher.group(1)+"]");
-                	continue;
+                    configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).getBytes()));
+                    //System.err.println("found configItem: ["+configItemMatcher.group(1)+"]");
+                    continue;
                 } 
 
                 // line was not parseable

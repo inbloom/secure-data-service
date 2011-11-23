@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileWriter;
@@ -60,15 +60,21 @@ public class NeutralRecordFileWriter {
         
     }
 
-    protected HashMap<Utf8, Utf8> encodeMap(Map<String, String> map) {
+    protected HashMap<Utf8, Utf8> encodeMap(Map map) {
         HashMap<Utf8, Utf8> avroMap = new HashMap<Utf8, Utf8>();
         String key;
         String value;
-        for (Entry<String, String> entry : map.entrySet()) {
-            key = entry.getKey();
-            value = entry.getValue();
+        
+        // RHB - modified to avoid ClassCastExceptions on non-String types (Enum, Long, etc.)
+
+        Iterator iterator = map.keySet().iterator();
+        while (iterator.hasNext()) {
+            key = (String) iterator.next();            
+            value = map.get(key).toString();
+            
             avroMap.put(new Utf8(key), new Utf8(value));
         }
+        
         return avroMap;        
     }
     
@@ -89,7 +95,7 @@ public class NeutralRecordFileWriter {
         }
         
         // populate the localId
-        avroRecord.put("localId", new Utf8(record.getLocalId()));
+        avroRecord.put("localId", new Utf8(record.getLocalId().toString()));
         
         // populate localParentIds if present
         if (record.getLocalParentIds() != null 
