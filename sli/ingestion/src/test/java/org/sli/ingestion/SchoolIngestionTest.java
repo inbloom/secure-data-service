@@ -8,16 +8,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slc.sli.domain.School;
-import org.slc.sli.repository.SchoolRepository;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.sli.ingestion.processors.EdFiProcessor;
 import org.sli.ingestion.processors.IngestionProcessor;
+import org.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
-public class SchoolIngestionTest extends IngestionTest {
+import net.wgen.sli.domain.School;
+import net.wgen.sli.repository.SchoolRepository;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ 
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
+
+public class SchoolIngestionTest {
+
+    @Autowired
+    private EdFiProcessor edFiProcessor;
+
+    @Autowired
+    private PersistenceProcessor persistenceProcessor;
 
 	@Autowired
 	private SchoolRepository schoolRepository;
@@ -28,15 +48,15 @@ public class SchoolIngestionTest extends IngestionTest {
 		schoolRepository.deleteAll();
 
 		int numberOfSchools = 2;
-		List neutralRecords = this.createSchoolIngestionNeutralRecords(this.getPersistenceProcessor(), numberOfSchools);
+		List neutralRecords = createSchoolIngestionNeutralRecords(persistenceProcessor, numberOfSchools);
 		
-		File neutralRecordsFile = this.createNeutralRecordsFile(neutralRecords);
+		File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
 
-		this.verifySchools(schoolRepository, numberOfSchools);
+		verifySchools(schoolRepository, numberOfSchools);
 		
 	}
 
@@ -46,61 +66,61 @@ public class SchoolIngestionTest extends IngestionTest {
 		schoolRepository.deleteAll();
 		
 		int numberOfSchools = 2;
-		String xmlRecords = this.createSchoolInterchangeXml(numberOfSchools);
+		String xmlRecords = createSchoolInterchangeXml(numberOfSchools);
 
-		File xmlRecordsFile = this.createTestFile(xmlRecords);
+		File xmlRecordsFile = IngestionTest.createTestFile(xmlRecords);
 
-		File ingestionEdFiXmlProcessorOutputFile = this.createTempFile();
+		File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getEdFiXmlProcessor().processIngestionStream(xmlRecordsFile, ingestionEdFiXmlProcessorOutputFile);
+		edFiProcessor.processIngestionStream(xmlRecordsFile, ingestionEdFiProcessorOutputFile);
 		
-		File ingestionPersistenceProcessorOutputFile = this.createTempFile();
+		File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
 
-		this.getPersistenceProcessor().processIngestionStream(ingestionEdFiXmlProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
+		persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
 
-		this.verifySchools(schoolRepository, 0);
+		verifySchools(schoolRepository, 0);
 		
 	}
 	
-	protected String createSchoolInterchangeXml(int numberOfSchools) {
+	public static String createSchoolInterchangeXml(int numberOfSchools) {
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append(this.createSchoolInterchangeXmlHeader());
+		builder.append(createSchoolInterchangeXmlHeader());
 		
 		for(int index = 1; index <= numberOfSchools; index++) {
-			School school = this.createSchool(index);
-			builder.append(this.createSchoolXml(school));
+			School school = createSchool(index);
+			builder.append(createSchoolXml(school));
 		}
-		builder.append(this.createSchoolInterchangeXmlFooter());
+		builder.append(createSchoolInterchangeXmlFooter());
 		
 		return builder.toString();
 	}
 	
-	protected String createSchoolIngestionJson(IngestionProcessor ingestionProcessor, int numberOfSchools) throws IOException, SAXException {
+	public static String createSchoolIngestionJson(IngestionProcessor ingestionProcessor, int numberOfSchools) throws IOException, SAXException {
 		StringBuilder builder = new StringBuilder();
 		
 		for(int index = 1; index <= numberOfSchools; index++) {
-			School school = this.createSchool(index);
-			builder.append(ingestionProcessor.mapToJson(school, "create"));
+			School school = createSchool(index);
+			builder.append(Translator.mapToJson(school, "create"));
 			builder.append(System.getProperty("line.separator"));
 		}
 		
 		return builder.toString();
 	}
 	
-	protected List createSchoolIngestionNeutralRecords(IngestionProcessor ingestionProcessor, int numberOfSchools) {
+	public static List createSchoolIngestionNeutralRecords(IngestionProcessor ingestionProcessor, int numberOfSchools) {
 		List list = new ArrayList();
 		
 		for(int index = 1; index <= numberOfSchools; index++) {
-			School school = this.createSchool(index);
+			School school = createSchool(index);
 			
-			list.add(ingestionProcessor.mapToNeutralRecord(school));
+			list.add(Translator.mapToNeutralRecord(school));
 		}
 		
 		return list;
 	}
 	
-	protected String createSchoolInterchangeXmlHeader() {
+	public static String createSchoolInterchangeXmlHeader() {
 		
 		String interchangeXmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
 		interchangeXmlHeader += "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">" + "\n";
@@ -108,14 +128,14 @@ public class SchoolIngestionTest extends IngestionTest {
 		return interchangeXmlHeader;
 	}
 	
-	protected String createSchoolInterchangeXmlFooter() {
+	public static String createSchoolInterchangeXmlFooter() {
 		
 		String interchangeXmlFooter = "</InterchangeEducationOrganization>" + "\n";
 
 		return interchangeXmlFooter;
 	}
 	
-	protected String createSchoolXml(School school) {
+	public static String createSchoolXml(School school) {
 		String schoolXml = "";
 		
 		schoolXml += "<School>" + "\n";
@@ -130,7 +150,7 @@ public class SchoolIngestionTest extends IngestionTest {
 		return schoolXml;
 	}
 
-	protected School createSchool(int schoolId) {
+	public static School createSchool(int schoolId) {
 		School school =  new School();
 		
 		school.setSchoolId(schoolId);
@@ -140,7 +160,7 @@ public class SchoolIngestionTest extends IngestionTest {
 		return school;
 	}
 	
-	protected void verifySchools(PagingAndSortingRepository repository, long numberOfSchools) {
+	public static void verifySchools(PagingAndSortingRepository repository, long numberOfSchools) {
 		
 		long repositorySize = repository.count();
 		
@@ -150,12 +170,12 @@ public class SchoolIngestionTest extends IngestionTest {
 		
 		for(int index = 1; index <= repositorySize; index++) {			
 			School school = (School)repository.findOne(index);
-			this.verifySchool(index, school);
+			verifySchool(index, school);
 		}
 		
 	}
 	
-	protected void verifySchool(int schoolId, School school) {
+	public static void verifySchool(int schoolId, School school) {
 		
 		assertNotNull(school);
 		assertEquals("" + schoolId, school.getStateOrganizationId());
@@ -163,4 +183,17 @@ public class SchoolIngestionTest extends IngestionTest {
 
 	}
 	
+    public static String calculateTestDate(int studentId) {
+        String testDate = "";
+        
+        int yearId = studentId % 10000;
+        testDate = "" + yearId;
+        if (yearId < 10) testDate = "000" + testDate;
+        else if (yearId < 100) testDate = "00" + testDate;
+        else if (yearId < 1000) testDate = "0" + testDate;
+        
+        testDate = testDate + "-01-01";
+        return testDate;
+    }
+    
 }

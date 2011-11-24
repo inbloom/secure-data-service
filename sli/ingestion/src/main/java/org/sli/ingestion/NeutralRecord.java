@@ -47,7 +47,7 @@ public class NeutralRecord {
      * of the source system.  The Id is assumed to be permanent and unique
      * the object, statewide.
      */
-    protected String localId;
+    protected Object localId;
     
     /**
      * stores a name that identifies the type of object represented by this
@@ -59,13 +59,13 @@ public class NeutralRecord {
      * stores a mapping that captures references to other records, in the form
      * {recordType:localId}.  
      */
-    protected Map<String, String> localParentIds;
+    protected Map<String, Object> localParentIds;
 
     /**
      * stores a mapping that captures all the attributes associated with the 
      * record (aside from localId and any id references).
      */
-    protected Map<String, String> attributes;
+    protected Map<String, Object> attributes;
     
     /**
      * stores the value of a hashing algorithm that can be used to quickly 
@@ -79,21 +79,21 @@ public class NeutralRecord {
      */
     public NeutralRecord() {
         // initialize the two Maps as a convenience
-        this.localParentIds = new HashMap<String, String>();
-        this.attributes = new HashMap<String, String>();
+        this.localParentIds = new HashMap<String, Object>();
+        this.attributes = new HashMap<String, Object>();
     }
         
     /**
      * @return the localId
      */
-    public String getLocalId() {
+    public Object getLocalId() {
         return localId;
     }
     
     /**
      * @param localId the localId to set
      */
-    public void setLocalId(String localId) {
+    public void setLocalId(Object localId) {
         this.localId = localId;
     }
     
@@ -128,14 +128,14 @@ public class NeutralRecord {
     /**
      * @return the localParentIds
      */
-    public Map<String, String> getLocalParentIds() {
+    public Map<String, Object> getLocalParentIds() {
         return localParentIds;
     }
     
     /**
      * @param localParentIds the localParentIds to set
      */
-    public void setLocalParentIds(Map<String, String> localParentIds) {
+    public void setLocalParentIds(Map<String, Object> localParentIds) {
         this.localParentIds = localParentIds;
     }
     
@@ -156,14 +156,14 @@ public class NeutralRecord {
     /**
      * @return the attributes
      */
-    public Map<String, String> getAttributes() {
+    public Map<String, Object> getAttributes() {
         return attributes;
     }
     
     /**
      * @param attributes the attributes to set
      */
-    public void setAttributes(Map<String, String> attributes) {
+    public void setAttributes(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
     

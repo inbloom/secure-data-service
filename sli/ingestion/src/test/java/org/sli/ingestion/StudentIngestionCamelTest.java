@@ -5,19 +5,37 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.slc.sli.repository.StudentRepository;
-import org.sli.ingestion.routes.IngestionRouteBuilder;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.sli.ingestion.processors.EdFiProcessor;
+import org.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
+import net.wgen.sli.repository.StudentRepository;
 
-public class StudentIngestionCamelTest extends StudentIngestionTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ 
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
+
+public class StudentIngestionCamelTest {
+
+    @Autowired
+    private EdFiProcessor edFiProcessor;
+
+    @Autowired
+    private PersistenceProcessor persistenceProcessor;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -31,8 +49,8 @@ public class StudentIngestionCamelTest extends StudentIngestionTest {
 		int numberOfStudents = 2;
 		
 		// Set up input file
-		String xmlRecords = this.createStudentInterchangeXml(numberOfStudents);
-		File xmlRecordsFile = this.createTestFile(xmlRecords);		
+		String xmlRecords = StudentIngestionTest.createStudentInterchangeXml(numberOfStudents);
+        File xmlRecordsFile = IngestionTest.createTestFile(IngestionTest.INGESTION_FILE_PREFIX, IngestionTest.INGESTION_XML_FILE_SUFFIX, xmlRecords);
 		
 		// Create camel context w/ routes
 		CamelContext context = new DefaultCamelContext();
@@ -52,7 +70,7 @@ public class StudentIngestionCamelTest extends StudentIngestionTest {
 		// Stop camel context
 		context.stop();
 		
-		this.verifyStudents(studentRepository, numberOfStudents);
+		StudentIngestionTest.verifyStudents(studentRepository, numberOfStudents);
 		
 	}
 	
@@ -97,9 +115,9 @@ public class StudentIngestionCamelTest extends StudentIngestionTest {
 			
 			public void configure() {
 				
-                from("direct:start").process(getEdFiXmlProcessor()).to("seda:persist");
+                from("direct:start").process(edFiProcessor).to("seda:persist");
                 
-                from("seda:persist").process(getPersistenceProcessor()); 
+                from("seda:persist").process(persistenceProcessor); 
 			}
 		};
 	}
@@ -114,9 +132,9 @@ public class StudentIngestionCamelTest extends StudentIngestionTest {
 			
 			public void configure() {
 				
-                from("file:/home/ingestion/lz/inbound?move=/home/ingestion/lz/inbound/.done&moveFailed=.error").process(getEdFiXmlProcessor()).to("seda:persist");
+                from("file:/home/ingestion/lz/inbound?move=/home/ingestion/lz/inbound/.done&moveFailed=.error").process(edFiProcessor).to("seda:persist");
                 
-                from("seda:persist").process(getPersistenceProcessor()); 
+                from("seda:persist").process(persistenceProcessor); 
 			}
 		};
 	}

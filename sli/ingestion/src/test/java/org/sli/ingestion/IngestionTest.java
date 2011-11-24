@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.sli.ingestion.processors.ContextManager;
-import org.sli.ingestion.processors.EdFiXmlProcessor;
+import org.sli.ingestion.processors.EdFiProcessor;
 import org.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,14 +36,16 @@ import org.springframework.util.ResourceUtils;
 @Ignore
 public class IngestionTest {
 
-	public static final String INGESTION_FILE_PREFIX = "conv";
-	public static final String INGESTION_FILE_SUFFIX = ".tmp";
+    public static final String INGESTION_FILE_PREFIX = "conv";
+    public static final String INGESTION_TEMP_FILE_SUFFIX = ".tmp";
+    public static final String INGESTION_CSV_FILE_SUFFIX = ".csv";
+    public static final String INGESTION_XML_FILE_SUFFIX = ".xml";
 	
 	@Autowired
 	private ContextManager contextManager;
 
 	@Autowired
-	private EdFiXmlProcessor edFiXmlProcessor;
+	private EdFiProcessor edFiProcessor;
 
 	@Autowired
 	private PersistenceProcessor persistenceProcessor;
@@ -57,19 +59,19 @@ public class IngestionTest {
 		return this.contextManager;
 	}
 	
-	protected EdFiXmlProcessor getEdFiXmlProcessor() {
-		return this.edFiXmlProcessor;
+	protected EdFiProcessor getEdFiProcessor() {
+		return this.edFiProcessor;
 	}
 	
 	protected PersistenceProcessor getPersistenceProcessor() {
 		return this.persistenceProcessor;
 	}
 	
-	protected InputStream createInputStream(String inputString) {
+	public static InputStream createInputStream(String inputString) {
 		return new ByteArrayInputStream(inputString.getBytes());
 	}
 	
-	protected InputStream createFileResourceStream(String fileResourcePath) throws FileNotFoundException {
+	public static InputStream createFileResourceStream(String fileResourcePath) throws FileNotFoundException {
 		if (!fileResourcePath.startsWith("classpath:")) {
 			fileResourcePath = "classpath:" + fileResourcePath;
 		}
@@ -77,39 +79,47 @@ public class IngestionTest {
 		return new BufferedInputStream(new FileInputStream(file));
 	}
 	
-	protected OutputStream createFileOutputStream(String filePath) throws IOException {
+	public static OutputStream createFileOutputStream(String filePath) throws IOException {
 		File file = new File(filePath);
 		return new BufferedOutputStream(new FileOutputStream(file));
 	}
 	
-	protected OutputStream createTempFileOutputStream() throws IOException {
-		File file = this.createTempFile();
+	public static OutputStream createTempFileOutputStream() throws IOException {
+		File file = createTempFile();
 		return new BufferedOutputStream(new FileOutputStream(file));
 	}
 	
-	protected File createTempFile() throws IOException {
-		File file = File.createTempFile(INGESTION_FILE_PREFIX, INGESTION_FILE_SUFFIX);
-		file.deleteOnExit();
-		return file;
+	public static File createTempFile() throws IOException {
+	   return createTempFile(INGESTION_FILE_PREFIX, INGESTION_TEMP_FILE_SUFFIX);
 	}
 	
-	protected File createTestFile(String fileContents) throws IOException {	
-		File file = this.createTempFile();
-	    BufferedOutputStream outputStream = null;
+	public static File createTempFile(String prefix, String suffix) throws IOException {
+        File file = File.createTempFile(prefix, suffix);
+        file.deleteOnExit();
+        return file;
+	}
+   
+	public static File createTestFile(String fileContents) throws IOException { 
+	    return createTestFile(INGESTION_FILE_PREFIX, INGESTION_TEMP_FILE_SUFFIX, fileContents);
+	}
+   
+	public static File createTestFile(String prefix, String suffix, String fileContents) throws IOException {	
+	   File file = createTempFile(prefix, suffix);
+	   BufferedOutputStream outputStream = null;
 	    
-	    try {
-			outputStream = new BufferedOutputStream( new FileOutputStream(file) );
-		    outputStream.write(fileContents.getBytes());		    
-	    }
-	    finally {
-		    outputStream.close();
-	    }
+	   try {
+	      outputStream = new BufferedOutputStream( new FileOutputStream(file) );
+	      outputStream.write(fileContents.getBytes());		    
+	   }
+	   finally {
+	      outputStream.close();
+	   }
 	    
-	    return file;
+	   return file;
 	}
 	
-	protected File createNeutralRecordsFile(List neutralRecords) throws IOException {	
-		File file = this.createTempFile();
+	public static File createNeutralRecordsFile(List neutralRecords) throws IOException {	
+		File file = createTempFile();
 	    
 		// Create Ingestion Neutral record writer
 		NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(file);
@@ -127,19 +137,6 @@ public class IngestionTest {
 	    }
 	    
 	    return file;
-	}
-	
-	protected String calculateTestDate(int studentId) {
-		String testDate = "";
-		
-		int yearId = studentId % 10000;
-		testDate = "" + yearId;
-		if (yearId < 10) testDate = "000" + testDate;
-		else if (yearId < 100) testDate = "00" + testDate;
-		else if (yearId < 1000) testDate = "0" + testDate;
-		
-		testDate = testDate + "-01-01";
-		return testDate;
 	}
 	
 }
