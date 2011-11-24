@@ -16,12 +16,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 
-import net.wgen.sli.domain.School;
-import net.wgen.sli.domain.Student;
-import net.wgen.sli.domain.StudentSchoolAssociation;
-import net.wgen.sli.repository.SchoolRepository;
-import net.wgen.sli.repository.StudentRepository;
-import net.wgen.sli.repository.StudentSchoolAssociationRepository;
+import org.slc.sli.domain.School;
+import org.slc.sli.domain.Student;
+import org.slc.sli.domain.StudentSchoolAssociation;
+import org.slc.sli.repository.SchoolRepository;
+import org.slc.sli.repository.StudentRepository;
+import org.slc.sli.repository.StudentSchoolAssociationRepository;
 
 
 @Component
@@ -29,7 +29,7 @@ public class ContextManager implements ApplicationContextAware {
 
     Logger log = LoggerFactory.getLogger(ContextManager.class);
     
-    public static final String SLI_REPOSITORY_PACKAGE = "net.wgen.sli.repository";
+    public static final String SLI_REPOSITORY_PACKAGE = "org.slc.sli.repository";
     public static final String SLI_REPOSITORY_SUFFIX = "Repository";
     public static final String SLI_INTERCHANGE_SUFFIX = "Interchange";
     

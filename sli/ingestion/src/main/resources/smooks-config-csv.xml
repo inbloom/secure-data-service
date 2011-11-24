@@ -34,7 +34,7 @@
          <jb:decodeParam name="locale">en_US</jb:decodeParam>         
       </jb:value>
       <jb:value property="sex" data="csv-record/Sex" decoder="Enum">
-         <jb:decodeParam name="enumType">net.wgen.sli.domain.enums.SexType</jb:decodeParam>
+         <jb:decodeParam name="enumType">org.slc.sli.domain.enums.SexType</jb:decodeParam>
       </jb:value>
    </jb:bean>
  

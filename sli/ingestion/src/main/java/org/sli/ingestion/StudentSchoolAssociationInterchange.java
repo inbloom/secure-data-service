@@ -3,11 +3,11 @@ package org.sli.ingestion;
 import org.sli.ingestion.processors.ContextManager;
 import org.springframework.stereotype.Component;
 
-import net.wgen.sli.domain.School;
-import net.wgen.sli.domain.Student;
-import net.wgen.sli.domain.StudentSchoolAssociation;
-import net.wgen.sli.repository.SchoolRepository;
-import net.wgen.sli.repository.StudentRepository;
+import org.slc.sli.domain.School;
+import org.slc.sli.domain.Student;
+import org.slc.sli.domain.StudentSchoolAssociation;
+import org.slc.sli.repository.SchoolRepository;
+import org.slc.sli.repository.StudentRepository;
 
 
 /**

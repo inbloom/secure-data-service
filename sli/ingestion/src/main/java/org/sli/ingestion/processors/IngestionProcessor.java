@@ -27,7 +27,7 @@ public abstract class IngestionProcessor implements Processor {
 
     Logger log = LoggerFactory.getLogger(IngestionProcessor.class);
     
-    public static final String SLI_DOMAIN_PACKAGE = "net.wgen.sli.domain";
+    public static final String SLI_DOMAIN_PACKAGE = "org.slc.sli.domain";
 
     @Autowired
     private ContextManager contextManager;

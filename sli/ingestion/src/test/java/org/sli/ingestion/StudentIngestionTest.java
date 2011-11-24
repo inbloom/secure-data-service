@@ -25,9 +25,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
-import net.wgen.sli.domain.Student;
-import net.wgen.sli.domain.enums.SexType;
-import net.wgen.sli.repository.StudentRepository;
+import org.slc.sli.domain.Student;
+import org.slc.sli.domain.enums.SexType;
+import org.slc.sli.repository.StudentRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })

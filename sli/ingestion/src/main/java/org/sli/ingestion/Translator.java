@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
-import net.wgen.sli.domain.School;
-import net.wgen.sli.domain.Student;
-import net.wgen.sli.domain.enums.SexType;
+import org.slc.sli.domain.School;
+import org.slc.sli.domain.Student;
+import org.slc.sli.domain.enums.SexType;
 
 
 /**
@@ -27,7 +27,7 @@ public class Translator {
 
     private static Logger log = LoggerFactory.getLogger(Translator.class);
     
-    public static final String SLI_DOMAIN_PACKAGE = "net.wgen.sli.domain";
+    public static final String SLI_DOMAIN_PACKAGE = "org.slc.sli.domain";
     private static ObjectMapper jsonMapper = new ObjectMapper();
 
     /**
