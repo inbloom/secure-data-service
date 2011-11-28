@@ -37,10 +37,15 @@
 
   <distributionManagement>
     <repository>
-      <id>sliJenkins</id>
-      <name>SLI Jenkins Repository</name>
-      <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
+      <id>sli-releases</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Releases/</url>
     </repository>
+    <snapshotRepository>
+        <id>sli-snapshots</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
+    </snapshotRepository>
   </distributionManagement>
 
 </project>
