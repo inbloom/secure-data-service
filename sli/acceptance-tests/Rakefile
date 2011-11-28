@@ -1,0 +1,23 @@
+require "cucumber/rake/task"
+
+
+task :default => :production
+
+desc "Default Task: Run All Acceptance Tests"
+task :production => [:schoolTests, :studentTests, :associationTests] do
+    puts "All Tests Run"
+end
+
+
+Cucumber::Rake::Task.new(:studentTests, "Run All Student Tests") do |t|
+  t.cucumber_opts = "test/features/api/student"
+end
+
+Cucumber::Rake::Task.new(:schoolTests, "Run All School Tests") do |t|
+  t.cucumber_opts = "test/features/api/school"
+end
+
+Cucumber::Rake::Task.new(:associationTests, "Run All Entity Associations Tests") do |t|
+  t.cucumber_opts = "test/features/api/associations"
+end
+

@@ -21,10 +21,10 @@
   <dependencies>
 
     <!-- SLI - Domain -->
-    <dependency>
+    <!-- <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>domain</artifactId>
-    </dependency>
+    </dependency>-->
 
     <!-- Freemarker -->
     <dependency>
@@ -51,6 +51,14 @@
     <defaultGoal>install</defaultGoal>
 
     <plugins>
+          <plugin>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>maven-jetty-plugin</artifactId>
+         <version>${maven.jetty.version}</version>
+         <configuration>
+            <scanIntervalSeconds>5</scanIntervalSeconds>
+         </configuration>
+      </plugin>
     </plugins>
   </build>
 
