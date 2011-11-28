@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       DiscoveryService.index
 
 # Import CRUD routes
 *       /admin                                  module:crud

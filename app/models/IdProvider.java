@@ -5,6 +5,10 @@ import javax.persistence.*;
 import play.data.validation.Required;
 import play.db.jpa.*;
 
+/**
+ * Identity Provider model used for realm selection.
+ * Contains fields to redirect to the provider.
+ */
 @Entity
 public class IdProvider extends Model {
 

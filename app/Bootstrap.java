@@ -4,6 +4,10 @@ import play.test.*;
 
 import models.*;
 
+/**
+ * Bootstrap runs on application start to perform initialization tasks.
+ * Loads models as needed.
+ */
 @OnApplicationStart
 public class Bootstrap extends Job {
 

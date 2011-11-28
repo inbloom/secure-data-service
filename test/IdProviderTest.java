@@ -3,6 +3,9 @@ import java.util.*;
 import play.test.*;
 import models.*;
 
+/**
+ * app/models/IdProvider unit tests
+ */
 public class IdProviderTest extends UnitTest {
 
     @Before

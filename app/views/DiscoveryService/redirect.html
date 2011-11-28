@@ -13,11 +13,11 @@
     window.setTimeout(timer,0,${timeout});
 </script>
 
-<meta http-equiv="refresh" content="${timeout}; URL=@{Application.idpProxy(district.toString())}" />
+<meta http-equiv="refresh" content="${timeout}; URL=@{DiscoveryService.idpProxy(district.toString())}" />
 <form name="redirect">
     Redirecting to login page for "${district.toString()}" in <output id="clock">${timeout}</output> seconds...
 </form>
 
 <br>
 
-<a href="@{Application.index()}">Change realm</a>
+<a href="@{DiscoveryService.index()}">Change realm</a>

@@ -6,6 +6,10 @@ import javax.persistence.*;
 import play.data.validation.Required;
 import play.db.jpa.*;
 
+/**
+ * District model used for realm selection.
+ * Links a state/district to an identity provider.
+ */
 @Entity
 public class District extends Model {
 

@@ -6,7 +6,11 @@ import java.util.*;
 
 import models.*;
 
-public class Application extends Controller {
+/**
+ * Controllers for discovery service.
+ * Details controller for realm selection and redirecting to an identity provider.
+ */
+public class DiscoveryService extends Controller {
 
     public static void index() {
         List<District> districts = District.findAll();
@@ -16,17 +20,15 @@ public class Application extends Controller {
 
     public static void redirect(long districtId) {
 
-        try {
-            District district = District.findById(districtId);
+        District district = District.findById(districtId);
+
+        if( district == null || district.idp == null ) {
+            index();
+        } else {
             IdProvider idp = district.idp;
             int timeout = 5;
             String path = "idpProxy";
-
             render(district, idp, timeout, path);
-        }
-        catch (NullPointerException ex) {
-            Logger.error(ex, "Lookup failed?");
-            index();
         }
 
     }
