@@ -78,6 +78,7 @@
     <module>client</module>
     <module>cucumber-tests</module>
     <module>dashboard</module>
+    <module>databrowser</module>
   </modules>
 
   <dependencyManagement>
@@ -93,6 +94,12 @@
       <dependency>
         <groupId>org.slc.sli</groupId>
         <artifactId>api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>databrowser</artifactId>
         <version>${project.version}</version>
       </dependency>
 
