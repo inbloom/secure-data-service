@@ -1,0 +1,13 @@
+{
+    "name": "neutral",
+    "type": "record",
+    "fields": [
+        {"name": "sourceId", "type": ["string", "null"]},
+        {"name": "jobId", "type": ["string", "null"]},
+        {"name": "localId", "type": "string"},
+        {"name": "localParentIds", "type": [{"type": "map", "values": "string"},"null"]},
+        {"name": "recordType", "type": "string"},
+        {"name": "attributes", "type": [{"type": "map", "values": "string"},"null"]},
+        {"name": "atrributesCrc", "type": ["string", "null"]}
+    ]        
+}

@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.slc.sli</groupId>
+    <artifactId>sli</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.slc.sli.ingestion</groupId>
+  <artifactId>ingestion</artifactId>
+  <packaging>war</packaging>
+
+  <name>SLI - Ingestion Framework</name>
+  <url>http://sli.wgen.net</url>
+
+  <properties>
+
+    <!-- Integration (ETL) Framework Versions -->
+    <smooks.version>1.4.2</smooks.version>
+    <avro.version>1.3.3</avro.version>
+    <camel.version>2.8.1</camel.version>
+
+  </properties>
+
+  <dependencies>
+
+    <!-- SLI - Domain -->
+    <dependency>
+      <groupId>org.slc.sli.common</groupId>
+      <artifactId>domain</artifactId>
+    </dependency>
+
+    <!-- SLI - DAL -->
+    <dependency>
+      <groupId>org.slc.sli.dal</groupId>
+      <artifactId>dal</artifactId>
+    </dependency>
+
+    <!-- SLI - MOCKS -->
+    <dependency>
+      <groupId>org.slc.sli.dal</groupId>
+      <artifactId>mock-dal</artifactId>
+    </dependency>
+
+
+    <!-- Integration (ETL) Framework -->
+
+    <!-- Milyn Smooks repository -->
+    <dependency>
+      <groupId>org.milyn</groupId>
+      <artifactId>milyn-smooks-all</artifactId>
+      <version>${smooks.version}</version>
+    </dependency>
+
+    <!-- Apache Hadoop Avro repository -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>avro</artifactId>
+      <version>${avro.version}</version>
+    </dependency>
+
+    <!-- Apache Camel Core repository -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+      <version>${camel.version}</version>
+    </dependency>
+
+    <!-- Apache Camel Spring repository -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-spring</artifactId>
+      <version>${camel.version}</version>
+    </dependency>
+
+    <!-- Apache Camel Stream repository -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-stream</artifactId>
+      <version>${camel.version}</version>
+    </dependency>
+
+    <!-- Apache Camel Web repository -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-web</artifactId>
+      <version>${camel.version}</version>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Apache Commons IO dependency -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+
+    <!-- Spring Test dependency -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+
+    <plugins>
+
+      <!-- Maven Camel plugin: allows the route to be run via 'mvn camel:run' -->
+      <plugin>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-maven-plugin</artifactId>
+        <version>${camel.version}</version>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>

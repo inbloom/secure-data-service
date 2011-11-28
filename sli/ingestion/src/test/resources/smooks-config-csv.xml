@@ -15,7 +15,7 @@
    <csv:reader fields="StudentUniqueStateId,StudentId,FirstName,MiddleName,LastSurname,BirthDate,Sex">
    </csv:reader>
 
-   <jb:bean beanId="record" class="org.sli.ingestion.NeutralRecord"
+   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
       createOnElement="csv-record">
 		
       <jb:expression property="recordType">'Student'</jb:expression>

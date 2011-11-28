@@ -10,6 +10,8 @@
 		<context:exclude-filter type="regex" expression=".*CustomImpl" />
 	</context:component-scan>
 
+	<context:component-scan base-package="org.sli" />
+	
 	<context:annotation-config />
-
+	
 </beans>

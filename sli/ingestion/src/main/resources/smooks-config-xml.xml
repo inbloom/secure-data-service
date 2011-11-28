@@ -21,7 +21,7 @@
 
    <!-- Student mapping -->
 
-   <jb:bean beanId="record" class="org.sli.ingestion.NeutralRecord"
+   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
       createOnElement="InterchangeStudent/Student">
       
       <!-- jb:value property="sourceId" data="" /-->
@@ -49,7 +49,7 @@
 
    <!-- School mapping -->
     
-   <jb:bean beanId="record" class="org.sli.ingestion.NeutralRecord"
+   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
       createOnElement="InterchangeEducationOrganization/School">
       
       <!-- jb:value property="sourceId" data="" /-->
@@ -68,7 +68,7 @@
 
    <!-- Student School Association mapping -->
     
-   <jb:bean beanId="record" class="org.sli.ingestion.NeutralRecord"
+   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
       createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
       
       <!-- jb:value property="sourceId" data="" /-->
