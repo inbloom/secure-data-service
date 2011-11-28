@@ -846,6 +846,11 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
       </snapshots>
     </repository>
 
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+
   </repositories>
 
   <distributionManagement>
@@ -854,6 +859,11 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
       <name>SLI Jenkins Repository</name>
       <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
     </repository>
+    <snapshotRepository>
+        <id>sliJenkins-Snapshots</id>
+      <name>SLI Jenkins Repository</name>
+      <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
+    </snapshotRepository>
   </distributionManagement>
 
 </project>
