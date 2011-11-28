@@ -11,7 +11,7 @@ public class District extends Model {
 
     @Required
     public String state;
-    @Required
+
     public String district;
 
     @Required
@@ -25,6 +25,6 @@ public class District extends Model {
     }
     
     public String toString() {
-        return state + " - " + district;
+        return district.isEmpty() ? state : state + " - " + district;
     }
 }

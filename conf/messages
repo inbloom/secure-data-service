@@ -1,3 +1,6 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+name=Name
+domain=Domain Name
+redirect=Redirect Attribute

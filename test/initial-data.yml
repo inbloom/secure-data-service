@@ -7,10 +7,12 @@
 #   fullname: Bob
 
 IdProvider(sli):
+    name:           SLI Internal IdP
     domain:         idp.sli.wgen.net
     redirect:       idp=sli
 
 IdProvider(nyc):
+    name:           NYC Federated SiteMinder IdP
     domain:         idp.nyc.ny.edu
     redirect:       idp=nyc
 
@@ -24,3 +26,7 @@ District(newyork):
     district:       New York City
     idp:            nyc
 
+District(mass):
+    state:          MA
+    district:       ""
+    idp:            sli

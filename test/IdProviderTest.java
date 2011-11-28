@@ -11,9 +11,9 @@ public class IdProviderTest extends UnitTest {
     }
 
     @Test
-    public void createAndRetrieveIdP() {
+    public void createRetrieveAndDeleteIdP() {
         // Create a new IdProvider and save it
-        new IdProvider("idp.sli.wgen.net", "idp=SLI").save();
+        new IdProvider("name", "idp.sli.wgen.net", "idp=SLI").save();
 
         // Retrieve the IdP with domain idp.sli.wgen.net
         IdProvider sli = IdProvider.find("byDomain", "idp.sli.wgen.net").first();
@@ -21,6 +21,11 @@ public class IdProviderTest extends UnitTest {
         // Test
         assertNotNull(sli);
         assertEquals("idp=SLI", sli.redirect);
+        assertEquals( IdProvider.count(), 1 );
+
+        sli.delete();
+        assertEquals( IdProvider.count(), 0);
     }
+
 
 }
