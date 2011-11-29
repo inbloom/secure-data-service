@@ -111,11 +111,13 @@
 
     <plugins>
 
-      <!-- Maven Camel plugin: allows the route to be run via 'mvn camel:run' -->
-      <plugin>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-maven-plugin</artifactId>
-        <version>${camel.version}</version>
+     <plugin>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>maven-jetty-plugin</artifactId>
+         <version>${maven.jetty.version}</version>
+         <configuration>
+            <scanIntervalSeconds>5</scanIntervalSeconds>
+         </configuration>
       </plugin>
 
     </plugins>
