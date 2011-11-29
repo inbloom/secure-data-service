@@ -72,8 +72,16 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
     </dependency>
+    
+       <!-- MySQL Connector dependency -->
+   <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>compile</scope>
+   </dependency>
+    
 
-    <!-- HSQLDB dependency -->
+    <!-- HSQLDB test dependency -->
     <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
