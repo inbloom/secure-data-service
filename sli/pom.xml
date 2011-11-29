@@ -727,8 +727,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
         <configuration>
-          <workspace>${basedir}</workspace>
-          <workspaceCodeStylesURL>eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
+          <workspace>${eclipse.workspace}</workspace>
+          <workspaceCodeStylesURL>file:etc/eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
           <downloadSources>false</downloadSources>
           <downloadJavadocs>false</downloadJavadocs>
           <wtpversion>2.0</wtpversion>
