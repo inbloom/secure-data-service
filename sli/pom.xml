@@ -834,6 +834,25 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 
   </build>
 
+  <repositories>
+
+    <!-- Spring Milestone repository -->
+    <repository>
+      <id>spring-milestone</id>
+      <name>Spring Maven MILESTONE Repository</name>
+      <url>http://maven.springframework.org/milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+
+  </repositories>
+
   <distributionManagement>
     <repository>
       <id>sli-releases</id>
