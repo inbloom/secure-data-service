@@ -15,7 +15,6 @@ public class AppSelectorController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String returnApps(ModelMap model) {
-        System.out.println(model.toString());
         model.addAttribute("message", "Select an application");
         HashMap<String, String> appToUrlMap = new HashMap<String, String>();
 
