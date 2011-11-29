@@ -98,6 +98,12 @@
       <artifactId>commons-io</artifactId>
     </dependency>
 
+    <!-- Apache Commons Codec dependency -->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+
     <!-- Spring Test dependency -->
     <dependency>
       <groupId>org.springframework</groupId>
