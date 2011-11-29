@@ -12,7 +12,18 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
-        model.addAttribute("message", "SLI Dashboard Hello World!");
+        model.addAttribute("message", "Enter Username or password");
         return "login";
     }
+    
+    @RequestMapping(method = RequestMethod.POST)
+    public String checkLogin(String username, String pwd, ModelMap model) {
+        if (!(username.equals("sivan") || username.equals("david") || username.equals("sravan"))) {
+            model.addAttribute("message", "Enter valid Username");
+            return "login";
+        }
+        return "redirect:appselector";
+        
+    }
+    
 }

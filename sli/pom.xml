@@ -735,8 +735,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
         <configuration>
-          <workspace>${basedir}</workspace>
-          <workspaceCodeStylesURL>eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
+          <workspace>${eclipse.workspace}</workspace>
+          <workspaceCodeStylesURL>file:etc/eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
           <downloadSources>false</downloadSources>
           <downloadJavadocs>false</downloadJavadocs>
           <wtpversion>2.0</wtpversion>
@@ -842,35 +842,16 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 
   </build>
 
-  <repositories>
-
-    <!-- Spring Milestone repository -->
-    <repository>
-      <id>spring-milestone</id>
-      <name>Spring Maven MILESTONE Repository</name>
-      <url>http://maven.springframework.org/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-
-  </repositories>
-
   <distributionManagement>
     <repository>
-      <id>sliJenkins</id>
-      <name>SLI Jenkins Repository</name>
-      <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
+      <id>sli-releases</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Releases/</url>
     </repository>
     <snapshotRepository>
-        <id>sliJenkins-Snapshots</id>
-      <name>SLI Jenkins Repository</name>
-      <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
+        <id>sli-snapshots</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
