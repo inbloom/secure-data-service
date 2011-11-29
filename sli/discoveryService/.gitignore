@@ -1,0 +1,25 @@
+# --- Play Framework ignores:
+.*
+# except for .gitignore
+!.gitignore
+
+# Ignore Play! working directory #
+db
+eclipse
+lib
+log
+logs
+modules
+out
+precompiled
+tmp
+test-result
+eclipse
+server.pid
+
+
+# --- intellij
+*.iml
+*.ipr
+*.iws
+.idea/
