@@ -27,11 +27,6 @@
     <property name="directory" value="${landingzone.inbounddir}"></property>
 </bean>
 
-<!--  total hack -->
-<bean id="ingestionProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-    <property name="landingzone.inbounddir" value="${landingzone.inbounddir}"></property>
-</bean>
-
 <!--  Main application context, contains all other contexts in /spring -->
 <import resource="smooks-context.xml"/>
 <import resource="camel-context.xml"/>
@@ -39,5 +34,15 @@
 <!--  Include resources from DAL -->
 <import resource="classpath:/spring/db.xml" />
     
+
+<bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
+  <property name="traceOutExchanges" value="true" />
+</bean>
+
+<bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter">
+  <property name="showOutBody" value="true" />
+  <property name="showOutBodyType" value="true" />
+</bean>
+
 
 </beans>

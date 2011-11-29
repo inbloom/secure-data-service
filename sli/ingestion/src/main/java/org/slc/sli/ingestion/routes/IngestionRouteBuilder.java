@@ -12,6 +12,7 @@ import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.BatchJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,19 +31,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
 
-    // TODO strangely, the annotation technique works fine when running the 
-    // service, but it fails in unit testing.  Disabling for now, in favor of 
-    // traditional properties implementation.
-    // @Value("#{ingestionProperties.properties['landingzone.inbounddir']}")
-    String inboundDir;
-    
     @Autowired
-    Properties ingestionProperties;
+    LocalFileSystemLandingZone lz;
     
 	@Override
     public void configure() throws Exception {
 
-		inboundDir = ingestionProperties.getProperty("landingzone.inbounddir");
+		String inboundDir = lz.getDirectory().getPath();
 		
         from("file:"+inboundDir+"?include=^(.*)\\.ctl$&move="+inboundDir+"/.done&moveFailed="+inboundDir+"/.error")
                 .process(ctlFileProcessor)
@@ -51,21 +46,39 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("seda:jobs")
         		.process(new Processor() {
 
+        			// TEMPORARY SOLUTION
         			// inline implementation exists solely to convert the input of type BatchJob to 
-        			// the first file in that job.
+        			// type File (the first file in that job).
+        			// really we'd like to keep BatchJob as the message content, but it will
+        			// require refactoring of all the downstream processors/components.
         			
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						BatchJob job = exchange.getIn().getBody(BatchJob.class);
 						File file0 = job.getFiles().get(0);
 						exchange.getOut().setBody(file0);
-					}	
-		        	
+
+						// we can use message headers to relay any job config params however.
+						exchange.getOut().setHeader("jobId", job.getId());
+						exchange.getOut().setHeader("jobCreationDate", job.getCreationDate());
+						if (job.getProperty("dry-run")!=null) {
+							exchange.getOut().setHeader("dry-run", true);
+						}
+						
+					}
+
 		        })
 		        .process(xmlProcessor)
 		        .to("seda:persist");
 
-        from("seda:persist").process(persistenceProcessor);
+        from("seda:persist")
+        		.log("persist: jobId: " + header("jobId").toString())
+        		.choice()
+        			.when(header("dry-run").isEqualTo(true))
+        				.log("dry-run specified; data will not be published")
+    				.otherwise()
+        				.log("publishing data now!")
+        				.process(persistenceProcessor);
     }
 
 }

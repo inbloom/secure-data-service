@@ -75,7 +75,11 @@ public abstract class IngestionProcessor implements Processor {
         this.processIngestionStream(ingestionInputFile, ingestionOutputFile);
         
         // Update Camel Exchange processor output result
-        exchange.getOut().setBody(ingestionOutputFile);        
+        exchange.getOut().setBody(ingestionOutputFile);   
+        
+		exchange.getOut().setHeader("jobId", exchange.getIn().getHeader("jobId"));
+		exchange.getOut().setHeader("jobCreationDate", exchange.getIn().getHeader("jobCreationDate"));
+		exchange.getOut().setHeader("dry-run", exchange.getIn().getHeader("dry-run"));
         
     }
 
