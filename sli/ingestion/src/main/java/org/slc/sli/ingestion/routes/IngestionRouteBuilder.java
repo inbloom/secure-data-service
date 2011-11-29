@@ -16,6 +16,7 @@ import org.slc.sli.ingestion.BatchJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
@@ -29,12 +30,20 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
 
-    @Value("#{ingestionProperties.properties['landingzone.inbounddir']}")
+    // TODO strangely, the annotation technique works fine when running the 
+    // service, but it fails in unit testing.  Disabling for now, in favor of 
+    // traditional properties implementation.
+    // @Value("#{ingestionProperties.properties['landingzone.inbounddir']}")
     String inboundDir;
+    
+    @Autowired
+    Properties ingestionProperties;
     
 	@Override
     public void configure() throws Exception {
 
+		inboundDir = ingestionProperties.getProperty("landingzone.inbounddir");
+		
         from("file:"+inboundDir+"?include=^(.*)\\.ctl$&move="+inboundDir+"/.done&moveFailed="+inboundDir+"/.error")
                 .process(ctlFileProcessor)
                 .to("seda:jobs");
