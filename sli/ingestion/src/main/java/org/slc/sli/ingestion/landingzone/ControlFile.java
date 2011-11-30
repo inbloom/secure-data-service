@@ -16,14 +16,14 @@ import org.slc.sli.ingestion.FileType;
 public class ControlFile {
 
     // simple structure to hold together items named in the control file
-    public static class ControlFileItem {
+    public static class FileEntry {
         
         protected FileFormat fileFormat;  
         protected FileType fileType;  
         protected String fileName;
         protected String checksum;
         
-        public ControlFileItem(FileFormat fileFormat, FileType fileType,
+        public FileEntry(FileFormat fileFormat, FileType fileType,
                 String fileName, String checksum) {
             this.fileFormat = fileFormat;
             this.fileType = fileType;
@@ -34,13 +34,12 @@ public class ControlFile {
     }
     
     protected File file;
-    protected List<ControlFileItem> fileItems = new ArrayList<ControlFileItem>();
+    protected List<FileEntry> fileEntries = new ArrayList<FileEntry>();
     protected Properties configProperties = new Properties();
-    protected String fileContent;
     
-    public void parseFile(File file) throws IOException {
-        this.file = file;
-        Scanner scanner = new Scanner(file);
+    public static ControlFile parse(File file) throws IOException {
+        
+    	Scanner scanner = new Scanner(file);
         Pattern fileItemPattern = Pattern.compile("^([^\\s]+)\\,([^\\s]+)\\,([^,]+)\\,(\\w+)\\s*$");
         Matcher fileItemMatcher;
         Pattern configItemPattern = Pattern.compile("^@(.*)$");
@@ -48,6 +47,10 @@ public class ControlFile {
         String line;
         FileFormat fileFormat;
         FileType fileType;
+
+        Properties configProperties = new Properties();
+        ArrayList<FileEntry> fileEntries = new ArrayList<FileEntry>();
+
         try {
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
@@ -55,27 +58,46 @@ public class ControlFile {
                 if (fileItemMatcher.matches()) {
                     fileFormat = FileFormat.findByCode(fileItemMatcher.group(1));
                     fileType = FileType.findByNameAndFormat(fileItemMatcher.group(2), fileFormat);
-                    fileItems.add(new ControlFileItem(fileFormat, fileType, fileItemMatcher.group(3), fileItemMatcher.group(4)));
+                    fileEntries.add(new FileEntry(fileFormat, fileType, fileItemMatcher.group(3), fileItemMatcher.group(4)));
                     continue;
                 } 
 
                 configItemMatcher = configItemPattern.matcher(line);
                 if (configItemMatcher.matches()) {
-                    configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).getBytes()));
-                    //System.err.println("found configItem: ["+configItemMatcher.group(1)+"]");
-                    continue;
+                	configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).getBytes()));
+                	//System.err.println("found configItem: ["+configItemMatcher.group(1)+"]");
+                	continue;
                 } 
 
-                // line was not parseable
-                throw new RuntimeException("invalid control file entry: " + line);
+                // blank lines are ignored silently, but stray marks are not
+                if (line.trim().length()>0) {
+                	// line was not parseable
+                	// TODO fault or custom exception?
+                	throw new RuntimeException("invalid control file entry: " + line);
+                }
             }
+            
+            return new ControlFile(file, fileEntries, configProperties);
+            
         } finally {
             scanner.close();
         }
     }
     
-    public List<ControlFileItem> getFileItems() {
-        return this.fileItems;
+	public List<FileEntry> getFileEntries() {
+        return this.fileEntries;
     }
     
+	/**
+	 * @param file
+	 * @param fileEntries
+	 * @param configProperties
+	 */
+	protected ControlFile(File file, List<FileEntry> fileEntries,
+			Properties configProperties) {
+		this.file = file;
+		this.fileEntries = fileEntries;
+		this.configProperties = configProperties;
+	}
+	
 }

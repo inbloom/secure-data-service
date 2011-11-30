@@ -3,70 +3,189 @@ package org.slc.sli.ingestion;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
 public class BatchJob {
 
-    public enum State {
-        INITIAL, REJECTED, PROCESSING, ABORTED, COMPLETED;
-    }
+	/**
+	 *  ID ====================================================================
+	 */
+	
+	/**
+	 * stores a globally unique ID for the Job
+	 */
+	private String id;
+	
+	/**
+	 * generates a new unique ID
+	 */
+	protected static String createId() {
+		return UUID.randomUUID().toString();
+	}
+	
+	/**
+	 * @return the jobId
+	 */
+	public String getId() {
+		return id;
+	}
 
-    private UUID id;
-    private Date createDate;
-    private List<File> files;
-    private Properties configProperties;
-    private State state;
+	/**
+	 *  CREATION DATE =========================================================
+	 */
+	
+	/**
+	 * stores the date upon which the Job was created
+	 */
+	private Date creationDate;
 
-    public BatchJob() {
-        this.id = UUID.randomUUID();
-        this.createDate = new Date();
-        this.configProperties = new Properties();
-        this.files = new ArrayList<File>();
-        this.state = State.INITIAL;
-    }
+	/**
+	 * @return the creationDate
+	 */
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	
+	
+	/**
+	 *  PROPERTIES ============================================================
+	 */
+		
+	/**
+	 * stores configuration properties for the Job
+	 */
+	private Properties configProperties;
 
-    /**
-     * @return the jobId
-     */
-    public UUID getId() {
-        return id;
-    }
+	/**
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
+	 */
+	public String getProperty(String key, String defaultValue) {
+		return configProperties.getProperty(key, defaultValue);
+	}
 
-    /**
-     * @return the createDate
-     */
-    public Date getCreateDate() {
-        return createDate;
-    }
+	/**
+	 * @param key
+	 * @return
+	 * @see java.util.Properties#getProperty(java.lang.String)
+	 */
+	public String getProperty(String key) {
+		return configProperties.getProperty(key);
+	}
 
-    /**
-     * @return the files
-     */
-    public List<File> getFiles() {
-        return files;
-    }
+	/**
+	 * @return
+	 * @see java.util.Properties#propertyNames()
+	 */
+	public Enumeration<?> propertyNames() {
+		return configProperties.propertyNames();
+	}
 
-    /**
-     * @param files the files to set
-     */
-    public void setFiles(List<File> files) {
-        this.files = files;
-    }
+	/**
+	 * @param key
+	 * @param value
+	 * @return
+	 * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
+	 */
+	public Object setProperty(String key, String value) {
+		return configProperties.setProperty(key, value);
+	}
 
-    /**
-     * @return the configProperties
-     */
-    public Properties getConfigProperties() {
-        return configProperties;
-    }
+	
+	/**
+	 *  FILES =================================================================
+	 */
+		
+	/**
+	 *  holds references to the files involved in this Job
+	 */
+	private List<File> files;
+	
+	/**
+	 * @return the files
+	 */
+	public List<File> getFiles() {
+		return files;
+	}
+	
+	/**
+	 * Adds a file.
+	 * 
+	 * @param file
+	 * @return
+	 * @see java.util.List#add(java.lang.Object)
+	 */
+	public boolean addFile(File file) {
+		return files.add(file);
+	}
 
-    /**
-     * @param configProperties the configProperties to set
-     */
-    public void setConfigProperties(Properties configProperties) {
-        this.configProperties = configProperties;
-    }
+	
+	/**
+	 *  FAULTS (errors/warnings) ==============================================
+	 */
+		
+	/**
+	 *  holds references to errors/warnings associated with this job
+	 */
+	private List<Fault> faults;
+	
+	/**
+	 * @return the faults
+	 */
+	public List<Fault> getFaults() {
+		return faults;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean hasErrors() {
+		for (Fault f: faults) {
+			if (f.isError()) return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Adds a fault.
+	 * 
+	 * @param fault
+	 * @return
+	 * @see java.util.List#add(java.lang.Object)
+	 */
+	public boolean addFault(Fault fault) {
+		return faults.add(fault);		
+	}
+
+	
+	/**
+	 *  INSTANTIATION =========================================================
+	 */
+	
+	/**
+	 *  non-public constructor; use factory methods
+	 */
+	protected BatchJob() {
+	}
+	
+	/**
+	 * Initialize a BatchJob with default settings for initialization
+	 * 
+	 * @return BatchJob with default settings
+	 */
+	public static BatchJob createDefault() {
+		BatchJob job = new BatchJob();
+		job.id = createId();
+		job.creationDate = new Date();
+		job.configProperties = new Properties();
+		job.files = new ArrayList<File>();
+		job.faults = new ArrayList<Fault>();
+		return job;
+	}
+
 }
-

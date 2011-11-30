@@ -7,7 +7,7 @@
 </tr>
 <#list listOfStudents as stud>
 <tr>
-<td>${stud_index}</td><td> ${stud.sex}</td><td> ${stud.name_first}</td>
+<td>${stud_index}</td><td> ${stud.firstName}</td><td> ${stud.lastName}</td>
 </tr>
  </#list>
 </table>

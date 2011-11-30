@@ -3,19 +3,47 @@ import com.google.gson.Gson;
 
 public class Student {
 
-    private String nameSuffix, stateId, sex, birthDate, name_first, nameVerification, hispanicLatinoEthnicity, 
-                   nameMiddle, racialCategory, Name_Last;
+    private String nameSuffix, stateId, sex, birthDate, firstName, nameVerification, hispanicLatinoEthnicity, 
+                   middleName, racialCategory, lastName;
 
 
-    public String getName_first() {
-        return name_first;
+    public String getFirstName() {
+        return firstName;
     }
 
 
 
 
-    public void setName_first(String name_first) {
-        this.name_first = name_first;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+
+
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+
+
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+
+
+
+    public String getLastName() {
+        return lastName;
+    }
+
+
+
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
 
@@ -91,20 +119,6 @@ public class Student {
 
 
 
-    public String getNameMiddle() {
-        return nameMiddle;
-    }
-
-
-
-
-    public void setNameMiddle(String nameMiddle) {
-        this.nameMiddle = nameMiddle;
-    }
-
-
-
-
     public String getRacialCategory() {
         return racialCategory;
     }
@@ -118,34 +132,21 @@ public class Student {
 
 
 
-
-    public String getName_Last() {
-        return Name_Last;
-    }
-
-
-
-
-    public void setName_Last(String nameLast) {
-        this.Name_Last = nameLast;
-    }
-
-
-
-
-    public Student(String nameSuffix, String stateId, String sex, String birthDate,	String nameFirst,
-            String nameVerification, String hispanicLatinoEthnicity,	String nameMiddle,	String racialCategory,
-            String nameLast) {
-		this.setNameSuffix(nameSuffix);
+    //CHECKSTYLE.OFF: Something
+    public Student(String nameSuffix, String stateId, String sex, String birthDate, String firstName, 
+            String nameVerification, String hispanicLatinoEthnicity, String middleName,	String racialCategory,
+            String lastName) {
+    //CHECKSTYLE.ON: Something
+		this.nameSuffix = nameSuffix;
 		this.stateId = stateId;
 		this.sex = sex;
 		this.birthDate = birthDate;
-		this.name_first = nameFirst;
+		this.firstName = firstName;
 		this.nameVerification = nameVerification;
 		this.hispanicLatinoEthnicity = hispanicLatinoEthnicity;
-		this.nameMiddle = nameMiddle;
+		this.middleName = middleName;
 		this.racialCategory = racialCategory;
-		this.Name_Last = nameLast;
+		this.lastName = lastName;
 	}
 
 
