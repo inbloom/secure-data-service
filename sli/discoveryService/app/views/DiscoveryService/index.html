@@ -1,0 +1,26 @@
+#{extends 'main.html' /}
+#{set title:'Discovery Service' /}
+
+
+#{if districts.size() > 0}
+
+#{form @DiscoveryService.redirect()}
+    <label for="districtId">Please choose your State/District:</label>
+    <select name="districtId" id="districtId">
+        <option></option>
+        #{list items:districts, as:'district'}
+            <option value=${district.id}>${district.state + " " + district.district}</option>
+        #{/list}
+    </select>
+
+    <!-- # {select 'district', items:districts, valueProperty:'state', labelProperty:'state' /} -->
+    <!-- # {select 'district', items:districts, valueProperty:'state'/} , labelProperty:'name', value:5, class:'test', id:'select2'/} -->
+
+    <input type="submit" id="submit" value="Go">
+#{/form}
+
+#{/if}
+#{else}
+    No districts. Nothing to do.
+#{/else}
+

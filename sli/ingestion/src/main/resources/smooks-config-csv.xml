@@ -12,7 +12,7 @@
       <param name="terminate.on.visitor.exception">false</param>
    </params>
 
-   <csv:reader fields="StudentUniqueStateId,StudentId,FirstName,MiddleName,LastSurname,BirthDate,Sex">
+   <csv:reader fields="StudentId,StudentUniqueStateId,$ignore$5,FirstName,MiddleName,LastSurname,$ignore$8,Sex,BirthDate,$ignore$+">
    </csv:reader>
 
    <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"

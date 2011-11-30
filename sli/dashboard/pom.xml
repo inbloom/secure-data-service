@@ -16,9 +16,33 @@
   <properties>
     <freemarker.version>2.3.18</freemarker.version>
     <gson.version>2.0</gson.version>
+    <powermock.version>1.4.10</powermock.version>
   </properties>
 
   <dependencies>
+
+    <!-- Power mock dependencies -->
+
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-easymock</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>  
+   
+   <!-- Easy mock dependencies -->  
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.0</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- SLI - Domain -->
     <!-- <dependency>

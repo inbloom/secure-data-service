@@ -1,0 +1,27 @@
+# Initialization Test data
+
+IdProvider(sli):
+    name:           "WGen SLI Internal IDP"
+    domain:         "idp.sli.wgen.net"
+    redirect:       "idp=sli"
+
+IdProvider(nyc):
+    name:           "NYC federated Siteminder IDP"
+    domain:         "sso.schools.nyc.gov"
+    redirect:       "idp=nyc"
+
+District(forsyth):
+    state:          "NC"
+    district:       "Forsyth"
+    idp:            sli
+
+District(nyc):
+    state:          "NY"
+    district:       "New York"
+    idp:            nyc
+
+District(MA):
+    state:          "MA"
+    district:       ""
+    idp:            sli
+

@@ -838,6 +838,11 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
         </dependencies>
       </plugin>
 
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+	<artifactId>maven-jetty-plugin</artifactId>
+	<version>${maven.jetty.version}</version>
+      </plugin>
     </plugins>
 
   </build>
