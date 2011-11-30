@@ -71,7 +71,15 @@ public class IngestionTest {
 		return new ByteArrayInputStream(inputString.getBytes());
 	}
 	
-	public static InputStream createFileResourceStream(String fileResourcePath) throws FileNotFoundException {
+    public static File getFile(String fileResourcePath) throws FileNotFoundException {
+        if (!fileResourcePath.startsWith("classpath:")) {
+            fileResourcePath = "classpath:" + fileResourcePath;
+        }
+        File file = ResourceUtils.getFile(fileResourcePath);
+        return file;
+    }
+    
+	public static InputStream getFileInputStream(String fileResourcePath) throws FileNotFoundException {
 		if (!fileResourcePath.startsWith("classpath:")) {
 			fileResourcePath = "classpath:" + fileResourcePath;
 		}
