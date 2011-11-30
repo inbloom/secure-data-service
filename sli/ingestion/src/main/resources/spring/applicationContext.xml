@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 <bean id="ingestionPropertiesPlaceholder" 
@@ -34,7 +36,7 @@
 <!--  Include resources from DAL -->
 <import resource="classpath:/spring/db.xml" />
     
-
+<!-- debugging only
 <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
   <property name="traceOutExchanges" value="true" />
 </bean>
@@ -43,6 +45,17 @@
   <property name="showOutBody" value="true" />
   <property name="showOutBodyType" value="true" />
 </bean>
+-->
 
+<!-- not working yet. -->
+<bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor"/>
+
+<!-- not working yet. -->
+<aop:config>
+	<aop:aspect ref="executionMonitor">
+	    <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"/>
+	    <aop:around pointcut-ref="pc" method="aroundExecution"/>
+	</aop:aspect>
+</aop:config>
 
 </beans>
