@@ -15,8 +15,7 @@ Scenario: Create a new school JSON
 	  And the full name is "School Crud Test School"
 	  And the website is "www.scts.edu"
     When I navigate to POST "/schools/" 
-    #should be 201....get this fixed
-    Then I should receive a return code of 204
+    Then I should receive a return code of 201
        And I should receive a ID for the newly created school
 
 	  
@@ -49,13 +48,11 @@ Scenario: Create a new school XML
 	  And the full name is "School Crud Test School XML"
 	  And the website is "www.sctsx.edu"
     When I navigate to POST "/schools/" 
-    #should be 201....fix this in API
-    Then I should receive a return code of 204
+    Then I should receive a return code of 201
        And I should receive a ID for the newly created school
        
 Scenario: Delete an existing school XML
-    #bug below....should allow that content type
-    #Given format "application/xml"
+    Given format "application/xml"
     When I DELETE the newly created school
     Then I should receive a return code of 204
      When I GET the newly created school by id
