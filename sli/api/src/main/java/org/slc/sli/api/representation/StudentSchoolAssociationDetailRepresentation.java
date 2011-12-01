@@ -1,7 +1,5 @@
 package org.slc.sli.api.representation;
 
-import java.util.Collection;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sun.jersey.server.linking.Link;
@@ -26,7 +24,6 @@ public class StudentSchoolAssociationDetailRepresentation {
     
     private int studentId;
     private int schoolId;
-    
     
     /**
      * @return the studentId
