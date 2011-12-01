@@ -7,8 +7,8 @@ import java.util.Map;
  * exposed representations on the ReST URI.
  * 
  * The following invarients must hold:
- * --Transformer.toStored(Transformer.toExposed(entity)).equals(entity)
- * --Transformer.toExposed(Transformer.toStored(entity)).equals(entity)
+ * --Treatment.toStored(Transformer.toExposed(object)).equals(object)
+ * --Treatment.toExposed(Transformer.toStored(object)).equals(object)
  * 
  * @author nbrown
  * 
