@@ -22,7 +22,7 @@ public interface Treatment {
      *            The entity in the form it is exposed via ReST
      * @return The entity in the form it is stored in the DB
      */
-    public Map<String, Object> toStored(Map<String, Object> exposed, Map<String, String> context);
+    public Map<String, Object> toStored(Map<String, Object> exposed);
     
     /**
      * Transform from a stored entity to an exposed entity
@@ -31,6 +31,6 @@ public interface Treatment {
      *            The entity in the form it is stored in the DB
      * @return The entity in the form it is exposed via ReST
      */
-    public Map<String, Object> toExposed(Map<String, Object> stored, Map<String, String> context);
+    public Map<String, Object> toExposed(Map<String, Object> stored);
     
 }
