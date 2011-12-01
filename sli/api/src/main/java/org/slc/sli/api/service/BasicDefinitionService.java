@@ -1,5 +1,6 @@
 package org.slc.sli.api.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +17,10 @@ public class BasicDefinitionService implements EntityDefinitionService {
     Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
     
     Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
+    
+    Map<EntityDefinition, List<Validator>> validators = new HashMap<EntityDefinition, List<Validator>>();
+    
+    Map<EntityDefinition, List<Transformer>> transformers = new HashMap<EntityDefinition, List<Transformer>>();
     
     public BasicDefinitionService() {
         init();
@@ -40,15 +45,21 @@ public class BasicDefinitionService implements EntityDefinitionService {
         addAssocDefinition(studentEnroll);
     }
     
+    private void add(EntityDefinition defn) {
+        mapping.put(defn.getResourceName(), defn);
+        validators.put(defn, new ArrayList<Validator>());
+        transformers.put(defn, new ArrayList<Transformer>());
+    }
+    
     private void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
-        mapping.put(defn.getResourceName(), defn);
+        add(defn);
         links.put(defn, new LinkedHashSet<EntityDefinition>());
     }
     
     private void addAssocDefinition(AssociationDefinition defn) {
         LOG.debug("adding assoc for {}", defn.getResourceName());
-        mapping.put(defn.getResourceName(), defn);
+        add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();
         EntityDefinition targetEntity = defn.getTargetEntity();
         links.put(defn, Arrays.asList(sourceEntity, targetEntity));
@@ -58,13 +69,11 @@ public class BasicDefinitionService implements EntityDefinitionService {
     
     @Override
     public List<Validator> getValidators(EntityDefinition defn) {
-        // TODO Auto-generated method stub
-        return null;
+        return validators.get(defn);
     }
     
     @Override
     public List<Transformer> getTransformers(EntityDefinition defn) {
-        // TODO Auto-generated method stub
-        return null;
+        return transformers.get(defn);
     }
 }

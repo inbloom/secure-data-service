@@ -1,5 +1,11 @@
 package org.slc.sli.api.service;
 
+/**
+ * Definition of an association resource
+ * 
+ * @author nbrown
+ * 
+ */
 public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
@@ -15,10 +21,20 @@ public class AssociationDefinition extends EntityDefinition {
         this(assocName, assocName, sourceEntity, targetEntity);
     }
     
+    /**
+     * The source of the association
+     * 
+     * @return
+     */
     public EntityDefinition getSourceEntity() {
         return sourceEntity;
     }
     
+    /**
+     * The target of the association
+     * 
+     * @return
+     */
     public EntityDefinition getTargetEntity() {
         return targetEntity;
     }
