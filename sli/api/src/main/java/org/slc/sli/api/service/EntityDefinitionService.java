@@ -43,12 +43,21 @@ public interface EntityDefinitionService {
     public List<Validator> getValidators(EntityDefinition defn);
     
     /**
-     * Returns the list of transformers that should be applied to new (or modified entities of the
-     * given type). They must be applied in the given order
+     * Returns the list of treatments that should be applied to entities. They must be applied in
+     * the given order
      * 
      * @param defn
-     *            the definition to look up transformers for
-     * @return a list of transformers that should be applied to the given entity definition
+     *            the definition to look up treatments for
+     * @return a list of treatments that should be applied to the given entity definition
      */
-    public List<Transformer> getTransformers(EntityDefinition defn);
+    public List<Treatment> getTreatments(EntityDefinition defn);
+    
+    /**
+     * Returns the list of implied filters that should be applied when quering entities
+     * 
+     * @param defn
+     *            the definition to look up filters for
+     * @return a list of filters that should be applied to the given entity definition
+     */
+    public List<Filter> getImpliedFilters(EntityDefinition defn);
 }

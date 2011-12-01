@@ -13,7 +13,7 @@ import java.util.Map;
  * @author nbrown
  * 
  */
-public interface Transformer {
+public interface Treatment {
     
     /**
      * Transform from an exposed entity to a stored entity
@@ -22,7 +22,7 @@ public interface Transformer {
      *            The entity in the form it is exposed via ReST
      * @return The entity in the form it is stored in the DB
      */
-    public Map<String, Object> toStored(Map<String, Object> exposed);
+    public Map<String, Object> toStored(Map<String, Object> exposed, Map<String, String> context);
     
     /**
      * Transform from a stored entity to an exposed entity
@@ -31,6 +31,6 @@ public interface Transformer {
      *            The entity in the form it is stored in the DB
      * @return The entity in the form it is exposed via ReST
      */
-    public Map<String, Object> toExposed(Map<String, Object> stored);
+    public Map<String, Object> toExposed(Map<String, Object> stored, Map<String, String> context);
     
 }

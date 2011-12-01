@@ -20,7 +20,9 @@ public class BasicDefinitionService implements EntityDefinitionService {
     
     Map<EntityDefinition, List<Validator>> validators = new HashMap<EntityDefinition, List<Validator>>();
     
-    Map<EntityDefinition, List<Transformer>> transformers = new HashMap<EntityDefinition, List<Transformer>>();
+    Map<EntityDefinition, List<Treatment>> treatments = new HashMap<EntityDefinition, List<Treatment>>();
+    
+    Map<EntityDefinition, List<Filter>> filters = new HashMap<EntityDefinition, List<Filter>>();
     
     public BasicDefinitionService() {
         init();
@@ -48,7 +50,7 @@ public class BasicDefinitionService implements EntityDefinitionService {
     private void add(EntityDefinition defn) {
         mapping.put(defn.getResourceName(), defn);
         validators.put(defn, new ArrayList<Validator>());
-        transformers.put(defn, new ArrayList<Transformer>());
+        treatments.put(defn, new ArrayList<Treatment>());
     }
     
     private void addDefinition(EntityDefinition defn) {
@@ -73,7 +75,12 @@ public class BasicDefinitionService implements EntityDefinitionService {
     }
     
     @Override
-    public List<Transformer> getTransformers(EntityDefinition defn) {
-        return transformers.get(defn);
+    public List<Treatment> getTreatments(EntityDefinition defn) {
+        return treatments.get(defn);
+    }
+    
+    @Override
+    public List<Filter> getImpliedFilters(EntityDefinition defn) {
+        return filters.get(defn);
     }
 }

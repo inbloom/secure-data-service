@@ -16,5 +16,5 @@ public interface Validator {
      *            the entity to validate
      * @return true iff the entity is valid
      */
-    public boolean validate(Map<String, Object> entity);
+    public boolean validate(Map<String, Object> entity, Map<String, String> context);
 }
