@@ -108,6 +108,25 @@ public class StudentIngestionTest {
       
 	}
    
+    @Test
+    public void testStudentInterchangeCsvFileParsing() throws IOException, SAXException {
+
+        studentRepository.deleteAll();
+          
+        File csvRecordsFile = IngestionTest.getFile("smooks/InterchangeStudent.csv");
+          
+        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
+        
+        edFiProcessor.processIngestionStream(csvRecordsFile, ingestionEdFiProcessorOutputFile);
+          
+        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
+        
+        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile, ingestionPersistenceProcessorOutputFile);
+        
+        assertEquals(100, studentRepository.count());
+     
+    }
+   
 	
 	// Static Methods
 	public static String createStudentInterchangeXml(int numberOfStudents) {
@@ -203,16 +222,23 @@ public class StudentIngestionTest {
         SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
         String birthDateFormat = dateFormat.format(birthDate);
           
-        studentCsv += student.getStudentSchoolId() + ",";
-          
         // Test Version Only - allow specification of Student ID 
         studentCsv += student.getStudentId() + ",";
           
+        studentCsv += student.getStudentSchoolId() + ",";
+          
+        // Skip 5 fields for now
+        studentCsv += ",,,,,";
+        
         studentCsv += student.getFirstName() + ",";
         studentCsv += student.getMiddleName() + ",";
         studentCsv += student.getLastSurname() + ",";
-        studentCsv += birthDateFormat + ",";
-        studentCsv += student.getSex();
+        
+        // Skip 8 fields for now
+        studentCsv += ",,,,,,,,";
+        
+        studentCsv += student.getSex() + ",";
+        studentCsv += birthDateFormat;
           
         return studentCsv;
 	}

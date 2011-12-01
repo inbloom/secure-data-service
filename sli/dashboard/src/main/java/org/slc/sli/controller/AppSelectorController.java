@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/appselector")
 public class AppSelectorController {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
     public String returnApps(ModelMap model) {
-        System.out.println(model.toString());
         model.addAttribute("message", "Select an application");
         HashMap<String, String> appToUrlMap = new HashMap<String, String>();
 

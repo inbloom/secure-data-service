@@ -44,7 +44,8 @@
 
     <!-- Apache Versions -->
     <commons.lang.version>3.0.1</commons.lang.version>
-    <commons.io.version>2.0.1</commons.io.version>
+    <commons.io.version>2.1</commons.io.version>
+    <commons.codec.version>1.5</commons.codec.version>
     <xerces.version>2.4.0</xerces.version>
 
     <!-- Rest Services (JAX-RS) Framework Versions -->
@@ -369,6 +370,13 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>${commons.io.version}</version>
+      </dependency>
+
+      <!-- Apache Commons Codec dependency -->
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons.codec.version}</version>
       </dependency>
 
       <!-- Apache Xerces dependency -->
@@ -727,8 +735,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
         <configuration>
-          <workspace>${basedir}</workspace>
-          <workspaceCodeStylesURL>eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
+          <workspace>${eclipse.workspace}</workspace>
+          <workspaceCodeStylesURL>file:etc/eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
           <downloadSources>false</downloadSources>
           <downloadJavadocs>false</downloadJavadocs>
           <wtpversion>2.0</wtpversion>
@@ -830,6 +838,11 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
         </dependencies>
       </plugin>
 
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+	<artifactId>maven-jetty-plugin</artifactId>
+	<version>${maven.jetty.version}</version>
+      </plugin>
     </plugins>
 
   </build>
@@ -855,14 +868,14 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 
   <distributionManagement>
     <repository>
-      <id>sliJenkins</id>
-      <name>SLI Jenkins Repository</name>
-      <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
+      <id>sli-releases</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Releases/</url>
     </repository>
     <snapshotRepository>
-        <id>sliJenkins-Snapshots</id>
-      <name>SLI Jenkins Repository</name>
-      <url>http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/plugin/repository/everything</url>
+        <id>sli-snapshots</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
