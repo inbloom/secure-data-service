@@ -14,18 +14,24 @@ import org.slc.sli.api.service.Validator;
  * 
  */
 public class EntityDefinition {
+    private final String type;
     private final String collectionName;
     private final String resourceName;
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     
-    public EntityDefinition(String collectionName, String resourceName, List<Treatment> treatments,
+    public EntityDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
             List<Validator> validators) {
         super();
+        this.type = type;
         this.collectionName = collectionName;
         this.resourceName = resourceName;
         this.treatments = treatments;
         this.validators = validators;
+    }
+    
+    public String getType() {
+        return type;
     }
     
     /**
@@ -67,30 +73,19 @@ public class EntityDefinition {
     }
     
     /**
-     * Create a builder for an entity definition with the same collection and resource name
+     * Create a builder for an entity definition with the same collection and resource name as the
+     * type
      * 
      * @param entityName
      *            the collection/resource name
      * @return the builder to create the entity definition
      */
     public static Builder makeEntity(String entityName) {
-        return new Builder(entityName, entityName);
-    }
-    
-    /**
-     * Create a builder for an entity definition
-     * 
-     * @param collectionName
-     *            the name of the entity in the db
-     * @param resourceName
-     *            the name of the entity in the ReST uri
-     * @return the builder to create the entity definition
-     */
-    public static Builder makeEntity(String collectionName, String resourceName) {
-        return new Builder(collectionName, resourceName);
+        return new Builder(entityName);
     }
     
     public static class Builder {
+        private String type;
         private String collectionName;
         private String resourceName;
         private List<Treatment> treatments = new ArrayList<Treatment>();
@@ -104,9 +99,10 @@ public class EntityDefinition {
          * @param resourceName
          *            the name of the entity in the ReST uri
          */
-        Builder(String collectionName, String resourceName) {
-            this.collectionName = collectionName;
-            this.resourceName = resourceName;
+        Builder(String type) {
+            this.type = type;
+            this.collectionName = type;
+            this.resourceName = type;
         }
         
         /**
@@ -133,6 +129,36 @@ public class EntityDefinition {
             return this;
         }
         
+        /**
+         * Sets the collection to store the entities in
+         * 
+         * @param collectionName
+         *            the name of the collection to store the entities in, if different from the
+         *            entity name
+         * @return the builder
+         */
+        public Builder storeIn(String collectionName) {
+            this.collectionName = collectionName;
+            return this;
+        }
+        
+        /**
+         * Sets the name of the ReSTful resource to expose the resource as, if different from the
+         * entity name
+         * 
+         * @param resourceName
+         *            the name of the ReSTful resource to expose the resource as
+         * @return the builder
+         */
+        public Builder exposeAs(String resourceName) {
+            this.resourceName = resourceName;
+            return this;
+        }
+        
+        protected String getType() {
+            return type;
+        }
+        
         protected String getCollectionName() {
             return collectionName;
         }
@@ -155,7 +181,7 @@ public class EntityDefinition {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            return new EntityDefinition(collectionName, resourceName, treatments, validators);
+            return new EntityDefinition(type, collectionName, resourceName, treatments, validators);
         }
     }
 }
