@@ -1,4 +1,4 @@
-package org.slc.sli.repository;
+package org.slc.sli.dal.repository;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import org.slc.sli.domain.Entity;
  * Define the entity repository interface that provides basic CRUD and field
  * query methods for entities including core entities and association entities
  * 
- * @author Dong Liu dliu@wgen.net
+ * @author  Dong Liu dliu@wgen.net
  * 
  */
 public interface EntityRepository {
@@ -68,3 +68,4 @@ public interface EntityRepository {
 			Map<String, String> fields, int skip, int max);
 
 }
+
