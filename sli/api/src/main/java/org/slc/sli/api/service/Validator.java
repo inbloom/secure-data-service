@@ -1,5 +1,7 @@
 package org.slc.sli.api.service;
 
+import org.slc.sli.api.representation.EntityBody;
+
 
 /**
  * Class to validate new or modified entities.

@@ -1,30 +1,30 @@
-package org.slc.sli.api.service;
+package org.slc.sli.api.config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
-public class BasicDefinitionService implements EntityDefinitionService {
-    private final static Logger LOG = LoggerFactory.getLogger(BasicDefinitionService.class);
+/**
+ * Default implementation of the entity definition store
+ * 
+ * @author nbrown
+ * 
+ */
+@Component
+public class BasicDefinitionStore implements EntityDefinitionStore {
+    private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
     
     Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
     
-    Map<EntityDefinition, List<Validator>> validators = new HashMap<EntityDefinition, List<Validator>>();
-    
-    Map<EntityDefinition, List<Treatment>> treatments = new HashMap<EntityDefinition, List<Treatment>>();
-    
-    Map<EntityDefinition, List<Filter>> filters = new HashMap<EntityDefinition, List<Filter>>();
-    
-    public BasicDefinitionService() {
+    public BasicDefinitionStore() {
         init();
     }
     
@@ -39,18 +39,17 @@ public class BasicDefinitionService implements EntityDefinitionService {
     }
     
     private void init() {
-        EntityDefinition student = new EntityDefinition("students");
+        EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
-        EntityDefinition school = new EntityDefinition("schools");
+        EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
-        AssociationDefinition studentEnroll = new AssociationDefinition("student-enrollments", student, school);
+        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("studentEnrollment")
+                .exposeAs("student-enrollments").from(student).to(school).build();
         addAssocDefinition(studentEnroll);
     }
     
     private void add(EntityDefinition defn) {
         mapping.put(defn.getResourceName(), defn);
-        validators.put(defn, new ArrayList<Validator>());
-        treatments.put(defn, new ArrayList<Treatment>());
     }
     
     private void addDefinition(EntityDefinition defn) {
@@ -69,18 +68,4 @@ public class BasicDefinitionService implements EntityDefinitionService {
         links.get(sourceEntity).add(defn);
     }
     
-    @Override
-    public List<Validator> getValidators(EntityDefinition defn) {
-        return validators.get(defn);
-    }
-    
-    @Override
-    public List<Treatment> getTreatments(EntityDefinition defn) {
-        return treatments.get(defn);
-    }
-    
-    @Override
-    public List<Filter> getImpliedFilters(EntityDefinition defn) {
-        return filters.get(defn);
-    }
 }
