@@ -9,21 +9,21 @@ end
 
 desc "Run School Tests"
 task :schoolTests do
-  sh "cucumber test/features/api/school --tags ~@wip" do |success, exit_code|
+  sh "cucumber test/features/api/school --tags ~@wip -f junit --out ." do |success, exit_code|
     puts "Exited with code: #{exit_code.exitstatus}" unless success
   end
 end
 
 desc "Run Student Tests"
 task :studentTests do
-  sh "cucumber test/features/api/student --tags ~@wip" do |success, exit_code|
+  sh "cucumber test/features/api/student --tags ~@wip -f junit --out ." do |success, exit_code|
     puts "Exited with code: #{exit_code.exitstatus}" unless success
   end
 end
 
 desc "Run Association Tests"
 task :associationTests do
-  sh "cucumber test/features/api/associations --tags ~@wip" do |success, exit_code|
+  sh "cucumber test/features/api/associations --tags ~@wip -f junit --out ." do |success, exit_code|
     puts "Exited with code: #{exit_code.exitstatus}" unless success
   end
 end
