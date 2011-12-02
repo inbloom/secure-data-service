@@ -18,7 +18,7 @@ public interface EntityRepository {
 	 *            the entity type need to be retrieved, can be entity type for
 	 *            core entity or association entity
 	 * @param id
-	 *            the global unique id for this entity
+	 *            the global unique id of the entity
 	 * @return the entity retrieved
 	 */
 	Entity find(String entityType, String id);
@@ -40,14 +40,21 @@ public interface EntityRepository {
 
 	/**
 	 * @param entity the entity that will be persisted
-	 * @return
+	 * @return the entity that has been persisted
 	 */
-	String create(Entity entity);
+	Entity create(Entity entity);
 
 	/**
 	 * @param entity the entity that will be deleted
 	 */
 	void delete(Entity entity);
+	
+	/**
+	 * @param entityType the entity type need to be deleted, can be entity type for
+	 *            core entity or association entity
+	 * @param id the global unique id of the entity
+	 */
+	void delete(String entityType, String id);
 
 	/**
 	 * @param entityType the entity type need to be retrieved, can be entity type for
