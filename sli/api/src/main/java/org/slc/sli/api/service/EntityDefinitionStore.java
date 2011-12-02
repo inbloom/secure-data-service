@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Service to look up entity definition information
+ * Store to look up entity definition information
  * 
  * @author nbrown
  * 
  */
-public interface EntityDefinitionService {
+public interface EntityDefinitionStore {
     
     /**
      * Find an entity definition based on the resource name in the URI

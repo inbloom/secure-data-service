@@ -11,8 +11,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BasicDefinitionService implements EntityDefinitionService {
-    private final static Logger LOG = LoggerFactory.getLogger(BasicDefinitionService.class);
+public class BasicDefinitionStore implements EntityDefinitionStore {
+    private final static Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
     
@@ -24,7 +24,7 @@ public class BasicDefinitionService implements EntityDefinitionService {
     
     Map<EntityDefinition, List<Filter>> filters = new HashMap<EntityDefinition, List<Filter>>();
     
-    public BasicDefinitionService() {
+    public BasicDefinitionStore() {
         init();
     }
     
