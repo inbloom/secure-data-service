@@ -1,8 +1,11 @@
-package org.slc.sli.api.service;
+package org.slc.sli.api.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.slc.sli.api.service.Treatment;
+import org.slc.sli.api.service.Validator;
 
 /**
  * Definition of an entity resource

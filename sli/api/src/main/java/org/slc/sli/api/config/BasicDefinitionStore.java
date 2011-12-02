@@ -1,4 +1,4 @@
-package org.slc.sli.api.service;
+package org.slc.sli.api.config;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of the entity definition store
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * @author nbrown
  * 
  */
+@Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
     private final static Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     

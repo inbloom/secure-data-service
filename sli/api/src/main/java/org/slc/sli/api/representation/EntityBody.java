@@ -1,4 +1,4 @@
-package org.slc.sli.api.service;
+package org.slc.sli.api.representation;
 
 import java.util.HashMap;
 

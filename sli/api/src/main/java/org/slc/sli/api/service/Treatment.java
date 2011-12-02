@@ -1,5 +1,7 @@
 package org.slc.sli.api.service;
 
+import org.slc.sli.api.representation.EntityBody;
+
 
 /**
  * Interface for objects used to transform entities between their database representations and their
