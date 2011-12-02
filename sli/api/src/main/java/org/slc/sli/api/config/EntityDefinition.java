@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slc.sli.api.service.BasicService;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
 
@@ -19,6 +21,7 @@ public class EntityDefinition {
     private final String resourceName;
     private final List<Treatment> treatments;
     private final List<Validator> validators;
+    private final EntityService service;
     
     public EntityDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
             List<Validator> validators) {
@@ -28,6 +31,7 @@ public class EntityDefinition {
         this.resourceName = resourceName;
         this.treatments = treatments;
         this.validators = validators;
+        this.service = new BasicService(collectionName, treatments, validators);
     }
     
     public String getType() {
@@ -50,6 +54,10 @@ public class EntityDefinition {
      */
     public String getResourceName() {
         return resourceName;
+    }
+    
+    public EntityService getService() {
+        return service;
     }
     
     /**
