@@ -9,8 +9,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -46,19 +48,30 @@ public class MongoEntityRepository implements EntityRepository {
 
 	@Override
 	public void update(Entity entity) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(entity, "The given entity must not be null!");
+		String id = entity.getId();
+		String collection = entity.getType();
+		if (id.equals(""))
+			return;
+		Entity found = template.findOne(new Query(Criteria.where("_id").is(new ObjectId(id))), MongoEntity.class, collection);
+		if(found != null)
+		template.save(entity, collection);
 	}
 
 	@Override
 	public Entity create(Entity entity) {
-		// TODO Auto-generated method stub
-		return null;
+		Assert.notNull(entity, "The given entity must not be null!");
+		template.save(entity, entity.getType());
+		return entity;
 	}
 
 	@Override
 	public void delete(Entity entity) {
-		// TODO Auto-generated method stub
+		Assert.notNull(entity, "The given entity must not be null!");
+		String id = entity.getId();
+		if(id.equals(""))
+			return;
+		template.remove(new Query(Criteria.where("_id").is(new ObjectId(id))), entity.getType());
 
 	}
 
