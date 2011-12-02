@@ -39,12 +39,12 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     }
     
     private void init() {
-        EntityDefinition student = EntityDefinition.makeEntity("students").build();
+        EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
-        EntityDefinition school = EntityDefinition.makeEntity("schools").build();
+        EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
-        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollments").from(student)
-                .to(school).build();
+        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("studentEnrollment")
+                .exposeAs("student-enrollments").from(student).to(school).build();
         addAssocDefinition(studentEnroll);
     }
     

@@ -15,9 +15,9 @@ public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     
-    public AssociationDefinition(String collectionName, String resourceName, List<Treatment> treatments,
+    public AssociationDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
             List<Validator> validators, EntityDefinition sourceEntity, EntityDefinition targetEntity) {
-        super(collectionName, resourceName, treatments, validators);
+        super(type, collectionName, resourceName, treatments, validators);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
     }
@@ -48,7 +48,7 @@ public class AssociationDefinition extends EntityDefinition {
      * @return the builder to create the entity definition
      */
     public static Builder makeAssoc(String entityName) {
-        return new Builder(entityName, entityName);
+        return new Builder(entityName);
     }
     
     /**
@@ -60,8 +60,8 @@ public class AssociationDefinition extends EntityDefinition {
      *            the name of the entity in the ReST uri
      * @return the builder to create the entity definition
      */
-    public static Builder makeAssoc(String collectionName, String resourceName) {
-        return new Builder(collectionName, resourceName);
+    public static Builder makeAssoc(String type, String collectionName, String resourceName) {
+        return new Builder(type);
     }
     
     public static class Builder extends EntityDefinition.Builder {
@@ -76,8 +76,8 @@ public class AssociationDefinition extends EntityDefinition {
          * @param resourceName
          *            the name of the association in the ReST uri
          */
-        public Builder(String collectionName, String resourceName) {
-            super(collectionName, resourceName);
+        public Builder(String type) {
+            super(type);
         }
         
         /**
@@ -105,9 +105,33 @@ public class AssociationDefinition extends EntityDefinition {
         }
         
         @Override
+        public Builder withTreatments(Treatment... treatments) {
+            super.withTreatments(treatments);
+            return this;
+        }
+        
+        @Override
+        public Builder withValidators(Validator... validators) {
+            super.withValidators(validators);
+            return this;
+        }
+        
+        @Override
+        public Builder storeIn(String collectionName) {
+            super.storeIn(collectionName);
+            return this;
+        }
+        
+        @Override
+        public Builder exposeAs(String resourceName) {
+            super.exposeAs(resourceName);
+            return this;
+        }
+        
+        @Override
         public AssociationDefinition build() {
-            return new AssociationDefinition(getCollectionName(), getResourceName(), getTreatments(), getValidators(),
-                    sourceEntity, targetEntity);
+            return new AssociationDefinition(getType(), getCollectionName(), getResourceName(), getTreatments(),
+                    getValidators(), sourceEntity, targetEntity);
         }
         
     }
