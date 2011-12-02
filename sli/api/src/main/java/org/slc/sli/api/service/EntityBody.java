@@ -1,6 +1,6 @@
 package org.slc.sli.api.service;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Contents of an entity body
@@ -8,17 +8,11 @@ import java.util.Map;
  * @author nbrown
  * 
  */
-public class EntityBody {
+public class EntityBody extends HashMap<String, Object> {
     
-    private final Map<String, Object> contents;
-    
-    public EntityBody(Map<String, Object> contents) {
-        super();
-        this.contents = contents;
-    }
-    
-    public Map<String, Object> getContents() {
-        return contents;
-    }
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -301785504415342449L;
     
 }
