@@ -63,7 +63,7 @@ public interface EntityService {
      * 
      * @return the ids of the entities in the data store
      */
-    public Iterable<String> list();
+    public Iterable<String> list(int start, int numResults);
     
     /**
      * Get the entities associated with a given entity in the data store
@@ -74,5 +74,5 @@ public interface EntityService {
      *            the type of associated entities to look for
      * @return the ids of associated entities
      */
-    public Iterable<String> getAssociated(String id, EntityDefinition assocType);
+    public Iterable<String> getAssociated(String id, EntityDefinition assocType, int start, int numResults);
 }

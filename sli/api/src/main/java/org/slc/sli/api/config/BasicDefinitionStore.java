@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
-    private final static Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
     
