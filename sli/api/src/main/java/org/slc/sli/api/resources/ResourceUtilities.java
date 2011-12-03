@@ -22,4 +22,7 @@ public class ResourceUtilities {
      * The header for the location
      */
     public static final String LOCATION_HEADER = "Location";
+    
+    public static final String JSON_MEDIA_TYPE = "application/json";
+    public static final String XML_MEDIA_TYPE = "application/xml";
 }
