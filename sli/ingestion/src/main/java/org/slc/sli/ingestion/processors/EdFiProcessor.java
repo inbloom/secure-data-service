@@ -42,9 +42,13 @@ public class EdFiProcessor extends IngestionProcessor implements Processor {
    // Constants
    public static final String FILE_SUFFIX_XML = ".xml";
    public static final String FILE_SUFFIX_CSV = ".csv";
+   public static final CharSequence STUDENT_PATTERN = "tudent";
+   public static final CharSequence SCHOOL_PATTERN = "chool";
    public static final String SMOOKS_CONFIG_DEFAULT = "smooks-config.xml";
-   public static final String SMOOKS_CONFIG_XML = "smooks-config-xml.xml";
-   public static final String SMOOKS_CONFIG_CSV = "smooks-config-csv.xml";
+   public static final String SMOOKS_CONFIG_XML = "smooks-all-xml.xml";
+   public static final String SMOOKS_CONFIG_STUDENT_CSV = "smooks-student-csv.xml";
+   public static final String SMOOKS_CONFIG_SCHOOL_CSV = "smooks-school-csv.xml";
+   public static final String SMOOKS_CONFIG_STUDENT_SCHOOL_ASSOCIATION_CSV = "smooks-studentSchoolAssociation-csv.xml";
    public static final String SMOOKS_CSV_RECORD = "csv-record";
    
    public static final String EDFI_XPATH_STUDENT = "InterchangeStudent/Student";
@@ -117,10 +121,17 @@ public class EdFiProcessor extends IngestionProcessor implements Processor {
        String smooksConfigFileName = SMOOKS_CONFIG_DEFAULT;
        
        String edfiFileName = inputFile.getName();
+       
        if (edfiFileName.endsWith(FILE_SUFFIX_XML)) {
           smooksConfigFileName = SMOOKS_CONFIG_XML;
        } else if (edfiFileName.endsWith(FILE_SUFFIX_CSV)) {
-          smooksConfigFileName = SMOOKS_CONFIG_CSV;
+           smooksConfigFileName = SMOOKS_CONFIG_STUDENT_CSV;
+           if (edfiFileName.contains(STUDENT_PATTERN)) {
+               smooksConfigFileName = SMOOKS_CONFIG_STUDENT_CSV;
+           }
+           else if (edfiFileName.contains(SCHOOL_PATTERN)) {
+               smooksConfigFileName = SMOOKS_CONFIG_SCHOOL_CSV;
+           }
        }
 
        return smooksConfigFileName;

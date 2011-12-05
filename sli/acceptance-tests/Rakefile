@@ -1,23 +1,30 @@
 require "cucumber/rake/task"
 
-
 task :default => :production
 
-desc "Default Task: Run All Acceptance Tests"
+desc "Default Task: Run All Acceptances Tests"
 task :production => [:schoolTests, :studentTests, :associationTests] do
-    puts "All Tests Run"
+  puts "Complete"
 end
 
-
-Cucumber::Rake::Task.new(:studentTests, "Run All Student Tests") do |t|
-  t.cucumber_opts = "test/features/api/student"
+desc "Run School Tests"
+task :schoolTests do
+  sh "cucumber test/features/api/school --tags ~@wip -f junit --out ." do |success, exit_code|
+    puts "Exited with code: #{exit_code.exitstatus}" unless success
+  end
 end
 
-Cucumber::Rake::Task.new(:schoolTests, "Run All School Tests") do |t|
-  t.cucumber_opts = "test/features/api/school"
+desc "Run Student Tests"
+task :studentTests do
+  sh "cucumber test/features/api/student --tags ~@wip -f junit --out ." do |success, exit_code|
+    puts "Exited with code: #{exit_code.exitstatus}" unless success
+  end
 end
 
-Cucumber::Rake::Task.new(:associationTests, "Run All Entity Associations Tests") do |t|
-  t.cucumber_opts = "test/features/api/associations"
+desc "Run Association Tests"
+task :associationTests do
+  sh "cucumber test/features/api/associations --tags ~@wip -f junit --out ." do |success, exit_code|
+    puts "Exited with code: #{exit_code.exitstatus}" unless success
+  end
 end
 

@@ -3,7 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 include REXML
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 #puts $:
 
 $newSchoolID
@@ -53,7 +53,7 @@ Then /^I should receive a ID for the newly created school$/ do
 end
 
 When /^I GET the newly created school by id$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+$newSchoolID
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
   @res = RestClient.get(url,:accept => @format){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -64,7 +64,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       "shortName" => @shortName,
       "stateOrganizationId" => "50","webSite" => @websiteName]
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest"+arg1
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
     @res = RestClient.post(url, data.to_json, :content_type => @format){|response, request, result| response }
     assert(@res != nil, "Response from rest-client POST is nil")
   elsif @format == "application/xml"
@@ -74,7 +74,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       b.shortName(@shortName) 
       b.stateOrganizationId("50")
       b.webSite(@websiteName)}
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest"+arg1
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
     @res = RestClient.post(url, data, :content_type => @format){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client POST is nil")
   else
@@ -83,7 +83,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
 end
 
 When /^I navigate to GET "([^"]*)"$/ do |arg1|
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest"+arg1
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
   @res = RestClient.get(url,:accept => @format){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
   #puts @res.body
@@ -99,7 +99,7 @@ When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
       "shortName" => "",
       "stateOrganizationId" => "50","webSite" => ""]
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest"+arg1
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
     @res = RestClient.put(url, data.to_json, :content_type => @format){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
@@ -109,7 +109,7 @@ When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
       b.shortName("") 
       b.stateOrganizationId("50")
       b.webSite("")}
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest"+arg1
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
     @res = RestClient.put(url, data, :content_type => @format){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
@@ -118,20 +118,20 @@ When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
 end
 
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/"+arg1
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/"+arg1
   @res = RestClient.delete(url,:accept => @format){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
 When /^I DELETE the newly created school$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+$newSchoolID
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
   @res = RestClient.delete(url,:accept => @format){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
 When /^I PUT\/update the newly created school's website'$/ do
   if @format == "application/json"
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+$newSchoolID
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
     @res = RestClient.get(url,:accept => @format){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
@@ -139,11 +139,11 @@ When /^I PUT\/update the newly created school's website'$/ do
     data['webSite'].should_not == @websiteName
     data['webSite'] = @websiteName
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+$newSchoolID
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
     @res = RestClient.put(url, data.to_json, :content_type => @format){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+$newSchoolID
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
     @res = RestClient.get(url,:accept => @format){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
@@ -152,7 +152,7 @@ When /^I PUT\/update the newly created school's website'$/ do
     doc.root.elements["webSite"].text.should_not == @websiteName
     doc.root.elements["webSite"].text = @websiteName
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+$newSchoolID
+    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
     @res = RestClient.put(url, doc, :content_type => @format){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
@@ -175,7 +175,7 @@ end
 
 
 Given /^a known school exists$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools"
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools"
   @res = RestClient.get(url,:accept => "application/json"){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
   jsonData = JSON.parse(@res.body)
@@ -185,13 +185,13 @@ Given /^a known school exists$/ do
 end
   
 When /^I navigate to GET to said school$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest/schools/"+@tempID.to_s
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+@tempID.to_s
   @res = RestClient.get(url,:accept => @format){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I navigate to GET to said school with "([^"]*)"$/ do |arg1|
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['server_url']+"/api/rest"+arg1+@tempID.to_s
+  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1+@tempID.to_s
   @res = RestClient.get(url,:accept => @format){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end

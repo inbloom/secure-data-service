@@ -109,7 +109,7 @@ public class SchoolResource {
     public Response add(School school) throws Exception {
         log.debug("School being added: {}", school);
         schoolService.addOrUpdate(school);
-        ResponseBuilder builder = Response.status(Status.NO_CONTENT);
+        ResponseBuilder builder = Response.status(Status.CREATED); // =>Status.CREATED
         URI uri = this.uriInfo.getAbsolutePathBuilder().path(String.valueOf(school.getSchoolId())).build();
         builder.header(ResourceUtilities.LOCATION_HEADER, uri);
         return builder.build();
