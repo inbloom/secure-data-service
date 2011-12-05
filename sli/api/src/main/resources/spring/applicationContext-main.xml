@@ -10,6 +10,8 @@
 	<context:component-scan base-package="org.slc">
 		<context:exclude-filter type="regex"
 			expression=".*MongoEntityRepository" />
+			<context:exclude-filter type="regex"
+			expression="org.slc.sli.api.config.BasicDefinitionStore" />
 	</context:component-scan>
 	<context:annotation-config />
 </beans>
