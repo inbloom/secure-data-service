@@ -133,6 +133,7 @@ public class Resource {
                     .build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
+            System.out.println("EXCEPTION: " + t);
             return Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
