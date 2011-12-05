@@ -4,7 +4,12 @@ task :default => :production
 
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:schoolTests, :studentTests, :associationTests] do
-  puts "Complete"
+  puts "Complete All Tests"
+end
+
+desc "Run API Acceptances Tests"
+task :apiTests => [:schoolTests, :studentTests, :associationTests] do
+  puts "Completed API Tests"
 end
 
 desc "Run School Tests"
