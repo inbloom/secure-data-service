@@ -17,17 +17,19 @@ public class BasicService implements EntityService {
     private final String collectionName;
     private final List<Treatment> treatments;
     private final List<Validator> validators;
-    private EntityRepository repo = new MockRepo(); // todo springify this
+    private final EntityRepository repo;
     
     private EntityRepository getRepo() {
         return repo;
     }
     
-    public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators) {
+    public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
+            EntityRepository repo) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.validators = validators;
+        this.repo = repo;
     }
     
     @Override

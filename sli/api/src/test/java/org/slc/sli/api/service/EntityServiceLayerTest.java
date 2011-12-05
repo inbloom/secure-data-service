@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.config.EntityDefinition;
@@ -23,6 +24,11 @@ public class EntityServiceLayerTest {
     
     @Autowired
     private EntityDefinitionStore defs;
+    
+    @Before
+    public void setUp() {
+        defs.init();
+    }
     
     @Test
     public void testMultipleEntities() {
