@@ -9,7 +9,25 @@
                            http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security.xsd">
 
-   <!-- <security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" /> -->
+   <!-- Configure security -->
+   <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+      <security:expression-handler ref="expressionHandler" />
+   </security:global-method-security>
+
+   <security:http auto-config="true" entry-point-ref="entryPoint">
+      <security:intercept-url pattern="/**" access="ROLE_USER" />
+      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
+   </security:http>
+
+   <security:authentication-manager alias="authenticationManager">
+      <security:authentication-provider>
+         <security:user-service>
+            <security:user name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" />
+            <security:user name="bob" password="bob" authorities="ROLE_USER" />
+         </security:user-service>
+      </security:authentication-provider>
+
+   </security:authentication-manager>
 
    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
 
@@ -30,24 +48,5 @@
       <property name="authUrl" value="http://devdanil.slidev.org:8080/idp" />
    </bean>
 
-   <!-- Configure security -->
-   <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
-      <security:expression-handler ref="expressionHandler" />
-   </security:global-method-security>
-
-   <security:http auto-config="true" entry-point-ref="entryPoint">
-      <security:intercept-url pattern="/**" access="ROLE_USER" />
-      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
-   </security:http>
-
-   <security:authentication-manager alias="authenticationManager">
-      <security:authentication-provider>
-         <security:user-service>
-            <security:user name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" />
-            <security:user name="bob" password="bob" authorities="ROLE_USER" />
-         </security:user-service>
-      </security:authentication-provider>
-
-   </security:authentication-manager>
 </beans>
         

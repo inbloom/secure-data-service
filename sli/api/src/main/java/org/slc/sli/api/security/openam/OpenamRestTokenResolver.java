@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.openam;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,12 +13,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.SLIAuthenticationEntryPoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
 
+/**
+ * Creates Spring Authentication object by calling openAM restful API
+ * To validate and fetch attributes for provided token
+ * 
+ * @author dkornishev
+ * 
+ */
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
@@ -25,26 +34,35 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     private String              tokenServiceUrl;
     private RestTemplate        rest;
     
+    /**
+     * Populates Authentication object by calling openAM with given token id
+     * 
+     * @param token sessionId to use in lookups
+     * @return populated Authentication or null if sessionId isn't valid
+     */
     @Override
     public Authentication resolve(String token) throws AuthenticationException {
         
         Authentication auth = null;
         
-        // Validate Session
-        ResponseEntity<String> entity = rest.getForEntity(tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token, String.class, Collections.<String, Object> emptyMap());
-        
-        if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
+        try {
             
-            // Get session attributes
-            entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object> emptyMap());
-            LOG.debug("-------------------------------------");
-            LOG.debug(entity.getBody());
-            LOG.debug("-------------------------------------");
+            // Validate Session
+            ResponseEntity<String> entity = rest.getForEntity(tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token, String.class, Collections.<String, Object> emptyMap());
             
-            // Create Authentication object and cram it into SCH
-            auth = buildAuthentication(entity.getBody());
-        } else if (entity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-            LOG.warn("Received 'UNAUTHORIZED' response from the token service");
+            if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
+                
+                // Get session attributes
+                entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object> emptyMap());
+                LOG.debug("-------------------------------------");
+                LOG.debug(entity.getBody());
+                LOG.debug("-------------------------------------");
+                
+                // Create Authentication object and cram it into SCH
+                auth = buildAuthentication(token,entity.getBody());
+            }
+        } catch (RestClientException e) {
+            LOG.error("Error calling openAM Restful Service", e);
         }
         
         return auth;
@@ -58,11 +76,16 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         this.rest = rest;
     }
     
-    private Authentication buildAuthentication(String payload) {
+    private Authentication buildAuthentication(String token, String payload) {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
-        return new PreAuthenticatedAuthenticationToken(principal, null, Collections.singletonList(new GrantedAuthorityImpl("ROLE_USER")));
+        
+        return new PreAuthenticatedAuthenticationToken(principal, token, extractAuthorities());
+    }
+    
+    private List<GrantedAuthorityImpl> extractAuthorities() {
+        return Collections.singletonList(new GrantedAuthorityImpl("ROLE_USER"));    // TODO look at actual roles
     }
     
     private String extractValue(String valueName, String payload) {

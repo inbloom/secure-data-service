@@ -2,6 +2,12 @@ package org.slc.sli.api.security;
 
 import java.security.Principal;
 
+/**
+ * Attribute holder for SLI Principal
+ * 
+ * @author dkornishev
+ *
+ */
 public class SLIPrincipal implements Principal {
     
     private String id;
