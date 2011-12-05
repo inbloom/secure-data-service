@@ -42,7 +42,7 @@ public class MockRepo implements EntityRepository {
     @Override
     public Iterable<Entity> finalAll(String entityType, int skip, int max) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
-        return all.subList(skip, skip + max);
+        return all.subList(skip, (Math.min(skip + max, all.size())));
     }
     
     @Override
