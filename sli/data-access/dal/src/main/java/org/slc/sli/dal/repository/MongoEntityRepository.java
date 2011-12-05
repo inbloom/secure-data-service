@@ -72,20 +72,26 @@ public class MongoEntityRepository implements EntityRepository {
 		if(id.equals(""))
 			return;
 		template.remove(new Query(Criteria.where("_id").is(new ObjectId(id))), entity.getType());
-
 	}
 
 	@Override
 	public void delete(String entityType, String id) {
-		// TODO Auto-generated method stub
-
+		if(id.equals(""))
+			return;
+		template.remove(new Query(Criteria.where("_id").is(new ObjectId(id))), entityType);
 	}
 
 	@Override
 	public Iterable<Entity> findByFields(String entityType,
 			Map<String, String> fields, int skip, int max) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Query query = new Query();
+        query.skip(skip).limit(max);
+        for (String key : fields.keySet()) {
+            Criteria criteria = Criteria.where("body." + key).is(fields.get(key));
+            query.addCriteria(criteria);
+        }
+        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+        return new LinkedList<Entity>(results);
+    }
 
 }
