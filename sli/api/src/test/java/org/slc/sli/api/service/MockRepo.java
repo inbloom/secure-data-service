@@ -40,7 +40,7 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public Iterable<Entity> finalAll(String entityType, int skip, int max) {
+    public Iterable<Entity> findAll(String entityType, int skip, int max) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         return all.subList(skip, (Math.min(skip + max, all.size())));
     }
@@ -73,6 +73,12 @@ public class MockRepo implements EntityRepository {
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    @Override
+    public void deleteAll(String entityType) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

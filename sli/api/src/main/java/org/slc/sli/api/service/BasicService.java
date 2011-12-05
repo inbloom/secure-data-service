@@ -100,7 +100,7 @@ public class BasicService implements EntityService {
     @Override
     public Iterable<String> list(int start, int numResults) {
         List<String> results = new ArrayList<String>();
-        for (Entity entity : getRepo().finalAll(collectionName, start, numResults)) {
+        for (Entity entity : repo.findAll(collectionName, start, numResults)) {
             results.add(entity.getId());
         }
         return results;
