@@ -8,6 +8,7 @@ import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
+import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * Definition of an entity resource
@@ -22,16 +23,17 @@ public class EntityDefinition {
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     private final EntityService service;
+    private static EntityRepository defaultRepo;
     
     public EntityDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
-            List<Validator> validators) {
+            List<Validator> validators, EntityRepository repo) {
         super();
         this.type = type;
         this.collectionName = collectionName;
         this.resourceName = resourceName;
         this.treatments = treatments;
         this.validators = validators;
-        this.service = new BasicService(collectionName, treatments, validators);
+        this.service = new BasicService(collectionName, treatments, validators, repo);
     }
     
     public String getType() {
@@ -80,6 +82,14 @@ public class EntityDefinition {
         return validators;
     }
     
+    public static void setDefaultRepo(EntityRepository defaultRepo) {
+        EntityDefinition.defaultRepo = defaultRepo;
+    }
+    
+    public static EntityRepository getDefaultRepo() {
+        return defaultRepo;
+    }
+    
     /**
      * Create a builder for an entity definition with the same collection and resource name as the
      * type
@@ -98,6 +108,7 @@ public class EntityDefinition {
         private String resourceName;
         private List<Treatment> treatments = new ArrayList<Treatment>();
         private List<Validator> validators = new ArrayList<Validator>();
+        private EntityRepository repo;
         
         /**
          * Create a builder for an entity definition
@@ -111,6 +122,7 @@ public class EntityDefinition {
             this.type = type;
             this.collectionName = type;
             this.resourceName = type;
+            this.repo = getDefaultRepo();
         }
         
         /**
@@ -145,8 +157,13 @@ public class EntityDefinition {
          *            entity name
          * @return the builder
          */
-        public Builder storeIn(String collectionName) {
+        public Builder storeAs(String collectionName) {
             this.collectionName = collectionName;
+            return this;
+        }
+        
+        public Builder storeIn(EntityRepository repo) {
+            this.repo = repo;
             return this;
         }
         
@@ -183,13 +200,18 @@ public class EntityDefinition {
             return validators;
         }
         
+        protected EntityRepository getRepo() {
+            return repo;
+        }
+        
         /**
          * Create the actual entity definition
          * 
          * @return the entity definition
          */
         public EntityDefinition build() {
-            return new EntityDefinition(type, collectionName, resourceName, treatments, validators);
+            return new EntityDefinition(type, collectionName, resourceName, treatments, validators, repo);
         }
+        
     }
 }

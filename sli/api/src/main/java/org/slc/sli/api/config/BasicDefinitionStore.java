@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import org.slc.sli.dal.repository.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,13 +22,11 @@ import org.springframework.stereotype.Component;
 public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
-    Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
+    private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
+    private Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
     
-    Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
-    
-    public BasicDefinitionStore() {
-        init();
-    }
+    @Autowired
+    private EntityRepository defaultRepo;
     
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
@@ -38,7 +38,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         return links.get(defn);
     }
     
-    private void init() {
+    @Override
+    public void init() {
+        EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();

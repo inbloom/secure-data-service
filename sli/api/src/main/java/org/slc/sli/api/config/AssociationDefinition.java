@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
+import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * Definition of an association resource
@@ -16,8 +17,9 @@ public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition targetEntity;
     
     public AssociationDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
-            List<Validator> validators, EntityDefinition sourceEntity, EntityDefinition targetEntity) {
-        super(type, collectionName, resourceName, treatments, validators);
+            List<Validator> validators, EntityRepository repo, EntityDefinition sourceEntity,
+            EntityDefinition targetEntity) {
+        super(type, collectionName, resourceName, treatments, validators, repo);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
     }
@@ -47,8 +49,8 @@ public class AssociationDefinition extends EntityDefinition {
      *            the collection/resource name
      * @return the builder to create the entity definition
      */
-    public static Builder makeAssoc(String entityName) {
-        return new Builder(entityName);
+    public static AssocBuilder makeAssoc(String entityName) {
+        return new AssocBuilder(entityName);
     }
     
     /**
@@ -60,11 +62,11 @@ public class AssociationDefinition extends EntityDefinition {
      *            the name of the entity in the ReST uri
      * @return the builder to create the entity definition
      */
-    public static Builder makeAssoc(String type, String collectionName, String resourceName) {
-        return new Builder(type);
+    public static AssocBuilder makeAssoc(String type, String collectionName, String resourceName) {
+        return new AssocBuilder(type);
     }
     
-    public static class Builder extends EntityDefinition.Builder {
+    public static class AssocBuilder extends EntityDefinition.Builder {
         private EntityDefinition sourceEntity;
         private EntityDefinition targetEntity;
         
@@ -76,7 +78,7 @@ public class AssociationDefinition extends EntityDefinition {
          * @param resourceName
          *            the name of the association in the ReST uri
          */
-        public Builder(String type) {
+        public AssocBuilder(String type) {
             super(type);
         }
         
@@ -87,7 +89,7 @@ public class AssociationDefinition extends EntityDefinition {
          *            the source of the association
          * @return the builder
          */
-        public Builder from(EntityDefinition source) {
+        public AssocBuilder from(EntityDefinition source) {
             this.sourceEntity = source;
             return this;
         }
@@ -99,31 +101,37 @@ public class AssociationDefinition extends EntityDefinition {
          *            the target definition
          * @return the builder
          */
-        public Builder to(EntityDefinition target) {
+        public AssocBuilder to(EntityDefinition target) {
             this.targetEntity = target;
             return this;
         }
         
         @Override
-        public Builder withTreatments(Treatment... treatments) {
+        public AssocBuilder withTreatments(Treatment... treatments) {
             super.withTreatments(treatments);
             return this;
         }
         
         @Override
-        public Builder withValidators(Validator... validators) {
+        public AssocBuilder withValidators(Validator... validators) {
             super.withValidators(validators);
             return this;
         }
         
         @Override
-        public Builder storeIn(String collectionName) {
-            super.storeIn(collectionName);
+        public AssocBuilder storeAs(String collectionName) {
+            super.storeAs(collectionName);
             return this;
         }
         
         @Override
-        public Builder exposeAs(String resourceName) {
+        public AssocBuilder storeIn(EntityRepository repo) {
+            super.storeIn(repo);
+            return this;
+        }
+        
+        @Override
+        public AssocBuilder exposeAs(String resourceName) {
             super.exposeAs(resourceName);
             return this;
         }
@@ -131,7 +139,7 @@ public class AssociationDefinition extends EntityDefinition {
         @Override
         public AssociationDefinition build() {
             return new AssociationDefinition(getType(), getCollectionName(), getResourceName(), getTreatments(),
-                    getValidators(), sourceEntity, targetEntity);
+                    getValidators(), getRepo(), sourceEntity, targetEntity);
         }
         
     }
