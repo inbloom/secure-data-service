@@ -33,13 +33,13 @@ import org.slc.sli.api.representation.ErrorResponse;
 @Component
 @Scope("request")
 @Produces({ ResourceUtilities.XML_MEDIA_TYPE, ResourceUtilities.JSON_MEDIA_TYPE })
-public class GenericResource {
+public class Resource {
     
-    private static final Logger LOG = LoggerFactory.getLogger(GenericResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
     
     @Autowired
-    GenericResource(EntityDefinitionStore entityDefs) {
+    Resource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
     
