@@ -682,6 +682,9 @@
             <execution>
               <id>validate</id>
               <phase>validate</phase>
+              <goals>
+                <goal>checkstyle</goal>
+              </goals>
             </execution>
           </executions>
         </plugin>
