@@ -23,8 +23,10 @@
 
     <!-- Maven Plugin Versions -->
     <maven.compiler.version>2.3.2</maven.compiler.version>
+    <maven.jar.version>2.3.2</maven.jar.version>
     <maven.checkstyle.version>2.6</maven.checkstyle.version>
     <maven.findbugs.version>2.3.2</maven.findbugs.version>
+    <maven.surefire.version>2.10</maven.surefire.version>
     <maven.eclipse.version>2.8</maven.eclipse.version>
     <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
     <maven.tomcat.version>1.1</maven.tomcat.version>
@@ -68,8 +70,47 @@
     <!-- Testing Framework Versions -->
     <junit.version>4.9</junit.version>
     <mockito.version>1.8.5</mockito.version>
-
+    
+    <!-- The default enviroment used during the build. -->
+    <env>local</env>
   </properties>
+  
+  <!-- 
+       Environment profiles.  
+       
+       A profile encapsulates a set of properties and filters for a particular build configuration.
+       
+       Per profile properties and filters can be set at an individual project basis to specify
+       variables used within that environment.  For example, specifying different database 
+       connection strings for 'local' and 'ci' builds.  
+       
+       From the command line, add the -P and specify the profile name you want to use.  
+       
+       If no profile is specified, the 'env' value specified in the above properties section 
+       is used by default. 
+       
+       Note that this POM only defines what the profile name is and the 'env' value for that profile.  
+       It is up to individual projects to identify resources required per profile. 
+  -->
+  <profiles>  
+      <!-- A local dev profile -->
+      <profile>
+          <id>local</id>
+          <properties>
+              <env>local</env>
+          </properties>
+      </profile>
+      
+      <!-- Profile to use during continuous integration -->
+      <profile>
+          <id>ci</id>
+          <properties>
+              <env>ci</env>
+          </properties>
+      </profile>
+
+      <!-- Add additional profiles here. For example: integration, production, multishard, ... -->
+  </profiles>    
 
   <modules>
     <module>common</module>
@@ -649,6 +690,28 @@
 
     <pluginManagement>
       <plugins>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.version}</version>
+        <!--  the following generates a secondary jar containing all configurations -->
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${basedir}</classesDirectory>     
+              <finalName>sli-properties</finalName>      
+              <includes>
+                <include>config/**/*.properties</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>      
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -837,14 +900,28 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           </dependency>
         </dependencies>
       </plugin>
-
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.version}</version>
+        <configuration>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${basedir}/target/sli-properties.jar</additionalClasspathElement>
+          </additionalClasspathElements>
+          <systemPropertyVariables>
+            <env>${env}</env>
+          </systemPropertyVariables>          
+        </configuration>
+      </plugin>
+      
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
 	<artifactId>maven-jetty-plugin</artifactId>
 	<version>${maven.jetty.version}</version>
       </plugin>
     </plugins>
-
+    
   </build>
 
   <repositories>

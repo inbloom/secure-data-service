@@ -9,26 +9,26 @@
 	default-autowire="byName">
 	<bean id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:db.properties" />
+		<property name="location" value="classpath:config/${env}/project.properties" />
 	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="true" />
-				<property name="generateDdl" value="true" />
-				<property name="databasePlatform" value="${db.dialect}" />
+				<property name="showSql" value="${sli.hibernate.showsql}" />
+				<property name="generateDdl" value="${sli.hibernate.generateDdl}" />
+				<property name="databasePlatform" value="${sli.db.dialect}" />
 			</bean>
 		</property>
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="${db.driver}" />
-		<property name="url" value="${db.url}" />
-		<property name="username" value="${db.username}" />
-		<property name="password" value="${db.password}" />
+		<property name="driverClassName" value="${sli.db.driver}" />
+		<property name="url" value="${sli.db.url}" />
+		<property name="username" value="${sli.db.username}" />
+		<property name="password" value="${sli.db.password}" />
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -41,7 +41,5 @@
 
 
 	<jpa:repositories base-package="org.slc.sli.repository" repository-impl-postfix="CustomImpl" />
-
-
 	
 </beans>

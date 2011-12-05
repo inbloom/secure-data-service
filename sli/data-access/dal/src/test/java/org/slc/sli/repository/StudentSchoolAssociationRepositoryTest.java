@@ -32,7 +32,7 @@ import org.slc.sli.domain.enums.SexType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/db.xml"})
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSchoolAssociationRepositoryTest {
     
     @Autowired
@@ -125,7 +125,7 @@ public class StudentSchoolAssociationRepositoryTest {
         Calendar classOf = Calendar.getInstance();
         classOf.set(Calendar.YEAR, 2000);
         s.setClassOf(classOf); // TODO, edfi only lists this as a year, so why are we storing a full
-                               // calendar?
+        // calendar?
         s.setEntryDate(Calendar.getInstance());
         s.setEntryGradeLevel(GradeLevelType.UNGRADED);
         s.setEntryType(EntryType.REENTRY_INVOLUNTARY_WITHDRAWAL);
@@ -141,7 +141,7 @@ public class StudentSchoolAssociationRepositoryTest {
         assertEquals(s.toString(), returned.toString());
     }
     
- // test DataAccessException thrown by saveWithAssoc if no student or school exist   
+    // test DataAccessException thrown by saveWithAssoc if no student or school exist
     @Test(expected = DataAccessException.class)
     public void testSaveWithAssocException() {
         StudentSchoolAssociation ssa = createTestAssociation();
@@ -159,7 +159,7 @@ public class StudentSchoolAssociationRepositoryTest {
         school = schoolRepo.save(school);
         StudentSchoolAssociation ssa = createTestAssociation();
         ssa.setSchoolId(school.getSchoolId());
-        ssa.setStudentId(student.getStudentId()); 
+        ssa.setStudentId(student.getStudentId());
         ssa = studentSchoolRepo.saveWithAssoc(ssa);
         assertNotNull(ssa);
         
