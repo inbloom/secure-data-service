@@ -3,6 +3,7 @@ package org.slc.sli.dal.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
@@ -44,7 +45,7 @@ public class EntityRepositoryTest {
 		assertTrue(!id.equals(""));
 
 		// test findAll
-		Iterable<Entity> entities = repository.findAll("student",1,20);
+		Iterable<Entity> entities = repository.findAll("student",0,20);
 		assertNotNull(entities);
 		Entity found = entities.iterator().next();
 		assertEquals(found.getBody().get("birthDate"),
@@ -62,7 +63,7 @@ public class EntityRepositoryTest {
 		// test update
 		found.getBody().put("firstName", "Mandy");
 		repository.update(found);
-		entities = repository.findAll("student",1,20);
+		entities = repository.findAll("student",0,20);
 		assertNotNull(entities);
 		Entity updated = entities.iterator().next();
 		assertEquals(updated.getBody().get("firstName"), "Mandy");
@@ -70,19 +71,18 @@ public class EntityRepositoryTest {
 		// test delete by id
 		Entity student2 = buildTestStudentEntity();
 		student2 = repository.create(student2);
-		entities = repository.findAll("student",1,20);
+		entities = repository.findAll("student",0,20);
 		student = entities.iterator().next();
 		assertNotNull(entities.iterator().next());
 		repository.delete("student", student2.getId());
-		entities = repository.findAll("student",1,20);
-		entities.iterator().next();
-		assertFalse(entities.iterator().hasNext());
+		student2 = repository.find("student",student2.getId());
+		assertNull(student2);
 
 		// test deleteAll by entity type
-		repository.delete(student);
-		entities = repository.findAll("student",1,20);
+		repository.deleteAll("student");
+		entities = repository.findAll("student",0,20);
 		assertFalse(entities.iterator().hasNext());
-		
+	
 	}
 
 	private Entity buildTestStudentEntity() {
