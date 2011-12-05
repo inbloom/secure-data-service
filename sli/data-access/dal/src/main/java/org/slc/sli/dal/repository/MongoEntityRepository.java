@@ -36,7 +36,7 @@ public class MongoEntityRepository implements EntityRepository {
 	}
 
 	@Override
-	public Iterable<Entity> finalAll(String entityType, int skip, int max) {
+	public Iterable<Entity> findAll(String entityType, int skip, int max) {
 
 		LinkedList<Entity> entities = new LinkedList<Entity>();
 		List<MongoEntity> results = template.find(
@@ -93,5 +93,11 @@ public class MongoEntityRepository implements EntityRepository {
         List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
         return new LinkedList<Entity>(results);
     }
+
+	@Override
+	public void deleteAll(String entityType) {
+		template.remove(new Query(),entityType);
+		
+	}
 
 }

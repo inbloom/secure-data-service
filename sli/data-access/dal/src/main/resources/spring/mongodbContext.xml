@@ -21,8 +21,8 @@
     <constructor-arg value="${mongodb.port}" />
     </bean>
     
-    <mongo:db-factory dbname="{mongodb.database}"/>
-    <mongo:mapping-converter id="mappingConverter" db-factory-ref="mongoDbFactory" >
+    <mongo:db-factory id="mongoDbFactory" dbname="${mongodb.database}"/>
+    <mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory" >
 		<mongo:custom-converters>
 			<mongo:converter>
 				<bean class="org.slc.sli.dal.convert.MongoEntityReadConverter" />

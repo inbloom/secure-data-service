@@ -31,7 +31,7 @@ public interface EntityRepository {
 	 * @param max the max number of entities that will be returned
 	 * @return the collection of entities
 	 */
-	Iterable<Entity> finalAll(String entityType, int skip, int max);
+	Iterable<Entity> findAll(String entityType, int skip, int max);
 
 	/**
 	 * @param entity the entity that will be updated
@@ -55,6 +55,12 @@ public interface EntityRepository {
 	 * @param id the global unique id of the entity
 	 */
 	void delete(String entityType, String id);
+	
+	/**
+	 * @param entityType the entity type need to be deleted, can be entity type for
+	 *            core entity or association entity
+	 */
+	void deleteAll(String entityType);
 
 	/**
 	 * @param entityType the entity type need to be retrieved, can be entity type for
