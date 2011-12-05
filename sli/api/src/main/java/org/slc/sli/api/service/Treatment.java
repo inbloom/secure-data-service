@@ -1,14 +1,15 @@
 package org.slc.sli.api.service;
 
-import java.util.Map;
+import org.slc.sli.api.representation.EntityBody;
+
 
 /**
  * Interface for objects used to transform entities between their database representations and their
  * exposed representations on the ReST URI.
  * 
  * The following invarients must hold:
- * --Transformer.toStored(Transformer.toExposed(entity)).equals(entity)
- * --Transformer.toExposed(Transformer.toStored(entity)).equals(entity)
+ * --Treatment.toStored(Transformer.toExposed(object)).equals(object)
+ * --Treatment.toExposed(Transformer.toStored(object)).equals(object)
  * 
  * @author nbrown
  * 
@@ -22,7 +23,7 @@ public interface Treatment {
      *            The entity in the form it is exposed via ReST
      * @return The entity in the form it is stored in the DB
      */
-    public Map<String, Object> toStored(Map<String, Object> exposed, Map<String, String> context);
+    public EntityBody toStored(EntityBody exposed);
     
     /**
      * Transform from a stored entity to an exposed entity
@@ -31,6 +32,6 @@ public interface Treatment {
      *            The entity in the form it is stored in the DB
      * @return The entity in the form it is exposed via ReST
      */
-    public Map<String, Object> toExposed(Map<String, Object> stored, Map<String, String> context);
+    public EntityBody toExposed(EntityBody stored);
     
 }

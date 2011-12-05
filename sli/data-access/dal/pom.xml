@@ -1,92 +1,98 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.slc.sli.dal</groupId>
-    <artifactId>data-access</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+	<parent>
+		<groupId>org.slc.sli.dal</groupId>
+		<artifactId>data-access</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-  <artifactId>dal</artifactId>
-  <name>Data Access Layer</name>
+	<artifactId>dal</artifactId>
+	<name>Data Access Layer</name>
 
-  <dependencies>
+	<dependencies>
 
-    <!-- WGen Dependencies -->
-    <dependency>
-      <groupId>org.slc.sli.common</groupId>
-      <artifactId>domain</artifactId>
-    </dependency>
+		<!-- WGen Dependencies -->
+		<dependency>
+			<groupId>org.slc.sli.common</groupId>
+			<artifactId>domain</artifactId>
+		</dependency>
 
-    <!-- Spring Framework -->
+		<!-- Spring Framework -->
 
-    <!-- Spring Core dependency -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-    </dependency>
+		<!-- Spring Core dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
 
-    <!-- Spring Context dependency -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-    </dependency>
+		<!-- Spring Context dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
 
-    <!-- Spring ORM dependency -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <scope>compile</scope>
-    </dependency>
+		<!-- Spring ORM dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
-    <!-- Spring TX dependency -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId>
-    </dependency>
+		<!-- Spring TX dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
 
-    <!-- Persistence Framework -->
+		<!-- Persistence Framework -->
 
-    <!-- Apache Commons DBCP dependency -->
-    <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-    </dependency>
+		<!-- Apache Commons DBCP dependency -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
 
-    <!-- Apache Commons Pool dependency -->
-    <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-    </dependency>
+		<!-- Apache Commons Pool dependency -->
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
 
-    <!-- Hibernate JPA dependency -->
-    <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.0-api</artifactId>
-    </dependency>
+		<!-- Hibernate JPA dependency -->
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+		</dependency>
 
-    <!-- Hibernate EntityManager dependency -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>
-    
-       <!-- MySQL Connector dependency -->
-   <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>compile</scope>
-   </dependency>
-    
+		<!-- Hibernate EntityManager dependency -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
 
-    <!-- HSQLDB test dependency -->
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-    </dependency>
+		<!-- MySQL Connector dependency -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
-  </dependencies>
+
+		<!-- HSQLDB test dependency -->
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+        
+        <!-- spring data mongodb dependency -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.0.0.M4</version>
+		</dependency>
+	</dependencies>
 
 </project>

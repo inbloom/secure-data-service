@@ -34,25 +34,26 @@ import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSchoolAssociationRepositoryTest {
-    
+
     @Autowired
     StudentSchoolAssociationRepository studentSchoolRepo;
-    
+
     @Autowired
     StudentRepository studentRepo;
-    
+
     @Autowired
     SchoolRepository schoolRepo;
-    
+
     @Test
     public void testAddAssociation() {
         StudentSchoolAssociation test = createTestAssociation();
         studentSchoolRepo.deleteAll();
         test = studentSchoolRepo.save(test);
-        StudentSchoolAssociation found = studentSchoolRepo.findOne(test.getAssociationId());
+        StudentSchoolAssociation found = studentSchoolRepo.findOne(test
+                .getAssociationId());
         assertEquals(test, found);
     }
-    
+
     @Test
     public void testUpdateAssociation() {
         StudentSchoolAssociation test = createTestAssociation();
@@ -61,12 +62,13 @@ public class StudentSchoolAssociationRepositoryTest {
         Integer origId = test.getAssociationId();
         test.setEntryType(EntryType.TRANSFER_PUBLIC_DIFFERENT_STATE);
         test = studentSchoolRepo.save(test);
-        
+
         StudentSchoolAssociation found = studentSchoolRepo.findOne(origId);
         assertNotNull(found);
-        assertEquals(EntryType.TRANSFER_PUBLIC_DIFFERENT_STATE, found.getEntryType());
+        assertEquals(EntryType.TRANSFER_PUBLIC_DIFFERENT_STATE,
+                found.getEntryType());
     }
-    
+
     @Test
     public void testFindByStudentIdAndSchoolId() {
         studentSchoolRepo.deleteAll();
@@ -77,10 +79,11 @@ public class StudentSchoolAssociationRepositoryTest {
         modified.setStudentId(999);
         studentSchoolRepo.save(modified);
         assertEquals(4, iterableSize(studentSchoolRepo.findAll()));
-        Iterable<StudentSchoolAssociation> associations = studentSchoolRepo.findByStudentIdAndSchoolId(20, 10);
+        Iterable<StudentSchoolAssociation> associations = studentSchoolRepo
+                .findByStudentIdAndSchoolId(20, 10);
         assertEquals(3, iterableSize(associations));
     }
-    
+
     @Test
     public void testFindByStudentId() {
         studentSchoolRepo.deleteAll();
@@ -90,11 +93,11 @@ public class StudentSchoolAssociationRepositoryTest {
         StudentSchoolAssociation modified = createTestAssociation();
         modified.setStudentId(999);
         studentSchoolRepo.save(modified);
-        
+
         assertEquals(3, iterableSize(studentSchoolRepo.findByStudentId(20)));
         assertEquals(1, iterableSize(studentSchoolRepo.findByStudentId(999)));
     }
-    
+
     @Test
     public void testFindBySchoolId() {
         studentSchoolRepo.deleteAll();
@@ -104,11 +107,11 @@ public class StudentSchoolAssociationRepositoryTest {
         StudentSchoolAssociation modified = createTestAssociation();
         modified.setSchoolId(999);
         studentSchoolRepo.save(modified);
-        
+
         assertEquals(3, iterableSize(studentSchoolRepo.findBySchoolId(10)));
         assertEquals(1, iterableSize(studentSchoolRepo.findBySchoolId(999)));
     }
-    
+
     @Test
     public void testMinimal() {
         StudentSchoolAssociation s = new StudentSchoolAssociation();
@@ -116,16 +119,17 @@ public class StudentSchoolAssociationRepositoryTest {
         s.setAssociationId(id);
         StudentSchoolAssociation returned = studentSchoolRepo.findOne(id);
         assertEquals(s.toString(), returned.toString());
-        
+
     }
-    
+
     @Test
     public void testFull() {
         StudentSchoolAssociation s = new StudentSchoolAssociation();
         Calendar classOf = Calendar.getInstance();
         classOf.set(Calendar.YEAR, 2000);
-        s.setClassOf(classOf); // TODO, edfi only lists this as a year, so why are we storing a full
-        // calendar?
+        s.setClassOf(classOf); // TODO, edfi only lists this as a year, so why
+                               // are we storing a full
+                               // calendar?
         s.setEntryDate(Calendar.getInstance());
         s.setEntryGradeLevel(GradeLevelType.UNGRADED);
         s.setEntryType(EntryType.REENTRY_INVOLUNTARY_WITHDRAWAL);
@@ -140,18 +144,19 @@ public class StudentSchoolAssociationRepositoryTest {
         StudentSchoolAssociation returned = studentSchoolRepo.findOne(id);
         assertEquals(s.toString(), returned.toString());
     }
-    
-    // test DataAccessException thrown by saveWithAssoc if no student or school exist
+
+    // test DataAccessException thrown by saveWithAssoc if no student or school
+    // exist
     @Test(expected = DataAccessException.class)
     public void testSaveWithAssocException() {
         StudentSchoolAssociation ssa = createTestAssociation();
         ssa.setSchoolId(-1);
         studentSchoolRepo.saveWithAssoc(ssa);
     }
-    
+
     @Test
     public void testSaveWithAssoc() {
-        
+
         // test save
         Student student = buildTestStudent();
         student = studentRepo.save(student);
@@ -162,17 +167,18 @@ public class StudentSchoolAssociationRepositoryTest {
         ssa.setStudentId(student.getStudentId());
         ssa = studentSchoolRepo.saveWithAssoc(ssa);
         assertNotNull(ssa);
-        
+
         // test update
         ssa.setEntryType(EntryType.TRANSFER_PUBLIC_DIFFERENT_STATE);
         studentSchoolRepo.saveWithAssoc(ssa);
         Integer assocId = ssa.getAssociationId();
         StudentSchoolAssociation found = studentSchoolRepo.findOne(assocId);
         assertNotNull(found);
-        assertEquals(EntryType.TRANSFER_PUBLIC_DIFFERENT_STATE, found.getEntryType());
-        
+        assertEquals(EntryType.TRANSFER_PUBLIC_DIFFERENT_STATE,
+                found.getEntryType());
+
     }
-    
+
     @SuppressWarnings("unused")
     private static <T> int iterableSize(Iterable<T> it) {
         int count = 0;
@@ -181,7 +187,7 @@ public class StudentSchoolAssociationRepositoryTest {
         }
         return count;
     }
-    
+
     protected static StudentSchoolAssociation createTestAssociation() {
         StudentSchoolAssociation association = new StudentSchoolAssociation();
         association.setSchoolId(10);
@@ -196,7 +202,7 @@ public class StudentSchoolAssociationRepositoryTest {
         association.setSchoolChoiceTransfer(false);
         return association;
     }
-    
+
     private Student buildTestStudent() {
         Student student = new Student();
         student.setFirstName("Jane");
@@ -222,10 +228,10 @@ public class StudentSchoolAssociationRepositoryTest {
         student.setSex(SexType.Female);
         student.setStateOfBirthAbbreviation("IL");
         student.setStudentSchoolId("DOE-JANE-222");
-        
+
         return student;
     }
-    
+
     protected static School createTestSchool() {
         School school = new School();
         school.setFullName("Plymounth-Canton High School");
@@ -240,5 +246,5 @@ public class StudentSchoolAssociationRepositoryTest {
         school.setWebSite("http://pcep.pccs.k12.mi.us/");
         return school;
     }
-    
+
 }
