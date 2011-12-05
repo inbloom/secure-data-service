@@ -118,7 +118,7 @@ public class StudentResource {
         
         log.debug("Student being added: {}", student);
         studentService.addOrUpdate(student);
-        ResponseBuilder builder = Response.status(Status.NO_CONTENT);
+        ResponseBuilder builder = Response.status(Status.CREATED);
         URI uri = this.uriInfo.getAbsolutePathBuilder().path(String.valueOf(student.getStudentId())).build();
         builder.header(ResourceUtilities.LOCATION_HEADER, uri);
         return builder.build();
