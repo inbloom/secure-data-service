@@ -2,10 +2,9 @@ Feature: <US63> In order to manage schools
     As a client application using SLI
     I want to have create, read, update, and delete functionality for a school.
 
-#Background probably eliminates for most of the Given clauses in the scenarios - revisit
 Background: Logged in as a super-user and using the small data set
-	#Given the dummy data is loaded
-	Given I am logged in using "jimi" "jimi"
+	Given the dummy data is loaded
+	Given I am logged in using "demo" "demo1234"
 	Given I have access to all schools
 
 #### Happy Path 

@@ -2,10 +2,10 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,32 +21,35 @@ import org.slc.sli.ingestion.NeutralRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ 
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
-
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class EdFiProcessorTest {
-	
+    
     @Autowired
     private EdFiProcessor edFiProcessor;
-
-	@Test
-	public void shouldTranslateStudentCsvToNeutralRecords() throws IOException, SAXException {
-
-	    // Get Input File
-	    File inputFile = IngestionTest.getFile("smooks/InterchangeStudent.csv");
+    
+    @Ignore
+    @Test
+    public void shouldBeAbleToDeriveConfigurationFile() {
         
-	    // Create Result File
+    }
+    
+    @Test
+    public void shouldTranslateStudentCsvToNeutralRecords() throws IOException, SAXException {
+        
+        // Get Input File
+        File inputFile = IngestionTest.getFile("smooks/InterchangeStudent.csv");
+        
+        // Create Result File
         File resultFile = IngestionTest.createTempFile();
-
+        
         // Translate EDFI File to AVRO NeutralRecords
         edFiProcessor.processIngestionStream(inputFile, resultFile);
-
+        
         // Parse Result SLI Records from AVRO NeutralRecords File
         List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
         
         // Temporary
-//        FileUtils.writeStringToFile(File.createTempFile("SLI",".sli"), resultString);
+        // FileUtils.writeStringToFile(File.createTempFile("SLI",".sli"), resultString);
         
         // Get Expected SLI Records File
         File expectedFile = IngestionTest.getFile("smooks/InterchangeStudent.sli");
@@ -56,20 +59,20 @@ public class EdFiProcessorTest {
         
         // Verify
         verifyNeutralRecords(expectedList, resultList);
-	}
-
+    }
+    
     @Test
     public void shouldTranslateSchoolCsvToNeutralRecords() throws IOException, SAXException {
-
+        
         // Get Input File
         File inputFile = IngestionTest.getFile("smooks/InterchangeSchool.csv");
         
         // Create Result File
         File resultFile = IngestionTest.createTempFile();
-
+        
         // Translate EDFI File to AVRO NeutralRecords
         edFiProcessor.processIngestionStream(inputFile, resultFile);
-
+        
         // Parse Result SLI Records from AVRO NeutralRecords File
         List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
         
@@ -82,14 +85,40 @@ public class EdFiProcessorTest {
         // Verify
         verifyNeutralRecords(expectedList, resultList);
     }
-
-    private void verifyNeutralRecords(List expectedList, List resultList) {
+    
+    @Test
+    public void shouldTranslateStudentSchoolAssociationsCsvToNeutralRecords() throws IOException, SAXException {
         
-        Assert.assertEquals("CSV-NeutralRecords translation failed since list sizes do not match", expectedList.size(), resultList.size());
-
-        Iterator<NeutralRecord> iterator = expectedList.iterator();
-        for (int index = 0; index < expectedList.size(); index++) {
-            Assert.assertTrue("CSV-NeutralRecords translation failed since records are not equal", expectedList.get(index).equals(resultList.get(index)));
+        // Get Input File
+        File inputFile = IngestionTest.getFile("smooks/InterchangeStudentSchoolAssociation.csv");
+        
+        // Create Result File
+        File resultFile = IngestionTest.createTempFile();
+        
+        // Translate EDFI File to AVRO NeutralRecords
+        edFiProcessor.processIngestionStream(inputFile, resultFile);
+        
+        // Parse Result SLI Records from AVRO NeutralRecords File
+        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
+        
+        // Get Expected SLI Records File
+        File expectedFile = IngestionTest.getFile("smooks/InterchangeStudentSchoolAssociation.sli");
+        
+        // Parse Expected SLI Records from AVRO NeutralRecords File
+        List<NeutralRecord> expectedList = IngestionTest.getNeutralRecords(expectedFile);
+        
+        // Verify
+        verifyNeutralRecords(expectedList, resultList);
+    }
+    
+    private void verifyNeutralRecords(List<NeutralRecord> expectedList, List<NeutralRecord> resultList) {
+        
+        Assert.assertEquals("CSV-NeutralRecords translation failed since list sizes do not match", expectedList.size(),
+                resultList.size());
+        
+         for (int index = 0; index < expectedList.size(); index++) {
+            Assert.assertTrue("CSV-NeutralRecords translation failed since records are not equal",
+                    expectedList.get(index).equals(resultList.get(index)));
         }
     }
     

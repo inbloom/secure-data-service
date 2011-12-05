@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -128,19 +127,15 @@ public class IngestionTest {
 	   return file;
 	}
 	
-	public static File createNeutralRecordsFile(List neutralRecords) throws IOException {	
+	public static File createNeutralRecordsFile(List<NeutralRecord> neutralRecords) throws IOException {	
 		File file = createTempFile();
 	    
 		// Create Ingestion Neutral record writer
 		NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(file);
 		
 	    try {
-	    	Iterator iterator = neutralRecords.iterator();
-			while (iterator.hasNext()) {
-				NeutralRecord neutralRecord = (NeutralRecord)iterator.next();
-				
-				fileWriter.writeRecord(neutralRecord);
-			}
+			for ( NeutralRecord item : neutralRecords)
+				fileWriter.writeRecord(item);
 	    }
 	    finally {
 	    	fileWriter.close();
@@ -149,7 +144,7 @@ public class IngestionTest {
 	    return file;
 	}
 	
-    public static List getNeutralRecords(File inputFile) throws IOException {
+    public static List<NeutralRecord> getNeutralRecords(File inputFile) throws IOException {
         List<NeutralRecord> list = new ArrayList<NeutralRecord>();
         
         // Create Ingestion Neutral record reader
@@ -157,9 +152,6 @@ public class IngestionTest {
         
         // Ingestion Neutral record
         NeutralRecord ingestionRecord;
-        
-        // Ingestion counter
-        int ingestionCounter = 0;
         
         try {
 

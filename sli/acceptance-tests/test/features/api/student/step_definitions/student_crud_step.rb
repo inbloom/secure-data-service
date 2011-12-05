@@ -76,27 +76,27 @@ Then /^GET "([^"]*)" should return a code of (\d+)$/ do |arg1, arg2|
 end
 
 When /^I GET the newly created student by id$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
-  @res = RestClient.get(url,:accept => @format){|response, request, result| response }
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I PUT\/update the newly created students's birthdate$/ do
   if @format == "application/json"
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
-    @res = RestClient.get(url,:accept => @format){|response, request, result| response }
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
+    @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
     data = JSON.parse(@res.body)
     data['birthDate'].should_not == @bdate
     data['birthDate'] = @bdate
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
-    @res = RestClient.put(url, data.to_json, :content_type => @format){|response, request, result| response }
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
+    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
-    @res = RestClient.get(url,:accept => @format){|response, request, result| response }
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
+    @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
     
@@ -104,8 +104,8 @@ When /^I PUT\/update the newly created students's birthdate$/ do
     doc.root.elements["birthDate"].text.should_not == @bdate
     doc.root.elements["birthDate"].text = @bdate
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
-    @res = RestClient.put(url, doc, :content_type => @format){|response, request, result| response } 
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
+    @res = RestClient.put(url, doc, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
     assert(false, "Unsupported MIME type")
@@ -113,8 +113,8 @@ When /^I PUT\/update the newly created students's birthdate$/ do
 end
 
 When /^I DELETE the newly created student$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
-  @res = RestClient.delete(url,:accept => @format){|response, request, result| response }
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+$newStudentID
+  @res = RestClient.delete(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
@@ -128,8 +128,8 @@ When /^I attempt to update a non\-existing student "([^"]*)"$/ do |arg1|
       "sex" => "Male",
       "birthDate" => "765432000000"]
     
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, :content_type => @format){|response, request, result| response }
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
@@ -140,8 +140,8 @@ When /^I attempt to update a non\-existing student "([^"]*)"$/ do |arg1|
       b.middleName("Not")
       b.sex("Male")
       b.birthDate("765432000000")}
-    url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data, :content_type => @format){|response, request, result| response } 
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
     assert(false, "Unsupported MIME type")
@@ -149,14 +149,14 @@ When /^I attempt to update a non\-existing student "([^"]*)"$/ do |arg1|
 end
 
 When /^I navigate to GET to said student$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+@tempID.to_s
-  @res = RestClient.get(url,:accept => @format){|response, request, result| response }
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students/"+@tempID.to_s
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Given /^a known student exists$/ do
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest/students"
-  @res = RestClient.get(url,:accept => "application/json"){|response, request, result| response }
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/students"
+  @res = RestClient.get(url,{:accept => "application/json", :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
   jsonData = JSON.parse(@res.body)
   @tempID = jsonData[0]['studentId']
@@ -165,7 +165,7 @@ Given /^a known student exists$/ do
 end
 
 When /^I navigate to GET to said student with "([^"]*)"$/ do |arg1|
-  url = "http://"+@user+":"+@passwd+"@"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1+@tempID.to_s
-  @res = RestClient.get(url,:accept => @format){|response, request, result| response }
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1+@tempID.to_s
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
