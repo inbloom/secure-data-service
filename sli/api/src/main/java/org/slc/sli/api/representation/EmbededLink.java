@@ -15,5 +15,17 @@ public class EmbededLink {
     
     public EmbededLink() {
     }
+
+    public String getRel() {
+        return rel;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getHref() {
+        return href;
+    }
     
 }

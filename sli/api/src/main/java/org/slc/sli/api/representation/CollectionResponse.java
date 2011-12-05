@@ -1,6 +1,7 @@
 package org.slc.sli.api.representation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -16,7 +17,14 @@ public class CollectionResponse {
             this.id = id;
             this.link = link;
         }
-        
+
+        public String getId() {
+            return id;
+        }
+
+        public EmbededLink getLink() {
+            return link;
+        }
     }
     
     @JsonProperty("entity")
@@ -24,5 +32,9 @@ public class CollectionResponse {
     
     public void add(String id, String rel, String type, String href) {
         entities.add(new EntityReference(id, new EmbededLink(rel, type, href)));
+    }
+    
+    public List<EntityReference> getEntities() {
+        return entities;
     }
 }
