@@ -52,9 +52,12 @@
 	<!-- MONGODB CONFIG -->
 
 	<mongo:db-factory id="mongoDbFactory" dbname="${mongodb.database}"
-		host="${mongodb.host}" port="${mongodb.port}" username="${mongodb.user}"
+		host="${mongodb.host}" port="${mongodb.port}" />
+		<!-- username="${mongodb.user}"
 		password="${mongodb.pass}" />
-	
+		 -->
+		 
+		 
 	<mongo:mapping-converter id="mappingConverter"
 		base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
 		<mongo:custom-converters>
