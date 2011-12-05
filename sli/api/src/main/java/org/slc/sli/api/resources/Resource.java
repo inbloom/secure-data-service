@@ -25,11 +25,11 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.CreationResponse;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.service.EntityNotFoundException;
 
-@Path("/{type}")
+@Path("new-api/{type}")
 @Component
 @Scope("request")
 @Produces({ ResourceUtilities.XML_MEDIA_TYPE, ResourceUtilities.JSON_MEDIA_TYPE })
@@ -74,8 +74,7 @@ public class Resource {
                 String id = entityDef.getService().create(newEntityBody);
                 String uri = UriBuilder.fromResource(this.getClass()).path(id).build(entityDef.getResourceName())
                         .toString();
-                CreationResponse creation = new CreationResponse(id, entityDef.getType(), uri);
-                return Response.ok(creation).header("Location", uri).build();
+                return Response.ok(Status.CREATED).header("Location", uri).build();
             }
         });
     }
@@ -83,7 +82,6 @@ public class Resource {
     @GET
     @Path("{id}")
     public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id) {
-        // TODO: implement returning a different entity depending on what type the id refers to.
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -113,11 +111,11 @@ public class Resource {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                boolean updated = entityDef.getService().update(id, newEntityBody); // TODO: what am
-                                                                                    // I supposed to
-                                                                                    // do with this
-                                                                                    // returned
-                                                                                    // boolean?
+                // TODO: The service layer should probably throw this exception, not the API
+                boolean updated = entityDef.getService().update(id, newEntityBody);
+                if (!updated) {
+                    throw new EntityNotFoundException();
+                }
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -132,6 +130,11 @@ public class Resource {
         }
         try {
             return logic.run(entityDef);
+        } catch (EntityNotFoundException e) {
+            LOG.error("Entity not found", e);
+            return Response.status(Status.NOT_FOUND)
+                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase()))
+                    .build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
             return Response
