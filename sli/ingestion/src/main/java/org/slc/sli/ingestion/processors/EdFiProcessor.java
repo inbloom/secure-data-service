@@ -54,6 +54,8 @@ public class EdFiProcessor extends IngestionProcessor implements Processor {
    public static final String EDFI_XPATH_STUDENT = "InterchangeStudent/Student";
    public static final String EDFI_XPATH_SCHOOL = "InterchangeEducationOrganization/School";
    public static final String EDFI_XPATH_STUDENT_SCHOOL_ASSOCIATION = "InterchangeStudentEnrollment/StudentSchoolAssociation";
+
+   public static final CharSequence STUDENT_SCHOOL_PATTERN = "ssociation";
    
    
    /**
@@ -131,6 +133,9 @@ public class EdFiProcessor extends IngestionProcessor implements Processor {
            }
            else if (edfiFileName.contains(SCHOOL_PATTERN)) {
                smooksConfigFileName = SMOOKS_CONFIG_SCHOOL_CSV;
+           }
+           else if (edfiFileName.contains(STUDENT_SCHOOL_PATTERN)) {
+               smooksConfigFileName = SMOOKS_CONFIG_STUDENT_SCHOOL_ASSOCIATION_CSV;
            }
        }
 
