@@ -6,27 +6,30 @@ import java.util.List;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     private final String collectionName;
     private final List<Treatment> treatments;
     private final List<Validator> validators;
+    private final EntityRepository repo;
     
-    @Autowired
-    private EntityRepository repo;
+    private EntityRepository getRepo() {
+        return repo;
+    }
     
-    public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators) {
+    public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
+            EntityRepository repo) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.validators = validators;
+        this.repo = repo;
     }
     
     @Override
@@ -37,18 +40,18 @@ public class BasicService implements EntityService {
             throw new ValidationException();
         }
         Entity entity = makeEntity(content, null);
-        return repo.create(entity).getId();
+        return getRepo().create(entity).getId();
     }
     
     @Override
     public boolean delete(String id) {
         LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
-        Entity entity = repo.find(collectionName, id);
+        Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             return false;
         }
-        repo.delete(entity);
+        getRepo().delete(entity);
         return true;
     }
     
@@ -59,7 +62,7 @@ public class BasicService implements EntityService {
             LOG.info("Validation failed for {}", content);
             throw new ValidationException();
         }
-        Entity existingEntity = repo.find(collectionName, id);
+        Entity existingEntity = getRepo().find(collectionName, id);
         if (existingEntity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException();
@@ -69,13 +72,13 @@ public class BasicService implements EntityService {
             return false;
         }
         Entity newEntity = makeEntity(content, id);
-        repo.update(newEntity);
+        getRepo().update(newEntity);
         return true;
     }
     
     @Override
     public EntityBody get(String id) {
-        Entity entity = repo.find(collectionName, id);
+        Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             throw new EntityNotFoundException();
         }
@@ -86,7 +89,7 @@ public class BasicService implements EntityService {
     public Iterable<EntityBody> get(Iterable<String> ids) {
         List<EntityBody> results = new ArrayList<EntityBody>();
         for (String id : ids) {
-            Entity entity = repo.find(collectionName, id);
+            Entity entity = getRepo().find(collectionName, id);
             if (entity != null) {
                 results.add(makeEntityBody(entity));
             }
@@ -134,4 +137,5 @@ public class BasicService implements EntityService {
         }
         return true;
     }
+    
 }
