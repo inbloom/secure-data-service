@@ -7,9 +7,7 @@
 
 
 
-	<context:component-scan base-package="org.slc">
-		<context:exclude-filter type="regex"
-			expression=".*MongoEntityRepository" />
-	</context:component-scan>
+	<context:component-scan base-package="org.slc"/>
+	
 	<context:annotation-config />
 </beans>

@@ -1,4 +1,4 @@
-package org.slc.sli.api.config;
+package org.slc.sli.api.resources.config;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
@@ -6,7 +6,6 @@ import javax.ws.rs.ext.Provider;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,8 +23,8 @@ public class CustomJacksonContextResolver implements ContextResolver<ObjectMappe
     private ObjectMapper mapper = new ObjectMapper();
     
     public CustomJacksonContextResolver() {
-        SerializationConfig serConfig = mapper.getSerializationConfig();
-        serConfig.set(Feature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
     }
     
     @Override

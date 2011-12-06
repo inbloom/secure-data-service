@@ -2,15 +2,26 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd"
 	default-autowire="byName">
+
+
+	<!-- SHARED CONFIG -->
+
+	<tx:annotation-driven />
+
 	<bean id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:config/${env}/project.properties" />
 	</bean>
+
+
+	<!-- RELATIONAL CONFIG -->
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -31,15 +42,41 @@
 		<property name="password" value="${sli.db.password}" />
 	</bean>
 
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+	<jpa:repositories base-package="org.slc.sli.repository"
+		repository-impl-postfix="CustomImpl" />
+
+
+
+	<!-- MONGODB CONFIG -->
+
+	<mongo:db-factory id="mongoDbFactory" dbname="${mongodb.database}"
+		host="${mongodb.host}" port="${mongodb.port}" />
+		<!-- username="${mongodb.user}"
+		password="${mongodb.pass}" />
+		 -->
+		 
+		 
+	<mongo:mapping-converter id="mappingConverter"
+		base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
+		<mongo:custom-converters>
+			<mongo:converter>
+				<bean class="org.slc.sli.dal.convert.MongoEntityReadConverter" />
+			</mongo:converter>
+			<mongo:converter>
+				<bean class="org.slc.sli.dal.convert.MongoEntityWriteConverter" />
+			</mongo:converter>
+		</mongo:custom-converters>
+	</mongo:mapping-converter>
+
+
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+		<constructor-arg ref="mappingConverter" />
 
 	</bean>
 
-
-
-	<tx:annotation-driven />
-
-
-	<jpa:repositories base-package="org.slc.sli.repository" repository-impl-postfix="CustomImpl" />
-	
+	<context:component-scan base-package="org.slc.sli.dal" />
 </beans>

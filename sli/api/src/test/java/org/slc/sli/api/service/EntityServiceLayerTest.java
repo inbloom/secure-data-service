@@ -54,6 +54,7 @@ public class EntityServiceLayerTest {
             EntityBody zombie = studentService.get(id);
             fail("should have not found " + zombie);
         } catch (EntityNotFoundException e) {
+            assertTrue(true);
         }
         assertFalse(studentService.delete(id));
     }
@@ -64,11 +65,13 @@ public class EntityServiceLayerTest {
             studentService.get("NoSuchStudent");
             fail("should have thrown exception");
         } catch (EntityNotFoundException e) {
+            assertTrue(true);
         }
         try {
             studentService.update("NoSuchStudent", new EntityBody());
             fail("should have thrown exception");
         } catch (EntityNotFoundException e) {
+            assertTrue(true);
         }
         
     }
