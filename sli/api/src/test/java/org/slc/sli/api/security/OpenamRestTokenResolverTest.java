@@ -47,8 +47,15 @@ public class OpenamRestTokenResolverTest {
     @Test
     public void testResolveSuccess() {
         Authentication auth = resolver.resolve(VALID_TOKEN);
-        Assert.assertNotNull(auth);
-        Assert.assertTrue(auth.getAuthorities().contains(new GrantedAuthorityImpl("ROLE_USER")));
+        Assert.assertNotNull("Authentication object is null",auth);
+        Assert.assertTrue("Authorities are missing ROLE_USER",auth.getAuthorities().contains(new GrantedAuthorityImpl("ROLE_USER")));
+        Assert.assertEquals("Wrong Token",VALID_TOKEN, auth.getCredentials());
+        Assert.assertNotNull("No Principal in authentication",auth.getPrincipal());
+        
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+        
+        Assert.assertEquals("Wrong id for principal","demo", principal.getId());
+        Assert.assertEquals("Wrong name for principal","demo demo", principal.getName());
     }
     
     @Test
