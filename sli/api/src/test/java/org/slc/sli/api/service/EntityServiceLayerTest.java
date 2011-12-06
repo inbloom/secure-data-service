@@ -15,6 +15,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -30,20 +31,20 @@ public class EntityServiceLayerTest {
     private EntityDefinitionStore defs;
     private EntityDefinition studentDef;
     private EntityDefinition schoolDef;
-    private EntityDefinition studentEnrollmentDef;
-    private EntityDefinition schoolEnrollmentDef;
+    private AssociationDefinition studentEnrollmentDef;
+    private AssociationDefinition schoolEnrollmentDef;
     private EntityService studentService;
     private EntityService schoolService;
-    private EntityService studentEnrollmentService;
-    private EntityService schoolEnrollmentService;
+    private AssociationService studentEnrollmentService;
+    private AssociationService schoolEnrollmentService;
     
     @Before
     public void setUp() {
         defs.init();
         studentDef = defs.lookupByResourceName("students");
         schoolDef = defs.lookupByResourceName("schools");
-        studentEnrollmentDef = defs.lookupByResourceName("student-enrollments");
-        schoolEnrollmentDef = defs.lookupByResourceName("school-enrollments");
+        studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("student-enrollments");
+        schoolEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("school-enrollments");
         studentService = studentDef.getService();
         schoolService = schoolDef.getService();
         studentEnrollmentService = studentEnrollmentDef.getService();
@@ -159,41 +160,38 @@ public class EntityServiceLayerTest {
         school.put("name", "Battle School");
         String schoolId = schoolService.create(school);
         EntityBody assoc1 = new EntityBody();
-        assoc1.put("target", schoolId);
-        assoc1.put("source", id1);
+        assoc1.put("schoolId", schoolId);
+        assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
         String assocId1 = studentEnrollmentService.create(assoc1);
         EntityBody assoc2 = new EntityBody();
-        assoc2.put("target", schoolId);
-        assoc2.put("source", id2);
+        assoc2.put("schoolId", schoolId);
+        assoc2.put("studentId", id2);
         assoc2.put("startDate", (new Date()).getTime());
         String assocId2 = studentEnrollmentService.create(assoc2);
         EntityBody assoc3 = new EntityBody();
-        assoc3.put("target", schoolId);
-        assoc3.put("source", id3);
+        assoc3.put("schoolId", schoolId);
+        assoc3.put("studentId", id3);
         assoc3.put("startDate", (new Date()).getTime());
         String assocId3 = studentEnrollmentService.create(assoc3);
         EntityBody assoc4 = new EntityBody();
-        assoc4.put("target", schoolId);
-        assoc4.put("source", id4);
+        assoc4.put("schoolId", schoolId);
+        assoc4.put("studentId", id4);
         assoc4.put("startDate", (new Date()).getTime());
         String assocId4 = studentEnrollmentService.create(assoc4);
         assertEquals(Arrays.asList(assoc1, assoc2, assoc3, assoc4),
                 studentEnrollmentService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
+        assertEquals(Arrays.asList(assocId1), studentEnrollmentService.getAssociatedWith(id1, 0, 4));
+        assertEquals(Arrays.asList(assocId2), studentEnrollmentService.getAssociatedWith(id2, 0, 4));
+        assertEquals(Arrays.asList(assocId3), studentEnrollmentService.getAssociatedWith(id3, 0, 4));
+        assertEquals(Arrays.asList(assocId4), studentEnrollmentService.getAssociatedWith(id4, 0, 4));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
-                schoolService.getAssociated(schoolId, schoolEnrollmentDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), studentService.getAssociated(id1, studentEnrollmentDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), studentService.getAssociated(id2, studentEnrollmentDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), studentService.getAssociated(id3, studentEnrollmentDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), studentService.getAssociated(id4, studentEnrollmentDef, 0, 4));
-        assertEquals(Arrays.asList(id1), studentEnrollmentService.getAssociated(assocId1, studentDef, 0, 4));
-        assertEquals(Arrays.asList(id2), studentEnrollmentService.getAssociated(assocId2, studentDef, 0, 4));
-        assertEquals(Arrays.asList(id3), studentEnrollmentService.getAssociated(assocId3, studentDef, 0, 4));
-        assertEquals(Arrays.asList(id4), studentEnrollmentService.getAssociated(assocId4, studentDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), schoolEnrollmentService.getAssociated(assocId1, schoolDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), schoolEnrollmentService.getAssociated(assocId2, schoolDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), schoolEnrollmentService.getAssociated(assocId3, schoolDef, 0, 4));
-        assertEquals(Arrays.asList(schoolId), schoolEnrollmentService.getAssociated(assocId4, schoolDef, 0, 4));
+                schoolEnrollmentService.getAssociatedWith(schoolId, 0, 4));
+        studentService.delete(id1);
+        studentService.delete(id2);
+        studentService.delete(id3);
+        studentService.delete(id4);
+        schoolService.delete(schoolId);
     }
     
     private <T> List<T> iterableToList(Iterable<T> itr) {
