@@ -52,7 +52,7 @@
 	<!-- MONGODB CONFIG -->
 
 	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
-		host="${mongodb.host}" port="${sli.mongodb.port}" />
+		host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
 		<!-- username="${sli.mongodb.user}"
 		password="${sli.mongodb.pass}" />
 		 -->
