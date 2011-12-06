@@ -1,6 +1,7 @@
 package org.slc.sli.api.config;
 
 import org.slc.sli.api.service.AssociationService;
+import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;

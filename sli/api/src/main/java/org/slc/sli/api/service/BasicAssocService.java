@@ -1,16 +1,12 @@
-package org.slc.sli.api.config;
+package org.slc.sli.api.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.AssociationService;
-import org.slc.sli.api.service.BasicService;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.Treatment;
-import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
