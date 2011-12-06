@@ -51,10 +51,10 @@
 
 	<!-- MONGODB CONFIG -->
 
-	<mongo:db-factory id="mongoDbFactory" dbname="${mongodb.database}"
-		host="${mongodb.host}" port="${mongodb.port}" />
-		<!-- username="${mongodb.user}"
-		password="${mongodb.pass}" />
+	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
+		host="${mongodb.host}" port="${sli.mongodb.port}" />
+		<!-- username="${sli.mongodb.user}"
+		password="${sli.mongodb.pass}" />
 		 -->
 		 
 		 
