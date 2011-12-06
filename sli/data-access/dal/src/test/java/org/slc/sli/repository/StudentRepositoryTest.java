@@ -27,7 +27,7 @@ import org.slc.sli.domain.enums.SchoolFoodServicesEligibilityType;
 import org.slc.sli.domain.enums.SexType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/db.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentRepositoryTest {
 
     @Autowired

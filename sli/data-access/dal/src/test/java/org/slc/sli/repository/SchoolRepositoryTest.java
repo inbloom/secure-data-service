@@ -26,7 +26,7 @@ import org.slc.sli.domain.enums.SchoolType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/db.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SchoolRepositoryTest {
 
     @Autowired

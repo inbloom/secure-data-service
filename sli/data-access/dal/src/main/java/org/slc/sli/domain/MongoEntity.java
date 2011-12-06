@@ -3,19 +3,19 @@ package org.slc.sli.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bson.BasicBSONObject;
-import org.bson.types.ObjectId;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-public class MongoEntity implements Entity {
+import org.bson.BasicBSONObject;
+import org.bson.types.ObjectId;
 
+public class MongoEntity implements Entity {
+    
     final String type;
     final String id;
     final Map<String, Object> body;
     final Map<String, Object> metaData;
-
+    
     public MongoEntity(String type, String id, Map<String, Object> body,
             Map<String, Object> metaData) {
         if (body == null) {
@@ -29,19 +29,22 @@ public class MongoEntity implements Entity {
         this.body = body;
         this.metaData = metaData;
     }
-
+    
+    @Override
     public String getId() {
         return id;
     }
-
+    
+    @Override
     public String getType() {
         return type;
     }
-
+    
+    @Override
     public Map<String, Object> getBody() {
         return body;
     }
-
+    
     public DBObject toDBObject() {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", this.type);
@@ -52,7 +55,7 @@ public class MongoEntity implements Entity {
         dbObj.put("metadata", this.metaData);
         return dbObj;
     }
-
+    
     @SuppressWarnings("rawtypes")
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
@@ -68,5 +71,5 @@ public class MongoEntity implements Entity {
         }
         return new MongoEntity(type, id, body, metaData);
     }
-
+    
 }
