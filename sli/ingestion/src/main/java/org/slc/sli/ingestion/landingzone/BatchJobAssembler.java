@@ -2,31 +2,29 @@ package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.processors.SubmissionLevelException;
 
 /**
  *
  * @author jsa
  *
  */
+@Component
 public class BatchJobAssembler {
 
     /**
      *
      */
-    protected LandingZone landingZone;
-
-    /**
-     *
-     * @param landingZone
-     */
-    public BatchJobAssembler(LandingZone landingZone) {
-        this.landingZone = landingZone;
-    }
+    @Autowired
+    private LandingZone landingZone;
 
     /**
      * Attempt to generate a new BatchJob based on data found in the
@@ -40,14 +38,11 @@ public class BatchJobAssembler {
 
         BatchJob job = BatchJob.createDefault();
 
-        ArrayList<ControlFile.FileEntry> entries =
-                (ArrayList<ControlFile.FileEntry>) controlFile
-                .getFileEntries();
+        List<ControlFile.FileEntry> entries = controlFile.getFileEntries();
 
         // assert the control file has more than zero file items
         if (entries.size() < 1) {
-            job.addFault(Fault
-                    .createError("No files specified in control file"));
+            job.addFault(Fault.createError("No files specified in control file"));
         }
 
         for (ControlFile.FileEntry entry : entries) {
@@ -56,8 +51,7 @@ public class BatchJobAssembler {
             File f = landingZone.getFile(entry.fileName);
             if (f == null) {
                 // file does not exist.
-                job.addFault(Fault.createError("File [" + entry.fileName
-                        + "] was not found."));
+                job.addFault(Fault.createError("File [" + entry.fileName + "] was not found."));
                 continue;
             }
 
@@ -65,10 +59,8 @@ public class BatchJobAssembler {
             String actualMd5Hex = landingZone.getMd5Hex(f);
 
             if (!actualMd5Hex.equals(entry.checksum)) {
-                job.addFault(Fault.createError("File [" + entry.fileName + "] "
-                        + "checksum (" + actualMd5Hex + ") "
-                        + "does not match control file " + "checksum ("
-                        + entry.checksum + ")."));
+                job.addFault(Fault.createError("File [" + entry.fileName + "] " + "checksum (" + actualMd5Hex + ") "
+                        + "does not match control file " + "checksum (" + entry.checksum + ")."));
                 continue;
             }
 
@@ -81,12 +73,33 @@ public class BatchJobAssembler {
 
         // iterate over the configProperties and copy into the job
         // TODO validate config properties are legit
-        Enumeration e = controlFile.configProperties.keys();
+        Enumeration<Object> e = controlFile.configProperties.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             job.setProperty(key, controlFile.configProperties.getProperty(key));
         }
 
         return job;
+    }
+
+    protected File parseFileEntry(ControlFile.FileEntry fe) throws SubmissionLevelException {
+        File f = landingZone.getFile(fe.fileName);
+
+        if (f == null) {
+            throw new SubmissionLevelException();
+        }
+
+        try {
+            // and the attributes match
+            String actualMd5Hex = landingZone.getMd5Hex(f);
+
+            if (!actualMd5Hex.equals(fe.checksum)) {
+                throw new SubmissionLevelException();
+            }
+        } catch (IOException e) {
+            throw new SubmissionLevelException();
+        }
+
+        return f;
     }
 }

@@ -12,44 +12,45 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocalFileSystemLandingZone implements LandingZone {
 
-	protected File directory;
+    protected File directory;
 
-	/**
-	 * @return the directory
-	 */
-	public File getDirectory() {
-		return directory;
-	}
-	
-	/**
-	 * @param directory the directory to set
-	 */
-	public void setDirectory(File directory) {
-		this.directory = directory;
-	}
-	
-	/**
-	 * @return File object for the given fileName
-	 */
-	public File getFile(String fileName) {
-		File f = FileUtils.getFile(this.directory, fileName);
-		if (f.exists()) {
-			return f;
-		} else {
-			return null;
-		}
-	}
+    /**
+     * @return the directory
+     */
+    public File getDirectory() {
+        return directory;
+    }
 
-	/**
-	 * @return md5Hex string for the given File object
-	 */
-	public String getMd5Hex(File file) throws IOException {
-		FileInputStream s = FileUtils.openInputStream(file);
-		try {
-			return DigestUtils.md5Hex(s);
-		} finally {
-			IOUtils.closeQuietly(s);
-		}
-	}
+    /**
+     * @param directory
+     *            the directory to set
+     */
+    public void setDirectory(File directory) {
+        this.directory = directory;
+    }
+
+    /**
+     * @return File object for the given fileName
+     */
+    public File getFile(String fileName) {
+        File f = FileUtils.getFile(this.directory, fileName);
+        if (f.exists()) {
+            return f;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return md5Hex string for the given File object
+     */
+    public String getMd5Hex(File file) throws IOException {
+        FileInputStream s = FileUtils.openInputStream(file);
+        try {
+            return DigestUtils.md5Hex(s);
+        } finally {
+            IOUtils.closeQuietly(s);
+        }
+    }
 
 }
