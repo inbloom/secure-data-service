@@ -22,7 +22,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( locations = { "/applicationContext-test.xml" } )
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
     
     @Autowired
