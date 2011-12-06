@@ -51,6 +51,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("studentEnrollment")
                 .exposeAs("student-enrollments").from(student).to(school).build();
         addAssocDefinition(studentEnroll);
+        AssociationDefinition schoolEnroll = AssociationDefinition.makeAssoc("schoolEnrollment")
+                .exposeAs("school-enrollments").from(school).to(student).build();
+        addAssocDefinition(schoolEnroll);
     }
     
     private void add(EntityDefinition defn) {
