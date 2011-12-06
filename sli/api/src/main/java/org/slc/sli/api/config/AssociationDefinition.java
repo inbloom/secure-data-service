@@ -1,7 +1,5 @@
 package org.slc.sli.api.config;
 
-import java.util.List;
-
 import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
@@ -17,11 +15,9 @@ public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     
-    public AssociationDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
-            List<Validator> validators, EntityRepository repo, EntityDefinition sourceEntity,
-            EntityDefinition targetEntity, String sourceIdKey) {
-        super(type, resourceName, new BasicAssocService(collectionName, treatments, validators, repo, sourceEntity,
-                sourceIdKey));
+    public AssociationDefinition(String type, String resourceName, AssociationService service,
+            EntityDefinition sourceEntity, EntityDefinition targetEntity, String sourceIdKey) {
+        super(type, resourceName, service);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
     }
@@ -160,8 +156,10 @@ public class AssociationDefinition extends EntityDefinition {
         
         @Override
         public AssociationDefinition build() {
-            return new AssociationDefinition(getType(), getCollectionName(), getResourceName(), getTreatments(),
-                    getValidators(), getRepo(), sourceEntity, targetEntity, sourceIdKey);
+            AssociationService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
+                    getRepo(), sourceEntity, sourceIdKey);
+            return new AssociationDefinition(getType(), getResourceName(), service, sourceEntity, targetEntity,
+                    sourceIdKey);
         }
         
     }
