@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         return links.get(defn);
     }
     
+    @PostConstruct
     @Override
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
