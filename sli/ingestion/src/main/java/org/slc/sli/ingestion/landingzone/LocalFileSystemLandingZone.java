@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
-@Component
 public class LocalFileSystemLandingZone implements LandingZone {
 
     protected File directory;
