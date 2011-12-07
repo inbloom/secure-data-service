@@ -100,6 +100,15 @@
               <sli.env>local</sli.env>
           </properties>
       </profile>
+
+
+     <!-- Remote dev/demo database profile -->
+     <profile>
+          <id>dev</id>
+          <properties>
+             <sli.env>dev</sli.env>
+          </properties>
+     </profile>
       
       <!-- Profile to use during continuous integration -->
       <profile>
