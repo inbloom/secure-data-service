@@ -27,11 +27,6 @@ public class EntityRepositoryTest {
     private EntityRepository repository;
 
     @Test
-<<<<<<< HEAD
-=======
-    // @Ignore(value =
-    // "We need to configure mongod on the build server,comment it out to run on local mongodb")
->>>>>>> cc3f5b1d5205f74bd29066cd7664f1f111cada1f
     public void testCRUDEntityRepository() {
 
         // clean up the existing student data
