@@ -24,7 +24,6 @@ import org.slc.sli.domain.MongoEntity;
  * 
  */
 
-@Repository
 public class MongoEntityRepository implements EntityRepository {
     
     @Autowired
