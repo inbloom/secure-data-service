@@ -12,6 +12,11 @@ import org.bson.BSON;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.dal.convert.MongoIdConverter;
+
 
 public class MongoEntity implements Entity {
     
@@ -19,6 +24,9 @@ public class MongoEntity implements Entity {
     final String id;
     final Map<String, Object> body;
     final Map<String, Object> metaData;
+    
+    
+    
     
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
         if (body == null) {
@@ -57,17 +65,17 @@ public class MongoEntity implements Entity {
         
         if (this.id == null) {
             uid = UUID.randomUUID();
-            binaryId = convertUUIDtoBinary(uid);
             
         } else {
             uid = UUID.fromString(id);
-            binaryId = convertUUIDtoBinary(uid);
-            
         }
+        
+        binaryId = MongoIdConverter.convertUUIDtoBinary(uid);
         
         dbObj.put("_id", binaryId);
         dbObj.put("body", this.body);
         dbObj.put("metadata", this.metaData);
+        
         return dbObj;
     }
     

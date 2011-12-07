@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.bson.types.ObjectId;
+import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,12 @@ public class MongoEntityRepository implements EntityRepository {
     @Autowired
     private MongoTemplate template;
     
+    @Autowired
+    private IdConverter idConverter;
+    
     @Override
     public Entity find(String entityType, String id) {
-        return template.findById(new ObjectId(id), MongoEntity.class, entityType);
+        return template.findById( idConverter.toDatabaseId( id ), MongoEntity.class, entityType);
     }
     
     @Override
@@ -48,7 +51,7 @@ public class MongoEntityRepository implements EntityRepository {
         String collection = entity.getType();
         if (id.equals(""))
             return;
-        Entity found = template.findOne(new Query(Criteria.where("_id").is(new ObjectId(id))), MongoEntity.class,
+        Entity found = template.findOne(new Query(Criteria.where("_id").is( idConverter.toDatabaseId( id ) )), MongoEntity.class,
                 collection);
         if (found != null)
             template.save(entity, collection);
@@ -67,14 +70,14 @@ public class MongoEntityRepository implements EntityRepository {
         String id = entity.getId();
         if (id.equals(""))
             return;
-        template.remove(new Query(Criteria.where("_id").is(new ObjectId(id))), entity.getType());
+        template.remove(new Query(Criteria.where("_id").is( idConverter.toDatabaseId( id ) )), entity.getType());
     }
     
     @Override
     public void delete(String entityType, String id) {
         if (id.equals(""))
             return;
-        template.remove(new Query(Criteria.where("_id").is(new ObjectId(id))), entityType);
+        template.remove(new Query(Criteria.where("_id").is( idConverter.toDatabaseId(id))), entityType);
     }
     
     @Override
