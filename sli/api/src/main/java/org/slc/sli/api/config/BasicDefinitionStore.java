@@ -6,8 +6,12 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.slc.sli.dal.repository.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,15 +22,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
-    private final static Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
-    Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
+    private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
+    private Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
     
-    Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
-    
-    public BasicDefinitionStore() {
-        init();
-    }
+    @Autowired
+    private EntityRepository defaultRepo;
     
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
@@ -38,14 +40,20 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         return links.get(defn);
     }
     
-    private void init() {
-        EntityDefinition student = EntityDefinition.makeEntity("students").build();
+    @PostConstruct
+    @Override
+    public void init() {
+        EntityDefinition.setDefaultRepo(defaultRepo);
+        EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
-        EntityDefinition school = EntityDefinition.makeEntity("schools").build();
+        EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
-        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollments").from(student)
-                .to(school).build();
+        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("studentEnrollment")
+                .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school).build();
         addAssocDefinition(studentEnroll);
+        AssociationDefinition schoolEnroll = AssociationDefinition.makeAssoc("schoolEnrollment")
+                .exposeAs("school-enrollments").storeAs("enrollments").from(school).to(student).build();
+        addAssocDefinition(schoolEnroll);
     }
     
     private void add(EntityDefinition defn) {
