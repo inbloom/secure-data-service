@@ -12,7 +12,7 @@
 
   <!-- Checks whether files end with a new line. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
-  <!-- <module name="NewlineAtEndOfFile" /> -->
+  <module name="NewlineAtEndOfFile" />
 
   <!-- Checks that property files contain the same keys. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
@@ -74,9 +74,7 @@
 
     <!-- Checks for imports -->
     <!-- See http://checkstyle.sf.net/config_import.html -->
-    <module name="AvoidStarImport" >
-       <property name="excludes" value="org.junit.Assert"/>
-    </module>
+    <module name="AvoidStarImport" />
     <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
     <module name="RedundantImport" />
     <module name="UnusedImports" />
@@ -94,8 +92,8 @@
     <module name="EmptyForIteratorPad" />
     <module name="GenericWhitespace" />
     <module name="MethodParamPad" />
-    <module name="NoWhitespaceAfter" >
-        <property name="tokens" value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS, UNARY_PLUS" />
+    <module name="NoWhitespaceAfter">
+      <property name="tokens" value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS, UNARY_PLUS"/>
     </module>
     <module name="NoWhitespaceBefore" />
     <module name="OperatorWrap" />
@@ -136,9 +134,7 @@
     <module name="InnerAssignment" />
     <!-- <module name="MagicNumber"/> -->
     <!-- <module name="MissingSwitchDefault"/> -->
-    <module name="RedundantThrows" >
-       <property name="allowUnchecked" value="true"/>
-    </module>
+    <module name="RedundantThrows" />
     <module name="SimplifyBooleanExpression" />
     <module name="SimplifyBooleanReturn" />
 

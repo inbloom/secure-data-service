@@ -31,6 +31,4 @@ public interface EntityDefinitionStore {
      */
     public Collection<EntityDefinition> getLinked(EntityDefinition defn);
     
-    public void init();
-    
 }

@@ -34,7 +34,7 @@ import org.slc.sli.domain.StudentSchoolAssociation;
 import org.slc.sli.domain.enums.EntryType;
 import org.slc.sli.domain.enums.GradeLevelType;
 
-public class SchoolResourceTest extends BaseResourceTest {
+public class SchoolResourceTest extends ResourceTest {
     @Autowired
     SchoolResource schoolResource;
     

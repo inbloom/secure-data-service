@@ -11,8 +11,9 @@ import org.slc.sli.domain.StudentSchoolAssociation;
 
 public class StudentSchoolAssociationServiceMockImpl implements StudentSchoolAssociationService {
     
-    Map<Integer, StudentSchoolAssociation> map = new HashMap<Integer, StudentSchoolAssociation>();
+    Map<Integer,StudentSchoolAssociation> map = new HashMap<Integer,StudentSchoolAssociation>();
     AtomicInteger idSeq = new AtomicInteger();
+    
     
     @Override
     public Collection<StudentSchoolAssociation> getStudentSchoolAssociationsForSchool(int schoolId) {
@@ -24,6 +25,7 @@ public class StudentSchoolAssociationServiceMockImpl implements StudentSchoolAss
         }
         return result;
     }
+    
     
     @Override
     public Collection<StudentSchoolAssociation> getStudentSchoolAssociationsForStudentAndSchool(int studentId,
@@ -37,6 +39,7 @@ public class StudentSchoolAssociationServiceMockImpl implements StudentSchoolAss
         return result;
     }
     
+    
     @Override
     public Collection<StudentSchoolAssociation> getStudentSchoolAssociationsForStudent(int studentId) {
         List<StudentSchoolAssociation> result = new LinkedList<StudentSchoolAssociation>();
@@ -48,10 +51,12 @@ public class StudentSchoolAssociationServiceMockImpl implements StudentSchoolAss
         return result;
     }
     
+    
     @Override
     public StudentSchoolAssociation getStudentSchoolAssociationById(int associationId) {
         return map.get(associationId);
     }
+    
     
     @Override
     public Integer addOrUpdate(StudentSchoolAssociation association) {
@@ -61,6 +66,7 @@ public class StudentSchoolAssociationServiceMockImpl implements StudentSchoolAss
         map.put(association.getAssociationId(), association);
         return association.getAssociationId();
     }
+    
     
     @Override
     public void deleteById(int associationId) {

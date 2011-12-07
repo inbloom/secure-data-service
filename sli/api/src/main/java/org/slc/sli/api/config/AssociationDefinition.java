@@ -1,10 +1,9 @@
 package org.slc.sli.api.config;
 
-import org.slc.sli.api.service.AssociationService;
-import org.slc.sli.api.service.BasicAssocService;
+import java.util.List;
+
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
-import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * Definition of an association resource
@@ -16,9 +15,9 @@ public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     
-    public AssociationDefinition(String type, String resourceName, AssociationService service,
-            EntityDefinition sourceEntity, EntityDefinition targetEntity, String sourceIdKey) {
-        super(type, resourceName, service);
+    public AssociationDefinition(String collectionName, String resourceName, List<Treatment> treatments,
+            List<Validator> validators, EntityDefinition sourceEntity, EntityDefinition targetEntity) {
+        super(collectionName, resourceName, treatments, validators);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
     }
@@ -41,11 +40,6 @@ public class AssociationDefinition extends EntityDefinition {
         return targetEntity;
     }
     
-    @Override
-    public AssociationService getService() {
-        return (AssociationService) super.getService();
-    }
-    
     /**
      * Create a builder for an entity definition with the same collection and resource name
      * 
@@ -53,8 +47,8 @@ public class AssociationDefinition extends EntityDefinition {
      *            the collection/resource name
      * @return the builder to create the entity definition
      */
-    public static AssocBuilder makeAssoc(String entityName) {
-        return new AssocBuilder(entityName);
+    public static Builder makeAssoc(String entityName) {
+        return new Builder(entityName, entityName);
     }
     
     /**
@@ -66,14 +60,13 @@ public class AssociationDefinition extends EntityDefinition {
      *            the name of the entity in the ReST uri
      * @return the builder to create the entity definition
      */
-    public static AssocBuilder makeAssoc(String type, String collectionName, String resourceName) {
-        return new AssocBuilder(type);
+    public static Builder makeAssoc(String collectionName, String resourceName) {
+        return new Builder(collectionName, resourceName);
     }
     
-    public static class AssocBuilder extends EntityDefinition.Builder {
+    public static class Builder extends EntityDefinition.Builder {
         private EntityDefinition sourceEntity;
         private EntityDefinition targetEntity;
-        private String sourceIdKey;
         
         /**
          * Create a builder for an association definition
@@ -83,8 +76,8 @@ public class AssociationDefinition extends EntityDefinition {
          * @param resourceName
          *            the name of the association in the ReST uri
          */
-        public AssocBuilder(String type) {
-            super(type);
+        public Builder(String collectionName, String resourceName) {
+            super(collectionName, resourceName);
         }
         
         /**
@@ -94,11 +87,8 @@ public class AssociationDefinition extends EntityDefinition {
          *            the source of the association
          * @return the builder
          */
-        public AssocBuilder from(EntityDefinition source) {
+        public Builder from(EntityDefinition source) {
             this.sourceEntity = source;
-            if (sourceIdKey == null) {
-                sourceIdKey = source.getType() + "Id";
-            }
             return this;
         }
         
@@ -109,58 +99,15 @@ public class AssociationDefinition extends EntityDefinition {
          *            the target definition
          * @return the builder
          */
-        public AssocBuilder to(EntityDefinition target) {
+        public Builder to(EntityDefinition target) {
             this.targetEntity = target;
-            return this;
-        }
-        
-        /**
-         * Sets the key for the source id
-         * 
-         * @param sourceID
-         * @return
-         */
-        public AssocBuilder indexAs(String sourceID) {
-            this.sourceIdKey = sourceID;
-            return this;
-        }
-        
-        @Override
-        public AssocBuilder withTreatments(Treatment... treatments) {
-            super.withTreatments(treatments);
-            return this;
-        }
-        
-        @Override
-        public AssocBuilder withValidators(Validator... validators) {
-            super.withValidators(validators);
-            return this;
-        }
-        
-        @Override
-        public AssocBuilder storeAs(String collectionName) {
-            super.storeAs(collectionName);
-            return this;
-        }
-        
-        @Override
-        public AssocBuilder storeIn(EntityRepository repo) {
-            super.storeIn(repo);
-            return this;
-        }
-        
-        @Override
-        public AssocBuilder exposeAs(String resourceName) {
-            super.exposeAs(resourceName);
             return this;
         }
         
         @Override
         public AssociationDefinition build() {
-            AssociationService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
-                    getRepo(), sourceEntity, sourceIdKey);
-            return new AssociationDefinition(getType(), getResourceName(), service, sourceEntity, targetEntity,
-                    sourceIdKey);
+            return new AssociationDefinition(getCollectionName(), getResourceName(), getTreatments(), getValidators(),
+                    sourceEntity, targetEntity);
         }
         
     }

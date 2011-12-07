@@ -10,26 +10,17 @@
 
 	<!-- Scans within the base package of the application for @Components to 
 		configure as beans -->
-	<!-- <import resource="../test-db.xml" /> -->
-	<bean id="genericClient" class="org.slc.sli.client.GenericClient">
-		<constructor-arg name="sliServer">
-			<value>http://ec2-50-19-203-5.compute-1.amazonaws.com:8080</value>
-		</constructor-arg>
-		<!--<constructor-arg name="sliServer"><value>http://localhost:8080</value></constructor-arg> -->
-		<constructor-arg name="userName">
-			<value>jimi</value>
-		</constructor-arg>
-		<constructor-arg name="password">
-			<value>jimi</value>
-		</constructor-arg>
-	</bean>
+  <!--  <import resource="../test-db.xml" /> -->	
+  <bean id="genericClient" class="org.slc.sli.client.GenericClient">
+   <constructor-arg name="sliServer"><value>http://ec2-50-19-203-5.compute-1.amazonaws.com:8080</value></constructor-arg>  
+  <!--<constructor-arg name="sliServer"><value>http://localhost:8080</value></constructor-arg>-->
+  <constructor-arg name="userName"><value>jimi</value></constructor-arg>
+  <constructor-arg name="password"><value>jimi</value></constructor-arg>
+  </bean>
 
 	<tx:annotation-driven />
-	<context:component-scan base-package="org.slc">
-		<context:exclude-filter type="regex"
-			expression=".*MongoEntityRepository" />
-	</context:component-scan>
+	<context:component-scan base-package="org.slc"/>
 
-	<context:annotation-config />
+	<context:annotation-config />	
 
 </beans>

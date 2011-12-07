@@ -40,7 +40,7 @@ import org.slc.sli.domain.enums.GradeLevelType;
  * @author Sean Melody <smelody@wgen.net>
  * 
  */
-public class StudentResourceTest extends BaseResourceTest {
+public class StudentResourceTest extends ResourceTest {
     
     @Autowired
     private StudentResource studentResource;

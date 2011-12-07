@@ -4,7 +4,7 @@ Feature: <US267> In order to manage students
 
 Background: Logged in as a super-user and using the small data set
 	Given the SLI_SMALL dataset is loaded
-	Given I am logged in using "demo" "demo1234"
+	Given I am logged in using "jimi" "jimi"
 	Given I have access to all students
 
 #### Happy Path 

@@ -1,70 +1,62 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.slc.sli.common</groupId>
-		<artifactId>common</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>org.slc.sli.common</groupId>
+    <artifactId>common</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>domain</artifactId>
-	<name>Core Entities</name>
+  <artifactId>domain</artifactId>
+  <name>Core Entities</name>
 
-	<properties>
-		<!-- Maven Plugin Versions -->
-		<maven.jaxb2.version>1.3.1</maven.jaxb2.version>
-	</properties>
+  <properties>
+    <!-- Maven Plugin Versions -->
+    <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
+  </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>2.7.2</version>
-		</dependency>
-	</dependencies>
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <version>${maven.jaxb2.version}</version>
+        <executions>
+          <!-- <execution> <goals> <goal>generate</goal> </goals> </execution> -->
+        </executions>
+        <configuration>
+          <forceRegenerate>true</forceRegenerate>
 
-	<build>
-		<defaultGoal>install</defaultGoal>
-		<plugins>
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>${maven.jaxb2.version}</version>
-				<executions>
-					<!-- <execution> <goals> <goal>generate</goal> </goals> </execution> -->
-				</executions>
-				<configuration>
-					<forceRegenerate>true</forceRegenerate>
+          <schemaDirectory>src/main/resources/xsd</schemaDirectory>
+          <schemaIncludes>
+            <include>Ed-Fi-Core.xsd</include>
+          </schemaIncludes>
 
-					<schemaDirectory>src/main/resources/xsd</schemaDirectory>
-					<schemaIncludes>
-						<include>Ed-Fi-Core.xsd</include>
-					</schemaIncludes>
+          <bindingDirectory>src/main/resources/xsd</bindingDirectory>
+          <bindingIncludes>
+            <include>Ed-Fi-Core.xjb</include>
+          </bindingIncludes>
 
-					<bindingDirectory>src/main/resources/xsd</bindingDirectory>
-					<bindingIncludes>
-						<include>Ed-Fi-Core.xjb</include>
-					</bindingIncludes>
+          <generateDirectory>src/main/java</generateDirectory>
+          <generatePackage>tmp.generated</generatePackage>
 
-					<generateDirectory>src/main/java</generateDirectory>
-					<generatePackage>tmp.generated</generatePackage>
-
-					<extension>true</extension>
-					<args>
-						<arg>-Xxew</arg>
-						<arg>-instantiate early</arg>
-					</args>
-					<plugins>
-						<plugin>
-							<groupId>xmlwrapperelement-plugin</groupId>
-							<artifactId>xmlwrapperelement-plugin</artifactId>
-							<version>1.0</version>
-							<scope>system</scope>
-						</plugin>
-					</plugins>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+          <extension>true</extension>
+          <args>
+            <arg>-Xxew</arg>
+            <arg>-instantiate early</arg>
+          </args>
+          <plugins>
+            <plugin>
+              <groupId>xmlwrapperelement-plugin</groupId>
+              <artifactId>xmlwrapperelement-plugin</artifactId>
+              <version>1.0</version>
+              <scope>system</scope>
+            </plugin>
+          </plugins>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

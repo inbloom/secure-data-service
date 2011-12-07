@@ -1,67 +1,22 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.representation.EntityBody;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Service for retrieving entities in DB
- * 
- * @author nbrown
- * 
- */
 public interface EntityService {
+    public boolean create(String type, Map<String, Object> content);
     
-    /**
-     * Create an entity and store it in the data store
-     * 
-     * @param content
-     *            the body of the entity
-     * @return id of the new entity
-     */
-    public String create(EntityBody content);
+    public boolean delete(String type, String id);
     
-    /**
-     * Delete an entity from the data store
-     * 
-     * @param id
-     *            the id of the entity to delete
-     * @return if the delete was successful
-     */
-    public boolean delete(String id);
+    public boolean update(String type, String id, Map<String, Object> content);
     
-    /**
-     * Change an entity in the data store
-     * 
-     * @param id
-     *            the id of the entity to update
-     * @param content
-     *            the new body of the entity
-     * @return if the entity was changed
-     */
-    public boolean update(String id, EntityBody content);
+    public Map<String, Object> get(String type, String id);
     
-    /**
-     * Retrieves an entity from the data store
-     * 
-     * @param id
-     *            the id of the entity to retrieve
-     * @return the body of the entity
-     */
-    public EntityBody get(String id);
+    public List<Map<String, Object>> list(String type);
     
-    /**
-     * Get multiple entities from the data store
-     * 
-     * @param ids
-     *            the ids of the entities to retrieve
-     * @return the entities matching the given ids
-     */
-    public Iterable<EntityBody> get(Iterable<String> ids);
+    public List<Map<String, Object>> getAssociated(String baseType, String baseID, String assocType);
     
-    /**
-     * List the ids of the entities in the data store
-     * 
-     * @return the ids of the entities in the data store
-     */
-    public Iterable<String> list(int start, int numResults);
+    public boolean associate(String type1, String id1, String type2, String id2);
     
+    public boolean associate(String type1, String id1, String type2, String id2, Map<String, Object> content);
 }
