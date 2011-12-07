@@ -41,7 +41,7 @@ public class EntityRepositoryTest {
         
         // test save
         Entity saved = repository.create(student);
-        String id = saved.getOid();
+        String id = saved.getEntityId();
         assertTrue(!id.equals(""));
         
         // test findAll
@@ -53,7 +53,7 @@ public class EntityRepositoryTest {
         assertEquals((found.getBody()).get("lastName"), "Doe");
         
         // test find by id
-        Entity foundOne = repository.find("student", saved.getOid());
+        Entity foundOne = repository.find("student", saved.getEntityId());
         assertNotNull(foundOne);
         assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
@@ -72,14 +72,15 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         student = entities.iterator().next();
         assertNotNull(entities.iterator().next());
-        repository.delete("student", student2.getOid());
-        student2 = repository.find("student", student2.getOid());
+        repository.delete("student", student2.getEntityId());
+        student2 = repository.find("student", student2.getEntityId());
         assertNull(student2);
         
         // test deleteAll by entity type
         repository.deleteAll("student");
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
+        
         
     }
     

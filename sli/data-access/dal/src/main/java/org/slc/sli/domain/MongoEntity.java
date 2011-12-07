@@ -36,7 +36,7 @@ public class MongoEntity implements Entity {
     }
     
     @Override
-    public String getOid() {
+    public String getEntityId() {
         return entityId;
     }
     
