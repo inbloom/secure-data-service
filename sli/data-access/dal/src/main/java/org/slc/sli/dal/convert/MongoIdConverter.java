@@ -29,13 +29,12 @@ public class MongoIdConverter implements IdConverter {
         
         UUID uuid = UUID.fromString(id);
         return uuid;
-        }
-    
-   
+    }
     
     /**
      * 
      * Converts the given Binary into a String that represent a UUID.
+     * 
      * @param id
      * @return
      */
@@ -72,6 +71,5 @@ public class MongoIdConverter implements IdConverter {
         
         return binary;
     }
-    
     
 }

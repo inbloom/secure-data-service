@@ -65,6 +65,7 @@ public class MongoEntityRepository implements EntityRepository {
         return entity;
     }
     
+    
     @Override
     public void delete(Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
@@ -80,6 +81,7 @@ public class MongoEntityRepository implements EntityRepository {
             return;
         template.remove(new Query(Criteria.where("_id").is( idConverter.toDatabaseId(id))), entityType);
     }
+    
     
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {

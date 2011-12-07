@@ -73,7 +73,7 @@ public class MongoEntity implements Entity {
     @SuppressWarnings("rawtypes")
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
-      
+        
         UUID uuid = (UUID) dbObj.get("_id");
         String id = uuid.toString();
       

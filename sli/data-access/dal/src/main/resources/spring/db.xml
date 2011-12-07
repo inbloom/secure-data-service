@@ -66,14 +66,7 @@
 			<mongo:converter>
 				<bean class="org.slc.sli.dal.convert.MongoEntityWriteConverter" />
 			</mongo:converter>
-			<!-- <mongo:converter>
-				<bean class="org.slc.sli.dal.convert.UUIDBinaryConverter" />
-			</mongo:converter>
-
-			<mongo:converter>
-				<bean class="org.slc.sli.dal.convert.BinaryUUIDConverter" />
-			</mongo:converter>
- -->
+		
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 
