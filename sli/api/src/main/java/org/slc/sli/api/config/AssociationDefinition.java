@@ -1,7 +1,7 @@
 package org.slc.sli.api.config;
 
-import java.util.List;
-
+import org.slc.sli.api.service.AssociationService;
+import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;
@@ -16,10 +16,9 @@ public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     
-    public AssociationDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
-            List<Validator> validators, EntityRepository repo, EntityDefinition sourceEntity,
-            EntityDefinition targetEntity) {
-        super(type, collectionName, resourceName, treatments, validators, repo);
+    public AssociationDefinition(String type, String resourceName, AssociationService service,
+            EntityDefinition sourceEntity, EntityDefinition targetEntity, String sourceIdKey) {
+        super(type, resourceName, service);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
     }
@@ -40,6 +39,11 @@ public class AssociationDefinition extends EntityDefinition {
      */
     public EntityDefinition getTargetEntity() {
         return targetEntity;
+    }
+    
+    @Override
+    public AssociationService getService() {
+        return (AssociationService) super.getService();
     }
     
     /**
@@ -69,6 +73,7 @@ public class AssociationDefinition extends EntityDefinition {
     public static class AssocBuilder extends EntityDefinition.Builder {
         private EntityDefinition sourceEntity;
         private EntityDefinition targetEntity;
+        private String sourceIdKey;
         
         /**
          * Create a builder for an association definition
@@ -91,6 +96,9 @@ public class AssociationDefinition extends EntityDefinition {
          */
         public AssocBuilder from(EntityDefinition source) {
             this.sourceEntity = source;
+            if (sourceIdKey == null) {
+                sourceIdKey = source.getType() + "Id";
+            }
             return this;
         }
         
@@ -103,6 +111,17 @@ public class AssociationDefinition extends EntityDefinition {
          */
         public AssocBuilder to(EntityDefinition target) {
             this.targetEntity = target;
+            return this;
+        }
+        
+        /**
+         * Sets the key for the source id
+         * 
+         * @param sourceID
+         * @return
+         */
+        public AssocBuilder indexAs(String sourceID) {
+            this.sourceIdKey = sourceID;
             return this;
         }
         
@@ -138,8 +157,10 @@ public class AssociationDefinition extends EntityDefinition {
         
         @Override
         public AssociationDefinition build() {
-            return new AssociationDefinition(getType(), getCollectionName(), getResourceName(), getTreatments(),
-                    getValidators(), getRepo(), sourceEntity, targetEntity);
+            AssociationService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
+                    getRepo(), sourceEntity, sourceIdKey);
+            return new AssociationDefinition(getType(), getResourceName(), service, sourceEntity, targetEntity,
+                    sourceIdKey);
         }
         
     }

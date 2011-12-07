@@ -1,6 +1,5 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 
 /**
@@ -65,14 +64,4 @@ public interface EntityService {
      */
     public Iterable<String> list(int start, int numResults);
     
-    /**
-     * Get the entities associated with a given entity in the data store
-     * 
-     * @param id
-     *            the id of the entity to look for associations for
-     * @param assocType
-     *            the type of associated entities to look for
-     * @return the ids of associated entities
-     */
-    public Iterable<String> getAssociated(String id, EntityDefinition assocType, int start, int numResults);
 }

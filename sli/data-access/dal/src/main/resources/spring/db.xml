@@ -17,7 +17,7 @@
 
 	<bean id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:config/${env}/project.properties" />
+		<property name="location" value="classpath:data-access/dal/config/${sli.env}/project.properties" />
 	</bean>
 
 

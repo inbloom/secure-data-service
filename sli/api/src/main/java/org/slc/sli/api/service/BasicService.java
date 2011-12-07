@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
@@ -15,13 +14,10 @@ import org.slf4j.LoggerFactory;
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     private final String collectionName;
+    
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     private final EntityRepository repo;
-    
-    private EntityRepository getRepo() {
-        return repo;
-    }
     
     public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
             EntityRepository repo) {
@@ -30,6 +26,22 @@ public class BasicService implements EntityService {
         this.treatments = treatments;
         this.validators = validators;
         this.repo = repo;
+    }
+    
+    protected String getCollectionName() {
+        return collectionName;
+    }
+    
+    protected List<Treatment> getTreatments() {
+        return treatments;
+    }
+    
+    protected List<Validator> getValidators() {
+        return validators;
+    }
+    
+    protected EntityRepository getRepo() {
+        return repo;
     }
     
     @Override
@@ -104,12 +116,6 @@ public class BasicService implements EntityService {
             results.add(entity.getId());
         }
         return results;
-    }
-    
-    @Override
-    public Iterable<String> getAssociated(String id, EntityDefinition assocType, int start, int numResults) {
-        // TODO Auto-generated method stub
-        return null;
     }
     
     private EntityBody makeEntityBody(Entity entity) {

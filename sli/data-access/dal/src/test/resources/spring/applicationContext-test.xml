@@ -13,12 +13,10 @@
          <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
          <property name="locations">
              <list>
-                 <!-- value>file:/Users/asaarela/Projects/SLI/sli/data-access/dal/config/local/project.properties</value -->
-                 <value>classpath*:config/${env}/project.properties</value>
+                 <value>classpath*:data-access/dal/config/${sli.env}/project.properties</value>
                  
                  <!--  override specific properties for testing -->
-                 <!-- >value>file:/Users/asaarela/Projects/SLI/sli/data-access/dal/config/local/test.properties</value -->
-                 <value>classpath*:config/${env}/test.properties</value>
+                 <value>classpath*:data-access/dal/config/${sli.env}/test.properties</value>
              </list>
          </property>
      </bean>
@@ -26,8 +24,9 @@
      <import resource="classpath:/spring/db.xml"/>
 
     <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> 
-        <property name="env" value="${env}" />    
+        <property name="slienv" value="${sli.env}" />    
         <property name="testprop" value="${sli.test.prop}" />
     </bean>
 
 </beans>
+

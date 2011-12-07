@@ -18,35 +18,19 @@ import org.slc.sli.dal.repository.EntityRepository;
  */
 public class EntityDefinition {
     private final String type;
-    private final String collectionName;
     private final String resourceName;
-    private final List<Treatment> treatments;
-    private final List<Validator> validators;
     private final EntityService service;
     private static EntityRepository defaultRepo;
     
-    public EntityDefinition(String type, String collectionName, String resourceName, List<Treatment> treatments,
-            List<Validator> validators, EntityRepository repo) {
+    protected EntityDefinition(String type, String resourceName, EntityService service) {
         super();
         this.type = type;
-        this.collectionName = collectionName;
         this.resourceName = resourceName;
-        this.treatments = treatments;
-        this.validators = validators;
-        this.service = new BasicService(collectionName, treatments, validators, repo);
+        this.service = service;
     }
     
     public String getType() {
         return type;
-    }
-    
-    /**
-     * The name of the entity's db collection
-     * 
-     * @return
-     */
-    public String getCollectionName() {
-        return collectionName;
     }
     
     /**
@@ -60,26 +44,6 @@ public class EntityDefinition {
     
     public EntityService getService() {
         return service;
-    }
-    
-    /**
-     * Returns the list of treatments that should be applied to entities. They must be applied in
-     * the given order
-     * 
-     * @return a list of treatments that should be applied to the given entity definition
-     */
-    public List<Treatment> getTreatments() {
-        return treatments;
-    }
-    
-    /**
-     * Returns the list of validators that should be applied to new (or modified entities of the
-     * given type). They should ideally be applied in the given order
-     * 
-     * @return a list of validators that should be applied to the given entity definition
-     */
-    public List<Validator> getValidators() {
-        return validators;
     }
     
     public static void setDefaultRepo(EntityRepository defaultRepo) {
@@ -210,7 +174,8 @@ public class EntityDefinition {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            return new EntityDefinition(type, collectionName, resourceName, treatments, validators, repo);
+            return new EntityDefinition(type, resourceName, new BasicService(collectionName, treatments, validators,
+                    repo));
         }
         
     }
