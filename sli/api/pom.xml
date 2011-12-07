@@ -16,16 +16,19 @@
     <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>domain</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>dal</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>mock-dal</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- Spring Context dependency -->
@@ -110,6 +113,13 @@
         <artifactId>maven-jetty-plugin</artifactId>
 	    <configuration>
 	      <scanIntervalSeconds>5</scanIntervalSeconds>
+          <systemProperties>
+            <systemProperty>
+              <name>sli.env</name>
+              <value>${sli.env}</value>
+            </systemProperty>
+          </systemProperties>
+
           <contextPath>api</contextPath>
           <connectors>
             <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">

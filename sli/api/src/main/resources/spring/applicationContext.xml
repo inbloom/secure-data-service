@@ -3,6 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+     <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="ignoreResourceNotFound" value="true" />
+         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+         <property name="locations">
+             <list>
+                 <value>classpath*:data-access/dal/config/${sli.env}/project.properties</value>
+             </list>
+         </property>
+     </bean>
 
 	<import resource="applicationContext-main.xml" />
 	<import resource="resourceContext.xml" />

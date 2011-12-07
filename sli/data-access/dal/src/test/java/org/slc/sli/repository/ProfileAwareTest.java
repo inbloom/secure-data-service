@@ -19,32 +19,33 @@ public class ProfileAwareTest {
     @Autowired
     @Value("${sli.test.prop}")
     private String testprop = null;
-    
-    public void setTestprop(String v) {
-        testprop = v;
-    }
-    
+
     public String getTestprop() {
         return testprop;
     }
-    
-    @Autowired
-    @Value("${env}")
-    private String env = null;
-    
-    public void setEnv(String e) {
-        env = e;
+
+    public void setTestprop(String prop) {
+        testprop = prop;
     }
     
-    public String getEnv() {
-        return env;
+    @Autowired
+    @Value("${sli.env}")
+    private String slienv = null;
+
+    public void setSlienv(String prop) {
+        slienv = prop;
+    }
+
+    public String getSlienv() {
+        return slienv;
     }
     
     @Test
     public void testProfileAwareness() {
         assertNotNull(testprop);
-        assertNotNull(env);
-        System.out.println("Environment(\'" + env + "\' ==> testprop = " + testprop);
-        assertTrue(testprop.equalsIgnoreCase(env + " " + PROP_VALUE));
+        assertNotNull(slienv);
+        System.out.println("Environment(\'" + slienv + "\' ==> testprop = " + testprop);
+        assertTrue(testprop.equalsIgnoreCase(slienv + " " + PROP_VALUE));
     }
 }
+
