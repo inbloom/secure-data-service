@@ -32,7 +32,8 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Override
     public Entity find(String entityType, String id) {
-        return template.findById( idConverter.toDatabaseId( id ), MongoEntity.class, entityType);
+        Object databaseId = idConverter.toDatabaseId( id );
+        return template.findById( databaseId, MongoEntity.class, entityType);
     }
     
     @Override
@@ -47,7 +48,7 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public void update(Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
-        String id = entity.getId();
+        String id = entity.getOid();
         String collection = entity.getType();
         if (id.equals(""))
             return;
@@ -67,7 +68,7 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public void delete(Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
-        String id = entity.getId();
+        String id = entity.getOid();
         if (id.equals(""))
             return;
         template.remove(new Query(Criteria.where("_id").is( idConverter.toDatabaseId( id ) )), entity.getType());
