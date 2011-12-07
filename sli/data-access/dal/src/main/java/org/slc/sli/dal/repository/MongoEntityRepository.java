@@ -5,15 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -37,7 +35,7 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public Iterable<Entity> findAll(String entityType, int skip, int max) {
         
-        LinkedList<Entity> entities = new LinkedList<Entity>();
+        List<Entity> entities = new LinkedList<Entity>();
         List<MongoEntity> results = template.find(new Query().skip(skip).limit(max), MongoEntity.class, entityType);
         entities.addAll(results);
         return entities;

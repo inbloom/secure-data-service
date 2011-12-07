@@ -8,7 +8,6 @@ public interface Entity {
     
     String getId();
     
-    Map<String,Object> getBody();
+    Map<String, Object> getBody();
     
 }
-

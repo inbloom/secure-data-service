@@ -27,6 +27,11 @@ public class EntityRepositoryTest {
     private EntityRepository repository;
 
     @Test
+<<<<<<< HEAD
+=======
+    // @Ignore(value =
+    // "We need to configure mongod on the build server,comment it out to run on local mongodb")
+>>>>>>> cc3f5b1d5205f74bd29066cd7664f1f111cada1f
     public void testCRUDEntityRepository() {
 
         // clean up the existing student data
@@ -44,16 +49,14 @@ public class EntityRepositoryTest {
         Iterable<Entity> entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity found = entities.iterator().next();
-        assertEquals(found.getBody().get("birthDate"),
-                student.getBody().get("birthDate"));
+        assertEquals(found.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         assertEquals((found.getBody()).get("lastName"), "Doe");
 
         // test find by id
         Entity foundOne = repository.find("student", saved.getId());
         assertNotNull(foundOne);
-        assertEquals(foundOne.getBody().get("birthDate"), student.getBody()
-                .get("birthDate"));
+        assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         
         // test update

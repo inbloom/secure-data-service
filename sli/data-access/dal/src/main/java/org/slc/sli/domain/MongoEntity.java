@@ -9,7 +9,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.bson.BSON;
-import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.bson.types.Binary;
 
@@ -71,18 +70,18 @@ public class MongoEntity implements Entity {
         return dbObj;
     }
     
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("unchecked")
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
         String id = getIdFromObject(dbObj);
-        Map map = dbObj.toMap();
+        Map<?, ?> map = dbObj.toMap();
         Map<String, Object> body = new HashMap<String, Object>();
         if (map.containsKey("body")) {
-            body.putAll((Map) map.get("body"));
+            body.putAll((Map<String, ?>) map.get("body"));
         }
         Map<String, Object> metaData = new HashMap<String, Object>();
         if (map.containsKey("metadata")) {
-            metaData.putAll((Map) map.get("metadata"));
+            metaData.putAll((Map<String, ?>) map.get("metadata"));
         }
         return new MongoEntity(type, id, body, metaData);
     }

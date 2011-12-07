@@ -29,8 +29,8 @@ public class MongoEntityTest {
         
         MongoEntity entity2 = MongoEntity.fromDBObject(obj);
         
-        assertEquals( entity2.getId(), uuid.toString() );
-        assertTrue( obj.get( "_id") instanceof Binary );
+        assertEquals(entity2.getId(), uuid.toString());
+        assertTrue(obj.get("_id") instanceof Binary);
     }
     
 }

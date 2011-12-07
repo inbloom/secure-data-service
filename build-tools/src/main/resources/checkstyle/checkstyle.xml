@@ -12,7 +12,7 @@
 
   <!-- Checks whether files end with a new line. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
-  <module name="NewlineAtEndOfFile" />
+  <!-- <module name="NewlineAtEndOfFile" /> -->
 
   <!-- Checks that property files contain the same keys. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
@@ -74,7 +74,9 @@
 
     <!-- Checks for imports -->
     <!-- See http://checkstyle.sf.net/config_import.html -->
-    <module name="AvoidStarImport" />
+    <module name="AvoidStarImport" >
+       <property name="excludes" value="org.junit.Assert"/>
+    </module>
     <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
     <module name="RedundantImport" />
     <module name="UnusedImports" />
