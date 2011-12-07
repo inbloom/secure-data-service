@@ -6,7 +6,7 @@ public interface Entity {
     
     String getType();
     
-    String getId();
+    String getEntityId();
     
     Map<String, Object> getBody();
     

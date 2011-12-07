@@ -18,32 +18,20 @@ import org.springframework.stereotype.Component;
 public class MongoIdConverter implements IdConverter {
     
     /**
-     * Converts the given UUID into a Binary object that represents the underlying byte array in
-     * Mongo. This is recommended by the mongo docs
-     * to store UUIDs .
+     * Converts the given STring into a UUID object.
      * 
      * @param uid
-     *            The object's UUID
+     *            The object's UUID String
      * @return a Binary representation of the given UUID.
      */
     @Override
     public Object toDatabaseId(String id) {
         
         UUID uuid = UUID.fromString(id);
-        return convertUUIDtoBinary(uuid);
-    }
+        return uuid;
+        }
     
-    /**
-     * Converts the given object (assuming it is a Binary) into a String that represent a UUID.
-     * @param dbObj
-     * @return
-     */
-    
-    @Override
-    public String fromDatabaseId(Object id) {
-        return binaryToUUIDString(id);
-        
-    }
+   
     
     /**
      * 
