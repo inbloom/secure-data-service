@@ -11,15 +11,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -30,7 +28,8 @@ public class EntityRepositoryTest {
     
     // TODO - needs Mongo instance installed on Jenkins.
     @Test
-   // @Ignore(value = "We need to configure mongod on the build server,comment it out to run on local mongodb")
+    // @Ignore(value =
+    // "We need to configure mongod on the build server,comment it out to run on local mongodb")
     public void testCRUDEntityRepository() {
         
         // clean up the existing student data
@@ -48,16 +47,14 @@ public class EntityRepositoryTest {
         Iterable<Entity> entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity found = entities.iterator().next();
-        assertEquals(found.getBody().get("birthDate"),
-                student.getBody().get("birthDate"));
+        assertEquals(found.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         assertEquals((found.getBody()).get("lastName"), "Doe");
         
         // test find by id
         Entity foundOne = repository.find("student", saved.getId());
         assertNotNull(foundOne);
-        assertEquals(foundOne.getBody().get("birthDate"), student.getBody()
-                .get("birthDate"));
+        assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         
         // test update
