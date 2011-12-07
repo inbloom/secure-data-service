@@ -30,7 +30,7 @@ public class EntityRepositoryTest {
     
     // TODO - needs Mongo instance installed on Jenkins.
     @Test
-    //@Ignore(value = "We need to configure mongod on the build server,comment it out to run on local mongodb")
+    @Ignore(value = "We need to configure mongod on the build server,comment it out to run on local mongodb")
     public void testCRUDEntityRepository() {
         
         // clean up the existing student data
