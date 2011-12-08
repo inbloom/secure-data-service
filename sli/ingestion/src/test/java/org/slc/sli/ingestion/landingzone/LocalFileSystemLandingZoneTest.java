@@ -18,7 +18,7 @@ public class LocalFileSystemLandingZoneTest {
     public static final String DUMMY_DIR = FilenameUtils.normalize("src/test/resources/dummylz");
 
     public static final String DUMMY_FILE_CTL = "dummycontrolfile.txt";
-    public static final String DUMMY_FILE_CTL_MD5HEX = "a36379d18565cf4edd7e935255dbd3cf";
+    public static final String DUMMY_FILE_CTL_MD5HEX = "8c5dd6c07296fdcfefa199a9f1bd220e";
 
     public static final String DUMMY_FILE_NOT_EXISTS = "does_not_exist.txt";
 
