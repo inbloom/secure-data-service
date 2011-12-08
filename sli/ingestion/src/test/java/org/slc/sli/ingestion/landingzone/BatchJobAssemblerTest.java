@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.util.MD5;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:/spring/applicationContext-test.xml" })
@@ -37,9 +38,9 @@ public class BatchJobAssemblerTest {
         // set up some valid entries
         ArrayList<ControlFile.FileEntry> entries = new ArrayList<ControlFile.FileEntry>();
         entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml",
-                "83e3d0fb1e4c2a7caf01141634721f09"));
+                MD5.calculate("InterchangeStudent.xml", jobAssembler.getLandingZone())));
         entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
-                "InterchangeEnrollment.xml", "ae81485112ff2e1a62bc06b35a131692"));
+                "InterchangeEnrollment.xml", MD5.calculate("InterchangeEnrollment.xml", jobAssembler.getLandingZone())));
 
         // set up some valid properties
         Properties props = new Properties();

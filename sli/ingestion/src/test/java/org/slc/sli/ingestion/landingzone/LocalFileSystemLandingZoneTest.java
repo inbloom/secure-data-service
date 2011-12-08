@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.ingestion.util.MD5;
+
 public class LocalFileSystemLandingZoneTest {
 
     LocalFileSystemLandingZone lz;
@@ -18,7 +20,7 @@ public class LocalFileSystemLandingZoneTest {
     public static final String DUMMY_DIR = FilenameUtils.normalize("src/test/resources/dummylz");
 
     public static final String DUMMY_FILE_CTL = "dummycontrolfile.txt";
-    public static final String DUMMY_FILE_CTL_MD5HEX = "a36379d18565cf4edd7e935255dbd3cf";
+    public static final String DUMMY_FILE_CTL_MD5HEX = "8c5dd6c07296fdcfefa199a9f1bd220e";
 
     public static final String DUMMY_FILE_NOT_EXISTS = "does_not_exist.txt";
 
@@ -56,7 +58,7 @@ public class LocalFileSystemLandingZoneTest {
     @Test
     public void testGetMd5Hex() throws IOException {
         File f = lz.getFile(DUMMY_FILE_CTL);
-        assertEquals(DUMMY_FILE_CTL_MD5HEX, lz.getMd5Hex(f));
+        assertEquals(MD5.calculate(f), lz.getMd5Hex(f));
     }
 
     @Test(expected = IOException.class)

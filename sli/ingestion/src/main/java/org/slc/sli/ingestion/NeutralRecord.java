@@ -29,6 +29,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class NeutralRecord {
 
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    
     /**
      * stores an Id value correlating the record to a certain
      * external source, such as a particular LEA (or possibly
@@ -181,9 +183,16 @@ public class NeutralRecord {
         this.attributesCrc = attributesCrc;
     }
     
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-    
     /**
+     * compare neutral records for equality
+     * initial version compares JSON representations
+     * TODO - replace with version incorporating CRC as basis for comparison
+     */
+    public boolean equals(Object anObject) {     
+        return (this.toString().equals(anObject.toString()));
+    }
+    
+   /**
      * as a convenience, return pure-json representation for strings by default
      */
     @Override

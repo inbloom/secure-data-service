@@ -10,6 +10,18 @@
 	">
 
 
+     <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="ignoreResourceNotFound" value="true" />
+         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+         <property name="locations">
+             <list>
+                 <value>classpath*:data-access/dal/config/${sli.env}/project.properties</value>
+                 
+                 <!--  override specific properties for testing -->
+                 <value>classpath*:data-access/dal/config/${sli.env}/test.properties</value>
+             </list>
+         </property>
+     </bean>
 
 
 	<bean id="testingAuthenticationProvider"
@@ -19,6 +31,8 @@
 	<context:component-scan base-package="org.slc">
 		<context:exclude-filter type="regex"
 			expression=".*CustomImpl" />
+			<context:exclude-filter type="regex"
+			expression=".*MongoEntityRepository" />
 	</context:component-scan>
 
 

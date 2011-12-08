@@ -10,15 +10,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.processors.ContextManager;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
-import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -26,6 +23,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.util.ResourceUtils;
+
+import org.slc.sli.ingestion.processors.ContextManager;
+import org.slc.sli.ingestion.processors.EdFiProcessor;
+import org.slc.sli.ingestion.processors.PersistenceProcessor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -126,19 +127,15 @@ public class IngestionTest {
 	   return file;
 	}
 	
-	public static File createNeutralRecordsFile(List neutralRecords) throws IOException {	
+	public static File createNeutralRecordsFile(List<NeutralRecord> neutralRecords) throws IOException {	
 		File file = createTempFile();
 	    
 		// Create Ingestion Neutral record writer
 		NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(file);
 		
 	    try {
-	    	Iterator iterator = neutralRecords.iterator();
-			while (iterator.hasNext()) {
-				NeutralRecord neutralRecord = (NeutralRecord)iterator.next();
-				
-				fileWriter.writeRecord(neutralRecord);
-			}
+			for ( NeutralRecord item : neutralRecords)
+				fileWriter.writeRecord(item);
 	    }
 	    finally {
 	    	fileWriter.close();
@@ -147,4 +144,30 @@ public class IngestionTest {
 	    return file;
 	}
 	
+    public static List<NeutralRecord> getNeutralRecords(File inputFile) throws IOException {
+        List<NeutralRecord> list = new ArrayList<NeutralRecord>();
+        
+        // Create Ingestion Neutral record reader
+        NeutralRecordFileReader fileReader = new NeutralRecordFileReader(inputFile);
+        
+        // Ingestion Neutral record
+        NeutralRecord ingestionRecord;
+        
+        try {
+
+            // Iterate Ingestion neutral records/lines
+            while (fileReader.hasNext()) {
+
+                // Read next Ingestion neutral record/line
+                ingestionRecord = fileReader.next();
+                
+                list.add(ingestionRecord);
+            }
+        } finally {
+            fileReader.close();
+        }
+
+        return list;
+    }
+
 }

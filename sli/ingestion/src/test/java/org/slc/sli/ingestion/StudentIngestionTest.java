@@ -72,7 +72,7 @@ public class StudentIngestionTest {
 		int numberOfStudents = 2;
 		String xmlRecords = createStudentInterchangeXml(numberOfStudents);
 		
-		File xmlRecordsFile =IngestionTest. createTestFile(IngestionTest.INGESTION_FILE_PREFIX, IngestionTest.INGESTION_XML_FILE_SUFFIX, xmlRecords);
+		File xmlRecordsFile = IngestionTest.createTestFile(IngestionTest.INGESTION_FILE_PREFIX, IngestionTest.INGESTION_XML_FILE_SUFFIX, xmlRecords);
 		
 		File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
 
