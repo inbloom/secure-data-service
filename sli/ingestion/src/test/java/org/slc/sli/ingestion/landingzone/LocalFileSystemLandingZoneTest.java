@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.ingestion.util.MD5;
+
 public class LocalFileSystemLandingZoneTest {
 
     LocalFileSystemLandingZone lz;
@@ -56,7 +58,7 @@ public class LocalFileSystemLandingZoneTest {
     @Test
     public void testGetMd5Hex() throws IOException {
         File f = lz.getFile(DUMMY_FILE_CTL);
-        assertEquals(DUMMY_FILE_CTL_MD5HEX, lz.getMd5Hex(f));
+        assertEquals(MD5.calculate(f), lz.getMd5Hex(f));
     }
 
     @Test(expected = IOException.class)
