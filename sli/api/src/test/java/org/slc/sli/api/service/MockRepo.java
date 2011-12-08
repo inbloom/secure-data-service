@@ -102,4 +102,16 @@ public class MockRepo implements EntityRepository {
         return all;
     }
     
+    @Override
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
+        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+        List<Entity> toReturn = new ArrayList<Entity>();
+        for (Entity entity : all) {
+            if (matchesFields(entity, fields)) {
+                toReturn.add(entity);
+            }
+        }
+        return toReturn;
+    }
+    
 }

@@ -53,6 +53,7 @@ public class MongoEntityRepository implements EntityRepository {
         String collection = entity.getType();
         if (id.equals(""))
             return;
+        
         Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 MongoEntity.class, collection);
         if (found != null)
@@ -106,6 +107,17 @@ public class MongoEntityRepository implements EntityRepository {
         List<MongoEntity> results = template.find(new Query(), MongoEntity.class, entityType);
         entities.addAll(results);
         return entities;
+    }
+    
+    @Override
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
+        Query query = new Query();
+        for (Map.Entry<String, String> field : fields.entrySet()) {
+            Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
+            query.addCriteria(criteria);
+        }
+        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+        return new LinkedList<Entity>(results);
     }
     
 }

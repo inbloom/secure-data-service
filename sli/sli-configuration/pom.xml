@@ -20,35 +20,5 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <build>
-
-    <pluginManagement>
-      <plugins>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven.jar.version}</version>
-            <!--  
-                The following generates a jar containing all configurations for
-                every project in sli. References to these configurations should
-                be relative to the project basedir.  For example,  
-                'classpath:data-access/dal/config/${sli.env}/project.properties'
-                
-                TODO: if this convention becomes cumbersome, consider moving
-                configuration properties common to all sub-projects 
-                to this project.
-            -->
-            <configuration>
-              <classesDirectory>${basedir}/..</classesDirectory>     
-              <includes>
-                <include>**/config/**/*.properties</include>
-              </includes>
-            </configuration>
-      </plugin>
-      </plugins>
-      </pluginManagement>
-      
-  </build>
-
 </project>
+

@@ -59,6 +59,9 @@ public class EntityRepositoryTest {
         Iterable<Entity> searchResults = repository.findByFields("student", searchFields, 0, 20);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
+        searchResults = repository.findByFields("student", searchFields);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
         
         // test update
         found.getBody().put("firstName", "Mandy");
@@ -81,7 +84,6 @@ public class EntityRepositoryTest {
         repository.deleteAll("student");
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
-        
     }
     
     private Map<String, Object> buildTestStudentEntity() {
