@@ -5,6 +5,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * Representation of an error message in response to issues encountered servicing API requests.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
+ */
 @XmlRootElement(name = "error")
 public class ErrorResponse {
     @XmlElement(name = "status-code")
