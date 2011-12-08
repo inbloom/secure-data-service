@@ -113,7 +113,7 @@ public class BasicService implements EntityService {
     public Iterable<String> list(int start, int numResults) {
         List<String> results = new ArrayList<String>();
         for (Entity entity : repo.findAll(collectionName, start, numResults)) {
-            results.add(entity.getOid());
+            results.add(entity.getEntityId());
         }
         return results;
     }
