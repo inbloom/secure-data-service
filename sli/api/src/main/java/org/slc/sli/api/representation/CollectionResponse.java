@@ -1,13 +1,26 @@
 package org.slc.sli.api.representation;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class CollectionResponse {
+/**
+ * Representation of a collection of entity references returned by the API.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
+ */
+public class CollectionResponse extends LinkedList<CollectionResponse.EntityReference> {
     
+    private static final long serialVersionUID = -7328415047032909315L;
+
+    /**
+     * Single reference to an entity.
+     * 
+     * @author Ryan Farris <rfarris@wgen.net>
+     * 
+     */
     public static class EntityReference {
         @JsonProperty("id")
         String id;
@@ -18,27 +31,20 @@ public class CollectionResponse {
             this.id = id;
             this.link = link;
         }
-
+        
         @JsonIgnore
         public String getId() {
             return id;
         }
-
+        
         @JsonIgnore
         public EmbededLink getLink() {
             return link;
         }
     }
     
-    @JsonProperty("entity")
-    ArrayList<EntityReference> entities = new ArrayList<EntityReference>();
-    
     public void add(String id, String rel, String type, String href) {
-        entities.add(new EntityReference(id, new EmbededLink(rel, type, href)));
+        this.add(new EntityReference(id, new EmbededLink(rel, type, href)));
     }
     
-    @JsonIgnore
-    public List<EntityReference> getEntities() {
-        return entities;
-    }
 }

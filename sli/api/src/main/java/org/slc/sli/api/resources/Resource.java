@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.CollectionResponse;
@@ -29,6 +30,13 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.service.EntityNotFoundException;
 
+
+/**
+ * Jersey resource for all entities and associations.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ *
+ */
 @Path("new-api/{type}")
 @Component
 @Scope("request")
@@ -45,6 +53,17 @@ public class Resource {
     
     /* REST methods */
     
+    /**
+     * Returns a collection of entities that the user is allowed to see.
+     * 
+     * @param typePath
+     *            resourceUri for the entity
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @return Response containing the collection of entities
+     */
     @GET
     public Response getCollection(@PathParam("type") final String typePath,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
@@ -66,6 +85,16 @@ public class Resource {
         });
     }
     
+    /**
+     * Create a new entity or association.
+     * 
+     * @param typePath
+     *            resourceUri for the entity
+     * @param newEntityBody
+     *            entity data
+     * @return Response with a status of CREATED and a Location header set pointing to where the new
+     *         entity lives
+     */
     @POST
     public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody) {
         return handle(typePath, new ResourceLogic() {
@@ -79,19 +108,62 @@ public class Resource {
         });
     }
     
+    /**
+     * Get a single entity or association unless the URI represents an association and the id represents a
+     * source entity for that association.
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @return A single entity or association, unless the type references an association and the id
+     *         represents the source entity. In that case a collection of associations.
+     */
     @GET
     @Path("{id}")
-    public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id) {
+    public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id,
+            @QueryParam("start-index") @DefaultValue("0") final int skip,
+            @QueryParam("max-results") @DefaultValue("50") final int max) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                EntityBody entityBody = entityDef.getService().get(id);
-                // TODO: add headers
-                return Response.ok(entityBody).build();
+                try {
+                    EntityBody entityBody = entityDef.getService().get(id);
+                    return Response.ok(entityBody).build();
+                } catch (EntityNotFoundException e) {
+                    if (entityDef instanceof AssociationDefinition) {
+                        Iterable<String> associationIds = ((AssociationDefinition) entityDef).getService()
+                                .getAssociatedWith(id, skip, max);
+                        CollectionResponse collection = new CollectionResponse();
+                        for (String id : associationIds) {
+                            String href = UriBuilder.fromResource(Resource.class).path(id)
+                                    .build(entityDef.getResourceName()).toString();
+                            collection.add(id, "self", entityDef.getType(), href);
+                        }
+                        
+                        return Response.ok(collection).build();
+                    } else {
+                        throw e;
+                    }
+                }
+                
             }
         });
     }
     
+    /**
+     * Delete an entity or association
+     * 
+     * @param typePath
+     *            resourceUri of the entity
+     * @param id
+     *            id of the entity
+     * @return Returns a NOT_CONTENT status code
+     */
     @DELETE
     @Path("{id}")
     public Response deleteEntity(@PathParam("type") final String typePath, @PathParam("id") final String id) {
@@ -104,6 +176,14 @@ public class Resource {
         });
     }
     
+    /**
+     * Update an existing entity or association. 
+     * 
+     * @param typePath resourceUri for the entity
+     * @param id id of the entity
+     * @param newEntityBody entity data that will used to replace the existing entity data
+     * @return Response with a NOT_CONTENT status code
+     */
     @PUT
     @Path("{id}")
     public Response updateEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
@@ -133,7 +213,6 @@ public class Resource {
                     .build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
-            System.out.println("EXCEPTION: " + t);
             return Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
