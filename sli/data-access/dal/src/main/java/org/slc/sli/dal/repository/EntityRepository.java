@@ -12,7 +12,7 @@ import org.slc.sli.domain.Entity;
  * 
  */
 public interface EntityRepository {
-
+    
     /**
      * @param entityType
      *            the entity type need to be retrieved, can be entity type for
@@ -22,7 +22,7 @@ public interface EntityRepository {
      * @return the entity retrieved
      */
     Entity find(String entityType, String id);
-
+    
     /**
      * @param entityType
      *            the entity type need to be retrieved, can be entity type for
@@ -35,34 +35,35 @@ public interface EntityRepository {
      */
     Iterable<Entity> findAll(String entityType, int skip, int max);
     
-    
-    
     /**
-     * @param entityType the entity type need to be retrieved, can be entity type for
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
      *            core entity or association entity
      * @return the collection of entities
      */
     Iterable<Entity> findAll(String entityType);
-
+    
     /**
      * @param entity
      *            the entity that will be updated
      */
     void update(Entity entity);
-
+    
     /**
-     * @param entity
-     *            the entity that will be persisted
+     * @param body
+     *            the entity body that will be persisted
+     * @param type
+     *            the type of entity to be persisted
      * @return the entity that has been persisted
      */
-    Entity create(Entity entity);
-
+    Entity create(Map<String, Object> body, String type);
+    
     /**
      * @param entity
      *            the entity that will be deleted
      */
     void delete(Entity entity);
-
+    
     /**
      * @param entityType
      *            the entity type need to be deleted, can be entity type for
@@ -71,14 +72,14 @@ public interface EntityRepository {
      *            the global unique id of the entity
      */
     void delete(String entityType, String id);
-
+    
     /**
      * @param entityType
      *            the entity type need to be deleted, can be entity type for
      *            core entity or association entity
      */
     void deleteAll(String entityType);
-
+    
     /**
      * @param entityType
      *            the entity type need to be retrieved, can be entity type for
@@ -91,7 +92,6 @@ public interface EntityRepository {
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    Iterable<Entity> findByFields(String entityType,
-            Map<String, String> fields, int skip, int max);
-
+    Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max);
+    
 }

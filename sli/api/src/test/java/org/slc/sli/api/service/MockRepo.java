@@ -50,9 +50,8 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public Entity create(Entity entity) {
-        Entity newEntity = new MongoEntity(entity.getType(), Long.toString(nextID.getAndIncrement()), entity.getBody(),
-                null);
+    public Entity create(Map<String, Object> body, String type) {
+        Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
         update(newEntity);
         return newEntity;
     }
@@ -96,7 +95,7 @@ public class MockRepo implements EntityRepository {
         // TODO Auto-generated method stub
         
     }
-
+    
     @Override
     public Iterable<Entity> findAll(String entityType) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
