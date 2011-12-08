@@ -32,7 +32,7 @@ import org.slc.sli.domain.enums.SexType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/db.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSchoolAssociationRepositoryTest {
 
     @Autowired

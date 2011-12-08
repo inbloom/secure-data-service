@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -21,15 +21,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/mongodbContext.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
 
     @Autowired
     private EntityRepository repository;
 
-    // TODO - needs Mongo instance installed on Jenkins.
     @Test
-    @Ignore(value = "We need to configure mongod on the build server,comment it out to run on local mongodb")
     public void testCRUDEntityRepository() {
 
         // clean up the existing student data
@@ -40,25 +38,30 @@ public class EntityRepositoryTest {
 
         // test save
         Entity saved = repository.create(student);
-        String id = saved.getId();
+        String id = saved.getEntityId();
         assertTrue(!id.equals(""));
 
         // test findAll
         Iterable<Entity> entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity found = entities.iterator().next();
-        assertEquals(found.getBody().get("birthDate"),
-                student.getBody().get("birthDate"));
+        assertEquals(found.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         assertEquals((found.getBody()).get("lastName"), "Doe");
 
         // test find by id
-        Entity foundOne = repository.find("student", saved.getId());
+        Entity foundOne = repository.find("student", saved.getEntityId());
         assertNotNull(foundOne);
-        assertEquals(foundOne.getBody().get("birthDate"), student.getBody()
-                .get("birthDate"));
+        assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
-
+        
+        // test find by field
+        Map<String,String> searchFields = new HashMap<String, String>();
+        searchFields.put("firstName", "Jane");
+        Iterable<Entity> searchResults = repository.findByFields("student", searchFields, 0, 20);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"),"Jane");
+        
         // test update
         found.getBody().put("firstName", "Mandy");
         repository.update(found);
@@ -73,8 +76,8 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         student = entities.iterator().next();
         assertNotNull(entities.iterator().next());
-        repository.delete("student", student2.getId());
-        student2 = repository.find("student", student2.getId());
+        repository.delete("student", student2.getEntityId());
+        student2 = repository.find("student", student2.getEntityId());
         assertNull(student2);
 
         // test deleteAll by entity type
@@ -82,6 +85,7 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
 
+        
     }
 
     private Entity buildTestStudentEntity() {
@@ -110,7 +114,8 @@ public class EntityRepositoryTest {
         body.put("sex", "Female");
         body.put("stateOfBirthAbbreviation", "IL");
         body.put("studentSchoolId", "DOE-JANE-222");
-        Entity student = new MongoEntity("student", null, body, null);
+        UUID uuid = UUID.randomUUID();
+        Entity student = new MongoEntity("student", uuid.toString(), body, null);
         return student;
     }
 

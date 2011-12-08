@@ -1,5 +1,6 @@
 package org.slc.sli.api.representation;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class EmbededLink {
@@ -14,6 +15,21 @@ public class EmbededLink {
     }
     
     public EmbededLink() {
+    }
+
+    @JsonIgnore
+    public String getRel() {
+        return rel;
+    }
+
+    @JsonIgnore
+    public String getType() {
+        return type;
+    }
+
+    @JsonIgnore
+    public String getHref() {
+        return href;
     }
     
 }

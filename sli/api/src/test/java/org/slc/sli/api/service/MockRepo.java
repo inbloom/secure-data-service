@@ -22,8 +22,7 @@ public class MockRepo implements EntityRepository {
     public MockRepo() {
         repo.put("student", new LinkedHashMap<String, Entity>());
         repo.put("school", new LinkedHashMap<String, Entity>());
-        repo.put("studentEnrollment", new LinkedHashMap<String, Entity>());
-        repo.put("schoolEnrollment", new LinkedHashMap<String, Entity>());
+        repo.put("enrollments", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -47,7 +46,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void update(Entity entity) {
-        repo.get(entity.getType()).put(entity.getId(), entity);
+        repo.get(entity.getType()).put(entity.getEntityId(), entity);
     }
     
     @Override
@@ -60,7 +59,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void delete(Entity entity) {
-        repo.get(entity.getType()).remove(entity.getId());
+        repo.get(entity.getType()).remove(entity.getEntityId());
         
     }
     
@@ -71,14 +70,37 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+        List<Entity> toReturn = new ArrayList<Entity>();
+        for (Entity entity : all) {
+            if (matchesFields(entity, fields)) {
+                toReturn.add(entity);
+            }
+        }
+        return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
+    }
+    
+    private boolean matchesFields(Entity entity, Map<String, String> fields) {
+        for (Map.Entry<String, String> field : fields.entrySet()) {
+            Object value = entity.getBody().get(field.getKey());
+            if (value == null || !value.toString().equals(field.getValue())) {
+                return false;
+            }
+        }
+        return true;
+        
     }
     
     @Override
     public void deleteAll(String entityType) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String entityType) {
+        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+        return all;
     }
     
 }

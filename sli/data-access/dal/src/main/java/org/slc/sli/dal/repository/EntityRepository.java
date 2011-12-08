@@ -34,6 +34,15 @@ public interface EntityRepository {
      * @return the collection of entities
      */
     Iterable<Entity> findAll(String entityType, int skip, int max);
+    
+    
+    
+    /**
+     * @param entityType the entity type need to be retrieved, can be entity type for
+     *            core entity or association entity
+     * @return the collection of entities
+     */
+    Iterable<Entity> findAll(String entityType);
 
     /**
      * @param entity

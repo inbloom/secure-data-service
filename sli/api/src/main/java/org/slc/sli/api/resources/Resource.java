@@ -56,7 +56,7 @@ public class Resource {
                 List<String> ids = iterableToList(entityDef.getService().list(skip, max));
                 CollectionResponse collection = new CollectionResponse();
                 for (String id : ids) {
-                    String href = UriBuilder.fromResource(this.getClass()).path(id).build(entityDef.getResourceName())
+                    String href = UriBuilder.fromResource(Resource.class).path(id).build(entityDef.getResourceName())
                             .toString();
                     collection.add(id, "self", entityDef.getType(), href);
                 }
@@ -72,9 +72,9 @@ public class Resource {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = UriBuilder.fromResource(this.getClass()).path(id).build(entityDef.getResourceName())
+                String uri = UriBuilder.fromResource(Resource.class).path(id).build(entityDef.getResourceName())
                         .toString();
-                return Response.ok(Status.CREATED).header("Location", uri).build();
+                return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
     }
@@ -111,11 +111,7 @@ public class Resource {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                // TODO: The service layer should probably throw this exception, not the API
-                boolean updated = entityDef.getService().update(id, newEntityBody);
-                if (!updated) {
-                    throw new EntityNotFoundException();
-                }
+                entityDef.getService().update(id, newEntityBody);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -137,6 +133,7 @@ public class Resource {
                     .build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
+            System.out.println("EXCEPTION: " + t);
             return Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),

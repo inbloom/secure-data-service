@@ -2,9 +2,9 @@ package org.slc.sli.domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bson.BasicBSONObject;
-import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -12,7 +12,9 @@ import com.mongodb.DBObject;
 public class MongoEntity implements Entity {
 
     final String type;
-    final String id;
+
+    /** Called entity id to avoid Spring Data using this as the ID field. */
+    final String entityId;
     final Map<String, Object> body;
     final Map<String, Object> metaData;
 
@@ -25,19 +27,22 @@ public class MongoEntity implements Entity {
             metaData = new BasicBSONObject();
         }
         this.type = type;
-        this.id = id;
+        this.entityId = id;
         this.body = body;
         this.metaData = metaData;
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public String getEntityId() {
+        return entityId;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public Map<String, Object> getBody() {
         return body;
     }
@@ -45,26 +50,39 @@ public class MongoEntity implements Entity {
     public DBObject toDBObject() {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", this.type);
-        if (this.id != null) {
-            dbObj.put("_id", new ObjectId(this.id));
+
+        UUID uid = null;
+
+        if (this.entityId == null) {
+            uid = UUID.randomUUID();
+
+        } else {
+            uid = UUID.fromString(entityId);
         }
+
+        dbObj.put("_id", uid);
         dbObj.put("body", this.body);
         dbObj.put("metadata", this.metaData);
+
         return dbObj;
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("unchecked")
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
-        String id = ((ObjectId) dbObj.get("_id")).toString();
-        Map map = dbObj.toMap();
+
+        UUID uuid = (UUID) dbObj.get("_id");
+        String id = uuid.toString();
+
+        Map<?, ?> map = dbObj.toMap();
+
         Map<String, Object> body = new HashMap<String, Object>();
         if (map.containsKey("body")) {
-            body.putAll((Map) map.get("body"));
+            body.putAll((Map<String, ?>) map.get("body"));
         }
         Map<String, Object> metaData = new HashMap<String, Object>();
         if (map.containsKey("metadata")) {
-            metaData.putAll((Map) map.get("metadata"));
+            metaData.putAll((Map<String, ?>) map.get("metadata"));
         }
         return new MongoEntity(type, id, body, metaData);
     }
