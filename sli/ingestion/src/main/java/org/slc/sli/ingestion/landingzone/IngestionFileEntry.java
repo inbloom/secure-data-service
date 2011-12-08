@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.landingzone;
 
+import java.io.File;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 
@@ -13,6 +15,7 @@ public class IngestionFileEntry {
     private FileFormat fileFormat;  
     private FileType fileType;  
     private String fileName;
+    private File file;
     private String checksum;
     
     // Constructors
@@ -77,6 +80,24 @@ public class IngestionFileEntry {
      */
     public String getFileName() {
         return this.fileName;
+    }
+    
+    /**
+     * Set the Ingestion file.
+     * 
+     * @param file to set
+     */
+    public void setFile(File file) {
+        this.file = file;
+    }
+    
+    /**
+     * Get the Ingestion file.
+     * 
+     * @return file to obtain
+     */
+    public File getFile() {
+        return this.file;
     }
     
     /**
