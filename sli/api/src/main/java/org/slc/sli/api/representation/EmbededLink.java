@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class EmbededLink {
     @JsonProperty("rel") String rel;
-    @JsonProperty("type") String type;
+    @JsonIgnore @JsonProperty("type") String type;
     @JsonProperty("href") String href;
     
     public EmbededLink(String rel, String type, String href) {
