@@ -52,7 +52,7 @@ public class BasicService implements EntityService {
             throw new ValidationException();
         }
         Entity entity = makeEntity(content, null);
-        return getRepo().create(entity).getId();
+        return getRepo().create(entity).getEntityId();
     }
     
     @Override
@@ -113,7 +113,7 @@ public class BasicService implements EntityService {
     public Iterable<String> list(int start, int numResults) {
         List<String> results = new ArrayList<String>();
         for (Entity entity : repo.findAll(collectionName, start, numResults)) {
-            results.add(entity.getId());
+            results.add(entity.getEntityId());
         }
         return results;
     }

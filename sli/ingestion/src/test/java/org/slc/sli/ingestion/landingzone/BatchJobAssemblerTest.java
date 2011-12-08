@@ -5,16 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import org.apache.commons.codec.binary.Hex;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.util.MD5;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:/spring/applicationContext-test.xml" })
@@ -43,9 +38,9 @@ public class BatchJobAssemblerTest {
         // set up some valid entries
         ArrayList<ControlFile.FileEntry> entries = new ArrayList<ControlFile.FileEntry>();
         entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml",
-                getMd5("InterchangeStudent.xml", jobAssembler.getLandingZone())));
+                MD5.calculate("InterchangeStudent.xml", jobAssembler.getLandingZone())));
         entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
-                "InterchangeEnrollment.xml", getMd5("InterchangeEnrollment.xml", jobAssembler.getLandingZone())));
+                "InterchangeEnrollment.xml", MD5.calculate("InterchangeEnrollment.xml", jobAssembler.getLandingZone())));
 
         // set up some valid properties
         Properties props = new Properties();
@@ -60,42 +55,6 @@ public class BatchJobAssemblerTest {
         assertFalse(job.hasErrors());
         assertEquals("world", job.getProperty("hello"));
 
-    }
-
-    private static String getMd5(String fileName, LandingZone lz) {
-        String md5 = "";
-
-        File f = lz.getFile(fileName);
-        DigestInputStream dis = null;
-
-        if (f != null) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("MD5");
-
-                dis = new DigestInputStream(new FileInputStream(f), md);
-
-                byte[] buf = new byte[1024];
-
-                while (dis.read(buf, 0, 1024) != -1) {
-                }
-
-                md5 = Hex.encodeHexString(dis.getMessageDigest().digest());
-            } catch (NoSuchAlgorithmException e) {
-                md5 = "";
-            } catch (IOException e) {
-                md5 = "";
-            } finally {
-                if (dis != null) {
-                    try {
-                        dis.close();
-                    } catch (IOException e) {
-                        dis = null;
-                    }
-                }
-            }
-        }
-
-        return md5;
     }
 
     @Ignore

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +38,7 @@ public class EntityRepositoryTest {
 
         // test save
         Entity saved = repository.create(student);
-        String id = saved.getId();
+        String id = saved.getEntityId();
         assertTrue(!id.equals(""));
 
         // test findAll
@@ -49,7 +50,7 @@ public class EntityRepositoryTest {
         assertEquals((found.getBody()).get("lastName"), "Doe");
 
         // test find by id
-        Entity foundOne = repository.find("student", saved.getId());
+        Entity foundOne = repository.find("student", saved.getEntityId());
         assertNotNull(foundOne);
         assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
@@ -75,8 +76,8 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         student = entities.iterator().next();
         assertNotNull(entities.iterator().next());
-        repository.delete("student", student2.getId());
-        student2 = repository.find("student", student2.getId());
+        repository.delete("student", student2.getEntityId());
+        student2 = repository.find("student", student2.getEntityId());
         assertNull(student2);
 
         // test deleteAll by entity type
@@ -84,6 +85,7 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
 
+        
     }
 
     private Entity buildTestStudentEntity() {
@@ -112,7 +114,8 @@ public class EntityRepositoryTest {
         body.put("sex", "Female");
         body.put("stateOfBirthAbbreviation", "IL");
         body.put("studentSchoolId", "DOE-JANE-222");
-        Entity student = new MongoEntity("student", null, body, null);
+        UUID uuid = UUID.randomUUID();
+        Entity student = new MongoEntity("student", uuid.toString(), body, null);
         return student;
     }
 

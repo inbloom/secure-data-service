@@ -20,7 +20,7 @@ public interface Entity {
     /**
      * @return the global unique id of the entity as string
      */
-    String getId();
+    String getEntityId();
     
     /**
      * @return the entity body wrapped by a map
