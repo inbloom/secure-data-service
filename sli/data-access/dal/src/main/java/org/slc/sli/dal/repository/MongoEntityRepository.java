@@ -82,7 +82,7 @@ public class MongoEntityRepository implements EntityRepository {
         Query query = new Query();
         query.skip(skip).limit(max);
         for (Map.Entry<String, String> field : fields.entrySet()) {
-            Criteria criteria = Criteria.where("body." + field.getKey()).is(fields.get(field.getValue()));
+            Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
         }
         List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
@@ -92,6 +92,14 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public void deleteAll(String entityType) {
         template.remove(new Query(), entityType);
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String entityType) {
+        List<Entity> entities = new LinkedList<Entity>();
+        List<MongoEntity> results = template.find(new Query(), MongoEntity.class, entityType);
+        entities.addAll(results);
+        return entities;
     }
     
 }

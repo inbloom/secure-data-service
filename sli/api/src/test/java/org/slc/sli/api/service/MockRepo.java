@@ -96,5 +96,11 @@ public class MockRepo implements EntityRepository {
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public Iterable<Entity> findAll(String entityType) {
+        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+        return all;
+    }
     
 }
