@@ -52,7 +52,7 @@ public class BasicService implements EntityService {
             throw new ValidationException();
         }
         Entity entity = makeEntity(content, null);
-        return getRepo().create(entity).getId();
+        return getRepo().create(entity).getEntityId();
     }
     
     @Override
