@@ -45,23 +45,34 @@ public class EntityRepositoryTest {
         Iterable<Entity> entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity found = entities.iterator().next();
-        assertEquals(found.getBody().get("birthDate"), student.getBody().get("birthDate"));
+        assertEquals(found.getBody().get("birthDate"),
+                student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         assertEquals((found.getBody()).get("lastName"), "Doe");
 
         // test find by id
         Entity foundOne = repository.find("student", saved.getEntityId());
         assertNotNull(foundOne);
-        assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
+        assertEquals(foundOne.getBody().get("birthDate"), student.getBody()
+                .get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
-        
+
         // test find by field
-        Map<String,String> searchFields = new HashMap<String, String>();
+        Map<String, String> searchFields = new HashMap<String, String>();
         searchFields.put("firstName", "Jane");
-        Iterable<Entity> searchResults = repository.findByFields("student", searchFields, 0, 20);
+        Iterable<Entity> searchResults = repository.findByFields("student",
+                searchFields, 0, 20);
         assertNotNull(searchResults);
-        assertEquals(searchResults.iterator().next().getBody().get("firstName"),"Jane");
+        assertEquals(
+                searchResults.iterator().next().getBody().get("firstName"),
+                "Jane");
+        searchResults = repository.findByFields("student", searchFields);
+        assertNotNull(searchResults);
+        assertEquals(
+                searchResults.iterator().next().getBody().get("firstName"),
+                "Jane");
         
+
         // test update
         found.getBody().put("firstName", "Mandy");
         repository.update(found);
@@ -85,7 +96,6 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
 
-        
     }
 
     private Entity buildTestStudentEntity() {

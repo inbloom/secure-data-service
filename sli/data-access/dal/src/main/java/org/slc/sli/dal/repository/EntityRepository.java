@@ -34,11 +34,10 @@ public interface EntityRepository {
      * @return the collection of entities
      */
     Iterable<Entity> findAll(String entityType, int skip, int max);
-    
-    
-    
+
     /**
-     * @param entityType the entity type need to be retrieved, can be entity type for
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
      *            core entity or association entity
      * @return the collection of entities
      */
@@ -84,7 +83,8 @@ public interface EntityRepository {
      *            the entity type need to be retrieved, can be entity type for
      *            core entity or association entity
      * @param fields
-     *            a map with key value pairs that define the search criteria
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("firstName","Jane")
      * @param skip
      *            the beginning index of the entity that will be returned
      * @param max
@@ -93,5 +93,16 @@ public interface EntityRepository {
      */
     Iterable<Entity> findByFields(String entityType,
             Map<String, String> fields, int skip, int max);
+
+    /**
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
+     *            core entity or association entity
+     * @param fields
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("firstName","Jane")
+     * @return the collection of entities
+     */
+    Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
 
 }
