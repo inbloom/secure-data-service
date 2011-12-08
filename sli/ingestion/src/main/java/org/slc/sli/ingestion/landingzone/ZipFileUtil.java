@@ -16,7 +16,8 @@ import java.util.zip.ZipInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.processors.ZipFileProcessor;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class ZipFileUtil {
 
@@ -26,7 +27,15 @@ public class ZipFileUtil {
 
     public static File extract(File zipFile) throws IOException {
 
-        File path = new File("C:/sli/lz/inbound/zip");
+        Date date = new Date();
+        Timestamp time = new Timestamp(date.getTime());
+
+        String filePath = zipFile.getParentFile().getAbsolutePath() + "/unzip/" +
+                zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
+
+        // make dir to unzip files
+        new File(filePath).mkdir();
+        File path = new File(filePath);
 
         try {
             // Create input stream
