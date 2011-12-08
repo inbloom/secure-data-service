@@ -1,12 +1,11 @@
 package org.slc.sli.api.representation;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class CollectionResponse {
+public class CollectionResponse extends LinkedList<CollectionResponse.EntityReference> {
     
     public static class EntityReference {
         @JsonProperty("id")
@@ -30,15 +29,9 @@ public class CollectionResponse {
         }
     }
     
-    @JsonProperty("entity")
-    ArrayList<EntityReference> entities = new ArrayList<EntityReference>();
     
     public void add(String id, String rel, String type, String href) {
-        entities.add(new EntityReference(id, new EmbededLink(rel, type, href)));
+        this.add(new EntityReference(id, new EmbededLink(rel, type, href)));
     }
     
-    @JsonIgnore
-    public List<EntityReference> getEntities() {
-        return entities;
-    }
 }
