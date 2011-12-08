@@ -55,6 +55,13 @@ public class EntityRepositoryTest {
         assertEquals(foundOne.getBody().get("birthDate"), student.getBody().get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         
+        // test find by field
+        Map<String,String> searchFields = new HashMap<String, String>();
+        searchFields.put("firstName", "Jane");
+        Iterable<Entity> searchResults = repository.findByFields("student", searchFields, 0, 20);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"),"Jane");
+        
         // test update
         found.getBody().put("firstName", "Mandy");
         repository.update(found);
