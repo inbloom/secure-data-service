@@ -46,7 +46,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void update(Entity entity) {
-        repo.get(entity.getType()).put(entity.getId(), entity);
+        repo.get(entity.getType()).put(entity.getEntityId(), entity);
     }
     
     @Override
@@ -59,7 +59,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void delete(Entity entity) {
-        repo.get(entity.getType()).remove(entity.getId());
+        repo.get(entity.getType()).remove(entity.getEntityId());
         
     }
     
