@@ -39,7 +39,7 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public Iterable<Entity> findAll(String entityType, int skip, int max) {
         
-        LinkedList<Entity> entities = new LinkedList<Entity>();
+        List<Entity> entities = new LinkedList<Entity>();
         List<MongoEntity> results = template.find(new Query().skip(skip).limit(max), MongoEntity.class, entityType);
         entities.addAll(results);
         return entities;

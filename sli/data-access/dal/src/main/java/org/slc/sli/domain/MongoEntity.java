@@ -70,21 +70,22 @@ public class MongoEntity implements Entity {
         return dbObj;
     }
     
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("unchecked")
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
         
         UUID uuid = (UUID) dbObj.get("_id");
         String id = uuid.toString();
       
-        Map map = dbObj.toMap();
+          Map<?, ?> map = dbObj.toMap();
+
         Map<String, Object> body = new HashMap<String, Object>();
         if (map.containsKey("body")) {
-            body.putAll((Map) map.get("body"));
+            body.putAll((Map<String, ?>) map.get("body"));
         }
         Map<String, Object> metaData = new HashMap<String, Object>();
         if (map.containsKey("metadata")) {
-            metaData.putAll((Map) map.get("metadata"));
+            metaData.putAll((Map<String, ?>) map.get("metadata"));
         }
         return new MongoEntity(type, id, body, metaData);
     }
