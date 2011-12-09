@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
-import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 
 @Component
 public class ControlFileProcessor implements Processor {
@@ -26,17 +24,13 @@ public class ControlFileProcessor implements Processor {
 
         long startTime = System.currentTimeMillis();
 
-        // TODO handle invalid control file (user error)
-        // TODO handle IOException or other system error
-        ControlFile controlFile = ControlFile.parse(exchange.getIn().getBody(
-                File.class));
+        ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
         // generate a BatchJob from the ControlFile
-        BatchJob job = this.getJobAssembler().assembleJob(controlFile);
+        BatchJob job = this.getJobAssembler().assembleJob(cfd);
 
         long endTime = System.currentTimeMillis();
-        log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime
-                - startTime);
+        log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
 
         // TODO set properties on the exchange based on job properties
         // TODO set faults on the exchange if the control file sucked (?)
