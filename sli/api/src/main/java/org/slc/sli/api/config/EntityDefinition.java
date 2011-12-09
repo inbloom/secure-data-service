@@ -186,8 +186,10 @@ public class EntityDefinition {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            return new EntityDefinition(type, resourceName, new BasicService(collectionName, treatments, validators,
-                    repo));
+            BasicService entityService = new BasicService(collectionName, treatments, validators, repo);
+            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, entityService);
+            entityService.setDefinition(entityDefinition);
+            return entityDefinition;
         }
         
     }

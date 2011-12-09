@@ -3,11 +3,13 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
@@ -16,6 +18,7 @@ public class BasicService implements EntityService {
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     private final EntityRepository repo;
+    private EntityDefinition defn;
     
     public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
             EntityRepository repo) {
@@ -24,6 +27,10 @@ public class BasicService implements EntityService {
         this.treatments = treatments;
         this.validators = validators;
         this.repo = repo;
+    }
+    
+    public void setDefinition(EntityDefinition defn) {
+        this.defn = defn;
     }
     
     protected String getCollectionName() {
@@ -118,7 +125,7 @@ public class BasicService implements EntityService {
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
         for (Treatment treatment : treatments) {
-            toReturn = treatment.toExposed(toReturn);
+            toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
         return toReturn;
     }
