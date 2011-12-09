@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -39,10 +40,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         String inboundDir = lz.getDirectory().getPath();
 
         from("file:" + inboundDir + "?include=^(.*)\\.ctl$&move=" + inboundDir + "/.done&moveFailed="
-                + inboundDir + "/.error").process(ctlFileProcessor).to("seda:jobs");
+                + inboundDir + "/.error").process(new ControlFilePreProcessor(lz)).to("seda:CtrlFilePreProcessor");
+
+        from("seda:CtrlFilePreProcessor").process(ctlFileProcessor).to("seda:jobs");
 
         from("file:" + inboundDir + "?include=^(.*)\\.zip$&move=" + inboundDir + "/.done&moveFailed="
-                + inboundDir + "/.error").process(zipFileProcessor);
+                + inboundDir + "/.error").process(zipFileProcessor).to("seda:jobs");
 
         from("seda:jobs").process(new Processor() {
 

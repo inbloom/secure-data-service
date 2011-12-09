@@ -21,7 +21,7 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private static EntityRepository defaultRepo;
-    private final static List<Treatment> globalTreatments = new LinkedList<Treatment>();
+    private static final List<Treatment> GLOBAL_TREATMENTS = new LinkedList<Treatment>();
     
     protected EntityDefinition(String type, String resourceName, EntityService service) {
         super();
@@ -56,12 +56,13 @@ public class EntityDefinition {
     }
     
     /**
-     * Add a treatment to be applied to every entity definition
+     * Adds a global treatment to be applied to every entity definition. Note that this has to be
+     * called prior to defining any entity definitions
      * 
-     * @param treatment to be applied to every entity definition
+     * @param treatment
      */
     public static void addGlobalTreatment(Treatment treatment) {
-        globalTreatments.add(treatment);
+        GLOBAL_TREATMENTS.add(treatment);
     }
     
     /**
@@ -80,7 +81,7 @@ public class EntityDefinition {
         private String type;
         private String collectionName;
         private String resourceName;
-        private List<Treatment> treatments = new LinkedList<Treatment>(globalTreatments);
+        private List<Treatment> treatments = new LinkedList<Treatment>(GLOBAL_TREATMENTS);
         private List<Validator> validators = new LinkedList<Validator>();
         private EntityRepository repo;
         
@@ -189,9 +190,10 @@ public class EntityDefinition {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            BasicService defnService = new BasicService(collectionName, treatments, validators, repo);
-            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, defnService);
-            defnService.setDefn(entityDefinition);
+
+            BasicService entityService = new BasicService(collectionName, treatments, validators, repo);
+            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, entityService);
+            entityService.setDefn(entityDefinition);
             return entityDefinition;
         }
         

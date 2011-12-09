@@ -15,14 +15,16 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.slc.sli.dal.repository.EntityRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -38,10 +40,14 @@ public class EntityServiceLayerTest {
     private EntityService schoolService;
     private AssociationService studentEnrollmentService;
     private AssociationService schoolEnrollmentService;
+    @Autowired
+    private EntityRepository repo;
     
     @Before
     public void setUp() {
         defs.init();
+        repo.deleteAll("student");
+        repo.deleteAll("school");
         studentDef = defs.lookupByResourceName("students");
         schoolDef = defs.lookupByResourceName("schools");
         studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("student-enrollments");
@@ -179,21 +185,25 @@ public class EntityServiceLayerTest {
         assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
         String assocId1 = studentEnrollmentService.create(assoc1);
+        assoc1.put("id", assocId1);
         EntityBody assoc2 = new EntityBody();
         assoc2.put("schoolId", schoolId);
         assoc2.put("studentId", id2);
         assoc2.put("startDate", (new Date()).getTime());
         String assocId2 = studentEnrollmentService.create(assoc2);
+        assoc2.put("id", assocId2);
         EntityBody assoc3 = new EntityBody();
         assoc3.put("schoolId", schoolId);
         assoc3.put("studentId", id3);
         assoc3.put("startDate", (new Date()).getTime());
         String assocId3 = studentEnrollmentService.create(assoc3);
+        assoc3.put("id", assocId3);
         EntityBody assoc4 = new EntityBody();
         assoc4.put("schoolId", schoolId);
         assoc4.put("studentId", id4);
         assoc4.put("startDate", (new Date()).getTime());
         String assocId4 = studentEnrollmentService.create(assoc4);
+        assoc4.put("id", assocId4);
         assertEquals(Arrays.asList(assoc1, assoc2, assoc3, assoc4),
                 studentEnrollmentService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
         assertEquals(Arrays.asList(assocId1), studentEnrollmentService.getAssociatedWith(id1, 0, 4));
