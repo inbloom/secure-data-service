@@ -50,7 +50,7 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public Entity create(Map<String, Object> body, String type) {
+    public Entity create(String type, Map<String, Object> body) {
         Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
         update(newEntity);
         return newEntity;
@@ -92,7 +92,10 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void deleteAll(String entityType) {
-        // TODO Auto-generated method stub
+        Map<String, Entity> repository = repo.get(entityType);
+        if (repository != null) {
+            repository.clear();
+        }
         
     }
     

@@ -15,16 +15,16 @@ public interface Entity {
      * @return the entity type as string, can be entity type for
      *            core entity or association entity
      */
-    String getType();
+    public String getType();
     
     /**
      * @return the global unique id of the entity as string
      */
-    String getEntityId();
+    public String getEntityId();
     
     /**
      * @return the entity body wrapped by a map
      */
-    Map<String, Object> getBody();
+    public Map<String, Object> getBody();
     
 }

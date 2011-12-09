@@ -25,9 +25,9 @@ public class CollectionResponse extends LinkedList<CollectionResponse.EntityRefe
         @JsonProperty("id")
         String id;
         @JsonProperty("link")
-        EmbededLink link;
+        EmbeddedLink link;
         
-        public EntityReference(String id, EmbededLink link) {
+        public EntityReference(String id, EmbeddedLink link) {
             this.id = id;
             this.link = link;
         }
@@ -38,13 +38,13 @@ public class CollectionResponse extends LinkedList<CollectionResponse.EntityRefe
         }
         
         @JsonIgnore
-        public EmbededLink getLink() {
+        public EmbeddedLink getLink() {
             return link;
         }
     }
     
     public void add(String id, String rel, String type, String href) {
-        this.add(new EntityReference(id, new EmbededLink(rel, type, href)));
+        this.add(new EntityReference(id, new EmbeddedLink(rel, type, href)));
     }
     
 }

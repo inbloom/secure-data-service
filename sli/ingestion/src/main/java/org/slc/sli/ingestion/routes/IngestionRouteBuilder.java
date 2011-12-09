@@ -45,7 +45,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("seda:CtrlFilePreProcessor").process(ctlFileProcessor).to("seda:jobs");
 
         from("file:" + inboundDir + "?include=^(.*)\\.zip$&move=" + inboundDir + "/.done&moveFailed="
-                + inboundDir + "/.error").process(zipFileProcessor);
+                + inboundDir + "/.error").process(zipFileProcessor).to("seda:jobs");
 
         from("seda:jobs").process(new Processor() {
 

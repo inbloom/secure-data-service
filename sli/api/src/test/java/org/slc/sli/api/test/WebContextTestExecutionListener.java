@@ -1,4 +1,4 @@
-package org.slc.sli.api;
+package org.slc.sli.api.test;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.Scope;

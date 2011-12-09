@@ -1,5 +1,6 @@
 package org.slc.sli.api.service;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 
 
@@ -23,7 +24,7 @@ public interface Treatment {
      *            The entity in the form it is exposed via ReST
      * @return The entity in the form it is stored in the DB
      */
-    public EntityBody toStored(EntityBody exposed);
+    public EntityBody toStored(EntityBody exposed, EntityDefinition defn);
     
     /**
      * Transform from a stored entity to an exposed entity
@@ -32,6 +33,6 @@ public interface Treatment {
      *            The entity in the form it is stored in the DB
      * @return The entity in the form it is exposed via ReST
      */
-    public EntityBody toExposed(EntityBody stored);
+    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, String id);
     
 }

@@ -61,7 +61,7 @@ public class MongoEntityRepository implements EntityRepository {
     }
     
     @Override
-    public Entity create(Map<String, Object> body, String type) {
+    public Entity create(String type, Map<String, Object> body) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
         template.save(entity, type);
@@ -88,11 +88,7 @@ public class MongoEntityRepository implements EntityRepository {
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {
         Query query = new Query();
         query.skip(skip).limit(max);
-        for (Map.Entry<String, String> field : fields.entrySet()) {
-            Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
-            query.addCriteria(criteria);
-        }
-        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+        List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, entityType);
         return new LinkedList<Entity>(results);
     }
     
@@ -112,12 +108,16 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
         Query query = new Query();
-        for (Map.Entry<String, String> field : fields.entrySet()) {
+        List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, entityType);
+        return new LinkedList<Entity>(results);
+    }
+    
+    private Query addSearchFieldsToQuery(Query query, Map<String, String> searchFields) {
+        for (Map.Entry<String, String> field : searchFields.entrySet()) {
             Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
         }
-        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
-        return new LinkedList<Entity>(results);
+        return query;
     }
     
 }

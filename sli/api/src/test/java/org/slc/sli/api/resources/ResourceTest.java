@@ -1,11 +1,6 @@
 package org.slc.sli.api.resources;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +19,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.WebContextTestExecutionListener;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.CollectionResponse.EntityReference;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the generic Resource class.
@@ -111,7 +106,7 @@ public class ResourceTest {
             Response r = api.getEntityOrAssociations("students", id, 0, 100);
             EntityBody body = (EntityBody) r.getEntity();
             assertNotNull(body);
-            // TODO: enable assertEquals(id, body.get("id"));
+            assertEquals(id, body.get("id"));
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
         }
@@ -121,6 +116,7 @@ public class ResourceTest {
             Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10);
             EntityBody assoc = (EntityBody) r.getEntity();
             assertNotNull(assoc);
+            assertEquals(id, assoc.get("id"));
             assertEquals("First grade", assoc.get("entryGradeLevel"));
             assertEquals(schoolId, assoc.get("schoolId"));
             assertNotNull(assoc.get("studentId"));
