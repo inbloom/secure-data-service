@@ -17,7 +17,23 @@
     <freemarker.version>2.3.18</freemarker.version>
     <gson.version>2.0</gson.version>
     <powermock.version>1.4.10</powermock.version>
+    <env>dev</env>
   </properties>
+
+<profiles>
+  <profile>
+    <id>dev</id>
+    <properties>
+      <env>dev</env>
+    </properties>
+  </profile>
+  <profile>
+    <id>test</id>
+    <properties>
+      <env>test</env>
+    </properties>
+  </profile>  
+  </profiles>
 
   <dependencies>
 
@@ -69,6 +85,11 @@
       <version>${gson.version}</version>
     </dependency>
 
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>2.14.0</version>
+    </dependency> 
   </dependencies>
 
   <build>
@@ -83,7 +104,60 @@
             <scanIntervalSeconds>5</scanIntervalSeconds>
          </configuration>
       </plugin>
+    
+    <plugin>
+    <!-- Separates the unit tests from the integration tests. -->
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+        <!--  Skip the default running of this plugin, otherwise everything is run twice -->
+        <skip>true</skip>
+    </configuration>
+    <executions>
+        <execution>
+            <id>unit-tests</id>
+            <phase>test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <configuration>
+                <!--  Don't skip tests when test phase is invoked -->
+                <skip>false</skip>
+                <includes>
+                    <include>org/slc/sli/controller/unit/*.java</include>
+                </includes>
+                <excludes>
+                    <exclude>org/slc/sli/controller/selenium/*.java</exclude>
+                </excludes>
+            </configuration>
+        </execution>
+        <execution>
+            <id>integration-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <configuration>
+                <!--  Never skip tests during integration phase -->
+                <skip>false</skip>
+                <includes>
+                    <include>org/slc/sli/controller/selenium/*.java</include>
+                </includes>
+            </configuration>
+        </execution>
+    </executions>
+    </plugin>
+    
     </plugins>
+    
+    
+    
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+      </resources>    
   </build>
 
 </project>

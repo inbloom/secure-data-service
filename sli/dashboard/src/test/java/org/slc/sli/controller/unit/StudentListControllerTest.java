@@ -54,7 +54,7 @@ public class StudentListControllerTest {
         assertTrue(studentList.length > 0);
     }
     
-    
+    /*
     @PrepareForTest(StudentListController.class)
     @Test
     public void testStudentListNullReturn() throws Exception {
@@ -65,6 +65,6 @@ public class StudentListControllerTest {
         String result = partiallyMocked.retrieveStudentList(model);
         assertFalse(model.containsKey("listOfStudents"));
         verify(StudentListController.class);
-    }
+    }*/
     
 }

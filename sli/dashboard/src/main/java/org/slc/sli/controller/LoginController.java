@@ -1,15 +1,21 @@
 package org.slc.sli.controller;
 
-import org.springframework.stereotype.Controller;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.slc.sli.entity.SpringPropertiesTest;
 
-@Controller
-@RequestMapping("/login")
+
 public class LoginController {
 
+
+   
+    private SpringPropertiesTest testClass;
+    
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
         model.addAttribute("message", "Enter Username or password");
@@ -22,8 +28,19 @@ public class LoginController {
             model.addAttribute("message", "Enter valid Username");
             return "login";
         }
+        
+        
         return "redirect:appselector";
         
+    }
+
+
+    public SpringPropertiesTest getTestClass() {
+        return testClass;
+    }
+
+    public void setTestClass(SpringPropertiesTest testClass) {
+        this.testClass = testClass;
     }
     
 }

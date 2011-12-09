@@ -9,6 +9,13 @@ import com.mongodb.DBObject;
 
 import org.bson.BasicBSONObject;
 
+/**
+ * Mongodb specific implementation of Entity Interface with basic conversion method
+ * for convert from and to DBObject
+ * 
+ * @author Dong Liu dliu@wgen.net
+ * 
+ */
 public class MongoEntity implements Entity {
     
     final String type;
@@ -46,6 +53,9 @@ public class MongoEntity implements Entity {
         return body;
     }
     
+    /**
+     * @return DBObject that converted from this MongoEntity
+     */
     public DBObject toDBObject() {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", this.type);
@@ -66,6 +76,11 @@ public class MongoEntity implements Entity {
         return dbObj;
     }
     
+    /**
+     * @param dbObj
+     *            DBObject that need to be converted to MongoEntity
+     * @return converted MongoEntity from DBObject
+     */
     @SuppressWarnings("unchecked")
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
