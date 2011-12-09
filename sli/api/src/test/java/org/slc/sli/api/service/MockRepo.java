@@ -46,20 +46,19 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void update(Entity entity) {
-        repo.get(entity.getType()).put(entity.getId(), entity);
+        repo.get(entity.getType()).put(entity.getEntityId(), entity);
     }
     
     @Override
-    public Entity create(Entity entity) {
-        Entity newEntity = new MongoEntity(entity.getType(), Long.toString(nextID.getAndIncrement()), entity.getBody(),
-                null);
+    public Entity create(String type, Map<String, Object> body) {
+        Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
         update(newEntity);
         return newEntity;
     }
     
     @Override
     public void delete(Entity entity) {
-        repo.get(entity.getType()).remove(entity.getId());
+        repo.get(entity.getType()).remove(entity.getEntityId());
         
     }
     
@@ -95,6 +94,24 @@ public class MockRepo implements EntityRepository {
     public void deleteAll(String entityType) {
         // TODO Auto-generated method stub
         
+    }
+    
+    @Override
+    public Iterable<Entity> findAll(String entityType) {
+        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+        return all;
+    }
+    
+    @Override
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
+        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+        List<Entity> toReturn = new ArrayList<Entity>();
+        for (Entity entity : all) {
+            if (matchesFields(entity, fields)) {
+                toReturn.add(entity);
+            }
+        }
+        return toReturn;
     }
     
 }

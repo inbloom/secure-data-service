@@ -67,20 +67,17 @@ public class BatchJobTest {
 
         // generate dates before and after the BatchJob is instantiated,
         // so we can verify its creationDate is accurate.
-        Date date1 = new Date();
-        Thread.sleep(1);
-
+        Date now = new Date();
         BatchJob job = BatchJob.createDefault();
 
-        Thread.sleep(1);
-        Date date2 = new Date();
+        System.out.println(System.getProperty("java.class.path"));
 
         String id = job.getId();
         assertEquals(id.length(), 36);
 
         Date jobDate = job.getCreationDate();
-        assertTrue(jobDate.after(date1));
-        assertTrue(jobDate.before(date2));
+        assertTrue(jobDate.after(new Date(now.getTime()-1)));
+        assertTrue(jobDate.before(new Date(now.getTime()+1)));
 
         ArrayList<File> files = (ArrayList<File>) job.getFiles();
         assertEquals(files.size(), 0);

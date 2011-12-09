@@ -70,9 +70,7 @@
     <!-- Testing Framework Versions -->
     <junit.version>4.9</junit.version>
     <mockito.version>1.8.5</mockito.version>
-   
-    <!-- default runtime environment -->
-    <sli.env>local</sli.env> 
+
   </properties>
 
   <!-- 
@@ -96,10 +94,22 @@
       <!-- A local dev profile -->
       <profile>
           <id>local</id>
-          <properties>
-              <sli.env>local</sli.env>
-          </properties>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+		  <properties>
+			  <sli.env>local</sli.env>
+		  </properties>
       </profile>
+
+
+     <!-- Remote dev/demo database profile -->
+     <profile>
+          <id>dev</id>
+          <properties>
+             <sli.env>dev</sli.env>
+          </properties>
+     </profile>
       
       <!-- Profile to use during continuous integration -->
       <profile>

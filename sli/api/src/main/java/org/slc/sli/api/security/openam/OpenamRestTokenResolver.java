@@ -29,8 +29,13 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
+<<<<<<< HEAD
     private String              tokenServiceUrl;
     private RestTemplate        rest;
+=======
+    private String tokenServiceUrl;
+    private RestTemplate rest;
+>>>>>>> 3bd1c345402a304d47c6039d71289bc3b2aee5ea
     
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -48,12 +53,22 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         try {
             
             // Validate Session
+<<<<<<< HEAD
             ResponseEntity<String> entity = rest.getForEntity(tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token, String.class);
+=======
+            ResponseEntity<String> entity = rest.getForEntity(tokenServiceUrl + "/identity/isTokenValid?tokenid="
+                    + token, String.class, Collections.emptyMap());
+>>>>>>> 3bd1c345402a304d47c6039d71289bc3b2aee5ea
             
             if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                 
                 // Get session attributes
+<<<<<<< HEAD
                 entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class);
+=======
+                entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class,
+                        Collections.emptyMap());
+>>>>>>> 3bd1c345402a304d47c6039d71289bc3b2aee5ea
                 LOG.debug("-------------------------------------");
                 LOG.debug(entity.getBody());
                 LOG.debug("-------------------------------------");
@@ -92,7 +107,12 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     private String extractValue(String valueName, String payload) {
         String result = "";
         
+<<<<<<< HEAD
         Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
+=======
+        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName
+                + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
+>>>>>>> 3bd1c345402a304d47c6039d71289bc3b2aee5ea
         Matcher m = p.matcher(payload);
         
         if (m.find()) {

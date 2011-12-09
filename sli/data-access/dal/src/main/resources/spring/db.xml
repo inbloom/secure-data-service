@@ -17,7 +17,8 @@
 
 	<bean id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:data-access/dal/config/${sli.env}/project.properties" />
+		<property name="location"
+			value="classpath:data-access/dal/config/${sli.env}/project.properties" />
 	</bean>
 
 
@@ -53,11 +54,9 @@
 
 	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
 		host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
-		<!-- username="${sli.mongodb.user}"
-		password="${sli.mongodb.pass}" />
-		 -->
-		 
-		 
+	<!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
+
+
 	<mongo:mapping-converter id="mappingConverter"
 		base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
 		<mongo:custom-converters>
@@ -67,6 +66,7 @@
 			<mongo:converter>
 				<bean class="org.slc.sli.dal.convert.MongoEntityWriteConverter" />
 			</mongo:converter>
+		
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 
@@ -75,8 +75,8 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="mappingConverter" />
-
 	</bean>
 
+	<bean id="mongoEntityRepository" class="org.slc.sli.dal.repository.MongoEntityRepository"></bean>
 	<context:component-scan base-package="org.slc.sli.dal" />
 </beans>

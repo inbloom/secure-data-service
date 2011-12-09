@@ -1,13 +1,11 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +49,7 @@ public class BasicService implements EntityService {
             LOG.info("validation failed for {}", content);
             throw new ValidationException();
         }
-        Entity entity = makeEntity(content, null);
-        return getRepo().create(entity).getId();
+        return getRepo().create(collectionName, content).getEntityId();
     }
     
     @Override
@@ -74,17 +71,17 @@ public class BasicService implements EntityService {
             LOG.info("Validation failed for {}", content);
             throw new ValidationException();
         }
-        Entity existingEntity = getRepo().find(collectionName, id);
-        if (existingEntity == null) {
+        Entity entity = getRepo().find(collectionName, id);
+        if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException();
         }
-        if (makeEntityBody(existingEntity).equals(content)) {
+        if (makeEntityBody(entity).equals(content)) {
             LOG.info("No change detected to {}", id);
             return false;
         }
-        Entity newEntity = makeEntity(content, id);
-        getRepo().update(newEntity);
+        entity.getBody().putAll(content);
+        getRepo().update(entity);
         return true;
     }
     
@@ -113,7 +110,7 @@ public class BasicService implements EntityService {
     public Iterable<String> list(int start, int numResults) {
         List<String> results = new ArrayList<String>();
         for (Entity entity : repo.findAll(collectionName, start, numResults)) {
-            results.add(entity.getId());
+            results.add(entity.getEntityId());
         }
         return results;
     }
@@ -124,14 +121,6 @@ public class BasicService implements EntityService {
             toReturn = treatment.toExposed(toReturn);
         }
         return toReturn;
-    }
-    
-    private Entity makeEntity(EntityBody body, String id) {
-        EntityBody toReturn = body;
-        for (Treatment treatment : treatments) {
-            toReturn = treatment.toStored(toReturn);
-        }
-        return new MongoEntity(collectionName, id, toReturn, new HashMap<String, Object>());
     }
     
     private boolean validate(EntityBody body) {

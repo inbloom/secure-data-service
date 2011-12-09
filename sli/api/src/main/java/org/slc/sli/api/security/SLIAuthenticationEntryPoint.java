@@ -1,7 +1,10 @@
 package org.slc.sli.api.security;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.net.URLEncoder;
+=======
+>>>>>>> 3bd1c345402a304d47c6039d71289bc3b2aee5ea
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +33,14 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+<<<<<<< HEAD
         String realmURL = request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+request.getContextPath()+authUrl+"?return="+URLEncoder.encode(request.getRequestURL().toString(),"UTF-8");
         LOG.info("Redirecting user to realm "+realmURL);
         response.sendRedirect(realmURL);
+=======
+        LOG.info("Redirecting user to authentication url");
+        response.sendRedirect(authUrl);
+>>>>>>> 3bd1c345402a304d47c6039d71289bc3b2aee5ea
     }
     
     public void setAuthUrl(String authUrl) {

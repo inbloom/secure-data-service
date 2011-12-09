@@ -37,7 +37,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         fields.put(sourceKey, id);
         List<String> results = new ArrayList<String>();
         for (Entity entity : getRepo().findByFields(getCollectionName(), fields, start, numResults)) {
-            results.add(entity.getId());
+            results.add(entity.getEntityId());
         }
         return results;
     }
