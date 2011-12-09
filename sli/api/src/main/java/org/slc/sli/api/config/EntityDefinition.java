@@ -1,7 +1,7 @@
 package org.slc.sli.api.config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.api.service.BasicService;
@@ -21,6 +21,7 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private static EntityRepository defaultRepo;
+    private final static List<Treatment> globalTreatments = new LinkedList<Treatment>();
     
     protected EntityDefinition(String type, String resourceName, EntityService service) {
         super();
@@ -55,6 +56,15 @@ public class EntityDefinition {
     }
     
     /**
+     * Add a treatment to be applied to every entity definition
+     * 
+     * @param treatment to be applied to every entity definition
+     */
+    public static void addGlobalTreatment(Treatment treatment) {
+        globalTreatments.add(treatment);
+    }
+    
+    /**
      * Create a builder for an entity definition with the same collection and resource name as the
      * type
      * 
@@ -70,8 +80,8 @@ public class EntityDefinition {
         private String type;
         private String collectionName;
         private String resourceName;
-        private List<Treatment> treatments = new ArrayList<Treatment>();
-        private List<Validator> validators = new ArrayList<Validator>();
+        private List<Treatment> treatments = new LinkedList<Treatment>(globalTreatments);
+        private List<Validator> validators = new LinkedList<Validator>();
         private EntityRepository repo;
         
         /**
@@ -126,6 +136,11 @@ public class EntityDefinition {
             return this;
         }
         
+        /**
+         *TODO
+         * @param repo
+         * @return
+         */
         public Builder storeIn(EntityRepository repo) {
             this.repo = repo;
             return this;
@@ -174,8 +189,10 @@ public class EntityDefinition {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            return new EntityDefinition(type, resourceName, new BasicService(collectionName, treatments, validators,
-                    repo));
+            BasicService defnService = new BasicService(collectionName, treatments, validators, repo);
+            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, defnService);
+            defnService.setDefn(entityDefinition);
+            return entityDefinition;
         }
         
     }

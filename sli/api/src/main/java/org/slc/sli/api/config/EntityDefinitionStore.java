@@ -20,16 +20,13 @@ public interface EntityDefinitionStore {
     public EntityDefinition lookupByResourceName(String resourceName);
     
     /**
-     * Gets the collection of entity definitions that are linked to the given definition. With the
-     * current model, if the definition is an entity object, the results will be its associations.
-     * If the definition is an association, the results will be the target and source of that
-     * association.
+     * Gets the collection of association definitions that are linked to the given definition
      * 
      * @param defn
      *            the definition to look up
      * @return the linked entity definitions
      */
-    public Collection<EntityDefinition> getLinked(EntityDefinition defn);
+    public Collection<AssociationDefinition> getLinked(EntityDefinition defn);
     
     public void init();
     
