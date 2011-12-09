@@ -50,13 +50,13 @@ public interface EntityRepository {
     void update(Entity entity);
     
     /**
-     * @param body
-     *            the entity body that will be persisted
      * @param type
      *            the type of entity to be persisted
+     * @param body
+     *            the entity body that will be persisted
      * @return the entity that has been persisted
      */
-    Entity create(Map<String, Object> body, String type);
+    Entity create(String type, Map<String, Object> body);
     
     /**
      * @param entity

@@ -35,7 +35,7 @@ public class EntityRepositoryTest {
         Map<String, Object> student = buildTestStudentEntity();
         
         // test save
-        Entity saved = repository.create(student, "student");
+        Entity saved = repository.create("student", student);
         String id = saved.getEntityId();
         assertTrue(!id.equals(""));
         
@@ -73,7 +73,7 @@ public class EntityRepositoryTest {
         
         // test delete by id
         Map<String, Object> student2Body = buildTestStudentEntity();
-        Entity student2 = repository.create(student2Body, "student");
+        Entity student2 = repository.create("student", student2Body);
         entities = repository.findAll("student", 0, 20);
         assertNotNull(entities.iterator().next());
         repository.delete("student", student2.getEntityId());

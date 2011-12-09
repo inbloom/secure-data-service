@@ -49,7 +49,7 @@ public class BasicService implements EntityService {
             LOG.info("validation failed for {}", content);
             throw new ValidationException();
         }
-        return getRepo().create(content, collectionName).getEntityId();
+        return getRepo().create(collectionName, content).getEntityId();
     }
     
     @Override

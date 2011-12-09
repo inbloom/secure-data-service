@@ -61,7 +61,7 @@ public class MongoEntityRepository implements EntityRepository {
     }
     
     @Override
-    public Entity create(Map<String, Object> body, String type) {
+    public Entity create(String type, Map<String, Object> body) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
         template.save(entity, type);
