@@ -106,7 +106,7 @@ public class ResourceTest {
             Response r = api.getEntityOrAssociations("students", id, 0, 100);
             EntityBody body = (EntityBody) r.getEntity();
             assertNotNull(body);
-            // TODO: enable assertEquals(id, body.get("id"));
+            assertEquals(id, body.get("id"));
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
         }
@@ -116,6 +116,7 @@ public class ResourceTest {
             Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10);
             EntityBody assoc = (EntityBody) r.getEntity();
             assertNotNull(assoc);
+            assertEquals(id, assoc.get("id"));
             assertEquals("First grade", assoc.get("entryGradeLevel"));
             assertEquals(schoolId, assoc.get("schoolId"));
             assertNotNull(assoc.get("studentId"));
