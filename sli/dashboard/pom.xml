@@ -124,10 +124,10 @@
                 <!--  Don't skip tests when test phase is invoked -->
                 <skip>false</skip>
                 <includes>
-                    <include>**/*Test.java</include>
+                    <include>org/slc/sli/controller/unit/*.java</include>
                 </includes>
                 <excludes>
-                    <exclude>**/*ITest.java</exclude>
+                    <exclude>org/slc/sli/controller/selenium/*.java</exclude>
                 </excludes>
             </configuration>
         </execution>
@@ -141,7 +141,7 @@
                 <!--  Never skip tests during integration phase -->
                 <skip>false</skip>
                 <includes>
-                    <include>**/*ITest.java</include>
+                    <include>org/slc/sli/controller/selenium/*.java</include>
                 </includes>
             </configuration>
         </execution>
