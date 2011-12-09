@@ -37,7 +37,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
  * @author Ryan Farris <rfarris@wgen.net>
  *
  */
-@Path("new-api/{type}")
+@Path("{type}")
 @Component
 @Scope("request")
 @Produces({ ResourceUtilities.XML_MEDIA_TYPE, ResourceUtilities.JSON_MEDIA_TYPE })
