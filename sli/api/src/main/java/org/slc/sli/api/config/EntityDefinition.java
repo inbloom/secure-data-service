@@ -2,6 +2,7 @@ package org.slc.sli.api.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.api.service.BasicService;
@@ -21,6 +22,7 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private static EntityRepository defaultRepo;
+    private final static List<Treatment> globalTreatments = new LinkedList<Treatment>();
     
     protected EntityDefinition(String type, String resourceName, EntityService service) {
         super();
@@ -55,6 +57,16 @@ public class EntityDefinition {
     }
     
     /**
+     * Adds a global treatment to be applied to every entity definition. Note that this has to be
+     * called prior to defining any entity definitions
+     * 
+     * @param treatment
+     */
+    public static void addGlobalTreatment(Treatment treatment) {
+        globalTreatments.add(treatment);
+    }
+    
+    /**
      * Create a builder for an entity definition with the same collection and resource name as the
      * type
      * 
@@ -70,7 +82,7 @@ public class EntityDefinition {
         private String type;
         private String collectionName;
         private String resourceName;
-        private List<Treatment> treatments = new ArrayList<Treatment>();
+        private List<Treatment> treatments = new ArrayList<Treatment>(globalTreatments);
         private List<Validator> validators = new ArrayList<Validator>();
         private EntityRepository repo;
         
