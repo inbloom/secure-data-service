@@ -3,18 +3,18 @@ package org.slc.sli.api.representation;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class EmbededLink {
+public class EmbeddedLink {
     @JsonProperty("rel") String rel;
     @JsonIgnore @JsonProperty("type") String type;
     @JsonProperty("href") String href;
     
-    public EmbededLink(String rel, String type, String href) {
+    public EmbeddedLink(String rel, String type, String href) {
         this.rel = rel;
         this.type = type;
         this.href = href;
     }
     
-    public EmbededLink() {
+    public EmbeddedLink() {
     }
 
     @JsonIgnore
