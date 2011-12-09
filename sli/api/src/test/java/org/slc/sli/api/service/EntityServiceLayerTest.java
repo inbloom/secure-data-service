@@ -19,6 +19,8 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.dal.repository.EntityRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,10 +39,14 @@ public class EntityServiceLayerTest {
     private EntityService schoolService;
     private AssociationService studentEnrollmentService;
     private AssociationService schoolEnrollmentService;
+    @Autowired
+    private EntityRepository repo;
     
     @Before
     public void setUp() {
         defs.init();
+        repo.deleteAll("student");
+        repo.deleteAll("school");
         studentDef = defs.lookupByResourceName("students");
         schoolDef = defs.lookupByResourceName("schools");
         studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("student-enrollments");

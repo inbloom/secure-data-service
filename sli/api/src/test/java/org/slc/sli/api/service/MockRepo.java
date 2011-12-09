@@ -92,7 +92,10 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public void deleteAll(String entityType) {
-        // TODO Auto-generated method stub
+        Map<String, Entity> repository = repo.get(entityType);
+        if (repository != null) {
+            repository.clear();
+        }
         
     }
     
