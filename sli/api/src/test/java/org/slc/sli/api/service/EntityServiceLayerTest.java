@@ -65,20 +65,20 @@ public class EntityServiceLayerTest {
         student.put("lastName", "Wiggen");
         String id = studentService.create(student);
         EntityBody retrievedEntity = studentService.get(id);
-		assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
-		assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         student = new EntityBody(student);
         student.put("sex", "Male");
         assertTrue(studentService.update(id, student));
         retrievedEntity = studentService.get(id);
-		assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
-		assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
-		assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
+        assertEquals(student.get("sex"), retrievedEntity.get("sex"));
         assertFalse(studentService.update(id, student));
         retrievedEntity = studentService.get(id);
-		assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
-		assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
-		assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
+        assertEquals(student.get("sex"), retrievedEntity.get("sex"));
         assertTrue(studentService.delete(id));
         try {
             EntityBody zombie = studentService.get(id);
@@ -124,18 +124,18 @@ public class EntityServiceLayerTest {
         String id2 = studentService.create(student2);
         String id3 = studentService.create(student3);
         String id4 = studentService.create(student4);
-		EntityBody retrievedStudent1 = studentService.get(id1);
-		assertEquals(student1.get("firstName"), retrievedStudent1.get("firstName"));
-		assertEquals(student1.get("lastName"), retrievedStudent1.get("lastName"));
+        EntityBody retrievedStudent1 = studentService.get(id1);
+        assertEquals(student1.get("firstName"), retrievedStudent1.get("firstName"));
+        assertEquals(student1.get("lastName"), retrievedStudent1.get("lastName"));
         EntityBody retrievedStudent2 = studentService.get(id2);
-		assertEquals(student2.get("firstName"), retrievedStudent2.get("firstName"));
-		assertEquals(student2.get("lastName"), retrievedStudent2.get("lastName"));
+        assertEquals(student2.get("firstName"), retrievedStudent2.get("firstName"));
+        assertEquals(student2.get("lastName"), retrievedStudent2.get("lastName"));
         EntityBody retrievedStudent3 = studentService.get(id3);
-		assertEquals(student3.get("firstName"), retrievedStudent3.get("firstName"));
-		assertEquals(student3.get("lastName"), retrievedStudent3.get("lastName"));
+        assertEquals(student3.get("firstName"), retrievedStudent3.get("firstName"));
+        assertEquals(student3.get("lastName"), retrievedStudent3.get("lastName"));
         EntityBody retrievedStudent4 = studentService.get(id4);
-		assertEquals(student4.get("firstName"), retrievedStudent4.get("firstName"));
-		assertEquals(student4.get("lastName"), retrievedStudent4.get("lastName"));
+        assertEquals(student4.get("firstName"), retrievedStudent4.get("firstName"));
+        assertEquals(student4.get("lastName"), retrievedStudent4.get("lastName"));
         assertEquals(Arrays.asList(retrievedStudent1, retrievedStudent2, retrievedStudent3, retrievedStudent4),
                 studentService.get(Arrays.asList(id1, id2, id3, id4)));
         List<String> firstSet = iterableToList(studentService.list(0, 2));
@@ -231,8 +231,8 @@ public class EntityServiceLayerTest {
         schoolService.delete(schoolId);
     }
     
-    @Test 
-    public void testSelfLink(){
+    @Test
+    public void testSelfLink() {
         EntityBody student = new EntityBody();
         student.put("firstName", "Andrew");
         student.put("lastName", "Wiggen");
