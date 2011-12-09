@@ -15,15 +15,15 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -63,13 +63,20 @@ public class EntityServiceLayerTest {
         student.put("firstName", "Andrew");
         student.put("lastName", "Wiggen");
         String id = studentService.create(student);
-        assertEquals(student, studentService.get(id));
+        EntityBody retrievedEntity = studentService.get(id);
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         student = new EntityBody(student);
         student.put("sex", "Male");
         assertTrue(studentService.update(id, student));
-        assertEquals(student, studentService.get(id));
+        retrievedEntity = studentService.get(id);
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
+        assertEquals(student.get("sex"), retrievedEntity.get("sex"));
         assertFalse(studentService.update(id, student));
-        assertEquals(student, studentService.get(id));
+        retrievedEntity = studentService.get(id);
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("sex"), retrievedEntity.get("sex"));
         assertTrue(studentService.delete(id));
         try {
             EntityBody zombie = studentService.get(id);
@@ -115,11 +122,19 @@ public class EntityServiceLayerTest {
         String id2 = studentService.create(student2);
         String id3 = studentService.create(student3);
         String id4 = studentService.create(student4);
-        assertEquals(student1, studentService.get(id1));
-        assertEquals(student2, studentService.get(id2));
-        assertEquals(student3, studentService.get(id3));
-        assertEquals(student4, studentService.get(id4));
-        assertEquals(Arrays.asList(student1, student2, student3, student4),
+        EntityBody retrievedStudent1 = studentService.get(id1);
+        EntityBody retrievedStudent2 = studentService.get(id2);
+        EntityBody retrievedStudent3 = studentService.get(id3);
+        EntityBody retrievedStudent4 = studentService.get(id4);
+        assertEquals(student1.get("firstName"), retrievedStudent1.get("firstName"));
+        assertEquals(student1.get("lastName"), retrievedStudent1.get("lastName"));
+        assertEquals(student2.get("firstName"), retrievedStudent2.get("firstName"));
+        assertEquals(student2.get("lastName"), retrievedStudent2.get("lastName"));
+        assertEquals(student3.get("firstName"), retrievedStudent3.get("firstName"));
+        assertEquals(student3.get("lastName"), retrievedStudent3.get("lastName"));
+        assertEquals(student4.get("firstName"), retrievedStudent4.get("firstName"));
+        assertEquals(student4.get("lastName"), retrievedStudent4.get("lastName"));
+        assertEquals(Arrays.asList(retrievedStudent1, retrievedStudent2, retrievedStudent3, retrievedStudent4),
                 studentService.get(Arrays.asList(id1, id2, id3, id4)));
         List<String> firstSet = iterableToList(studentService.list(0, 2));
         assertEquals(2, firstSet.size());
@@ -170,21 +185,25 @@ public class EntityServiceLayerTest {
         assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
         String assocId1 = studentEnrollmentService.create(assoc1);
+        assoc1.put("id", assocId1);
         EntityBody assoc2 = new EntityBody();
         assoc2.put("schoolId", schoolId);
         assoc2.put("studentId", id2);
         assoc2.put("startDate", (new Date()).getTime());
         String assocId2 = studentEnrollmentService.create(assoc2);
+        assoc2.put("id", assocId2);
         EntityBody assoc3 = new EntityBody();
         assoc3.put("schoolId", schoolId);
         assoc3.put("studentId", id3);
         assoc3.put("startDate", (new Date()).getTime());
         String assocId3 = studentEnrollmentService.create(assoc3);
+        assoc3.put("id", assocId3);
         EntityBody assoc4 = new EntityBody();
         assoc4.put("schoolId", schoolId);
         assoc4.put("studentId", id4);
         assoc4.put("startDate", (new Date()).getTime());
         String assocId4 = studentEnrollmentService.create(assoc4);
+        assoc4.put("id", assocId4);
         assertEquals(Arrays.asList(assoc1, assoc2, assoc3, assoc4),
                 studentEnrollmentService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
         assertEquals(Arrays.asList(assocId1), studentEnrollmentService.getAssociatedWith(id1, 0, 4));

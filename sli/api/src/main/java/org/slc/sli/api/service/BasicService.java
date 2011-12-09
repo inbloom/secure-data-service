@@ -56,7 +56,7 @@ public class BasicService implements EntityService {
             LOG.info("validation failed for {}", content);
             throw new ValidationException();
         }
-        return getRepo().create(collectionName, content).getEntityId();
+        return getRepo().create(collectionName, sanitizeEntityBody(content)).getEntityId();
     }
     
     @Override
@@ -83,11 +83,12 @@ public class BasicService implements EntityService {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException();
         }
-        if (makeEntityBody(entity).equals(content)) {
+        EntityBody sanitized = sanitizeEntityBody(content);
+        if (entity.getBody().equals(sanitized)) {
             LOG.info("No change detected to {}", id);
             return false;
         }
-        entity.getBody().putAll(content);
+        entity.getBody().putAll(sanitized);
         getRepo().update(entity);
         return true;
     }
@@ -122,6 +123,12 @@ public class BasicService implements EntityService {
         return results;
     }
     
+    /**
+     * given an entity, make the entity body to expose
+     * 
+     * @param entity
+     * @return
+     */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
         for (Treatment treatment : treatments) {
@@ -130,6 +137,20 @@ public class BasicService implements EntityService {
         return toReturn;
     }
     
+    /**
+     * given an entity body that was exposed, return the version with the treatments reversed
+     * 
+     * @param content
+     * @return
+     */
+    private EntityBody sanitizeEntityBody(EntityBody content) {
+        EntityBody sanitized = new EntityBody(content);
+        for (Treatment treatment : treatments) {
+            sanitized = treatment.toStored(sanitized, defn);
+        }
+        return sanitized;
+    }
+
     private boolean validate(EntityBody body) {
         for (Validator v : validators) {
             if (!v.validate(body)) {
