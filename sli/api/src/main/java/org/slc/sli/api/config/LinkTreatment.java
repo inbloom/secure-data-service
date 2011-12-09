@@ -1,12 +1,10 @@
 package org.slc.sli.api.config;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
@@ -38,8 +36,7 @@ public class LinkTreatment implements Treatment {
     private List<EmbeddedLink> findLinks(EntityDefinition defn, String id){
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         links.add(new EmbeddedLink("self", defn.getType(), defn.getResourceName()+"/"+id));
-        Collection<AssociationDefinition> linkedDefs = defStore.getLinked(defn);
-        return null;
+        return links;
     }
     
 }

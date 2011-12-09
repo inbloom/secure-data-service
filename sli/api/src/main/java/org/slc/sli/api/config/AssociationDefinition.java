@@ -157,9 +157,12 @@ public class AssociationDefinition extends EntityDefinition {
         
         @Override
         public AssociationDefinition build() {
-            AssociationService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
+            BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
                     getRepo(), sourceEntity, sourceIdKey);
-            return new AssociationDefinition(getType(), getResourceName(), service, sourceEntity, targetEntity);
+            AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
+                    service, sourceEntity, targetEntity);
+            service.setDefn(associationDefinition);
+            return associationDefinition;
         }
         
     }
