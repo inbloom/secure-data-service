@@ -30,17 +30,20 @@ public class BatchJobAssemblerTest {
     private BatchJobAssembler jobAssembler;
 
     @Autowired
+    private LandingZone landingZone;
+
+    @Autowired
     MessageSource messageSource;
 
     @Test
     public void testAssembleJobValid() throws IOException {
 
         // set up some valid entries
-        ArrayList<ControlFile.FileEntry> entries = new ArrayList<ControlFile.FileEntry>();
-        entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml",
-                MD5.calculate("InterchangeStudent.xml", jobAssembler.getLandingZone())));
-        entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
-                "InterchangeEnrollment.xml", MD5.calculate("InterchangeEnrollment.xml", jobAssembler.getLandingZone())));
+        ArrayList<IngestionFileEntry> entries = new ArrayList<IngestionFileEntry>();
+        entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml",
+                MD5.calculate("InterchangeStudent.xml", getLandingZone())));
+        entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
+                "InterchangeEnrollment.xml", MD5.calculate("InterchangeEnrollment.xml", getLandingZone())));
 
         // set up some valid properties
         Properties props = new Properties();
@@ -48,7 +51,7 @@ public class BatchJobAssemblerTest {
 
         ControlFile ctlFile = new ControlFile(null, entries, props);
 
-        BatchJob job = jobAssembler.assembleJob(ctlFile);
+        BatchJob job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
 
         assertEquals(2, job.getFiles().size());
         assertEquals(0, job.getFaults().size());
@@ -67,14 +70,14 @@ public class BatchJobAssemblerTest {
     public void testAssembleJobWithErrors() throws IOException {
 
         // set up entries
-        ArrayList<ControlFile.FileEntry> entries = new ArrayList<ControlFile.FileEntry>();
+        ArrayList<IngestionFileEntry> entries = new ArrayList<IngestionFileEntry>();
 
         // file name deliberately incorrect
-        entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "ZInterchangeStudent.xml",
+        entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "ZInterchangeStudent.xml",
                 "1257ae55b836dc57d635f0733c115179"));
 
         // checksum deliberately incorrect
-        entries.add(new ControlFile.FileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
+        entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
                 "InterchangeEnrollment.xml", "Zae81485112ff2e1a62bc06b35a131692"));
 
         // set up some valid properties
@@ -83,18 +86,26 @@ public class BatchJobAssemblerTest {
 
         ControlFile ctlFile = new ControlFile(null, entries, props);
 
-        BatchJob job = jobAssembler.assembleJob(ctlFile);
+        BatchJob job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
 
         assertEquals(0, job.getFiles().size());
         assertEquals(2, job.getFaults().size());
         assertTrue(job.hasErrors());
 
         assertEquals(job.getFaults().get(0).getMessage(),
-                messageSource.getMessage("SL_ERR_MSG8", new Object[] { entries.get(0).fileName }, null));
+                messageSource.getMessage("SL_ERR_MSG8", new Object[] { entries.get(0).getFileName() }, null));
         assertEquals(job.getFaults().get(1).getMessage(),
-                messageSource.getMessage("SL_ERR_MSG2", new Object[] { entries.get(1).fileName }, null));
+                messageSource.getMessage("SL_ERR_MSG2", new Object[] { entries.get(1).getFileName() }, null));
         assertEquals("world", job.getProperty("hello"));
 
+    }
+
+    public LandingZone getLandingZone() {
+        return landingZone;
+    }
+
+    public void setLandingZone(LandingZone landingZone) {
+        this.landingZone = landingZone;
     }
 
 }

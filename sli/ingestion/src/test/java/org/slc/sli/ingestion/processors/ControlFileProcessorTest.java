@@ -22,34 +22,38 @@ import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class ControlFileProcessorTest {
 
     @Autowired
-    LandingZone lz; 
-    
+    LandingZone lz;
+
     @Autowired
     ControlFileProcessor processor;
-    
+
     @Test
-	public void shouldAcceptExchangeObjectReadExchangeControlFileAndSetExchangeBatchJob()
-			throws Exception {
-		
-		assertNotNull("Landing zone is not being injected.", lz);
-	    
-		assertTrue( "Unexpected implementation of landing zone", lz instanceof LocalFileSystemLandingZone);
-		
-		Exchange eObject = new DefaultExchange(new DefaultCamelContext());
+    public void shouldAcceptExchangeObjectReadExchangeControlFileAndSetExchangeBatchJob() throws Exception {
 
-		eObject.getIn().setBody(
-				IngestionTest.getFile("smooks/InterchangeStudentCsv.ctl"));
+        assertNotNull("Landing zone is not being injected.", lz);
 
-		processor.process(eObject);
+        assertTrue("Unexpected implementation of landing zone", lz instanceof LocalFileSystemLandingZone);
 
-		BatchJob bj = eObject.getOut().getBody(BatchJob.class);
+        Exchange preObject = new DefaultExchange(new DefaultCamelContext());
 
-		assertNotNull("BatchJob is not defined", bj);
+        preObject.getIn().setBody(IngestionTest.getFile("smooks/InterchangeStudentCsv.ctl"));
 
-	}
+        new ControlFilePreProcessor(lz).process(preObject);
+
+        Exchange eObject = new DefaultExchange(new DefaultCamelContext());
+
+        eObject.getIn().setBody(preObject.getOut().getBody());
+
+        processor.process(eObject);
+
+        BatchJob bj = eObject.getOut().getBody(BatchJob.class);
+
+        assertNotNull("BatchJob is not defined", bj);
+
+    }
 
 }
