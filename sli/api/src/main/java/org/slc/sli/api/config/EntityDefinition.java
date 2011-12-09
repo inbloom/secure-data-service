@@ -22,7 +22,7 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private static EntityRepository defaultRepo;
-    private final static List<Treatment> globalTreatments = new LinkedList<Treatment>();
+    private static final List<Treatment> GLOBAL_TREATMENTS = new LinkedList<Treatment>();
     
     protected EntityDefinition(String type, String resourceName, EntityService service) {
         super();
@@ -63,7 +63,7 @@ public class EntityDefinition {
      * @param treatment
      */
     public static void addGlobalTreatment(Treatment treatment) {
-        globalTreatments.add(treatment);
+        GLOBAL_TREATMENTS.add(treatment);
     }
     
     /**
@@ -82,7 +82,7 @@ public class EntityDefinition {
         private String type;
         private String collectionName;
         private String resourceName;
-        private List<Treatment> treatments = new ArrayList<Treatment>(globalTreatments);
+        private List<Treatment> treatments = new ArrayList<Treatment>(GLOBAL_TREATMENTS);
         private List<Validator> validators = new ArrayList<Validator>();
         private EntityRepository repo;
         
