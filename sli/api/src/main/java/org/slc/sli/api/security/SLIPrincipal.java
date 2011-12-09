@@ -16,7 +16,7 @@ public class SLIPrincipal implements Principal {
     
     @Override
     public String getName() {
-        return this.name;
+        return null;
     }
     
     public String getId() {

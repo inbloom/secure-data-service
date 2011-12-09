@@ -18,23 +18,24 @@ import org.springframework.web.filter.GenericFilterBean;
  * A security filter responsible for checking SLI session
  * 
  * @author dkornishev
- *
+ * 
  */
 public class SLIProcessingFilter extends GenericFilterBean {
     
-    private static final Logger   LOG         = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private static final String   COOKIE_NAME = "sliSessionId";
+    private static final String COOKIE_NAME = "sliSessionId";
     
     private SecurityTokenResolver resolver;
-   
+    
     /**
-     *  Intercepter method called by spring 
-     *  Checks cookies to see if SLI session id exists
-     *  If session does exist, resolution will be attempted
+     * Intercepter method called by spring
+     * Checks cookies to see if SLI session id exists
+     * If session does exist, resolution will be attempted
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         
         String sessionId = null;
@@ -44,7 +45,7 @@ public class SLIProcessingFilter extends GenericFilterBean {
                 
                 if (COOKIE_NAME.equals(c.getName())) {
                     sessionId = c.getValue();
-                    LOG.debug(("Found session cookie: "+c.getName() + "->" + c.getValue()));
+                    LOG.debug(("Found session cookie: " + c.getName() + "->" + c.getValue()));
                     break;
                 }
                 
@@ -52,7 +53,7 @@ public class SLIProcessingFilter extends GenericFilterBean {
         }
         
         if (sessionId != null) {
-            SecurityContextHolder.getContext().setAuthentication(resolver.resolve(sessionId));            
+            SecurityContextHolder.getContext().setAuthentication(resolver.resolve(sessionId));
         }
         
         chain.doFilter(request, response);
