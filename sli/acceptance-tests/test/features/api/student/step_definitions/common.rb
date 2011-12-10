@@ -10,7 +10,7 @@ Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
 end
 
 Given /^I have access to all students$/ do
-  url = "http://"+PropLoader.getProps['api_server_url']+"/idp/identity/authenticate?username="+@user+"&password="+@passwd
+  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/identity/authenticate?username="+@user+"&password="+@passwd
   res = RestClient.get(url){|response, request, result| response }
   @cookie = res.body[res.body.rindex('=')+1..-1]
   assert(@cookie != nil, "Cookie retrieved was nil")
