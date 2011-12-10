@@ -34,6 +34,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone lz;
 
+    @Autowired
+    LocalFileSystemLandingZone temp;
+
     @Override
     public void configure() throws Exception {
 
@@ -45,7 +48,16 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("seda:CtrlFilePreProcessor").process(ctlFileProcessor).to("seda:jobs");
 
         from("file:" + inboundDir + "?include=^(.*)\\.zip$&move=" + inboundDir + "/.done&moveFailed="
-                + inboundDir + "/.error").process(zipFileProcessor).to("seda:jobs");
+                + inboundDir + "/.error").process(zipFileProcessor)
+                .process(new Processor() {
+
+                	// set temporary path to where the files were unzipped
+                	@Override
+                    public void process(Exchange exchange) throws Exception {
+                        File ctlFile = exchange.getIn().getBody(File.class);
+                        temp.setDirectory(ctlFile.getParentFile());
+                    }
+                }).process(new ControlFilePreProcessor(temp)).to("seda:CtrlFilePreProcessor");
 
         from("seda:jobs").process(new Processor() {
 
