@@ -21,7 +21,7 @@ public interface EntityRepository {
      *            the global unique id of the entity
      * @return the entity retrieved
      */
-    Entity find(String entityType, String id);
+    public Entity find(String entityType, String id);
     
     /**
      * @param entityType
@@ -33,7 +33,7 @@ public interface EntityRepository {
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    Iterable<Entity> findAll(String entityType, int skip, int max);
+    public Iterable<Entity> findAll(String entityType, int skip, int max);
     
     /**
      * @param entityType
@@ -41,13 +41,13 @@ public interface EntityRepository {
      *            core entity or association entity
      * @return the collection of entities
      */
-    Iterable<Entity> findAll(String entityType);
+    public Iterable<Entity> findAll(String entityType);
     
     /**
      * @param entity
      *            the entity that will be updated
      */
-    void update(Entity entity);
+    public void update(Entity entity);
     
     /**
      * @param type
@@ -56,7 +56,7 @@ public interface EntityRepository {
      *            the entity body that will be persisted
      * @return the entity that has been persisted
      */
-    Entity create(String type, Map<String, Object> body);
+    public Entity create(String type, Map<String, Object> body);
     
     /**
      * @param entity

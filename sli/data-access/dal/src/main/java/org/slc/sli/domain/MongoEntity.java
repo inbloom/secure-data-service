@@ -18,12 +18,12 @@ import org.bson.BasicBSONObject;
  */
 public class MongoEntity implements Entity {
     
-    final String type;
+    private final String type;
     
     /** Called entity id to avoid Spring Data using this as the ID field. */
-    String entityId;
-    final Map<String, Object> body;
-    final Map<String, Object> metaData;
+    private String entityId;
+    private final Map<String, Object> body;
+    private final Map<String, Object> metaData;
     
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
         if (body == null) {

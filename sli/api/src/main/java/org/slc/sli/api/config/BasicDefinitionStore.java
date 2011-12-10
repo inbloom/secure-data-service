@@ -1,6 +1,5 @@
 package org.slc.sli.api.config;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -8,11 +7,12 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * Default implementation of the entity definition store
@@ -25,7 +25,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
-    private Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
+    private Map<EntityDefinition, Collection<AssociationDefinition>> links = new HashMap<EntityDefinition, Collection<AssociationDefinition>>();
     
     @Autowired
     private EntityRepository defaultRepo;
@@ -36,7 +36,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     }
     
     @Override
-    public Collection<EntityDefinition> getLinked(EntityDefinition defn) {
+    public Collection<AssociationDefinition> getLinked(EntityDefinition defn) {
         return links.get(defn);
     }
     
@@ -44,6 +44,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     @Override
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
+        EntityDefinition.addGlobalTreatment(new LinkTreatment(this));
+        EntityDefinition.addGlobalTreatment(new IdTreatment());
         EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
@@ -63,7 +65,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
         add(defn);
-        links.put(defn, new LinkedHashSet<EntityDefinition>());
+        links.put(defn, new LinkedHashSet<AssociationDefinition>());
     }
     
     private void addAssocDefinition(AssociationDefinition defn) {
@@ -71,7 +73,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();
         EntityDefinition targetEntity = defn.getTargetEntity();
-        links.put(defn, Arrays.asList(sourceEntity, targetEntity));
         links.get(targetEntity).add(defn);
         links.get(sourceEntity).add(defn);
     }

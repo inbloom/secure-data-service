@@ -17,7 +17,7 @@ public class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition targetEntity;
     
     public AssociationDefinition(String type, String resourceName, AssociationService service,
-            EntityDefinition sourceEntity, EntityDefinition targetEntity, String sourceIdKey) {
+            EntityDefinition sourceEntity, EntityDefinition targetEntity) {
         super(type, resourceName, service);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
@@ -157,10 +157,12 @@ public class AssociationDefinition extends EntityDefinition {
         
         @Override
         public AssociationDefinition build() {
-            AssociationService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
+            BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
                     getRepo(), sourceEntity, sourceIdKey);
-            return new AssociationDefinition(getType(), getResourceName(), service, sourceEntity, targetEntity,
-                    sourceIdKey);
+            AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
+                    service, sourceEntity, targetEntity);
+            service.setDefn(associationDefinition);
+            return associationDefinition;
         }
         
     }
