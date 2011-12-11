@@ -76,8 +76,8 @@ public class BatchJobTest {
         assertEquals(id.length(), 36);
 
         Date jobDate = job.getCreationDate();
-        assertTrue(jobDate.after(new Date(now.getTime()-1)));
-        assertTrue(jobDate.before(new Date(now.getTime()+1)));
+        assertTrue(jobDate.after(new Date(now.getTime() - 1)));
+        assertTrue(jobDate.before(new Date(now.getTime() + 10)));
 
         ArrayList<File> files = (ArrayList<File>) job.getFiles();
         assertEquals(files.size(), 0);
