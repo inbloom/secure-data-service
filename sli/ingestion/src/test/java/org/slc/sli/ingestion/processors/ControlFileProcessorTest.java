@@ -53,7 +53,11 @@ public class ControlFileProcessorTest {
         BatchJob bj = eObject.getOut().getBody(BatchJob.class);
 
         assertNotNull("BatchJob is not defined", bj);
-
+        
+        boolean hasErrors = (Boolean) eObject.getOut().getHeader("hasErrors");
+        
+        assertNotNull("header [hasErrors] not set on the exchange", hasErrors);
+        
     }
 
 }
