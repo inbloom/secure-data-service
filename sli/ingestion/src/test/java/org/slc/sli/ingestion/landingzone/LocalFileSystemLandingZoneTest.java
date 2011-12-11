@@ -2,10 +2,12 @@ package org.slc.sli.ingestion.landingzone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -37,28 +39,49 @@ public class LocalFileSystemLandingZoneTest {
 
     @Test
     public void testGetSetDirectory() {
+        
         lz.directory = new File(".");
-        assertEquals(new File("."), lz.getDirectory());
+        assertEquals("directory does not contain expected value", 
+                new File("."), lz.getDirectory());
+        
         lz.directory = new File(DUMMY_DIR);
-        assertEquals(new File(DUMMY_DIR), lz.getDirectory());
+        assertEquals("directory does not contain expected value (2)", 
+                new File(DUMMY_DIR), lz.getDirectory());
     }
 
     @Test
     public void testGetFile() throws IOException {
         File f = lz.getFile(DUMMY_FILE_CTL);
-        assertEquals(new File(DUMMY_DIR + File.separator + DUMMY_FILE_CTL), f);
+        assertEquals("file does not contain expected value", 
+                new File(DUMMY_DIR + File.separator + DUMMY_FILE_CTL), f);
+    }
+
+    @Test
+    public void testCreateFile() throws IOException {
+        // ensure the file doesn't exist
+        File f = FileUtils.getFile(lz.getDirectory(), DUMMY_FILE_NOT_EXISTS);
+        FileUtils.deleteQuietly(f);
+        f = lz.createFile(DUMMY_FILE_NOT_EXISTS);
+        assertTrue("file was not created", f.exists());
+        FileUtils.deleteQuietly(f);
+    }
+
+    @Test(expected = IOException.class)
+    public void testCreateFileAlreadyExists() throws IOException {
+        lz.createFile(DUMMY_FILE_CTL);
     }
 
     @Test
     public void testGetFileNotFound() throws IOException {
         File f = lz.getFile(DUMMY_FILE_NOT_EXISTS);
-        assertNull(f);
+        assertNull("getFile didn't return null for nonexistent file", f);
     }
 
     @Test
     public void testGetMd5Hex() throws IOException {
         File f = lz.getFile(DUMMY_FILE_CTL);
-        assertEquals(MD5.calculate(f), lz.getMd5Hex(f));
+        assertEquals("incorrect result for md5 calculation",
+                MD5.calculate(f), lz.getMd5Hex(f));
     }
 
     @Test(expected = IOException.class)
