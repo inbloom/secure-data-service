@@ -38,7 +38,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     LocalFileSystemLandingZone lz;
 
     @Autowired
-    LocalFileSystemLandingZone temp;
+    LocalFileSystemLandingZone tempLz;
 
     @Override
     public void configure() throws Exception {
@@ -70,9 +70,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         File ctlFile = exchange.getIn().getBody(File.class);
-                        temp.setDirectory(ctlFile.getParentFile());
+                        tempLz.setDirectory(ctlFile.getParentFile());
                     }
-                }).process(new ControlFilePreProcessor(temp))
+                }).process(new ControlFilePreProcessor(tempLz))
                 .to("seda:CtrlFilePreProcessor");
 
         // routeId: jobDispatch

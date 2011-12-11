@@ -30,6 +30,9 @@
     <property name="directory" value="${landingzone.inbounddir}"></property>
   </bean>
 
+  <bean id="tempLz"
+    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
+
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
