@@ -15,6 +15,7 @@
    </security:global-method-security>
 
    <security:http auto-config="true" entry-point-ref="entryPoint">
+      <security:intercept-url pattern="/pub/**" filters="none"/>
       <security:intercept-url pattern="/**" access="ROLE_USER" />
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
    </security:http>
@@ -45,7 +46,7 @@
    </bean>
 
    <bean id="entryPoint" class="org.slc.sli.api.security.SLIAuthenticationEntryPoint">
-      <property name="authUrl" value="http://devdanil.slidev.org:8080/idp" />
+      <property name="authUrl" value="/pub/realm.jsp" />
    </bean>
 
 </beans>
