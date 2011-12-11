@@ -34,7 +34,10 @@ public class ZipFileUtil {
                 zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
 
         // make dir to unzip files
-        new File(filePath).mkdir();
+        boolean result = new File(filePath).mkdirs();
+        if (!result) {
+            throw new IOException("directory creation failed: " + filePath);
+        }
         File path = new File(filePath);
 
         try {
