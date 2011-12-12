@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.controller.AppSelectorController;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
 
 
 public class AppSelectorControllerTest {
@@ -24,8 +25,8 @@ public class AppSelectorControllerTest {
     public void testApplicationListNotEmpty() {
         ModelMap model = new ModelMap();
         
-        String result = appSelector.returnApps(model);
-        assertEquals(result, "SelectApp");
+        ModelAndView result = appSelector.returnApps("", model);
+        assertEquals(result.getViewName(), "SelectApp");
         HashMap<String, String> appToUrl = (HashMap<String, String>) model.get("appToUrl");
         assertTrue(appToUrl.size() > 0);
     }

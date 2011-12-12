@@ -27,7 +27,11 @@ public class MockAPIClient {
     
     
     public School[] getSchools(final String token)throws IOException {
-        FileReader filein = new FileReader("src/test/resources/school_mock_data.json");
+        FileReader filein;
+        if (!token.equals("cgray"))
+            filein = new FileReader("src/test/resources/school_mock_data.json");
+        else
+            filein = new FileReader("src/test/resources/cgray_mock_data.json");
         BufferedReader bin = new BufferedReader(filein);
         String s, total;
         total = "";

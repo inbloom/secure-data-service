@@ -1,5 +1,7 @@
 package org.slc.sli.controller.selenium;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -28,6 +30,10 @@ public class LoginSeleniumITest {
         
         WebElement loginForm = driver.findElement(By.name("loginForm"));
         loginForm.submit();
+        WebElement body = driver.findElement(By.tagName("body"));
+        String bodyText = body.getText();
+        assertTrue(bodyText.contains("Select an application"));
+        driver.close();
     }
     
 }

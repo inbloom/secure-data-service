@@ -92,11 +92,13 @@ public class ResourceTest {
         assertEquals(Status.CREATED.getStatusCode(), createResponse3.getStatus());
         String schoolId = parseIdFromLocation(createResponse3);
         
-        Response createResponse4 = api.createEntity("student-enrollments", new EntityBody(createTestAssoication(studentId1, schoolId)));
+        Response createResponse4 = api.createEntity("student-enrollments",
+                new EntityBody(createTestAssoication(studentId1, schoolId)));
         assertNotNull(createResponse4);
         String assocId1 = parseIdFromLocation(createResponse4);
         
-        Response createResponse5 = api.createEntity("student-enrollments", new EntityBody(createTestAssoication(studentId2, schoolId)));
+        Response createResponse5 = api.createEntity("student-enrollments",
+                new EntityBody(createTestAssoication(studentId2, schoolId)));
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
         
@@ -127,6 +129,8 @@ public class ResourceTest {
             assertEquals(2, body.get("field2"));
             List<?> links = (List<?>) body.get("links");
             assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + id)));
+            assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "student-enrollment",
+                    "base/student-enrollments/" + id)));
         }
         
         // test associations

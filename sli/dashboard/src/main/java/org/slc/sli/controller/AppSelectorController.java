@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AppSelectorController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String returnApps(ModelMap model) {
+    public ModelAndView returnApps(String username, ModelMap model) {
         model.addAttribute("message", "Select an application");
         HashMap<String, String> appToUrlMap = new HashMap<String, String>();
 
@@ -22,7 +23,6 @@ public class AppSelectorController {
         appToUrlMap.put("Dashboard", "studentlist");
         appToUrlMap.put("FakeApp", "/fakeapp");
         model.addAttribute("appToUrl", appToUrlMap);
-        return "SelectApp";
+        return new ModelAndView("SelectApp").addObject("username", username);
     }
-
 }

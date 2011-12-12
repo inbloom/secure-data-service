@@ -2,6 +2,7 @@ package org.slc.sli.api.resources;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -151,7 +152,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 try {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put("links", getLinks(uriInfo, entityDef, id));
+                    entityBody.put("links", getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
                 } catch (EntityNotFoundException e) {
                     if (entityDef instanceof AssociationDefinition) {
@@ -239,7 +240,7 @@ public class Resource {
             return Response
                     .status(Status.NOT_FOUND)
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Entity not found: " + e.getMessage())).build();
+                            "Entity not found: " + e.getId())).build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
             return Response
@@ -260,15 +261,34 @@ public class Resource {
     /**
      * Gets the links that should be included for the given resource
      * 
+     * @param uriInfo
+     *            the uri info for the request
      * @param defn
      *            the definition of the resource to look up the links for
      * @param id
      *            the id of the resource to include in the links
+     * @param entityBody
+     *            the entity making the links for
      * @return the list of links that the resource should include
      */
-    private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id) {
+    private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id, EntityBody entityBody) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         links.add(new EmbeddedLink("self", defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
+        if (defn instanceof AssociationDefinition) {
+            AssociationDefinition assocDef = (AssociationDefinition) defn;
+            EntityDefinition sourceEntity = assocDef.getSourceEntity();
+            links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), getURI(uriInfo,
+                    sourceEntity.getResourceName(), (String) entityBody.get(assocDef.getSourceKey())).toString()));
+            EntityDefinition targetEntity = assocDef.getTargetEntity();
+            links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), getURI(uriInfo,
+                    targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
+        } else {
+            Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
+            for (AssociationDefinition assoc : associations) {
+                links.add(new EmbeddedLink(assoc.getRelName(), assoc.getType(), getURI(uriInfo,
+                        assoc.getResourceName(), id).toString()));
+            }
+        }
         return links;
     }
     

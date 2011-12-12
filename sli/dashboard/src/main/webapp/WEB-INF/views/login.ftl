@@ -5,6 +5,7 @@
 Username: <input type="text" name="username"/><br/>
 Password: <input type="password" name="pwd"/><br/>
 <input type="submit" value="Submit"/>
+<span id="errorMessage" style="display:${displayError};color:red">${errorMessage}</span>
 </form>
 </body>
 </html>
