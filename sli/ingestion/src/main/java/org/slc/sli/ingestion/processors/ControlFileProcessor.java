@@ -37,6 +37,7 @@ public class ControlFileProcessor implements Processor {
 
         // set the exchange outbound message to the value of the job
         exchange.getOut().setBody(job);
+        exchange.getOut().setHeader("hasErrors", job.hasErrors());
 
     }
 

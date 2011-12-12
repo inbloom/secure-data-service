@@ -30,11 +30,14 @@ public class ZipFileUtil {
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        String filePath = zipFile.getParentFile().getAbsolutePath() + "/unzip/" +
-                zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
+        String filePath = zipFile.getParentFile().getAbsolutePath() + "/unzip/"
+                + zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
 
         // make dir to unzip files
-        new File(filePath).mkdir();
+        boolean result = new File(filePath).mkdirs();
+        if (!result) {
+            throw new IOException("directory creation failed: " + filePath);
+        }
         File path = new File(filePath);
 
         try {
@@ -73,7 +76,7 @@ public class ZipFileUtil {
 
         FilenameFilter filter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
-                //if the file extension is .ctl return true, else false
+                // if the file extension is .ctl return true, else false
                 return name.endsWith(".ctl");
             }
         };
