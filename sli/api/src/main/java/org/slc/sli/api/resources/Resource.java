@@ -1,6 +1,8 @@
 package org.slc.sli.api.resources;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -12,10 +14,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +31,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -140,12 +145,13 @@ public class Resource {
     @Path("{id}")
     public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max) {
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 try {
                     EntityBody entityBody = entityDef.getService().get(id);
+                    entityBody.put("links", getLinks(uriInfo, entityDef, id));
                     return Response.ok(entityBody).build();
                 } catch (EntityNotFoundException e) {
                     if (entityDef instanceof AssociationDefinition) {
@@ -250,4 +256,24 @@ public class Resource {
         }
         return list;
     }
+    
+    /**
+     * Gets the links that should be included for the given resource
+     * 
+     * @param defn
+     *            the definition of the resource to look up the links for
+     * @param id
+     *            the id of the resource to include in the links
+     * @return the list of links that the resource should include
+     */
+    private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id) {
+        List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
+        links.add(new EmbeddedLink("self", defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
+        return links;
+    }
+    
+    private URI getURI(UriInfo uriInfo, String type, String id) {
+        return uriInfo.getBaseUriBuilder().path(type).path(id).build();
+    }
+
 }

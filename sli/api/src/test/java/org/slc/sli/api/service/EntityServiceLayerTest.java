@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 
@@ -242,19 +241,6 @@ public class EntityServiceLayerTest {
         studentService.delete(id3);
         studentService.delete(id4);
         schoolService.delete(schoolId);
-    }
-    
-    @Test
-    public void testSelfLink() {
-        EntityBody student = new EntityBody();
-        student.put("firstName", "Andrew");
-        student.put("lastName", "Wiggen");
-        String id = studentService.create(student);
-        EntityBody retrievedEntity = studentService.get(id);
-        @SuppressWarnings("unchecked")
-        List<EmbeddedLink> links = (List<EmbeddedLink>) retrievedEntity.get("links");
-        assertTrue(links.contains(new EmbeddedLink("self", "student", "students/" + id)));
-        studentService.delete(id);
     }
     
     private <T> List<T> iterableToList(Iterable<T> itr) {
