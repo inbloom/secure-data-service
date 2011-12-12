@@ -1,6 +1,13 @@
 package org.slc.sli.api.resources;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +16,15 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+import com.sun.jersey.api.uri.UriBuilderImpl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -21,6 +34,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.CollectionResponse.EntityReference;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -55,7 +69,9 @@ public class ResourceTest {
     }
     
     @Test
-    public void testResourceMethods() {
+    public void testResourceMethods() throws Exception {
+        UriInfo info = buildMockUriInfo();
+
         // post some data
         Map<String, String> ids = new HashMap<String, String>();
         
@@ -103,17 +119,19 @@ public class ResourceTest {
         
         // test get
         for (String id : ids.keySet()) {
-            Response r = api.getEntityOrAssociations("students", id, 0, 100);
+            Response r = api.getEntityOrAssociations("students", id, 0, 100, info);
             EntityBody body = (EntityBody) r.getEntity();
             assertNotNull(body);
             assertEquals(id, body.get("id"));
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
+            List<?> links = (List<?>) body.get("links");
+            assertTrue(links.contains(new EmbeddedLink("self", "student", "absolute/students/" + id)));
         }
         
         // test associations
         for (String id : new String[] { assocId1, assocId2 }) {
-            Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10);
+            Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10, info);
             EntityBody assoc = (EntityBody) r.getEntity();
             assertNotNull(assoc);
             assertEquals(id, assoc.get("id"));
@@ -127,7 +145,7 @@ public class ResourceTest {
         
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
-            Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10);
+            Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10, info);
             CollectionResponse cr = (CollectionResponse) r.getEntity();
             assertNotNull(cr);
             assertEquals(1, cr.size());
@@ -143,13 +161,13 @@ public class ResourceTest {
         
         // test update/get/delete
         for (String id : ids.keySet()) {
-            Response r = api.getEntityOrAssociations("students", id, 0, 100);
+            Response r = api.getEntityOrAssociations("students", id, 0, 100, info);
             EntityBody body = (EntityBody) r.getEntity();
             body.put("field1", 99);
             Response r2 = api.updateEntity("students", id, body);
             assertEquals(Status.NO_CONTENT.getStatusCode(), r2.getStatus());
             
-            Response r3 = api.getEntityOrAssociations("students", id, 0, 100);
+            Response r3 = api.getEntityOrAssociations("students", id, 0, 100, info);
             EntityBody body3 = (EntityBody) r3.getEntity();
             assertNotNull(body3);
             assertEquals(body, body3);
@@ -158,7 +176,7 @@ public class ResourceTest {
             assertNull(d.getEntity());
             assertEquals(Status.NO_CONTENT.getStatusCode(), d.getStatus());
             
-            Response r4 = api.getEntityOrAssociations("students", id, 0, 100);
+            Response r4 = api.getEntityOrAssociations("students", id, 0, 100, info);
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
@@ -177,5 +195,32 @@ public class ResourceTest {
         matcher.find();
         assertEquals(1, matcher.groupCount());
         return matcher.group(1);
+    }
+    
+    public UriInfo buildMockUriInfo() throws Exception {
+        UriInfo mock = mock(UriInfo.class);
+        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
+            
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("absolute");
+            }
+        });
+        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
+            
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("base");
+            }
+        });
+        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
+            
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("request");
+            }
+        });
+        
+        return mock;
     }
 }
