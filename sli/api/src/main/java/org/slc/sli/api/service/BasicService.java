@@ -29,7 +29,7 @@ public class BasicService implements EntityService {
         this.repo = repo;
     }
     
-    public void setDefn(EntityDefinition defn){
+    public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
     
@@ -60,15 +60,14 @@ public class BasicService implements EntityService {
     }
     
     @Override
-    public boolean delete(String id) {
+    public void delete(String id) {
         LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
-            return false;
+            throw new EntityNotFoundException();
         }
         getRepo().delete(entity);
-        return true;
     }
     
     @Override

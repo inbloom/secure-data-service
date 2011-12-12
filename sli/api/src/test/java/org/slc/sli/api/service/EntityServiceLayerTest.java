@@ -79,14 +79,23 @@ public class EntityServiceLayerTest {
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
-        assertTrue(studentService.delete(id));
+        try {
+            studentService.delete(id);
+        } catch (EntityNotFoundException e) {
+            fail();
+        }
         try {
             EntityBody zombie = studentService.get(id);
             fail("should have not found " + zombie);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        assertFalse(studentService.delete(id));
+        try {
+            studentService.delete(id);
+            fail("Exception should have been thrown");
+        } catch (EntityNotFoundException e) {
+            assertTrue(true);
+        }
     }
     
     @Test
