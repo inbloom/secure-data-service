@@ -27,6 +27,7 @@ public class ErrorResponse {
     
     public ErrorResponse(int statusCode, String type, String message) {
         this.statusCode = statusCode;
+        this.type = type;
         this.message = message;
     }
     
