@@ -135,8 +135,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             @Override
             public void process(Exchange exchange) throws Exception {
                 BatchJob job = exchange.getIn().getBody(BatchJob.class);
-                File file0 = job.getFiles().get(0);
-                exchange.getOut().setBody(file0);
+                exchange.getOut().setBody(job.getFiles().get(0));
 
                 // use message headers to relay any job config params however.
                 exchange.getOut().setHeader("jobId", job.getId());

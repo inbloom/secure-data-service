@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -40,8 +41,11 @@ import org.slc.sli.api.service.EntityNotFoundException;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ ResourceUtilities.XML_MEDIA_TYPE, ResourceUtilities.JSON_MEDIA_TYPE })
+@Produces({ Resource.XML_MEDIA_TYPE, Resource.JSON_MEDIA_TYPE })
 public class Resource {
+    
+    public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
+    public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
