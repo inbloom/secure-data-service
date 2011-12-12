@@ -1,3 +1,3 @@
-api_server_url: "devapi1.slidev.org:8080"
+api_server_url: "localhost:8080"
 idp_server_url: "devdanil.slidev.org:8080"
 sea_login_url:  "ad.ad.slidev.com"

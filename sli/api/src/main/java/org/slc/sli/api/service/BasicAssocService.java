@@ -12,6 +12,10 @@ import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Implementation of AssociationService. 
+ * 
+ */
 public class BasicAssocService extends BasicService implements AssociationService {
     
     private final EntityDefinition source;
@@ -31,7 +35,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         EntityBody existingEntity = source.getService().get(id);
         if (existingEntity == null) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(id);
         }
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(sourceKey, id);

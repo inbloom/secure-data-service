@@ -11,6 +11,11 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 
+
+/**
+ * Implementation of EntityService that can be used for most entities.
+ * 
+ */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     private final String collectionName;
@@ -29,7 +34,7 @@ public class BasicService implements EntityService {
         this.repo = repo;
     }
     
-    public void setDefn(EntityDefinition defn){
+    public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
     
@@ -60,15 +65,14 @@ public class BasicService implements EntityService {
     }
     
     @Override
-    public boolean delete(String id) {
+    public void delete(String id) {
         LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
-            return false;
+            throw new EntityNotFoundException(id);
         }
         getRepo().delete(entity);
-        return true;
     }
     
     @Override
@@ -81,7 +85,7 @@ public class BasicService implements EntityService {
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(id);
         }
         EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
@@ -97,7 +101,7 @@ public class BasicService implements EntityService {
     public EntityBody get(String id) {
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(id);
         }
         return makeEntityBody(entity);
     }

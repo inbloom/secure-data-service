@@ -1,5 +1,7 @@
 package org.slc.sli.api.config;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
@@ -12,15 +14,25 @@ import org.slc.sli.dal.repository.EntityRepository;
  * @author nbrown
  * 
  */
-public class AssociationDefinition extends EntityDefinition {
+public final class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
+    private final String relName;
+    private final String sourceLink;
+    private final String targetLink;
+    private final String sourceKey;
+    private final String targetKey;
     
-    public AssociationDefinition(String type, String resourceName, AssociationService service,
-            EntityDefinition sourceEntity, EntityDefinition targetEntity) {
+    private AssociationDefinition(String type, String resourceName, AssociationService service, EntityInfo source,
+            EntityInfo target, String relName) {
         super(type, resourceName, service);
-        this.sourceEntity = sourceEntity;
-        this.targetEntity = targetEntity;
+        this.sourceEntity = source.getDefn();
+        this.targetEntity = target.getDefn();
+        this.relName = relName;
+        this.sourceLink = source.getLinkName();
+        this.targetLink = target.getLinkName();
+        this.sourceKey = source.getKey();
+        this.targetKey = target.getKey();
     }
     
     /**
@@ -41,6 +53,51 @@ public class AssociationDefinition extends EntityDefinition {
         return targetEntity;
     }
     
+    /**
+     * Gets the name of the relationship
+     * 
+     * @return
+     */
+    public String getRelName() {
+        return relName;
+    }
+
+    /**
+     * The label for the link to the source
+     * 
+     * @return
+     */
+    public String getSourceLink() {
+        return sourceLink;
+    }
+    
+    /**
+     * The label for the link to the target
+     * 
+     * @return
+     */
+    public String getTargetLink() {
+        return targetLink;
+    }
+    
+    /**
+     * The key for the target
+     * 
+     * @return
+     */
+    public String getSourceKey() {
+        return sourceKey;
+    }
+    
+    /**
+     * The key for the source
+     * 
+     * @return
+     */
+    public String getTargetKey() {
+        return targetKey;
+    }
+
     @Override
     public AssociationService getService() {
         return (AssociationService) super.getService();
@@ -70,10 +127,13 @@ public class AssociationDefinition extends EntityDefinition {
         return new AssocBuilder(type);
     }
     
+    /**
+     * Fluent builder for AssocBuilder.
+     */
     public static class AssocBuilder extends EntityDefinition.Builder {
-        private EntityDefinition sourceEntity;
-        private EntityDefinition targetEntity;
-        private String sourceIdKey;
+        private EntityInfo source;
+        private EntityInfo target;
+        private String relName;
         
         /**
          * Create a builder for an association definition
@@ -88,17 +148,44 @@ public class AssociationDefinition extends EntityDefinition {
         }
         
         /**
-         * Sets the source definition
+         * Sets the source definition. The link will get name get{type} and the id will be {type}Id
          * 
          * @param source
          *            the source of the association
          * @return the builder
          */
         public AssocBuilder from(EntityDefinition source) {
-            this.sourceEntity = source;
-            if (sourceIdKey == null) {
-                sourceIdKey = source.getType() + "Id";
-            }
+            this.source = new EntityInfo(source, "get" + StringUtils.capitalize(source.getType()), source.getType()
+                    + "Id");
+            return this;
+        }
+        
+        /**
+         * Sets the target definition. The link will get name get{Type} and the id will be {type}Id
+         * 
+         * @param target
+         *            the target definition
+         * @return the builder
+         */
+        public AssocBuilder to(EntityDefinition target) {
+            this.target = new EntityInfo(target, "get" + StringUtils.capitalize(target.getType()), target.getType()
+                    + "Id");
+            return this;
+        }
+        
+        /**
+         * Sets the source definition
+         * 
+         * @param source
+         *            the source of the association
+         * @param sourceLink
+         *            the name of the link
+         * @param sourceKey
+         *            the key to look up the source with
+         * @return the builder
+         */
+        public AssocBuilder from(EntityDefinition source, String sourceLink, String sourceKey) {
+            this.source = new EntityInfo(source, sourceLink, sourceKey);
             return this;
         }
         
@@ -107,24 +194,22 @@ public class AssociationDefinition extends EntityDefinition {
          * 
          * @param target
          *            the target definition
+         * @param targetLink
+         *            the name of the link
+         * @param targetKey
+         *            the key to look up the target with
          * @return the builder
          */
-        public AssocBuilder to(EntityDefinition target) {
-            this.targetEntity = target;
+        public AssocBuilder to(EntityDefinition target, String targetLink, String targetKey) {
+            this.target = new EntityInfo(target, targetLink, targetKey);
             return this;
         }
         
-        /**
-         * Sets the key for the source id
-         * 
-         * @param sourceID
-         * @return
-         */
-        public AssocBuilder indexAs(String sourceID) {
-            this.sourceIdKey = sourceID;
+        public AssocBuilder called(String relName) {
+            this.relName = relName;
             return this;
         }
-        
+
         @Override
         public AssocBuilder withTreatments(Treatment... treatments) {
             super.withTreatments(treatments);
@@ -158,12 +243,43 @@ public class AssociationDefinition extends EntityDefinition {
         @Override
         public AssociationDefinition build() {
             BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
-                    getRepo(), sourceEntity, sourceIdKey);
+                    getRepo(), source.getDefn(), source.getKey());
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
-                    service, sourceEntity, targetEntity);
+                    service, source, target, relName);
             service.setDefn(associationDefinition);
             return associationDefinition;
         }
         
+    }
+    
+    /**
+     * Holder class for entity information
+     * 
+     * @author nbrown
+     * 
+     */
+    private static class EntityInfo {
+        private final EntityDefinition defn;
+        private final String linkName;
+        private final String key;
+        
+        public EntityInfo(EntityDefinition defn, String linkName, String key) {
+            super();
+            this.defn = defn;
+            this.linkName = linkName;
+            this.key = key;
+        }
+        
+        public EntityDefinition getDefn() {
+            return defn;
+        }
+        
+        public String getLinkName() {
+            return linkName;
+        }
+        
+        public String getKey() {
+            return key;
+        }
     }
 }

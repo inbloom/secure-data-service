@@ -44,17 +44,18 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     @Override
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
-        EntityDefinition.addGlobalTreatment(new LinkTreatment(this));
         EntityDefinition.addGlobalTreatment(new IdTreatment());
         EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
-        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("studentEnrollment")
-                .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school).build();
+        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollment")
+                .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school)
+                .called("getStudentEnrollments").build();
         addAssocDefinition(studentEnroll);
         AssociationDefinition schoolEnroll = AssociationDefinition.makeAssoc("schoolEnrollment")
-                .exposeAs("school-enrollments").storeAs("enrollments").from(school).to(student).build();
+                .exposeAs("school-enrollments").storeAs("enrollments").from(school).to(student)
+                .called("getSchoolEnrollments").build();
         addAssocDefinition(schoolEnroll);
     }
     
@@ -72,8 +73,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         LOG.debug("adding assoc for {}", defn.getResourceName());
         add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();
-        EntityDefinition targetEntity = defn.getTargetEntity();
-        links.get(targetEntity).add(defn);
         links.get(sourceEntity).add(defn);
     }
     

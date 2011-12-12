@@ -3,6 +3,12 @@ package org.slc.sli.api.config;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.Treatment;
 
+/**
+ * Add the entity ID to the response body
+ * 
+ * @author nbrown
+ * 
+ */
 public class IdTreatment implements Treatment {
     private static final String ID_STRING = "id";
 

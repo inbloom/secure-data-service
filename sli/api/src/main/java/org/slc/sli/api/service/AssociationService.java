@@ -1,5 +1,8 @@
 package org.slc.sli.api.service;
 
+/**
+ * Extension of EntityService for associations.
+ */
 public interface AssociationService extends EntityService {
     /**
      * Get the entities associated with a given source entity in the data store
