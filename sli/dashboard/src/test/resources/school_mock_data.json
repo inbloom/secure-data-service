@@ -1,13 +1,13 @@
 [
 {
-    "id": "Illinois PS145",
+    "schoolId": "Illinois PS145",
     "courses": [
         {
-            "category": "Algebra",
+            "course": "Algebra",
             "sections": [
                 {
-                    "name": "Section1",
-                    "studentList": [
+                    "section": "Section1",
+                    "students": [
                         {
                             "nameSuffix": "",
                             "stateId": "288598192",
@@ -155,8 +155,8 @@
                     ]
                 },
                 {
-                    "name": "Section2",
-                    "studentList": [
+                    "section": "Section2",
+                    "students": [
                         {
                             "nameSuffix": "",
                             "stateId": "746199592",

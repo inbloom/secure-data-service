@@ -2,19 +2,19 @@ package org.slc.sli.entity;
 
 public class Section {
 
-    private Student[] studentList;
-    private String name;
-    public Student[] getStudentList() {
-        return studentList;
+    private Student[] students;
+    private String section;
+    public Student[] getStudents() {
+        return students;
     }
-    public void setStudentList(Student[] studentList) {
-        this.studentList = studentList;
+    public void setStudentList(Student[] students) {
+        this.students = students;
     }
-    public String getName() {
-        return name;
+    public String getSection() {
+        return section;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setSection(String section) {
+        this.section = section;
     }
     
 }

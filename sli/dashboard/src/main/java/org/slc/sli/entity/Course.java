@@ -3,7 +3,7 @@ package org.slc.sli.entity;
 public class Course {
 
     private Section[] sections;
-    private String category;
+    private String course;
     
     public Section[] getSections() {
         return sections;
@@ -11,11 +11,11 @@ public class Course {
     public void setSections(Section[] sections) {
         this.sections = sections;
     }
-    public String getCategory() {
-        return category;
+    public String getCourse() {
+        return course;
     }
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCourse(String course) {
+        this.course = course;
     }
     
 }

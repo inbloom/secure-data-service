@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.controller.LoginController;
 
@@ -31,8 +32,8 @@ public class LoginControllerTest {
     @Test
     public void testLoginPageBadUserPassword() {
         ModelMap model = new ModelMap();
-        
-        assertEquals("login", loginController.checkLogin("", "",  model));
+        ModelAndView result = loginController.checkLogin("", "",  model);
+        assertEquals("login", result.getViewName());
         String errorMessage = (String) model.get("errorMessage");
         assertEquals(errorMessage, "Invalid Username or password, please try again");
         String displayMessage = (String) model.get("displayError");
@@ -43,7 +44,8 @@ public class LoginControllerTest {
     @Test
     public void testLoginPageGoodUserPassword() {
         ModelMap model = new ModelMap();
-        assertEquals("redirect:appselector", loginController.checkLogin("sravan", "", model));
+        ModelAndView result = loginController.checkLogin("sravan", "", model);
+        assertEquals("redirect:appselector", result.getViewName());
     }
 
 }

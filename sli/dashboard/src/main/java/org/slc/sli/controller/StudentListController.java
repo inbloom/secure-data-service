@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
@@ -26,18 +28,15 @@ public class StudentListController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String retrieveStudentList(ModelMap model) throws IOException {
+    public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {
 
-        //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
-        Student[] studentList = retrieveStudents("");
-        if (studentList != null)
-            model.addAttribute("listOfStudents", studentList);
+
         Gson gson = new Gson();
-        School[] schoolList = retrieveSchools("");
-        model.addAttribute("damnIt", gson.toJson(studentList));
+        //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
+        School[] schoolList = retrieveSchools(username);
         model.addAttribute("schoolList", gson.toJson(schoolList));
         
-        return "studentList";
+        return new ModelAndView("studentList");
     }
     
     private Student[] retrieveStudents(String token) throws IOException {
