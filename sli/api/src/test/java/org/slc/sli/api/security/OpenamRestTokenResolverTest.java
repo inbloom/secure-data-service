@@ -16,6 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.web.client.RestTemplate;
 
+
+/**
+ * Unit tests for the OpenamRestTokenResolver.
+ *
+ */
 public class OpenamRestTokenResolverTest {
     
     private static final String MOCK_URL = "mock";
