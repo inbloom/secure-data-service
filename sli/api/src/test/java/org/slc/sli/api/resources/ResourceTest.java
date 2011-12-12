@@ -126,7 +126,7 @@ public class ResourceTest {
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
             List<?> links = (List<?>) body.get("links");
-            assertTrue(links.contains(new EmbeddedLink("self", "student", "absolute/students/" + id)));
+            assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + id)));
         }
         
         // test associations

@@ -36,12 +36,11 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.service.EntityNotFoundException;
 
-
 /**
  * Jersey resource for all entities and associations.
  * 
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 @Path("{type}")
 @Component
@@ -54,6 +53,14 @@ public class Resource {
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
+    
+    /**
+     * Encapsulates each ReST method's logic to allow for less duplication of precondition and exception
+     * handling code.
+     */
+    private static interface ResourceLogic {
+        Response run(EntityDefinition entityDef);
+    }
     
     @Autowired
     Resource(EntityDefinitionStore entityDefs) {
@@ -118,7 +125,8 @@ public class Resource {
     }
     
     /**
-     * Get a single entity or association unless the URI represents an association and the id represents a
+     * Get a single entity or association unless the URI represents an association and the id
+     * represents a
      * source entity for that association.
      * 
      * @param typePath
@@ -187,11 +195,14 @@ public class Resource {
     }
     
     /**
-     * Update an existing entity or association. 
+     * Update an existing entity or association.
      * 
-     * @param typePath resourceUri for the entity
-     * @param id id of the entity
-     * @param newEntityBody entity data that will used to replace the existing entity data
+     * @param typePath
+     *            resourceUri for the entity
+     * @param id
+     *            id of the entity
+     * @param newEntityBody
+     *            entity data that will used to replace the existing entity data
      * @return Response with a NOT_CONTENT status code
      */
     @PUT
@@ -209,6 +220,9 @@ public class Resource {
     
     /* Utility methods */
     
+    /**
+     * Handle preconditions and exceptions.
+     */
     private Response handle(String typePath, ResourceLogic logic) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
         if (entityDef == null) {
@@ -228,10 +242,6 @@ public class Resource {
                     .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                             Status.INTERNAL_SERVER_ERROR.getReasonPhrase())).build();
         }
-    }
-    
-    private static interface ResourceLogic {
-        Response run(EntityDefinition entityDef);
     }
     
     private static <T> List<T> iterableToList(Iterable<T> iter) {

@@ -12,6 +12,10 @@ import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Implementation of AssociationService. 
+ * 
+ */
 public class BasicAssocService extends BasicService implements AssociationService {
     
     private final EntityDefinition source;
