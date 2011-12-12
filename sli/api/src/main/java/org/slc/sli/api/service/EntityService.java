@@ -26,7 +26,7 @@ public interface EntityService {
      *            the id of the entity to delete
      * @return if the delete was successful
      */
-    public boolean delete(String id);
+    public void delete(String id);
     
     /**
      * Change an entity in the data store
