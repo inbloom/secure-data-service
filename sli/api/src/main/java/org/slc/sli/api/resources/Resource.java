@@ -1,6 +1,8 @@
 package org.slc.sli.api.resources;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -12,9 +14,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,25 +31,37 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.service.EntityNotFoundException;
-
 
 /**
  * Jersey resource for all entities and associations.
  * 
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ ResourceUtilities.XML_MEDIA_TYPE, ResourceUtilities.JSON_MEDIA_TYPE })
+@Produces({ Resource.XML_MEDIA_TYPE, Resource.JSON_MEDIA_TYPE })
 public class Resource {
+    
+    public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
+    public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
+    
+    /**
+     * Encapsulates each ReST method's logic to allow for less duplication of precondition and
+     * exception
+     * handling code.
+     */
+    private static interface ResourceLogic {
+        Response run(EntityDefinition entityDef);
+    }
     
     @Autowired
     Resource(EntityDefinitionStore entityDefs) {
@@ -109,7 +126,8 @@ public class Resource {
     }
     
     /**
-     * Get a single entity or association unless the URI represents an association and the id represents a
+     * Get a single entity or association unless the URI represents an association and the id
+     * represents a
      * source entity for that association.
      * 
      * @param typePath
@@ -127,12 +145,13 @@ public class Resource {
     @Path("{id}")
     public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max) {
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 try {
                     EntityBody entityBody = entityDef.getService().get(id);
+                    entityBody.put("links", getLinks(uriInfo, entityDef, id));
                     return Response.ok(entityBody).build();
                 } catch (EntityNotFoundException e) {
                     if (entityDef instanceof AssociationDefinition) {
@@ -177,11 +196,14 @@ public class Resource {
     }
     
     /**
-     * Update an existing entity or association. 
+     * Update an existing entity or association.
      * 
-     * @param typePath resourceUri for the entity
-     * @param id id of the entity
-     * @param newEntityBody entity data that will used to replace the existing entity data
+     * @param typePath
+     *            resourceUri for the entity
+     * @param id
+     *            id of the entity
+     * @param newEntityBody
+     *            entity data that will used to replace the existing entity data
      * @return Response with a NOT_CONTENT status code
      */
     @PUT
@@ -199,29 +221,32 @@ public class Resource {
     
     /* Utility methods */
     
+    /**
+     * Handle preconditions and exceptions.
+     */
     private Response handle(String typePath, ResourceLogic logic) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
         if (entityDef == null) {
-            return Response.status(Status.NOT_FOUND).build();
+            return Response
+                    .status(Status.NOT_FOUND)
+                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                            "Invalid resource path: " + typePath)).build();
         }
         try {
             return logic.run(entityDef);
         } catch (EntityNotFoundException e) {
             LOG.error("Entity not found", e);
-            return Response.status(Status.NOT_FOUND)
-                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase()))
-                    .build();
+            return Response
+                    .status(Status.NOT_FOUND)
+                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                            "Entity not found: " + e.getMessage())).build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
             return Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                            Status.INTERNAL_SERVER_ERROR.getReasonPhrase())).build();
+                            Status.INTERNAL_SERVER_ERROR.getReasonPhrase(), "Internal Server Error")).build();
         }
-    }
-    
-    private static interface ResourceLogic {
-        Response run(EntityDefinition entityDef);
     }
     
     private static <T> List<T> iterableToList(Iterable<T> iter) {
@@ -231,4 +256,24 @@ public class Resource {
         }
         return list;
     }
+    
+    /**
+     * Gets the links that should be included for the given resource
+     * 
+     * @param defn
+     *            the definition of the resource to look up the links for
+     * @param id
+     *            the id of the resource to include in the links
+     * @return the list of links that the resource should include
+     */
+    private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id) {
+        List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
+        links.add(new EmbeddedLink("self", defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
+        return links;
+    }
+    
+    private URI getURI(UriInfo uriInfo, String type, String id) {
+        return uriInfo.getBaseUriBuilder().path(type).path(id).build();
+    }
+
 }

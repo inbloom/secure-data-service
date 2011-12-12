@@ -77,6 +77,9 @@ public class EntityDefinition {
         return new Builder(entityName);
     }
     
+    /**
+     * Fluent builder for EntityDefinition.
+     */
     public static class Builder {
         private String type;
         private String collectionName;

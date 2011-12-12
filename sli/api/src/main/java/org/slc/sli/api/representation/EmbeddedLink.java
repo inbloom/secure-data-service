@@ -3,6 +3,13 @@ package org.slc.sli.api.representation;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * Representation of a link to an entity, association, or other resource.
+ * Intended for use within response bodies, not headers.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ *
+ */
 public class EmbeddedLink {
     @JsonProperty("rel") String rel;
     @JsonIgnore @JsonProperty("type") String type;

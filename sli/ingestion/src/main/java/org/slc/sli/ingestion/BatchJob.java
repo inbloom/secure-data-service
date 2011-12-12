@@ -1,12 +1,13 @@
 package org.slc.sli.ingestion;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
+
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 public class BatchJob {
 
@@ -102,12 +103,12 @@ public class BatchJob {
     /**
      * holds references to the files involved in this Job
      */
-    private List<File> files;
+    private List<IngestionFileEntry> files;
 
     /**
      * @return the files
      */
-    public List<File> getFiles() {
+    public List<IngestionFileEntry> getFiles() {
         return files;
     }
 
@@ -118,7 +119,7 @@ public class BatchJob {
      * @return
      * @see java.util.List#add(java.lang.Object)
      */
-    public boolean addFile(File file) {
+    public boolean addFile(IngestionFileEntry file) {
         return files.add(file);
     }
 
@@ -180,7 +181,7 @@ public class BatchJob {
         job.id = createId();
         job.creationDate = new Date();
         job.configProperties = new Properties();
-        job.files = new ArrayList<File>();
+        job.files = new ArrayList<IngestionFileEntry>();
         job.faults = new ArrayList<Fault>();
         return job;
     }

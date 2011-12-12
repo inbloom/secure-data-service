@@ -39,7 +39,7 @@ public class BatchJobAssembler {
             for (IngestionFileEntry entry : controlFile.getFileEntries()) {
                 File f = entry.getFile();
                 if (f != null) {
-                    job.addFile(f);
+                    job.addFile(entry);
                 }
             }
         }
