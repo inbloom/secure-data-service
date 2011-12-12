@@ -239,7 +239,7 @@ public class Resource {
             return Response
                     .status(Status.NOT_FOUND)
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Entity not found: " + e.getMessage())).build();
+                            "Entity not found: " + e.getId())).build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
             return Response
