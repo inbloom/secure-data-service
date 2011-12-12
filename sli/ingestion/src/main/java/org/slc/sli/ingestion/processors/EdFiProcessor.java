@@ -158,8 +158,7 @@ public class EdFiProcessor implements Processor {
      * Routine to determine the Smooks configuration file name based upon the EDFI file(s) being
      * ingested.
      * 
-     * @param ingestionFileEntry
-     *            - the inbound ingestion meta file entry
+     * @param ingestionFileEntry - the inbound ingestion meta file entry
      * @return configFile - the Smooks configuration file name
      */
     public String getSmooksConfigFileName(IngestionFileEntry ingestionFileEntry) {
