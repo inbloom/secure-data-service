@@ -86,6 +86,60 @@ public class SchoolIngestionTest {
         
     }
     
+    @Test
+    public void testSchoolInterchangeCsvParsing() throws IOException, SAXException {
+        
+        schoolRepository.deleteAll();
+        
+        int numberOfSchools = 2;
+        String csvRecords = createSchoolInterchangeCsv(numberOfSchools);
+        
+        File inputFile = IngestionTest.createTestFile(IngestionTest.INGESTION_FILE_PREFIX,
+                IngestionTest.INGESTION_CSV_FILE_SUFFIX, csvRecords);
+        
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_SCHOOL,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+        
+        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
+        
+        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        
+        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
+        
+        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+                ingestionPersistenceProcessorOutputFile);
+        
+        verifySchools(schoolRepository, 0);
+        
+    }
+    
+    @Test
+    public void testSchoolInterchangeCsvFileParsing() throws IOException, SAXException {
+        
+        schoolRepository.deleteAll();
+        
+        File inputFile = IngestionTest.getFile("smooks/InterchangeSchool.csv");
+        
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_SCHOOL,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+        
+        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
+        
+        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        
+        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
+        
+        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+                ingestionPersistenceProcessorOutputFile);
+        
+        verifySchools(schoolRepository, 0);
+        
+    }
+    
     public static String createSchoolInterchangeXml(int numberOfSchools) {
         StringBuilder builder = new StringBuilder();
         
@@ -106,6 +160,18 @@ public class SchoolIngestionTest {
         for (int index = 1; index <= numberOfSchools; index++) {
             School school = createSchool(index);
             builder.append(Translator.mapToJson(school, "create"));
+            builder.append(System.getProperty("line.separator"));
+        }
+        
+        return builder.toString();
+    }
+    
+    public static String createSchoolInterchangeCsv(int numberOfSchools) {
+        StringBuilder builder = new StringBuilder();
+        
+        for (int index = 1; index <= numberOfSchools; index++) {
+            School school = createSchool(index);
+            builder.append(createSchoolCsv(school));
             builder.append(System.getProperty("line.separator"));
         }
         
@@ -153,6 +219,22 @@ public class SchoolIngestionTest {
         schoolXml += "</School>" + "\n";
         
         return schoolXml;
+    }
+    
+    public static String createSchoolCsv(School school) {
+        String schoolCsv = "";
+        
+        // Test Version Only - allow specification of Student ID
+        schoolCsv += school.getSchoolId() + ",";
+        
+        schoolCsv += school.getStateOrganizationId() + ",";
+        
+        // Skip 2 fields for now
+        schoolCsv += ",,";
+        
+        schoolCsv += school.getFullName();
+        
+        return schoolCsv;
     }
     
     public static School createSchool(int schoolId) {
