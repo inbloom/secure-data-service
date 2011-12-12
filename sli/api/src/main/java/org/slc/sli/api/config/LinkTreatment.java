@@ -7,6 +7,12 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.Treatment;
 
+/**
+ * Add links to related entities to the response body
+ * 
+ * @author nbrown
+ * 
+ */
 public class LinkTreatment implements Treatment {
     // private static final Logger LOG = LoggerFactory.getLogger(LinkTreatment.class);
     private static final String LINKS = "links";
