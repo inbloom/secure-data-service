@@ -29,7 +29,7 @@ public class BasicService implements EntityService {
         this.repo = repo;
     }
     
-    public void setDefn(EntityDefinition defn){
+    public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
     
