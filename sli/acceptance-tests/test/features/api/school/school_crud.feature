@@ -3,7 +3,7 @@ Feature: <US63> In order to manage schools
     I want to have create, read, update, and delete functionality for a school.
 
 Background: Logged in as a super-user and using the small data set
-	Given the dummy data is loaded
+	Given the SLI_SMALL dataset is loaded
 	Given I am logged in using "demo" "demo1234"
 	Given I have access to all schools
 
@@ -20,27 +20,28 @@ Scenario: Create a new school JSON
 	  
 Scenario: Read a school by id
     Given format "application/json"
-    When I GET the newly created school by id
+    When I navigate to GET "/schools/eb3b8c35-f582-df23-e406-6947249a19f2"
     Then I should receive a return code of 200
-       And I should see the school "School Crud Test School"
-       And I should see a website of "www.scts.edu"
+       And I should see the school "Apple Alternative Elementary School"
+       And I should see a phone number of "(785) 667-6006"
 
 Scenario: Update an existing school
     Given format "application/json"
-      And the website is "www.scts.com"
-    When I PUT/update the newly created school's website'
+      And the full name is "Yellow Middle and High School"
+    When I navigate to PUT "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d"
     Then I should receive a return code of 204
-     When  I GET the newly created school by id
- 	 And I should see a website of "www.scts.com"
+     When  I navigate to GET "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d"
+ 	 And I should see the school "Yellow Middle and High School"
  	 
 Scenario: Delete an existing school
     Given format "application/json"
-    When I DELETE the newly created school
+    When I navigate to DELETE "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c"
     Then I should receive a return code of 204
-     When I GET the newly created school by id
+     When I navigate to GET "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c"
      Then I should receive a return code of 404
         
 #### XML version
+@wip
 Scenario: Create a new school XML
     Given format "application/xml"
        And the short name is "SCTSX"
@@ -50,6 +51,7 @@ Scenario: Create a new school XML
     Then I should receive a return code of 201
        And I should receive a ID for the newly created school
        
+@wip
 Scenario: Delete an existing school XML
     Given format "application/xml"
     When I DELETE the newly created school
@@ -60,29 +62,26 @@ Scenario: Delete an existing school XML
 ### Error handling
 Scenario: Attempt to read a non-existing school
     Given format "application/json"
-    When I navigate to GET "/schools/1" 
+    When I navigate to GET "/schools/11111111-1111-1111-1111-111111111111" 
     Then I should receive a return code of 404      
 
 Scenario: Attempt to delete a non-existing school
     Given format "application/json"
-    When I navigate to DELETE "/schools/1" 
+    When I navigate to DELETE "/schools/11111111-1111-1111-1111-111111111111" 
     Then I should receive a return code of 404      
 
-#bug below....creates new resource
 Scenario: Update a non-existing school
     Given format "application/json"
-    When I attempt to update a non-existing school "/schools/1"
+    When I attempt to update a non-existing school "/schools/11111111-1111-1111-1111-111111111111"
     Then I should receive a return code of 404      
     
 Scenario: Fail when asking for an unsupported format "text/plain"
-    Given a known school exists
-        And format "text/plain"
-    When I navigate to GET to said school
+    Given format "text/plain"
+    When I navigate to GET "/schools/eb3b8c35-f582-df23-e406-6947249a19f2"
     Then I should receive a return code of 406
     
 Scenario: Fail if going to the wrong URI
-	Given a known school exists
-	    And format "application/json"
-	When I navigate to GET to said school with "/school/"
+	Given format "application/json"
+	When I navigate to GET "/school/eb3b8c35-f582-df23-e406-6947249a19f2"
      Then I should receive a return code of 404
     
