@@ -1,10 +1,6 @@
 {"_id":{"$binary":"Zkc34g40KhJyZXhnLU3jmA==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"First grade","studentId":"714c1304-8a04-4e23-b043-4ad80eb60992","schoolId":"eb3b8c35-f582-df23-e406-6947249a19f2"}}
-
 {"_id":{"$binary":"8EjXVLbT520WkCL+FAmtkg==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"Fifth grade","studentId":"714c1304-8a04-4e23-b043-4ad80eb60992","schoolId":"2058ddfb-b5c6-70c4-3bee-b43e9e93307d"}}
-
-{"_id":{"$binary":"BU8LV/4C7FMqVW1rIPhRow==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"First grade","studentId":"4dbb9be2-6af3-405c-b091-ea1832485f1d","schoolId":"eb3b8c35-f582-df23-e406-6947249a19f2"}}
-
-{"_id":{"$binary":"BEb8XY9J8U6atUYR6JXDgw==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"First grade","studentId":"91791a79-6aea-4570-9ac0-545551786f86","schoolId":"eb3b8c35-f582-df23-e406-6947249a19f2"}}
-
+{"_id":{"$binary":"BU8LV/4C7FMqVW1rIPhRow==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"First grade","studentId":"7a86a6a7-1f80-4581-b037-4a9328b9b650","schoolId":"eb3b8c35-f582-df23-e406-6947249a19f2"}}
+{"_id":{"$binary":"BEb8XY9J8U6atUYR6JXDgw==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"First grade","studentId":"e0e99028-6360-4247-ae48-d3bb3ecb606a","schoolId":"eb3b8c35-f582-df23-e406-6947249a19f2"}}
 {"_id":{"$binary":"D09/tZEcM0TifHJ4QB5img==","$type":"03"},"type":"enrollments","body":{"entryGradeLevel":"First grade","studentId":"61f13b73-92fa-4a86-aaab-84999c511148","schoolId":"2058ddfb-b5c6-70c4-3bee-b43e9e93307d"}}
 

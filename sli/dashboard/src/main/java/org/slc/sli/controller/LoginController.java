@@ -18,20 +18,22 @@ public class LoginController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
-        model.addAttribute("message", "Enter Username or password");
+        model.addAttribute("message", "Enter Username and password");
+        model.addAttribute("errorMessage", "Invalid Username or password, please try again");
+        model.addAttribute("displayError", "none");
         return "login";
     }
     
     @RequestMapping(method = RequestMethod.POST)
     public String checkLogin(String username, String pwd, ModelMap model) {
         if (!(username.equals("sivan") || username.equals("david") || username.equals("sravan"))) {
-            model.addAttribute("message", "Enter valid Username");
+            model.addAttribute("message", "Enter Username and password");
+            model.addAttribute("errorMessage", "Invalid Username or password, please try again");
+            model.addAttribute("displayError", "block");
             return "login";
         }
-        
-        
+         
         return "redirect:appselector";
-        
     }
 
 

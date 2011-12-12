@@ -228,21 +228,25 @@ public class Resource {
     private Response handle(String typePath, ResourceLogic logic) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
         if (entityDef == null) {
-            return Response.status(Status.NOT_FOUND).build();
+            return Response
+                    .status(Status.NOT_FOUND)
+                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                            "Invalid resource path: " + typePath)).build();
         }
         try {
             return logic.run(entityDef);
         } catch (EntityNotFoundException e) {
             LOG.error("Entity not found", e);
-            return Response.status(Status.NOT_FOUND)
-                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase()))
-                    .build();
+            return Response
+                    .status(Status.NOT_FOUND)
+                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                            "Entity not found: " + e.getId())).build();
         } catch (Throwable t) {
             LOG.error("Error handling request", t);
             return Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                            Status.INTERNAL_SERVER_ERROR.getReasonPhrase())).build();
+                            Status.INTERNAL_SERVER_ERROR.getReasonPhrase(), "Internal Server Error")).build();
         }
     }
     

@@ -70,7 +70,7 @@ public class BasicService implements EntityService {
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(id);
         }
         getRepo().delete(entity);
     }
@@ -85,7 +85,7 @@ public class BasicService implements EntityService {
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(id);
         }
         EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
@@ -101,7 +101,7 @@ public class BasicService implements EntityService {
     public EntityBody get(String id) {
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(id);
         }
         return makeEntityBody(entity);
     }
