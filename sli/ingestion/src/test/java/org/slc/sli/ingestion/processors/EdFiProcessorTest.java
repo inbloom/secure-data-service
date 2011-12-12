@@ -16,8 +16,12 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.MD5;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -39,11 +43,16 @@ public class EdFiProcessorTest {
         // Get Input File
         File inputFile = IngestionTest.getFile("smooks/InterchangeStudent.csv");
         
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+        
         // Create Result File
         File resultFile = IngestionTest.createTempFile();
         
         // Translate EDFI File to AVRO NeutralRecords
-        edFiProcessor.processIngestionStream(inputFile, resultFile);
+        edFiProcessor.processIngestionStream(inputFileEntry, resultFile);
         
         // Parse Result SLI Records from AVRO NeutralRecords File
         List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
@@ -67,11 +76,16 @@ public class EdFiProcessorTest {
         // Get Input File
         File inputFile = IngestionTest.getFile("smooks/InterchangeSchool.csv");
         
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_SCHOOL,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+        
         // Create Result File
         File resultFile = IngestionTest.createTempFile();
         
         // Translate EDFI File to AVRO NeutralRecords
-        edFiProcessor.processIngestionStream(inputFile, resultFile);
+        edFiProcessor.processIngestionStream(inputFileEntry, resultFile);
         
         // Parse Result SLI Records from AVRO NeutralRecords File
         List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
@@ -92,11 +106,16 @@ public class EdFiProcessorTest {
         // Get Input File
         File inputFile = IngestionTest.getFile("smooks/InterchangeStudentSchoolAssociation.csv");
         
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT_SCHOOL_ASSOCIATION,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+        
         // Create Result File
         File resultFile = IngestionTest.createTempFile();
         
         // Translate EDFI File to AVRO NeutralRecords
-        edFiProcessor.processIngestionStream(inputFile, resultFile);
+        edFiProcessor.processIngestionStream(inputFileEntry, resultFile);
         
         // Parse Result SLI Records from AVRO NeutralRecords File
         List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
@@ -116,7 +135,7 @@ public class EdFiProcessorTest {
         Assert.assertEquals("CSV-NeutralRecords translation failed since list sizes do not match", expectedList.size(),
                 resultList.size());
         
-         for (int index = 0; index < expectedList.size(); index++) {
+        for (int index = 0; index < expectedList.size(); index++) {
             Assert.assertTrue("CSV-NeutralRecords translation failed since records are not equal",
                     expectedList.get(index).equals(resultList.get(index)));
         }
