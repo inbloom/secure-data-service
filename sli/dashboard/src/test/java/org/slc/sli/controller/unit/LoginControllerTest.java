@@ -23,7 +23,7 @@ public class LoginControllerTest {
         ModelMap model = new ModelMap();
         assertEquals("login", loginController.printWelcome(model));
         String message = (String) model.get("message");
-        assertEquals(message, "Enter Username or password");
+        assertEquals(message, "Enter Username and password");
     }
     
     
@@ -33,8 +33,10 @@ public class LoginControllerTest {
         ModelMap model = new ModelMap();
         
         assertEquals("login", loginController.checkLogin("", "",  model));
-        String message = (String) model.get("message");
-        assertEquals(message, "Enter valid Username");
+        String errorMessage = (String) model.get("errorMessage");
+        assertEquals(errorMessage, "Invalid Username or password, please try again");
+        String displayMessage = (String) model.get("displayError");
+        assertEquals(displayMessage, "block");
     }
     
     
