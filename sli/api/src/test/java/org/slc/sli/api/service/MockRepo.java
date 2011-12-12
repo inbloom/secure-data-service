@@ -12,6 +12,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mock implementation of the EntityRepository for unit testing.
+ * 
+ */
 @Component
 public class MockRepo implements EntityRepository {
     
