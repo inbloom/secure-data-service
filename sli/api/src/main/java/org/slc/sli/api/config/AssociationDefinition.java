@@ -70,6 +70,9 @@ public class AssociationDefinition extends EntityDefinition {
         return new AssocBuilder(type);
     }
     
+    /**
+     * Fluent builder for AssocBuilder.
+     */
     public static class AssocBuilder extends EntityDefinition.Builder {
         private EntityDefinition sourceEntity;
         private EntityDefinition targetEntity;

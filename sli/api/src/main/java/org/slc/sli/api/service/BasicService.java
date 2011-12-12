@@ -11,6 +11,11 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 
+
+/**
+ * Implementation of EntityService that can be used for most entities.
+ * 
+ */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     private final String collectionName;
