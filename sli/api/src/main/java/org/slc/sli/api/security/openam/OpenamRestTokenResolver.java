@@ -46,9 +46,12 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         Authentication auth = null;
         
         try {
-            
+
+            String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
+
             // Validate Session
-            ResponseEntity<String> entity = rest.getForEntity(tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token, String.class, Collections.<String, Object> emptyMap());
+            ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl,
+                    String.class, Collections.<String, Object> emptyMap());
             
             if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                 

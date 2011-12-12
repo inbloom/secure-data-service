@@ -33,7 +33,7 @@
    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
 
    <bean id="openamTokenResolver" class="org.slc.sli.api.security.openam.OpenamRestTokenResolver">
-      <property name="tokenServiceUrl" value="https://devdanil.slidev.org:8080/idp" />
+      <property name="tokenServiceUrl" value="http://devdanil.slidev.org:8080/idp" />
       <property name="rest" ref="restTemplate" />
    </bean>
 
