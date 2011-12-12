@@ -20,10 +20,6 @@
 		<!-- jb:value property="sourceId" data="" / -->
 		<!-- jb:value property="jobId" data="" / -->
 		<jb:expression property="recordType">'StudentSchoolAssociation'</jb:expression>
-		
-		<!-- Testing Only -->
-		<jb:value property="localId" data="csv-record/AssociationId" decoder="Long" />
-      
 		<jb:wiring property="attributes" beanIdRef="studentSchoolAssociationAttributes" />
 		<jb:wiring property="localParentIds" beanIdRef="studentSchoolAssociationParentIds" />
 	</jb:bean>
