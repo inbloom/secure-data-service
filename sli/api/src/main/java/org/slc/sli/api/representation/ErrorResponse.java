@@ -13,14 +13,19 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @XmlRootElement(name = "error")
 public class ErrorResponse {
-    @XmlElement(name = "status-code")
-    @JsonProperty("status-code")
+    @XmlElement(name = "code")
+    @JsonProperty("code")
     int statusCode;
+    
+    @XmlElement(name = "type")
+    @JsonProperty("type")
+    String type;
+    
     @XmlElement(name = "message")
     @JsonProperty("message")
     String message;
     
-    public ErrorResponse(int statusCode, String message) {
+    public ErrorResponse(int statusCode, String type, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
