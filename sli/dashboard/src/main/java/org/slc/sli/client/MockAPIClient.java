@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 
-public class MockAPIClient {
+public class MockAPIClient implements APIClient {
 
     public Student[] getStudents(final String token) throws IOException {
 
@@ -26,8 +26,9 @@ public class MockAPIClient {
     }
     
     
-    public School[] getSchools(final String token)throws IOException {
+    public School[] getSchools(final String token) {
         FileReader filein;
+        try {
         if (!token.equals("cgray"))
             filein = new FileReader("src/test/resources/school_mock_data.json");
         else
@@ -42,9 +43,11 @@ public class MockAPIClient {
         
         School[] temp = gson.fromJson(total, School[].class);
         return temp;
+        } catch (IOException e) {
+            
+            System.err.println("Exception reading file");
+            return null;
+        }
     }
-    
-    
 
-    
 }

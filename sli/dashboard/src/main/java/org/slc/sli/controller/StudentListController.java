@@ -3,27 +3,28 @@ package org.slc.sli.controller;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.School;
-import org.slc.sli.entity.Student;
 
 
-
-@Controller
-@RequestMapping("/studentlist")
 public class StudentListController {
 
-    private MockAPIClient apiClient;
+    private APIClient apiClient;
     
+    public APIClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
+    }
+
     public StudentListController() {
-        apiClient = new MockAPIClient();
+        //apiClient = new MockAPIClient();
         
     }
     
@@ -37,10 +38,6 @@ public class StudentListController {
         model.addAttribute("schoolList", gson.toJson(schoolList));
         
         return new ModelAndView("studentList");
-    }
-    
-    private Student[] retrieveStudents(String token) throws IOException {
-        return apiClient.getStudents(token);
     }
     
     private School[] retrieveSchools(String token) throws IOException {
