@@ -27,7 +27,7 @@ public class ZipFileUtil {
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        String filePath = zipFile.getParentFile().getAbsolutePath() + File.pathSeparator + "unzip" + File.pathSeparator
+        String filePath = zipFile.getParentFile().getAbsolutePath() + File.separator + "unzip" + File.separator
                 + zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
 
         // make dir to unzip files
@@ -78,7 +78,7 @@ public class ZipFileUtil {
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(dir.getAbsolutePath() + File.pathSeparator + entry.getName());
+            fos = new FileOutputStream(dir.getAbsolutePath() + File.separator + entry.getName());
             bos = new BufferedOutputStream(fos, BUFFER);
 
             int count;
