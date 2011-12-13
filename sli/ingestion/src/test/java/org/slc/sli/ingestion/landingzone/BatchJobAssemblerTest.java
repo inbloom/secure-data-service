@@ -30,7 +30,7 @@ public class BatchJobAssemblerTest {
     private BatchJobAssembler jobAssembler;
 
     @Autowired
-    private LandingZone landingZone;
+    private LandingZone lz;
 
     @Autowired
     MessageSource messageSource;
@@ -101,11 +101,11 @@ public class BatchJobAssemblerTest {
     }
 
     public LandingZone getLandingZone() {
-        return landingZone;
+        return lz;
     }
 
     public void setLandingZone(LandingZone landingZone) {
-        this.landingZone = landingZone;
+        this.lz = landingZone;
     }
 
 }
