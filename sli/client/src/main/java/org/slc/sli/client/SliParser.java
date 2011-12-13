@@ -30,21 +30,21 @@ public class SliParser {
     
     public <T> T parse(String source, Format format, Class<T> resourceType) {
         switch (format) {
-        case JSON:
-            return parseJSON(source, resourceType);
-        default:
-            LOG.warn("Unsupported format type " + format);
-            return null;
+            case JSON:
+                return parseJSON(source, resourceType);
+            default:
+                LOG.warn("Unsupported format type " + format);
+                return null;
         }
     }
     
     public <T> List<T> parseList(String source, Format format, Class<T> resourceType) {
         switch (format) {
-        case JSON:
-            return parseJSONList(source, resourceType);
-        default:
-            LOG.warn("Unsupported format type " + format);
-            return null;
+            case JSON:
+                return parseJSONList(source, resourceType);
+            default:
+                LOG.warn("Unsupported format type " + format);
+                return null;
         }
     }
     

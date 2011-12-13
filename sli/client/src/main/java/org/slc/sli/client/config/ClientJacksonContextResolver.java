@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +21,14 @@ import org.springframework.stereotype.Component;
 @Consumes("application/json")
 @Produces("application/json")
 public class ClientJacksonContextResolver implements ContextResolver<ObjectMapper> {
-private ObjectMapper mapper;
-
-public ClientJacksonContextResolver() {
-mapper = new ObjectMapper();
-}
-
-@Override
-public ObjectMapper getContext(Class<?> cl) {
-return mapper;
-}
+    private ObjectMapper mapper;
+    
+    public ClientJacksonContextResolver() {
+        mapper = new ObjectMapper();
+    }
+    
+    @Override
+    public ObjectMapper getContext(Class<?> cl) {
+        return mapper;
+    }
 }

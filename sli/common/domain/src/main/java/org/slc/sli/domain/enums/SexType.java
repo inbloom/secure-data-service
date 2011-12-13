@@ -1,7 +1,6 @@
 package org.slc.sli.domain.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
-//import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "SexType")
@@ -33,7 +32,7 @@ public enum SexType {
    
     @Override
     public String toString() {
-    return getValue();
+        return getValue();
     }
 
 }
