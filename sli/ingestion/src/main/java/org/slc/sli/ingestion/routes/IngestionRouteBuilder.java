@@ -54,8 +54,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .to("seda:CtrlFilePreProcessor");
 
         // routeId: ctlFilePreprocessor
-        from("seda:CtrlFilePreProcessor").process(ctlFileProcessor).to(
-                "seda:assembledJobs");
+        from("seda:CtrlFilePreProcessor")
+                .routeId("ctlFilePreprocessor")
+                .process(ctlFileProcessor)
+                .to("seda:assembledJobs");
 
         // routeId: zipFilePoller
         from(
