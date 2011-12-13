@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.StudentSchoolAssociation;
 
+/**
+ * Mock for old repo
+ * 
+ */
 @Component
 public class MockStudentSchoolAssociationRepository extends MockCrudRepository<StudentSchoolAssociation, Integer> implements StudentSchoolAssociationRepository {
     
@@ -63,7 +67,7 @@ public class MockStudentSchoolAssociationRepository extends MockCrudRepository<S
     @Override
     public StudentSchoolAssociation saveWithAssoc(StudentSchoolAssociation ssa) {
         // TODO Auto-generated method stub
-     return   super.save(ssa);
+        return super.save(ssa);
     }
     
     
