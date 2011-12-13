@@ -23,7 +23,7 @@ public enum FileFormat {
     
     public static FileFormat findByCode(String code) {
         for (FileFormat ff : FileFormat.values()) {
-            if (ff.getCode().equals(code)) {
+            if (ff.getCode().toLowerCase().equals(code)) {
                 return ff;
             }
         }
