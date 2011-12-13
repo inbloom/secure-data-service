@@ -93,3 +93,33 @@ Scenario: Delete a student-school-association
 	When I navigate to GET "/student-enrollments/122a340e-e237-4766-98e3-4d2d67786572"
 	Then I should receive a return code of 404
 
+
+### Error handling
+Scenario: Attempt to read the base resource with no GUID
+	Given format "application/json"
+	When I navigate to GET "/school-enrollments"
+	Then I should receive a return code of 405
+	When I navigate to GET "/student-enrollments"
+	Then I should receive a return code of 405
+
+
+Scenario: Attempt to read a non-existent resource
+	Given format "application/json"
+	When I navigate to GET "/school-enrollments/11111111-1111-1111-1111-111111111111"
+	Then I should receive a return code of 404
+	When I navigate to GET "/student-enrollments/11111111-1111-1111-1111-111111111111"
+	Then I should receive a return code of 404
+	
+Scenario: Attempt to delete a non-existent resource
+	Given format "application/json"
+	When I navigate to DELETE "/school-enrollments/11111111-1111-1111-1111-111111111111"
+	Then I should receive a return code of 404
+	When I navigate to DELETE "/student-enrollments/11111111-1111-1111-1111-111111111111"
+	Then I should receive a return code of 404
+		
+Scenario: Update a non-existing school
+    Given format "application/json"
+    When I attempt to update a non-existing school "/student-enrollments/11111111-1111-1111-1111-111111111111"
+    Then I should receive a return code of 404
+	When I attempt to update a non-existing school "/school-enrollments/11111111-1111-1111-1111-111111111111"
+    Then I should receive a return code of 404
