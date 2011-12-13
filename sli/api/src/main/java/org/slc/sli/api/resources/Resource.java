@@ -72,38 +72,6 @@ public class Resource {
     /* REST methods */
     
     /**
-     * Returns a collection of entities that the user is allowed to see.
-     * 
-     * @param typePath
-     *            resourceUri for the entity
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
-     * @return Response containing the collection of entities
-     */
-    @GET
-    public Response getCollection(@PathParam("type") final String typePath,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max) {
-        
-        return handle(typePath, new ResourceLogic() {
-            @Override
-            public Response run(EntityDefinition entityDef) {
-                List<String> ids = iterableToList(entityDef.getService().list(skip, max));
-                CollectionResponse collection = new CollectionResponse();
-                for (String id : ids) {
-                    String href = UriBuilder.fromResource(Resource.class).path(id).build(entityDef.getResourceName())
-                            .toString();
-                    collection.add(id, "self", entityDef.getType(), href);
-                }
-                
-                return Response.ok(collection).build();
-            }
-        });
-    }
-    
-    /**
      * Create a new entity or association.
      * 
      * @param typePath
