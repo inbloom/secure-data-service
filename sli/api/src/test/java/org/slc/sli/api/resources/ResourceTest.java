@@ -100,7 +100,7 @@ public class ResourceTest {
                 new EntityBody(createTestAssoication(studentId2, schoolId)));
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
-        
+
         // test get
         for (String id : ids.keySet()) {
             Response r = api.getEntityOrAssociations("students", id, 0, 100, info);

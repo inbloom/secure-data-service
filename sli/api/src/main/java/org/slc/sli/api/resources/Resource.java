@@ -1,7 +1,6 @@
 package org.slc.sli.api.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +48,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 @Produces({ Resource.XML_MEDIA_TYPE, Resource.JSON_MEDIA_TYPE })
 public class Resource {
     
+    private static final String SELF_LINK = "self";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
@@ -128,9 +128,8 @@ public class Resource {
                                 .getAssociatedWith(id, skip, max);
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
-                            String href = UriBuilder.fromResource(Resource.class).path(id)
-                                    .build(entityDef.getResourceName()).toString();
-                            collection.add(id, "self", entityDef.getType(), href);
+                            String href = getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                            collection.add(id, SELF_LINK, entityDef.getType(), href);
                         }
                         
                         return Response.ok(collection).build();
@@ -218,14 +217,6 @@ public class Resource {
         }
     }
     
-    private static <T> List<T> iterableToList(Iterable<T> iter) {
-        List<T> list = new ArrayList<T>();
-        for (T value : iter) {
-            list.add(value);
-        }
-        return list;
-    }
-    
     /**
      * Gets the links that should be included for the given resource
      * 
@@ -241,7 +232,7 @@ public class Resource {
      */
     private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id, EntityBody entityBody) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
-        links.add(new EmbeddedLink("self", defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
+        links.add(new EmbeddedLink(SELF_LINK, defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
@@ -263,5 +254,5 @@ public class Resource {
     private URI getURI(UriInfo uriInfo, String type, String id) {
         return uriInfo.getBaseUriBuilder().path(type).path(id).build();
     }
-
+    
 }
