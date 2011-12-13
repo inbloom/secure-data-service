@@ -75,7 +75,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         tempLz.setDirectory(ctlFile.getParentFile());
                     }
                 }).process(new ControlFilePreProcessor(tempLz))
-                .to("seda:CtrlFilePreProcessor");
+                .choice()
+                    .when(body().isInstanceOf(BatchJob.class))
+                    .to("seda:assembledJobs")
+                .otherwise()
+                    .to("seda:CtrlFilePreProcessor");
 
         // routeId: jobDispatch
         from("seda:assembledJobs")
@@ -97,11 +101,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // get job from exchange
                         BatchJob job = exchange.getIn().getBody(BatchJob.class);
-                        
+
                         // create a log file
-                        File logFile = 
+                        File logFile =
                                 lz.createFile("job-" + job.getId() + ".log");
-                        
+
                         // create a holder for lines
                         ArrayList<String> lines = new ArrayList<String>();
 
@@ -113,25 +117,25 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         if (job.hasErrors()) {
                             lines.add("job has been rejected due to errors");
                         }
-                        
+
                         // write lines to file
                         FileUtils.writeLines(logFile, lines);
                     }
-                    
-                });        
-        
+
+                });
+
         // routeId: jobPipeline
         from("seda:acceptedJobs")
                 .routeId("jobPipeline")
                 .process(
-                        
+
         new Processor() {
 
             // TEMPORARY SOLUTION
-            // inline implementation exists solely to convert the input of 
+            // inline implementation exists solely to convert the input of
             // type BatchJob to type File (the first file in that job).
             // really we'd like to keep BatchJob as the message content, but it
-            // will require refactoring of all the downstream 
+            // will require refactoring of all the downstream
             // processors/components.
 
             @Override

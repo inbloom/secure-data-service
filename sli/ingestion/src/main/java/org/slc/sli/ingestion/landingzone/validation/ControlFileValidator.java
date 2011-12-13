@@ -29,7 +29,7 @@ public class ControlFileValidator extends IngestionValidator<ControlFileDescript
             File file = item.getLandingZone().getFile(entry.getFileName());
 
             if (file == null) {
-                faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG8", entry.getFileName())));
+                faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG3", entry.getFileName())));
             } else {
                 entry.setFile(file);
 

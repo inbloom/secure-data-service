@@ -33,7 +33,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.CollectionResponse.EntityReference;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -101,24 +100,7 @@ public class ResourceTest {
                 new EntityBody(createTestAssoication(studentId2, schoolId)));
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
-        
-        // test the get collection method
-        Response studentEntities = api.getCollection("students", 0, 100);
-        CollectionResponse response = (CollectionResponse) studentEntities.getEntity();
-        assertNotNull(response);
-        assertEquals(2, response.size());
-        for (EntityReference er : response) {
-            assertNotNull(er.getId());
-            assertNotNull(er.getLink());
-            assertEquals("student", er.getLink().getType());
-            assertEquals("self", er.getLink().getRel());
-            assertTrue(ids.containsKey(er.getId()));
-            assertNotNull(ids.get(er.getId()), er.getLink().getHref());
-        }
-        
-        assertEquals(1, ((CollectionResponse) api.getCollection("students", 0, 1).getEntity()).size());
-        assertEquals(1, ((CollectionResponse) api.getCollection("students", 1, 1).getEntity()).size());
-        
+
         // test get
         for (String id : ids.keySet()) {
             Response r = api.getEntityOrAssociations("students", id, 0, 100, info);
@@ -184,10 +166,6 @@ public class ResourceTest {
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
-        Response r5 = api.getCollection("students", 0, 100);
-        CollectionResponse empty = (CollectionResponse) r5.getEntity();
-        assertNotNull(empty);
-        assertEquals(0, empty.size());
     }
     
     private static String parseIdFromLocation(Response response) {

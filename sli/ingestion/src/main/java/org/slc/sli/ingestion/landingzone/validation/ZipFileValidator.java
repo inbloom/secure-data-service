@@ -2,14 +2,12 @@ package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.slc.sli.ingestion.Fault;
-
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 public class ZipFileValidator extends IngestionValidator<File> {
 
@@ -20,12 +18,10 @@ public class ZipFileValidator extends IngestionValidator<File> {
 
         try {
             zf = new ZipFile(zipFile);
-        } catch (ZipException ex) {
-            // error reading zip file
+        } catch (IOException ex) {
+         // error reading zip file
             faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG4", zipFile.getName())));
             return false;
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
 
         Enumeration<?> entries = zf.entries();
