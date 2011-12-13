@@ -26,8 +26,13 @@ import org.slc.sli.domain.enums.OldEthnicityType;
 import org.slc.sli.domain.enums.SchoolFoodServicesEligibilityType;
 import org.slc.sli.domain.enums.SexType;
 
+/**
+ * JUnit for old student repo
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@Deprecated
 public class StudentRepositoryTest {
 
     @Autowired

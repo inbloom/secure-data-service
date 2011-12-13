@@ -2,18 +2,17 @@ package org.slc.sli.repository.custom;
 
 import java.util.List;
 
-import org.slc.sli.domain.School;
-import org.slc.sli.domain.StudentSchoolAssociation;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.slc.sli.domain.School;
+import org.slc.sli.domain.StudentSchoolAssociation;
 
 /**
  * Implementation of the {@link SchoolRepositoryCustom} interface. This will provide customized Persistence
@@ -46,7 +45,8 @@ public class SchoolRepositoryCustomImpl implements SchoolRepositoryCustom {
         }
      }
 
-     private List<StudentSchoolAssociation> getAssocList(int schoolId) {
+    @SuppressWarnings("unchecked")
+    private List<StudentSchoolAssociation> getAssocList(int schoolId) {
         Query query = em.createQuery("from StudentSchoolAssociation assoc where assoc.schoolId=?1");
         query.setParameter(1, schoolId);
         return query.getResultList();
