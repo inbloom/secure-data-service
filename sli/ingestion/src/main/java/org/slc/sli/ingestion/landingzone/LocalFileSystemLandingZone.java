@@ -8,6 +8,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
+/**
+ * 
+ */
 public class LocalFileSystemLandingZone implements LandingZone {
 
     protected File directory;
@@ -51,6 +54,21 @@ public class LocalFileSystemLandingZone implements LandingZone {
         return f;
     }
     
+    /**
+     * Returns a java.io.File for a log file to be used to report BatchJob
+     * status/progress.  The file will be created if it does not yet exist.
+     * 
+     * @return File object
+     */
+    public File getLogFile(String jobId) throws IOException {
+        String fileName = "job-" + jobId + ".log";
+        File f = FileUtils.getFile(this.directory, fileName);
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+        return f;
+    }
+
     /**
      * @return md5Hex string for the given File object
      */

@@ -3,6 +3,10 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * 
+ *
+ */
 public interface LandingZone {
 
     /**
@@ -21,6 +25,14 @@ public interface LandingZone {
      * @return File object
      */
     public File createFile(String fileName) throws IOException;
+
+    /**
+     * Returns a java.io.File for a log file to be used to report BatchJob
+     * status/progress.  The file will be created if it does not yet exist.
+     * 
+     * @return File object
+     */
+    public File getLogFile(String jobId) throws IOException;
 
     /**
      * @return md5Hex string for the given File object
