@@ -9,5 +9,5 @@ package org.slc.sli.repository.custom;
  */
 
 public interface SchoolRepositoryCustom {
-  public void deleteWithAssoc(int schoolId);
+    public void deleteWithAssoc(int schoolId);
 }

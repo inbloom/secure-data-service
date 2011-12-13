@@ -14,17 +14,15 @@ import org.slc.sli.domain.Student;
  */
 @XmlRootElement(name = "students")
 public class StudentWrapper {
-
-
-private List<Student> students = new ArrayList<Student>();
-
-@XmlElements({
-@XmlElement(name = "student", type = Student.class) })
-public List<Student> getStudents() {
-return students;
-}
-
-public void setStudents(List<Student> students) {
-this.students = students;
-}
+    
+    private List<Student> students = new ArrayList<Student>();
+    
+    @XmlElements({ @XmlElement(name = "student", type = Student.class) })
+    public List<Student> getStudents() {
+        return students;
+    }
+    
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 }

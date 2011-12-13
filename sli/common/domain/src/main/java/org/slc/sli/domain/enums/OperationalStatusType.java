@@ -1,9 +1,12 @@
 package org.slc.sli.domain.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
-//import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The operating status of the school/institution
+ * 
+ */
 @XmlType(name = "OperationalStatusType")
 @XmlEnum
 public enum OperationalStatusType {
@@ -49,7 +52,7 @@ public enum OperationalStatusType {
 
     @Override
     public String toString() {
-    return value();
+        return value();
     }
 }
 
