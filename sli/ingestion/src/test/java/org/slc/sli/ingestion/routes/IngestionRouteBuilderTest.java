@@ -15,6 +15,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.Fault;
 
+/**
+ * 
+ * @author jsa
+ *
+ */
 public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
 
         
@@ -27,9 +32,17 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
     
     @Test
     public void testBatchJobWithFaultsIsNotProcessed() throws Exception {
-       
-        final MockEndpoint mock = getMockEndpoint("mock:job");
+
+        // create a mock endpoint against which we can set expectations
+        // it will be swapped in for the seda:acceptedJobs queue later
+        final MockEndpoint mock = getMockEndpoint("mock:acceptedJobs");
+        
+        // look up a specific route by id and get a reference to it
         RouteDefinition route = context.getRouteDefinition("jobDispatch");
+        
+        // use adviceWith to override the route config, intercepting messages
+        // to the acceptedJobs queue and instead diverting them to our mock 
+        // endpoint
         route.adviceWith(context, new RouteBuilder() {
             
             @Override
@@ -41,25 +54,37 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
             
         });
 
-        // expect 0 BatchJobs to pass through the routes...
+        // expect 0 messages (BatchJobs) to passed along to the acceptedJobs q
         mock.expectedMessageCount(0);
 
-        // create a faulty job
+        // create a BatchJob and make it have an error
         BatchJob job = BatchJob.createDefault();
         job.addFault(Fault.createError("I have an error"));
 
         // put it on the assembledJobs queue
         template.sendBody("seda:assembledJobs", job);
 
-        // check it was NOT passed along to the acceptedJobs queue
+        // check it did NOT make it downstream to acceptedJobs q 
         mock.assertIsSatisfied();
     }
 
     @Test
     public void testBatchJobWithoutFaultsIsProcessed() throws Exception {
 
-        final MockEndpoint mock = getMockEndpoint("mock:job");
+        // TODO boilerplate code - looks simple enough to factor out, but 
+        // so far all attempts have resulted in obscure camel/spring config
+        // problems.  needs further investigation.
+        
+        // create a mock endpoint against which we can set expectations
+        // it will be swapped in for the seda:acceptedJobs queue later
+        final MockEndpoint mock = getMockEndpoint("mock:acceptedJobs");
+        
+        // look up a specific route by id and get a reference to it
         RouteDefinition route = context.getRouteDefinition("jobDispatch");
+        
+        // use adviceWith to override the route config, intercepting messages
+        // to the acceptedJobs queue and instead diverting them to our mock 
+        // endpoint
         route.adviceWith(context, new RouteBuilder() {
             
             @Override
@@ -71,10 +96,10 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
             
         });
 
-        // expect 1 BatchJob to pass through the routes...
+        // expect 1 message (BatchJob) to pass to the acceptedJobs q
         mock.expectedMessageCount(1);
 
-        // create a faulty job
+        // create a BatchJob, give it a warning, not an error
         BatchJob job = BatchJob.createDefault();
         job.addFault(Fault.createWarning("Just a warning"));
 
