@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import org.slc.sli.domain.Student;
 
+/**
+ * Fake service for testing authentication service.
+ */
 @Service
 public class SecureFakeServiceImpl implements SecureFakeService {
     
