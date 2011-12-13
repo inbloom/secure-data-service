@@ -69,8 +69,12 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
   @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
-    @data = JSON.parse(@res.body)
-  elsif @format = "application/xml"
+    begin
+      @data = JSON.parse(@res.body);
+    rescue
+      @data = nil
+    end
+  elsif @format == "application/xml"
     assert(false, "XML not supported yet")
   else
     assert(false, "Unsupported MediaType")
