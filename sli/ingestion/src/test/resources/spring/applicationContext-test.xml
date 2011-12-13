@@ -22,6 +22,10 @@
     <property name="directory" value="src/test/resources/dummylz"></property>
   </bean>
 
+  <bean id="tempLz"
+    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
+
+
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
         <list>
