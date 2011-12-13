@@ -1,0 +1,361 @@
+[
+    {
+        "schoolId": "East Daybreak Junior High",
+        "courses": [
+            {
+                "course": "Club/Team",
+                "sections": [
+                    {
+                        "section": "Spartans Softball Team",
+                        "students": []
+                    }
+                ]
+            },
+            {
+                "course": "7th Grade Homeroom",
+                "sections": [
+                    {
+                        "section": "Mrs. Kim's Homeroom",
+                        "students": []
+                    }
+                ]
+            },
+            {
+                "course": "7th Grade English",
+                "sections": [
+                    {
+                        "section": "M. Jones - 7th Grade English - Sec. 1",
+                        "students": []
+                    },
+                    {
+                        "section": "M. Jones - 7th Grade English - Sec. 2",
+                        "students": []
+                    },
+                    {
+                        "section": "M. Jones - 7th Grade English - Sec. 3",
+                        "students": []
+                    }
+                ]
+            },
+            {
+                "course": "8th Grade English",
+                "sections": [
+                    {
+                        "section": "M. Jones - 8th Grade English - Sec 4",
+                        "students": []
+                    },
+                    {
+                        "section": "M. Jones - 8th Grade English - Sec 5",
+                        "students": []
+                    },
+                    {
+                        "section": "M. Jones - 8th Grade English - Sec 6",
+                        "students": [
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "453827070",
+                                    "sex": "Male",
+                                    "birthDate": "2002-07-05",
+                                    "firstName": "Marvin",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Miller"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "943715230",
+                                    "sex": "Female",
+                                    "birthDate": "2000-12-20",
+                                    "firstName": "Jolene",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Colt",
+                                    "racialCategory": "",
+                                    "lastName": "Ashley"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "164420088",
+                                    "sex": "Female",
+                                    "birthDate": "1995-06-25",
+                                    "firstName": "Ursa",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Kellie",
+                                    "racialCategory": "",
+                                    "lastName": "Oconnor"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "505331723",
+                                    "sex": "Male",
+                                    "birthDate": "2004-08-22",
+                                    "firstName": "Gannon",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Eric",
+                                    "racialCategory": "",
+                                    "lastName": "Roman"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "530425896",
+                                    "sex": "Female",
+                                    "birthDate": "2006-07-02",
+                                    "firstName": "Rhonda",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Shannon",
+                                    "racialCategory": "",
+                                    "lastName": "Delgado"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "429526969",
+                                    "sex": "Male",
+                                    "birthDate": "1999-12-17",
+                                    "firstName": "Nicholas",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "A",
+                                    "racialCategory": "",
+                                    "lastName": "Burks"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "178828452",
+                                    "sex": "Male",
+                                    "birthDate": "2001-10-04",
+                                    "firstName": "Tyrone",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Burnett Jones"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "525878920",
+                                    "sex": "Female",
+                                    "birthDate": "2004-12-04",
+                                    "firstName": "Delilah",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "D",
+                                    "racialCategory": "",
+                                    "lastName": "Sims"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "510152105",
+                                    "sex": "Female",
+                                    "birthDate": "1997-06-01",
+                                    "firstName": "TaShya",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Nicole",
+                                    "racialCategory": "",
+                                    "lastName": "Alston"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "802709591",
+                                    "sex": "Female",
+                                    "birthDate": "1997-03-07",
+                                    "firstName": "Imelda",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Sydnee",
+                                    "racialCategory": "",
+                                    "lastName": "Lindsey"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "437680177",
+                                    "sex": "Female",
+                                    "birthDate": "2000-04-23",
+                                    "firstName": "Kimberley",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Yuli",
+                                    "racialCategory": "",
+                                    "lastName": "Pennington"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "170011136",
+                                    "sex": "Male",
+                                    "birthDate": "2001-01-23",
+                                    "firstName": "Arsenio",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Durham"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "547028299",
+                                    "sex": "Male",
+                                    "birthDate": "1999-11-15",
+                                    "firstName": "Alec",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Swanson"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "258392050",
+                                    "sex": "Female",
+                                    "birthDate": "1994-01-09",
+                                    "firstName": "Patricia",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Harper"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "178875887",
+                                    "sex": "Female",
+                                    "birthDate": "2000-10-14",
+                                    "firstName": "Astra",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Deirdre",
+                                    "racialCategory": "",
+                                    "lastName": "Vincent"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "100644447",
+                                    "sex": "Female",
+                                    "birthDate": "2006-06-02",
+                                    "firstName": "Brielle",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "W",
+                                    "racialCategory": "",
+                                    "lastName": "Klein"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "376191021",
+                                    "sex": "Female",
+                                    "birthDate": "1994-08-30",
+                                    "firstName": "Jeanette",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Graves"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "336344132",
+                                    "sex": "Male",
+                                    "birthDate": "2003-03-25",
+                                    "firstName": "Odysseus",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Merrill"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "711411586",
+                                    "sex": "Male",
+                                    "birthDate": "2006-01-08",
+                                    "firstName": "Rafael",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Kirk"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "131758477",
+                                    "sex": "Female",
+                                    "birthDate": "1997-07-22",
+                                    "firstName": "Deirdre",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Tashya",
+                                    "racialCategory": "",
+                                    "lastName": "Gentry"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "670703438",
+                                    "sex": "Male",
+                                    "birthDate": "2002-04-10",
+                                    "firstName": "Zachary",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Melvin",
+                                    "racialCategory": "",
+                                    "lastName": "Patton"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "851123275",
+                                    "sex": "Male",
+                                    "birthDate": "1999-06-13",
+                                    "firstName": "Hoyt",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Hicks"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "423037202",
+                                    "sex": "Male",
+                                    "birthDate": "1999-06-05",
+                                    "firstName": "Nomlanga",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "Deacon",
+                                    "racialCategory": "",
+                                    "lastName": "Mccormick"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "250918988",
+                                    "sex": "Male",
+                                    "birthDate": "2005-04-06",
+                                    "firstName": "Uriah",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "W",
+                                    "racialCategory": "",
+                                    "lastName": "Jordan"
+                                },
+                                {
+                                    "nameSuffix": "",
+                                    "stateId": "421216329",
+                                    "sex": "Female",
+                                    "birthDate": "1994-03-17",
+                                    "firstName": "Madeline",
+                                    "nameVerification": "",
+                                    "hispanicLatinoEthnicity": "",
+                                    "middleName": "",
+                                    "racialCategory": "",
+                                    "lastName": "Hinton"
+                                }
+
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -28,11 +28,11 @@ public class MockAPIClient implements APIClient {
     
     public School[] getSchools(final String token) {
         FileReader filein;
+        String filename = "src/test/resources/" + token + "_mock_data.json";
         try {
-        if (!token.equals("cgray"))
-            filein = new FileReader("src/test/resources/school_mock_data.json");
-        else
-            filein = new FileReader("src/test/resources/cgray_mock_data.json");
+        
+        filein = new FileReader(filename);
+        
         BufferedReader bin = new BufferedReader(filein);
         String s, total;
         total = "";
@@ -45,7 +45,7 @@ public class MockAPIClient implements APIClient {
         return temp;
         } catch (IOException e) {
             
-            System.err.println("Exception reading file");
+            System.err.println(e);
             return null;
         }
     }
