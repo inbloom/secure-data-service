@@ -30,8 +30,9 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        String realmURL = request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+request.getContextPath()+authUrl+"?return="+URLEncoder.encode(request.getRequestURL().toString(),"UTF-8");
-        LOG.info("Redirecting user to realm "+realmURL);
+        String realmURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+                + request.getContextPath() + authUrl + "?return=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
+        LOG.info("Redirecting user to realm " + realmURL);
         response.sendRedirect(realmURL);
 
     }
