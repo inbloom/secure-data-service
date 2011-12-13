@@ -66,19 +66,19 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + "/.error")
                 .routeId("zipFilePoller")
                 .process(zipFileProcessor)
-                .process(new Processor() {
-
-                    // set temporary path to where the files were unzipped
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        File ctlFile = exchange.getIn().getBody(File.class);
-                        tempLz.setDirectory(ctlFile.getParentFile());
-                    }
-                }).process(new ControlFilePreProcessor(tempLz))
                 .choice()
                     .when(body().isInstanceOf(BatchJob.class))
                     .to("seda:assembledJobs")
                 .otherwise()
+                    .process(new Processor() {
+
+                        // set temporary path to where the files were unzipped
+                        @Override
+                        public void process(Exchange exchange) throws Exception {
+                            File ctlFile = exchange.getIn().getBody(File.class);
+                            tempLz.setDirectory(ctlFile.getParentFile());
+                        }
+                    }).process(new ControlFilePreProcessor(tempLz))
                     .to("seda:CtrlFilePreProcessor");
 
         // routeId: jobDispatch
