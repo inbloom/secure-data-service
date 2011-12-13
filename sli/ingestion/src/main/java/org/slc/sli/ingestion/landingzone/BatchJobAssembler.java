@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,23 @@ public class BatchJobAssembler {
      * Attempt to generate a new BatchJob based on data found in the
      * controlFile.
      *
-     * @param controlFile
-     * @return BatchJob
-     * @throws IOException
+     * @param controlFile Control file descriptor
+     * @return BatchJob Assembled batch job
      */
-    public BatchJob assembleJob(ControlFileDescriptor fileDesc) throws IOException {
-
+    public BatchJob assembleJob(ControlFileDescriptor fileDesc) {
         BatchJob job = BatchJob.createDefault();
 
+        return populateJob(fileDesc, job);
+    }
+
+    /**
+     * Attempt to populate a BatchJob based on data found in the
+     * controlFile.
+     * @param fileDesc Control file descriptor
+     * @param job Batch Job to populate
+     * @return populated Batch Job
+     */
+    public BatchJob populateJob(ControlFileDescriptor fileDesc, BatchJob job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
         if (validator.isValid(fileDesc, job.getFaults())) {

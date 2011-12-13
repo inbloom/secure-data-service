@@ -13,40 +13,39 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 
 @Component
 public class ControlFileProcessor implements Processor {
-    
+
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
-    
+
     @Autowired
     private BatchJobAssembler jobAssembler;
-    
+
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+
         long startTime = System.currentTimeMillis();
-        
+
         ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-        
-        // generate a BatchJob from the ControlFile
+
         BatchJob job = this.getJobAssembler().assembleJob(cfd);
-        
+
         long endTime = System.currentTimeMillis();
         log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
-        
+
         // TODO set properties on the exchange based on job properties
         // TODO set faults on the exchange if the control file sucked (?)
-        
+
         // set the exchange outbound message to the value of the job
         exchange.getOut().setBody(job);
         exchange.getOut().setHeader("hasErrors", job.hasErrors());
-        
+
     }
-    
+
     public BatchJobAssembler getJobAssembler() {
         return jobAssembler;
     }
-    
+
     public void setJobAssembler(BatchJobAssembler jobAssembler) {
         this.jobAssembler = jobAssembler;
     }
-    
+
 }

@@ -93,7 +93,7 @@ public class BatchJobAssemblerTest {
         assertTrue(job.hasErrors());
 
         assertEquals(job.getFaults().get(0).getMessage(),
-                messageSource.getMessage("SL_ERR_MSG8", new Object[] { entries.get(0).getFileName() }, null));
+                messageSource.getMessage("SL_ERR_MSG3", new Object[] { entries.get(0).getFileName() }, null));
         assertEquals(job.getFaults().get(1).getMessage(),
                 messageSource.getMessage("SL_ERR_MSG2", new Object[] { entries.get(1).getFileName() }, null));
         assertEquals("world", job.getProperty("hello"));

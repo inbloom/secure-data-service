@@ -30,6 +30,10 @@
     </property>
   </bean>
 
+  <bean id="zipFileValidator"
+    class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
+  </bean>
+
   <bean id="messageSource"
     class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">
