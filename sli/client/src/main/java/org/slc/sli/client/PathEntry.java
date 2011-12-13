@@ -7,10 +7,12 @@ import org.slc.sli.domain.School;
 import org.slc.sli.domain.Student;
 import org.slc.sli.domain.StudentSchoolAssociation;
 
-// TODO: should this be defined in common?
-// That way they can be reused by the client and api, and no (or very little) refactoring
-// will be needed when if^H^Hwhen one of these changes
-// or they will be discovered from a root URI
+/**
+ * Helper class for defining paths
+ * 
+ * @author nbrown
+ * 
+ */
 final class PathEntry {
     
     private final String path;

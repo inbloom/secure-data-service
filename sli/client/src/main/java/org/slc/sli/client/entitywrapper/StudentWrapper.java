@@ -1,14 +1,17 @@
 package org.slc.sli.client.entitywrapper;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slc.sli.domain.Student;
 
-import java.util.List;
-import java.util.ArrayList;
-
+/**
+ * wrapper around students
+ */
 @XmlRootElement(name = "students")
 public class StudentWrapper {
 
