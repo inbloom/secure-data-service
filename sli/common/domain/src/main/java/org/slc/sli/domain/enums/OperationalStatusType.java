@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The operating status of the school/institution
+ * 
+ */
 @XmlType(name = "OperationalStatusType")
 @XmlEnum
 public enum OperationalStatusType {

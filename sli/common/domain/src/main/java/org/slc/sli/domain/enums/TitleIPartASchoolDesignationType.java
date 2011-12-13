@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Some bureaucratic thing, I don't know. But edfi has it so we included it
+ * 
+ */
 @XmlType(name = "TitleIPartASchoolDesignationType")
 @XmlEnum
 public enum TitleIPartASchoolDesignationType {

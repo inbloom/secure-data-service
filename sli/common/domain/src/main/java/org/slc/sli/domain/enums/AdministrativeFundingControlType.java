@@ -3,6 +3,9 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Whether or not this institution is public or private
+ */
 @XmlType(name = "AdministrativeFundingControlType")
 @XmlEnum
 public enum AdministrativeFundingControlType {

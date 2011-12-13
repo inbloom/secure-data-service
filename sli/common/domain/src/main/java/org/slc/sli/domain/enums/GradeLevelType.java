@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * What grade the student is in
+ * 
+ */
 @XmlType(name = "GradeLevelType")
 @XmlEnum
 public enum GradeLevelType {

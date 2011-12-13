@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Whether or not the student has limited English skills
+ * 
+ */
 @XmlType(name = "LimitedEnglishProficiencyType")
 @XmlEnum
 public enum LimitedEnglishProficiencyType {

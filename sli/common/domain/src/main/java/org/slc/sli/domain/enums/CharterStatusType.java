@@ -3,6 +3,9 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Whether or not the school is a charter school
+ */
 @XmlType(name = "CharterStatusType")
 @XmlEnum
 public enum CharterStatusType {

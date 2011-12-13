@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Whether or not students can get free or reduced lunch
+ * 
+ */
 @XmlType(name = "SchoolFoodServicesEligibilityType")
 @XmlEnum
 public enum SchoolFoodServicesEligibilityType {

@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Honestly, I have no idea why this is not just ethnicity type.
+ * 
+ */
 @XmlType(name = "OldEthnicityType")
 @XmlEnum
 public enum OldEthnicityType {

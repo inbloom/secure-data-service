@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The gender of the student
+ * 
+ */
 @XmlType(name = "SexType")
 @XmlEnum
 public enum SexType {
