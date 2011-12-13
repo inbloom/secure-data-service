@@ -15,6 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Parser for sli resources
+ * 
+ * @author nbrown
+ * 
+ */
 @Component
 public class SliParser {
     private static final Logger LOG = LoggerFactory.getLogger(SliParser.class);
@@ -24,21 +30,21 @@ public class SliParser {
     
     public <T> T parse(String source, Format format, Class<T> resourceType) {
         switch (format) {
-        case JSON:
-            return parseJSON(source, resourceType);
-        default:
-            LOG.warn("Unsupported format type " + format);
-            return null;
+            case JSON:
+                return parseJSON(source, resourceType);
+            default:
+                LOG.warn("Unsupported format type " + format);
+                return null;
         }
     }
     
     public <T> List<T> parseList(String source, Format format, Class<T> resourceType) {
         switch (format) {
-        case JSON:
-            return parseJSONList(source, resourceType);
-        default:
-            LOG.warn("Unsupported format type " + format);
-            return null;
+            case JSON:
+                return parseJSONList(source, resourceType);
+            default:
+                LOG.warn("Unsupported format type " + format);
+                return null;
         }
     }
     

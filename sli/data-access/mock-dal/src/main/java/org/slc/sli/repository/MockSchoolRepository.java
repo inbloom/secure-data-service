@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.School;
 
+/**
+ * Mock for old repo
+ * 
+ */
 @Component
 public class MockSchoolRepository extends MockCrudRepository<School, Integer> implements SchoolRepository {
     

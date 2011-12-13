@@ -1,9 +1,12 @@
 package org.slc.sli.domain.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
-//import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The degree to which students participate in magnet programs
+ * 
+ */
 @XmlType(name = "MagnetSpecialProgramEmphasisSchoolType")
 @XmlEnum
 public enum MagnetSpecialProgramEmphasisSchoolType {
@@ -36,6 +39,6 @@ public enum MagnetSpecialProgramEmphasisSchoolType {
     }
     @Override
     public String toString() {
-    return value();
+        return value();
     }
 }

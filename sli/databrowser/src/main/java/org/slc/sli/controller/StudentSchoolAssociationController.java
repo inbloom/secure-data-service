@@ -21,6 +21,10 @@ import org.slc.sli.domain.Student;
 import org.slc.sli.domain.StudentSchoolAssociation;
 import org.slc.sli.domain.enums.GradeLevelType;
 
+/**
+ * Controller for student school associations
+ * 
+ */
 @Controller
 @RequestMapping("studentschoolassociationmenu.html")
 public class StudentSchoolAssociationController {

@@ -6,7 +6,12 @@ import org.springframework.stereotype.Repository;
 import org.slc.sli.domain.StudentSchoolAssociation;
 import org.slc.sli.repository.custom.StudentSchoolAssociationRepositoryCustom;
 
+/**
+ * Old student school repo
+ * 
+ */
 @Repository
+@Deprecated
 public interface StudentSchoolAssociationRepository extends
         PagingAndSortingRepository<StudentSchoolAssociation, Integer>, StudentSchoolAssociationRepositoryCustom {
     

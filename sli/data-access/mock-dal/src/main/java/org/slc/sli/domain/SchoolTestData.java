@@ -7,6 +7,10 @@ import org.slc.sli.domain.enums.OperationalStatusType;
 import org.slc.sli.domain.enums.SchoolType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
+/**
+ * Test data for school
+ * 
+ */
 public class SchoolTestData {
     public static School buildTestSchool1() {
         School school = new School();

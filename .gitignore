@@ -4,3 +4,4 @@
 bin
 logs
 .DS_Store
+*.log

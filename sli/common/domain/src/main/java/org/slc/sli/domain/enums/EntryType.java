@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The way the student entered the school system
+ * 
+ */
 @XmlType(name = "EntryType")
 @XmlEnum
 public enum EntryType {

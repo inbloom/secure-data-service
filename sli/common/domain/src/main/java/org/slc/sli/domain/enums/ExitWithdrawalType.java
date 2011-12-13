@@ -3,6 +3,10 @@ package org.slc.sli.domain.enums;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * How the student left the school
+ * 
+ */
 @XmlType(name = "ExitWithdrawalType")
 @XmlEnum
 public enum ExitWithdrawalType {

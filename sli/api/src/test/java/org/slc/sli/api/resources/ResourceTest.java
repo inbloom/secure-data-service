@@ -140,7 +140,7 @@ public class ResourceTest {
                 fail();
             }
             assertNotNull(cr.get(0).getLink());
-            assertNotNull("self", cr.get(0).getLink().getRel());
+            assertEquals("self", cr.get(0).getLink().getRel());
             assertNotNull(cr.get(0).getLink().getHref());
             assertTrue(cr.get(0).getLink().getHref().contains(cr.get(0).getId()));
         }

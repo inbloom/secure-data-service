@@ -1,9 +1,12 @@
 package org.slc.sli.domain.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
-//import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The type of school
+ * 
+ */
 @XmlType(name = "SchoolType")
 @XmlEnum
 public enum SchoolType {
@@ -39,7 +42,7 @@ public enum SchoolType {
     }
     @Override
     public String toString() {
-    return value();
+        return value();
     }
 
 }
