@@ -86,7 +86,7 @@ public class Resource {
     @GET
     public Response getCollection(@PathParam("type") final String typePath,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, final @Context UriInfo uriInfo) {
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         
         return handle(typePath, new ResourceLogic() {
             @Override
@@ -94,7 +94,8 @@ public class Resource {
                 List<String> ids = iterableToList(entityDef.getService().list(skip, max));
                 CollectionResponse collection = new CollectionResponse();
                 for (String id : ids) {
-                    collection.add(id, SELF_LINK, entityDef.getType(), getURI(uriInfo, entityDef.getResourceName(), id).toString());
+                    collection.add(id, SELF_LINK, entityDef.getType(), getURI(uriInfo, entityDef.getResourceName(), id)
+                            .toString());
                 }
                 
                 return Response.ok(collection).build();
