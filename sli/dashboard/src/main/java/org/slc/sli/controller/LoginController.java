@@ -25,14 +25,25 @@ public class LoginController {
     
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView checkLogin(String username, String pwd, ModelMap model) {
-        if (!(username.equals("sivan") || username.equals("david") || username.equals("sravan") || username.equals("cgray"))) {
-            model.addAttribute("message", "Enter valid Username");
-            model.addAttribute("errorMessage", "Invalid Username or password, please try again");
-            model.addAttribute("displayError", "block");
-            return new ModelAndView("login");
+        
+        String[] acceptableUsers = {"sivan", "david", "sravan", "cgray", "lkim", "rbraverman"};
+        String user = username;
+        for (int i = 0; i < acceptableUsers.length; i++) {
+            if (acceptableUsers[i].equals(username)) {
+                if (i < 3)
+                    user = "common";
+                return new ModelAndView("redirect:appselector").addObject("username", user);
+            }
         }
         
-        return new ModelAndView("redirect:appselector").addObject("username", username);
+        
+        model.addAttribute("message", "Enter valid Username");
+        model.addAttribute("errorMessage", "Invalid Username or password, please try again");
+        model.addAttribute("displayError", "block");
+        return new ModelAndView("login");
+        
+        
+        
     }
 
 
