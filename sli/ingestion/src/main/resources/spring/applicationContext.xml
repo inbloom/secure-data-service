@@ -46,10 +46,11 @@
     name="showOutBody" value="true" /> <property name="showOutBodyType" value="true"
     /> </bean> -->
 
-  <!-- not working yet. -->
+  <!-- not working yet. 
   <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" />
-
-  <!-- not working yet. -->
+  -->
+  
+  <!-- not working yet.
   <aop:config>
     <aop:aspect ref="executionMonitor">
       <aop:pointcut id="pc"
@@ -57,6 +58,7 @@
       <aop:around pointcut-ref="pc" method="aroundExecution" />
     </aop:aspect>
   </aop:config>
+  -->
 
   <bean id="controlFileValidator"
     class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">

@@ -12,7 +12,9 @@
     <property name="testClass" ref="SpringPropertiesHandlingBean"/>
     </bean>
     <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController"/>
-    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController"/>
+    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController">
+    <property name="apiClient" ref="APIClientBean"/>
+    </bean>
     
     <!-- freemarker config -->
     <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -36,4 +38,6 @@
     <bean id="SpringPropertiesHandlingBean" class="org.slc.sli.entity.SpringPropertiesTest">
     <property name="name" value="${my.name}" />
     </bean>
+    
+    <bean id="APIClientBean" class="${apiclientclass}"/>
 </beans>

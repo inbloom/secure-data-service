@@ -24,7 +24,7 @@ import org.slc.sli.ingestion.util.MD5;
 public class BatchJobTest {
     
     @Autowired
-    private LandingZone landingZone;
+    private LandingZone lz;
 
     @Test
     public void testCreateId() {
@@ -105,11 +105,11 @@ public class BatchJobTest {
     }
     
     public LandingZone getLandingZone() {
-        return landingZone;
+        return lz;
     }
 
     public void setLandingZone(LandingZone landingZone) {
-        this.landingZone = landingZone;
+        this.lz = landingZone;
     }
 
 }
