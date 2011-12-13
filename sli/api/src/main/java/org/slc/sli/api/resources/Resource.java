@@ -49,6 +49,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 @Produces({ Resource.XML_MEDIA_TYPE, Resource.JSON_MEDIA_TYPE })
 public class Resource {
     
+    private static final String SELF_LINK = "self";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
@@ -85,7 +86,7 @@ public class Resource {
     @GET
     public Response getCollection(@PathParam("type") final String typePath,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max) {
+            @QueryParam("max-results") @DefaultValue("50") final int max, final @Context UriInfo uriInfo) {
         
         return handle(typePath, new ResourceLogic() {
             @Override
@@ -93,9 +94,7 @@ public class Resource {
                 List<String> ids = iterableToList(entityDef.getService().list(skip, max));
                 CollectionResponse collection = new CollectionResponse();
                 for (String id : ids) {
-                    String href = UriBuilder.fromResource(Resource.class).path(id).build(entityDef.getResourceName())
-                            .toString();
-                    collection.add(id, "self", entityDef.getType(), href);
+                    collection.add(id, SELF_LINK, entityDef.getType(), getURI(uriInfo, entityDef.getResourceName(), id).toString());
                 }
                 
                 return Response.ok(collection).build();
@@ -160,9 +159,8 @@ public class Resource {
                                 .getAssociatedWith(id, skip, max);
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
-                            String href = UriBuilder.fromResource(Resource.class).path(id)
-                                    .build(entityDef.getResourceName()).toString();
-                            collection.add(id, "self", entityDef.getType(), href);
+                            String href = getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                            collection.add(id, SELF_LINK, entityDef.getType(), href);
                         }
                         
                         return Response.ok(collection).build();
@@ -273,7 +271,7 @@ public class Resource {
      */
     private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id, EntityBody entityBody) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
-        links.add(new EmbeddedLink("self", defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
+        links.add(new EmbeddedLink(SELF_LINK, defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();

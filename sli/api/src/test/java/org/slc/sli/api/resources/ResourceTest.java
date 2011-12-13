@@ -103,7 +103,7 @@ public class ResourceTest {
         String assocId2 = parseIdFromLocation(createResponse5);
         
         // test the get collection method
-        Response studentEntities = api.getCollection("students", 0, 100);
+        Response studentEntities = api.getCollection("students", 0, 100, info);
         CollectionResponse response = (CollectionResponse) studentEntities.getEntity();
         assertNotNull(response);
         assertEquals(2, response.size());
@@ -112,12 +112,13 @@ public class ResourceTest {
             assertNotNull(er.getLink());
             assertEquals("student", er.getLink().getType());
             assertEquals("self", er.getLink().getRel());
+            assertEquals("base/students/" + er.getId(), er.getLink().getHref());
             assertTrue(ids.containsKey(er.getId()));
             assertNotNull(ids.get(er.getId()), er.getLink().getHref());
         }
         
-        assertEquals(1, ((CollectionResponse) api.getCollection("students", 0, 1).getEntity()).size());
-        assertEquals(1, ((CollectionResponse) api.getCollection("students", 1, 1).getEntity()).size());
+        assertEquals(1, ((CollectionResponse) api.getCollection("students", 0, 1, info).getEntity()).size());
+        assertEquals(1, ((CollectionResponse) api.getCollection("students", 1, 1, info).getEntity()).size());
         
         // test get
         for (String id : ids.keySet()) {
@@ -184,7 +185,7 @@ public class ResourceTest {
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
-        Response r5 = api.getCollection("students", 0, 100);
+        Response r5 = api.getCollection("students", 0, 100, info);
         CollectionResponse empty = (CollectionResponse) r5.getEntity();
         assertNotNull(empty);
         assertEquals(0, empty.size());
