@@ -35,8 +35,9 @@
     </encoder>
   </appender>
 
-  <root level="info">
-    <appender-ref ref="STDOUT" />
+  <!-- jsa: temporarily debugging issues on deving1. -->
+  <root level="debug">
+      <appender-ref ref="FILE"/>
   </root>
 
    <logger name="org.slc.sli.ingestion.util.ExecutionMonitor" level="DEBUG" >
