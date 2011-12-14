@@ -46,7 +46,9 @@ public class NeutralRecordFileWriter {
             File schemaFile = ResourceUtils.getFile("classpath:neutral.avpr");
             
             // initialize some avro specifics
-            this.avroSchema = Schema.parse(schemaFile);
+            Schema.Parser parser = new Schema.Parser();
+            
+            this.avroSchema = parser.parse(schemaFile);
             this.avroDatumWriter = new GenericDatumWriter(this.avroSchema);
             this.avroDataFileWriter = new DataFileWriter(this.avroDatumWriter);
             this.avroDataFileWriter.create(this.avroSchema, this.outputFile);
