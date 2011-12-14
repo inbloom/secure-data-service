@@ -1,9 +1,12 @@
 package org.slc.sli.domain.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
-//import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Whether or not the student has limited English skills
+ * 
+ */
 @XmlType(name = "LimitedEnglishProficiencyType")
 @XmlEnum
 public enum LimitedEnglishProficiencyType {
@@ -37,7 +40,7 @@ public enum LimitedEnglishProficiencyType {
 
     @Override
     public String toString() {
-    return value();
+        return value();
     }
 }
 

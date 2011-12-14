@@ -16,7 +16,8 @@ public enum FileType {
     CSV_STUDENT_SECTION_ASSOCIATION("StudentSectionAssociation", FileFormat.CSV),
     CSV_TEACHER_SCHOOL_ASSOCIATION("TeacherSchoolAssociation", FileFormat.CSV),
     CSV_TEACHER_SECTION_ASSOCIATION("TeacherSectionAssociation", FileFormat.CSV),
-    CSV_LOCAL_EDUCATION_AGENCY("LocalEducationAgency", FileFormat.CSV);
+    CSV_LOCAL_EDUCATION_AGENCY("LocalEducationAgency", FileFormat.CSV),
+    CSV_LOCATION("Location", FileFormat.CSV);
     
     private final String name;
     private final FileFormat fileFormat;
@@ -36,7 +37,7 @@ public enum FileType {
     
     public static FileType findByNameAndFormat(String name, FileFormat fileFormat) {
         for (FileType ft : FileType.values()) {
-            if (ft.getName().equals(name) && ft.getFileFormat().equals(fileFormat)) {
+            if (ft.getName().toLowerCase().equals(name.toLowerCase()) && ft.getFileFormat().equals(fileFormat)) {
                 return ft;
             }
         }

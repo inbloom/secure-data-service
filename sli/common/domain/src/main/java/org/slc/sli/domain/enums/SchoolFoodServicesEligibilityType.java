@@ -1,9 +1,12 @@
 package org.slc.sli.domain.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
-//import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Whether or not students can get free or reduced lunch
+ * 
+ */
 @XmlType(name = "SchoolFoodServicesEligibilityType")
 @XmlEnum
 public enum SchoolFoodServicesEligibilityType {
@@ -37,7 +40,7 @@ public enum SchoolFoodServicesEligibilityType {
 
     @Override
     public String toString() {
-    return value();
+        return value();
     }
 }
 

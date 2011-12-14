@@ -25,8 +25,8 @@ public class StudentPermissionEvaluationStrategy implements PermissionEvaluation
      * @param permission
      *            the permission
      * @return true, if successful
-     *
-     *@see org.springframework.security.access.PermissionEvaluator#hasPermission(org.springframework.security.core.Authentication,
+     * 
+     * @see org.springframework.security.access.PermissionEvaluator#hasPermission(org.springframework.security.core.Authentication,
      *      java.lang.Object, java.lang.Object)
      */
     @Override
@@ -47,7 +47,7 @@ public class StudentPermissionEvaluationStrategy implements PermissionEvaluation
     }
 
     public Class<Student> getDomainClass() {
-       return Student.class;
+        return Student.class;
     }
     
 }

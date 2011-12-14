@@ -2,6 +2,9 @@ package org.slc.sli.ingestion.routes;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
+
+import ch.qos.logback.classic.Logger;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -11,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
@@ -66,19 +71,19 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + "/.error")
                 .routeId("zipFilePoller")
                 .process(zipFileProcessor)
-                .process(new Processor() {
-
-                    // set temporary path to where the files were unzipped
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        File ctlFile = exchange.getIn().getBody(File.class);
-                        tempLz.setDirectory(ctlFile.getParentFile());
-                    }
-                }).process(new ControlFilePreProcessor(tempLz))
                 .choice()
                     .when(body().isInstanceOf(BatchJob.class))
                     .to("seda:assembledJobs")
                 .otherwise()
+                    .process(new Processor() {
+
+                        // set temporary path to where the files were unzipped
+                        @Override
+                        public void process(Exchange exchange) throws Exception {
+                            File ctlFile = exchange.getIn().getBody(File.class);
+                            tempLz.setDirectory(ctlFile.getParentFile());
+                        }
+                    }).process(new ControlFilePreProcessor(tempLz))
                     .to("seda:CtrlFilePreProcessor");
 
         // routeId: jobDispatch
@@ -102,24 +107,38 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         // get job from exchange
                         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
-                        // create a log file
-                        File logFile =
-                                lz.createFile("job-" + job.getId() + ".log");
-
-                        // create a holder for lines
-                        ArrayList<String> lines = new ArrayList<String>();
-
+                        Logger logger = BatchJobLogger.getLogger(job, lz);
+                        
                         // add output as lines
-                        lines.add("jobId: " + job.getId());
-                        for (Fault fault: job.getFaults()) {
-                            lines.add(fault.toString());
-                        }
-                        if (job.hasErrors()) {
-                            lines.add("job has been rejected due to errors");
+                        logger.info("jobId: " + job.getId());
+
+                        for (IngestionFileEntry fileEntry : job.getFiles()) {
+                            logger.info("[file] " + fileEntry.getFileName()
+                                    + " (" + fileEntry.getFileFormat() + "/"
+                                    + fileEntry.getFileType() + ")");
                         }
 
-                        // write lines to file
-                        FileUtils.writeLines(logFile, lines);
+                        Enumeration names = job.propertyNames();
+                        while (names.hasMoreElements()) {
+                            String key = (String) names.nextElement();
+                            logger.info("[configProperty] " + key + ": "
+                                    + job.getProperty(key));
+                        }
+
+                        for (Fault fault: job.getFaults()) {
+                            if (fault.isError()) {
+                                logger.error(fault.getMessage());
+                            } else {
+                                logger.warn(fault.getMessage());
+                            }
+                        }
+
+                        if (job.hasErrors()) {
+                            logger.info("Job rejected due to errors");
+                        } else {
+                            logger.info("Job ready for processing");
+                        }
+
                     }
 
                 });

@@ -12,6 +12,13 @@ import com.sun.jersey.api.client.WebResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Iterator over links
+ * 
+ * @author nbrown
+ * 
+ * @param <T>
+ */
 public class LinkIterable<T> implements Iterable<T> {
     public static final String LINK_HEADER = "Link";
     private static final Logger LOG = LoggerFactory.getLogger(LinkIterable.class);

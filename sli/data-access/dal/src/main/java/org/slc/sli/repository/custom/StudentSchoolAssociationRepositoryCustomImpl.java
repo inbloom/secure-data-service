@@ -53,6 +53,11 @@ public class StudentSchoolAssociationRepositoryCustomImpl implements StudentScho
             } else {
                 LOG.info("student or school doesnt exist, cant save/update association!");
                 throw new DataAccessException("student/school doesnt exist, cant save/update association!") {
+                    
+                    /**
+                     * 
+                     */
+                    private static final long serialVersionUID = 8854662749384422633L;
                 };
             }
         }

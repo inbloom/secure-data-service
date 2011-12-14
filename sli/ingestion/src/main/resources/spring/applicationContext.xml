@@ -46,10 +46,10 @@
     name="showOutBody" value="true" /> <property name="showOutBodyType" value="true"
     /> </bean> -->
 
-  <!-- not working yet. 
+  <!-- not working yet.
   <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" />
   -->
-  
+
   <!-- not working yet.
   <aop:config>
     <aop:aspect ref="executionMonitor">
@@ -65,7 +65,11 @@
     <property name="ingestionFileValidators">
       <list>
         <bean
-          class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator"></bean>
+          class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
+        <bean
+          class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
+        <bean
+          class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
       </list>
     </property>
   </bean>

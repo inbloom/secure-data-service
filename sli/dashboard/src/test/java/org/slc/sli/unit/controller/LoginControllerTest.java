@@ -1,4 +1,4 @@
-package org.slc.sli.controller.unit;
+package org.slc.sli.unit.controller;
 
 
 import static org.junit.Assert.assertEquals;

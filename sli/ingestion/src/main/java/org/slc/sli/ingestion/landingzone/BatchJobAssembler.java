@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
+import org.slc.sli.ingestion.landingzone.validation.FileFormatValidator;
+import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
 
 /**
  *
@@ -45,8 +47,7 @@ public class BatchJobAssembler {
 
         if (validator.isValid(fileDesc, job.getFaults())) {
             for (IngestionFileEntry entry : controlFile.getFileEntries()) {
-                File f = entry.getFile();
-                if (f != null) {
+                if (entry.getFile() != null) {
                     job.addFile(entry);
                 }
             }

@@ -6,7 +6,13 @@ import org.springframework.stereotype.Repository;
 import org.slc.sli.domain.School;
 import org.slc.sli.repository.custom.SchoolRepositoryCustom;
 
+/**
+ * Old repository for schools
+ * 
+ * @deprecated
+ */
 @Repository
+@Deprecated
 public interface SchoolRepository extends PagingAndSortingRepository<School, Integer>, SchoolRepositoryCustom {
     
     public Iterable<School> findByStateOrganizationId(String stateOrganizationId);

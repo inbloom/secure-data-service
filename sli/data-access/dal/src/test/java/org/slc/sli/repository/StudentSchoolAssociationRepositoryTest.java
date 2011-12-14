@@ -31,8 +31,13 @@ import org.slc.sli.domain.enums.SchoolType;
 import org.slc.sli.domain.enums.SexType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
+/**
+ * JUnit for old DAL
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@Deprecated
 public class StudentSchoolAssociationRepositoryTest {
 
     @Autowired

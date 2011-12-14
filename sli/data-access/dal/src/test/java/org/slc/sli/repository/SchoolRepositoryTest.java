@@ -25,8 +25,12 @@ import org.slc.sli.domain.enums.OperationalStatusType;
 import org.slc.sli.domain.enums.SchoolType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
+/**
+ * JUnit for School repo
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@Deprecated
 public class SchoolRepositoryTest {
 
     @Autowired

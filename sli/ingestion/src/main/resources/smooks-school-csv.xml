@@ -18,7 +18,7 @@
    <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
       createOnElement="csv-record">
       
-      <jb:expression property="recordType">'Student'</jb:expression>
+      <jb:expression property="recordType">'School'</jb:expression>
       <jb:value property="localId" data="csv-record/StateOrganizationId" decoder="Long" />
       <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
    </jb:bean>

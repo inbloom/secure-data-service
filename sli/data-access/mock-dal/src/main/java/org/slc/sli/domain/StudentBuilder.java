@@ -7,6 +7,10 @@ import org.slc.sli.domain.enums.OldEthnicityType;
 import org.slc.sli.domain.enums.SchoolFoodServicesEligibilityType;
 import org.slc.sli.domain.enums.SexType;
 
+/**
+ * Utility class for building student objects
+ * 
+ */
 public class StudentBuilder {
     
     public static Student buildTestStudent() {

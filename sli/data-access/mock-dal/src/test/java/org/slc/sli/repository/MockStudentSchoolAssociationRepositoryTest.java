@@ -15,6 +15,10 @@ import org.slc.sli.domain.enums.EntryType;
 import org.slc.sli.domain.enums.ExitWithdrawalType;
 import org.slc.sli.domain.enums.GradeLevelType;
 
+/**
+ * Test for old repo
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 // includes all contexts
