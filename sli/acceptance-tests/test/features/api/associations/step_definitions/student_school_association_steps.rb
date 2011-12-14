@@ -56,3 +56,9 @@ When /^I navigate to PUT "([^"]*)"$/ do |uri|
       assert(false, "Unsupported MIME type")
     end
 end
+
+When /^I attempt to update a non\-existing association "([^"]*)"$/ do |uri|
+  data = {}
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
+  @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+end
