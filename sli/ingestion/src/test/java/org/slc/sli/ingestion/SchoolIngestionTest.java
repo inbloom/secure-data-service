@@ -136,7 +136,7 @@ public class SchoolIngestionTest {
         persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
                 ingestionPersistenceProcessorOutputFile);
         
-        verifySchools(schoolRepository, 0);
+        assertEquals(2, schoolRepository.count());
         
     }
     

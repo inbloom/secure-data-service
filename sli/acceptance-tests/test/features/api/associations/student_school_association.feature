@@ -117,9 +117,9 @@ Scenario: Attempt to delete a non-existent resource
 	When I navigate to DELETE "/student-enrollments/11111111-1111-1111-1111-111111111111"
 	Then I should receive a return code of 404
 		
-Scenario: Update a non-existing school
+Scenario: Update a non-existing student-school-association
     Given format "application/json"
-    When I attempt to update a non-existing school "/student-enrollments/11111111-1111-1111-1111-111111111111"
+    When I attempt to update a non-existing association "/student-enrollments/11111111-1111-1111-1111-111111111111"
     Then I should receive a return code of 404
-	When I attempt to update a non-existing school "/school-enrollments/11111111-1111-1111-1111-111111111111"
+	When I attempt to update a non-existing association "/school-enrollments/11111111-1111-1111-1111-111111111111"
     Then I should receive a return code of 404
