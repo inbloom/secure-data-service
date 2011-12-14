@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
-   xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
    xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd
                            http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security.xsd">
+
 
    <!-- Configure security -->
    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
@@ -16,8 +20,11 @@
 
    <security:http auto-config="true" entry-point-ref="entryPoint">
       <security:intercept-url pattern="/pub/**" filters="none"/>
+      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS"/>
       <security:intercept-url pattern="/**" access="ROLE_USER" />
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
+
+      <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
    </security:http>
 
    <security:authentication-manager alias="authenticationManager">
@@ -32,22 +39,26 @@
 
    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
 
-   <bean id="openamTokenResolver" class="org.slc.sli.api.security.openam.OpenamRestTokenResolver">
-      <property name="tokenServiceUrl" value="http://devdanil.slidev.org:8080/idp" />
-      <property name="rest" ref="restTemplate" />
-   </bean>
+   <bean id="openamTokenResolver"
+         class="org.slc.sli.api.security.openam.OpenamRestTokenResolver"
+         p:tokenServiceUrl="http://devdanil.slidev.org:8080/idp"
+         p:rest-ref="restTemplate" />
 
-   <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-      <property name="permissionEvaluator" ref="dynamicPermissionEvaluator" />
-   </bean>
+   <bean id="expressionHandler"
+         class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"
+         p:permissionEvaluator-ref="dynamicPermissionEvaluator" />
 
-   <bean id="sliFilter" class="org.slc.sli.api.security.SLIProcessingFilter">
-      <property name="resolver" ref="openamTokenResolver" />
-   </bean>
+   <bean id="sliFilter"
+         class="org.slc.sli.api.security.SLIProcessingFilter"
+         p:resolver-ref="openamTokenResolver" />
 
-   <bean id="entryPoint" class="org.slc.sli.api.security.SLIAuthenticationEntryPoint">
-      <property name="authUrl" value="/pub/realm.jsp" />
-   </bean>
+   <bean id="entryPoint"
+         class="org.slc.sli.api.security.SLIAuthenticationEntryPoint"
+         p:authUrl="/pub/realm.jsp" />
+
+   <bean id="sessisonDebugResource"
+         class="org.slc.sli.api.resources.SessionDebugResource"
+         p:authUrl="http://localhost:8080/api/pub/realm.jsp" />
 
 </beans>
         
