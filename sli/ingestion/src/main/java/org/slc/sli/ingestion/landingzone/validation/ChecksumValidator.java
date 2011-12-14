@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
@@ -12,6 +13,8 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 public class ChecksumValidator extends IngestionFileValidator {
 
+    private Logger log = LoggerFactory.getLogger( ChecksumValidator.class );
+    
     @Override
     public boolean isValid(FileEntryDescriptor item, List<Fault> faults) {
         IngestionFileEntry fe = item.getFileItem();
@@ -32,9 +35,11 @@ public class ChecksumValidator extends IngestionFileValidator {
         }
 
         if (StringUtils.isBlank(actualMd5Hex) || !actualMd5Hex.equals(fe.getChecksum())) {
-            if (Log.isDebugEnabled()) {
-                Log.debug(String.format("File [%s] checksum (%s) does not match control file checksum (%s).",
-                        fe.getFileName(), actualMd5Hex, fe.getChecksum()));
+           
+            if ( log.isDebugEnabled() ) {
+                String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum()} ;
+                log.debug( "File [{}] checksum ({}) does not match control file checksum ({}).",
+                       args );
             }
 
             faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG2", fe.getFileName())));
