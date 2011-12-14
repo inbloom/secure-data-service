@@ -45,17 +45,9 @@ public class BatchJobAssembler {
     public BatchJob populateJob(ControlFileDescriptor fileDesc, BatchJob job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
-        FileFormatValidator ffValidator = new FileFormatValidator();
-        FileTypeValidator ftValidator = new FileTypeValidator();
-        
         if (validator.isValid(fileDesc, job.getFaults())) {
             for (IngestionFileEntry entry : controlFile.getFileEntries()) {
-                File f = entry.getFile();
-                FileEntryDescriptor entryDesc = new FileEntryDescriptor(entry,
-                        fileDesc.getLandingZone());
-                if (f != null
-                        && ffValidator.isValid(entryDesc, job.getFaults())
-                        && ftValidator.isValid(entryDesc, job.getFaults())) {
+                if (entry.getFile() != null) {
                     job.addFile(entry);
                 }
             }
