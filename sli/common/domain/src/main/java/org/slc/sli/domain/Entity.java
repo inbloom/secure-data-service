@@ -13,7 +13,7 @@ public interface Entity {
     
     /**
      * @return the entity type as string, can be entity type for
-     *            core entity or association entity
+     *         core entity or association entity
      */
     public String getType();
     

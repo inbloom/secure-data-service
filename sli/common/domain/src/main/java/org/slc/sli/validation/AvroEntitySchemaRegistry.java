@@ -1,6 +1,5 @@
 package org.slc.sli.validation;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
         
         // FilenameUtils.
         URL url = ResourceUtils.getURL("classpath:avroSchema/school_body.avpr");
-        Schema schema = parser.parse( url.openStream() );
+        Schema schema = parser.parse(url.openStream());
         mapSchema.put("school", schema);
     }
     

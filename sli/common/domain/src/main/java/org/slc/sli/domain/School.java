@@ -2,12 +2,12 @@ package org.slc.sli.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.slc.sli.domain.enums.SchoolType;
-import org.slc.sli.domain.enums.CharterStatusType;
-import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
-import org.slc.sli.domain.enums.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.domain.enums.AdministrativeFundingControlType;
+import org.slc.sli.domain.enums.CharterStatusType;
+import org.slc.sli.domain.enums.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.domain.enums.OperationalStatusType;
+import org.slc.sli.domain.enums.SchoolType;
+import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
 /**
  * School Entity.
@@ -210,7 +210,8 @@ public class School {
      * @param magnetSpecialProgramEmphasisSchool
      *            the magnetSpecialProgramEmphasisSchool to set
      */
-    public void setMagnetSpecialProgramEmphasisSchool(MagnetSpecialProgramEmphasisSchoolType magnetSpecialProgramEmphasisSchool) {
+    public void setMagnetSpecialProgramEmphasisSchool(
+            MagnetSpecialProgramEmphasisSchoolType magnetSpecialProgramEmphasisSchool) {
         this.magnetSpecialProgramEmphasisSchool = magnetSpecialProgramEmphasisSchool;
     }
     

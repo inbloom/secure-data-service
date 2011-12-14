@@ -10,21 +10,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SexType")
 @XmlEnum
 public enum SexType {
-
-//    @XmlEnumValue("Female")
+    
+    // @XmlEnumValue("Female")
     Female("Female"),
- //   @XmlEnumValue("Male")
+    // @XmlEnumValue("Male")
     Male("Male");
     private final String value;
-
+    
     SexType(String v) {
         value = v;
     }
-
+    
     public String getValue() {
         return value;
     }
-
+    
     public static SexType fromValue(String v) {
         for (SexType c : SexType.values()) {
             if (c.value.equalsIgnoreCase(v)) {
@@ -33,10 +33,10 @@ public enum SexType {
         }
         throw new IllegalArgumentException(v);
     }
-   
+    
     @Override
     public String toString() {
         return getValue();
     }
-
+    
 }

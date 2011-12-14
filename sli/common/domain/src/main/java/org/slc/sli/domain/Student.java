@@ -2,13 +2,12 @@ package org.slc.sli.domain;
 
 import java.util.Date;
 
-import org.slc.sli.domain.enums.SexType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.slc.sli.domain.enums.LimitedEnglishProficiencyType;
 import org.slc.sli.domain.enums.OldEthnicityType;
 import org.slc.sli.domain.enums.SchoolFoodServicesEligibilityType;
-import org.slc.sli.domain.enums.LimitedEnglishProficiencyType;
-
-
-import javax.xml.bind.annotation.XmlRootElement;
+import org.slc.sli.domain.enums.SexType;
 
 /**
  * Student Entity.
