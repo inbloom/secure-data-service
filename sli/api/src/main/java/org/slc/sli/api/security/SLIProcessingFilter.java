@@ -1,6 +1,7 @@
 package org.slc.sli.api.security;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ public class SLIProcessingFilter extends GenericFilterBean {
     
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private static final String COOKIE_NAME = "sliSessionId";
+    private static final String COOKIE_NAME = "iPlanetDirectoryPro";
     
     private SecurityTokenResolver resolver;
     
@@ -40,8 +41,22 @@ public class SLIProcessingFilter extends GenericFilterBean {
         
         String sessionId = null;
         
+        @SuppressWarnings("unchecked")
+        Enumeration<String> e = req.getHeaderNames();
+        
+        LOG.debug("------------ HEADERS --------------");
+        while(e.hasMoreElements())
+        {
+            String header = e.nextElement();
+            String headerValue=req.getHeader(header);
+            
+            LOG.debug("[H]"+header+"->"+headerValue);
+        }
+        LOG.debug("------------ HEADERS --------------");
+        
         if (req.getCookies() != null) {
             for (Cookie c : req.getCookies()) {
+                LOG.debug(("Cookie " + c.getName() + "->" + c.getValue()));
                 
                 if (COOKIE_NAME.equals(c.getName())) {
                     sessionId = c.getValue();

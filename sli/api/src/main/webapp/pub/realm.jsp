@@ -6,7 +6,9 @@
 	String realm = request.getParameter("realm");
 	if(realm!=null)
 	{
-		response.sendRedirect("http://devdanil.slidev.org:8080/idp/saml2/jsp/spSSOInit.jsp?metaAlias=/sp&NameIDFormat=transient&idpEntityID=http%3A%2F%2Fdevdanil.slidev.org%3A8080%2Fidp&binding=HTTP-POST&RelayState="+URLEncoder.encode(request.getParameter("return"),"UTF-8"));
+	    String go="http://devdanil.slidev.org:8080/idp/saml2/jsp/spSSOInit.jsp?metaAlias=/sp&NameIDFormat=transient&idpEntityID=http%3A%2F%2Fdevdanil.slidev.org%3A8080%2Fidp&binding=HTTP-POST&RelayState="+URLEncoder.encode(request.getParameter("return"),"UTF-8");
+		System.out.println("Redirecting to: "+go);
+	    response.sendRedirect(go);    
 	}
 %>    
     

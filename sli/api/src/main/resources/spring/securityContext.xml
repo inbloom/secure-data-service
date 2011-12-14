@@ -22,6 +22,7 @@
       <security:intercept-url pattern="/pub/**" filters="none"/>
       <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS"/>
       <security:intercept-url pattern="/**" access="ROLE_USER" />
+      <security:request-cache ref="nullCache"/>
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
 
       <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
@@ -59,6 +60,8 @@
    <bean id="sessisonDebugResource"
          class="org.slc.sli.api.resources.SessionDebugResource"
          p:authUrl="http://localhost:8080/api/pub/realm.jsp" />
+
+   <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
 
 </beans>
         
