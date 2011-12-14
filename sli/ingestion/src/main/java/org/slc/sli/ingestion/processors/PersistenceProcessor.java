@@ -156,9 +156,9 @@ public class PersistenceProcessor implements Processor {
     public Object persist(Object instance) {
         
         // Lookup Repository for Ingestion instance class
-        PagingAndSortingRepository repository = this.getContextManager().getRepositoryByConvention(
+        PagingAndSortingRepository repository = this.getContextManager().getRepository(
                 instance.getClass().getName());
-        
+
         // Persist the Ingestion instance
         return repository.save(instance);
     }
