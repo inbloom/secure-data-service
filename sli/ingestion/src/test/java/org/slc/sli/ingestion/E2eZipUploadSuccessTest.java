@@ -35,6 +35,7 @@ import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
  * @author jsa
  *
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
