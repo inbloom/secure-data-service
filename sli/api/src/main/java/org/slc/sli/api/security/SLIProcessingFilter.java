@@ -23,9 +23,9 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class SLIProcessingFilter extends GenericFilterBean {
     
-    private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger   LOG         = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private static final String COOKIE_NAME = "iPlanetDirectoryPro";
+    private static final String   COOKIE_NAME = "iPlanetDirectoryPro";
     
     private SecurityTokenResolver resolver;
     
@@ -35,8 +35,7 @@ public class SLIProcessingFilter extends GenericFilterBean {
      * If session does exist, resolution will be attempted
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-            ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         
         String sessionId = null;
@@ -45,12 +44,11 @@ public class SLIProcessingFilter extends GenericFilterBean {
         Enumeration<String> e = req.getHeaderNames();
         
         LOG.debug("------------ HEADERS --------------");
-        while(e.hasMoreElements())
-        {
+        while (e.hasMoreElements()) {
             String header = e.nextElement();
-            String headerValue=req.getHeader(header);
+            String headerValue = req.getHeader(header);
             
-            LOG.debug("[H]"+header+"->"+headerValue);
+            LOG.debug("[H]" + header + "->" + headerValue);
         }
         LOG.debug("------------ HEADERS --------------");
         
