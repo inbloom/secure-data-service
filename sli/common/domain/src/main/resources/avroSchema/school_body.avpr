@@ -1,0 +1,80 @@
+{
+  "type" : "record",
+  "name" : "School",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "schoolId",
+    "type" : [ "null", "int" ],
+    "default" : null
+  }, {
+    "name" : "fullName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "shortName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "stateOrganizationId",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "webSite",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "schoolType",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "SchoolType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "ALTERNATIVE", "REGULAR", "SPECIAL_EDUCATION", "VOCATIONAL", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "charterStatus",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "CharterStatusType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "SCHOOL_CHARTER", "COLLEGE_UNIVERSITY_CHARTER", "OPEN_ENROLLMENT", "NOT_A_CHARTER_SCHOOL", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "titleIPartASchoolDesignation",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "TitleIPartASchoolDesignationType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "NOT_DESIGNATED_AS_A_TITLE_I_PART_A_SCHOOL", "TITLE_I_PART_A_SCHOOLWIDE_ASSISTANCE_PROGRAM_SCHOOL", "TITLE_I_PART_A_TARGETED_ASSISTANCE_SCHOOL", "TITLE_I_TARGETED_ELIGIBLE_SCHOOL_NO_PROGRAM", "TITLE_I_TARGETED_SCHOOL", "TITLE_I_SCHOOL_WIDE_ELIGIBLE_TITLE_I_TARGETED_PROGRAM", "TITLE_I_SCHOOL_WIDE_ELIGIBLE_SCHOOL_NO_PROGRAM", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "magnetSpecialProgramEmphasisSchool",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "MagnetSpecialProgramEmphasisSchoolType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "ALL_STUDENTS_PARTICIPATE", "NO_STUDENTS_PARTICIPATE", "SOME_BUT_NOT_ALL_STUDENTS_PARTICIPATE", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "administrativeFundingControl",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "AdministrativeFundingControlType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "PUBLIC_SCHOOL", "PRIVATE_SCHOOL", "OTHER", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "operationalStatus",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "OperationalStatusType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "ACTIVE", "ADDED", "CHANGED_AGENCY", "CLOSED", "CONTINUING", "FUTURE", "INACTIVE", "NEW", "REOPENED", "NULL" ]
+    } ],
+    "default" : null
+  } ]
+}
