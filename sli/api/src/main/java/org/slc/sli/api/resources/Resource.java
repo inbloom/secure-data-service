@@ -18,7 +18,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -82,13 +81,13 @@ public class Resource {
      *         entity lives
      */
     @POST
-    public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody) {
+    public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody,
+            @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = UriBuilder.fromResource(Resource.class).path(id).build(entityDef.getResourceName())
-                        .toString();
+                String uri = getURI(uriInfo, entityDef.getResourceName(), id).toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
