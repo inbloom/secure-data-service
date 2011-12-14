@@ -3,7 +3,7 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 
 Given /^I go to the databrowser$/ do
-  @url = "https://"+PropLoader.getProps['databrowser_server_url']+"/databrowser/spring"
+  @url = "https://"+PropLoader.getProps['databrowser_server_url']+"/databrowser"
   @driver = Selenium::WebDriver.for :firefox
   @driver.get @url 
   assert(@driver.current_url == @url, "Failed to navigate to "+@url)
