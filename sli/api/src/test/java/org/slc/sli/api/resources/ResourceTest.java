@@ -74,30 +74,30 @@ public class ResourceTest {
         // post some data
         Map<String, String> ids = new HashMap<String, String>();
         
-        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()));
+        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse);
         assertEquals(Status.CREATED.getStatusCode(), createResponse.getStatus());
         String studentId1 = parseIdFromLocation(createResponse);
         ids.put(studentId1, (String) createResponse.getMetadata().get("Location").get(0));
         
-        Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()));
+        Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse2);
         assertEquals(Status.CREATED.getStatusCode(), createResponse2.getStatus());
         String studentId2 = parseIdFromLocation(createResponse2);
         ids.put(studentId2, (String) createResponse2.getMetadata().get("Location").get(0));
         
-        Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()));
+        Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse3);
         assertEquals(Status.CREATED.getStatusCode(), createResponse3.getStatus());
         String schoolId = parseIdFromLocation(createResponse3);
         
         Response createResponse4 = api.createEntity("student-enrollments",
-                new EntityBody(createTestAssoication(studentId1, schoolId)));
+                new EntityBody(createTestAssoication(studentId1, schoolId)), info);
         assertNotNull(createResponse4);
         String assocId1 = parseIdFromLocation(createResponse4);
         
         Response createResponse5 = api.createEntity("student-enrollments",
-                new EntityBody(createTestAssoication(studentId2, schoolId)));
+                new EntityBody(createTestAssoication(studentId2, schoolId)), info);
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
 

@@ -38,14 +38,14 @@ public class SessionDebugResource {
     @Path("check")
     public Object sessionCheck() {
         
-        Map<String,Object> sessionDetails = new TreeMap<String, Object>();
+        Map<String, Object> sessionDetails = new TreeMap<String, Object>();
 
         if (isAuthenticated(SecurityContextHolder.getContext())) {
-            sessionDetails.put("authenticated","yes");
-            sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials() );
+            sessionDetails.put("authenticated", true);
+            sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
         } else {
-            sessionDetails.put("authenticated","no");
-            sessionDetails.put("redirect_user",authUrl);
+            sessionDetails.put("authenticated", false);
+            sessionDetails.put("redirect_user", authUrl);
         }
 
         return sessionDetails;
