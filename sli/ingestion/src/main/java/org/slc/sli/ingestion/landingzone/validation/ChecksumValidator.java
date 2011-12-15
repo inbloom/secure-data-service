@@ -11,10 +11,16 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
+/**
+ * Validates file's checksum using MD5 algorithm.
+ *
+ * @author okrook
+ *
+ */
 public class ChecksumValidator extends IngestionFileValidator {
 
-    private Logger log = LoggerFactory.getLogger( ChecksumValidator.class );
-    
+    private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
+
     @Override
     public boolean isValid(FileEntryDescriptor item, List<Fault> faults) {
         IngestionFileEntry fe = item.getFileItem();
@@ -35,11 +41,10 @@ public class ChecksumValidator extends IngestionFileValidator {
         }
 
         if (StringUtils.isBlank(actualMd5Hex) || !actualMd5Hex.equals(fe.getChecksum())) {
-           
-            if ( log.isDebugEnabled() ) {
-                String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum()} ;
-                log.debug( "File [{}] checksum ({}) does not match control file checksum ({}).",
-                       args );
+
+            if (log.isDebugEnabled()) {
+                String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
+                log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
             }
 
             faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG2", fe.getFileName())));
