@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.routes;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Enumeration;
 
 import ch.qos.logback.classic.Logger;
@@ -9,7 +8,6 @@ import ch.qos.logback.classic.Logger;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +22,12 @@ import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 
+/**
+ * Ingestion route builder.
+ *
+ * @author okrook
+ *
+ */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
 
@@ -108,7 +112,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
                         Logger logger = BatchJobLogger.getLogger(job, lz);
-                        
+
                         // add output as lines
                         logger.info("jobId: " + job.getId());
 

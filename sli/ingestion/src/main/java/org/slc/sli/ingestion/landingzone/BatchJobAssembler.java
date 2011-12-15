@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.landingzone;
 
-import java.io.File;
 import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
-import org.slc.sli.ingestion.landingzone.validation.FileFormatValidator;
-import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
 
 /**
  *
