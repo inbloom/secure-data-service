@@ -80,7 +80,7 @@ When /^I attempt to update a non\-existing student "([^"]*)"$/ do |arg1|
       "birthDate" => "765432000000"]
     
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
@@ -92,7 +92,7 @@ When /^I attempt to update a non\-existing student "([^"]*)"$/ do |arg1|
       b.sex("Male")
       b.birthDate("765432000000")}
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response } 
+    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
     assert(false, "Unsupported MIME type")
