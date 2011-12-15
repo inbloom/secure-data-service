@@ -90,7 +90,20 @@
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>2.14.0</version>
-    </dependency> 
+    </dependency>
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
+ 
   </dependencies>
 
   <build>
@@ -125,10 +138,10 @@
                 <!--  Don't skip tests when test phase is invoked -->
                 <skip>false</skip>
                 <includes>
-                    <include>org/slc/sli/controller/unit/*.java</include>
+                    <include>org/slc/sli/unit/controller/*.java</include>
                 </includes>
                 <excludes>
-                    <exclude>org/slc/sli/controller/selenium/*.java</exclude>
+                    <exclude>org/slc/sli/selenium/controller/*.java</exclude>
                 </excludes>
             </configuration>
         </execution>
@@ -142,7 +155,7 @@
                 <!--  Never skip tests during integration phase -->
                 <skip>false</skip>
                 <includes>
-                    <include>org/slc/sli/controller/selenium/*.java</include>
+                    <include>org/slc/sli/selenium/controller/*.java</include>
                 </includes>
             </configuration>
         </execution>
