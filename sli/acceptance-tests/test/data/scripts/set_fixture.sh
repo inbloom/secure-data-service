@@ -1,0 +1,9 @@
+#!/bin/bash
+
+MONGO_HOME=/usr/bin
+DB_HOST=testdal1.slidev.org
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+$MONGO_HOME/mongoimport --drop -d sli -c student -h $DB_HOST --file $DIR/../student_fixture.json
+$MONGO_HOME/mongoimport --drop -d sli -c school -h $DB_HOST --file $DIR/../school_fixture.json
+$MONGO_HOME/mongoimport --drop -d sli -c enrollments -h $DB_HOST --file $DIR/../student_enrollments_fixture.json
