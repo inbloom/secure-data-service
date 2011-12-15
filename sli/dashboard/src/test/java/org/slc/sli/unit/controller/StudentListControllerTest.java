@@ -1,14 +1,8 @@
 package org.slc.sli.unit.controller;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+
 import static org.junit.Assert.assertTrue;
-
 import static org.junit.Assert.assertEquals;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +12,6 @@ import com.google.gson.Gson;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.controller.StudentListController;
 import org.slc.sli.entity.School;
-import org.slc.sli.entity.Student;
 
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -26,7 +19,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-
+/**
+ * TODO: Write Javadoc
+ * 
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(StudentListController.class)
 public class StudentListControllerTest {
@@ -40,10 +36,7 @@ public class StudentListControllerTest {
         testUser = "sravan";
     }
     
-
     
-    
-
     @Test
     public void testStudentListNotEmpty() throws Exception {
         
@@ -72,7 +65,7 @@ public class StudentListControllerTest {
         PowerMockito.doReturn(null).when(mocked, "retrieveSchools", "");
         ModelMap model = new ModelMap();
         mocked.retrieveStudentList("", model);
-        assert(model.get("schoolList") == null);
+        assertTrue(model.get("schoolList").equals("null"));
 
     }
     

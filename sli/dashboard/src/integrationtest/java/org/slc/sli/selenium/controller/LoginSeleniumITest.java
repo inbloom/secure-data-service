@@ -9,6 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+/**
+ * TODO: Write Javadoc
+ */
 public class LoginSeleniumITest {
 
     WebDriver driver;

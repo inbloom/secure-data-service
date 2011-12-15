@@ -1,5 +1,10 @@
 package org.slc.sli.entity;
 
+/**
+ * 
+ * TODO: Write Javadoc
+ *
+ */
 public class School {
 
     private Course[] courses;
