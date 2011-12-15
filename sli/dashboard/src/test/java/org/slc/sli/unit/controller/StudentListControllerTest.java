@@ -56,9 +56,6 @@ public class StudentListControllerTest {
         ModelAndView result;   
         result = partiallyMocked.retrieveStudentList("", model);
         assertEquals(result.getViewName(), "studentList");
-
-        Boolean temp = model.containsAttribute("schoolList");
-        System.err.println(temp);
         String schoolListJson = (String) model.get("schoolList");
         Gson gson = new Gson();
         School[] schoolList = gson.fromJson(schoolListJson, School[].class); 
