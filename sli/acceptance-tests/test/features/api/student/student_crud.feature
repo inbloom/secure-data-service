@@ -36,9 +36,9 @@ Scenario: Update an existing student
         
 Scenario: Delete an existing student
     Given format "application/json"
-    When I navigate to DELETE "/students/7a86a6a7-1f80-4581-b037-4a9328b9b650"
+    When I navigate to DELETE "/students/61f13b73-92fa-4a86-aaab-84999c511148"
     Then I should receive a return code of 204
-    When  I navigate to GET "/students/7a86a6a7-1f80-4581-b037-4a9328b9b650"
+    When  I navigate to GET "/students/61f13b73-92fa-4a86-aaab-84999c511148"
     Then I should receive a return code of 404
         
 #### XML version
