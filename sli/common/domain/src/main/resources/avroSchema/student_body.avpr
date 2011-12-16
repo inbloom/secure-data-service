@@ -1,0 +1,123 @@
+{
+  "type" : "record",
+  "name" : "Student",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "studentId",
+    "type" : [ "null", "int" ],
+    "default" : null
+  }, {
+    "name" : "studentSchoolId",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "personalTitlePrefix",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "firstName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "middleName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "lastSurname",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "generationCodeSuffix",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "maidenName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "personalInformationVerification",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "sex",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "SexType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "Female", "Male" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "birthDate",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Date",
+      "namespace" : "java.util",
+      "fields" : [ ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "cityOfBirth",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "stateOfBirthAbbreviation",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "countryOfBirth",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "dateEnteredUs",
+    "type" : [ "null", "java.util.Date" ],
+    "default" : null
+  }, {
+    "name" : "multipleBirthStatus",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  }, {
+    "name" : "profileThumbnail",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "hispanicLatinoEthnicity",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  }, {
+    "name" : "oldEthnicity",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "OldEthnicityType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "AMERICAN_INDIAN_OR_ALASKAN_NATIVE", "ASIAN_OR_PACIFIC_ISLANDER", "BLACK_NOT_OF_HISPANIC_ORIGIN", "HISPANIC", "WHITE_NOT_OF_HISPANIC_ORIGIN", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "economicDisadvantaged",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  }, {
+    "name" : "schoolFoodServicesEligibility",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "SchoolFoodServicesEligibilityType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "FREE", "FULL_PRICE", "REDUCED_PRICE", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "limitedEnglishProficiency",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "LimitedEnglishProficiencyType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "YES", "NO", "EVER", "NULL" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "displacementStatus",
+    "type" : [ "null", "string" ],
+    "default" : null
+  } ]
+}

@@ -1,0 +1,70 @@
+{
+  "type" : "record",
+  "name" : "StudentSchoolAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "associationId",
+    "type" : [ "null", "int" ],
+    "default" : null
+  }, {
+    "name" : "studentId",
+    "type" : [ "null", "int" ],
+    "default" : null
+  }, {
+    "name" : "schoolId",
+    "type" : [ "null", "int" ],
+    "default" : null
+  }, {
+    "name" : "entryDate",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Calendar",
+      "namespace" : "java.util",
+      "fields" : [ ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "entryGradeLevel",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "GradeLevelType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "INFANT_TODDLER", "EARLY_EDUCATION", "PRESCHOOL_PREKINDERGARTEN", "KINDERGARTEN", "TRANSITIONAL_KINDERGARTEN", "FIRST_GRADE", "SECOND_GRADE", "THIRD_GRADE", "FOURTH_GRADE", "FIFTH_GRADE", "SIXTH_GRADE", "SEVENTH_GRADE", "EIGHTH_GRADE", "NINTH_GRADE", "TENTH_GRADE", "ELEVENTH_GRADE", "TWELFTH_GRADE", "GRADE_13", "POSTSECONDARY", "ADULT_EDUCATION", "UNGRADED", "OTHER" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "entryType",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "EntryType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "TRANSFER_PUBLIC_SAME_LOCAL_AGENCY", "TRANSFER_PUBLIC_DIFFERENT_LOCAL_AGENCY_SAME_STATE", "TRANSFER_PUBLIC_DIFFERENT_STATE", "TRANSFER_PRIVATE_NON_RELIGIOUS_SAME_LOCAL_AGENCY", "TRANSFER_PRIVATE_NON_RELIGIOUS_DIFFERENT_LOCAL_AGENCY_SAME_STATE", "TRANSFER_PRIVATE_NON_RELIGIOUS_DIFFERENT_STATE", "TRANSFER_PRIVATE_RELIGIOUS_SAME_LOCAL_AGENCY", "TRANSFER_PRIVATE_RELIGIOUS_DIFFERENT_LOCAL_AGENCY_SAME_STATE", "TRANSFER_PRIVATE_RELIGIOUS_DIFFERENT_STATE", "TRANSFER_OUTSIDE_COUNTRY", "TRANSFER_INSTITUTION", "TRANSFER_CHARTER", "TRANSFER_HOME_SCHOOL", "REENTRY_NO_INTERRUPTION", "REENTRY_VOLUNTARY_WITHDRAWAL", "REENTRY_INVOLUNTARY_WITHDRAWAL", "ORIGINAL", "ORIGINAL_FOREIGN_NO_INTERRUPTION", "ORIGINAL_FOREIGN_INTERRUPTION", "NEXT_YEAR", "OTHER" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "repeatedGrade",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  }, {
+    "name" : "classOf",
+    "type" : [ "null", "java.util.Calendar" ],
+    "default" : null
+  }, {
+    "name" : "schoolChoiceTransfer",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  }, {
+    "name" : "exitWithdrawDate",
+    "type" : [ "null", "java.util.Calendar" ],
+    "default" : null
+  }, {
+    "name" : "exitWithdrawType",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "ExitWithdrawalType",
+      "namespace" : "org.slc.sli.domain.enums",
+      "symbols" : [ "TRANSFER_PUBLIC_SAME_LOCAL_AGENCY", "TRANSFER_PUBLIC_DIFFERENT_LOCAL_AGENCY_SAME_STATE", "TRANSFER_PUBLIC_DIFFERENT_STATE", "TRANSFER_PRIVATE_NON_RELIGIOUS_SAME_LOCAL_AGENCY", "TRANSFER_PRIVATE_NON_RELIGIOUS_DIFFERENT_LOCAL_AGENCY_SAME_STATE", "TRANSFER_PRIVATE_NON_RELIGIOUS_DIFFERENT_STATE", "TRANSFER_PRIVATE_RELIGIOUS_SAME_LOCAL_AGENCY", "TRANSFER_PRIVATE_RELIGIOUS_DIFFERENT_LOCAL_AGENCY_SAME_STATE", "TRANSFER_PRIVATE_RELIGIOUS_DIFFERENT_STATE", "TRANSFER_OUTSIDE_COUNTRY", "TRANSFER_INSTITUTION", "TRANSFER_CHARTER", "TRANSFER_HOME_SCHOOL", "GRADUATED", "COMPLETED_OTHER", "DIED_OR_INCAPACITATED", "ILLNESS", "EXPELLED", "MAX_AGE", "DISCONTINUED", "NOT_MEET_REQUIREMENTS", "POSTSECONDARY_EARLY_ADMISSION", "UNKNOWN", "RECEIVING_EDUCATION_NOT_ENROLLED", "ADULT_ED", "VOCATIONAL", "NOT_ENROLLED", "FOREIGN_EXCHANGE", "WITHDRAWN_UNDER_AGE", "EXITED", "CHARTER_SAME_LOCAL_AGENCY", "EQUIVALENCY_CERTIFICATE", "OTHER" ]
+    } ],
+    "default" : null
+  } ]
+}

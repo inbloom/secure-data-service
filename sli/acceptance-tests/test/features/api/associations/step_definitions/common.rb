@@ -66,7 +66,7 @@ end
 
 When /^I navigate to GET "([^"]*)"$/ do |uri|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
     begin
@@ -83,6 +83,6 @@ end
 
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.delete(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end

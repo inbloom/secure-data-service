@@ -22,15 +22,15 @@ public enum CharterStatusType {
     NULL("Unknown");
     
     private final String value;
-
+    
     CharterStatusType(String v) {
         value = v;
     }
-
+    
     public String value() {
         return value;
     }
-
+    
     public static CharterStatusType fromValue(String v) {
         for (CharterStatusType c : CharterStatusType.values()) {
             if (c.value.equals(v)) {
@@ -39,7 +39,7 @@ public enum CharterStatusType {
         }
         throw new IllegalArgumentException(v);
     }
-
+    
     @Override
     public String toString() {
         return value();

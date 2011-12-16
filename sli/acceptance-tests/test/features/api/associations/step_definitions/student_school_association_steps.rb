@@ -27,7 +27,7 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
   if @format == "application/json"
     data = @fields
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client POST is nil")
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
@@ -39,7 +39,7 @@ end
 When /^I navigate to PUT "([^"]*)"$/ do |uri|
   if @format == "application/json"
       url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-      @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+      @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
       assert(@res != nil, "Response from rest-client GET is nil")
       assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
       modified = JSON.parse(@res.body)
@@ -48,7 +48,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |uri|
       end
       
       url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-      @res = RestClient.put(url, modified.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+      @res = RestClient.put(url, modified.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
       assert(@res != nil, "Response from rest-client PUT is nil")
     elsif @format == "application/xml"
       assert(false, "application/xml is not supported")
@@ -60,5 +60,5 @@ end
 When /^I attempt to update a non\-existing association "([^"]*)"$/ do |uri|
   data = {}
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-  @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
 end

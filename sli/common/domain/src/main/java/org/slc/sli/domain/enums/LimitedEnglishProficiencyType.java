@@ -10,25 +10,25 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "LimitedEnglishProficiencyType")
 @XmlEnum
 public enum LimitedEnglishProficiencyType {
-
- //   @XmlEnumValue("Yes")
+    
+    // @XmlEnumValue("Yes")
     YES("Yes"),
- //   @XmlEnumValue("No")
+    // @XmlEnumValue("No")
     NO("No"),
- //   @XmlEnumValue("Ever")
+    // @XmlEnumValue("Ever")
     EVER("Ever"),
- //   @XmlEnumValue("Unknown")
+    // @XmlEnumValue("Unknown")
     NULL("Unknown");
     private final String value;
-
+    
     LimitedEnglishProficiencyType(String v) {
         value = v;
     }
-
+    
     public String value() {
         return value;
     }
-
+    
     public static LimitedEnglishProficiencyType fromValue(String v) {
         for (LimitedEnglishProficiencyType c : LimitedEnglishProficiencyType.values()) {
             if (c.value.equals(v)) {
@@ -37,10 +37,9 @@ public enum LimitedEnglishProficiencyType {
         }
         throw new IllegalArgumentException(v);
     }
-
+    
     @Override
     public String toString() {
         return value();
     }
 }
-

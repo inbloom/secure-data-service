@@ -10,37 +10,37 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "OperationalStatusType")
 @XmlEnum
 public enum OperationalStatusType {
-
-//    @XmlEnumValue("Active")
+    
+    // @XmlEnumValue("Active")
     ACTIVE("Active"),
- //   @XmlEnumValue("Added")
+    // @XmlEnumValue("Added")
     ADDED("Added"),
- //   @XmlEnumValue("Changed Agency")
+    // @XmlEnumValue("Changed Agency")
     CHANGED_AGENCY("Changed Agency"),
- //   @XmlEnumValue("Closed")
+    // @XmlEnumValue("Closed")
     CLOSED("Closed"),
- //   @XmlEnumValue("Continuing")
+    // @XmlEnumValue("Continuing")
     CONTINUING("Continuing"),
- //   @XmlEnumValue("Future")
+    // @XmlEnumValue("Future")
     FUTURE("Future"),
- //   @XmlEnumValue("Inactive")
+    // @XmlEnumValue("Inactive")
     INACTIVE("Inactive"),
- //   @XmlEnumValue("New")
+    // @XmlEnumValue("New")
     NEW("New"),
- //   @XmlEnumValue("Reopened")
+    // @XmlEnumValue("Reopened")
     REOPENED("Reopened"),
- //   @XmlEnumValue("Unknown")
+    // @XmlEnumValue("Unknown")
     NULL("Unknown");
     private final String value;
-
+    
     OperationalStatusType(String v) {
         value = v;
     }
-
+    
     public String value() {
         return value;
     }
-
+    
     public static OperationalStatusType fromValue(String v) {
         for (OperationalStatusType c : OperationalStatusType.values()) {
             if (c.value.equals(v)) {
@@ -49,10 +49,9 @@ public enum OperationalStatusType {
         }
         throw new IllegalArgumentException(v);
     }
-
+    
     @Override
     public String toString() {
         return value();
     }
 }
-

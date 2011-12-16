@@ -12,6 +12,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 
+/**
+ * TODO: Write Javadoc
+ *
+ */
 public class AppSelectorControllerTest {
 
     private AppSelectorController appSelector;

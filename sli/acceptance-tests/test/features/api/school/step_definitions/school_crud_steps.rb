@@ -57,7 +57,7 @@ end
 
 When /^I GET the newly created school by id$/ do
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -68,7 +68,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       "stateOrganizationId" => "50","webSite" => @websiteName]
     
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client POST is nil")
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
@@ -78,7 +78,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       b.stateOrganizationId("50")
       b.webSite(@websiteName)}
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.post(url, data, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response } 
+    @res = RestClient.post(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client POST is nil")
   else
     assert(false, "Unsupported MIME type")
@@ -87,14 +87,14 @@ end
 
 When /^I navigate to GET "([^"]*)"$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
     data = JSON.parse(@res.body)
@@ -102,11 +102,11 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
     data['nameOfInstitution'] = @fullName
     
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
     
@@ -115,7 +115,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
     doc.root.elements["webSite"].text = @websiteName
     
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, doc, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response } 
+    @res = RestClient.put(url, doc, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
     assert(false, "Unsupported MIME type")
@@ -129,7 +129,7 @@ When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
       "stateOrganizationId" => "50","webSite" => ""]
     
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
@@ -139,7 +139,7 @@ When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
       b.stateOrganizationId("50")
       b.webSite("")}
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response } 
+    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
     assert(false, "Unsupported MIME type")
@@ -148,7 +148,7 @@ end
 
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.delete(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
@@ -167,13 +167,13 @@ end
   
 When /^I navigate to GET to said school$/ do
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+@tempID.to_s
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I navigate to GET to said school with "([^"]*)"$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1+@tempID.to_s
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:sliSessionId => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

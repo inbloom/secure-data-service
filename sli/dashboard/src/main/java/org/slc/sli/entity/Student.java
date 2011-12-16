@@ -1,6 +1,11 @@
 package org.slc.sli.entity;
 import com.google.gson.Gson;
 
+/**
+ * 
+ * TODO: Write Javadoc
+ *
+ */
 public class Student {
 
     private String nameSuffix, stateId, sex, birthDate, firstName, nameVerification, hispanicLatinoEthnicity, 
@@ -131,32 +136,11 @@ public class Student {
     }
 
 
-
-    //CHECKSTYLE.OFF: Something
-    public Student(String nameSuffix, String stateId, String sex, String birthDate, String firstName, 
-            String nameVerification, String hispanicLatinoEthnicity, String middleName,	String racialCategory,
-            String lastName) {
-    //CHECKSTYLE.ON: Something
-		this.nameSuffix = nameSuffix;
-		this.stateId = stateId;
-		this.sex = sex;
-		this.birthDate = birthDate;
-		this.firstName = firstName;
-		this.nameVerification = nameVerification;
-		this.hispanicLatinoEthnicity = hispanicLatinoEthnicity;
-		this.middleName = middleName;
-		this.racialCategory = racialCategory;
-		this.lastName = lastName;
-	}
-
-
-
-
-	public static Student fromJson(String json) {
-		Gson gson = new Gson();
-		Student student = gson.fromJson(json, Student.class);
-		return student;
-	}
+    public static Student fromJson(String json) {
+        Gson gson = new Gson();
+        Student student = gson.fromJson(json, Student.class);
+        return student;
+    }
 
 
 

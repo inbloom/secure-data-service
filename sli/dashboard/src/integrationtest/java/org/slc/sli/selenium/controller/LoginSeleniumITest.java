@@ -1,4 +1,4 @@
-package org.slc.sli.controller.selenium;
+package org.slc.sli.selenium.controller;
 
 import static org.junit.Assert.assertTrue;
 
@@ -9,6 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+/**
+ * TODO: Write Javadoc
+ */
 public class LoginSeleniumITest {
 
     WebDriver driver;

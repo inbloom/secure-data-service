@@ -9,26 +9,26 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "AdministrativeFundingControlType")
 @XmlEnum
 public enum AdministrativeFundingControlType {
-
- //   @XmlEnumValue("Public School")
+    
+    // @XmlEnumValue("Public School")
     PUBLIC_SCHOOL("Public School"),
- //   @XmlEnumValue("Private School")
+    // @XmlEnumValue("Private School")
     PRIVATE_SCHOOL("Private School"),
-  //  @XmlEnumValue("Other")
+    // @XmlEnumValue("Other")
     OTHER("Other"),
-  //  @XmlEnumValue("Unknown")
+    // @XmlEnumValue("Unknown")
     NULL("Unknown");
     
     private final String value;
-
+    
     AdministrativeFundingControlType(String v) {
         value = v;
     }
-
+    
     public String value() {
         return value;
     }
-
+    
     public static AdministrativeFundingControlType fromValue(String v) {
         for (AdministrativeFundingControlType c : AdministrativeFundingControlType.values()) {
             if (c.value.equals(v)) {
@@ -43,4 +43,3 @@ public enum AdministrativeFundingControlType {
         return value();
     }
 }
-

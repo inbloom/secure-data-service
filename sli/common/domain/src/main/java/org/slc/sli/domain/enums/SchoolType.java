@@ -10,28 +10,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SchoolType")
 @XmlEnum
 public enum SchoolType {
-
-//    @XmlEnumValue("Alternative")
+    
+    // @XmlEnumValue("Alternative")
     ALTERNATIVE("Alternative"),
- //   @XmlEnumValue("Regular")
+    // @XmlEnumValue("Regular")
     REGULAR("Regular"),
-//    @XmlEnumValue("Special Education")
+    // @XmlEnumValue("Special Education")
     SPECIAL_EDUCATION("Special Education"),
- //   @XmlEnumValue("Vocational")
+    // @XmlEnumValue("Vocational")
     VOCATIONAL("Vocational"),
- //   @XmlEnumValue("Unknown")
+    // @XmlEnumValue("Unknown")
     NULL("Unknown");
     
     private final String value;
-
+    
     SchoolType(String v) {
         value = v;
     }
-
+    
     public String value() {
         return value;
     }
-
+    
     public static SchoolType fromValue(String v) {
         for (SchoolType c : SchoolType.values()) {
             if (c.value.equals(v)) {
@@ -40,9 +40,10 @@ public enum SchoolType {
         }
         throw new IllegalArgumentException(v);
     }
+    
     @Override
     public String toString() {
         return value();
     }
-
+    
 }
