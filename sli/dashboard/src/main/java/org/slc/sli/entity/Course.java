@@ -1,5 +1,11 @@
 package org.slc.sli.entity;
 
+
+/**
+ * 
+ * TODO: Write Javadoc
+ *
+ */
 public class Course {
 
     private Section[] sections;

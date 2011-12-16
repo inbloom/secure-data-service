@@ -17,6 +17,7 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public class EntityDefinition {
+
     private final String type;
     private final String resourceName;
     private final EntityService service;
@@ -141,7 +142,8 @@ public class EntityDefinition {
         }
         
         /**
-         *TODO
+         * TODO
+         * 
          * @param repo
          * @return
          */

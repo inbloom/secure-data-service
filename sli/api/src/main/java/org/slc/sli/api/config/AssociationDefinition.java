@@ -1,7 +1,6 @@
 package org.slc.sli.api.config;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
@@ -15,6 +14,7 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public final class AssociationDefinition extends EntityDefinition {
+
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     private final String relName;

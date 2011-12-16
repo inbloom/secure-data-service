@@ -10,6 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.controller.LoginController;
 
+/**
+ * TODO: Write Javadoc
+ * 
+ */
 public class LoginControllerTest {
 
     private LoginController loginController;

@@ -8,7 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.entity.SpringPropertiesTest;
 
-
+/**
+ * 
+ * TODO: Write Javadoc
+ *
+ */
 public class LoginController {
 
 
