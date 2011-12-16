@@ -111,32 +111,34 @@ public class Resource {
      */
     @GET
     @Path("{id}")
-    public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id,
+    public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                try {
+                if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
                     entityBody.put("links", getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
-                } catch (EntityNotFoundException e) {
-                    if (entityDef instanceof AssociationDefinition) {
-                        Iterable<String> associationIds = ((AssociationDefinition) entityDef).getService()
-                                .getAssociatedWith(id, skip, max);
+                } else if (entityDef instanceof AssociationDefinition) {
+                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                    Iterable<String> associationIds = null;
+                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociatedWith(id, skip, max);
+                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociatedTo(id, skip, max);
+                    }
+                    if (associationIds != null) {
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
                             String href = getURI(uriInfo, entityDef.getResourceName(), id).toString();
                             collection.add(id, SELF_LINK, entityDef.getType(), href);
                         }
-                        
                         return Response.ok(collection).build();
-                    } else {
-                        throw e;
                     }
                 }
-                
+                return Response.status(Status.NOT_FOUND).build();
             }
         });
     }

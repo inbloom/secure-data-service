@@ -127,6 +127,11 @@ public class BasicService implements EntityService {
         return results;
     }
     
+    @Override
+    public boolean exists(String id) {
+        return getRepo().find(collectionName, id) != null;
+    }
+
     /**
      * given an entity, make the entity body to expose
      * 

@@ -47,6 +47,10 @@ public class EntityDefinition {
         return service;
     }
     
+    public boolean isOfType(String id) {
+        return service.exists(id);
+    }
+
     public static void setDefaultRepo(EntityRepository defaultRepo) {
         EntityDefinition.defaultRepo = defaultRepo;
     }
