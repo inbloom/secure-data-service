@@ -243,7 +243,7 @@ public class Resource {
         } else {
             Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
             for (AssociationDefinition assoc : associations) {
-                links.add(new EmbeddedLink(assoc.getRelName(), assoc.getType(), getURI(uriInfo,
+                links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
                         assoc.getResourceName(), id).toString()));
             }
         }

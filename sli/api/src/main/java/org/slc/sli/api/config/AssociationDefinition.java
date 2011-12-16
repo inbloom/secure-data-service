@@ -17,18 +17,20 @@ import org.slc.sli.dal.repository.EntityRepository;
 public final class AssociationDefinition extends EntityDefinition {
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
-    private final String relName;
+    private final String relNameFromSource;
+    private final String relNameFromTarget;
     private final String sourceLink;
     private final String targetLink;
     private final String sourceKey;
     private final String targetKey;
     
     private AssociationDefinition(String type, String resourceName, AssociationService service, EntityInfo source,
-            EntityInfo target, String relName) {
+            EntityInfo target, String sourceRelName, String targetRelName) {
         super(type, resourceName, service);
         this.sourceEntity = source.getDefn();
         this.targetEntity = target.getDefn();
-        this.relName = relName;
+        this.relNameFromSource = sourceRelName;
+        this.relNameFromTarget = targetRelName;
         this.sourceLink = source.getLinkName();
         this.targetLink = target.getLinkName();
         this.sourceKey = source.getKey();
@@ -54,12 +56,21 @@ public final class AssociationDefinition extends EntityDefinition {
     }
     
     /**
-     * Gets the name of the relationship
+     * Gets the name of the relationship as its called when coming from the source
      * 
      * @return
      */
-    public String getRelName() {
-        return relName;
+    public String getRelNameFromSource() {
+        return relNameFromSource;
+    }
+    
+    /**
+     * Gets the name of the relationship as its called when coming from the target
+     * 
+     * @return
+     */
+    public String getRelNameFromTarget() {
+        return relNameFromTarget;
     }
 
     /**
@@ -134,6 +145,7 @@ public final class AssociationDefinition extends EntityDefinition {
         private EntityInfo source;
         private EntityInfo target;
         private String relName;
+        private String relNameFromTarget;
         
         /**
          * Create a builder for an association definition
@@ -209,6 +221,11 @@ public final class AssociationDefinition extends EntityDefinition {
             this.relName = relName;
             return this;
         }
+        
+        public AssocBuilder calledFromTarget(String relName) {
+            this.relNameFromTarget = relName;
+            return this;
+        }
 
         @Override
         public AssocBuilder withTreatments(Treatment... treatments) {
@@ -245,7 +262,7 @@ public final class AssociationDefinition extends EntityDefinition {
             BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
                     getRepo(), source.getDefn(), source.getKey());
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
-                    service, source, target, relName);
+                    service, source, target, relName, relNameFromTarget);
             service.setDefn(associationDefinition);
             return associationDefinition;
         }
