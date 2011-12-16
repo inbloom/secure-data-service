@@ -1,11 +1,12 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
@@ -18,22 +19,20 @@ import org.slf4j.LoggerFactory;
  */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
-    private final String collectionName;
     
+    private final String collectionName;
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     private final EntityRepository repo;
-    private final EntityDefinitionStore defnStore;
     private EntityDefinition defn;
     
     public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
-            EntityRepository repo, EntityDefinitionStore defnStore) {
+            EntityRepository repo) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.validators = validators;
         this.repo = repo;
-        this.defnStore = defnStore;
     }
     
     public void setDefn(EntityDefinition defn) {
@@ -79,6 +78,8 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
         getRepo().delete(entity);
+        if (!(defn instanceof AssociationDefinition))
+            removeEntityWithAssoc(entity);
     }
     
     @Override
@@ -187,8 +188,24 @@ public class BasicService implements EntityService {
         return true;
     }
     
-    private void removeEntityWithAssoc() {
-        // TODO delete entity also delete association
+    private void removeEntityWithAssoc(Entity entity) {
+        String sourceType = entity.getType();
+        String sourceId = entity.getEntityId();
+        Map<String, String> fields = new HashMap<String, String>();
+        fields.put(sourceType + "Id", sourceId);
+        
+        // TODO need to figure our how to inject DefinitionStore to get association info
+        /*
+         * Iterator<AssociationDefinition> it = defnStore.getLinked(defn).iterator();
+         * while (it.hasNext()) {
+         * Iterator<Entity> foundEntities = repo.findByFields(it.next().getType(), fields, 0,
+         * 1).iterator();
+         * if (foundEntities.hasNext()) {
+         * Entity assocEntity = foundEntities.next();
+         * repo.delete(assocEntity);
+         * }
+         * }
+         */
     }
 
 }

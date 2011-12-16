@@ -6,7 +6,6 @@ import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Definition of an association resource
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  */
 public final class AssociationDefinition extends EntityDefinition {
-    @Autowired
-    private static EntityDefinitionStore defnStore;
 
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
@@ -246,7 +243,7 @@ public final class AssociationDefinition extends EntityDefinition {
         @Override
         public AssociationDefinition build() {
             BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
-                    getRepo(), defnStore, source.getDefn(), source.getKey());
+                    getRepo(), source.getDefn(), source.getKey());
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
                     service, source, target, relName);
             service.setDefn(associationDefinition);
