@@ -144,7 +144,7 @@ public final class AssociationDefinition extends EntityDefinition {
     public static class AssocBuilder extends EntityDefinition.Builder {
         private EntityInfo source;
         private EntityInfo target;
-        private String relName;
+        private String relNameFromSource;
         private String relNameFromTarget;
         
         /**
@@ -217,11 +217,35 @@ public final class AssociationDefinition extends EntityDefinition {
             return this;
         }
         
+        /**
+         * The name of the link from either entity to the relationship
+         * 
+         * @param relName
+         * @return
+         */
         public AssocBuilder called(String relName) {
-            this.relName = relName;
+            this.relNameFromSource = relName;
+            this.relNameFromTarget = relName;
+            return this;
+        }
+
+        /**
+         * The name of the link on the source entity to the relationship
+         * 
+         * @param relName
+         * @return
+         */
+        public AssocBuilder calledFromSource(String relName) {
+            this.relNameFromSource = relName;
             return this;
         }
         
+        /**
+         * The name of the link of the target entity of the relationship
+         * 
+         * @param relName
+         * @return
+         */
         public AssocBuilder calledFromTarget(String relName) {
             this.relNameFromTarget = relName;
             return this;
@@ -260,9 +284,9 @@ public final class AssociationDefinition extends EntityDefinition {
         @Override
         public AssociationDefinition build() {
             BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
-                    getRepo(), source.getDefn(), source.getKey());
+                    getRepo(), source, target);
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
-                    service, source, target, relName, relNameFromTarget);
+                    service, source, target, relNameFromSource, relNameFromTarget);
             service.setDefn(associationDefinition);
             return associationDefinition;
         }
@@ -271,11 +295,13 @@ public final class AssociationDefinition extends EntityDefinition {
     
     /**
      * Holder class for entity information
+     * Mostly so checkstyle doesn't whine about private association definition methods having too
+     * many parameters
      * 
      * @author nbrown
      * 
      */
-    private static class EntityInfo {
+    public static class EntityInfo {
         private final EntityDefinition defn;
         private final String linkName;
         private final String key;
