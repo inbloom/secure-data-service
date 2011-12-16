@@ -9,6 +9,7 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Definition of an entity resource
@@ -17,6 +18,10 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public class EntityDefinition {
+
+    @Autowired
+    private static EntityDefinitionStore defnStore;
+
     private final String type;
     private final String resourceName;
     private final EntityService service;
@@ -141,7 +146,8 @@ public class EntityDefinition {
         }
         
         /**
-         *TODO
+         * TODO
+         * 
          * @param repo
          * @return
          */
@@ -194,7 +200,7 @@ public class EntityDefinition {
          */
         public EntityDefinition build() {
 
-            BasicService entityService = new BasicService(collectionName, treatments, validators, repo);
+            BasicService entityService = new BasicService(collectionName, treatments, validators, repo, defnStore);
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, entityService);
             entityService.setDefn(entityDefinition);
             return entityDefinition;

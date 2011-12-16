@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
@@ -13,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of AssociationService. 
+ * Implementation of AssociationService.
  * 
  */
 public class BasicAssocService extends BasicService implements AssociationService {
@@ -22,8 +23,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String sourceKey;
     
     public BasicAssocService(String collectionName, List<Treatment> treatments, List<Validator> validators,
-            EntityRepository repo, EntityDefinition source, String sourceKey) {
-        super(collectionName, treatments, validators, repo);
+            EntityRepository repo, EntityDefinitionStore defnStore, EntityDefinition source, String sourceKey) {
+        super(collectionName, treatments, validators, repo, defnStore);
         this.source = source;
         this.sourceKey = sourceKey;
     }

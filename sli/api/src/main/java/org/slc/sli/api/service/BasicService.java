@@ -3,14 +3,14 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -23,15 +23,17 @@ public class BasicService implements EntityService {
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     private final EntityRepository repo;
+    private final EntityDefinitionStore defnStore;
     private EntityDefinition defn;
     
     public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
-            EntityRepository repo) {
+            EntityRepository repo, EntityDefinitionStore defnStore) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.validators = validators;
         this.repo = repo;
+        this.defnStore = defnStore;
     }
     
     public void setDefn(EntityDefinition defn) {
@@ -59,6 +61,10 @@ public class BasicService implements EntityService {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
         if (!validate(content)) {
             LOG.info("validation failed for {}", content);
+            throw new ValidationException();
+        }
+        if (defn instanceof AssociationDefinition && !createAssocValidate(content)) {
+            LOG.info("create association validation failed for {}", content);
             throw new ValidationException();
         }
         return getRepo().create(collectionName, sanitizeEntityBody(content)).getEntityId();
@@ -165,4 +171,24 @@ public class BasicService implements EntityService {
         return true;
     }
     
+    private boolean createAssocValidate(EntityBody body) {
+        try {
+            String sourceType = ((AssociationDefinition) defn).getSourceEntity().getType();
+            String targetType = ((AssociationDefinition) defn).getTargetEntity().getType();
+            String sourceId = (String) body.get(sourceType + "Id");
+            String targetId = (String) body.get(targetType + "Id");
+            Entity sourceEntity = repo.find(sourceType, sourceId);
+            Entity targetEntity = repo.find(targetType, targetId);
+            if (sourceEntity == null || targetEntity == null)
+                return false;
+        } catch (RuntimeException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    private void removeEntityWithAssoc() {
+        // TODO delete entity also delete association
+    }
+
 }
