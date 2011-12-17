@@ -3,15 +3,14 @@ Feature: <US267> In order to manage students
     I want to have create, read, update, and delete functionality for a student.
 
 Background: Logged in as a super-user and using the small data set
-	Given the SLI_SMALL dataset is loaded
 	Given I am logged in using "demo" "demo1234"
 	Given I have access to all students
 
 #### Happy Path 
 Scenario: Create a new student JSON
      Given format "application/json"
-        And the name is "Student" "Crud" "Person"
-        And the birth date is "4/4/1994"
+        And the name is "Mister" "John" "Doe"
+        And the birth date is "1994-04-04"
         And that he or she is "Male"
         And the student_school id is "555"
     When I navigate to POST "/students/" 
@@ -28,11 +27,11 @@ Scenario: Read a student by id
 
 Scenario: Update an existing student
     Given format "application/json"
-       And the birth date is "4/5/1994"
+       And the birth date is "1994-04-05"
     When I navigate to PUT "/students/e1af7127-743a-4437-ab15-5b0dacd1bde0"
     Then I should receive a return code of 204
     When I navigate to GET "/students/e1af7127-743a-4437-ab15-5b0dacd1bde0"
-        And I should see that he or she was born on "4/5/1994" 
+        And I should see that he or she was born on "1994-04-05" 
         
 Scenario: Delete an existing student
     Given format "application/json"
