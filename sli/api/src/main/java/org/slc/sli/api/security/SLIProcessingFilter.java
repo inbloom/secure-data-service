@@ -23,9 +23,10 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class SLIProcessingFilter extends GenericFilterBean {
     
-    private static final Logger   LOG         = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger   LOG           = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private static final String   COOKIE_NAME = "iPlanetDirectoryPro";
+    private static final String   COOKIE_NAME   = "iPlanetDirectoryPro";
+    private static final String   PARAM_SESSION = "sessionId";
     
     private SecurityTokenResolver resolver;
     
@@ -63,6 +64,10 @@ public class SLIProcessingFilter extends GenericFilterBean {
                 }
                 
             }
+        }
+        
+        if (req.getParameter(PARAM_SESSION) != null) {
+            sessionId = req.getParameter(PARAM_SESSION);
         }
         
         if (sessionId != null) {
