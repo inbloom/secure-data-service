@@ -58,7 +58,7 @@ public class BasicService implements EntityService {
     
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
+        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {collectionName, content});
         if (!validate(content)) {
             LOG.info("validation failed for {}", content);
             throw new ValidationException();
@@ -72,7 +72,7 @@ public class BasicService implements EntityService {
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("Deleting {} in {}", new String[] {id, collectionName});
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -85,7 +85,7 @@ public class BasicService implements EntityService {
     
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {}", new String[] { id, collectionName });
+        LOG.debug("Updating {} in {}", new String[] {id, collectionName});
         if (!validate(content)) {
             LOG.info("Validation failed for {}", content);
             throw new ValidationException();
