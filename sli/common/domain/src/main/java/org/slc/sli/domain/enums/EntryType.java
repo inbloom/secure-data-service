@@ -4,9 +4,13 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
 /**
+ * NOTE: These strongly typed domain classes are deprecated and should no longer be used.
+ * Please use see the Entity interface for their replacement.
+ * 
  * The way the student entered the school system
  * 
  */
+@Deprecated
 @XmlType(name = "EntryType")
 @XmlEnum
 public enum EntryType {

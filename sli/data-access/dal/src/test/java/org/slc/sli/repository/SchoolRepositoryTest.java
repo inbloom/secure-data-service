@@ -26,45 +26,48 @@ import org.slc.sli.domain.enums.SchoolType;
 import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 
 /**
+ * NOTE: These classes and interfaces have been deprecated and replaced with the new Entity and
+ * Mongo repository classes.
+ * 
  * JUnit for School repo
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @Deprecated
 public class SchoolRepositoryTest {
-
+    
     @Autowired
     SchoolRepository schoolRepo;
-
+    
     @Autowired
     StudentSchoolAssociationRepository assocRepo;
-
+    
     @Test
     public void testAddSchool() {
         School school = createTestSchool();
         school = schoolRepo.save(school);
-
+        
         School s = schoolRepo.findOne(school.getSchoolId());
         assertNotNull(s);
         assertEquals(school, s);
     }
-
+    
     @Test
     public void testUpdateSchool() {
         schoolRepo.deleteAll();
-
+        
         School school = createTestSchool();
         School newSchool = schoolRepo.save(school);
-
+        
         newSchool.setFullName("Changed School Name");
-
+        
         schoolRepo.save(newSchool);
-
+        
         School s = schoolRepo.findOne(newSchool.getSchoolId());
         assertNotNull(s);
         assertEquals(newSchool, s);
     }
-
+    
     @Test
     public void testFindByStateId() {
         schoolRepo.deleteAll();
@@ -73,19 +76,17 @@ public class SchoolRepositoryTest {
         School school2 = createTestSchool();
         school2.setStateOrganizationId("changed");
         school2 = schoolRepo.save(school2);
-        Iterable<School> schools = schoolRepo.findByStateOrganizationId(school
-                .getStateOrganizationId());
+        Iterable<School> schools = schoolRepo.findByStateOrganizationId(school.getStateOrganizationId());
         assertNotNull(schools);
         int count = 0;
         for (School s : schools) {
-            assertEquals(school.getStateOrganizationId(),
-                    s.getStateOrganizationId());
+            assertEquals(school.getStateOrganizationId(), s.getStateOrganizationId());
             count++;
         }
         assertTrue(count == 1);
         schoolRepo.delete(school);
     }
-
+    
     @Test
     public void testDeleteWithAssoc() {
         School school = createTestSchool();
@@ -101,9 +102,9 @@ public class SchoolRepositoryTest {
         assertNull(school);
         assoc = assocRepo.findOne(assocId);
         assertNull(assoc);
-
+        
     }
-
+    
     protected static School createTestSchool() {
         School school = new School();
         school.setFullName("Plymounth-Canton High School");
@@ -118,9 +119,8 @@ public class SchoolRepositoryTest {
         school.setWebSite("http://pcep.pccs.k12.mi.us/");
         return school;
     }
-
-    protected static StudentSchoolAssociation createTestAssociation(
-            int schoolId, int studentId) {
+    
+    protected static StudentSchoolAssociation createTestAssociation(int schoolId, int studentId) {
         StudentSchoolAssociation association = new StudentSchoolAssociation();
         association.setSchoolId(schoolId);
         association.setStudentId(studentId);
@@ -134,7 +134,7 @@ public class SchoolRepositoryTest {
         association.setSchoolChoiceTransfer(false);
         return association;
     }
-
+    
     @Test
     public void testFull() {
         School s = new School();
@@ -153,7 +153,7 @@ public class SchoolRepositoryTest {
         School returnedSchool = schoolRepo.findOne(id);
         assertEquals(s.toString(), returnedSchool.toString());
     }
-
+    
     @Test
     public void testMinimal() {
         School s = new School();
