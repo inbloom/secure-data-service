@@ -8,6 +8,16 @@ require_relative '../../../utils/sli_utils.rb'
 
 $newSchoolID
 
+Transform /^a school "([^"]*)"/ do |step_arg|
+  id = "/schools/eb3b8c35-f582-df23-e406-6947249a19f2" if step_arg == "Apple Alternative Elementary School"
+  id = "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d" if step_arg == "Yellow Middle and High School"
+  id = "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c" if step_arg == "Delete Me Middle School"
+  id = "/schools/11111111-1111-1111-1111-111111111111" if step_arg == "that doesn't exist"
+  id = "/school/eb3b8c35-f582-df23-e406-6947249a19f2" if step_arg == "using a wrong URI"
+  id = "/schools" if step_arg == "with no GUID"
+  #id = step_arg if id == nil
+  id
+end
 
 Given /^the SLI_SMALL dataset is loaded$/ do
   
@@ -85,13 +95,13 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I navigate to GET "([^"]*)"$/ do |arg1|
+When /^I navigate to GET (a school "[^"]*")$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
   @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to PUT "([^"]*)"$/ do |arg1|
+When /^I navigate to PUT (a school "[^"]*")$/ do |arg1|
   if @format == "application/json"
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
     @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
@@ -122,7 +132,8 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
+When /^I attempt to update (a school "[^"]*")$/ do |arg1|
+  # NOTE: This step def is intended to be used for schools that do not exist.  Use the "I navigate to PUT" to update an existing school
   if @format == "application/json"
     data = Hash["fullName" => "",
       "shortName" => "",
@@ -146,7 +157,7 @@ When /^I attempt to update a non\-existing school "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
+When /^I navigate to DELETE (a school "[^"]*")$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
   @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
@@ -162,19 +173,6 @@ Then /^I should see a website of "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
   assert(result['webSite'] == arg1, "Expected website name not found in response")
-end
-
-  
-When /^I navigate to GET to said school$/ do
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+@tempID.to_s
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-  assert(@res != nil, "Response from rest-client GET is nil")
-end
-
-When /^I navigate to GET to said school with "([^"]*)"$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1+@tempID.to_s
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I should see a phone number of "([^"]*)"$/ do |arg1|
