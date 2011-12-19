@@ -19,7 +19,7 @@ Scenario: Create a new student JSON
                 
 Scenario: Read a student by id
     Given format "application/json"
-    When I navigate to GET student Alfonso 
+    When I navigate to GET student "Alfonso" 
     Then I should receive a return code of 200
         And I should see the student "Alfonso" "Ora" "Steele"
         And I should see that he or she is "Male"
@@ -28,16 +28,16 @@ Scenario: Read a student by id
 Scenario: Update an existing student
     Given format "application/json"
        And the birth date is "1994-04-05"
-    When I navigate to PUT student Priscilla
+    When I navigate to PUT student "Priscilla"
     Then I should receive a return code of 204
-    When I navigate to GET student Priscilla
+    When I navigate to GET student "Priscilla"
         And I should see that he or she was born on "1994-04-05" 
         
 Scenario: Delete an existing student
     Given format "application/json"
-    When I navigate to DELETE student Rachel
+    When I navigate to DELETE student "Rachel"
     Then I should receive a return code of 204
-    When  I navigate to GET student Rachel
+    When  I navigate to GET student "Rachel"
     Then I should receive a return code of 404
         
 #### XML version
@@ -63,32 +63,32 @@ Scenario: Delete an existing student XML
 ### Error handling
 Scenario: Attempt to read a non-existing student
     Given format "application/json"
-    When I navigate to GET student Invalid
+    When I navigate to GET student "Invalid"
     Then I should receive a return code of 404      
 
 Scenario: Attempt to delete a non-existing student
     Given format "application/json"
-    When I navigate to DELETE student Invalid
+    When I navigate to DELETE student "Invalid"
     Then I should receive a return code of 404      
 
 Scenario: Update a non-existing student
     Given format "application/json"
-	    When I attempt to update a non-existing student Invalid
+	    When I attempt to update a non-existing student "Invalid"
     Then I should receive a return code of 404      
     
 Scenario: Fail when asking for an unsupported format "text/plain"
     Given format "text/plain"
-    When I navigate to GET student Donna
+    When I navigate to GET student "Donna"
     Then I should receive a return code of 406
     
 Scenario: Fail if going to the wrong URI
     Given format "application/json"
-    When I navigate to GET student WrongURI
+    When I navigate to GET student "WrongURI"
     Then I should receive a return code of 404
     
  Scenario: Attempt to read the base student resource with no GUID
 	Given format "application/json"
-	When I navigate to GET student NoGUID
+	When I navigate to GET student "NoGUID"
 	Then I should receive a return code of 405
 	
     
