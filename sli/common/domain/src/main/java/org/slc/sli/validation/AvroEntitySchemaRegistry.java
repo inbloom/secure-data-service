@@ -1,5 +1,6 @@
 package org.slc.sli.validation;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -9,10 +10,9 @@ import javax.annotation.PostConstruct;
 
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
+import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
-
-import org.slc.sli.domain.Entity;
 
 /**
  * Provides a registry for retrieving Avro schema
@@ -25,20 +25,19 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     
     private Map<String, Schema> mapSchema = new HashMap<String, Schema>();
     
-    private String baseSchemaDir = "src/main/resources/avroSchema";
-    
     @PostConstruct
     public void init() throws IOException {
         
-        // TODO
-        // By convention, load all <entity>_body schema files.
+        File root = ResourceUtils.getFile("classpath:avroSchema");
+        File[] schemaFiles = root.listFiles();
         
+        for (File file : schemaFiles) {
+            URL url = ResourceUtils.getURL("classpath:avroSchema/" + file.getName());
         Parser parser = new Schema.Parser();
-        
-        // FilenameUtils.
-        URL url = ResourceUtils.getURL("classpath:avroSchema/school_body.avpr");
         Schema schema = parser.parse(url.openStream());
-        mapSchema.put("school", schema);
+            mapSchema.put(file.getName().split("_")[0], schema);
+        }
+
     }
     
     @Override

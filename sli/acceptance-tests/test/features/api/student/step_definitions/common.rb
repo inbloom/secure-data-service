@@ -1,11 +1,12 @@
 
 
-Transform /^student (\w+)$/ do |step_arg|
+Transform /^student "([^"]*)"$/ do |step_arg|
   id = "/students/714c1304-8a04-4e23-b043-4ad80eb60992" if step_arg == "Alfonso"
   id = "/students/e1af7127-743a-4437-ab15-5b0dacd1bde0"  if step_arg == "Priscilla"
   id = "/students/61f13b73-92fa-4a86-aaab-84999c511148" if step_arg == "Alden"
   id = "/students/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
   id = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" if step_arg == "Donna"
+  id = "/students/c7146300-5bb9-4cc6-8b95-9e401ce34a03" if step_arg == "Rachel"
   id = "/student/11111111-1111-1111-1111-111111111111" if step_arg == "WrongURI"
   id = "/students"                                     if step_arg == "NoGUID"
   id
@@ -54,13 +55,13 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I navigate to GET (student \w+)$/ do |student_uri|
+When /^I navigate to GET (student "[^"]*")$/ do |student_uri|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
   @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to PUT (student \w+)$/ do |student_uri|
+When /^I navigate to PUT (student "[^"]*")$/ do |student_uri|
   if @format == "application/json"
     url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
     @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
@@ -91,7 +92,7 @@ When /^I navigate to PUT (student \w+)$/ do |student_uri|
   end
 end
 
-When /^I navigate to DELETE (student \w+)$/ do |student_uri|
+When /^I navigate to DELETE (student "[^"]*")$/ do |student_uri|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
   @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")

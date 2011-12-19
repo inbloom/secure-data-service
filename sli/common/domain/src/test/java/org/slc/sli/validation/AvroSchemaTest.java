@@ -30,7 +30,7 @@ import org.slc.sli.domain.Entity;
 public class AvroSchemaTest {
     
     @Test
-    public void testValidSchool() throws Exception {
+    public void testValidStudent() throws Exception {
         Parser parser = new Schema.Parser();
         Schema schema = parser.parse(new File("src/main/resources/avroSchema/student_body.avpr"));
         

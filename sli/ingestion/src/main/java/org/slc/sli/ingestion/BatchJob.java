@@ -9,6 +9,12 @@ import java.util.UUID;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
+/**
+ * Batch Job class.
+ *
+ * @author okrook
+ *
+ */
 public class BatchJob {
 
     /**
@@ -114,7 +120,7 @@ public class BatchJob {
 
     /**
      * Adds a file.
-     * 
+     *
      * @param file
      * @return
      * @see java.util.List#add(java.lang.Object)
@@ -140,7 +146,7 @@ public class BatchJob {
     }
 
     /**
-     * 
+     *
      */
     public boolean hasErrors() {
         for (Fault f : faults) {
@@ -152,7 +158,7 @@ public class BatchJob {
 
     /**
      * Adds a fault.
-     * 
+     *
      * @param fault
      * @return
      * @see java.util.List#add(java.lang.Object)
@@ -173,7 +179,7 @@ public class BatchJob {
 
     /**
      * Initialize a BatchJob with default settings for initialization
-     * 
+     *
      * @return BatchJob with default settings
      */
     public static BatchJob createDefault() {
@@ -184,6 +190,11 @@ public class BatchJob {
         job.files = new ArrayList<IngestionFileEntry>();
         job.faults = new ArrayList<Fault>();
         return job;
+    }
+
+    @Override
+    public String toString() {
+        return "BatchJob [id=" + id + ", creationDate=" + creationDate + ", configProperties=" + configProperties + "]";
     }
 
 }
