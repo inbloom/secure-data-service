@@ -6,6 +6,7 @@ Transform /^student (\w+)$/ do |step_arg|
   id = "/students/61f13b73-92fa-4a86-aaab-84999c511148" if step_arg == "Alden"
   id = "/students/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
   id = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" if step_arg == "Donna"
+  id = "/students/c7146300-5bb9-4cc6-8b95-9e401ce34a03" if step_arg == "Rachel"
   id = "/student/11111111-1111-1111-1111-111111111111" if step_arg == "WrongURI"
   id = "/students"                                     if step_arg == "NoGUID"
   id
