@@ -48,6 +48,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
+        EntityDefinition section = EntityDefinition.makeEntity("section").exposeAs("sections").build();
+        addDefinition(section);
         AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollment")
                 .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school)
                 .called("getStudentEnrollments").build();
@@ -76,5 +78,4 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         mapping.get(sourceEntity.getResourceName()).addLinkedAssoc(defn);
         // sourceEntity.addLinkedAssoc(defn);
     }
-    
 }
