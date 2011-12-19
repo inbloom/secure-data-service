@@ -2,6 +2,7 @@ package org.slc.sli.api.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -258,6 +259,32 @@ public class EntityServiceLayerTest {
         // assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
         studentEnrollmentService.create(assoc1);
+
+    }
+    
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteWithAssoc() {
+        
+        EntityBody student1 = new EntityBody();
+        student1.put("firstName", "Bonzo");
+        student1.put("lastName", "Madrid");
+        String id1 = studentService.create(student1);
+        
+        EntityBody school = new EntityBody();
+        school.put("name", "Battle School");
+        String schoolId = schoolService.create(school);
+        
+        EntityBody assoc1 = new EntityBody();
+        assoc1.put("schoolId", schoolId);
+        assoc1.put("studentId", id1);
+        assoc1.put("startDate", (new Date()).getTime());
+        String assocId = studentEnrollmentService.create(assoc1);
+        EntityBody assocEntity = studentEnrollmentService.get(assocId);
+        assertNotNull(assocEntity);
+        assertEquals(assocEntity.get("studentId"), id1);
+        
+        studentService.delete(id1);
+        studentEnrollmentService.get(assocId);
 
     }
 

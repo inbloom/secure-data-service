@@ -22,13 +22,16 @@ public final class AssociationDefinition extends EntityDefinition {
     private final String targetLink;
     private final String sourceKey;
     private final String targetKey;
+    private final String collectionName;
     
-    private AssociationDefinition(String type, String resourceName, AssociationService service, EntityInfo source,
+    private AssociationDefinition(String type, String resourceName, String collectionName, AssociationService service,
+            EntityInfo source,
             EntityInfo target, String relName) {
-        super(type, resourceName, service);
+        super(type, resourceName, collectionName, service);
         this.sourceEntity = source.getDefn();
         this.targetEntity = target.getDefn();
         this.relName = relName;
+        this.collectionName = collectionName;
         this.sourceLink = source.getLinkName();
         this.targetLink = target.getLinkName();
         this.sourceKey = source.getKey();
@@ -245,6 +248,7 @@ public final class AssociationDefinition extends EntityDefinition {
             BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
                     getRepo(), source.getDefn(), source.getKey());
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
+                    getCollectionName(),
                     service, source, target, relName);
             service.setDefn(associationDefinition);
             return associationDefinition;

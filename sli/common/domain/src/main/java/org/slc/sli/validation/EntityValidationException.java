@@ -1,35 +1,36 @@
 package org.slc.sli.validation;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
- * Runtime exception when validation error occur.
  * 
- * @author Sean Melody <smelody@wgen.net>
+ * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
 public class EntityValidationException extends RuntimeException {
     
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -5895977217174135745L;
+    private static final long serialVersionUID = 5579596873501684518L;
     
-    // TODO - this should probably be an enum
-    public static final int NO_ASSOCIATED_SCHEMA = 1;
+    final List<ValidationError> errors;
+    final String entityId;
+    final String entityType;
     
-    /**
-     * The status code.
-     */
-    private int statusCode;
-    
-    /**
-     * Construct a new validation exception
-     * 
-     * @param statusCode
-     * @param message
-     */
-    public EntityValidationException(int statusCode, String message) {
-        super(message);
-        this.statusCode = statusCode;
+    protected EntityValidationException(String entityId, String entityType, List<ValidationError> errors) {
+        this.entityId = entityId;
+        this.entityType = entityType;
+        this.errors = Collections.unmodifiableList(errors);
     }
     
+    public List<ValidationError> getValidationErrors() {
+        return errors;
+    }
+    
+    public String getEntityId() {
+        return entityId;
+    }
+    
+    public String getEntityType() {
+        return entityType;
+    }
 }

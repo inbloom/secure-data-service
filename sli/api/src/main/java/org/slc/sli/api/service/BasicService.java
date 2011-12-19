@@ -2,6 +2,7 @@ package org.slc.sli.api.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -174,12 +175,14 @@ public class BasicService implements EntityService {
     
     private boolean createAssocValidate(EntityBody body) {
         try {
-            String sourceType = ((AssociationDefinition) defn).getSourceEntity().getType();
-            String targetType = ((AssociationDefinition) defn).getTargetEntity().getType();
+            EntityDefinition sourceEntityDefn = ((AssociationDefinition) defn).getSourceEntity();
+            EntityDefinition targetEntityDefn = ((AssociationDefinition) defn).getTargetEntity();
+            String sourceType = sourceEntityDefn.getType();
+            String targetType = targetEntityDefn.getType();
             String sourceId = (String) body.get(sourceType + "Id");
             String targetId = (String) body.get(targetType + "Id");
-            Entity sourceEntity = repo.find(sourceType, sourceId);
-            Entity targetEntity = repo.find(targetType, targetId);
+            Entity sourceEntity = repo.find(sourceEntityDefn.getStoredCollectionName(), sourceId);
+            Entity targetEntity = repo.find(targetEntityDefn.getStoredCollectionName(), targetId);
             if (sourceEntity == null || targetEntity == null)
                 return false;
         } catch (RuntimeException e) {
@@ -194,18 +197,15 @@ public class BasicService implements EntityService {
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(sourceType + "Id", sourceId);
         
-        // TODO need to figure our how to inject DefinitionStore to get association info
-        /*
-         * Iterator<AssociationDefinition> it = defnStore.getLinked(defn).iterator();
-         * while (it.hasNext()) {
-         * Iterator<Entity> foundEntities = repo.findByFields(it.next().getType(), fields, 0,
-         * 1).iterator();
-         * if (foundEntities.hasNext()) {
-         * Entity assocEntity = foundEntities.next();
-         * repo.delete(assocEntity);
-         * }
-         * }
-         */
+        Iterator<AssociationDefinition> it = defn.getLinkedAssoc().iterator();
+        while (it.hasNext()) {
+            Iterator<Entity> foundEntities = repo.findByFields(it.next().getStoredCollectionName(), fields, 0, 1)
+                    .iterator();
+            if (foundEntities.hasNext()) {
+                Entity assocEntity = foundEntities.next();
+                repo.delete(assocEntity);
+            }
+        }
     }
 
 }
