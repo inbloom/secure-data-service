@@ -6,9 +6,8 @@ include REXML
 require_relative '../../../utils/sli_utils.rb'
 #puts $:
 
-$newSchoolID
 
-Transform /^a school "([^"]*)"/ do |step_arg|
+Transform /^a school "([^"]*)"$/ do |step_arg|
   id = "/schools/eb3b8c35-f582-df23-e406-6947249a19f2" if step_arg == "Apple Alternative Elementary School"
   id = "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d" if step_arg == "Yellow Middle and High School"
   id = "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c" if step_arg == "Delete Me Middle School"
@@ -19,9 +18,6 @@ Transform /^a school "([^"]*)"/ do |step_arg|
   id
 end
 
-Given /^the SLI_SMALL dataset is loaded$/ do
-  
-end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
   @user = arg1
@@ -65,11 +61,7 @@ Then /^I should receive a ID for the newly created school$/ do
   assert(newSchoolID != nil, "School ID is nil")
 end
 
-When /^I GET the newly created school by id$/ do
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/schools/"+$newSchoolID
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-  assert(@res != nil, "Response from rest-client GET is nil")
-end
+
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"

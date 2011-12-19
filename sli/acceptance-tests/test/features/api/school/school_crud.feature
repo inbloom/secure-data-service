@@ -3,7 +3,6 @@ Feature: <US63> In order to manage schools
     I want to have create, read, update, and delete functionality for a school.
 
 Background: Logged in as a super-user and using the small data set
-	Given the SLI_SMALL dataset is loaded
 	Given I am logged in using "demo" "demo1234"
 	Given I have access to all schools
 
