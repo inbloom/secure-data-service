@@ -9,11 +9,15 @@ import org.slc.sli.domain.enums.ExitWithdrawalType;
 import org.slc.sli.domain.enums.GradeLevelType;
 
 /**
+ * NOTE: These strongly typed domain classes are deprecated and should no longer be used.
+ * Please use see the Entity interface for their replacement.
+ * 
  * TODO: Convert strings to enums
  * TODO: Add missing associations
  * 
  * @author rfarris@wgen.net
  */
+@Deprecated
 @XmlRootElement
 public class StudentSchoolAssociation {
     

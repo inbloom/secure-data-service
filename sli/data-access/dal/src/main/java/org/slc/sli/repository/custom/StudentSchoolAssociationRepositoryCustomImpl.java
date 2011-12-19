@@ -13,17 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.slc.sli.domain.StudentSchoolAssociation;
 
 /**
- * Implementation of the {@link StudentSchoolAssociationRepositoryCustom} interface. This will provide customized Persistence
+ * NOTE: These classes and interfaces have been deprecated and replaced with the new Entity and
+ * Mongo repository classes.
+ * 
+ * Implementation of the {@link StudentSchoolAssociationRepositoryCustom} interface. This will
+ * provide customized Persistence
  * method compare to default CRUD methods supported by JPA Repository
  * 
  * @author Dong Liu dliu@wgen.net
- * StudentRepositoryCustom
+ *         StudentRepositoryCustom
  */
-
-/**
- * @author dliu
- * 
- */
+@Deprecated
 @Component
 @Transactional
 public class StudentSchoolAssociationRepositoryCustomImpl implements StudentSchoolAssociationRepositoryCustom {

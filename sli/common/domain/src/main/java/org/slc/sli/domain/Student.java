@@ -12,6 +12,9 @@ import org.slc.sli.domain.enums.SexType;
 /**
  * Student Entity.
  * 
+ * NOTE: These strongly typed domain classes are deprecated and should no longer be used.
+ * Please use see the Entity interface for their replacement.
+ * 
  * Entities should try to be as vanilla as possible. Ideally, persistence annotations and
  * marshalling hints to JSON and XML libraries will be in packages other than
  * domain.
@@ -19,6 +22,7 @@ import org.slc.sli.domain.enums.SexType;
  * TODO: replace Strings with Enums, add missing data
  */
 
+@Deprecated
 @XmlRootElement(name = "student")
 public class Student {
     /** Serial version */
