@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of AssociationService. 
+ * Implementation of AssociationService.
  * 
  */
 public class BasicAssocService extends BasicService implements AssociationService {
