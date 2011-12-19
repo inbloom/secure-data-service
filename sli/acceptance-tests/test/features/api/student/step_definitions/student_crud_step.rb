@@ -70,7 +70,7 @@ Then /^I should see that he or she was born on "([^"]*)"$/ do |arg1|
   assert(result['birthData']['birthDate'] == arg1, "Expected student birthdate not found in response")
 end
 
-When /^I attempt to update a non\-existing (student \w+)$/ do |arg1|
+When /^I attempt to update a non\-existing (student "[^"]*")$/ do |arg1|
   if @format == "application/json"
     data = Hash[
       "studentSchoolId" => "",
