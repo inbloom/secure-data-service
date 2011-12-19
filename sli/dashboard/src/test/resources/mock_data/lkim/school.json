@@ -1,0 +1,85 @@
+[
+    {
+        "schoolId": "East Daybreak Junior High",
+        "courses": [
+            {
+                "course": "Club/Team",
+                "sections": [
+                    {
+                        "section": "Spartans Softball Team",
+                        "studentUIDs": []
+                    }
+                ]
+            },
+            {
+                "course": "7th Grade Homeroom",
+                "sections": [
+                    {
+                        "section": "Mrs. Kim's Homeroom",
+                        "studentUIDs": []
+                    }
+                ]
+            },
+            {
+                "course": "7th Grade English",
+                "sections": [
+                    {
+                        "section": "M. Jones - 7th Grade English - Sec. 1",
+                        "studentUIDs": []
+                    },
+                    {
+                        "section": "M. Jones - 7th Grade English - Sec. 2",
+                        "studentUIDs": []
+                    },
+                    {
+                        "section": "M. Jones - 7th Grade English - Sec. 3",
+                        "studentUIDs": []
+                    }
+                ]
+            },
+            {
+                "course": "8th Grade English",
+                "sections": [
+                    {
+                        "section": "M. Jones - 8th Grade English - Sec 4",
+                        "studentUIDs": []
+                    },
+                    {
+                        "section": "M. Jones - 8th Grade English - Sec 5",
+                        "studentUIDs": []
+                    },
+                    {
+                        "section": "M. Jones - 8th Grade English - Sec 6",
+                        "studentUIDs": [
+                                     "453827070",
+                                     "943715230",
+                                     "164420088",
+                                     "505331723",
+                                     "530425896",
+                                     "429526969",
+                                     "178828452",
+                                     "525878920",
+                                     "510152105",
+                                     "802709591",
+                                     "437680177",
+                                     "170011136",
+                                     "547028299",
+                                     "258392050",
+                                     "178875887",
+                                     "100644447",
+                                     "376191021",
+                                     "336344132",
+                                     "711411586",
+                                     "131758477",
+                                     "670703438",
+                                     "851123275",
+                                     "423037202",
+                                     "250918988",
+                                     "421216329"
+                                    ]
+                    }
+                ]
+            }
+        ]
+    }
+]

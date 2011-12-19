@@ -8,13 +8,13 @@ package org.slc.sli.entity;
  */
 public class Section {
 
-    private Student[] students;
+    private String[] studentUIDs;
     private String section;
-    public Student[] getStudents() {
-        return students;
+    public String[] getStudentUIDs() {
+        return studentUIDs;
     }
-    public void setStudentList(Student[] students) {
-        this.students = students;
+    public void setStudentUIDs(String[] students) {
+        this.studentUIDs = students;
     }
     public String getSection() {
         return section;
