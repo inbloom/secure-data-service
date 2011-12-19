@@ -111,13 +111,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         // get job from exchange
                         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
-                        Logger logger = BatchJobLogger.getLogger(job, lz);
+                        Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
 
                         // add output as lines
-                        logger.info("jobId: " + job.getId());
+                        jobLogger.info("jobId: " + job.getId());
 
                         for (IngestionFileEntry fileEntry : job.getFiles()) {
-                            logger.info("[file] " + fileEntry.getFileName()
+                            jobLogger.info("[file] " + fileEntry.getFileName()
                                     + " (" + fileEntry.getFileFormat() + "/"
                                     + fileEntry.getFileType() + ")");
                         }
@@ -125,24 +125,26 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         Enumeration names = job.propertyNames();
                         while (names.hasMoreElements()) {
                             String key = (String) names.nextElement();
-                            logger.info("[configProperty] " + key + ": "
+                            jobLogger.info("[configProperty] " + key + ": "
                                     + job.getProperty(key));
                         }
 
                         for (Fault fault: job.getFaults()) {
                             if (fault.isError()) {
-                                logger.error(fault.getMessage());
+                                jobLogger.error(fault.getMessage());
                             } else {
-                                logger.warn(fault.getMessage());
+                                jobLogger.warn(fault.getMessage());
                             }
                         }
 
                         if (job.hasErrors()) {
-                            logger.info("Job rejected due to errors");
+                            jobLogger.info("Job rejected due to errors");
                         } else {
-                            logger.info("Job ready for processing");
+                            jobLogger.info("Job ready for processing");
                         }
-
+                        
+                        // clean up after ourselves
+                        jobLogger.detachAndStopAllAppenders();
                     }
 
                 });
@@ -150,35 +152,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobPipeline
         from("seda:acceptedJobs")
                 .routeId("jobPipeline")
-                .process(
-
-        new Processor() {
-
-            // TEMPORARY SOLUTION
-            // inline implementation exists solely to convert the input of
-            // type BatchJob to type File (the first file in that job).
-            // really we'd like to keep BatchJob as the message content, but it
-            // will require refactoring of all the downstream
-            // processors/components.
-
-            @Override
-            public void process(Exchange exchange) throws Exception {
-                BatchJob job = exchange.getIn().getBody(BatchJob.class);
-                exchange.getOut().setBody(job.getFiles().get(0));
-
-                // use message headers to relay any job config params however.
-                exchange.getOut().setHeader("jobId", job.getId());
-                exchange.getOut().setHeader("jobCreationDate",
-                        job.getCreationDate());
-                exchange.getOut().setHeader("hasErrors",
-                        job.hasErrors());
-                if (job.getProperty("dry-run") != null) {
-                    exchange.getOut().setHeader("dry-run", true);
-                }
-
-            }
-
-        })
                 .process(xmlProcessor)
                 .to("seda:persist");
 
