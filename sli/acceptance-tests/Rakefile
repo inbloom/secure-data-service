@@ -3,12 +3,12 @@ require "cucumber/rake/task"
 task :default => :production
 
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:schoolTests, :studentTests, :associationTests, :securityTests] do
+task :production => [:schoolTests, :studentTests, :teacherTests, :associationTests, :securityTests] do
   puts "Complete All Tests"
 end
 
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :associationTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTest, :associationTests] do
   puts "Completed API Tests"
 end
 
@@ -22,6 +22,13 @@ end
 desc "Run Student Tests"
 task :studentTests do
   sh "cucumber test/features/api/student --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+    puts "Exited with code: #{exit_code.exitstatus}" unless success
+  end
+end
+
+desc "Run Teacher Tests"
+task :teacherTests do
+  sh "cucumber test/features/api/teacher --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
     puts "Exited with code: #{exit_code.exitstatus}" unless success
   end
 end

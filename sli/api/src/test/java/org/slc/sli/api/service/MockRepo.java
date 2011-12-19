@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.springframework.stereotype.Component;
 
 /**
  * Mock implementation of the EntityRepository for unit testing.
@@ -27,6 +28,7 @@ public class MockRepo implements EntityRepository {
         repo.put("student", new LinkedHashMap<String, Entity>());
         repo.put("school", new LinkedHashMap<String, Entity>());
         repo.put("enrollments", new LinkedHashMap<String, Entity>());
+        repo.put("teacher", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {

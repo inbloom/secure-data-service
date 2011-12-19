@@ -45,18 +45,26 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition.addGlobalTreatment(new IdTreatment());
+
         EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
+
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
+
         AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollment")
                 .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school)
                 .called("getStudentEnrollments").build();
         addAssocDefinition(studentEnroll);
+
         AssociationDefinition schoolEnroll = AssociationDefinition.makeAssoc("schoolEnrollment")
                 .exposeAs("school-enrollments").storeAs("enrollments").from(school).to(student)
                 .called("getSchoolEnrollments").build();
         addAssocDefinition(schoolEnroll);
+        
+        EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
+        addDefinition(teacher);
+
     }
     
     private void add(EntityDefinition defn) {
