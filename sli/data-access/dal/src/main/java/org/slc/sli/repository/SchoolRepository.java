@@ -7,6 +7,9 @@ import org.slc.sli.domain.School;
 import org.slc.sli.repository.custom.SchoolRepositoryCustom;
 
 /**
+ * NOTE: These classes and interfaces have been deprecated and replaced with the new Entity and
+ * Mongo repository classes.
+ * 
  * Old repository for schools
  * 
  * @deprecated

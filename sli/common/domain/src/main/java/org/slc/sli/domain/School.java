@@ -12,15 +12,18 @@ import org.slc.sli.domain.enums.TitleIPartASchoolDesignationType;
 /**
  * School Entity.
  * 
+ * NOTE: These strongly typed domain classes are deprecated and should no longer be used.
+ * Please use see the Entity interface for their replacement.
+ * 
  * Entities should try to be as vanilla as possible. Ideally, persistence annotations and
  * marshalling hints to JSON and XML libraries will be in packages other than
  * domain.
  * 
- * TODO: Switch from String to Enums, Add missing data
  * 
  * @author rfarris@wgen.net
  * 
  */
+@Deprecated
 @XmlRootElement
 public class School {
     

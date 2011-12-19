@@ -4,9 +4,13 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
 /**
+ * NOTE: These strongly typed domain classes are deprecated and should no longer be used.
+ * Please use see the Entity interface for their replacement.
+ * 
  * What grade the student is in
  * 
  */
+@Deprecated
 @XmlType(name = "GradeLevelType")
 @XmlEnum
 public enum GradeLevelType {
