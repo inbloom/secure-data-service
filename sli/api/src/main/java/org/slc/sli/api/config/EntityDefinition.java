@@ -23,7 +23,7 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private final String collectionName;
-    private final List<AssociationDefinition> LINKED_ASSOCIATIONS;
+    private final List<AssociationDefinition> linkedAssociations;
     private static EntityRepository defaultRepo;
     private static final List<Treatment> GLOBAL_TREATMENTS = new LinkedList<Treatment>();
     
@@ -33,15 +33,15 @@ public class EntityDefinition {
         this.resourceName = resourceName;
         this.collectionName = collectionName;
         this.service = service;
-        this.LINKED_ASSOCIATIONS = new LinkedList<AssociationDefinition>();
+        this.linkedAssociations = new LinkedList<AssociationDefinition>();
     }
     
     public final void addLinkedAssoc(AssociationDefinition assocDefn) {
-        this.LINKED_ASSOCIATIONS.add(assocDefn);
+        this.linkedAssociations.add(assocDefn);
     }
     
     public final Collection<AssociationDefinition> getLinkedAssoc() {
-        return this.LINKED_ASSOCIATIONS;
+        return this.linkedAssociations;
     }
     
     public String getStoredCollectionName() {
