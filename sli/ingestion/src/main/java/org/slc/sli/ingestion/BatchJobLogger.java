@@ -19,12 +19,11 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
  */
 public class BatchJobLogger {
     
-    public static Logger getLogger(BatchJob job, LandingZone lz) throws IOException {
+    public static Logger createLoggerForJob(BatchJob job, LandingZone lz) throws IOException {
         
         File logFile = lz.getLogFile(job.getId());
         
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();        
-        lc.reset();
         
         PatternLayout patternLayout = new PatternLayout();
         patternLayout.setContext(lc);
