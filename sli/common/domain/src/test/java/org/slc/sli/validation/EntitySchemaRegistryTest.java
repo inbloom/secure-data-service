@@ -26,8 +26,15 @@ public class EntitySchemaRegistryTest {
             public String getEntityId() {
                 return "";
             }
-        public String getType(){return "school";}
-        public Map<String,Object> getBody(){return null;}};
+            
+            public String getType() {
+                return "school";
+            }
+            
+            public Map<String, Object> getBody() {
+                return null;
+            }
+        };
         assertNotNull(schemaRegistry.findSchemaForType(school));
 
     }
