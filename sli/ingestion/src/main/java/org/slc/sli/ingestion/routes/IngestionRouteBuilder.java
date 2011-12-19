@@ -150,35 +150,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobPipeline
         from("seda:acceptedJobs")
                 .routeId("jobPipeline")
-                .process(
-
-        new Processor() {
-
-            // TEMPORARY SOLUTION
-            // inline implementation exists solely to convert the input of
-            // type BatchJob to type File (the first file in that job).
-            // really we'd like to keep BatchJob as the message content, but it
-            // will require refactoring of all the downstream
-            // processors/components.
-
-            @Override
-            public void process(Exchange exchange) throws Exception {
-                BatchJob job = exchange.getIn().getBody(BatchJob.class);
-                exchange.getOut().setBody(job.getFiles().get(0));
-
-                // use message headers to relay any job config params however.
-                exchange.getOut().setHeader("jobId", job.getId());
-                exchange.getOut().setHeader("jobCreationDate",
-                        job.getCreationDate());
-                exchange.getOut().setHeader("hasErrors",
-                        job.hasErrors());
-                if (job.getProperty("dry-run") != null) {
-                    exchange.getOut().setHeader("dry-run", true);
-                }
-
-            }
-
-        })
                 .process(xmlProcessor)
                 .to("seda:persist");
 
