@@ -1,7 +1,14 @@
 
 
-Given /^the SLI_SMALL dataset is loaded$/ do
-  #pending
+Transform /^student (\w+)$/ do |step_arg|
+  id = "/students/714c1304-8a04-4e23-b043-4ad80eb60992" if step_arg == "Alfonso"
+  id = "/students/e1af7127-743a-4437-ab15-5b0dacd1bde0"  if step_arg == "Priscilla"
+  id = "/students/61f13b73-92fa-4a86-aaab-84999c511148" if step_arg == "Alden"
+  id = "/students/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
+  id = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" if step_arg == "Donna"
+  id = "/student/11111111-1111-1111-1111-111111111111" if step_arg == "WrongURI"
+  id = "/students"                                     if step_arg == "NoGUID"
+  id
 end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
@@ -47,15 +54,15 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I navigate to GET "([^"]*)"$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+When /^I navigate to GET (student \w+)$/ do |student_uri|
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
   @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to PUT "([^"]*)"$/ do |arg1|
+When /^I navigate to PUT (student \w+)$/ do |student_uri|
   if @format == "application/json"
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
     @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
@@ -63,11 +70,11 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
     data['birthData']['birthDate'].should_not == @bdate
     data['birthData']['birthDate'] = @bdate
     
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
     @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client PUT is nil")
   elsif @format == "application/xml"
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
     @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
@@ -76,7 +83,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
     doc.root.elements["birthDate"].text.should_not == @bdate
     doc.root.elements["birthDate"].text = @bdate
     
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
     @res = RestClient.put(url, doc, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
     assert(@res != nil, "Response from rest-client PUT is nil")
   else
@@ -84,8 +91,8 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+When /^I navigate to DELETE (student \w+)$/ do |student_uri|
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+student_uri
   @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end

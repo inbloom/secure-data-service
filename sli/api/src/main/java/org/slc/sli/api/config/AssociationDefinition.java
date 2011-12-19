@@ -15,6 +15,7 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public final class AssociationDefinition extends EntityDefinition {
+
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     private final String relNameFromSource;
@@ -24,13 +25,13 @@ public final class AssociationDefinition extends EntityDefinition {
     private final String sourceKey;
     private final String targetKey;
     
-    private AssociationDefinition(String type, String resourceName, AssociationService service, EntityInfo source,
-            EntityInfo target, String sourceRelName, String targetRelName) {
-        super(type, resourceName, service);
+    private AssociationDefinition(String type, String resourceName, String collectionName, AssociationService service,
+            EntityInfo source, EntityInfo target) {
+        super(type, resourceName, collectionName, service);
         this.sourceEntity = source.getDefn();
         this.targetEntity = target.getDefn();
-        this.relNameFromSource = sourceRelName;
-        this.relNameFromTarget = targetRelName;
+        this.relNameFromSource = source.getLinkToAssociation();
+        this.relNameFromTarget = target.getLinkToAssociation();
         this.sourceLink = source.getLinkName();
         this.targetLink = target.getLinkName();
         this.sourceKey = source.getKey();
@@ -285,12 +286,13 @@ public final class AssociationDefinition extends EntityDefinition {
         public AssociationDefinition build() {
             BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
                     getRepo(), source, target);
+            source.setLinkToAssociation(this.relNameFromSource);
+            target.setLinkToAssociation(this.relNameFromTarget);
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
-                    service, source, target, relNameFromSource, relNameFromTarget);
+                    getCollectionName(), service, source, target);
             service.setDefn(associationDefinition);
             return associationDefinition;
         }
-        
     }
     
     /**
@@ -305,6 +307,7 @@ public final class AssociationDefinition extends EntityDefinition {
         private final EntityDefinition defn;
         private final String linkName;
         private final String key;
+        private String linkToAssociation;
         
         public EntityInfo(EntityDefinition defn, String linkName, String key) {
             super();
@@ -324,5 +327,14 @@ public final class AssociationDefinition extends EntityDefinition {
         public String getKey() {
             return key;
         }
+        
+        public void setLinkToAssociation(String linkToAssociation) {
+            this.linkToAssociation = linkToAssociation;
+        }
+
+        public String getLinkToAssociation() {
+            return linkToAssociation;
+        }
+
     }
 }

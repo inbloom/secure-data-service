@@ -112,7 +112,7 @@ public class ResourceTest {
             assertEquals(2, body.get("field2"));
             List<?> links = (List<?>) body.get("links");
             assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + id)));
-            assertTrue(links.contains(new EmbeddedLink("getEnrollments", STUDENT_SCHOOL_ASSOCIATION_TYPE,
+            assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", STUDENT_SCHOOL_ASSOCIATION_TYPE,
                     "base/student-school-associations/" + id)));
         }
         

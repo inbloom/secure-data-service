@@ -1,5 +1,7 @@
 package org.slc.sli.api.resources;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,6 +10,9 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,7 +26,9 @@ import java.util.TreeMap;
 @Produces("application/json")
 public class SessionDebugResource {
 
-    private String authUrl;
+    private static final Logger LOG = LoggerFactory.getLogger(SessionDebugResource.class);
+
+    private String authPathUrl;
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
@@ -36,7 +43,7 @@ public class SessionDebugResource {
 
     @GET
     @Path("check")
-    public Object sessionCheck() {
+    public Object sessionCheck(@Context final UriInfo uriInfo) {
         
         Map<String, Object> sessionDetails = new TreeMap<String, Object>();
 
@@ -45,7 +52,7 @@ public class SessionDebugResource {
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
         } else {
             sessionDetails.put("authenticated", false);
-            sessionDetails.put("redirect_user", authUrl);
+            sessionDetails.put("redirect_user", getLoginUrl(uriInfo));
         }
 
         return sessionDetails;
@@ -56,9 +63,14 @@ public class SessionDebugResource {
                 || securityContext.getAuthentication().getCredentials() == null
                 || securityContext.getAuthentication().getCredentials().equals(""));
     }
+    
+    private String getLoginUrl(UriInfo uriInfo) {
+        URI request = uriInfo.getRequestUri();
+        return request.getScheme() + "://" + request.getHost() + ":" + request.getPort() + authPathUrl;
+    }
 
-    public void setAuthUrl(String authUrl) {
-        this.authUrl = authUrl;
+    public void setAuthPathUrl(String authPathUrl) {
+        this.authPathUrl = authPathUrl;
     }
 
 

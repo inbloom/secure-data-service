@@ -1,16 +1,18 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -18,8 +20,8 @@ import org.slc.sli.domain.Entity;
  */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
-    private final String collectionName;
     
+    private final String collectionName;
     private final List<Treatment> treatments;
     private final List<Validator> validators;
     private final EntityRepository repo;
@@ -61,6 +63,10 @@ public class BasicService implements EntityService {
             LOG.info("validation failed for {}", content);
             throw new ValidationException();
         }
+        if (defn instanceof AssociationDefinition && !createAssocValidate(content)) {
+            LOG.info("create association validation failed for {}", content);
+            throw new ValidationException();
+        }
         return getRepo().create(collectionName, sanitizeEntityBody(content)).getEntityId();
     }
     
@@ -73,6 +79,8 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
         getRepo().delete(entity);
+        if (!(defn instanceof AssociationDefinition))
+            removeEntityWithAssoc(entity);
     }
     
     @Override
@@ -170,4 +178,39 @@ public class BasicService implements EntityService {
         return true;
     }
     
+    private boolean createAssocValidate(EntityBody body) {
+        try {
+            EntityDefinition sourceEntityDefn = ((AssociationDefinition) defn).getSourceEntity();
+            EntityDefinition targetEntityDefn = ((AssociationDefinition) defn).getTargetEntity();
+            String sourceType = sourceEntityDefn.getType();
+            String targetType = targetEntityDefn.getType();
+            String sourceId = (String) body.get(sourceType + "Id");
+            String targetId = (String) body.get(targetType + "Id");
+            Entity sourceEntity = repo.find(sourceEntityDefn.getStoredCollectionName(), sourceId);
+            Entity targetEntity = repo.find(targetEntityDefn.getStoredCollectionName(), targetId);
+            if (sourceEntity == null || targetEntity == null)
+                return false;
+        } catch (RuntimeException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    private void removeEntityWithAssoc(Entity entity) {
+        String sourceType = entity.getType();
+        String sourceId = entity.getEntityId();
+        Map<String, String> fields = new HashMap<String, String>();
+        fields.put(sourceType + "Id", sourceId);
+        
+        Iterator<AssociationDefinition> it = defn.getLinkedAssoc().iterator();
+        while (it.hasNext()) {
+            Iterator<Entity> foundEntities = repo.findByFields(it.next().getStoredCollectionName(), fields, 0, 1)
+                    .iterator();
+            if (foundEntities.hasNext()) {
+                Entity assocEntity = foundEntities.next();
+                repo.delete(assocEntity);
+            }
+        }
+    }
+
 }

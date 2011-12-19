@@ -1,6 +1,7 @@
 package org.slc.sli.api.config;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,19 +18,36 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public class EntityDefinition {
+
     private final String type;
     private final String resourceName;
     private final EntityService service;
+    private final String collectionName;
+    private final List<AssociationDefinition> linkedAssociations;
     private static EntityRepository defaultRepo;
     private static final List<Treatment> GLOBAL_TREATMENTS = new LinkedList<Treatment>();
     
-    protected EntityDefinition(String type, String resourceName, EntityService service) {
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service) {
         super();
         this.type = type;
         this.resourceName = resourceName;
+        this.collectionName = collectionName;
         this.service = service;
+        this.linkedAssociations = new LinkedList<AssociationDefinition>();
     }
     
+    public final void addLinkedAssoc(AssociationDefinition assocDefn) {
+        this.linkedAssociations.add(assocDefn);
+    }
+    
+    public final Collection<AssociationDefinition> getLinkedAssoc() {
+        return this.linkedAssociations;
+    }
+    
+    public String getStoredCollectionName() {
+        return this.collectionName;
+    }
+
     public String getType() {
         return type;
     }
@@ -144,8 +162,10 @@ public class EntityDefinition {
             return this;
         }
         
+
         /**
-         *TODO
+         * TODO
+         * 
          * @param repo
          * @return
          */
@@ -199,7 +219,7 @@ public class EntityDefinition {
         public EntityDefinition build() {
 
             BasicService entityService = new BasicService(collectionName, treatments, validators, repo);
-            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, entityService);
+            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }

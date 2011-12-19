@@ -59,7 +59,7 @@
 
    <bean id="sessisonDebugResource"
          class="org.slc.sli.api.resources.SessionDebugResource"
-         p:authUrl="http://localhost:8080/api/pub/realm.jsp" />
+         p:authPathUrl="/api/pub/realm.jsp" />
 
    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
 
