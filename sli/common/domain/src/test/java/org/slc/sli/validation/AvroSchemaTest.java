@@ -1,5 +1,7 @@
 package org.slc.sli.validation;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +19,6 @@ import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-
 import org.slc.sli.domain.Entity;
 
 /**
@@ -31,12 +32,12 @@ public class AvroSchemaTest {
     @Test
     public void testValidSchool() throws Exception {
         Parser parser = new Schema.Parser();
-        Schema schema = parser.parse(new File("src/main/resources/avroSchema/school_body.avpr"));
+        Schema schema = parser.parse(new File("src/main/resources/avroSchema/student_body.avpr"));
         
-        String school = new BufferedReader(new FileReader("src/test/resources/school_fixture.json")).readLine();
+        String school = new BufferedReader(new FileReader("src/test/resources/student_fixture.json")).readLine();
         ObjectMapper oRead = new ObjectMapper();
         Map obj = oRead.readValue(school, Map.class);
-        mapValidation(obj, schema);
+        mapValidation((Map) obj.get("body"), schema);
         
     }
     
@@ -49,8 +50,14 @@ public class AvroSchemaTest {
         when(e.getBody()).thenReturn(obj);
         
         when(mockSchemaRegistry.findSchemaForType(e)).thenReturn(schema);
-        validator.validate(e);
-        
+        try {
+            assertTrue(validator.validate(e));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.out.println(err);
+            }
+            fail();
+        }
     }
     
     /**

@@ -1,20 +1,22 @@
 package org.slc.sli.validation;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avro.Schema;
-import org.apache.avro.Schema.Field;
-import org.apache.avro.Schema.Type;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.ValidationError.ErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
-
 /**
- * Validates entity bodies using an Avro schema.
+ * Validates an Entity body against an Avro schema.
  * 
  * @author Sean Melody <smelody@wgen.net>
+ * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
 @Component
@@ -30,29 +32,198 @@ public class AvroEntityValidator implements EntityValidator {
         
         Schema schema = entitySchemaRegistry.findSchemaForType(entity);
         if (schema == null) {
-            throw new EntityValidationException(EntityValidationException.NO_ASSOCIATED_SCHEMA,
-                    "No schema associated for type: " + entity.getType());
+            throw new RuntimeException("No schema associated for type: " + entity.getType());
         }
         
-        Map<String, Object> body = entity.getBody();
-        for (Field field : schema.getFields()) {
-            
-            Schema fieldSchema = field.schema();
-            String name = field.name();
-            Object val = body.get(name);
-            
-            switch (fieldSchema.getType()) {
-            
-            case UNION: {
-                handleUnion(fieldSchema, name, val);
-                break;
+        ValidatorInstance vi = new ValidatorInstance();
+        boolean valid = vi.matchesSchema(schema, "", entity.getBody(), true);
+        if (!valid) {
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), vi.errors);
+        }
+        return true;
+    }
+    
+    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
+        this.entitySchemaRegistry = schemaRegistry;
+        
+    }
+    
+    /**
+     * Validates a single entity. Not thread safe or reusable.
+     * 
+     * @author Ryan Farris <rfarris@wgen.net>
+     * 
+     */
+    private static class ValidatorInstance {
+        
+        final List<ValidationError> errors = new LinkedList<ValidationError>();
+        
+        private boolean matchesNull(String dataName, Object dataValue, boolean captureErrors) {
+            boolean isNull = dataValue == null;
+            if (captureErrors) {
+                errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue, null));
+            }
+            return isNull;
+        }
+        
+        private boolean matchesField(Schema.Field field, String dataName, Object dataValue, boolean captureErrors) {
+            return matchesSchema(field.schema(), dataName, dataValue, captureErrors);
+        }
+        
+        @SuppressWarnings("unchecked")
+        private boolean matchesArray(Schema array, String dataName, Object dataValue, boolean captureErrors) {
+            if (!List.class.isInstance(dataValue)) {
+                if (captureErrors) {
+                    errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue,
+                            new String[] { "Array" }));
+                }
+                return false;
+            }
+            boolean allMatch = true;
+            int index = 0;
+            for (Object arrayValue : (List<Object>) dataValue) {
+                allMatch = allMatch
+                        & matchesSchema(array.getElementType(), buildName(dataName, index), arrayValue, captureErrors);
+                index++;
+            }
+            return allMatch;
+        }
+        
+        private boolean matchesMap(Schema map, String dataName, Object dataValue, boolean captureErrors) {
+            throw new UnsupportedOperationException("Map value validation not implemented");
+        }
+        
+        private boolean matchesFixed(Schema fixed, String dataName, Object dataValue, boolean captureErrors) {
+            throw new UnsupportedOperationException("Fixed value validation not implemented");
+        }
+        
+        private boolean matchesEnum(Schema enumNum, String dataName, Object dataValue, boolean captureErrors) {
+            if (!String.class.isInstance(dataValue)) {
+                if (captureErrors) {
+                    errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue,
+                            new String[] { "String" }));
+                }
+                return false;
             }
             
-            case ARRAY: {
-                handleArray(fieldSchema, name, val);
-                break;
+            for (String possibleValue : enumNum.getEnumSymbols()) {
+                if (possibleValue.equalsIgnoreCase(dataValue.toString())) {
+                    return true;
+                }
+            }
+            if (captureErrors) {
+                errors.add(new ValidationError(ErrorType.ENUMERATION_MISMATCH, dataName, dataValue, enumNum
+                        .getEnumSymbols().toArray(new String[0])));
+            }
+            return false;
+        }
+        
+        private boolean matchesRecord(Schema record, String dataName, Object dataValue, boolean captureErrors) {
+            if ("java.util.Calendar".equals(record.getFullName())) {
+                if (String.class.isInstance(dataValue)) {
+                    try {
+                        javax.xml.bind.DatatypeConverter.parseDateTime((String) dataValue);
+                        return true;
+                    } catch (IllegalArgumentException e) {
+                        try {
+                            javax.xml.bind.DatatypeConverter.parseDate((String) dataValue);
+                            return true;
+                        } catch (IllegalArgumentException e2) {
+                            if (captureErrors) {
+                                errors.add(new ValidationError(ErrorType.INVALID_DATE_FORMAT, dataName, dataValue,
+                                        new String[] { "RFC 3339" }));
+                            }
+                            return false;
+                        }
+                    }
+                }
             }
             
+            if (!Map.class.isInstance(dataValue)) {
+                if (captureErrors) {
+                    errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue,
+                            new String[] { "Map" }));
+                }
+                return false;
+            }
+            
+            boolean matchesAllFields = true;
+            Set<String> fieldsSeen = new HashSet<String>();
+            
+            @SuppressWarnings("unchecked")
+            Map<String, Object> map = (Map<String, Object>) dataValue;
+            for (Schema.Field field : record.getFields()) {
+                Object fieldDataValue = map.get(field.name());
+                if (!matchesField(field, buildName(dataName, field.name()), fieldDataValue, captureErrors)) {
+                    matchesAllFields = false;
+                }
+                fieldsSeen.add(field.name());
+            }
+            
+            Set<String> dataFields = map.keySet();
+            dataFields.removeAll(fieldsSeen);
+            if (dataFields.size() > 0) {
+                for (String notSeen : dataFields) {
+                    errors.add(new ValidationError(ErrorType.UNKNOWN_FIELD, buildName(dataName, notSeen), map
+                            .get(notSeen), new String[0]));
+                }
+            }
+            return matchesAllFields && dataFields.size() == 0;
+        }
+        
+        private boolean matchesPrimitive(Schema primitive, String dataName, Object dataValue, boolean captureErrors) {
+            switch (primitive.getType()) {
+            case STRING:
+                return wrapError(String.class.isInstance(dataValue), captureErrors, dataName, dataValue, "String");
+            case BYTES:
+                return wrapError(byte[].class.isInstance(dataValue), captureErrors, dataName, dataValue, "Bytes");
+            case INT:
+                return wrapError(Integer.class.isInstance(dataValue), captureErrors, dataName, dataValue,
+                        "32bit Number");
+            case LONG:
+                return wrapError(Long.class.isInstance(dataValue), captureErrors, dataName, dataValue, "64bit Number");
+            case DOUBLE:
+                return wrapError(Double.class.isInstance(dataValue), captureErrors, dataName, dataValue,
+                        "64bit Floating Point Number");
+            case FLOAT:
+                return wrapError(Float.class.isInstance(dataValue), captureErrors, dataName, dataValue,
+                        "32bit Floating Point Number");
+            case BOOLEAN:
+                return wrapError(Boolean.class.isInstance(dataValue), captureErrors, dataName, dataValue, "Boolean");
+            }
+            throw new RuntimeException("Is not a primitive type: " + primitive.getName() + ", " + primitive.getType());
+        }
+        
+        private boolean matchesUnion(Schema union, String dataName, Object dataValue, boolean captureErrors) {
+            boolean nullable = false;
+            for (Schema possibleSchema : union.getTypes()) {
+                if (possibleSchema.getType().equals(Schema.Type.NULL)) {
+                    nullable = true;
+                }
+                if (matchesSchema(possibleSchema, dataName, dataValue, false)) {
+                    return true;
+                }
+            }
+            if (captureErrors) {
+                String[] validTypes = new String[union.getTypes().size()];
+                for (int i = 0; i < union.getTypes().size(); i++) {
+                    validTypes[i] = union.getTypes().get(i).getName();
+                }
+                if (!nullable) {
+                    errors.add(new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, dataName, dataValue, validTypes));
+                } else {
+                    errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue, validTypes));
+                }
+            }
+            return false;
+        }
+        
+        private boolean matchesSchema(Schema schema, String dataName, Object data, boolean captureErrors) {
+            switch (schema.getType()) {
+            case NULL:
+                return matchesNull(dataName, data, captureErrors);
+            case UNION:
+                return matchesUnion(schema, dataName, data, captureErrors);
             case STRING:
             case BYTES:
             case INT:
@@ -60,83 +231,43 @@ public class AvroEntityValidator implements EntityValidator {
             case FLOAT:
             case DOUBLE:
             case BOOLEAN:
-            
-            {
-                handlePrimitive(fieldSchema, name, val);
-                break;
+                return matchesPrimitive(schema, dataName, data, captureErrors);
+            case RECORD:
+                return matchesRecord(schema, dataName, data, captureErrors);
+            case ENUM:
+                return matchesEnum(schema, dataName, data, captureErrors);
+            case ARRAY:
+                return matchesArray(schema, dataName, data, captureErrors);
+            case MAP:
+                return matchesMap(schema, dataName, data, captureErrors);
+            case FIXED:
+                return matchesFixed(schema, dataName, data, captureErrors);
+            default: {
+                throw new RuntimeException("Unknown Avro Schema Type: " + schema.getType());
             }
             }
-            
         }
-        return true;
         
-    }
-    
-    private void handleArray(Schema fieldSchema, String name, Object val) {
+        private boolean wrapError(boolean isMatch, boolean captureErrors, String dataName, Object dataValue,
+                String expectedType) {
+            if (captureErrors) {
+                ErrorType type = dataValue == null ? ErrorType.REQUIRED_FIELD_MISSING : ErrorType.INVALID_DATATYPE;
+                errors.add(new ValidationError(type, dataName, dataValue, new String[] { expectedType }));
+            }
+            return isMatch;
+        }
         
-        // TODO
-    }
-    
-    private void handleUnion(Schema fieldSchema, String name, Object val) {
-        List<Schema> types = fieldSchema.getTypes();
-        
-        // A union with "null" means non-required
-        boolean bFoundType = false;
-        
-        for (Schema type : types) {
-            
-            if (type.getType().equals(Type.NULL)) {
-                
-                if (val == null) {
-                    bFoundType = true;
-                    break;
-                }
+        private static String buildName(String parent, String name) {
+            if (!parent.equals("")) {
+                return parent + "." + name;
             } else {
-                
-                bFoundType = handlePrimitive(type, name, val);
-                
+                return name;
             }
-            
         }
         
-        if (!bFoundType) {
-            throw new RuntimeException("Invalid type for field: " + name);
+        private static String buildName(String parent, int index) {
+            return parent + "[" + index + "]";
         }
-        System.out.println(fieldSchema);
-    }
-    
-    private boolean handlePrimitive(Schema type, String name, Object val) {
-        
-        Class<?> valType = val.getClass();
-        
-        switch (type.getType()) {
-        case STRING:
-            return valType.equals(String.class);
-            
-        case BYTES:
-            return valType.equals(Byte.class);
-            
-        case INT:
-            return valType.equals(Integer.class);
-            
-        case LONG:
-            return valType.equals(Long.class);
-            
-        case FLOAT:
-            return valType.equals(Float.class);
-        case DOUBLE:
-            return valType.equals(Double.class);
-        case BOOLEAN:
-            return valType.equals(Boolean.class);
-            
-        }
-        return false;
-        
-    }
-    
-    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
-        this.entitySchemaRegistry = schemaRegistry;
-        
     }
     
 }
