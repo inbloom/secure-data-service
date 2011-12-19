@@ -20,7 +20,7 @@ Scenario: Create a new school JSON
 	  
 Scenario: Read a school by id
     Given format "application/json"
-    When I navigate to GET "/schools/eb3b8c35-f582-df23-e406-6947249a19f2"
+    When I navigate to GET a school "Apple Alternative Elementary School"
     Then I should receive a return code of 200
        And I should see the school "Apple Alternative Elementary School"
        And I should see a phone number of "(785) 667-6006"
@@ -28,16 +28,16 @@ Scenario: Read a school by id
 Scenario: Update an existing school
     Given format "application/json"
       And the full name is "Yellow Middle and High School"
-    When I navigate to PUT "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d"
+    When I navigate to PUT a school "Yellow Middle and High School"
     Then I should receive a return code of 204
-     When  I navigate to GET "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d"
+     When  I navigate to GET a school "Yellow Middle and High School"
  	 And I should see the school "Yellow Middle and High School"
  	 
 Scenario: Delete an existing school
     Given format "application/json"
-    When I navigate to DELETE "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c"
+    When I navigate to DELETE a school "Delete Me Middle School"
     Then I should receive a return code of 204
-     When I navigate to GET "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c"
+     When I navigate to GET a school "Delete Me Middle School"
      Then I should receive a return code of 404
         
 #### XML version
@@ -62,26 +62,30 @@ Scenario: Delete an existing school XML
 ### Error handling
 Scenario: Attempt to read a non-existing school
     Given format "application/json"
-    When I navigate to GET "/schools/11111111-1111-1111-1111-111111111111" 
+    When I navigate to GET a school "that doesn't exist" 
     Then I should receive a return code of 404      
 
 Scenario: Attempt to delete a non-existing school
     Given format "application/json"
-    When I navigate to DELETE "/schools/11111111-1111-1111-1111-111111111111" 
+    When I navigate to DELETE a school "that doesn't exist" 
     Then I should receive a return code of 404      
 
 Scenario: Update a non-existing school
     Given format "application/json"
-    When I attempt to update a non-existing school "/schools/11111111-1111-1111-1111-111111111111"
+    When I attempt to update a school "that doesn't exist"
     Then I should receive a return code of 404      
     
 Scenario: Fail when asking for an unsupported format "text/plain"
     Given format "text/plain"
-    When I navigate to GET "/schools/eb3b8c35-f582-df23-e406-6947249a19f2"
+    When I navigate to GET a school "Apple Alternative Elementary School"
     Then I should receive a return code of 406
     
 Scenario: Fail if going to the wrong URI
 	Given format "application/json"
-	When I navigate to GET "/school/eb3b8c35-f582-df23-e406-6947249a19f2"
+	When I navigate to GET a school "using a wrong URI"
      Then I should receive a return code of 404
-    
+
+Scenario: Attempt to read the base resource with no GUID
+	Given format "application/json"
+	When I navigate to GET a school "with no GUID"
+	Then I should receive a return code of 405
