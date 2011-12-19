@@ -29,8 +29,8 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private String tokenServiceUrl;
-    private RestTemplate rest;
+    private String              tokenServiceUrl;
+    private RestTemplate        rest;
     
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -46,12 +46,11 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         Authentication auth = null;
         
         try {
-
+            
             String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
-
+            
             // Validate Session
-            ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl,
-                    String.class, Collections.<String, Object>emptyMap());
+            ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
             
             if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                 
@@ -95,8 +94,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     private String extractValue(String valueName, String payload) {
         String result = "";
         
-        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName
-                + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
         
         if (m.find()) {

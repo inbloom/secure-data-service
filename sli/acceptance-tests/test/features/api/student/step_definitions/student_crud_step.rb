@@ -5,6 +5,7 @@ require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
 
+
 Given /^format "([^"]*)"$/ do |arg1|
   ["application/json", "application/xml", "text/plain"].should include(arg1)
   @format = arg1
@@ -69,7 +70,7 @@ Then /^I should see that he or she was born on "([^"]*)"$/ do |arg1|
   assert(result['birthData']['birthDate'] == arg1, "Expected student birthdate not found in response")
 end
 
-When /^I attempt to update a non\-existing student "([^"]*)"$/ do |arg1|
+When /^I attempt to update a non\-existing (student \w+)$/ do |arg1|
   if @format == "application/json"
     data = Hash[
       "studentSchoolId" => "",
