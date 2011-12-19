@@ -35,9 +35,9 @@ Scenario: Update an existing student
         
 Scenario: Delete an existing student
     Given format "application/json"
-    When I navigate to DELETE student Alden
+    When I navigate to DELETE student Rachel
     Then I should receive a return code of 204
-    When  I navigate to GET student Alden
+    When  I navigate to GET student Rachel
     Then I should receive a return code of 404
         
 #### XML version
