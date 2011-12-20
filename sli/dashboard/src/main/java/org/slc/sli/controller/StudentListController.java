@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import org.springframework.ui.ModelMap;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.School;
 
 /**
@@ -15,22 +15,10 @@ import org.slc.sli.entity.School;
  * TODO: Write Javadoc
  *
  */
-public class StudentListController {
+@Controller
+public class StudentListController extends DashboardController {
 
-    private APIClient apiClient;
-    
-    public APIClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(APIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public StudentListController() {
-        //apiClient = new MockAPIClient();
-        
-    }
+    public StudentListController() { }
     
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {

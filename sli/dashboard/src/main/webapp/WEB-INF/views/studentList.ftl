@@ -1,7 +1,10 @@
 <html>
 <head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>
 <script type="text/javascript">
 var schools = ${schoolList};
+
+$.ajaxSetup ({cache: false});
 
 function populateSchoolMenu(){
     var y = "<select id=\"schoolSelect\" onChange=\"populateCourseMenu(this.value)\">"
@@ -41,13 +44,9 @@ function populateSectionMenu(schoolIndex, courseIndex){
 function printStudentList(schoolIndex, courseIndex, sectionIndex){
     var i = 0;
     var temp = schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs;
-    var x = "<table><tr><th>Student ID</th></tr>";
-
-    for(;i<temp.length;i++){
-        x += "<tr><td>" + temp[i] + "</td></tr>";
-    } 
-    x += "</table>";
-    document.getElementById("studentDiv").innerHTML = x;
+    var studentUIDs = temp.join(',');
+    var studentTableUrl = "studentlisttable?studentUIDs=" + studentUIDs;
+    $("#studentDiv").load(studentTableUrl);
 }
 </script>
 </head>
