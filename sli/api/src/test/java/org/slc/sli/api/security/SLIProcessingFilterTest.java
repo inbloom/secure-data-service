@@ -12,6 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.security.mock.Mocker;
 
+/**
+ * TODO write real javadoc
+ * test for sli processing filters
+ */
 public class SLIProcessingFilterTest {
     
     private SLIProcessingFilter     filter;

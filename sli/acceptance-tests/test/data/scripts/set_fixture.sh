@@ -9,3 +9,4 @@ echo $DIR
 $MONGO_HOME/mongoimport --drop -d sli -c student -h $DB_HOST --file "$DIR/../student_fixture.json"
 $MONGO_HOME/mongoimport --drop -d sli -c school -h $DB_HOST --file "$DIR/../school_fixture.json"
 $MONGO_HOME/mongoimport --drop -d sli -c studentschoolassociation -h $DB_HOST --file "$DIR/../student_enrollments_fixture.json"
+$MONGO_HOME/mongoimport --drop -d sli -c section -h $DB_HOST --file "$DIR/../section_fixture.json"
