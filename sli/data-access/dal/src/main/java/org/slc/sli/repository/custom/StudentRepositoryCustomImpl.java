@@ -15,6 +15,9 @@ import org.slc.sli.domain.Student;
 import org.slc.sli.domain.StudentSchoolAssociation;
 
 /**
+ * NOTE: These classes and interfaces have been deprecated and replaced with the new Entity and
+ * Mongo repository classes.
+ * 
  * Implementation of the {@link StudentRepositoryCustom} interface. This will provide customized
  * Persistence
  * method compare to default CRUD methods supported by JPA Repository
@@ -22,16 +25,16 @@ import org.slc.sli.domain.StudentSchoolAssociation;
  * @author Dong Liu dliu@wgen.net
  *         StudentRepositoryCustom
  */
-
+@Deprecated
 @Component
 @Transactional
 public class StudentRepositoryCustomImpl implements StudentRepositoryCustom {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(StudentRepositoryCustomImpl.class);
     
     @PersistenceContext(unitName = "dalPersistence")
     EntityManager em;
-
+    
     @Override
     public void deleteWithAssoc(int studentId) {
         LOG.info("process delete with association!");
@@ -45,7 +48,7 @@ public class StudentRepositoryCustomImpl implements StudentRepositoryCustom {
             LOG.info("deleted the association with id: {}", assoc.getAssociationId());
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     private List<StudentSchoolAssociation> getAssocList(int studentId) {
         Query query = em.createQuery("from StudentSchoolAssociation assoc where assoc.studentId=?1");
