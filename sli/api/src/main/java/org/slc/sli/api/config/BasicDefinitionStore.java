@@ -69,7 +69,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         LOG.debug("adding assoc for {}", defn.getResourceName());
         add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();
+        EntityDefinition targetEntity = defn.getTargetEntity();
         links.get(sourceEntity).add(defn);
+        links.get(targetEntity).add(defn);
         mapping.get(sourceEntity.getResourceName()).addLinkedAssoc(defn);
         // sourceEntity.addLinkedAssoc(defn);
     }
