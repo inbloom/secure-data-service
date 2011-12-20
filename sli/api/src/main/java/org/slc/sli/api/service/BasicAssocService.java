@@ -32,7 +32,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
     
     @Override
     public Iterable<String> getAssociatedWith(String id, int start, int numResults) {
-        LOG.debug("Getting assocations with {} from {} through {}", new Object[] {id, start, numResults});
+        LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         EntityBody existingEntity = source.getService().get(id);
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);

@@ -116,7 +116,7 @@ public class ResourceTest {
         }
         
         // test associations
-        for (String id : new String[] {assocId1, assocId2}) {
+        for (String id : new String[] { assocId1, assocId2 }) {
             Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10, info);
             EntityBody assoc = (EntityBody) r.getEntity();
             assertNotNull(assoc);
@@ -130,7 +130,7 @@ public class ResourceTest {
         }
         
         // test freaky association uri
-        for (String id : new String[] {studentId1, studentId2}) {
+        for (String id : new String[] { studentId1, studentId2 }) {
             Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10, info);
             CollectionResponse cr = (CollectionResponse) r.getEntity();
             assertNotNull(cr);

@@ -1,9 +1,11 @@
 package org.slc.sli.validation;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.apache.avro.Schema;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -24,15 +26,21 @@ public class EntitySchemaRegistryTest {
     public void testFindSchemaForType() {
         Entity school = mock(Entity.class);
         when(school.getType()).thenReturn("school");
-        assertNotNull(schemaRegistry.findSchemaForType(school));
+        Schema schoolSchema = schemaRegistry.findSchemaForType(school);
+        assertNotNull(schoolSchema);
+        assertEquals(schoolSchema.getName(), "School");
 
         Entity student = mock(Entity.class);
         when(student.getType()).thenReturn("student");
-        assertNotNull(schemaRegistry.findSchemaForType(student));
+        Schema studentSchema = schemaRegistry.findSchemaForType(student);
+        assertNotNull(studentSchema);
+        assertEquals(studentSchema.getName(), "Student");
         
         Entity studentSchoolAssociation = mock(Entity.class);
         when(studentSchoolAssociation.getType()).thenReturn("studentSchoolAssociation");
-        assertNotNull(schemaRegistry.findSchemaForType(studentSchoolAssociation));
+        Schema studentSchoolAssociationSchema = schemaRegistry.findSchemaForType(studentSchoolAssociation);
+        assertNotNull(studentSchoolAssociationSchema);
+        assertEquals(studentSchoolAssociationSchema.getName(), "StudentSchoolAssociation");
 
     }
 

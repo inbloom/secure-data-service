@@ -13,4 +13,17 @@ public interface AssociationService extends EntityService {
      */
     public Iterable<String> getAssociatedWith(String id, int start, int numResults);
     
+    /**
+     * Gets the entities associated with a given target entity in the data store
+     * 
+     * @param id
+     *            the id of the target to look for associations from
+     * @param start
+     *            the index of the first entity in the data store to return
+     * @param numResults
+     *            the number of results to return
+     * @return the ids of entities associated to the given entity
+     */
+    public Iterable<String> getAssociatedTo(String id, int start, int numResults);
+
 }
