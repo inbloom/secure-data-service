@@ -1,8 +1,8 @@
 package org.slc.sli.validation;
 
 import static org.junit.Assert.assertNotNull;
-
-import java.util.Map;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,20 +22,17 @@ public class EntitySchemaRegistryTest {
     
     @Test
     public void testFindSchemaForType() {
-        Entity school = new Entity() {
-            public String getEntityId() {
-                return "";
-            }
-            
-            public String getType() {
-                return "school";
-            }
-            
-            public Map<String, Object> getBody() {
-                return null;
-            }
-        };
+        Entity school = mock(Entity.class);
+        when(school.getType()).thenReturn("school");
         assertNotNull(schemaRegistry.findSchemaForType(school));
+
+        Entity student = mock(Entity.class);
+        when(student.getType()).thenReturn("student");
+        assertNotNull(schemaRegistry.findSchemaForType(student));
+        
+        Entity studentSchoolAssociation = mock(Entity.class);
+        when(studentSchoolAssociation.getType()).thenReturn("studentSchoolAssociation");
+        assertNotNull(schemaRegistry.findSchemaForType(studentSchoolAssociation));
 
     }
 

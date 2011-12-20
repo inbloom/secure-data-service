@@ -1,6 +1,5 @@
 package org.slc.sli.validation;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,25 +23,29 @@ import org.springframework.util.ResourceUtils;
 public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     
     private Map<String, Schema> mapSchema = new HashMap<String, Schema>();
+    private final String baseDir = "classpath:avroSchema";
+    
+    // TODO need to figure out better way to map schema file name to entity type
+    private String[] schemaNames = new String[] { "school", "student", "studentSchoolAssociation" };
     
     @PostConstruct
     public void init() throws IOException {
-        
-        File root = ResourceUtils.getFile("classpath:avroSchema");
-        File[] schemaFiles = root.listFiles();
-        
-        for (File file : schemaFiles) {
-            URL url = ResourceUtils.getURL("classpath:avroSchema/" + file.getName());
-        Parser parser = new Schema.Parser();
-        Schema schema = parser.parse(url.openStream());
-            mapSchema.put(file.getName().split("_")[0], schema);
+        for (String schemaName : schemaNames) {
+            registerSchema(schemaName);
         }
-
     }
     
     @Override
     public Schema findSchemaForType(Entity entity) {
         return mapSchema.get(entity.getType());
+    }
+    
+    private void registerSchema(String schemaName) throws IOException {
+        Parser parser = new Schema.Parser();
+        URL url = ResourceUtils.getURL(baseDir + "/" + schemaName + "_body.avpr");
+        Schema schema = parser.parse(url.openStream());
+        mapSchema.put(schemaName, schema);
+        
     }
     
 }
