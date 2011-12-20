@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.CustomData;
 
 import java.util.List;
 import java.util.Vector;
@@ -45,6 +46,11 @@ public class MockAPIClient implements APIClient {
         return (Assessment[]) filtered.toArray();
     }
 
+    public CustomData[] getCustomData(String token, String key) {
+        String filename = "src/test/resources/mock_data/" + token + "/custom_" + key + ".json";
+        return fromFile(filename, CustomData[].class);
+    }
+    
     // Helper function to translate a .json file into object. 
     private static <T> T[] fromFile(String fileName, Class<T[]> c) {
         try {
