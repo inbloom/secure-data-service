@@ -61,22 +61,22 @@ Given /^she is \"Female\"$/ do ||
   @sex = "Female"
 end
 
-Given /^(?:his|her) "Years of Prior Teaching Experience" is "(\d+)"$/ do |arg1|
+Given /^(?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
   @teachingExperience = arg1
   @teachingExperience.should_not == nil
 end
 
-Given /^(?:his|her) "Teacher Unique State ID" is "(\d+)"$/ do |arg1|
+Given /^(?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
   @teacherUniqueStateId = arg1
   @teacherUniqueStateId.should_not == nil
 end
 
-Given /^(?:his|her) "Highly Qualified Teacher" status is "(\d+)"$/ do |arg1|
+Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
   @highlyQualifiedTeacher = arg1
   @highlyQualifiedTeacher.should_not == nil
 end
 
-Given /^(?:his|her) "Level of Education" is "([^"]*)"$/ do |arg1|
+Given /^(?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
   ["Bachelor\'s", "Master\'s", "Doctorate", "No Degree"].should include(arg1)
   @levelOfEducation = arg1
   @levelOfEducation.should_not == nil
@@ -91,15 +91,18 @@ end
 When /^I navigate to POST teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     data = Hash[
-      "teacherUniqueStateId" => @teacherUniqueStateId,
-      "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
-      "birthDate" => @bdate,
-      "sex" => @sex,
-      "yearsOfTeachingExperience" => @teachingExperience,
-      "levelOfEducation" => @levelOfEducation,
-      "highlyQualified" => @highlyQualifiedTeacher ]
+      "staff" => Hash[
+        "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
+        "birthDate" => @bdate,
+        "sex" => @sex,
+        "yearsOfTeachingExperience" => @teachingExperience,
+        "levelOfEducation" => @levelOfEducation],
+      "teacher" => Hash[
+        "teacherUniqueStateId" => @teacherUniqueStateId,
+        "highlyQualified" => @highlyQualifiedTeacher]
+      ]
     
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/teachers"
     @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
     assert(@res != nil, "Response from rest-client POST is nil")
     
