@@ -34,13 +34,10 @@ public class StudentListController {
     
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {
-
-
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
         School[] schoolList = retrieveSchools(username);
         model.addAttribute("schoolList", gson.toJson(schoolList));
-        
         return new ModelAndView("studentList");
     }
     
