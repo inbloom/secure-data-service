@@ -1,6 +1,9 @@
 package org.slc.sli.api.security.roles;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
 
 import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.service.EntityService;
@@ -14,14 +17,18 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 /**
  *  A RESTful class to return the roles and their configured rights.
  *
- *  This is meant to be a read-only operation, but contains a convenience post method
- *  to create new roles.
+ *  This is meant to be a read-only operation, but contains a convenience post
+ *  method to create new roles.
  *
  *  @see Rights
  */
@@ -38,7 +45,7 @@ public class RolesAndPermissionsResource {
     private static final Logger LOG = LoggerFactory.getLogger(RolesAndPermissionsResource.class);
 
     /**
-     * Creates a new map of a user with permissions to use as a default
+     * Creates a new map of a user with permissions to use as a default.
      * 
      * @return a new hashmap of the user and their permissions.
      */
@@ -61,17 +68,18 @@ public class RolesAndPermissionsResource {
     @GET
     @Path("roles")
     public Object getRolesAndPermissions() {
-        Map<String, Object> roles = new TreeMap<String, Object>();
+        Map<String, Object> roles = new HashMap<String, Object>();
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
         EntityDefinition def = store.lookupByResourceName("roles");
         EntityService service = def.getService();
 
-        //Add some data here.
+        //TODO remove this when we have real data.
         service.create(new EntityBody(createRolesAndPermissions()));
 
+        //TODO get some way to findAll.
         Iterable<String> names = service.list(0, 100);
         Iterable<EntityBody> entities = service.get(names);
-        for(EntityBody body : entities) {
+        for (EntityBody body : entities) {
             roles.put("name", body.get("name"));
             roles.put("rights", body.get("rights"));
             roleList.add(roles);
@@ -88,7 +96,7 @@ public class RolesAndPermissionsResource {
     @POST
     @Path("roles")
     public void createRoleWithPermission(String name, Object rights) {
-        Map<String, Object> role = new TreeMap<String, Object>();
+        Map<String, Object> role = new HashMap<String, Object>();
         role.put("name", name);
         role.put("rights", rights);
         EntityBody body = new EntityBody(role);

@@ -1,4 +1,4 @@
-{"_id": "", "name": "Educator", "permissions": ["AGGREGATE_READ", "READ_GENERAL"]},
-{"_id": "", "name": "Aggregate Viewer", "permissions", ["AGGREGATE_READ"]},
-{"_id": "", "name": "Leader", "permissions", ["READ_GENERAL", "AGGREGATE_READ", "READ_RESTRICTED"]},
-{"_id": "", "name": "IT Administrator", "permissions", ["AGGREGATE_READ", "READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED"]}
+{"_id": {$binary:"2fy5GTPMRUKuxbByq5/l6g==", "type": 03}, "name": "Educator", "permissions": ["AGGREGATE_READ", "READ_GENERAL"]},
+{"_id": {$binary:"mwej7sYDSTi/J4qCS1+Qrg==", "type": 03}, "name": "Aggregate Viewer", "permissions", ["AGGREGATE_READ"]},
+{"_id": {$binary:"h1COmDTiT/O4xZHf8BALaQ==", "type": 03}, "name": "Leader", "permissions", ["READ_GENERAL", "AGGREGATE_READ", "READ_RESTRICTED"]},
+{"_id": {$binary:"BoYswI8tSMibj8ZuOSLrMA==", "type": 03}, "name": "IT Administrator", "permissions", ["AGGREGATE_READ", "READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED"]}
