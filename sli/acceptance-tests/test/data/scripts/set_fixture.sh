@@ -1,7 +1,8 @@
 #!/bin/bash
 
 MONGO_HOME=/usr/bin
-DB_HOST=testdal1.slidev.org
+DB_HOST=localhost
+#testdal1.slidev.org
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 echo $DIR
