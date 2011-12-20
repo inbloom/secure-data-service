@@ -50,6 +50,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
+
         AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollment")
                 .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school)
                 .called("getStudentEnrollments").build();
@@ -58,9 +59,17 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .exposeAs("school-enrollments").storeAs("enrollments").from(school).to(student)
                 .called("getSchoolEnrollments").build();
         addAssocDefinition(schoolEnroll);
+
+        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("student-school-association")
+                .exposeAs("student-school-associations").storeAs("studentschoolassociation").from(student, "getStudent", "getStudentsEnrolled")
+                .to(school, "getSchool", "getSchoolsAttended").calledFromSource("getStudentEnrollments").calledFromTarget("getSchoolEnrollments")
+                .build();
+        addAssocDefinition(studentSchoolAssociation);
+
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
+
     }
     
     private void add(EntityDefinition defn) {
@@ -77,7 +86,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         LOG.debug("adding assoc for {}", defn.getResourceName());
         add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();
+        EntityDefinition targetEntity = defn.getTargetEntity();
         links.get(sourceEntity).add(defn);
+        links.get(targetEntity).add(defn);
         mapping.get(sourceEntity.getResourceName()).addLinkedAssoc(defn);
         // sourceEntity.addLinkedAssoc(defn);
     }

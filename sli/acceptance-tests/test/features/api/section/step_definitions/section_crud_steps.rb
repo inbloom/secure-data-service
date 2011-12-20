@@ -12,7 +12,7 @@ Transform /^section "([^"]*)"$/ do |step_arg|
   id = "/sections/c76f8fb1-cef4-4839-bfeb-ab2afb8b8aec"  if step_arg == "1500"
   id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
   id = "/sections/dad5b409-9660-4843-82ba-07d7a4ff37cb"  if step_arg == "567"
-  id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "WrongURI"
+  id = "/section/11111111-1111-1111-1111-111111111111"  if step_arg == "WrongURI"
   id = "/sections"                                       if step_arg == "NoGUID"
   id
 end
@@ -67,7 +67,7 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |section_uri|
     data = data_builder
-    restHtmlPost(section_uri, data)
+    restHttpPost(section_uri, data)
     @res.should_not be_nil
 end
 
@@ -85,7 +85,7 @@ Then /^I should receive a ID for the newly created section$/ do
 end
 
 When /^I navigate to GET (section "[^"]*")$/ do |section_uri|
-  restHtmlGet(section_uri)
+  restHttpGet(section_uri)
 end
 
 Then /^I should see the sequence of course is (\d+)$/ do |course_seq|
@@ -121,18 +121,18 @@ end
 
 When /^I navigate to DELETE (section "[^"]*")$/ do |section_uri|
   section_uri.should_not be_nil
-  restHtmlDelete(section_uri)
+  restHttpDelete(section_uri)
 end
 
 When /^I navigate to PUT (section "[^"]*")$/ do |section_uri|
   section_uri.should_not be_nil
   data = data_builder
-  restHtmlPut(section_uri, data)
+  restHttpPut(section_uri, data)
 end
 
 When /^I attempt to update a non\-existing (section "[^"]*")$/ do |section_uri|
   section_uri.should_not be_nil
   data = data_builder
-  restHtmlPut(section_uri, data)
+  restHttpPut(section_uri, data)
 end
 

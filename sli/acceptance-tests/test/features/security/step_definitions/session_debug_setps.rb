@@ -9,10 +9,7 @@ require_relative '../../utils/sli_utils.rb'
 Given /^I login with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
     @user = arg1
     @passwd = arg2
-    url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/identity/authenticate?username="+@user+"&password="+@passwd
-    res = RestClient.get(url){|response, request, result| response }
-    assert(res.body != nil, "No res")
-    @cookie = res.body[res.body.rindex('=')+1..-1]
+    idpLogin(@user, @passwd)
 end
 
 Given /^I get an authentication cookie from the gatekeeper$/ do
@@ -20,8 +17,7 @@ Given /^I get an authentication cookie from the gatekeeper$/ do
 end
 
 When /^I GET the url "([^"]*)" using that cookie$/ do |arg1|
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+ arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+    restHttpGet(arg1, "application/json")
     assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -44,13 +40,11 @@ Then /^I should see the session debug context in the response body$/ do
 end
 
 When /^I GET the url "([^"]*)" using a blank cookie$/ do |arg1|
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+ arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => ""}}){|response, request, result| response }
+    restHttpGet(arg1, "application/json", "")
 end
 
 When /^I GET the url "([^"]*)" using an invalid cookie$/ do |arg1|
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+ arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => "invalid"}}){|response, request, result| response }
+    restHttpGet(arg1, "application/json", "invalid")
 end
 
 Then /^I should see the authenticated object in the response body$/ do
