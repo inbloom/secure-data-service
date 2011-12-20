@@ -57,7 +57,7 @@ public class RolesAndPermissionsResource {
     
     @POST
     @Path("roles")
-    public void createRoleWithPermission(String name, List<String> permissions) {
+    public void createRoleWithPermission(String name, Object permissions) {
         String type = "role";
         if(permissions == null) {
             type = "permission";

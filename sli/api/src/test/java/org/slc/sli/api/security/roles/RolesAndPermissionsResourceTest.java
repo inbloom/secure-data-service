@@ -18,6 +18,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -27,19 +32,34 @@ public class RolesAndPermissionsResourceTest {
     @Autowired
     private RolesAndPermissionsResource api;
 
-    @Autowired
-    private ApplicationContext context;
-
-    private void createTestRoles() {
-
+    private Map<String, Object> createTestRole() {
+        Map<String, Object> role = new HashMap<String, Object>();
+        List<String> permissions = new ArrayList<String>();
+        permissions.add("Read");
+        permissions.add("Delete");
+        role.put("name", "Role1");
+        role.put("type", "Role");
+        role.put("permissions", permissions);
+        return role;
+    }
+    
+    private Map<String, Object> createTestPermissions() {
+        Map<String, Object> perm = createTestRole();
+        perm.put("name", "Read");
+        perm.put("type", "permission");
+        perm.put("permissions", null);
+        return perm;
     }
 
     @Test
     public void testGetRolesAndPermissions() {
-        createTestRoles();
-        Object thing = null;
-        assertNull(thing);
-        thing = api.getRolesAndPermissions();
-        assertNotNull(thing);
+        //Create a role.
+        Map<String, Object> role = createTestRole();
+        assertNotNull(role);
+        api.createRoleWithPermission((String) role.get("name"), role.get("permissions"));
+
+        //Fetch it back out.
+        Object result = api.getRolesAndPermissions();
+        assertNotNull(result);
     }
 }
