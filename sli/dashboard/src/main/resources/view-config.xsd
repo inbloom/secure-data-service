@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="viewConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="views"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="views">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="view"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="view">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="dataSet"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dataSet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="fields"/>
+      </xs:sequence>
+      <xs:attribute name="displayName"/>
+      <xs:attribute name="name" type="xs:NCName"/>
+      <xs:attribute name="timeSlot" type="xs:NCName"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fields">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="field"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="field">
+    <xs:complexType>
+      <xs:attribute name="format" type="xs:NCName"/>
+      <xs:attribute name="id" use="required" type="xs:NCName"/>
+      <xs:attribute name="visual" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
