@@ -43,7 +43,7 @@ Scenario: Update an existing student
         And born on "7/13/99"   
         
 #### XML version
-Scenario: Create an new student
+Scenario: Create an new student XML
     When I navigate to POST "/students/1234" 
         And format "application/xml"
         And the name is "Jason Mallister"

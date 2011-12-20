@@ -55,6 +55,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .to(school, "getSchool", "getSchoolsAttended").calledFromSource("getStudentEnrollments").calledFromTarget("getSchoolEnrollments")
                 .build();
         addAssocDefinition(studentSchoolAssociation);
+        
+        EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
+        addDefinition(teacher);        
     }
     
     private void add(EntityDefinition defn) {
