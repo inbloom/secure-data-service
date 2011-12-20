@@ -9,12 +9,12 @@
     <!-- the application context definition for the DispatcherServlet -->
     
     <bean name="/login" class="org.slc.sli.controller.LoginController">
-    <property name="testClass" ref="SpringPropertiesHandlingBean"/>
+    	<property name="testClass" ref="SpringPropertiesHandlingBean"/>
     </bean>
     <bean name="/customlogin" class="org.slc.sli.controller.CustomLoginController"/>
     <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController"/>
     <bean name="/studentlist" class="org.slc.sli.controller.StudentListController">
-    <property name="apiClient" ref="APIClientBean"/>
+   		<property name="apiClient" ref="APIClientBean"/>
     </bean>
     
     <!-- freemarker config -->
@@ -29,11 +29,11 @@
     </bean>
     
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="locations">
-    <list>
-    <value>classpath:/filter-${env}.properties</value>
-    </list>
-    </property>
+	    <property name="locations">
+		    <list>
+			    <value>classpath:/filter-${env}.properties</value>
+		    </list>
+	    </property>
     </bean>
     
     <bean id="SpringPropertiesHandlingBean" class="org.slc.sli.entity.SpringPropertiesTest">

@@ -27,7 +27,7 @@ public class LoginControllerTest {
     public void testLoginPageContainsText() {
         ModelMap model = new ModelMap();
         // TODO: fix the null in 2nd param
-        assertEquals("login", loginController.printWelcome(model, null));
+        assertEquals("login", loginController.printWelcome(model, null, null));
         String message = (String) model.get("message");
         assertEquals(message, "Enter Username and password");
     }

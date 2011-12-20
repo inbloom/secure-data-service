@@ -42,7 +42,7 @@ public class LoginController {
 						+ cookies[index].getValue());
 			}
 		}
-
+		System.out.println("Referrer URL = " + request.getHeader("referer"));
 		// System.out.println("SessionAtts = " + session.getAttributeNames());
 		model.addAttribute("message", "Enter Username and password");
 		model.addAttribute("errorMessage",
