@@ -1,0 +1,291 @@
+{
+  "type" : "record",
+  "name" : "Section",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "uniqueSectionCode",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "sequenceOfCourse",
+    "type" : [ "null", "int" ],
+    "default" : null
+  }, {
+    "name" : "educationalEnvironment",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "EducationalEnvironmentType",
+      "symbols" : [ "CLASSROOM", "HOMEBOUND", "HOSPITAL_CLASS", "IN_SCHOOL_SUSPENSION", "LABORATORY", "MAINSTREAM_SPECIAL_EDUCATION", "OFF_SCHOOL_CENTER", "PULL_OUT_CLASS", "RESOURCE_ROOM", "SELF_CONTAINED_SPECIAL_EDUCATION", "SELF_STUDY", "SHOP" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "mediumOfInstruction",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "MediumOfInstructionType",
+      "symbols" : [ "TELEVISED", "TELEPRESENCE_VIDEO_CONFERENCE", "VIDEOTAPED_PRERECORDED_VIDEO", "OTHER_TECHNOLOGY_BASED_INSTRUCTION", "TECHNOLOGY_BASED_INSTRUCTION_IN_CLASSROOM", "CORRESPONDENCE_INSTRUCTION", "FACE_TO_FACE_INSTRUCTION", "VIRTUAL_ON_LINE_DISTANCE_LEARNING", "CENTER_BASED_INSTRUCTION", "INDEPENDENT_STUDY", "INTERNSHIP", "OTHER" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "populationServed",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "PopulationServedType",
+      "symbols" : [ "REGULAR_STUDENTS", "BILINGUAL_STUDENTS", "COMPENSATORY_REMEDIAL_EDUCATION_STUDENTS", "GIFTED_AND_TALENTED_STUDENTS", "CAREER_AND_TECHNICAL_EDUCATION_STUDENTS", "SPECIAL_EDUCATION_STUDENTS", "ESL_STUDENTS", "ADULT_BASIC_EDUCATION_STUDENTS", "HONORS_STUDENTS", "MIGRANT_STUDENTS" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "availableCredit",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Credits",
+      "fields" : [ {
+        "name" : "credit",
+        "type" : [ "null", "double" ],
+        "default" : null
+      }, {
+        "name" : "creditType",
+        "type" : [ "null", {
+          "type" : "enum",
+          "name" : "CreditType",
+          "symbols" : [ "CARNEGIE_UNIT", "SEMESTER_HOUR_CREDIT", "TRIMESTER_HOUR_CREDIT", "QUARTER_HOUR_CREDIT", "NINE_MONTH_YEAR_HOUR_CREDIT", "TWELVE_MONTH_YEAR_HOUR_CREDIT", "OTHER" ]
+        } ],
+        "default" : null
+      }, {
+        "name" : "creditConversion",
+        "type" : [ "null", "double" ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "courseOfferingReference",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "CourseOfferingReferenceType",
+      "fields" : [ {
+        "name" : "courseOfferingIdentity",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "CourseOfferingIdentityType",
+          "fields" : [ {
+            "name" : "schoolId",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "localCourseCode",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "courseCode",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : {
+                "type" : "record",
+                "name" : "CourseCode",
+                "fields" : [ {
+                  "name" : "id",
+                  "type" : [ "null", "string" ],
+                  "default" : null
+                }, {
+                  "name" : "identificationSystem",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "CourseCodeSystemType",
+                    "symbols" : [ "CSSC_COURSE_CODE", "INTERMEDIATE_AGENCY_COURSE_CODE", "LEA_COURSE_CODE", "NCES_PILOT_SNCCS_COURSE_CODE", "OTHER", "SCED_COURSE_CODE", "SCHOOL_COURSE_CODE", "STATE_COURSE_CODE", "UNIVERSITY_COURSE_CODE" ]
+                  } ],
+                  "default" : null
+                }, {
+                  "name" : "assigningOrganizationCode",
+                  "type" : [ "null", "string" ],
+                  "default" : null
+                } ]
+              },
+              "java-class" : "java.util.List"
+            } ],
+            "default" : null
+          }, {
+            "name" : "sessionIdentity",
+            "type" : [ "null", {
+              "type" : "record",
+              "name" : "SessionIdentityType",
+              "fields" : [ {
+                "name" : "stateOrganizationID",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "sessionName",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "term",
+                "type" : [ "null", {
+                  "type" : "enum",
+                  "name" : "TermType",
+                  "symbols" : [ "FALL_SEMESTER", "SPRING_SEMESTER", "SUMMER_SEMESTER", "FIRST_TRIMESTER", "SECOND_TRIMESTER", "THIRD_TRIMESTER", "YEAR_ROUND", "MINI_TERM" ]
+                } ],
+                "default" : null
+              }, {
+                "name" : "schoolYear",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            } ],
+            "default" : null
+          } ]
+        } ],
+        "default" : null
+      }, {
+        "name" : "id",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "ref",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "Object",
+          "namespace" : "java.lang",
+          "fields" : [ ]
+        } ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "schoolReference",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "EducationalOrgReferenceType",
+      "fields" : [ {
+        "name" : "educationalOrgIdentity",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "EducationalOrgIdentityType",
+          "fields" : [ {
+            "name" : "stateOrganizationId",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "educationOrgIdentificationCode",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : {
+                "type" : "record",
+                "name" : "EducationOrgIdentificationCode",
+                "fields" : [ {
+                  "name" : "id",
+                  "type" : [ "null", "string" ],
+                  "default" : null
+                }, {
+                  "name" : "identificationSystem",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "EducationOrgIdentificationSystemType",
+                    "symbols" : [ "SCHOOL", "ACT", "LEA", "SEA", "NCES", "FEDERAL", "DUNS", "OTHER_FEDERAL", "OTHER" ]
+                  } ],
+                  "default" : null
+                } ]
+              },
+              "java-class" : "java.util.List"
+            } ],
+            "default" : null
+          } ]
+        } ],
+        "default" : null
+      }, {
+        "name" : "id",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "ref",
+        "type" : [ "null", "java.lang.Object" ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "sessionReference",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "SessionReferenceType",
+      "fields" : [ {
+        "name" : "sessionIdentity",
+        "type" : [ "null", "SessionIdentityType" ],
+        "default" : null
+      }, {
+        "name" : "id",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "ref",
+        "type" : [ "null", "java.lang.Object" ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "locationReference",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "ReferenceType",
+      "fields" : [ {
+        "name" : "id",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "ref",
+        "type" : [ "null", "java.lang.Object" ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "classPeriodReference",
+    "type" : [ "null", "ReferenceType" ],
+    "default" : null
+  }, {
+    "name" : "programReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "ProgramReferenceType",
+        "fields" : [ {
+          "name" : "programIdentity",
+          "type" : [ "null", {
+            "type" : "record",
+            "name" : "ProgramIdentityType",
+            "fields" : [ {
+              "name" : "programId",
+              "type" : [ "null", "string" ],
+              "default" : null
+            }, {
+              "name" : "programType",
+              "type" : [ "null", {
+                "type" : "enum",
+                "name" : "ProgramType",
+                "symbols" : [ "ADULT_CONTINUING_EDUCATION", "ALTERNATIVE_EDUCATION", "ATHLETICS", "BILINGUAL", "CAREER_AND_TECHNICAL_EDUCATION", "COCURRICULAR_PROGRAMS", "COLLEGE_PREPARATORY", "COMMUNITY_SERVICE_PROGRAM", "COMMUNITY_JUNIOR_COLLEGE_EDUCATION_PROGRAM", "COMPENSATORY_SERVICES_FOR_DISADVANTAGED_STUDENTS", "COUNSELING_SERVICES", "ENGLISH_AS_A_SECOND_LANGUAGE_ESL", "EVEN_START", "EXTENDED_DAY_CHILD_CARE_SERVICES", "GIFTED_AND_TALENTED", "HEAD_START", "HEALTH_SERVICES_PROGRAM", "HIGH_SCHOOL_EQUIVALENCY_PROGRAM_HSEP", "IDEA", "IMMIGRANT_EDUCATION", "INDIAN_EDUCATION", "INTERNATIONAL_BACCALAUREATE", "LIBRARY_MEDIA_SERVICES_PROGRAM", "MAGNET_SPECIAL_PROGRAM_EMPHASIS", "MIGRANT_EDUCATION", "NEGLECTED_AND_DELINQUENT_PROGRAM", "OPTIONAL_FLEXIBLE_SCHOOL_DAY_PROGRAM_OFSDP", "OTHER", "REGULAR_EDUCATION", "REMEDIAL_EDUCATION", "SECTION_504_PLACEMENT", "SERVICE_LEARNING", "SPECIAL_EDUCATION", "STUDENT_RETENTION_DROPOUT_PREVENTION", "SUBSTANCE_ABUSE_EDUCATION_PREVENTION", "TEACHER_PROFESSIONAL_DEVELOPMENT_MENTORING", "TECHNICAL_PREPARATORY", "TITLE_I_PART_A", "VOCATIONAL_EDUCATION" ]
+              } ],
+              "default" : null
+            } ]
+          } ],
+          "default" : null
+        }, {
+          "name" : "id",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "ref",
+          "type" : [ "null", "java.lang.Object" ],
+          "default" : null
+        } ]
+      },
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  }, {
+    "name" : "id",
+    "type" : [ "null", "string" ],
+    "default" : null
+  } ]
+}
