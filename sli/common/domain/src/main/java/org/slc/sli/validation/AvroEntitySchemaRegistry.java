@@ -9,10 +9,9 @@ import javax.annotation.PostConstruct;
 
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
+import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
-
-import org.slc.sli.domain.Entity;
 
 /**
  * Provides a registry for retrieving Avro schema
@@ -24,26 +23,29 @@ import org.slc.sli.domain.Entity;
 public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     
     private Map<String, Schema> mapSchema = new HashMap<String, Schema>();
+    private final String baseDir = "classpath:avroSchema";
     
-    private String baseSchemaDir = "src/main/resources/avroSchema";
+    // TODO need to figure out better way to map schema file name to entity type
+    private String[] schemaNames = new String[] { "school", "student", "studentSchoolAssociation" };
     
     @PostConstruct
     public void init() throws IOException {
-        
-        // TODO
-        // By convention, load all <entity>_body schema files.
-        
-        Parser parser = new Schema.Parser();
-        
-        // FilenameUtils.
-        URL url = ResourceUtils.getURL("classpath:avroSchema/school_body.avpr");
-        Schema schema = parser.parse(url.openStream());
-        mapSchema.put("school", schema);
+        for (String schemaName : schemaNames) {
+            registerSchema(schemaName);
+        }
     }
     
     @Override
     public Schema findSchemaForType(Entity entity) {
         return mapSchema.get(entity.getType());
+    }
+    
+    private void registerSchema(String schemaName) throws IOException {
+        Parser parser = new Schema.Parser();
+        URL url = ResourceUtils.getURL(baseDir + "/" + schemaName + "_body.avpr");
+        Schema schema = parser.parse(url.openStream());
+        mapSchema.put(schemaName, schema);
+        
     }
     
 }
