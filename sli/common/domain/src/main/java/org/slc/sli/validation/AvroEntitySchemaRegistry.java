@@ -28,16 +28,15 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     @PostConstruct
     public void init() throws IOException {
         
-        File root = ResourceUtils.getFile("classpath:avroSchema");
-        File[] schemaFiles = root.listFiles();
+     // TODO
+        // By convention, load all <entity>_body schema files.
         
-        for (File file : schemaFiles) {
-            URL url = ResourceUtils.getURL("classpath:avroSchema/" + file.getName());
         Parser parser = new Schema.Parser();
+        
+        // FilenameUtils.
+        URL url = ResourceUtils.getURL("classpath:avroSchema/school_body.avpr");
         Schema schema = parser.parse(url.openStream());
-            mapSchema.put(file.getName().split("_")[0], schema);
-        }
-
+        mapSchema.put("school", schema);
     }
     
     @Override
