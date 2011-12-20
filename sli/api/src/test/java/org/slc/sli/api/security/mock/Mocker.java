@@ -11,7 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
-
+/**
+ * Does something with mocking? 
+ * TODO write real javadoc
+ */
 public class Mocker {
     public static final String MOCK_URL      = "mock";
     public static final String VALID_TOKEN   = "valid_token";
