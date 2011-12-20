@@ -3,7 +3,6 @@ package org.slc.sli.controller;
 import java.io.IOException;
 
 import org.springframework.ui.ModelMap;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +14,6 @@ import java.util.Arrays;
  * Controller for showing the list of studentview.  
  * 
  */
-@Controller
 public class StudentListTableController extends DashboardController {
 
     public StudentListTableController() { }
