@@ -12,7 +12,7 @@ Transform /^section "([^"]*)"$/ do |step_arg|
   id = "/sections/c76f8fb1-cef4-4839-bfeb-ab2afb8b8aec"  if step_arg == "1500"
   id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
   id = "/sections/dad5b409-9660-4843-82ba-07d7a4ff37cb"  if step_arg == "567"
-  id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "WrongURI"
+  id = "/section/11111111-1111-1111-1111-111111111111"  if step_arg == "WrongURI"
   id = "/sections"                                       if step_arg == "NoGUID"
   id
 end
