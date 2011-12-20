@@ -36,8 +36,8 @@ public class RolesAndPermissionsResourceTest {
     private Map<String, Object> createTestRole() {
         Map<String, Object> role = new HashMap<String, Object>();
         List<String> permissions = new ArrayList<String>();
-        permissions.add("Read");
-        permissions.add("Delete");
+        permissions.add(Rights.READ_RESTRICTED.getRight());
+        permissions.add(Rights.WRITE_RESTRICTED.getRight());
         role.put("name", "Role1");
         role.put("permissions", permissions);
         return role;
@@ -55,15 +55,13 @@ public class RolesAndPermissionsResourceTest {
         //Create a role.
         Map<String, Object> role = createTestRole();
         assertNotNull(role);
-
-        try {
-            api.createRoleWithPermission((String) role.get("name"), role.get("permissions"));
-        } catch (Exception e) {
-            fail(e.toString());
-        }
-
+        assertNotNull(api);
+        assertNotNull(role.get("name"));
+        assertNotNull(role.get("permissions"));
+        api.createRoleWithPermission((String) role.get("name"), role.get("permissions"));
+        
         //Fetch it back out.
-//        Object result = api.getRolesAndPermissions();
-//        assertNotNull(result);
+        Object result = api.getRolesAndPermissions();
+        assertNotNull(result);
     }
 }

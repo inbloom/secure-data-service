@@ -65,7 +65,6 @@ public class RolesAndPermissionsResource {
     @POST
     @Path("roles")
     public void createRoleWithPermission(String name, Object permissions) {
-
         Map<String, Object> role = new TreeMap<String, Object>();
         role.put("name", name);
         role.put("permissions", permissions);
