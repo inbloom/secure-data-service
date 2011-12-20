@@ -44,10 +44,12 @@ public interface EntityRepository {
     public Iterable<Entity> findAll(String entityType);
     
     /**
+     * @param collection 
+     *            the collection the entity is in
      * @param entity
      *            the entity that will be updated
      */
-    public void update(Entity entity);
+    public void update(String collection, Entity entity);
     
     /**
      * @param type
@@ -57,12 +59,6 @@ public interface EntityRepository {
      * @return the entity that has been persisted
      */
     public Entity create(String type, Map<String, Object> body);
-    
-    /**
-     * @param entity
-     *            the entity that will be deleted
-     */
-    void delete(Entity entity);
     
     /**
      * @param entityType

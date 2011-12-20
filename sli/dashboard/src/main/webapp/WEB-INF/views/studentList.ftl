@@ -40,11 +40,11 @@ function populateSectionMenu(schoolIndex, courseIndex){
 
 function printStudentList(schoolIndex, courseIndex, sectionIndex){
     var i = 0;
-    var temp = schools[schoolIndex].courses[courseIndex].sections[sectionIndex].students;
-    var x = "<table><tr><th> Last Name</th><th> First Name</th></tr>";
+    var temp = schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs;
+    var x = "<table><tr><th>Student ID</th></tr>";
 
     for(;i<temp.length;i++){
-        x += "<tr><td>" + temp[i].lastName + "</td><td>" +  temp[i].firstName + "</td></tr>";
+        x += "<tr><td>" + temp[i] + "</td></tr>";
     } 
     x += "</table>";
     document.getElementById("studentDiv").innerHTML = x;

@@ -58,7 +58,7 @@ public class BasicService implements EntityService {
     
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
+        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {collectionName, content});
         if (!validate(content)) {
             LOG.info("validation failed for {}", content);
             throw new ValidationException();
@@ -72,20 +72,20 @@ public class BasicService implements EntityService {
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("Deleting {} in {}", new String[] {id, collectionName});
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        getRepo().delete(entity);
+        getRepo().delete(collectionName, id);
         if (!(defn instanceof AssociationDefinition))
             removeEntityWithAssoc(entity);
     }
     
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {}", new String[] { id, collectionName });
+        LOG.debug("Updating {} in {}", new String[] {id, collectionName});
         if (!validate(content)) {
             LOG.info("Validation failed for {}", content);
             throw new ValidationException();
@@ -100,8 +100,9 @@ public class BasicService implements EntityService {
             LOG.info("No change detected to {}", id);
             return false;
         }
+        LOG.info("new body is {}", sanitized);
         entity.getBody().putAll(sanitized);
-        getRepo().update(entity);
+        getRepo().update(collectionName, entity);
         return true;
     }
     
@@ -135,6 +136,11 @@ public class BasicService implements EntityService {
         return results;
     }
     
+    @Override
+    public boolean exists(String id) {
+        return getRepo().find(collectionName, id) != null;
+    }
+
     /**
      * given an entity, make the entity body to expose
      * 
@@ -197,13 +203,13 @@ public class BasicService implements EntityService {
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(sourceType + "Id", sourceId);
         
-        Iterator<AssociationDefinition> it = defn.getLinkedAssoc().iterator();
-        while (it.hasNext()) {
-            Iterator<Entity> foundEntities = repo.findByFields(it.next().getStoredCollectionName(), fields, 0, 1)
+        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
+            String assocCollection = assocDef.getStoredCollectionName();
+            Iterator<Entity> foundEntities = repo.findByFields(assocCollection, fields, 0, 1)
                     .iterator();
             if (foundEntities.hasNext()) {
                 Entity assocEntity = foundEntities.next();
-                repo.delete(assocEntity);
+                repo.delete(assocCollection, assocEntity.getEntityId());
             }
         }
     }

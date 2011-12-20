@@ -44,6 +44,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition.addGlobalTreatment(new IdTreatment());
+        EntityDefinition section = EntityDefinition.makeEntity("section").exposeAs("sections").build();
+        addDefinition(section);
         EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
