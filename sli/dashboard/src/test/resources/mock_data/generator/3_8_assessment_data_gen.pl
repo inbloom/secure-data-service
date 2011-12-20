@@ -3,7 +3,7 @@ use POSIX;
 # Generates assessment json for a given list of students.
 # 
 # Arguments: 
-#  student_file assement_metadata_file assessment_code current_year
+#  student_file assement_metadata_file assessment_code current_year omit_percentile_rank
 # 
 # All files are csv. 
 # 
@@ -17,12 +17,20 @@ use POSIX;
 #    prob. on or below scale 1,prob. on or below scale 2, etc... 
 #   :
 #   :
+# 
+# omit_percentile_rank: 
+#   [y|n]
 #
+
+if ($#ARGV != 4) { 
+    die "Usage: student_file assement_metadata_file assessment_code current_year omit_percentile_rank "; 
+}
 
 my $studentFile = $ARGV[0];
 my $metaDataFile = $ARGV[1];
 my $assessmentCode = $ARGV[2];
 my $current_year = $ARGV[3];
+my $omit_percentile_rank = $ARGV[4];
 
 my %scoreRange = ();
 my %probDistrib = ();
@@ -114,7 +122,7 @@ for(my $i = 0; $i <= $#results; $i++)
     print "        \"year\": \"" . $assessment[2] . "\",\n";
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
-    print "        \"percentile\": \"" . $assessment[5] . "\",\n";
+    if ($omit_percentile_rank != 'y' ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
     print "        \"lexileScore\": \"" . $assessment[4] . "\",\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }

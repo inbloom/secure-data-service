@@ -1,4 +1,3 @@
-@wip
 Feature: <US63> In order to manage students and schools 
     As a client application using SLI
     I want to know what students are currently enrolled at a particular school, 

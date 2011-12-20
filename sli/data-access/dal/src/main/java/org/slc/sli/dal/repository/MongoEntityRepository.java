@@ -52,10 +52,9 @@ public class MongoEntityRepository implements EntityRepository {
     }
     
     @Override
-    public void update(Entity entity) {
+    public void update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
         String id = entity.getEntityId();
-        String collection = entity.getType();
         if (id.equals(""))
             return;
         
@@ -75,17 +74,6 @@ public class MongoEntityRepository implements EntityRepository {
         return entity;
     }
     
-    @Override
-    public void delete(Entity entity) {
-        Assert.notNull(entity, "The given entity must not be null!");
-        String id = entity.getEntityId();
-        if (id.equals(""))
-            return;
-        template.remove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), entity.getType());
-        LOG.info("delete a entity in collection {} with id {}", new Object[] { entity.getType(), id });
-    }
-    
-    @Override
     public void delete(String entityType, String id) {
         if (id.equals(""))
             return;

@@ -78,7 +78,7 @@ public class BasicService implements EntityService {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        getRepo().delete(entity);
+        getRepo().delete(collectionName, id);
         if (!(defn instanceof AssociationDefinition))
             removeEntityWithAssoc(entity);
     }
@@ -100,8 +100,9 @@ public class BasicService implements EntityService {
             LOG.info("No change detected to {}", id);
             return false;
         }
+        LOG.info("new body is {}", sanitized);
         entity.getBody().putAll(sanitized);
-        getRepo().update(entity);
+        getRepo().update(collectionName, entity);
         return true;
     }
     
@@ -135,6 +136,11 @@ public class BasicService implements EntityService {
         return results;
     }
     
+    @Override
+    public boolean exists(String id) {
+        return getRepo().find(collectionName, id) != null;
+    }
+
     /**
      * given an entity, make the entity body to expose
      * 
@@ -197,13 +203,13 @@ public class BasicService implements EntityService {
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(sourceType + "Id", sourceId);
         
-        Iterator<AssociationDefinition> it = defn.getLinkedAssoc().iterator();
-        while (it.hasNext()) {
-            Iterator<Entity> foundEntities = repo.findByFields(it.next().getStoredCollectionName(), fields, 0, 1)
+        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
+            String assocCollection = assocDef.getStoredCollectionName();
+            Iterator<Entity> foundEntities = repo.findByFields(assocCollection, fields, 0, 1)
                     .iterator();
             if (foundEntities.hasNext()) {
                 Entity assocEntity = foundEntities.next();
-                repo.delete(assocEntity);
+                repo.delete(assocCollection, assocEntity.getEntityId());
             }
         }
     }

@@ -64,4 +64,13 @@ public interface EntityService {
      */
     public Iterable<String> list(int start, int numResults);
     
+    /**
+     * Whether or not an element exists with the given id
+     * 
+     * @param id
+     *            the id to check
+     * @return true iff there is an entity with this id
+     */
+    public boolean exists(String id);
+
 }
