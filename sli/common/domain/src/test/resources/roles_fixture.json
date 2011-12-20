@@ -1,6 +1,4 @@
-{"_id": "", "name": "Teacher of Record", "type", "Role", "permissions": ["Read", "Delete", "Write"]},
-{"_id": "", "name": "Assistant Teacher", "type", "Role", "permissions", ["Read"]},
-{"_id": "", "name": "Support Teacher", "type", "Role", "permissions", ["Read"]},
-{"_id": "", "name": "Read", "type", "Permission"},
-{"_id": "", "name": "Write", "type", "Permission"},
-{"_id": "", "name": "Delete", "type", "Permissions"}
+{"_id": "", "name": "Educator", "permissions": ["AGGREGATE_READ", "READ_GENERAL"]},
+{"_id": "", "name": "Aggregate Viewer", "permissions", ["AGGREGATE_READ"]},
+{"_id": "", "name": "Leader", "permissions", ["READ_GENERAL", "AGGREGATE_READ", "READ_RESTRICTED"]},
+{"_id": "", "name": "IT Administrator", "permissions", ["AGGREGATE_READ", "READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED"]}

@@ -1,18 +1,14 @@
 package org.slc.sli.api.security.roles;
 
 
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -39,14 +35,14 @@ public class RolesAndPermissionsResourceTest {
         permissions.add(Rights.READ_RESTRICTED.getRight());
         permissions.add(Rights.WRITE_RESTRICTED.getRight());
         role.put("name", "Role1");
-        role.put("permissions", permissions);
+        role.put("rights", permissions);
         return role;
     }
     
     private Map<String, Object> createTestPermissions() {
         Map<String, Object> perm = createTestRole();
         perm.put("name", Rights.READ_GENERAL.getRight());
-        perm.put("permissions", null);
+        perm.put("rights", null);
         return perm;
     }
 
@@ -57,8 +53,8 @@ public class RolesAndPermissionsResourceTest {
         assertNotNull(role);
         assertNotNull(api);
         assertNotNull(role.get("name"));
-        assertNotNull(role.get("permissions"));
-        api.createRoleWithPermission((String) role.get("name"), role.get("permissions"));
+        assertNotNull(role.get("rights"));
+        api.createRoleWithPermission((String) role.get("name"), role.get("rights"));
         
         //Fetch it back out.
         Object result = api.getRolesAndPermissions();
