@@ -4,36 +4,7 @@ require 'builder'
 require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
-
-def parsed_results
-  @parsed_results ||= JSON.parse(@res.body)
-end
-
-def data_builder
-  if @format == "application/json"
-  data = Hash[
-    "sectionCode" => @section_code,
-    "courseSequence" => @course_seq,
-    "educationEnvironment" => @edu_env,
-    "instructionMedium" => @medium,
-    "populationServed" => @pop,
-    "availableCredit" => @credit
-  ]
-  data = data.to_json
-  elsif @format == "application/xml"
-    builder = Builder::XmlMarkup.new(:indent => 2)
-    data = builder.section { |b| 
-      b.sectionCode(@section_code)
-      b.courseSequence(@course_seq)
-      b.educationalEnvironment(@edu_env)
-      b.populationServed(@pop)
-      b.availableCredit(@credit)  
-      }
-  else
-    assert(false, "Unsupported MIME type: #{@format}")
-  end
-  data
-end
+require_relative './section_crud_helper'
 
 Transform /^section "([^"]*)"$/ do |step_arg|
   id = "/sections/f5532495-f338-4c32-afe2-e5452e2f8de2"  if step_arg == "123"
@@ -52,7 +23,8 @@ Given /^format "([^"]*)"$/ do |arg1|
 end
 
 Given /^the SLI_SMALL dataset is loaded$/ do
-
+  # the assumption is now that the import script will be run
+  # prior to running cucumber feature tests
 end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
