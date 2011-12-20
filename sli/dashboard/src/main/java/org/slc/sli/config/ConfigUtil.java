@@ -1,7 +1,6 @@
 package org.slc.sli.config;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -43,7 +42,7 @@ public class ConfigUtil {
         
         InputStream is = new ByteArrayInputStream(configStr.getBytes("UTF-8"));
         Unmarshaller u = jc.createUnmarshaller();
-        JAXBElement<ViewConfig> doc = (JAXBElement<ViewConfig>) u.unmarshal(is);
-        return doc.getValue();
+        ViewConfig config = (ViewConfig) (u.unmarshal(is));
+        return config;
     }
 }

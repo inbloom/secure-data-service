@@ -3,14 +3,7 @@
   <xs:element name="viewConfig">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="views"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="views">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="view"/>
+        <xs:element maxOccurs="unbounded" ref="view"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -25,19 +18,12 @@
   <xs:element name="dataSet">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" ref="fields"/>
+        <xs:element maxOccurs="unbounded" ref="field"/>
       </xs:sequence>
       <xs:attribute name="displayName"/>
       <xs:attribute name="name" type="xs:NCName"/>
       <xs:attribute name="timeSlot" type="xs:NCName"/>
       <xs:attribute name="type" use="required" type="xs:NCName"/>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="fields">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="field"/>
-      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="field">
