@@ -56,9 +56,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: ctlFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.ctl$&move="
-                        + inboundDir + "/.done&moveFailed=" + inboundDir
-                        + "/.error").routeId("ctlFilePoller")
+                "file:" + inboundDir + "?include=^(.*)\\.ctl$"
+                        + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
+                        + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
+                .routeId("ctlFilePoller")
                 .process(new ControlFilePreProcessor(lz))
                 .to("seda:CtrlFilePreProcessor");
 
@@ -67,6 +68,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("ctlFilePreprocessor")
                 .process(ctlFileProcessor)
                 .to("seda:assembledJobs");
+        
 
         // routeId: zipFilePoller
         from(
