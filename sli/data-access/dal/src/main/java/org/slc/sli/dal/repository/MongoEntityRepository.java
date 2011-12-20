@@ -8,6 +8,8 @@ import java.util.Map;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -24,6 +26,7 @@ import org.springframework.util.Assert;
  */
 
 public class MongoEntityRepository implements EntityRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
     
     @Autowired
     private MongoTemplate template;
@@ -34,6 +37,7 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public Entity find(String entityType, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
+        LOG.debug("find a entity in collection {} with id {}", new Object[] { entityType, id });
         return template.findById(databaseId, MongoEntity.class, entityType);
     }
     
@@ -42,15 +46,15 @@ public class MongoEntityRepository implements EntityRepository {
         
         List<Entity> entities = new LinkedList<Entity>();
         List<MongoEntity> results = template.find(new Query().skip(skip).limit(max), MongoEntity.class, entityType);
+        logResults(entityType, results);
         entities.addAll(results);
         return entities;
     }
     
     @Override
-    public void update(Entity entity) {
+    public void update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
         String id = entity.getEntityId();
-        String collection = entity.getType();
         if (id.equals(""))
             return;
         
@@ -58,6 +62,7 @@ public class MongoEntityRepository implements EntityRepository {
                 MongoEntity.class, collection);
         if (found != null)
             template.save(entity, collection);
+        LOG.info("update a entity in collection {} with id {}", new Object[] { collection, id });
     }
     
     @Override
@@ -65,23 +70,15 @@ public class MongoEntityRepository implements EntityRepository {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
         template.save(entity, type);
+        LOG.info(" create a entity in collection {} with id {}", new Object[] { type, entity.getEntityId() });
         return entity;
     }
     
-    @Override
-    public void delete(Entity entity) {
-        Assert.notNull(entity, "The given entity must not be null!");
-        String id = entity.getEntityId();
-        if (id.equals(""))
-            return;
-        template.remove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), entity.getType());
-    }
-    
-    @Override
     public void delete(String entityType, String id) {
         if (id.equals(""))
             return;
         template.remove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), entityType);
+        LOG.info("delete a entity in collection {} with id {}", new Object[] { entityType, id });
     }
     
     @Override
@@ -89,18 +86,21 @@ public class MongoEntityRepository implements EntityRepository {
         Query query = new Query();
         query.skip(skip).limit(max);
         List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, entityType);
+        logResults(entityType, results);
         return new LinkedList<Entity>(results);
     }
     
     @Override
     public void deleteAll(String entityType) {
         template.remove(new Query(), entityType);
+        LOG.info("delete all entities in collection {}", entityType);
     }
     
     @Override
     public Iterable<Entity> findAll(String entityType) {
         List<Entity> entities = new LinkedList<Entity>();
         List<MongoEntity> results = template.find(new Query(), MongoEntity.class, entityType);
+        logResults(entityType, results);
         entities.addAll(results);
         return entities;
     }
@@ -109,6 +109,7 @@ public class MongoEntityRepository implements EntityRepository {
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
         Query query = new Query();
         List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, entityType);
+        logResults(entityType, results);
         return new LinkedList<Entity>(results);
     }
     
@@ -120,4 +121,14 @@ public class MongoEntityRepository implements EntityRepository {
         return query;
     }
     
+    @SuppressWarnings("rawtypes")
+    private void logResults(String entityType, List results) {
+        if (results == null)
+            LOG.info("find entities in collection {} with total numbers is {}", new Object[] { entityType, 0 });
+        else
+            LOG.info("find entities in collection {} with total numbers is {}",
+                    new Object[] { entityType, results.size() });
+        
+    }
+
 }

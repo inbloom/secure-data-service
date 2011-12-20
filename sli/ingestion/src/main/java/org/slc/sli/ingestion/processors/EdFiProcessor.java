@@ -83,7 +83,7 @@ public class EdFiProcessor implements Processor {
         }
 
         // Update Camel Exchange processor output result
-        exchange.getOut().setBody(job);
+        exchange.getIn().setBody(job);
 
         long endTime = System.currentTimeMillis();
 

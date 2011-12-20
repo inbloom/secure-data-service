@@ -23,6 +23,17 @@ def idpLogin(user, passwd)
   @cookie = res.body[res.body.rindex('=')+1..-1]
 end
 
+# Function restHtmlPost
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Inputs: (Object) data = Data object of type @format that you want to create
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (Cookie) cookie = defaults to @cookie that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using POST to create a new object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
 def restHtmlPost(id, data, format = @format, cookie = @cookie)
   # Validate Cookie is not nil
   assert(cookie != nil, "Cookie passed into POST was nil")
@@ -32,16 +43,61 @@ def restHtmlPost(id, data, format = @format, cookie = @cookie)
   
 end
 
-def restHtmlGet()
-  #
+# Function restHtmlGet
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (Cookie) cookie = defaults to @cookie that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using GET to retrieve an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHtmlGet(id, format = @format, cookie = @cookie)
+  # Validate Cookie is not nil
+  assert(cookie != nil, "Cookie passed into GET was nil")
+
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  @res = RestClient.get(url,{:accept => format, :cookies => {:iPlanetDirectoryPro => cookie}}){|response, request, result| response }
+
 end
 
-def restHtmlPut()
-  #
+# Function restHtmlPut
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Inputs: (Object) data = Data object of type @format that you want to update
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (Cookie) cookie = defaults to @cookie that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using PUT to update an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHtmlPut(id, data, format = @format, cookie = @cookie)
+  # Validate Cookie is not nil
+  assert(cookie != nil, "Cookie passed into PUT was nil")
+  
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  @res = RestClient.put(url, data, {:content_type => format, :cookies => {:iPlanetDirectoryPro => cookie}}){|response, request, result| response }
+
 end
 
-def restHtmlDelete()
-  #
+# Function restHtmlDelete
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (Cookie) cookie = defaults to @cookie that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using DELETE to remove an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHtmlDelete(id, format = @format, cookie = @cookie)
+  # Validate Cookie is not nil
+  assert(cookie != nil, "Cookie passed into DELETE was nil")
+
+  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  @res = RestClient.delete(url,{:accept => format, :cookies => {:iPlanetDirectoryPro => cookie}}){|response, request, result| response }
 end
 
 class PropLoader

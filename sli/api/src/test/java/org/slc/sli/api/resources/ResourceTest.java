@@ -46,9 +46,10 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+        DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
-    
+    private static final String STUDENT_SCHOOL_ASSOCIATION_TYPE = "student-school-association";
+    private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
     @Autowired
     Resource api;
     
@@ -70,76 +71,54 @@ public class ResourceTest {
     @Test
     public void testResourceMethods() throws Exception {
         UriInfo info = buildMockUriInfo();
-        
+
         // post some data
-        // Map of <type, id> pair to entity location.
-        final class TypeIdPair {
-            protected TypeIdPair(Object type, String id) {
-                this.type = (String) type;
-                this.id = id;
-            }
-            
-            String type;
-            String id;
-        }
-        
-        Map<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
+        Map<String, String> ids = new HashMap<String, String>();
         
         Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse);
         assertEquals(Status.CREATED.getStatusCode(), createResponse.getStatus());
         String studentId1 = parseIdFromLocation(createResponse);
-        ids.put(new TypeIdPair("students", studentId1),
-                (String) createResponse.getMetadata().getFirst("Location"));
+        ids.put(studentId1, (String) createResponse.getMetadata().get("Location").get(0));
         
         Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse2);
         assertEquals(Status.CREATED.getStatusCode(), createResponse2.getStatus());
         String studentId2 = parseIdFromLocation(createResponse2);
-        ids.put(new TypeIdPair("students", studentId2), (String) createResponse2.getMetadata().get("Location").get(0));
+        ids.put(studentId2, (String) createResponse2.getMetadata().get("Location").get(0));
         
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse3);
         assertEquals(Status.CREATED.getStatusCode(), createResponse3.getStatus());
         String schoolId = parseIdFromLocation(createResponse3);
-        ids.put(new TypeIdPair("schools", schoolId), (String) createResponse3.getMetadata().getFirst("Location"));
         
-        Response createResponse4 = api.createEntity("student-enrollments",
+        Response createResponse4 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI,
                 new EntityBody(createTestAssoication(studentId1, schoolId)), info);
         assertNotNull(createResponse4);
         String assocId1 = parseIdFromLocation(createResponse4);
         
-        Response createResponse5 = api.createEntity("student-enrollments",
+        Response createResponse5 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI,
                 new EntityBody(createTestAssoication(studentId2, schoolId)), info);
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
-        
-        Response createResponse6 = api.createEntity("teachers", new EntityBody(createTestEntity()), info);
-        assertNotNull(createResponse6);
-        String teacherId1 = parseIdFromLocation(createResponse6);
-        ids.put(new TypeIdPair("teachers", teacherId1), (String) createResponse6.getMetadata().getFirst("Location"));
-        
+
         // test get
-        for (TypeIdPair typeId : ids.keySet()) {
-            
-            Response r = api.getEntityOrAssociations(typeId.type, typeId.id, 0, 100, info);
+        for (String id : ids.keySet()) {
+            Response r = api.getEntity("students", id, 0, 100, info);
             EntityBody body = (EntityBody) r.getEntity();
             assertNotNull(body);
-            assertEquals(typeId.id, body.get("id"));
+            assertEquals(id, body.get("id"));
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
-            
-            if (typeId.type.equals("students") == true) {
-                List<?> links = (List<?>) body.get("links");
-                assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
-                assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "student-enrollment",
-                        "base/student-enrollments/" + typeId.id)));
-            }
+            List<?> links = (List<?>) body.get("links");
+            assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + id)));
+            assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", STUDENT_SCHOOL_ASSOCIATION_TYPE,
+                    "base/student-school-associations/" + id)));
         }
         
         // test associations
         for (String id : new String[] { assocId1, assocId2 }) {
-            Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10, info);
+            Response r = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, id, 0, 10, info);
             EntityBody assoc = (EntityBody) r.getEntity();
             assertNotNull(assoc);
             assertEquals(id, assoc.get("id"));
@@ -153,7 +132,7 @@ public class ResourceTest {
         
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
-            Response r = api.getEntityOrAssociations("student-enrollments", id, 0, 10, info);
+            Response r = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, id, 0, 10, info);
             CollectionResponse cr = (CollectionResponse) r.getEntity();
             assertNotNull(cr);
             assertEquals(1, cr.size());
@@ -168,23 +147,23 @@ public class ResourceTest {
         }
         
         // test update/get/delete
-        for (TypeIdPair typeId : ids.keySet()) {
-            Response r = api.getEntityOrAssociations(typeId.type, typeId.id, 0, 100, info);
+        for (String id : ids.keySet()) {
+            Response r = api.getEntity("students", id, 0, 100, info);
             EntityBody body = (EntityBody) r.getEntity();
             body.put("field1", 99);
-            Response r2 = api.updateEntity(typeId.type, typeId.id, body);
+            Response r2 = api.updateEntity("students", id, body);
             assertEquals(Status.NO_CONTENT.getStatusCode(), r2.getStatus());
             
-            Response r3 = api.getEntityOrAssociations(typeId.type, typeId.id, 0, 100, info);
+            Response r3 = api.getEntity("students", id, 0, 100, info);
             EntityBody body3 = (EntityBody) r3.getEntity();
             assertNotNull(body3);
             assertEquals(body, body3);
             
-            Response d = api.deleteEntity(typeId.type, typeId.id);
+            Response d = api.deleteEntity("students", id);
             assertNull(d.getEntity());
             assertEquals(Status.NO_CONTENT.getStatusCode(), d.getStatus());
             
-            Response r4 = api.getEntityOrAssociations(typeId.type, typeId.id, 0, 100, info);
+            Response r4 = api.getEntity("students", id, 0, 100, info);
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
