@@ -46,7 +46,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
                 File ctlFile = ZipFileUtil.findCtlFile(dir);
 
                 // send control file back
-                exchange.getOut().setBody(ctlFile);
+                exchange.getIn().setBody(ctlFile, File.class);
 
                 return;
             } catch (IOException ex) {
@@ -56,7 +56,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             }
         }
 
-        exchange.getOut().setBody(job);
+        exchange.getOut().setBody(job, BatchJob.class);
         exchange.getOut().setHeader("hasErrors", job.hasErrors());
     }
 
