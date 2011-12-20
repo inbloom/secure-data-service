@@ -1,170 +1,174 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.slc.sli</groupId>
-    <artifactId>sli</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+	<parent>
+		<groupId>org.slc.sli</groupId>
+		<artifactId>sli</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-  <artifactId>dashboard</artifactId>
-  <packaging>war</packaging>
-  <name>SLI Dashboard</name>
+	<artifactId>dashboard</artifactId>
+	<packaging>war</packaging>
+	<name>SLI Dashboard</name>
 
-  <properties>
-    <freemarker.version>2.3.18</freemarker.version>
-    <gson.version>2.0</gson.version>
-    <powermock.version>1.4.10</powermock.version>
-    <env>dev</env>
-    <apiclientclass>org.slc.sli.client.MockAPIClient</apiclientclass>
-  </properties>
+	<properties>
+		<freemarker.version>2.3.18</freemarker.version>
+		<gson.version>2.0</gson.version>
+		<powermock.version>1.4.10</powermock.version>
+		<env>dev</env>
+		<apiclientclass>org.slc.sli.client.MockAPIClient</apiclientclass>
+	</properties>
 
-<profiles>
-  <profile>
-    <id>dev</id>
-    <properties>
-      <env>dev</env>
-    </properties>
-  </profile>
-  <profile>
-    <id>test</id>
-    <properties>
-      <env>test</env>
-    </properties>
-  </profile>  
-  </profiles>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+	</profiles>
 
-  <dependencies>
+	<dependencies>
+		<!-- Servlet dependencies -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<!-- Power mock dependencies -->
 
-    <!-- Power mock dependencies -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
 
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-   </dependency>
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-   </dependency>  
-   
-   <!-- Easy mock dependencies -->  
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>3.0</version>
-      <scope>test</scope>
-    </dependency>
+		<!-- Easy mock dependencies -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
+		</dependency>
 
-    <!-- SLI - Domain -->
-    <!-- <dependency>
-      <groupId>org.slc.sli.common</groupId>
-      <artifactId>domain</artifactId>
-    </dependency>-->
+		<!-- SLI - Domain -->
+		<!-- <dependency> <groupId>org.slc.sli.common</groupId> <artifactId>domain</artifactId> 
+			</dependency> -->
 
-    <!-- Freemarker -->
-    <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>${freemarker.version}</version>
-    </dependency>
+		<!-- Freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
 
-    <!-- Spring Web MVC dependency -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-    </dependency>
+		<!-- Spring Web MVC dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
 
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>${gson.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
 
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>2.14.0</version>
-    </dependency>
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-mockito</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-   </dependency>
- 
-  </dependencies>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>2.14.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
 
-  <build>
-    <defaultGoal>install</defaultGoal>
+	</dependencies>
 
-    <plugins>
-          <plugin>
-         <groupId>org.mortbay.jetty</groupId>
-         <artifactId>maven-jetty-plugin</artifactId>
-         <version>${maven.jetty.version}</version>
-         <configuration>
-            <scanIntervalSeconds>5</scanIntervalSeconds>
-         </configuration>
-      </plugin>
-    
-    <plugin>
-    <!-- Separates the unit tests from the integration tests. -->
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <configuration>
-        <!--  Skip the default running of this plugin, otherwise everything is run twice -->
-        <skip>true</skip>
-    </configuration>
-    <executions>
-        <execution>
-            <id>unit-tests</id>
-            <phase>test</phase>
-            <goals>
-                <goal>test</goal>
-            </goals>
-            <configuration>
-                <!--  Don't skip tests when test phase is invoked -->
-                <skip>false</skip>
-                <includes>
-                    <include>org/slc/sli/unit/controller/*.java</include>
-                </includes>
-                <excludes>
-                    <exclude>org/slc/sli/selenium/controller/*.java</exclude>
-                </excludes>
-            </configuration>
-        </execution>
-        <execution>
-            <id>integration-tests</id>
-            <phase>integration-test</phase>
-            <goals>
-                <goal>test</goal>
-            </goals>
-            <configuration>
-                <!--  Never skip tests during integration phase -->
-                <skip>false</skip>
-                <includes>
-                    <include>org/slc/sli/selenium/controller/*.java</include>
-                </includes>
-            </configuration>
-        </execution>
-    </executions>
-    </plugin>
-    </plugins>
-    
-    
-    
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-      </resources>    
-  </build>
+	<build>
+		<defaultGoal>install</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>${maven.jetty.version}</version>
+				<configuration>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- Separates the unit tests from the integration tests. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- Skip the default running of this plugin, otherwise everything is 
+						run twice -->
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>unit-tests</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<!-- Don't skip tests when test phase is invoked -->
+							<skip>false</skip>
+							<includes>
+								<include>org/slc/sli/unit/controller/*.java</include>
+							</includes>
+							<excludes>
+								<exclude>org/slc/sli/selenium/controller/*.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<!-- Never skip tests during integration phase -->
+							<skip>false</skip>
+							<includes>
+								<include>org/slc/sli/selenium/controller/*.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
 
 </project>
