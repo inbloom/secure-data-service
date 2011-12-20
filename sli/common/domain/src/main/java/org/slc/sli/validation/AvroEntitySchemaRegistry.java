@@ -1,14 +1,16 @@
 package org.slc.sli.validation;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
+import org.apache.commons.io.FileUtils;
 import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
@@ -25,13 +27,16 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private Map<String, Schema> mapSchema = new HashMap<String, Schema>();
     private final String baseDir = "classpath:avroSchema";
     
-    // TODO need to figure out better way to map schema file name to entity type
-    private String[] schemaNames = new String[] { "school", "student", "studentSchoolAssociation" };
-    
     @PostConstruct
-    public void init() throws IOException {
-        for (String schemaName : schemaNames) {
-            registerSchema(schemaName);
+    public void init() {
+        try {
+        File schemaDir = ResourceUtils.getFile(baseDir);
+        
+        Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[] { "avpr" }, false);
+        while (it.hasNext()) {
+            registerSchema(it.next());
+        }
+        } catch (IOException e) {
         }
     }
     
@@ -40,11 +45,10 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
         return mapSchema.get(entity.getType());
     }
     
-    private void registerSchema(String schemaName) throws IOException {
+    private void registerSchema(File file) throws IOException {
         Parser parser = new Schema.Parser();
-        URL url = ResourceUtils.getURL(baseDir + "/" + schemaName + "_body.avpr");
-        Schema schema = parser.parse(url.openStream());
-        mapSchema.put(schemaName, schema);
+        Schema schema = parser.parse(FileUtils.openInputStream(file));
+        mapSchema.put(file.getName().split("_")[0], schema);
         
     }
     
