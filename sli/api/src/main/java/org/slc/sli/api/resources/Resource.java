@@ -248,11 +248,11 @@ public class Resource {
                 if (assoc.getSourceEntity().equals(defn)) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
                             assoc.getResourceName(), id).toString()));
-		}
+                }
                 if (assoc.getTargetEntity().equals(defn)) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), getURI(uriInfo,
                             assoc.getResourceName(), id).toString()));
-		}
+                }
             }
         }
         return links;

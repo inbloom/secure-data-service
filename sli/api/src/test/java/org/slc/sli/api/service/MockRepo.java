@@ -50,21 +50,15 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void update(Entity entity) {
-        repo.get(entity.getType()).put(entity.getEntityId(), entity);
+    public void update(String type, Entity entity) {
+        repo.get(type).put(entity.getEntityId(), entity);
     }
     
     @Override
     public Entity create(String type, Map<String, Object> body) {
         Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
-        update(newEntity);
+        update(type, newEntity);
         return newEntity;
-    }
-    
-    @Override
-    public void delete(Entity entity) {
-        repo.get(entity.getType()).remove(entity.getEntityId());
-        
     }
     
     @Override

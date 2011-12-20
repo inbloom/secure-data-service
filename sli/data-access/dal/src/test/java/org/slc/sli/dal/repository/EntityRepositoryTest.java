@@ -69,7 +69,7 @@ public class EntityRepositoryTest {
         
         // test update
         found.getBody().put("firstName", "Mandy");
-        repository.update(found);
+        repository.update("student", found);
         entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
