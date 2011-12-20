@@ -2,89 +2,70 @@
 
 <configuration>
 
-<!-- Core Logging Appenders -->  
-   <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-      <encoder>
-         <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
-      </encoder>
-   </appender>
+  <!-- Core Logging Appenders -->
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
+    </encoder>
+  </appender>
 
-   <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
-      <Append>true</Append>
-      <File>logs/ingestion.log</File>
-      <encoder>
-         <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
-      </encoder>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-         <fileNamePattern>logs/ingestion.log.%d{yyyy-MM-dd}</fileNamePattern>
-         <maxHistory>30</maxHistory>
-      </rollingPolicy>
-   </appender>
-  
-<!-- Statistics Logging Appenders -->  
-   <appender name="StatisticsConsole" class="ch.qos.logback.core.ConsoleAppender">
-      <encoder>
-         <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
-      </encoder>
-   </appender>
+  <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <File>logs/ingestion.log</File>
+    <encoder>
+       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+       <fileNamePattern>logs/ingestion.log.%d{yyyy-MM-dd}</fileNamePattern>
+       <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
 
-   <appender name="StatisticsFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-      <Append>true</Append>
-      <File>logs/ingestionStatistics.log</File>
-      <encoder>
-         <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
-      </encoder>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-         <fileNamePattern>logs/ingestionStatistics.log.%d{yyyy-MM-dd}</fileNamePattern>
-         <maxHistory>30</maxHistory>
-      </rollingPolicy>
-   </appender>
-  
-<!-- Exclusions -->  
-   <logger name="org.apache" level="OFF"/>
-   <logger name="ch.qos" level="OFF"/>
-   <logger name="org.slf4j" level="OFF"/>
+  <!-- Statistics Logging Appenders -->
+  <appender name="StatisticsConsole" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
+    </encoder>
+  </appender>
 
-<!-- Core Loggers -->  
-   <logger name="org.slc.sli.ingestion.processors.IngestionProcessor" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <appender name="StatisticsFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <File>logs/ingestionStatistics.log</File>
+    <encoder>
+       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+       <fileNamePattern>logs/ingestionStatistics.log.%d{yyyy-MM-dd}</fileNamePattern>
+       <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
 
-   <logger name="org.slc.sli.ingestion.processors.EdFiProcessor" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <root level="OFF">
+    <appender-ref ref="Console" />
+    <appender-ref ref="File" />
+  </root>
 
-   <logger name="org.slc.sli.ingestion.processors.PersistenceProcessor" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <!-- Exclusions -->
+  <logger name="org.apache" level="OFF"/>
+  <logger name="ch.qos" level="OFF"/>
+  <logger name="org.slf4j" level="OFF"/>
 
-   <logger name="org.slc.sli.ingestion.smooks.SmooksEdFiVisitor" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <!-- Core Loggers -->
+  <!-- <logger name="org.slc.sli.ingestion.processors.IngestionProcessor" level="DEBUG" /> -->
 
-<!-- Statistics Loggers -->  
-   <logger name="org.slc.sli.ingestion.processors.IngestionProcessorStatistics" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <!-- <logger name="org.slc.sli.ingestion.processors.EdFiProcessor" level="DEBUG" /> -->
 
-   <logger name="org.slc.sli.ingestion.processors.EdFiProcessorStatistics" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <!-- <logger name="org.slc.sli.ingestion.processors.PersistenceProcessor" level="DEBUG" /> -->
 
-   <logger name="org.slc.sli.ingestion.processors.PersistenceProcessorStatistics" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <!-- <logger name="org.slc.sli.ingestion.smooks.SmooksEdFiVisitor" level="DEBUG" /> -->
 
-   <logger name="org.slc.sli.ingestion.smooks.SmooksEdFiVisitorStatistics" level="DEBUG" >
-      <appender-ref ref="Console"/>
-      <appender-ref ref="File"/>
-   </logger>
+  <!-- Statistics Loggers -->
+  <!-- <logger name="org.slc.sli.ingestion.processors.IngestionProcessorStatistics" level="DEBUG" /> -->
+
+  <!-- <logger name="org.slc.sli.ingestion.processors.EdFiProcessorStatistics" level="DEBUG" /> -->
+
+  <!-- <logger name="org.slc.sli.ingestion.processors.PersistenceProcessorStatistics" level="DEBUG" /> -->
+
+  <!-- <logger name="org.slc.sli.ingestion.smooks.SmooksEdFiVisitorStatistics" level="DEBUG" /> -->
 
 </configuration>
