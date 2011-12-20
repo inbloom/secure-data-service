@@ -78,18 +78,18 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
 
-  restHtmlPost(arg1, data)
+  restHttpPost(arg1, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 
 end
 
 When /^I navigate to GET (a school "[^"]*")$/ do |arg1|
-  restHtmlGet(arg1)
+  restHttpGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I navigate to PUT (a school "[^"]*")$/ do |arg1|
-  restHtmlGet(arg1)
+  restHttpGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
 
@@ -106,7 +106,7 @@ When /^I navigate to PUT (a school "[^"]*")$/ do |arg1|
   else
     assert(false, "Unsupported MIME type")
   end
-  restHtmlPut(arg1, data)
+  restHttpPut(arg1, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
@@ -127,12 +127,12 @@ When /^I attempt to update (a school "[^"]*")$/ do |arg1|
   else
     assert(false, "Unsupported MIME type")
   end
-  restHtmlPut(arg1, data)
+  restHttpPut(arg1, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I navigate to DELETE (a school "[^"]*")$/ do |arg1|
-  restHtmlDelete(arg1)
+  restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
