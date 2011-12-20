@@ -46,15 +46,15 @@ public class ControlFileProcessorTest {
 
         Exchange eObject = new DefaultExchange(new DefaultCamelContext());
 
-        eObject.getIn().setBody(preObject.getOut().getBody());
+        eObject.getIn().setBody(preObject.getIn().getBody());
 
         processor.process(eObject);
 
-        BatchJob bj = eObject.getOut().getBody(BatchJob.class);
+        BatchJob bj = eObject.getIn().getBody(BatchJob.class);
 
         assertNotNull("BatchJob is not defined", bj);
         
-        boolean hasErrors = (Boolean) eObject.getOut().getHeader("hasErrors");
+        boolean hasErrors = (Boolean) eObject.getIn().getHeader("hasErrors");
         
         assertNotNull("header [hasErrors] not set on the exchange", hasErrors);
         
