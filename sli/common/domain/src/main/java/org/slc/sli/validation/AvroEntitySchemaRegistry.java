@@ -26,12 +26,12 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private final String baseDir = "classpath:avroSchema";
     
     // TODO need to figure out better way to map schema file name to entity type
-    private String[] schemaTypes = new String[] { "school", "student", "studentSchoolAssociation" };
+    private String[] schemaNames = new String[] { "school", "student", "studentSchoolAssociation" };
     
     @PostConstruct
     public void init() throws IOException {
-        for (String schemaType : schemaTypes) {
-            registerSchema(schemaType);
+        for (String schemaName : schemaNames) {
+            registerSchema(schemaName);
         }
     }
     
@@ -40,11 +40,11 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
         return mapSchema.get(entity.getType());
     }
     
-    private void registerSchema(String schemaType) throws IOException {
+    private void registerSchema(String schemaName) throws IOException {
         Parser parser = new Schema.Parser();
-        URL url = ResourceUtils.getURL(baseDir + "/" + schemaType + "_body.avpr");
+        URL url = ResourceUtils.getURL(baseDir + "/" + schemaName + "_body.avpr");
         Schema schema = parser.parse(url.openStream());
-        mapSchema.put(schemaType, schema);
+        mapSchema.put(schemaName, schema);
         
     }
     
