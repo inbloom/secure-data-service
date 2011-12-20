@@ -5,5 +5,5 @@
 // Generated on: 2011.12.19 at 01:53:58 PM EST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.w3schools.com", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.slc.sli.config;

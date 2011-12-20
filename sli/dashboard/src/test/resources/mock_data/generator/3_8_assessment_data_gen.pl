@@ -84,17 +84,19 @@ while ($line = <INPUT_STUDENT>)
 	my @scoreRange = @{$scoreRange{$grade}};
 	my $score = rand() * ($scoreRange[$scale + 1]  - $scoreRange[$scale]);
 	$score = $score + $scoreRange[$scale];
+	$score = floor($score);
 
 	# determine the percentile
 	my $percentileLow = $scale == 0 ? 0 : $probDistrib[$scale-1];
         my $percentile = rand() * ($probDistrib[$scale] - $percentileLow);
 	$percentile = $percentile + $percentileLow;
 	$percentile = $percentile * 100;
+	$percentile = floor($percentile);
 
 	# debug
         # print $random_number . " " . $grade . " " . $score . " " . $scale . " " . $percentile . "\n";
 	# put into result array
-	@thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile);
+	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile);
 	push (@results, \@thisAssessment);
     }
 }

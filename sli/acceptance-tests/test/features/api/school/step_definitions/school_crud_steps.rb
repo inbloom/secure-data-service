@@ -25,9 +25,7 @@ Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
 end
 
 Given /^I have access to all schools$/ do
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/identity/authenticate?username="+@user+"&password="+@passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @cookie = res.body[res.body.rindex('=')+1..-1]
+  idpLogin(@user,@passwd)
   assert(@cookie != nil, "Cookie retrieved was nil")
 end
 
@@ -65,13 +63,10 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
-    data = Hash["fullName" => @fullName,
+    dataH = Hash["fullName" => @fullName,
       "shortName" => @shortName,
       "stateOrganizationId" => "50","webSite" => @websiteName]
-    
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client POST is nil")
+    data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.school { |b| 
@@ -79,61 +74,49 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       b.shortName(@shortName) 
       b.stateOrganizationId("50")
       b.webSite(@websiteName)}
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.post(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client POST is nil")
   else
     assert(false, "Unsupported MIME type")
   end
+
+  restHtmlPost(arg1, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
+
 end
 
 When /^I navigate to GET (a school "[^"]*")$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHtmlGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I navigate to PUT (a school "[^"]*")$/ do |arg1|
+  restHtmlGet(arg1)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+
   if @format == "application/json"
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-    data = JSON.parse(@res.body)
-    data['nameOfInstitution'].should_not == @fullName
-    data['nameOfInstitution'] = @fullName
-    
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    dataH = JSON.parse(@res.body)
+    dataH['nameOfInstitution'].should_not == @fullName
+    dataH['nameOfInstitution'] = @fullName
+    data = dataH.to_json
   elsif @format == "application/xml"
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-    
     doc = Document.new(@res.body)  
     doc.root.elements["webSite"].text.should_not == @websiteName
     doc.root.elements["webSite"].text = @websiteName
-    
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, doc, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    data = doc
   else
     assert(false, "Unsupported MIME type")
   end
+  restHtmlPut(arg1, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I attempt to update (a school "[^"]*")$/ do |arg1|
   # NOTE: This step def is intended to be used for schools that do not exist.  Use the "I navigate to PUT" to update an existing school
   if @format == "application/json"
-    data = Hash["fullName" => "",
+    dataH = Hash["fullName" => "",
       "shortName" => "",
       "stateOrganizationId" => "50","webSite" => ""]
-    
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.school { |b|
@@ -141,17 +124,15 @@ When /^I attempt to update (a school "[^"]*")$/ do |arg1|
       b.shortName("") 
       b.stateOrganizationId("50")
       b.webSite("")}
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client PUT is nil")
   else
     assert(false, "Unsupported MIME type")
   end
+  restHtmlPut(arg1, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I navigate to DELETE (a school "[^"]*")$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHtmlDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 

@@ -26,7 +26,7 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
 
-        exchange.getOut().setBody(new ControlFileDescriptor(cf, landingZone));
+        exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
     }
 
 }
