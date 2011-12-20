@@ -73,16 +73,11 @@ public class RolesAndPermissionsResource {
         EntityDefinition def = store.lookupByResourceName("roles");
         EntityService service = def.getService();
 
-        //TODO remove this when we have real data.
-        service.create(new EntityBody(createRolesAndPermissions()));
-
         //TODO get some way to findAll.
         Iterable<String> names = service.list(0, 100);
         Iterable<EntityBody> entities = service.get(names);
         for (EntityBody body : entities) {
-            roles.put("name", body.get("name"));
-            roles.put("rights", body.get("rights"));
-            roleList.add(roles);
+            roleList.add(body);
         }
         return roleList;
     }
@@ -96,12 +91,11 @@ public class RolesAndPermissionsResource {
     @POST
     @Path("roles")
     public void createRoleWithPermission(String name, Object rights) {
-        Map<String, Object> role = new HashMap<String, Object>();
+        EntityBody role = new EntityBody();
         role.put("name", name);
         role.put("rights", rights);
-        EntityBody body = new EntityBody(role);
         EntityDefinition def = store.lookupByResourceName("roles");
         EntityService service = def.getService();
-        service.create(body);
+        service.create(role);
     }
 }

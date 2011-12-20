@@ -21,7 +21,6 @@
    <security:http auto-config="true" entry-point-ref="entryPoint">
       <security:intercept-url pattern="/pub/**" filters="none"/>
       <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS"/>
-      <security:intercept-url pattern="/rest/admin/**" access="ROLE_ADMIN,ROLE_ANONYMOUS"/>
       <security:intercept-url pattern="/**" access="ROLE_USER" />
       <security:request-cache ref="nullCache"/>
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />

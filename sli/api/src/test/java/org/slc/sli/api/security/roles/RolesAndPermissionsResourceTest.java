@@ -38,13 +38,6 @@ public class RolesAndPermissionsResourceTest {
         role.put("rights", permissions);
         return role;
     }
-    
-    private Map<String, Object> createTestPermissions() {
-        Map<String, Object> perm = createTestRole();
-        perm.put("name", Rights.READ_GENERAL.getRight());
-        perm.put("rights", null);
-        return perm;
-    }
 
     @Test
     public void testGetRolesAndPermissions() {
