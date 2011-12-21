@@ -8,7 +8,7 @@ task :production => [:schoolTests, :studentTests, :teacherTests, :associationTes
 end
 
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTest, :associationTests, :sectionTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests] do
   puts "Completed API Tests"
 end
 
@@ -53,3 +53,4 @@ task :securityTests do
     puts "Exited with code: #{exit_code.exitstatus}" unless success
   end
 end
+

@@ -5,7 +5,8 @@ require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
 
-Transform /^teacher "([^"]*)"$/  do |step_arg|
+
+Transform /^teacher "([^"]*)"$/ do |step_arg|
   id = "/teachers/4bb11755-3c03-45fa-8257-a92b44c9391d" if step_arg == "Macey"
   id = "/teachers/d78dfd50-8df6-4c34-9c21-6cf79dedd6e8" if step_arg == "Belle"
   id = "/teachers/504a4b17-f743-4682-9dc4-62f7a6c98393" if step_arg == "Christian"
@@ -19,10 +20,10 @@ Transform /^teacher "([^"]*)"$/  do |step_arg|
   id = "/teachers/11111111-1111-1111-1111-111111111111" if step_arg == "Invalid"
   id = "/teachers/2B5AB1CC-F082-46AA-BE47-36A310F6F5EA" if step_arg == "Unknown"
   id = "/teachers/11111111-1111-1111-1111-111111111111" if step_arg == "WrongURI"
-  id = "/teachers"                                      if step_arg == "NoGUID"
+  id = "/teachers"                                      if step_arg == "" or step_arg == nil
+  id = "/teachers/" + $newId                            if step_arg == "Rafe"
   id
 end
-
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
   @user = arg1
@@ -30,9 +31,7 @@ Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
 end
 
 Given /^I have access to all teachers$/ do
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/identity/authenticate?username="+@user+"&password="+@passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @cookie = res.body[res.body.rindex('=')+1..-1]
+  idpLogin(@user, @passwd)
   assert(@cookie != nil, "Cookie retrieved was nil")
 end
 
@@ -82,30 +81,27 @@ Given /^(?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
   @levelOfEducation.should_not == nil
 end
 
-Given /^I should see that his or her hispanic latino ethnicity is "([^"]*)"$/ do |arg1|
+Given /^I should see that (?:his|her) hispanic latino ethnicity is "([^"]*)"$/ do |arg1|
   ["true","false"].should include(arg1)
   @hispanicLatinoEthnicity = arg1
   @hispanicLatinoEthnicity.should_not == nil
 end
 
-When /^I navigate to POST teacher "([^"]*)"$/ do |arg1|
+When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
   if @format == "application/json"
-    data = Hash[
+    dataH = Hash[
       "staff" => Hash[
         "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
         "birthDate" => @bdate,
         "sex" => @sex,
-        "yearsOfTeachingExperience" => @teachingExperience,
+        "yearsTeachingExperience" => @teachingExperience,
         "levelOfEducation" => @levelOfEducation],
       "teacher" => Hash[
         "teacherUniqueStateId" => @teacherUniqueStateId,
-        "highlyQualified" => @highlyQualifiedTeacher]
+        "highlyQualifiedTeacher" => @highlyQualifiedTeacher]
       ]
-    
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/teachers"
-    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client POST is nil")
-    
+    data = dataH.to_json
+      
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.teacher { |b| 
@@ -114,56 +110,60 @@ When /^I navigate to POST teacher "([^"]*)"$/ do |arg1|
       b.sex(@sex)
       b.birthDate(@bdate)}
       
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.post(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client POST is nil")
-
   else
     assert(false, "Unsupported MIME type")
   end
+
+  restHttpPost("/teachers", data)      
+  assert(@res != nil, "Response from rest-client POST is nil")
+
 end
 
-When /^I navigate to GET (teacher \w+)$/ do |teacher_uri|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+teacher_uri
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+Then /^I should receive an ID for the newly created teacher$/ do
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
+  s = headers['location'][0]
+  $newId = s[s.rindex('/')+1..-1]
+  assert($newId != nil, "Teacher ID is nil")
+end
+
+When /^I navigate to GET (teacher "[^"]*")$/ do |arg1|
+  restHttpGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to PUT (teacher \w+)$/ do |teacher_uri|
-  if @format == "application/json"
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+teacher_uri
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-    data = JSON.parse(@res.body)
-    data['levelOfEducation'].should_not == @levelOfEducation
-    data['levelOfEducation'] = @levelOfEducation
+When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
+
+  restHttpGet(arg1)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+
+  if @format == "application/json"  
+    dataH = JSON.parse(@res.body)
     
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+teacher_uri
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    dataH["teacher"]["highlyQualifiedTeacher"].should_not == @highlyQualifiedTeacher
+    dataH["teacher"]["highlyQualifiedTeacher"] = @highlyQualifiedTeacher
     
+    data = dataH.to_json
+
   elsif @format == "application/xml"
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+teacher_uri
-    @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-    
-    doc = Document.new(@res.body)  
-    doc.root.elements["levelOfEducation"].text.should_not == @levelOfEducation
-    doc.root.elements["levelOfEducation"].text = @levelOfEducation
-    
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+teacher_uri
-    @res = RestClient.put(url, doc, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client PUT is nil")
+  
+    data = Document.new(@res.body)  
+    data.root.elements["teacher"]["highlyQualifiedTeacher"].text.should_not == @highlyQualifiedTeacher
+    data.root.elements["teacher"]["highlyQualifiedTeacher"].text = @highlyQualifiedTeacher
+
   else
     assert(false, "Unsupported MIME type")
   end
+  
+  restHttpPut(arg1, data)    
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  
 end
 
-When /^I navigate to DELETE (teacher \w+)$/ do |teacher_uri|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+teacher_uri
-  @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+When /^I navigate to DELETE (teacher "[^"]*")$/ do |arg1|
+  restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
@@ -172,36 +172,51 @@ Then /^I should receive a return code of (\d+)$/ do |arg1|
   assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
 end
 
-Then /^I should receive a ID for the newly created teacher$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newTeacherID = s[s.rindex('/')+1..-1]
-  assert(@newTeacherID != nil, "Teacher ID is nil")
-end
-
-Then /^I should see the teacher "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
+Then /^I should see that the name of the teacher is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['name']['first'] == arg1, "Expected teacher firstname not found in response")
-  assert(result['name']['middle'] == arg2, "Expected teacher middlename not found in response")
-  assert(result['name']['last'] == arg3, "Expected teacher lastname not found in response")
+  assert(result["staff"]["name"]["first"] == arg1, "Expected teacher firstname not found in response")
+  assert(result["staff"]["name"]["middle"] == arg2, "Expected teacher middlename not found in response")
+  assert(result["staff"]["name"]["last"] == arg3, "Expected teacher lastname not found in response")
 end
 
-Then /^I should see that he or she is "([^"]*)"$/ do |arg1|
+Then /^I should see that (?:he|she) is "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  result['sex'].should == arg1
+  result["staff"]["sex"].should == arg1
 end
 
-Then /^I should see that he or she was born on "([^"]*)"$/ do |arg1|
+Then /^I should see that (?:he|she) was born on "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['birthDate'] == arg1, "Expected teacher birthdate not found in response")
+  assert(result["staff"]["birthDate"] == arg1, "Expected teacher birthdate not found in response")
 end
 
-When /^I attempt to update a non\-existing (teacher \w+)$/ do |arg1|
+Then /^I should see that (?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result["staff"]["yearsTeachingExperience"] == arg1, "Expected teacher experience not found in response")
+end
+
+Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result["teacher"]["teacherUniqueStateId"] == arg1, "Expected teacher state id not found in response")
+end
+
+Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result["teacher"]["highlyQualifiedTeacher"] == arg1, "Expected teacher highly qualified status not found in response")
+end
+
+Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result["staff"]["levelOfEducation"] == arg1, "Expected teacher level of education not found in response")  
+end
+
+When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     data = Hash[
       "teacherUniqueStateId" => "",
