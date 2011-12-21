@@ -35,4 +35,8 @@ public class LiveAPIClient implements APIClient {
         System.err.println("Not implemented");
         return null;
     }
+    @Override
+    public void saveCustomData(CustomData[] src, String token, String key) {
+        System.err.println("Not implemented");
+    }
 }
