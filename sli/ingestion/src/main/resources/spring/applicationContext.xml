@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-  <bean id="ingestionPropertiesPlaceholder"
-    class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+  <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
     <!-- this avoids errors with *other* property placeholders -->
     <property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -25,13 +23,11 @@
     </property>
   </bean>
 
-  <bean id="lz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
+  <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
     <property name="directory" value="${landingzone.inbounddir}"></property>
   </bean>
 
-  <bean id="tempLz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
+  <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
 
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
@@ -40,50 +36,82 @@
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
 
-  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
-    <property name="traceOutExchanges" value="true" /> </bean> <bean id="traceFormatter"
-    class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
-    name="showOutBody" value="true" /> <property name="showOutBodyType" value="true"
-    /> </bean> -->
+  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges" 
+    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property 
+    name="showOutBody" value="true" /> <property name="showOutBodyType" value="true" /> </bean> -->
 
-  <!-- not working yet.
-  <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" />
-  -->
+  <!-- not working yet. <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" /> -->
 
-  <!-- not working yet.
-  <aop:config>
-    <aop:aspect ref="executionMonitor">
-      <aop:pointcut id="pc"
-        expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))" />
-      <aop:around pointcut-ref="pc" method="aroundExecution" />
-    </aop:aspect>
-  </aop:config>
-  -->
+  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))" 
+    /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect> </aop:config> -->
 
-  <bean id="controlFileValidator"
-    class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
+  <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
       <list>
-        <bean
-          class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
-        <bean
-          class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
-        <bean
-          class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
       </list>
     </property>
   </bean>
 
-  <bean id="zipFileValidator"
-    class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
+  <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
 
-  <bean id="messageSource"
-    class="org.springframework.context.support.ResourceBundleMessageSource">
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">
       <list>
         <value>messages</value>
       </list>
     </property>
   </bean>
+
+  <bean id="xmlFileHandler" class="org.slc.sli.ingestion.landingzone.handler.XmlFileHandler">
+    <property name="smooksConfigFileName" value="smooks-all-xml.xml" />
+    <property name="targetSelectorMap">
+      <map>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_EDUCATION_ORGANIZATION}">
+          <list>
+            <value>InterchangeEducationOrganization/School</value>
+          </list>
+        </entry>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT}">
+          <list>
+            <value>InterchangeStudent/Student</value>
+          </list>
+        </entry>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT_ENROLLMENT}">
+          <list>
+            <value>InterchangeStudentEnrollment/StudentSchoolAssociation</value>
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="csvFileHandler" class="org.slc.sli.ingestion.landingzone.handler.CsvFileHandler">
+    <property name="targetSelector" value="csv-record" />
+    <property name="smooksConfigFileNameMap">
+      <map>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT}" value="smooks-student-csv.xml" />
+        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SCHOOL}" value="smooks-school-csv.xml" />
+        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT_SCHOOL_ASSOCIATION}" value="smooks-studentSchoolAssociation-csv.xml" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
+    <property name="fileHandlerMap">
+      <map>
+        <entry key="#{T(org.slc.sli.ingestion.FileFormat).CSV}">
+          <ref bean="csvFileHandler" />
+        </entry>
+        <entry key="#{T(org.slc.sli.ingestion.FileFormat).EDFI_XML}">
+          <ref bean="xmlFileHandler" />
+        </entry>
+      </map>
+    </property>
+  </bean>
 </beans>
+
+

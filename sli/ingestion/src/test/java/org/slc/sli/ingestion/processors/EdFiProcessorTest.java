@@ -48,14 +48,11 @@ public class EdFiProcessorTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        // Create Result File
-        File resultFile = IngestionTest.createTempFile();
-        
         // Translate EDFI File to AVRO NeutralRecords
-        edFiProcessor.processIngestionStream(inputFileEntry, resultFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         // Parse Result SLI Records from AVRO NeutralRecords File
-        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
+        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(inputFileEntry.getNeutralRecordFile());
         
         // Temporary
         // FileUtils.writeStringToFile(File.createTempFile("SLI",".sli"), resultString);
@@ -81,14 +78,11 @@ public class EdFiProcessorTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        // Create Result File
-        File resultFile = IngestionTest.createTempFile();
-        
         // Translate EDFI File to AVRO NeutralRecords
-        edFiProcessor.processIngestionStream(inputFileEntry, resultFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         // Parse Result SLI Records from AVRO NeutralRecords File
-        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
+        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(inputFileEntry.getNeutralRecordFile());
         
         // Get Expected SLI Records File
         File expectedFile = IngestionTest.getFile("smooks/InterchangeSchool.sli");
@@ -107,18 +101,15 @@ public class EdFiProcessorTest {
         File inputFile = IngestionTest.getFile("smooks/InterchangeStudentSchoolAssociation.csv");
         
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT_SCHOOL_ASSOCIATION,
-                inputFile.getName(), MD5.calculate(inputFile));
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV,
+                FileType.CSV_STUDENT_SCHOOL_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        // Create Result File
-        File resultFile = IngestionTest.createTempFile();
-        
         // Translate EDFI File to AVRO NeutralRecords
-        edFiProcessor.processIngestionStream(inputFileEntry, resultFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         // Parse Result SLI Records from AVRO NeutralRecords File
-        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(resultFile);
+        List<NeutralRecord> resultList = IngestionTest.getNeutralRecords(inputFileEntry.getNeutralRecordFile());
         
         // Get Expected SLI Records File
         File expectedFile = IngestionTest.getFile("smooks/InterchangeStudentSchoolAssociation.sli");
