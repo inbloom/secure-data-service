@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "Student",
-  "namespace" : "tmp.generated",
+  "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "studentUniqueStateId",
     "type" : [ "null", "int" ],

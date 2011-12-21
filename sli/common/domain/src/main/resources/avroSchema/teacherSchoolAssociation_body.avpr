@@ -1,0 +1,236 @@
+{
+  "type" : "record",
+  "name" : "TeacherSchoolAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "teacherReference",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "StaffReferenceType",
+      "fields" : [ {
+        "name" : "staffIdentity",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "StaffIdentityType",
+          "fields" : [ {
+            "name" : "staffUniqueStateId",
+            "type" : [ "null", "int" ],
+            "default" : null
+          }, {
+            "name" : "staffIdentificationCode",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : {
+                "type" : "record",
+                "name" : "StaffIdentificationCode",
+                "fields" : [ {
+                  "name" : "id",
+                  "type" : [ "null", "string" ],
+                  "default" : null
+                }, {
+                  "name" : "identificationSystem",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "StaffIdentificationSystemType",
+                    "symbols" : [ "DRIVERS_LICENSE", "HEALTH_RECORD", "MEDICAID", "PROFESSIONAL_CERTIFICATE", "SCHOOL", "DISTRICT", "STATE", "FEDERAL", "OTHER_FEDERAL", "SELECTIVE_SERVICE", "SSN", "US_VISA", "PIN", "CANADIAN_SIN", "OTHER" ]
+                  } ],
+                  "default" : null
+                }, {
+                  "name" : "assigningOrganizationCode",
+                  "type" : [ "null", "string" ],
+                  "default" : null
+                } ]
+              },
+              "java-class" : "java.util.List"
+            } ],
+            "default" : null
+          }, {
+            "name" : "name",
+            "type" : [ "null", {
+              "type" : "record",
+              "name" : "Name",
+              "fields" : [ {
+                "name" : "personalTitlePrefix",
+                "type" : [ "null", {
+                  "type" : "enum",
+                  "name" : "PersonalTitlePrefixType",
+                  "symbols" : [ "COLONEL", "DR", "MR", "MRS", "MS", "REVEREND", "SR", "SISTER" ]
+                } ],
+                "default" : null
+              }, {
+                "name" : "firstName",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "middleName",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "lastSurname",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "generationCodeSuffix",
+                "type" : [ "null", {
+                  "type" : "enum",
+                  "name" : "GenerationCodeSuffixType",
+                  "symbols" : [ "JR", "SR", "II", "III", "IV", "V", "VI", "VII", "VIII" ]
+                } ],
+                "default" : null
+              }, {
+                "name" : "maidenName",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "verification",
+                "type" : [ "null", {
+                  "type" : "enum",
+                  "name" : "PersonalInformationVerificationType",
+                  "symbols" : [ "BAPTISMAL_OR_CHURCH_CERTIFICATE", "BIRTH_CERTIFICATE", "DRIVERS_LICENSE", "ENTRY_IN_FAMILY_BIBLE", "HOSPITAL_CERTIFICATE", "IMMIGRATION_DOCUMENT_VISA", "LIFE_INSURANCE_POLICY", "OTHER", "OTHER_NON_OFFICIAL_DOCUMENT", "OTHER_OFFICIAL_DOCUMENT", "PARENTS_AFFIDAVIT", "PASSPORT", "PHYSICIANS_CERTIFICATE", "PREVIOUSLY_VERIFIED_SCHOOL_RECORDS", "STATE_ISSUED_ID" ]
+                } ],
+                "default" : null
+              } ]
+            } ],
+            "default" : null
+          }, {
+            "name" : "sex",
+            "type" : [ "null", {
+              "type" : "enum",
+              "name" : "SexType",
+              "symbols" : [ "FEMALE", "MALE" ]
+            } ],
+            "default" : null
+          }, {
+            "name" : "birthDate",
+            "type" : [ "null", {
+              "type" : "record",
+              "name" : "Calendar",
+              "namespace" : "java.util",
+              "fields" : [ ]
+            } ],
+            "default" : null
+          }, {
+            "name" : "hispanicLatinoEthnicity",
+            "type" : [ "null", "boolean" ],
+            "default" : null
+          }, {
+            "name" : "race",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : {
+                "type" : "enum",
+                "name" : "RaceItemType",
+                "symbols" : [ "AMERICAN_INDIAN_ALASKAN_NATIVE", "ASIAN", "BLACK_AFRICAN_AMERICAN", "NATIVE_HAWAIIAN_PACIFIC_ISLANDER", "WHITE" ]
+              },
+              "java-class" : "java.util.List"
+            } ],
+            "default" : null
+          } ]
+        } ],
+        "default" : null
+      }, {
+        "name" : "id",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "ref",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "Object",
+          "namespace" : "java.lang",
+          "fields" : [ ]
+        } ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "schoolReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "EducationalOrgReferenceType",
+        "fields" : [ {
+          "name" : "educationalOrgIdentity",
+          "type" : [ "null", {
+            "type" : "record",
+            "name" : "EducationalOrgIdentityType",
+            "fields" : [ {
+              "name" : "stateOrganizationId",
+              "type" : [ "null", "string" ],
+              "default" : null
+            }, {
+              "name" : "educationOrgIdentificationCode",
+              "type" : [ "null", {
+                "type" : "array",
+                "items" : {
+                  "type" : "record",
+                  "name" : "EducationOrgIdentificationCode",
+                  "fields" : [ {
+                    "name" : "id",
+                    "type" : [ "null", "string" ],
+                    "default" : null
+                  }, {
+                    "name" : "identificationSystem",
+                    "type" : [ "null", {
+                      "type" : "enum",
+                      "name" : "EducationOrgIdentificationSystemType",
+                      "symbols" : [ "SCHOOL", "ACT", "LEA", "SEA", "NCES", "FEDERAL", "DUNS", "OTHER_FEDERAL", "OTHER" ]
+                    } ],
+                    "default" : null
+                  } ]
+                },
+                "java-class" : "java.util.List"
+              } ],
+              "default" : null
+            } ]
+          } ],
+          "default" : null
+        }, {
+          "name" : "id",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "ref",
+          "type" : [ "null", "java.lang.Object" ],
+          "default" : null
+        } ]
+      },
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  }, {
+    "name" : "programAssignment",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "ProgramAssignmentType",
+      "symbols" : [ "REGULAR_EDUCATION", "TITLE_I_ACADEMIC", "TITLE_I_NON_ACADEMIC", "SPECIAL_EDUCATION", "BILINGUAL_ENGLISH_AS_A_SECOND_LANGUAGE" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "instructionalGradeLevels",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "enum",
+        "name" : "GradeLevelType",
+        "symbols" : [ "ADULT_EDUCATION", "EARLY_EDUCATION", "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "GRADE_13", "INFANT_TODDLER", "KINDERGARTEN", "NINTH_GRADE", "OTHER", "POSTSECONDARY", "PRESCHOOL_PREKINDERGARTEN", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TRANSITIONAL_KINDERGARTEN", "TWELFTH_GRADE", "UNGRADED" ]
+      },
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  }, {
+    "name" : "academicSubjects",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "enum",
+        "name" : "AcademicSubjectType",
+        "symbols" : [ "ENGLISH_LANGUAGE_AND_LITERATURE", "MATHEMATICS", "LIFE_AND_PHYSICAL_SCIENCES", "SOCIAL_SCIENCES_AND_HISTORY", "FINE_AND_PERFORMING_ARTS", "FOREIGN_LANGUAGE_AND_LITERATURE", "RELIGIOUS_EDUCATION_AND_THEOLOGY", "PHYSICAL_HEALTH_AND_SAFETY_EDUCATION", "MILITARY_SCIENCE", "COMPUTER_AND_INFORMATION_SCIENCES", "COMMUNICATION_AND_AUDIO_VISUAL_TECHNOLOGY", "BUSINESS_AND_MARKETING", "MANUFACTURING", "HEALTH_CARE_SCIENCES", "PUBLIC_PROTECTIVE_AND_GOVERNMENT_SERVICE", "HOSPITALITY_AND_TOURISM", "ARCHITECTURE_AND_CONSTRUCTION", "AGRICULTURE_FOOD_AND_NATURAL_RESOURCES", "HUMAN_SERVICES", "TRANSPORTATION_DISTRIBUTION_AND_LOGISTICS", "ENGINEERING_AND_TECHNOLOGY", "MISCELLANEOUS" ]
+      },
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  } ]
+}
