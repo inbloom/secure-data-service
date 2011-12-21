@@ -10,6 +10,8 @@ import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.DataSet;
+import org.slc.sli.config.DataPoint;
+import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 
 /**
@@ -25,15 +27,30 @@ public class ConfigUtilTest {
 
     @Test
     public void testFromXMLString1() {
-        String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><viewConfigSet><viewConfig name=\"listOfStudents\"><dataSet type=\"studentInfo\" displayName=\"Student Information\"><field id=\"programs\" visual=\"programGrid\" /></dataSet></viewConfig></viewConfigSet>";
+        
+        String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+                         + "<viewConfigSet>\n"
+                         + "    <viewConfig name=\"listOfStudents\">\n"
+                         + "        <dataSet type=\"studentInfo\">\n"
+                         + "            <dataPoint id=\"name\"/>\n"
+                         + "        </dataSet>\n"
+                         + "        <displaySet displayName=\"\">\n"
+                         + "            <field value=\"stud.studentInfo.name\" format=\"firstLast\" displayName=\"Student\"/>\n"
+                         + "        </displaySet>\n"
+                         + "    </viewConfig>\n"
+                         + "</viewConfigSet>\n";
+    
         ViewConfigSet configs = null;
         try {
             configs = ConfigUtil.fromXMLString(xmlString);
         } catch (Exception e) {
             System.out.println(e);
         }
-        assertEquals(1, configs.getViewConfig().get(0).getDataSet().size());
-        assertEquals(1, configs.getViewConfig().get(0).getDataSet().get(0).getField().size());
+        ViewConfig config = configs.getViewConfig().get(0);
+        assertEquals(1, config.getDataSet().size());
+        assertEquals(1, config.getDataSet().get(0).getDataPoint().size());
+        assertEquals(1, config.getDisplaySet().size());
+        assertEquals(1, config.getDisplaySet().get(0).getField().size());
     }
     
     @Test
@@ -46,13 +63,21 @@ public class ConfigUtilTest {
         
         DataSet dataSet = new DataSet();
         dataSet.setType("studentInfo");
-        dataSet.setDisplayName("Student Information");
         view.getDataSet().add(dataSet);
        
+        DataPoint dataPoint = new DataPoint();
+        dataPoint.setId("name");
+        dataSet.getDataPoint().add(dataPoint);
+        
+        DisplaySet displaySet = new DisplaySet();
+        displaySet.setDisplayName("");
+        view.getDisplaySet().add(displaySet);
+        
         Field field = new Field();
-        field.setId("programs");
-        field.setVisual("programGrid");
-        dataSet.getField().add(field);
+        field.setValue("stud.studentInfo.name");
+        field.setFormat("firstLast");
+        field.setDisplayName("Student");
+        displaySet.getField().add(field);
         
         String xmlString = null;
         try {
@@ -63,9 +88,12 @@ public class ConfigUtilTest {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                    + "<viewConfigSet>\n"
                    + "    <viewConfig name=\"listOfStudents\">\n"
-                   + "        <dataSet type=\"studentInfo\" displayName=\"Student Information\">\n"
-                   + "            <field visual=\"programGrid\" id=\"programs\"/>\n"
+                   + "        <dataSet type=\"studentInfo\">\n"
+                   + "            <dataPoint id=\"name\"/>\n"
                    + "        </dataSet>\n"
+                   + "        <displaySet displayName=\"\">\n"
+                   + "            <field value=\"stud.studentInfo.name\" format=\"firstLast\" displayName=\"Student\"/>\n"
+                   + "        </displaySet>\n"
                    + "    </viewConfig>\n"
                    + "</viewConfigSet>\n", 
                      xmlString);
