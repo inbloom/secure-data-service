@@ -1,4 +1,51 @@
-require "cucumber/rake/task"
+
+###################################################
+# Section to setup necessary env vars and overrides
+if(ENV['DB_HOST'])
+  DB_HOST=ENV['DB_HOST']
+else
+  DB_HOST = "localhost"
+end
+
+if(ENV['MONGO_HOME'])
+  MONGO_BIN = ENV['MONGO_HOME']+"/bin/"
+else
+  MONGO_BIN = ""
+end
+#######################################################
+
+
+#######################################################################################################
+# Helper defs
+
+# This method is to run a given test or set of tests that have a dependency on a fixture being loaded
+# Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
+# Inputs: (String) collectionName = name of mongo collection to load fixture data to
+# Inputs: (String) fixtureFileName = name of json file in the test/data folder
+def runFixtureAndTests(testDirPath, collectionName, fixtureFileName)
+  sh "#{MONGO_BIN}mongoimport --drop -d sli -c #{collectionName} -h #{DB_HOST} --file test/data/#{fixtureFileName}" do |success, exit_code|
+    if(success)
+      runTests(testDirPath)
+    else
+      puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH"
+    end
+  end
+end
+
+# This method is to run a given test of set of test where a fixture is not needed
+# Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
+def runTests(testDirPath)
+  sh "cucumber #{testDirPath} --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+    puts "Exited with code: #{exit_code.exitstatus}" unless success
+  end
+end
+
+############################################################################################################
+
+
+
+######################################################################################################
+# Rake tasks
 
 task :default => :production
 
@@ -14,27 +61,24 @@ end
 
 desc "Run Section Tests"
 task :sectionTests do
-  sh "cucumber test/features/api/section --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
 task :schoolTests do
-  sh "cucumber test/features/api/school --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
 task :studentTests do
-  sh "cucumber test/features/api/student --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/student", "student", "student_fixture.json")
 end
 
 desc "Run Association Tests"
 task :associationTests do
+  sh "#{MONGO_BIN}mongoimport --drop -d sli -c studentschoolassociation -h #{DB_HOST} --file test/data/student_enrollments_fixture.json" do |success, exit_code|
+    puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH"
+  end
   sh "cucumber test/features/api/associations --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
     puts "Exited with code: #{exit_code.exitstatus}" unless success
   end
@@ -42,8 +86,13 @@ end
 
 desc "Run Security Tests"
 task :securityTests do
-  sh "cucumber test/features/security --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runTests("test/features/security")
+end
+
+desc "Help information for this Rakefile"
+task :help do
+  puts("This Rakefile assumes one of two things: an environment variable MONGO_HOME\n"<< 
+        "is set to the home directory of mongo (just before bin) or that the mongo binaries\n"<<
+        "are on your PATH")
 end
 
