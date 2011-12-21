@@ -19,7 +19,7 @@ Given I have an open web browser
 And I am authenticated to SLI
 When I type the Dashboard home page
 And I click on the Enter button
-Then I should be redirected to the Realm page
+Then I should be redirected to the Dashboard home page
 
 Scenario: Valid user login
 
@@ -29,10 +29,10 @@ And was redirected to the Realm page
 And I chose <SLI IDP> 
 And I clicked the button Go 
 And I was redirected to the SLI IDP Login page
-And I am user  <JohnDoe>
+And I am userï¿½ <JohnDoe>
 And <JohnDoe> is valid <SLI IDP> user
 When I enter <JohnDoe> in the username text field
-And I enter  <***> in the password text field
+And I enterï¿½ <***> in the password text field
 And I click the Go button
 Then I am authenticated to SLI
 And I am redirected to the Dashboard home page
@@ -45,10 +45,10 @@ And was redirected to the Realm page
 And I chose <SLI IDP> 
 And I clicked the button Go 
 And I was redirected to the SLI IDP Login page
-And I am user  <InvalidJohnDoe>
+And I am userï¿½ <InvalidJohnDoe>
 And <InvalidJohnDoe> is invalid <SLI IDP> user
 When I enter <InvalidJohnDoe> in the username text field
-And I enter  <***> in the password text field
+And I enterï¿½ <***> in the password text field
 And I click the Go button
 Then I am informed that <InvalidJohnDoe> does not exists
 And I am redirected to the SLI-IDP Login Page
