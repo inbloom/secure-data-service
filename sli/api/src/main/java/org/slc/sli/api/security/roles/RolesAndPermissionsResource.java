@@ -1,13 +1,11 @@
 package org.slc.sli.api.security.roles;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.slc.sli.api.security.enums.DefaultRoles;
-import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.service.EntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +52,7 @@ public class RolesAndPermissionsResource {
      * @return an object that is technically a list of maps that are the roles
      */
     @GET
-    @Path("roles")
+    @Path("/")
     public List<Map<String, Object>> getRolesAndPermissions() {
         Map<String, Object> roles = new HashMap<String, Object>();
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
@@ -88,13 +86,13 @@ public class RolesAndPermissionsResource {
      * @see Rights
      */
     @POST
-    @Path("roles")
+    @Path("/")
     public void createRoleWithPermission(String name, Object rights) {
         //Make sure we aren't creating a duplicate of a default role
-        if(name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName()) ||
-                name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName()) ||
-                name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName()) ||
-                name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName())) {
+        if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName())
+                || name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName())
+                || name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName())
+                || name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName())) {
             return;
         }
         RoleBuilder builder = new RoleBuilder(name);
