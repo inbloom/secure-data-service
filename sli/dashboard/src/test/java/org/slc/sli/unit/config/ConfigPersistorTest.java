@@ -41,10 +41,8 @@ public class ConfigPersistorTest {
         assertEquals(2, config.getDataSet().get(2).getDataPoint().size());
         assertEquals(3, config.getDisplaySet().size());
         assertEquals(1, config.getDisplaySet().get(0).getField().size());
-        assertEquals(1, config.getDisplaySet().get(1).getDisplaySet().size());
-        assertEquals(4, config.getDisplaySet().get(1).getDisplaySet().get(0).getField().size());
-        assertEquals(1, config.getDisplaySet().get(2).getDisplaySet().size());
-        assertEquals(2, config.getDisplaySet().get(2).getDisplaySet().get(0).getField().size());
+        assertEquals(4, config.getDisplaySet().get(1).getField().size());
+        assertEquals(2, config.getDisplaySet().get(2).getField().size());
     }
     
     @Test
