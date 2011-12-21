@@ -5,3 +5,7 @@ bin
 logs
 .DS_Store
 *.log
+target
+.settings
+.classpath
+.project

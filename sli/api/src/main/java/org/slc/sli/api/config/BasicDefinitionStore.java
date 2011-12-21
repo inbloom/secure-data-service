@@ -60,7 +60,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
-
+        addDefinition(EntityDefinition.makeEntity("realm").build());
     }
     
     private void add(EntityDefinition defn) {
