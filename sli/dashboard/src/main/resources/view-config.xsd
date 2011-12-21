@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-  <xs:element name="viewConfig">
+  <xs:element name="viewConfigSet">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="view"/>
+        <xs:element maxOccurs="unbounded" ref="viewConfig"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="view">
+  <xs:element name="viewConfig">
     <xs:complexType>
       <xs:sequence>
         <xs:element maxOccurs="unbounded" ref="dataSet"/>

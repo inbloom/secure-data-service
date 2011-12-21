@@ -24,43 +24,44 @@ public class ConfigManager {
         return instance;
     }
     
-    public ViewConfig getConfig(String userId) {
+    public ViewConfigSet getConfigSet(String userId) {
     
         // get view configs for user's hierarchy (state, district, etc)
         // TODO: call ConfigPersistor with entity ids, not user id
-        ViewConfig userViewConfig = null;
+        ViewConfigSet userViewConfigSet = null;
         try {
-            userViewConfig = ConfigPersistor.getConfig(userId);
+            userViewConfigSet = ConfigPersistor.getConfigSet(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
                 
-        // merge into one view config for the user
+        // TODO: merge into one view config set for the user
         
         
-        return userViewConfig;
+        return userViewConfigSet;
     }
     
-    public View getSingleViewConfig(String userId, String viewName) {
+    public ViewConfig getConfig(String userId, String viewName) {
         
-        ViewConfig config = getConfig(userId);
+        ViewConfigSet config = getConfigSet(userId);
         
         // loop through, find right config
-        for (View view : config.getView()) {
+        for (ViewConfig view : config.getViewConfig()) {
             if (view.getName().equals(viewName))
                 return view;
         }
         return null;
     }
     
-    protected ViewConfig mergeConfigs(List<ViewConfig> configs) {
+    protected ViewConfigSet mergeConfigSets(List<ViewConfigSet> configSets) {
+        // TODO: implement merge
         return null;
     }
     
     
-    public void saveConfig(String entityId) {
-        
+    public void saveConfigSet(String entityId) {
+        // TODO: implement save
     }
     
 }

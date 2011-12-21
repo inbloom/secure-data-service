@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.config.ConfigPersistor;
-import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.ViewConfigSet;
 
 /**
  * Unit tests for the ConfigPersistor class.
@@ -21,18 +21,18 @@ public class ConfigPersistorTest {
     }
 
     @Test
-    public void testGetConfig() {
+    public void testGetConfigSet() {
      
-        ViewConfig config = null;
+        ViewConfigSet configSet = null;
         try {
-            config = ConfigPersistor.getConfig("lkim");
+            configSet = ConfigPersistor.getConfigSet("lkim");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(3, config.getView().get(0).getDataSet().size());
-        assertEquals(3, config.getView().get(0).getDataSet().get(0).getField().size());
-        assertEquals(3, config.getView().get(0).getDataSet().get(1).getField().size());
-        assertEquals(2, config.getView().get(0).getDataSet().get(2).getField().size());
+        assertEquals(3, configSet.getViewConfig().get(0).getDataSet().size());
+        assertEquals(3, configSet.getViewConfig().get(0).getDataSet().get(0).getField().size());
+        assertEquals(3, configSet.getViewConfig().get(0).getDataSet().get(1).getField().size());
+        assertEquals(2, configSet.getViewConfig().get(0).getDataSet().get(2).getField().size());
     }
     
 }

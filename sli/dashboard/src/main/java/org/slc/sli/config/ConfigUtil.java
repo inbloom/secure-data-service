@@ -29,20 +29,20 @@ public class ConfigUtil {
         }
     }
     
-    public static String toXMLString(ViewConfig config) throws Exception {
+    public static String toXMLString(ViewConfigSet configSet) throws Exception {
         
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         Marshaller m = jc.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.marshal(config, os);
+        m.marshal(configSet, os);
         return os.toString("UTF-8");
     }
 
-    public static ViewConfig fromXMLString(String configStr) throws Exception {
+    public static ViewConfigSet fromXMLString(String configStr) throws Exception {
         
         InputStream is = new ByteArrayInputStream(configStr.getBytes("UTF-8"));
         Unmarshaller u = jc.createUnmarshaller();
-        ViewConfig config = (ViewConfig) (u.unmarshal(is));
-        return config;
+        ViewConfigSet configSet = (ViewConfigSet) (u.unmarshal(is));
+        return configSet;
     }
 }
