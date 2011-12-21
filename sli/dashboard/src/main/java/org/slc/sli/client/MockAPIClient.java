@@ -1,9 +1,12 @@
 package org.slc.sli.client;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
@@ -16,22 +19,29 @@ import java.util.Vector;
 /**
  * 
  * A mock API client
- * Each public method should correspond to a view in the "real" API.
- * Each public method's signature should have the following pattern:
- *  Entity[] getEntitys(final String token, List<String> filter1, List<String> filter2, ... ),   
- *  filter1, filter2, etc... correspond to the parameters passed into the API view. 
- *
  */
 public class MockAPIClient implements APIClient {
 
-    public Student[] getStudents(final String token) {
+    @Override
+    public Student[] getStudents(final String token, List<String> studentIds) {
         String filename = "src/test/resources/mock_data/" + token + "/student.json";
-        return fromFile(filename, Student[].class);
+        Student[] students = fromFile(filename, Student[].class);
+        // perform the filtering. 
+        Vector<Student> filtered = new Vector<Student>();
+        for (Student student : students) { 
+            if (studentIds.contains(student.getUid())) { 
+                filtered.add(student);
+            }
+        }
+        Student[] retVal = new Student[filtered.size()];
+        return filtered.toArray(retVal);
     }
+    @Override
     public School[] getSchools(final String token) {
         String filename = "src/test/resources/mock_data/" + token + "/school.json";
         return fromFile(filename, School[].class);
     }
+    @Override
     public Assessment[] getAssessments(final String token, 
                                        List<String> studentIds) {
         String filename = "src/test/resources/mock_data/" + token + "/assessment.json";
@@ -43,20 +53,30 @@ public class MockAPIClient implements APIClient {
                 filtered.add(assessment);
             }
         }
-        return (Assessment[]) filtered.toArray();
+        Assessment[] retVal = new Assessment[filtered.size()];
+        return filtered.toArray(retVal);
     }
-
+    @Override
     public CustomData[] getCustomData(String token, String key) {
         String filename = "src/test/resources/mock_data/" + token + "/custom_" + key + ".json";
         return fromFile(filename, CustomData[].class);
     }
     
+    @Override
+    public void saveCustomData(CustomData[] src, String token, String key) {
+        String filename = "src/test/resources/mock_data/" + token + "/custom_" + key + ".json";
+        toFile(src, filename, CustomData[].class);
+    }
+    
     // Helper function to translate a .json file into object. 
     private static <T> T[] fromFile(String fileName, Class<T[]> c) {
+    
+        BufferedReader bin = null;
+    
         try {
             FileReader filein;
             filein = new FileReader(fileName);
-            BufferedReader bin = new BufferedReader(filein);
+            bin = new BufferedReader(filein);
             String s, total;
             total = "";
             while ((s = bin.readLine()) != null) {
@@ -65,9 +85,48 @@ public class MockAPIClient implements APIClient {
             Gson gson = new Gson();        
             T[] temp = gson.fromJson(total, c);
             return temp;
+            
         } catch (IOException e) {
             System.err.println(e);
             return null;
+            
+        } finally {
+
+            try {
+                if (bin != null) {
+                    bin.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
         }
     }
+    
+    // Helper function to translate an object into a .json file 
+    private static <T> void toFile(T[] src, String fileName, Class<T[]> c) {
+        
+        BufferedWriter bout = null;
+        
+        try {
+            FileWriter fileOut = new FileWriter(fileName);
+            bout = new BufferedWriter(fileOut);
+            Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+            String strOut = gson.toJson(src, c);
+            bout.write(strOut);
+            
+        } catch (IOException e) {
+            System.err.println(e);
+        } finally {
+
+            try {
+                if (bout != null) {
+                    bout.flush();
+                    bout.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
 }

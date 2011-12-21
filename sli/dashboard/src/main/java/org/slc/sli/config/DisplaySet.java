@@ -13,12 +13,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -31,11 +28,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}dataSet" maxOccurs="unbounded"/>
- *         &lt;element ref="{}displaySet" maxOccurs="unbounded"/>
+ *         &lt;element ref="{}displaySet" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{}field" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
- *       &lt;attribute name="type" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
+ *       &lt;attribute name="displayName" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -45,53 +41,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "dataSet",
-    "displaySet"
+    "displaySet",
+    "field"
 })
-@XmlRootElement(name = "viewConfig")
-public class ViewConfig {
+@XmlRootElement(name = "displaySet")
+public class DisplaySet {
 
-    @XmlElement(required = true)
-    protected List<DataSet> dataSet;
-    @XmlElement(required = true)
     protected List<DisplaySet> displaySet;
-    @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "NCName")
-    protected String name;
-    @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "NCName")
-    protected String type;
-
-    /**
-     * Gets the value of the dataSet property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the dataSet property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDataSet().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DataSet }
-     * 
-     * 
-     */
-    public List<DataSet> getDataSet() {
-        if (dataSet == null) {
-            dataSet = new ArrayList<DataSet>();
-        }
-        return this.dataSet;
-    }
+    protected List<Field> field;
+    @XmlAttribute
+    @XmlSchemaType(name = "anySimpleType")
+    protected String displayName;
 
     /**
      * Gets the value of the displaySet property.
@@ -123,51 +83,56 @@ public class ViewConfig {
     }
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the field property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the field property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getField().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Field }
+     * 
+     * 
+     */
+    public List<Field> getField() {
+        if (field == null) {
+            field = new ArrayList<Field>();
+        }
+        return this.field;
+    }
+
+    /**
+     * Gets the value of the displayName property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the displayName property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setType(String value) {
-        this.type = value;
+    public void setDisplayName(String value) {
+        this.displayName = value;
     }
 
 }

@@ -8,7 +8,7 @@ import com.google.gson.Gson;
  */
 public class Student {
 
-    private String nameSuffix, stateId, sex, birthDate, firstName, nameVerification, hispanicLatinoEthnicity, 
+    private String nameSuffix, uid, stateId, sex, birthDate, firstName, nameVerification, hispanicLatinoEthnicity, 
                    middleName, racialCategory, lastName;
 
 
@@ -63,6 +63,20 @@ public class Student {
 
     public void setStateId(String stateId) {
         this.stateId = stateId;
+    }
+
+
+
+
+    public String getUid() {
+        return uid;
+    }
+
+
+
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
 

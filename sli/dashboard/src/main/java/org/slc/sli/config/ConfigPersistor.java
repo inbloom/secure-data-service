@@ -42,8 +42,11 @@ public class ConfigPersistor {
         CustomData customData = new CustomData();
         customData.setCustomData(configStr);
         
-        // TODO: make API call
-        
+        // make API call
+        CustomData[] customDataSet = new CustomData[1];
+        customDataSet[0] = customData;
+        MockAPIClient mockClient = new MockAPIClient();
+        mockClient.saveCustomData(customDataSet, entityId, "view_config");
     }
     
 }

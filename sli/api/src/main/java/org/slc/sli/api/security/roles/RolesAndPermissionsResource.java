@@ -1,11 +1,11 @@
 package org.slc.sli.api.security.roles;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.slc.sli.api.security.enums.Rights;
+import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.service.EntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ import java.util.List;
  *
  *  @see Rights
  */
-@Path("/admin")
+@Path("/admin/roles")
 @Component
 @Scope("request")
 @Produces("application/json")
@@ -44,20 +44,6 @@ public class RolesAndPermissionsResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(RolesAndPermissionsResource.class);
 
-    /**
-     * Creates a new map of a user with permissions to use as a default.
-     * 
-     * @return a new hashmap of the user and their permissions.
-     */
-    private Map<String, Object> createRolesAndPermissions() {
-        Map<String, Object> role = new HashMap<String, Object>();
-        List<String> permissions = new ArrayList<String>();
-        permissions.add(Rights.READ_GENERAL.getRight());
-        permissions.add(Rights.WRITE_GENERAL.getRight());
-        role.put("name", "Role1");
-        role.put("rights", permissions);
-        return role;
-    }
 
     /**
      * Fetches the first 100 roles listed in the system to be serialized to json
@@ -66,12 +52,17 @@ public class RolesAndPermissionsResource {
      * @return an object that is technically a list of maps that are the roles
      */
     @GET
-    @Path("roles")
-    public Object getRolesAndPermissions() {
+    @Path("/")
+    public List<Map<String, Object>> getRolesAndPermissions() {
         Map<String, Object> roles = new HashMap<String, Object>();
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
-        EntityDefinition def = store.lookupByResourceName("roles");
-        EntityService service = def.getService();
+        EntityService service = getEntityService();
+        
+        //Add default roles
+        roleList.add(getDefaultRole(DefaultRoles.EDUCATOR));
+        roleList.add(getDefaultRole(DefaultRoles.LEADER));
+        roleList.add(getDefaultRole(DefaultRoles.AGGREGATOR));
+        roleList.add(getDefaultRole(DefaultRoles.ADMINISTRATOR));
 
         //TODO get some way to findAll.
         Iterable<String> names = service.list(0, 100);
@@ -81,6 +72,12 @@ public class RolesAndPermissionsResource {
         }
         return roleList;
     }
+    
+    private Map<String, Object> getDefaultRole(DefaultRoles role) {
+        RoleBuilder builder = new RoleBuilder(role.getRoleName());
+        builder.addRights(role.getRights());
+        return builder.build();
+    }
 
     /**
      * A simple method to add a new role to the database.
@@ -89,13 +86,25 @@ public class RolesAndPermissionsResource {
      * @see Rights
      */
     @POST
-    @Path("roles")
+    @Path("/")
     public void createRoleWithPermission(String name, Object rights) {
-        EntityBody role = new EntityBody();
-        role.put("name", name);
-        role.put("rights", rights);
-        EntityDefinition def = store.lookupByResourceName("roles");
-        EntityService service = def.getService();
-        service.create(role);
+        //Make sure we aren't creating a duplicate of a default role
+        if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName())
+                || name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName())
+                || name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName())
+                || name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName())) {
+            return;
+        }
+        RoleBuilder builder = new RoleBuilder(name);
+        builder.addRights(rights);
+        
+        EntityService service = getEntityService();
+        service.create(builder.build());
     }
+
+    private EntityService getEntityService() {
+        EntityDefinition def = store.lookupByResourceName("roles");
+        return def.getService();
+    }
+
 }
