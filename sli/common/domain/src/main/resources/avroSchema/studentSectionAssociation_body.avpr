@@ -1,0 +1,39 @@
+{
+  "type" : "record",
+  "name" : "StudentSectionAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "studentId",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "sectionId",
+    "type" : [ "null", "string" ],
+    "default" : null
+  },  {
+    "name" : "beginDate",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Calendar",
+      "namespace" : "java.util",
+      "fields" : [ ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "endDate",
+    "type" : [ "null", "java.util.Calendar" ],
+    "default" : null
+  }, {
+    "name" : "homeroomIndicator",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  }, {
+    "name" : "repeatIdentifier",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "RepeatIdentifierType",
+      "symbols" : [ "REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE", "REPEATED_NOT_COUNTED_IN_GRADE_POINT_AVERAGE", "NOT_REPEATED", "OTHER" ]
+    } ],
+    "default" : null
+  } ]
+}

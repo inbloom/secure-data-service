@@ -90,17 +90,17 @@ end
 
 Then /^I should see the sequence of course is (\d+)$/ do |course_seq|
   parsed_results.should_not be_nil
-  parsed_results['courseSequence'].should == course_seq
+  parsed_results['sequenceOfCourse'].should == course_seq
 end
 
 Then /^I should see the educational environment is "([^"]*)"$/ do |edu_env|
   parsed_results.should_not be_nil
-  parsed_results['educationEnvironment'].should == edu_env
+  parsed_results['educationalEnvironment'].should == edu_env
 end
 
 Then /^I should see the medium of instruction is "([^"]*)"$/ do |medium|
   parsed_results.should_not be_nil
-  parsed_results['instructionMedium'].should == medium
+  parsed_results['mediumOfInstruction'].should == medium
 end
 
 Then /^I should see the population served is "([^"]*)"$/ do |pop|

@@ -1,9 +1,75 @@
-require "cucumber/rake/task"
+
+###################################################
+# Section to setup necessary env vars and overrides
+if(ENV['DB_HOST'])
+  DB_HOST=ENV['DB_HOST']
+else
+  DB_HOST = "localhost"
+end
+
+if(ENV['MONGO_HOME'])
+  MONGO_BIN = ENV['MONGO_HOME']+"/bin/"
+else
+  MONGO_BIN = ""
+end
+#######################################################
+
+$SUCCESS=true
+$failures = Hash.new
+
+#######################################################################################################
+# Helper defs
+
+# This method is to run a given test or set of tests that have a dependency on a fixture being loaded
+# Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
+# Inputs: (String) collectionName = name of mongo collection to load fixture data to
+# Inputs: (String) fixtureFileName = name of json file in the test/data folder
+def runFixtureAndTests(testDirPath, collectionName, fixtureFileName)
+  setFixture(collectionName,fixtureFileName) {runTests(testDirPath)}
+end
+
+# This method is to run a given test of set of test where a fixture is not needed
+# Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
+def runTests(testDirPath)
+  sh "cucumber #{testDirPath} --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+    if success
+      $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
+    else
+      $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
+    end
+  end
+end
+
+def setFixture(collectionName, fixtureFileName)
+  sh "#{MONGO_BIN}mongoimport --drop -d sli -c #{collectionName} -h #{DB_HOST} --file test/data/#{fixtureFileName}" do |success, exit_code|
+    #allow for user to pass block to run the test for each running of setFixture
+    if(success && block_given?)
+      yield
+    else
+      puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
+    end
+  end
+end
+
+def setMultipleFixtureFiles(myHash)
+  myHash.each do |key, value|
+    setFixture(key,value)
+  end
+end
+
+############################################################################################################
+
+
+######################################################################################################
+# Rake tasks
 
 task :default => :production
 
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:schoolTests, :studentTests, :associationTests, :securityTests, :sectionTests] do
+  $failures.each do |key, value|
+    puts "#{key} tests #{value}"
+  end
   puts "Complete All Tests"
 end
 
@@ -14,36 +80,56 @@ end
 
 desc "Run Section Tests"
 task :sectionTests do
-  sh "cucumber test/features/api/section --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
 task :schoolTests do
-  sh "cucumber test/features/api/school --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
 task :studentTests do
-  sh "cucumber test/features/api/student --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/student", "student", "student_fixture.json")
 end
 
 desc "Run Association Tests"
 task :associationTests do
-  sh "cucumber test/features/api/associations --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  associationHash = Hash[
+    "studentschoolassociation" => "student_enrollments_fixture.json"
+    ]
+  setMultipleFixtureFiles(associationHash)
+  runTests("test/features/api/associations")
 end
 
 desc "Run Security Tests"
 task :securityTests do
-  sh "cucumber test/features/security --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runTests("test/features/security")
+end
+
+desc "Help information for this Rakefile"
+task :help do
+  puts <<-eos
+This Rakefile assumes one of two things: an environment variable MONGO_HOME
+is set to the home directory of mongo (just before bin) or that the mongo binaries
+are on your PATH.
+
+By default, the tests run against the deployed API/application that is running on
+localhost:8080 and also assumes a mongo server running on localhost (at default port).
+
+To change this behavior use the following syntax to override:
+
+cmd>rake property=value <rake Task>
+
+Example:
+
+cmd>rake DB_HOST=myNewDbHost.domain.name api_server_url=my.API.server.com production
+
+The properties available to override are as follows:
+
+DB_HOST
+api_server_url
+eos
+
 end
 
