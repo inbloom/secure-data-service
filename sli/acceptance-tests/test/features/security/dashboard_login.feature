@@ -26,13 +26,13 @@ Scenario: Valid user login
 Given I am not authenticated to SLI
 And I have tried to access the Dashboard home page
 And was redirected to the Realm page
-And I chose <SLI IDP> 
+And I chose "SLI IDP" 
 And I clicked the button Go 
 And I was redirected to the SLI IDP Login page
-And I am user <JohnDoe>
-And <JohnDoe> is valid <SLI IDP> user
-When I enter <JohnDoe> in the username text field
-And I enter <***> in the password text field
+And I am user "demo"
+And "demo" is valid "SLI IDP" user
+When I enter "demo" in the username text field
+And I enter "demo1234" in the password text field
 And I click the Go button
 Then I am authenticated to SLI
 And I am redirected to the Dashboard home page
@@ -42,13 +42,13 @@ Scenario: Invalid user login
 Given I am not authenticated to SLI
 And I have tried to access the Dashboard home page
 And was redirected to the Realm page
-And I chose <SLI IDP> 
+And I chose "SLI IDP" 
 And I clicked the button Go 
 And I was redirected to the SLI IDP Login page
-And I am user <InvalidJohnDoe>
-And <InvalidJohnDoe> is invalid <SLI IDP> user
-When I enter <InvalidJohnDoe> in the username text field
-And I enter <***> in the password text field
+And I am user "InvalidJohnDoe"
+And "InvalidJohnDoe" is invalid "SLI IDP" user
+When I enter "InvalidJohnDoe" in the username text field
+And I enter "demo1234" in the password text field
 And I click the Go button
-Then I am informed that <InvalidJohnDoe> does not exists
+Then I am informed that "InvalidJohnDoe" does not exists
 And I am redirected to the SLI-IDP Login Page
