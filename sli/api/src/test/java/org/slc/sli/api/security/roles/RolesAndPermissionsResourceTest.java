@@ -3,6 +3,7 @@ package org.slc.sli.api.security.roles;
 
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +41,12 @@ public class RolesAndPermissionsResourceTest {
     }
 
     @Test
+    public void testGetDefaultRoles() throws Exception {
+        List<Map<String, Object>> result = api.getRolesAndPermissions();
+        assertTrue(result.size() == 4);
+    }
+
+    @Test
     public void testGetRolesAndPermissions() {
         //Create a role.
         Map<String, Object> role = createTestRole();
@@ -50,7 +57,8 @@ public class RolesAndPermissionsResourceTest {
         api.createRoleWithPermission((String) role.get("name"), role.get("rights"));
         
         //Fetch it back out.
-        Object result = api.getRolesAndPermissions();
+        List<Map<String, Object>> result = api.getRolesAndPermissions();
         assertNotNull(result);
+        assertTrue(result.size() == 5);
     }
 }
