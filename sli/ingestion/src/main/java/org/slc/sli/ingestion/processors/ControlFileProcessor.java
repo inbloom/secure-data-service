@@ -11,6 +11,12 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 
+/**
+ * Control file processor.
+ *
+ * @author okrook
+ *
+ */
 @Component
 public class ControlFileProcessor implements Processor {
 

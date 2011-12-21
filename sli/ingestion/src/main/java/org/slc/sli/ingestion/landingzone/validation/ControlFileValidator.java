@@ -3,24 +3,31 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.io.File;
 import java.util.List;
 
-import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.validation.ValidationReport;
+import org.slc.sli.ingestion.validation.spring.SimpleValidator;
 
-public class ControlFileValidator extends IngestionValidator<ControlFileDescriptor> {
+/**
+ * Control File validator.
+ *
+ * @author okrook
+ *
+ */
+public class ControlFileValidator extends SimpleValidator<ControlFileDescriptor> {
 
     private List<IngestionFileValidator> ingestionFileValidators;
 
     @Override
-    public boolean isValid(ControlFileDescriptor item, List<Fault> faults) {
+    public boolean isValid(ControlFileDescriptor item, ValidationReport callback) {
         ControlFile controlFile = item.getFileItem();
 
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
-            faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG9")));
+            fail(callback, getFailureMessage("SL_ERR_MSG9"));
 
             return false;
         }
@@ -29,11 +36,11 @@ public class ControlFileValidator extends IngestionValidator<ControlFileDescript
             File file = item.getLandingZone().getFile(entry.getFileName());
 
             if (file == null) {
-                faults.add(Fault.createError(getFailureMessage("SL_ERR_MSG3", entry.getFileName())));
+                fail(callback, getFailureMessage("SL_ERR_MSG3", entry.getFileName()));
             } else {
                 entry.setFile(file);
 
-                if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), faults)) {
+                if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), callback)) {
                     // remove the file from the entry since it did not pass the validation
                     entry.setFile(null);
                 }
@@ -43,9 +50,9 @@ public class ControlFileValidator extends IngestionValidator<ControlFileDescript
         return true;
     }
 
-    protected boolean isValid(FileEntryDescriptor item, List<Fault> faults) {
+    protected boolean isValid(FileEntryDescriptor item, ValidationReport callback) {
         for (IngestionFileValidator validator : ingestionFileValidators) {
-            if (!validator.isValid(item, faults)) {
+            if (!validator.isValid(item, callback)) {
                 return false;
             }
         }
