@@ -29,10 +29,10 @@ And was redirected to the Realm page
 And I chose <SLI IDP> 
 And I clicked the button Go 
 And I was redirected to the SLI IDP Login page
-And I am user� <JohnDoe>
+And I am user <JohnDoe>
 And <JohnDoe> is valid <SLI IDP> user
 When I enter <JohnDoe> in the username text field
-And I enter� <***> in the password text field
+And I enter <***> in the password text field
 And I click the Go button
 Then I am authenticated to SLI
 And I am redirected to the Dashboard home page
@@ -45,10 +45,10 @@ And was redirected to the Realm page
 And I chose <SLI IDP> 
 And I clicked the button Go 
 And I was redirected to the SLI IDP Login page
-And I am user� <InvalidJohnDoe>
+And I am user <InvalidJohnDoe>
 And <InvalidJohnDoe> is invalid <SLI IDP> user
 When I enter <InvalidJohnDoe> in the username text field
-And I enter� <***> in the password text field
+And I enter <***> in the password text field
 And I click the Go button
 Then I am informed that <InvalidJohnDoe> does not exists
 And I am redirected to the SLI-IDP Login Page
