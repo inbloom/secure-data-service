@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "School",
-  "namespace" : "tmp.generated",
+  "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "schoolType",
     "type" : [ "null", {

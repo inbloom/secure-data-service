@@ -1,6 +1,6 @@
 {
   "type" : "record",
-  "name" : "StudentSchoolAssociation",
+  "name" : "StudentSectionAssociation",
   "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "studentReference",
@@ -185,42 +185,66 @@
     } ],
     "default" : null
   }, {
-    "name" : "schoolReference",
+    "name" : "sectionReference",
     "type" : [ "null", {
       "type" : "record",
-      "name" : "EducationalOrgReferenceType",
+      "name" : "SectionReferenceType",
       "fields" : [ {
-        "name" : "educationalOrgIdentity",
+        "name" : "sectionIdentity",
         "type" : [ "null", {
           "type" : "record",
-          "name" : "EducationalOrgIdentityType",
+          "name" : "SectionIdentityType",
           "fields" : [ {
-            "name" : "stateOrganizationId",
+            "name" : "schoolOrganizationID",
             "type" : [ "null", "string" ],
             "default" : null
           }, {
-            "name" : "educationOrgIdentificationCode",
+            "name" : "uniqueSectionCode",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "courseCode",
             "type" : [ "null", {
-              "type" : "array",
-              "items" : {
-                "type" : "record",
-                "name" : "EducationOrgIdentificationCode",
-                "fields" : [ {
-                  "name" : "id",
-                  "type" : [ "null", "string" ],
-                  "default" : null
-                }, {
-                  "name" : "identificationSystem",
-                  "type" : [ "null", {
-                    "type" : "enum",
-                    "name" : "EducationOrgIdentificationSystemType",
-                    "symbols" : [ "SCHOOL", "ACT", "LEA", "SEA", "NCES", "FEDERAL", "DUNS", "OTHER_FEDERAL", "OTHER" ]
-                  } ],
-                  "default" : null
-                } ]
-              },
-              "java-class" : "java.util.List"
+              "type" : "record",
+              "name" : "CourseCode",
+              "fields" : [ {
+                "name" : "id",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "identificationSystem",
+                "type" : [ "null", {
+                  "type" : "enum",
+                  "name" : "CourseCodeSystemType",
+                  "symbols" : [ "CSSC_COURSE_CODE", "INTERMEDIATE_AGENCY_COURSE_CODE", "LEA_COURSE_CODE", "NCES_PILOT_SNCCS_COURSE_CODE", "OTHER", "SCED_COURSE_CODE", "SCHOOL_COURSE_CODE", "STATE_COURSE_CODE", "UNIVERSITY_COURSE_CODE" ]
+                } ],
+                "default" : null
+              }, {
+                "name" : "assigningOrganizationCode",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
             } ],
+            "default" : null
+          }, {
+            "name" : "localCourseCode",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "term",
+            "type" : [ "null", {
+              "type" : "enum",
+              "name" : "TermType",
+              "symbols" : [ "FALL_SEMESTER", "SPRING_SEMESTER", "SUMMER_SEMESTER", "FIRST_TRIMESTER", "SECOND_TRIMESTER", "THIRD_TRIMESTER", "YEAR_ROUND", "MINI_TERM" ]
+            } ],
+            "default" : null
+          }, {
+            "name" : "classPeriodName",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "location",
+            "type" : [ "null", "string" ],
             "default" : null
           } ]
         } ],
@@ -237,60 +261,23 @@
     } ],
     "default" : null
   }, {
-    "name" : "entryDate",
+    "name" : "beginDate",
     "type" : [ "null", "java.util.Calendar" ],
     "default" : null
   }, {
-    "name" : "entryGradeLevel",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "GradeLevelType",
-      "symbols" : [ "ADULT_EDUCATION", "EARLY_EDUCATION", "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "GRADE_13", "INFANT_TODDLER", "KINDERGARTEN", "NINTH_GRADE", "OTHER", "POSTSECONDARY", "PRESCHOOL_PREKINDERGARTEN", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TRANSITIONAL_KINDERGARTEN", "TWELFTH_GRADE", "UNGRADED" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "entryType",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "EntryType",
-      "symbols" : [ "TRANSFER_FROM_A_PUBLIC_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFER_FROM_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFER_FROM_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFER_FROM_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFER_FROM_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFER_FROM_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFER_FROM_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFER_FROM_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFER_FROM_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFER_FROM_A_SCHOOL_OUTSIDE_OF_THE_COUNTRY", "TRANSFER_FROM_AN_INSTITUTION", "TRANSFER_FROM_A_CHARTER_SCHOOL", "TRANSFER_FROM_HOME_SCHOOLING", "RE_ENTRY_FROM_THE_SAME_SCHOOL_WITH_NO_INTERRUPTION_OF_SCHOOLING", "RE_ENTRY_AFTER_A_VOLUNTARY_WITHDRAWAL", "RE_ENTRY_AFTER_AN_INVOLUNTARY_WITHDRAWAL", "ORIGINAL_ENTRY_INTO_A_UNITED_STATES_SCHOOL", "ORIGINAL_ENTRY_INTO_A_UNITED_STATES_SCHOOL_FROM_A_FOREIGN_COUNTRY_WITH_NO_INTERRUPTION_IN_SCHOOLING", "ORIGINAL_ENTRY_INTO_A_UNITED_STATES_SCHOOL_FROM_A_FOREIGN_COUNTRY_WITH_AN_INTERRUPTION_IN_SCHOOLING", "NEXT_YEAR_SCHOOL", "OTHER" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "repeatGradeIndicator",
-    "type" : [ "null", "boolean" ],
-    "default" : null
-  }, {
-    "name" : "classOf",
-    "type" : [ "null", {
-      "type" : "record",
-      "name" : "XMLGregorianCalendar",
-      "namespace" : "javax.xml.datatype",
-      "fields" : [ ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "schoolChoiceTransfer",
-    "type" : [ "null", "boolean" ],
-    "default" : null
-  }, {
-    "name" : "exitWithdrawDate",
+    "name" : "endDate",
     "type" : [ "null", "java.util.Calendar" ],
     "default" : null
   }, {
-    "name" : "exitWithdrawType",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "ExitWithdrawType",
-      "symbols" : [ "STUDENT_IS_IN_A_DIFFERENT_PUBLIC_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFERRED_TO_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFERRED_TO_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFERRED_TO_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFERRED_TO_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFERRED_TO_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFERRED_TO_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFERRED_TO_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFERRED_TO_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFERRED_TO_A_SCHOOL_OUTSIDE_OF_THE_COUNTRY", "TRANSFERRED_TO_AN_INSTITUTION", "TRANSFERRED_TO_HOME_SCHOOLING", "TRANSFERRED_TO_A_CHARTER_SCHOOL", "GRADUATED_WITH_REGULAR_ADVANCED_INTERNATIONAL_BACCALAUREATE_OR_OTHER_TYPE_OF_DIPLOMA", "COMPLETED_SCHOOL_WITH_OTHER_CREDENTIALS", "DIED_OR_IS_PERMANENTLY_INCAPACITATED", "WITHDRAWN_DUE_TO_ILLNESS", "EXPELLED_OR_INVOLUNTARILY_WITHDRAWN", "REACHED_MAXIMUM_AGE_FOR_SERVICES", "DISCONTINUED_SCHOOLING", "COMPLETED_GRADE_12_BUT_DID_NOT_MEET_ALL_GRADUATION_REQUIREMENTS", "ENROLLED_IN_A_POSTSECONDARY_EARLY_ADMISSION_PROGRAM_ELIGIBLE_TO_RETURN", "NOT_ENROLLED_UNKNOWN_STATUS", "STUDENT_IS_IN_THE_SAME_LOCAL_EDUCATION_AGENCY_AND_RECEIVING_EDUCATION_SERVICES_BUT_IS_NOT_ASSIGNED_TO_A_PARTICULAR_SCHOOL", "ENROLLED_IN_AN_ADULT_EDUCATION_OR_TRAINING_PROGRAM", "COMPLETED_A_STATE_RECOGNIZED_VOCATIONAL_EDUCATION_PROGRAM", "NOT_ENROLLED_ELIGIBLE_TO_RETURN", "ENROLLED_IN_A_FOREIGN_EXCHANGE_PROGRAM_ELIGIBLE_TO_RETURN", "WITHDRAWN_FROM_SCHOOL_UNDER_THE_AGE_FOR_COMPULSORY_ATTENDANCE_ELIGIBLE_TO_RETURN", "EXITED", "STUDENT_IS_IN_A_CHARTER_SCHOOL_MANAGED_BY_THE_SAME_LOCAL_EDUCATION_AGENCY", "COMPLETED_WITH_A_STATE_RECOGNIZED_EQUIVALENCY_CERTIFICATE", "OTHER" ]
-    } ],
+    "name" : "homeroomIndicator",
+    "type" : [ "null", "boolean" ],
     "default" : null
   }, {
-    "name" : "educationalPlans",
+    "name" : "repeatIdentifier",
     "type" : [ "null", {
-      "type" : "array",
-      "items" : "string",
-      "java-class" : "java.util.List"
+      "type" : "enum",
+      "name" : "RepeatIdentifierType",
+      "symbols" : [ "REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE", "REPEATED_NOT_COUNTED_IN_GRADE_POINT_AVERAGE", "NOT_REPEATED", "OTHER" ]
     } ],
     "default" : null
   } ]
