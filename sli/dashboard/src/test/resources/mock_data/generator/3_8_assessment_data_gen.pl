@@ -123,7 +123,7 @@ for(my $i = 0; $i <= $#results; $i++)
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
     if ($omit_percentile_rank != 'y' ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
-    print "        \"lexileScore\": \"" . $assessment[4] . "\",\n";
+    print "        \"lexileScore\": \"" . $assessment[4] . "\"\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }
 print "]\n";

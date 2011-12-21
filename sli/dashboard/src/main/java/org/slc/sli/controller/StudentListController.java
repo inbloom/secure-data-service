@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import org.springframework.ui.ModelMap;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,8 +14,11 @@ import org.slc.sli.entity.School;
  * TODO: Write Javadoc
  *
  */
-@Controller
 public class StudentListController extends DashboardController {
+
+    // model map keys required by the view for the student list view
+    public static final String USER_NAME = "username"; 
+    public static final String SCHOOL_LIST = "schoolList"; 
 
     public StudentListController() { }
     
@@ -25,7 +27,8 @@ public class StudentListController extends DashboardController {
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
         School[] schoolList = retrieveSchools(username);
-        model.addAttribute("schoolList", gson.toJson(schoolList));
+        model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
+        model.addAttribute(USER_NAME, username);
         return new ModelAndView("studentList");
     }
     
