@@ -1,6 +1,6 @@
 <html>
 <head>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="static/js/3p/jquery-1.7.1.js"></script>
 <script type="text/javascript">
 var schools = ${schoolList};
 
