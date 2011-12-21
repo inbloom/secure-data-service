@@ -24,24 +24,20 @@ public class EntitySchemaRegistryTest {
     
     @Test
     public void testFindSchemaForType() {
-        Entity school = mock(Entity.class);
-        when(school.getType()).thenReturn("school");
-        Schema schoolSchema = schemaRegistry.findSchemaForType(school);
-        assertNotNull(schoolSchema);
-        assertEquals(schoolSchema.getName(), "School");
-
-        Entity student = mock(Entity.class);
-        when(student.getType()).thenReturn("student");
-        Schema studentSchema = schemaRegistry.findSchemaForType(student);
-        assertNotNull(studentSchema);
-        assertEquals(studentSchema.getName(), "Student");
-        
-        Entity studentSchoolAssociation = mock(Entity.class);
-        when(studentSchoolAssociation.getType()).thenReturn("studentSchoolAssociation");
-        Schema studentSchoolAssociationSchema = schemaRegistry.findSchemaForType(studentSchoolAssociation);
-        assertNotNull(studentSchoolAssociationSchema);
-        assertEquals(studentSchoolAssociationSchema.getName(), "StudentSchoolAssociation");
-
+        String[] schemaNames = new String[] { "assessment", "student", "school", "section",
+                "studentAssessmentAssociation",
+                "studentSchoolAssociation", "studentSectionAssociation", "teacher", "teacherSchoolAssociation",
+                "teacherSectionAssociation" };
+        for (String schemaName : schemaNames) {
+            checkSchema(schemaName);
+        }
     }
-
+    
+    private void checkSchema(String schemaName) {
+        Entity entity = mock(Entity.class);
+        when(entity.getType()).thenReturn(schemaName);
+        Schema schema = schemaRegistry.findSchemaForType(entity);
+        assertNotNull(schema);
+        assertEquals(schema.getName(), schemaName.substring(0, 1).toUpperCase() + schemaName.substring(1));
+    }
 }

@@ -9,22 +9,23 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Service layer tests for the API.
@@ -239,6 +240,7 @@ public class EntityServiceLayerTest {
         schoolService.delete(schoolId);
     }
     
+    // test referential validation for association creation
     @Test(expected = ValidationException.class)
     public void testCreateAssocValidate() {
         EntityBody student1 = new EntityBody();
@@ -258,30 +260,34 @@ public class EntityServiceLayerTest {
 
     }
     
+    // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
-    public void testDeleteWithAssoc() {
-        
-        EntityBody student1 = new EntityBody();
-        student1.put("firstName", "Bonzo");
-        student1.put("lastName", "Madrid");
-        String id1 = studentService.create(student1);
-        
-        EntityBody school = new EntityBody();
-        school.put("name", "Battle School");
-        String schoolId = schoolService.create(school);
-        
-        EntityBody assoc1 = new EntityBody();
-        assoc1.put("schoolId", schoolId);
-        assoc1.put("studentId", id1);
-        assoc1.put("startDate", (new Date()).getTime());
-        String assocId = studentSchoolAssociationService.create(assoc1);
+    public void testDeleteWithAssoc1() {
+        Map<String, String> ids = setupTestDeleteWithAssoc();
+        String studentId = ids.get("studentId");
+        String assocId = ids.get("assocId");
+
         EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
-        assertEquals(assocEntity.get("studentId"), id1);
+        assertEquals(assocEntity.get("studentId"), studentId);
         
-        studentService.delete(id1);
+        studentService.delete(studentId);
         studentSchoolAssociationService.get(assocId);
-
+    }
+    
+    // test delete target entity also remove association entity
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteWithAssoc2() {
+        Map<String, String> ids = setupTestDeleteWithAssoc();
+        String schoolId = ids.get("schoolId");
+        String assocId = ids.get("assocId");
+        
+        EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
+        assertNotNull(assocEntity);
+        assertEquals(assocEntity.get("schoolId"), schoolId);
+        
+        schoolService.delete(schoolId);
+        studentSchoolAssociationService.get(assocId);
     }
 
     private <T> List<T> iterableToList(Iterable<T> itr) {
@@ -292,4 +298,26 @@ public class EntityServiceLayerTest {
         return result;
     }
     
+    private Map<String, String> setupTestDeleteWithAssoc() {
+        Map<String, String> ids = new HashMap<String, String>();
+        EntityBody student1 = new EntityBody();
+        student1.put("firstName", "Bonzo");
+        student1.put("lastName", "Madrid");
+        String studentId = studentService.create(student1);
+        
+        EntityBody school = new EntityBody();
+        school.put("name", "Battle School");
+        String schoolId = schoolService.create(school);
+        
+        EntityBody assoc = new EntityBody();
+        assoc.put("schoolId", schoolId);
+        assoc.put("studentId", studentId);
+        assoc.put("startDate", (new Date()).getTime());
+        String assocId = studentSchoolAssociationService.create(assoc);
+        ids.put("studentId", studentId);
+        ids.put("schoolId", schoolId);
+        ids.put("assocId", assocId);
+        return ids;
+    }
+
 }

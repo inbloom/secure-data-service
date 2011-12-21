@@ -12,10 +12,10 @@ end
 def data_builder
   if @format == "application/json"
   data = Hash[
-    "sectionCode" => @section_code,
-    "courseSequence" => @course_seq,
-    "educationEnvironment" => @edu_env,
-    "instructionMedium" => @medium,
+    "uniqueSectionCode" => @section_code,
+    "sequenceOfCourse" => @course_seq,
+    "educationalEnvironment" => @edu_env,
+    "mediumOfInstruction" => @medium,
     "populationServed" => @pop,
     "availableCredit" => @credit
   ]
@@ -23,8 +23,8 @@ def data_builder
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent => 2)
     data = builder.section { |b| 
-      b.sectionCode(@section_code)
-      b.courseSequence(@course_seq)
+      b.uniqueSectionCode(@section_code)
+      b.sequenceOfCourse(@course_seq)
       b.educationalEnvironment(@edu_env)
       b.populationServed(@pop)
       b.availableCredit(@credit)  

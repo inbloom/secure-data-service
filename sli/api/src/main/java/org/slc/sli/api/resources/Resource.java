@@ -44,7 +44,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.XML_MEDIA_TYPE, Resource.JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE })
 public class Resource {
     
     private static final String SELF_LINK = "self";

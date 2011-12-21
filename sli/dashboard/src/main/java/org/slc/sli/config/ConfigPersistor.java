@@ -12,7 +12,9 @@ import org.slc.sli.entity.CustomData;
 public class ConfigPersistor {
 
     // get the view configuration for an entity
-    public static ViewConfig getConfig(String entityId) throws Exception {
+    public static ViewConfigSet getConfigSet(String entityId) throws Exception {
+    
+        // TODO: implement mock/real switch
     
         // make API call with entity id
         MockAPIClient mockClient = new MockAPIClient();
@@ -25,22 +27,22 @@ public class ConfigPersistor {
         String configStr = customData[0].getCustomData();
         
         // convert data block to POJO
-        ViewConfig config = ConfigUtil.fromXMLString(configStr);
+        ViewConfigSet configSet = ConfigUtil.fromXMLString(configStr);
         
-        return config;
+        return configSet;
     }
     
-    // save the view configuration for an entity
-    public static void saveConfig(String entityId, ViewConfig config) throws Exception {
+    // save the view configurations for an entity
+    public static void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     
         // convert POJO to serialized format
-        String configStr = ConfigUtil.toXMLString(config);
+        String configStr = ConfigUtil.toXMLString(configSet);
         
         // add data to custom data field
         CustomData customData = new CustomData();
         customData.setCustomData(configStr);
         
-        // make API call
+        // TODO: make API call
         
     }
     

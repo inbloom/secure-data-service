@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.config.ConfigPersistor;
+import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.ViewConfig;
 
 /**
@@ -21,18 +22,25 @@ public class ConfigPersistorTest {
     }
 
     @Test
-    public void testGetConfig() {
+    public void testGetConfigSet() {
      
-        ViewConfig config = null;
+        ViewConfigSet configSet = null;
         try {
-            config = ConfigPersistor.getConfig("lkim");
+            configSet = ConfigPersistor.getConfigSet("lkim");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(3, config.getView().get(0).getDataSet().size());
-        assertEquals(3, config.getView().get(0).getDataSet().get(0).getField().size());
-        assertEquals(3, config.getView().get(0).getDataSet().get(1).getField().size());
-        assertEquals(2, config.getView().get(0).getDataSet().get(2).getField().size());
+        ViewConfig config = configSet.getViewConfig().get(0);
+        assertEquals(3, config.getDataSet().size());
+        assertEquals(1, config.getDataSet().get(0).getDataPoint().size());
+        assertEquals(4, config.getDataSet().get(1).getDataPoint().size());
+        assertEquals(2, config.getDataSet().get(2).getDataPoint().size());
+        assertEquals(3, config.getDisplaySet().size());
+        assertEquals(1, config.getDisplaySet().get(0).getField().size());
+        assertEquals(1, config.getDisplaySet().get(1).getDisplaySet().size());
+        assertEquals(4, config.getDisplaySet().get(1).getDisplaySet().get(0).getField().size());
+        assertEquals(1, config.getDisplaySet().get(2).getDisplaySet().size());
+        assertEquals(2, config.getDisplaySet().get(2).getDisplaySet().get(0).getField().size());
     }
     
 }

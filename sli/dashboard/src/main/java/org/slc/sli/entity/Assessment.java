@@ -29,4 +29,9 @@ public class Assessment {
     public void setPercentile(double x) { percentile = x; }
     public void setLexileScore(int x) { lexileScore = x; }
         
+    // easy accessor functions
+    public String getPerfLevelAsString() { return  new Integer(getPerfLevel()).toString(); }
+    public String getScaleScoreAsString() { return  new Integer(getScaleScore()).toString(); }
+    public String getPercentileAsString() { return  new Double(getPercentile()).toString(); }
+    public String getLexileScoreAsString() { return  new Integer(getLexileScore()).toString(); }
 }
