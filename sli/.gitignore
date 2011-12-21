@@ -1,7 +1,9 @@
 .settings
 .project
-.checksyle
+.checkstyle
 .classpath
 .pydevproject
 target
 .git
+#below is to ignore generated junit output
+TEST-*.xml
