@@ -1,6 +1,7 @@
 package org.slc.sli.api.security;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Attribute holder for SLI Principal
@@ -13,7 +14,8 @@ public class SLIPrincipal implements Principal {
     private String id;
     private String name;
     private String state;
-    
+    private List<String> theirRoles;
+
     @Override
     public String getName() {
         return null;
@@ -38,5 +40,12 @@ public class SLIPrincipal implements Principal {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public void setTheirRoles(List<String> theirRole) {
+        this.theirRoles = theirRole;
+    }
+
+    public List<String> getTheirRoles() {
+        return theirRoles;
+    }
 }

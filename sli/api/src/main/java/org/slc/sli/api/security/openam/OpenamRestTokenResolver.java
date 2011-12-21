@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.openam;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 import org.slc.sli.api.security.SLIAuthenticationEntryPoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
+import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -82,13 +84,48 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
+        principal.setTheirRoles(extractRoles(payload));
         
-        return new PreAuthenticatedAuthenticationToken(principal, token, extractAuthorities());
+        return new PreAuthenticatedAuthenticationToken(principal, token, new RoleMapper(principal.getTheirRoles()).buildMappedRoles());
+    }
+
+    /**
+     * A simple builder class to map their role to ours if it exists.
+     *
+     * TODO: Extract it and make it work against custom roles.
+     */
+    final class RoleMapper {
+        List<GrantedAuthorityImpl> mappedRoles;
+        List<String> theirRoles;
+        
+        public List<GrantedAuthorityImpl> buildMappedRoles() {
+            for (String role : theirRoles) {
+                if (DefaultRoles.ADMINISTRATOR.getRoleName().equals(role)
+                        || DefaultRoles.LEADER.getRoleName().equals(role)
+                        || DefaultRoles.EDUCATOR.getRoleName().equals(role)
+                        || DefaultRoles.AGGREGATOR.getRoleName().equals(role)) {
+                    mappedRoles.add(new GrantedAuthorityImpl(role));
+                }
+            }
+            //TODO When we have the IDP generating real roles we won't use this.
+            mappedRoles.add(new GrantedAuthorityImpl("ROLE_USER"));
+            return mappedRoles;
+        }
+        private RoleMapper(List<String> roles) {
+            theirRoles = roles;
+            mappedRoles = new ArrayList<GrantedAuthorityImpl>();
+        }
     }
     
-    private List<GrantedAuthorityImpl> extractAuthorities() {
-        return Collections.singletonList(new GrantedAuthorityImpl("ROLE_USER"));    // TODO look at
-                                                                                 // actual roles
+    private List<String> extractRoles(String payload) {
+        List<String> roles = new ArrayList<String>();
+        Pattern p = Pattern.compile("userdetails\\.role=id=([^,]*)", Pattern.MULTILINE);
+        Matcher m = p.matcher(payload);
+
+        while (m.find()) {
+            roles.add(m.group(1));
+        }
+        return roles;
     }
     
     private String extractValue(String valueName, String payload) {
