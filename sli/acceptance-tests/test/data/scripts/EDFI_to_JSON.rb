@@ -25,7 +25,7 @@ class StudentEntity
   
   def createJson(inputRow)
     data = Hash[  
-      "_id" => Hash["$oid" => inputRow[@myHash['id']]],
+      "_id" => Hash["$binary" => inputRow[@myHash['id']]],
       "type" => "student",
       "body" => Hash[
           "studentUniqueStateId" => inputRow[@myHash['state_id']].to_i,
@@ -68,7 +68,7 @@ class StudentEntity_XML
       next if student.name != "Student"
       
       data = Hash[  
-      "_id" => Hash["$oid" => student.elements["_id"].text],
+      "_id" => Hash["$binary" => student.elements["_id"].text],
       "type" => "student",
       "body" => Hash[
           "studentUniqueStateId" => student.elements["StudentUniqueStateId"].text.to_i,
@@ -131,13 +131,29 @@ class SchoolEntity_XML
     return ar
   end
   
+  def makeGradesArray(element)
+    ar = Array.new
+    element.elements.each do |e|
+      ar.push(e.text)
+    end
+    return ar
+  end
+  
+  def makeCategoryArray(element)
+    ar = Array.new
+    element.elements.each do |e|
+      ar.push(e.text)
+    end
+    return ar
+  end
+  
   def createJson()
     doc = Document.new(@myXML_File)
     doc.root.elements.each do |school| 
       next if school.name != "School"
       
       data = Hash[  
-      "_id" => Hash["$oid" => school.elements["_id"].text],
+      "_id" => Hash["$binary" => school.elements["_id"].text],
       "type" => "school",
       "body" => Hash[
           "stateOrganizationId" => school.elements["StateOrganizationId"].text.to_i,
@@ -145,7 +161,54 @@ class SchoolEntity_XML
           "organizationCategory" => school.elements["OrganizationCategory"].text,
           "addresses" => makeAddressArray(school),
           "telephone" => makeTelephoneArray(school),
+          "gradesOffered" => makeGradesArray(school.elements["GradesOffered"]),
+          "schoolCategories" => makeCategoryArray(school.elements["SchoolCategories"])
           
+        ]
+      ]
+      @myJSON_File.puts(data.to_json)
+    end
+  end
+end
+
+class EnrollmentEntity_XML
+  
+  def initialize(inputXML, outputJSON)
+    @myXML_File = inputXML
+    @myJSON_File = outputJSON
+  end
+  
+  def getElement_or_nil(element, name)
+    if(element.elements[name] == nil) 
+      return nil.to_s
+    else 
+      return element.elements[name].text
+    end
+  end
+  
+  def makeEdPlanArray(element)
+    ar = Array.new
+    element.elements.each do |e|
+      ar.push(e.text)
+    end
+    return ar
+  end
+  
+  def createJson()
+    doc = Document.new(@myXML_File)
+    doc.root.elements.each do |enrollment| 
+      next if enrollment.name != "StudentSchoolAssociation"
+      
+      data = Hash[  
+      "_id" => Hash["$binary" => enrollment.elements["_id"].text],
+      "type" => "enrollment",
+      "body" => Hash[
+          "studentUniqueStateId" => enrollment.elements["StudentReference"].elements["StudentIdentity"].elements["StudentUniqueStateId"].text,
+          "stateOrganizationId" => enrollment.elements["SchoolReference"].elements["EducationalOrgIdentity"].elements["StateOrganizationId"].text,
+          "entryDate" => enrollment.elements["EntryDate"].text,
+          "entryGradeLevel" => enrollment.elements["EntryGradeLevel"].text,
+          "graduationPlan"  => enrollment.elements["GraduationPlan"].text,
+          "educationalPlans" => makeEdPlanArray(enrollment.elements["EducationalPlans"])
           
         ]
       ]
@@ -173,11 +236,15 @@ end
 
 #puts ""
 
-s2 = StudentEntity_XML.new(File.new("/temp/student_sample.xml"), File.new("/temp/student_out.json", "w+"))
+puts "Start"
+s2 = StudentEntity_XML.new(File.new("/Users/jshort/temp/student_sample.xml"), File.new("/Users/jshort/temp/student_out.json", "w+"))
 s2.createJson()
 
-s3 = SchoolEntity_XML.new(File.new("/temp/school_sample.xml"), File.new("/temp/school_out.json", "w+"))
+s3 = SchoolEntity_XML.new(File.new("/Users/jshort/temp/school_sample.xml"), File.new("/Users/jshort/temp/school_out.json", "w+"))
 s3.createJson()
+
+s4 = EnrollmentEntity_XML.new(File.new("/Users/jshort/temp/student_school_assoc_sample.xml"), File.new("/Users/jshort/temp/enrollment_out.json", "w+"))
+s4.createJson()
 
 
 
