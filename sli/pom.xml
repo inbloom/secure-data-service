@@ -129,10 +129,7 @@
     <module>api</module>
     <module>data-access</module>
     <module>ingestion</module>
-    <module>client</module>
-    <module>cucumber-tests</module>
     <module>dashboard</module>
-    <module>databrowser</module>
   </modules>
 
   <dependencyManagement>
