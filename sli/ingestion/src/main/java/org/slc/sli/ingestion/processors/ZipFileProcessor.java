@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.landingzone.ValidationFaultReport;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
 
@@ -35,7 +36,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
         BatchJob job = BatchJob.createDefault();
 
-        if (validator.isValid(zipFile, job.getFaults())) {
+        if (validator.isValid(zipFile, new ValidationFaultReport(job.getFaults()))) {
 
             // extract the zip file
             File dir = ZipFileUtil.extract(zipFile);
