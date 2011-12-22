@@ -1,6 +1,10 @@
 package org.slc.sli.api.security.enums;
 
-
+/**
+ * A simple enum that describes the default roles in terms of their rights.
+ *
+ * Also has a few utility functions to see if a role contains a right.
+ */
 public enum DefaultRoles {
     EDUCATOR("Educator", new Rights[]{Rights.AGGREGATE_READ, Rights.READ_GENERAL}), 
     LEADER("Leader", new Rights[] {Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED}),
@@ -20,7 +24,7 @@ public enum DefaultRoles {
     
     public boolean hasRight(Rights right) {
         for (Rights checkedRight : rights) {
-            if(checkedRight == right) {
+            if (checkedRight == right) {
                 return true;
             }
         }

@@ -22,6 +22,7 @@
       <xs:sequence>
         <xs:element maxOccurs="unbounded" ref="dataPoint"/>
       </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:NCName"/>
       <xs:attribute name="name" type="xs:NCName"/>
       <xs:attribute name="timeSlot" type="xs:NCName"/>
       <xs:attribute name="type" use="required" type="xs:NCName"/>

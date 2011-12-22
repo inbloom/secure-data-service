@@ -4,12 +4,10 @@
   "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "teacherId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : "string"
   }, {
     "name" : "schoolId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : {"type" : "array", "items" : "string"}
   }, {
     "name" : "programAssignment",
     "type" : [ "null", {

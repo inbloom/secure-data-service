@@ -6,7 +6,12 @@ import org.slc.sli.api.security.enums.Rights;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A simple class to help build a Role in terms of their associated rights.
+ *
+ * Currently this doesn't have much use, but will when we add custom roles.
+ *
+ */
 public class RoleBuilder {
 
     EntityBody body;
@@ -33,12 +38,12 @@ public class RoleBuilder {
     }
 
     private void checkAndClearRights() {
-        if(this.rights.size() != 0) {
+        if (this.rights.size() != 0) {
             this.rights.clear();
         }
     }
 
-    public void addRight (String right) {
+    public void addRight(String right) {
         rights.add(right);
     }
     
@@ -55,7 +60,7 @@ public class RoleBuilder {
     }
 
     public EntityBody build() {
-        if(!body.containsKey("rights"))
+        if (!body.containsKey("rights"))
             body.put("rights", rights);
         return body;
     }

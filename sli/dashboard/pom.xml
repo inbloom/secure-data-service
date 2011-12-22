@@ -133,6 +133,7 @@
                 <skip>false</skip>
                 <includes>
                     <include>org/slc/sli/unit/controller/*.java</include>
+                    <include>org/slc/sli/unit/config/*.java</include>
                 </includes>
                 <excludes>
                     <exclude>org/slc/sli/selenium/controller/*.java</exclude>

@@ -43,7 +43,7 @@ Scenario: Update an existing teacher
         And his degree is "none"  
         
 #### XML version
-Scenario: Create an new teacher
+Scenario: Create an new teacher XML
     When I navigate to POST "/teachers/1234" 
         And format "application/xml"
         And the name is "Anny Smith"
