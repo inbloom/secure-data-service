@@ -33,7 +33,6 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.service.EntityNotFoundException;
 
 /**
  * Jersey resource for all entities and associations.

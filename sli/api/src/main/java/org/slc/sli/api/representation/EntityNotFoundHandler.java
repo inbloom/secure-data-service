@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.service.EntityNotFoundException;
 
 /**
- * Hander for validation errors
+ * Hander for entity not found errors
  */
 @Provider
 @Component

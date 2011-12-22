@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Hander for validation errors
+ * Hander for uncaught errors
  */
 @Provider
 @Component
