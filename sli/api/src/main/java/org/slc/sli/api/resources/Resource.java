@@ -47,6 +47,7 @@ import org.slc.sli.api.representation.ErrorResponse;
 public class Resource {
     
     private static final String SELF_LINK = "self";
+    private static final String LINKS_ELEM = "links";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
@@ -118,7 +119,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put("links", getLinks(uriInfo, entityDef, id, entityBody));
+                    entityBody.put(LINKS_ELEM, getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
@@ -181,7 +182,9 @@ public class Resource {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                entityDef.getService().update(id, newEntityBody);
+                EntityBody copy = new EntityBody(newEntityBody);
+                copy.remove(LINKS_ELEM);
+                entityDef.getService().update(id, copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
