@@ -95,9 +95,7 @@ end
 
 desc "Run Teacher Tests"
 task :teacherTests do
-  sh "cucumber test/features/api/teacher --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
-    puts "Exited with code: #{exit_code.exitstatus}" unless success
-  end
+  runFixtureAndTests("test/features/api/teacher", "teacher", "teacher_fixture.json")
 end
 
 desc "Run Association Tests"

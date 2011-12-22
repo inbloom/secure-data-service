@@ -76,7 +76,7 @@ And I am authenticated on <SEA/LEA IDP>
 And I have a Role attribute returned from the <SEA/LEA IDP>
 And the role attribute equals <AnyDefaultSLIRole>
 When I make an API call in the web browser
-I get the JSON response displayed
+Then I get the JSON response displayed
 
 Scenario:  SEA/LEA user with an invalid Default SLI Role making API call
  
@@ -86,7 +86,7 @@ And I am authenticated on <SEA/LEA IDP>
 And I have a Role attribute returned from the <SEA/LEA IDP>
 And the role attribute does not equals <AnyDefaultSLIRole>
 When I make an API call in the web browser
-I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
+Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
  
 Scenario:  SEA/LEA user without Role attribute making API call
  
@@ -95,7 +95,7 @@ And I am valid SEA/LEA end user
 And I am authenticated on <SEA/LEA IDP>
 And I do not have a Role attribute returned from the <SEA/LEA IDP>
 When I make an API call in the web browser
-I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
+Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
 
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
