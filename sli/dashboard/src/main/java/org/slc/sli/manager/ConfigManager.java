@@ -63,9 +63,31 @@ public class ConfigManager {
         
         ViewConfigSet config = getConfigSet(userId);
         
+        if (config == null)
+            return null;
+        
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
             if (view.getName().equals(viewName))
+                return view;
+        }
+        return null;
+    }
+    
+    /**
+     * Get the configuration for one particular view, for a user
+     * 
+     * @param userId
+     * @param viewName
+     * @return ViewConfig
+     */
+    public ViewConfig getConfigWithType(String userId, String typeName) {
+        
+        ViewConfigSet config = getConfigSet(userId);
+        
+        // loop through, find right config
+        for (ViewConfig view : config.getViewConfig()) {
+            if (view.getType().equals(typeName))
                 return view;
         }
         return null;

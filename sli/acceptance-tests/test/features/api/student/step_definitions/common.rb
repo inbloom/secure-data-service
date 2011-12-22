@@ -25,12 +25,16 @@ end
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "studentSchoolId" => @studentSchoolId,
-      "firstName" => @fname,
-      "lastSurname" => @lname,
-      "middleName" => @mname,
+      "studentUniqueStateId" => @studentSchoolId,
+      "name" => Hash[
+        "firstName" => @fname,
+        "lastSurname" => @lname,
+        "middleName" => @mname],
       "sex" => @sex,
-      "birthDate" => @bdate]
+      "birthData" => Hash[
+        "birthDate" => @bdate
+        ]
+      ]
     data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
@@ -45,6 +49,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
   restHttpPost(arg1, data)
+  puts @res.body
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 

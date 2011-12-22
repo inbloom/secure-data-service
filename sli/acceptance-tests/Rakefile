@@ -109,7 +109,11 @@ end
 
 desc "Run Security Tests"
 task :securityTests do
-  runTests("test/features/security")
+  securityHash = Hash[
+    "school" => "school_fixture.json"
+    ]
+  setMultipleFixtureFiles(securityHash)
+  runTests("test/features/security")  
 end
 
 desc "Help information for this Rakefile"

@@ -31,7 +31,7 @@ Given /^the name is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
 end
 
 Given /^the student_school id is "([^"]*)"$/ do |arg1|
-  @studentSchoolId = arg1
+  @studentSchoolId = Integer(arg1)
   @studentSchoolId.should_not == nil
 end
 
@@ -67,6 +67,7 @@ Then /^I should see that he or she was born on "([^"]*)"$/ do |arg1|
   assert(result != nil, "Result of JSON parsing is nil")
   #d = Date.strptime(arg1, '%m/%d/%Y')
   #assert(result['birthDate'] == d.to_time.to_i*1000, "Expected student birthdate not found in response")
+  assert(result['birthData'] != nil, "Birthdata element was nil")
   assert(result['birthData']['birthDate'] == arg1, "Expected student birthdate not found in response")
 end
 
