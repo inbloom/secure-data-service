@@ -33,7 +33,7 @@ public class AvroEntityValidator implements EntityValidator {
      * Validates the given entity using its Avro schema.
      */
     public boolean validate(Entity entity) throws EntityValidationException {
-        LOG.debug("validating entity {}", entity);
+        LOG.debug("validating entity {}", entity.getBody());
         Schema schema = entitySchemaRegistry.findSchemaForType(entity);
         if (schema == null) {
             throw new RuntimeException("No schema associated for type: " + entity.getType());
@@ -164,7 +164,7 @@ public class AvroEntityValidator implements EntityValidator {
                 fieldsSeen.add(field.name());
             }
             
-            Set<String> dataFields = map.keySet();
+            Set<String> dataFields = new HashSet<String>(map.keySet());
             dataFields.removeAll(fieldsSeen);
             if (dataFields.size() > 0) {
                 for (String notSeen : dataFields) {
