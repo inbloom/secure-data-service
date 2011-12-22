@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * Hander for uncaught errors
  */
 @Provider
-@Component
 public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
     
     private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
