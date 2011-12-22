@@ -9,6 +9,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 //import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.ArrayList;
 
 /** 
  * Utilities for Config info. 
@@ -44,5 +46,15 @@ public class ConfigUtil {
         Unmarshaller u = jc.createUnmarshaller();
         ViewConfigSet configSet = (ViewConfigSet) (u.unmarshal(is));
         return configSet;
+    }
+    
+    public static List<DataSet> getDataSets(ViewConfig config, String dataSetType) {
+        List<DataSet> dataSets = new ArrayList<DataSet>();
+        for (DataSet dataSet : config.getDataSet()) {
+            if (dataSet.getType().equals(dataSetType)) {
+                dataSets.add(dataSet);
+            }
+        }
+        return dataSets;
     }
 }
