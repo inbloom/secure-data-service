@@ -11,7 +11,7 @@ And "JohnDoe" is valid "State/District" user
 When I enter "JohnDoe" in the username text field
 And I enter "***" in the password text field
 And I click the Go button
-Then I am authenticated to SLI
+Then I am now authenticated to SLI
  
 Scenario: SLI Authentication when trying to login to a SEA/LEA directory with valid username and invalid password
  
