@@ -81,6 +81,18 @@ Scenario: Delete an existing section XML
     When  I navigate to GET section "chemistryF11"
     Then I should receive a return code of 404
     
+###Links
+@wip
+Scenario: Section Resource links to teacher section association
+   Given format “application/json”
+   When I navigate to Section “567”
+   Then I should receive a return code of 200
+      And I should receive a link named “getTeacherSectionAssociations” with URI /teacher-section-associations/<'567’ ID>
+	  And I should receive a link named “getStudentSectionAssociations” with URI /student-section-associations/<'567’ ID>
+   	  And I should receive a link named “getTeachers” with URI /teacher-section-associations/<'567’ ID>/targets
+	  And I should receive a link named “getStudents” with URI /student-section-associations/<'567’ ID>/targets
+	  And I should receive a link named "getSections" with URI /sections/<'567' ID>
+    
 ### Error handling
 Scenario: Attempt to read a non-existing section
     Given format "application/json"
