@@ -1,4 +1,4 @@
-Feature: <US562>
+Feature: <US562> In order to manage teachers
    As a client application using SLI
    I want create, read, update, and delete functionality for a teacher
    So I can manage them.
@@ -24,32 +24,33 @@ Scenario: Create a new teacher in JSON format
               
 Scenario: Read a teacher by ID in JSON format
    Given format "application/json"
-   When I navigate to GET teacher "Rafe"
+   When I navigate to GET teacher "Macey"
    Then I should receive a return code of 200
-      And I should see that the name of the teacher is "Rafe" "Hairfire" "Esquith"
-      And I should see that he is "Male"
-      And I should see that he was born on "1954-08-31"
-      And I should see that his "Years of Prior Teaching Experience" is "32"
-      And I should see that his "Teacher Unique State ID" is "567"
-      And I should see that his "Highly Qualified Teacher" status is "1"
-      And I should see that his "Level of Education" is "Master's"
+      And I should see that the name of the teacher is "Macey" "" "Finch"
+      And I should see that he is "Female"
+      And I should see that he was born on "1956-08-14"
+      And I should see that his "Years of Prior Teaching Experience" is "22"
+      And I should see that his "Teacher Unique State ID" is "738543275"
+      And I should see that his "Highly Qualified Teacher" status is "0"
+      And I should see that his "Level of Education" is "Bachelor's"
 
 Scenario: Update an existing teacher in JSON format
    Given format "application/json"
-     And his "Highly Qualified Teacher" status is "0"
-   When I navigate to GET teacher "Rafe"
+     And her "Highly Qualified Teacher" status is "1"
+   When I navigate to GET teacher "Belle"
    Then I should receive a return code of 200   
-     And I should see that his "Highly Qualified Teacher" status is "1"
-   When I navigate to PUT teacher "Rafe"
+     And I should see that her "Highly Qualified Teacher" status is "0"
+   When I navigate to PUT teacher "Belle"
    Then I should receive a return code of 204
-   When I navigate to GET teacher "Rafe"
-   Then I should see that his "Highly Qualified Teacher" status is "0"
+   When I navigate to GET teacher "Belle"
+   Then I should receive a return code of 200   
+     And I should see that her "Highly Qualified Teacher" status is "1"
       
 Scenario: Delete an existing teacher in JSON format
    Given format "application/json"
-   When I navigate to DELETE teacher "Rafe"
+   When I navigate to DELETE teacher "Christian"
    Then I should receive a return code of 204
-   When I navigate to GET teacher "Rafe"
+   When I navigate to GET teacher "Christian"
    Then I should receive a return code of 404
  
  
@@ -124,4 +125,19 @@ Scenario: Attempt to update a non-existent student
    Given format "application/json"
    When I navigate to DELETE teacher "Unknown"
    Then I should receive a return code of 404
+   
+Scenario: Attempt to read the base teacher resource with no GUID
+  Given format "application/json"
+  When I navigate to GET teacher "NoGUID"
+  Then I should receive a return code of 405
+  
+Scenario: Fail when asking for an unsupported format "text/plain"
+  Given format "text/plain"
+  When I navigate to GET teacher "Simone"
+  Then I should receive a return code of 406
+  
+Scenario: Fail if going to the wrong URI
+    Given format "application/json"
+    When I navigate to GET teacher "WrongURI"
+    Then I should receive a return code of 404
  

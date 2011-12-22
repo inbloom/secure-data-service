@@ -20,9 +20,8 @@
 
    <security:http auto-config="true" entry-point-ref="entryPoint">
       <security:intercept-url pattern="/pub/**" filters="none"/>
-      <security:intercept-url pattern="/rest/**" filters="none"/>
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS"/>
-      <security:intercept-url pattern="/**" access="ROLE_USER" />
+      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
+      <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
       <security:request-cache ref="nullCache"/>
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
 

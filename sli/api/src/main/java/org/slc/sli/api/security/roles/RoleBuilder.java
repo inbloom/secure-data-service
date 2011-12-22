@@ -12,29 +12,37 @@ import java.util.List;
  * Currently this doesn't have much use, but will when we add custom roles.
  *
  */
-public class RoleBuilder {
+public final class RoleBuilder {
 
     EntityBody body;
     List<String> rights;
-    public RoleBuilder(String name) {
+    
+    public static RoleBuilder makeRole(String name) {
+        return new RoleBuilder(name);
+    }
+    
+    private RoleBuilder(String name) {
         body = new EntityBody();
         rights = new ArrayList<String>();
         body.put("name", name);
     }
     
-    public void addName(String name) {
+    public RoleBuilder addName(String name) {
         body.put("name", name);
+        return this;
     }
 
-    public void addRight(Rights right) {
+    public RoleBuilder addRight(Rights right) {
         rights.add(right.getRight());
+        return this;
     }
 
-    public void addRights(Rights[] rights) {
+    public RoleBuilder addRights(Rights[] rights) {
         checkAndClearRights();
         for (Rights right : rights) {
             addRight(right);
         }
+        return this;
     }
 
     private void checkAndClearRights() {
@@ -43,20 +51,23 @@ public class RoleBuilder {
         }
     }
 
-    public void addRight(String right) {
+    public RoleBuilder addRight(String right) {
         rights.add(right);
+        return this;
     }
     
-    public void addRights(List<String> rights) {
+    public RoleBuilder addRights(List<String> rights) {
         checkAndClearRights();
         for (String right : rights) {
             addRight(right);
         }
+        return this;
     }
     
-    public void addRights(Object rights) {
+    public RoleBuilder addRights(Object rights) {
         checkAndClearRights();
         body.put("rights", rights);
+        return this;
     }
 
     public EntityBody build() {

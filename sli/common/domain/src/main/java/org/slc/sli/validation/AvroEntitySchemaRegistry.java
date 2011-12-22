@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
 import org.apache.commons.io.FileUtils;
@@ -33,7 +35,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private Map<String, Schema> mapSchema = new HashMap<String, Schema>();
     private final String baseDir = "classpath:avroSchema";
     
-    // @PostConstruct
+    @PostConstruct
     public void init() {
         try {
             URL baseURL = ResourceUtils.getURL(baseDir);

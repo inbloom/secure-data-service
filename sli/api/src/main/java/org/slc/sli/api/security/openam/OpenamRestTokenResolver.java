@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.openam;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,12 +9,12 @@ import java.util.regex.Pattern;
 import org.slc.sli.api.security.SLIAuthenticationEntryPoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
+import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -82,13 +83,20 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
+        principal.setTheirRoles(extractRoles(payload));
         
-        return new PreAuthenticatedAuthenticationToken(principal, token, extractAuthorities());
+        return new PreAuthenticatedAuthenticationToken(principal, token, new DefaultRoleMapperImpl(principal.getTheirRoles()).buildMappedRoles());
     }
-    
-    private List<GrantedAuthorityImpl> extractAuthorities() {
-        return Collections.singletonList(new GrantedAuthorityImpl("ROLE_USER"));    // TODO look at
-                                                                                 // actual roles
+
+    private List<String> extractRoles(String payload) {
+        List<String> roles = new ArrayList<String>();
+        Pattern p = Pattern.compile("userdetails\\.role=id=([^,]*)", Pattern.MULTILINE);
+        Matcher m = p.matcher(payload);
+
+        while (m.find()) {
+            roles.add(m.group(1));
+        }
+        return roles;
     }
     
     private String extractValue(String valueName, String payload) {
