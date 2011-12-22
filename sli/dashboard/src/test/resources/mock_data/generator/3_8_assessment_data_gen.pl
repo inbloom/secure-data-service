@@ -98,8 +98,7 @@ while ($line = <INPUT_STUDENT>)
 	my $percentileLow = $scale == 0 ? 0 : $probDistrib[$scale-1];
         my $percentile = rand() * ($probDistrib[$scale] - $percentileLow);
 	$percentile = $percentile + $percentileLow;
-	$percentile = $percentile * 100;
-	$percentile = floor($percentile);
+	$percentile = floor ($percentile * 10000) / 100;
 
 	# debug
         # print $random_number . " " . $grade . " " . $score . " " . $scale . " " . $percentile . "\n";
@@ -122,7 +121,7 @@ for(my $i = 0; $i <= $#results; $i++)
     print "        \"year\": \"" . $assessment[2] . "\",\n";
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
-    if ($omit_percentile_rank != 'y' ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
+    if (!($omit_percentile_rank eq 'y') ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
     print "        \"lexileScore\": \"" . $assessment[4] . "\"\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }
