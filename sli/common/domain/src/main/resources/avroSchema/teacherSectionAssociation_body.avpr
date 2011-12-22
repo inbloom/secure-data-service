@@ -4,19 +4,17 @@
   "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "teacherId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : "string"
   }, {
     "name" : "sectionId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : "string"
   }, {
     "name" : "classroomPosition",
-    "type" : [ "null", {
+    "type" : {
       "type" : "enum",
       "name" : "ClassroomPositionType",
       "symbols" : [ "TEACHER_OF_RECORD", "ASSISTANT_TEACHER", "SUPPORT_TEACHER", "SUBSTITUTE_TEACHER" ]
-    } ],
+    } ,
     "default" : null
   },{
     "name" : "beginDate",

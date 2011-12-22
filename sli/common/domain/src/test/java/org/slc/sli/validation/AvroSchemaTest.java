@@ -12,14 +12,18 @@ import java.io.FileReader;
 import java.util.Map;
 
 import org.apache.avro.Schema;
-import org.apache.avro.Schema.Parser;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Tests sample Avro schema for Students.
@@ -27,29 +31,48 @@ import org.slc.sli.domain.Entity;
  * @author Sean Melody <smelody@wgen.net>
  * 
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AvroSchemaTest {
     
+    @Autowired
+    private EntitySchemaRegistry schemaReg;
+
+    @SuppressWarnings("unchecked")
     @Test
+    @Ignore
     public void testValidStudent() throws Exception {
-        Parser parser = new Schema.Parser();
-        Schema schema = parser.parse(new File("src/main/resources/avroSchema/student_body.avpr"));
-        
-        String school = new BufferedReader(new FileReader("src/test/resources/student_fixture.json")).readLine();
-        ObjectMapper oRead = new ObjectMapper();
-        Map obj = oRead.readValue(school, Map.class);
-        mapValidation((Map) obj.get("body"), schema);
-        
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/student_fixture.json"));
+        String student;
+        while ((student = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(student, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "student");
+        }
     }
     
-    private void mapValidation(Map obj, Schema schema) {
+    @SuppressWarnings("unchecked")
+    @Test
+    @Ignore
+    public void testValidSchool() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/school_fixture.json"));
+        String school;
+        while ((school = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(school, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "school");
+        }
+    }
+
+    private void mapValidation(Map<String, Object> obj, String schemaName) {
         AvroEntityValidator validator = new AvroEntityValidator();
-        EntitySchemaRegistry mockSchemaRegistry = mock(EntitySchemaRegistry.class);
+        validator.setSchemaRegistry(schemaReg);
         
-        validator.setSchemaRegistry(mockSchemaRegistry);
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
+        when(e.getType()).thenReturn(schemaName);
         
-        when(mockSchemaRegistry.findSchemaForType(e)).thenReturn(schema);
         try {
             assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
@@ -80,6 +103,5 @@ public class AvroSchemaTest {
         if (schema.equals(rec.getSchema())) {
             System.out.println(rec);
         }
-        
     }
 }

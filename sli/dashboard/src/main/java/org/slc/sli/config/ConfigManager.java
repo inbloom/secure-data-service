@@ -24,6 +24,12 @@ public class ConfigManager {
         return instance;
     }
     
+    /**
+     * Get the view configuration set for a user
+     * 
+     * @param userId
+     * @return ViewConfigSet
+     */
     public ViewConfigSet getConfigSet(String userId) {
     
         // get view configs for user's hierarchy (state, district, etc)
@@ -42,6 +48,13 @@ public class ConfigManager {
         return userViewConfigSet;
     }
     
+    /**
+     * Get the configuration for one particular view, for a user
+     * 
+     * @param userId
+     * @param viewName
+     * @return ViewConfig
+     */
     public ViewConfig getConfig(String userId, String viewName) {
         
         ViewConfigSet config = getConfigSet(userId);
@@ -54,14 +67,28 @@ public class ConfigManager {
         return null;
     }
     
+    /**
+     * Merges a hierarchy of config sets into one set
+     * 
+     * @param configSets
+     * @return ViewConfigSet
+     */
     protected ViewConfigSet mergeConfigSets(List<ViewConfigSet> configSets) {
         // TODO: implement merge
         return null;
     }
     
+    /**
+     * Save a config set for a particular entity
+     * 
+     * @param entityId
+     * @param configSet
+     * @throws Exception
+     */
+    public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     
-    public void saveConfigSet(String entityId) {
-        // TODO: implement save
+        ConfigPersistor.saveConfigSet(entityId, configSet);
+    
     }
     
 }

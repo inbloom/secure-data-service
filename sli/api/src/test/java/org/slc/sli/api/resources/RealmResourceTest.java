@@ -27,6 +27,11 @@ import org.slc.sli.api.resources.admin.RealmResource;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
+/**
+ * Tests Realm info fetch and resolve to ssoInit URL
+ * @author dkornishev
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })

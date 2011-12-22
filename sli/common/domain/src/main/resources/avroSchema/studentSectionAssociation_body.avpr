@@ -4,12 +4,10 @@
   "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "studentId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : "string"
   }, {
     "name" : "sectionId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : "string"
   },  {
     "name" : "beginDate",
     "type" : [ "null", {
