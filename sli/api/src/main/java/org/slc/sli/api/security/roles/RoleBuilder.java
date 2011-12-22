@@ -12,7 +12,7 @@ import java.util.List;
  * Currently this doesn't have much use, but will when we add custom roles.
  *
  */
-public class RoleBuilder {
+public final class RoleBuilder {
 
     EntityBody body;
     List<String> rights;

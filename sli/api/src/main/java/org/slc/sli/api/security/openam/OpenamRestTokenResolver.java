@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import org.slc.sli.api.security.SLIAuthenticationEntryPoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
-import org.slc.sli.api.security.roles.RoleMapper;
+import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -85,7 +85,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setName(extractValue("cn", payload));
         principal.setTheirRoles(extractRoles(payload));
         
-        return new PreAuthenticatedAuthenticationToken(principal, token, new RoleMapper(principal.getTheirRoles()).buildMappedRoles());
+        return new PreAuthenticatedAuthenticationToken(principal, token, new DefaultRoleMapperImpl(principal.getTheirRoles()).buildMappedRoles());
     }
 
     private List<String> extractRoles(String payload) {

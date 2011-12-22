@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * A simple builder class to map their role to ours if it exists.
  *
- * TODO: Extract it and make it work against custom roles.
+ * TODO: Make it work against custom roles.
  */
-public final class RoleMapper {
+public final class DefaultRoleMapperImpl implements IRoleMapper{
     List<GrantedAuthorityImpl> mappedRoles;
     List<String> theirRoles;
 
@@ -24,11 +24,12 @@ public final class RoleMapper {
                 mappedRoles.add(new GrantedAuthorityImpl(role));
             }
         }
+
         //TODO When we have the IDP generating real roles we won't use this.
         mappedRoles.add(new GrantedAuthorityImpl("ROLE_USER"));
         return mappedRoles;
     }
-    public RoleMapper(List<String> roles) {
+    public DefaultRoleMapperImpl(List<String> roles) {
         theirRoles = roles;
         mappedRoles = new ArrayList<GrantedAuthorityImpl>();
     }

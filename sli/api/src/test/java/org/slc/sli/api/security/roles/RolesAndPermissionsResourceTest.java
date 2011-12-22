@@ -21,6 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * Simple test to test getting roles and permissions back.
+ *
+ * Doesn't test posting new roles at this time, but you can create roles.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
