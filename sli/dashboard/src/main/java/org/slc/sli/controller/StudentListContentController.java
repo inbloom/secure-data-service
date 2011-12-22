@@ -8,12 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slc.sli.config.ConfigUtil;
-import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.Student;
 
-import org.slc.sli.config.ViewConfigSet;
+import org.slc.sli.config.ConfigManager;
 import org.slc.sli.config.ViewConfig;
 
 import org.slc.sli.view.AssessmentResolver;
@@ -22,9 +20,9 @@ import org.slc.sli.view.AssessmentResolver;
  * Controller for showing the list of studentview.  
  * 
  */
-public class StudentListTableController extends DashboardController {
+public class StudentListContentController extends DashboardController {
 
-    public StudentListTableController() { }
+    public StudentListContentController() { }
     
     // model map keys required by the view for the student list view
     public static final String VIEW_CONFIG = "viewConfig"; 
@@ -37,16 +35,8 @@ public class StudentListTableController extends DashboardController {
                                          ModelMap model) throws Exception {
 
         // insert the view object into the modelmap
-        CustomData[] viewConfigSets = apiClient.getCustomData(username, "view_config");
-        if (viewConfigSets != null && viewConfigSets.length > 0) { 
-            ViewConfigSet configSet = ConfigUtil.fromXMLString(viewConfigSets[0].getCustomData()); // the user should be at most one view config??
-            for (ViewConfig viewConfig : configSet.getViewConfig()) {
-                if (viewConfig.getName().equals("listOfStudents")) {
-                    model.addAttribute(VIEW_CONFIG, viewConfig);
-                }
-            }
-        }
-        // else { } <-- default view configs go here. 
+        ViewConfig viewConfig = ConfigManager.getInstance().getConfig(username, "listOfStudents");
+        model.addAttribute(VIEW_CONFIG, viewConfig);  
 
         // insert the students object into the modelmap
         List<String> uids = Arrays.asList(studentUIDs.split(","));
@@ -55,7 +45,7 @@ public class StudentListTableController extends DashboardController {
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = Arrays.asList(apiClient.getAssessments(username, uids));
-        model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments));
+        model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, viewConfig));
 
         return new ModelAndView("studentListTable");
     }
