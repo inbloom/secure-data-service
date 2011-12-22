@@ -33,7 +33,7 @@ When /^I click the Go button$/ do
   @driver.find_element(:id, "submit").click
 end
 
-Then /^I am authenticated to SLI$/ do
+Then /^I am now authenticated to SLI$/ do
   @apiUrl = "http://"+PropLoader.getProps['api_server_url']+"/api/"
   @driver.get @apiUrl
   assert(@driver.current_url == @apiUrl, "Failed to navigate to "+@apiUrl)
