@@ -17,6 +17,7 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -59,6 +60,19 @@ public class AvroSchemaTest {
             ObjectMapper oRead = new ObjectMapper();
             Map<String, Object> obj = oRead.readValue(school, Map.class);
             mapValidation((Map<String, Object>) obj.get("body"), "school");
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    @Ignore
+    public void testValidAssessment() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/assessment_fixture.json"));
+        String assessment;
+        while ((assessment = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(assessment, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "assessment");
         }
     }
 

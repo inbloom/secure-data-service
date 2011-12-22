@@ -1,0 +1,2 @@
+{"_id":{"$binary":"8UhdmJF9Dk2bYGzAQDPdgA==", "$type" : "03"},"type":"assessment","body":{"assessmentTitle":"test","assessmentIdentificationCode":[{"AssessmentIdentificationCode":{"id":"123456789","identificationSystem":"SCHOOL","assigningOrganizationCode":"123456789"}}]}}
+
