@@ -17,6 +17,7 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -40,6 +41,7 @@ public class AvroSchemaTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @Ignore
     public void testValidStudent() throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/student_fixture.json"));
         String student;
@@ -52,6 +54,7 @@ public class AvroSchemaTest {
     
     @SuppressWarnings("unchecked")
     @Test
+    @Ignore
     public void testValidSchool() throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/school_fixture.json"));
         String school;

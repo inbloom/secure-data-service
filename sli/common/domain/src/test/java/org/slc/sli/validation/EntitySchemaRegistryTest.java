@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.apache.avro.Schema;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -23,6 +24,7 @@ public class EntitySchemaRegistryTest {
     EntitySchemaRegistry schemaRegistry;
     
     @Test
+    @Ignore
     public void testFindSchemaForType() {
         String[] schemaNames = new String[] { "assessment", "student", "school", "section",
                 "studentAssessmentAssociation",
