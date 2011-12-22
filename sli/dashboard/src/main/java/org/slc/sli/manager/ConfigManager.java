@@ -1,6 +1,10 @@
-package org.slc.sli.config;
+package org.slc.sli.manager;
 
 import java.util.List;
+
+import org.slc.sli.config.ConfigPersistor;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.ViewConfigSet;
 
 /**
  * 

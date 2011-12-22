@@ -7,9 +7,7 @@ require_relative '../../../utils/sli_utils.rb'
 
 
 Given /^I have access to all students and schools$/ do
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/identity/authenticate?username="+@user+"&password="+@passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @cookie = res.body[res.body.rindex('=')+1..-1]
+  idpLogin(@user,@passwd)
   assert(@cookie != nil, "Cookie retrieved was nil")
 end
 
@@ -25,40 +23,39 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |uri|
   if @format == "application/json"
-    data = @fields
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-    @res = RestClient.post(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client POST is nil")
+    dataH = @fields
+    data=dataH.to_json
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
   else
     assert(false, "Unsupported MIME type")
   end
+  restHttpPost(uri, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
 end
 
 When /^I navigate to PUT "([^"]*)"$/ do |uri|
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  
   if @format == "application/json"
-      url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-      @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-      assert(@res != nil, "Response from rest-client GET is nil")
-      assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
       modified = JSON.parse(@res.body)
       @fields.each do |key, value|
         modified[key] = value
       end
-      
-      url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-      @res = RestClient.put(url, modified.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-      assert(@res != nil, "Response from rest-client PUT is nil")
+      data = modified.to_json
     elsif @format == "application/xml"
       assert(false, "application/xml is not supported")
     else
       assert(false, "Unsupported MIME type")
     end
+    restHttpPut(uri, data)
+    assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I attempt to update a non\-existing association "([^"]*)"$/ do |uri|
   data = {}
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-  @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHttpPut(uri, data.to_json)
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end

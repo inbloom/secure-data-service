@@ -7,12 +7,11 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.dal.repository.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * Default implementation of the entity definition store
@@ -51,6 +50,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
+        EntityDefinition assessment = EntityDefinition.makeEntity("assessment").exposeAs("assessments").build();
+        addDefinition(assessment);
 
         AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("student-school-association")
                 .exposeAs("student-school-associations").storeAs("studentschoolassociation")

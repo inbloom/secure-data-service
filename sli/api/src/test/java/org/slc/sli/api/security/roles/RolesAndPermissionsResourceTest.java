@@ -5,6 +5,11 @@ package org.slc.sli.api.security.roles;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.security.enums.Rights;
@@ -15,11 +20,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Simple test to test getting roles and permissions back.
@@ -48,7 +48,7 @@ public class RolesAndPermissionsResourceTest {
     @Test
     public void testGetDefaultRoles() throws Exception {
         List<Map<String, Object>> result = api.getRolesAndPermissions();
-        assertTrue(result.size() == 4);
+        assertTrue(result.size() >= 4);
     }
 
     @Test
