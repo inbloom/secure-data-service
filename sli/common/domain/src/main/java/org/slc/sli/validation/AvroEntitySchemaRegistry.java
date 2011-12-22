@@ -42,6 +42,8 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
             LOG.debug("base schema url is {}", baseURL.toString());
             String protocol = baseURL.getProtocol();
             LOG.debug("base schema url protocol is {}", protocol);
+
+            // check if the schema files are archived in jar
             if (protocol.equals("jar")) {
                 String jarPath = baseURL.getPath().substring(5, baseURL.getPath().indexOf("!"));
                 JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
@@ -50,10 +52,14 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                 while (entries.hasMoreElements()) {
                     String name = entries.nextElement().getName();
                     if (name.startsWith(baseDir.split(":")[1]) && name.endsWith("avpr")) {
-                        LOG.debug("schema file name is {}", name.substring(name.lastIndexOf("/") + 1));
+                        String schemaName = name.substring(name.lastIndexOf("/") + 1);
+                        LOG.debug("schema file name is {}", schemaName);
+                        registerSchema(schemaName);
                     }
                 }
-            } else if (protocol.equals("file")) {
+            }
+            // check if the schema files are in file system
+            else if (protocol.equals("file")) {
                 
                 File schemaDir = FileUtils.toFile(baseURL);
                 LOG.debug("base schema directory is {}", schemaDir);
