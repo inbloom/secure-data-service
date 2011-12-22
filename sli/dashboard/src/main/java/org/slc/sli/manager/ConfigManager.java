@@ -1,6 +1,10 @@
-package org.slc.sli.config;
+package org.slc.sli.manager;
 
 import java.util.List;
+
+import org.slc.sli.config.ConfigPersistor;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.ViewConfigSet;
 
 /**
  * 
@@ -62,6 +66,25 @@ public class ConfigManager {
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
             if (view.getName().equals(viewName))
+                return view;
+        }
+        return null;
+    }
+    
+    /**
+     * Get the configuration for one particular view, for a user
+     * 
+     * @param userId
+     * @param viewName
+     * @return ViewConfig
+     */
+    public ViewConfig getConfigWithType(String userId, String typeName) {
+        
+        ViewConfigSet config = getConfigSet(userId);
+        
+        // loop through, find right config
+        for (ViewConfig view : config.getViewConfig()) {
+            if (view.getType().equals(typeName))
                 return view;
         }
         return null;
