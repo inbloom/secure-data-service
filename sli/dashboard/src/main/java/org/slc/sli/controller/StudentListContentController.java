@@ -30,8 +30,8 @@ public class StudentListContentController extends DashboardController {
     public static final String STUDENTS = "students"; 
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListTable(String username, 
-                                         String studentUIDs, // don't know what this could be yet... 
+    public ModelAndView studentListContent(String username, 
+                                         String population, // don't know what this could be yet... For now, a list of student uids
                                          ModelMap model) throws Exception {
 
         // insert the view object into the modelmap
@@ -39,7 +39,7 @@ public class StudentListContentController extends DashboardController {
         model.addAttribute(VIEW_CONFIG, viewConfig);  
 
         // insert the students object into the modelmap
-        List<String> uids = Arrays.asList(studentUIDs.split(","));
+        List<String> uids = Arrays.asList(population.split(","));
         List<Student> students = Arrays.asList(apiClient.getStudents(username, uids));
         model.addAttribute(STUDENTS, students);
 
@@ -47,6 +47,6 @@ public class StudentListContentController extends DashboardController {
         List<Assessment> assessments = Arrays.asList(apiClient.getAssessments(username, uids));
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, viewConfig));
 
-        return new ModelAndView("studentListTable");
+        return new ModelAndView("studentListContent");
     }
 }

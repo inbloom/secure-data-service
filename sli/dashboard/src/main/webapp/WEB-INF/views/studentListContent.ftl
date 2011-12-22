@@ -1,5 +1,5 @@
 <#-- The body of List of Student view -->
-<#-- Used by: StudentListTableController.studentListTable() -->
+<#-- Used by: StudentListContentController.studentListContent() -->
 <#-- required objects in the model map: 
      viewConfig: the view config for the list of students. Should be ViewConfig object
      assessments: contains assessment information for the list of students. Should be AssessmentResolver object
