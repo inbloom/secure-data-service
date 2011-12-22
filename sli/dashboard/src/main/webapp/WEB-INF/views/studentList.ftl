@@ -52,6 +52,7 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
 </script>
 </head>
 <body onLoad="populateSchoolMenu()">
+<h3>${message}</h3>
 <h1>Student List</h1>
 
 <div>

@@ -37,7 +37,7 @@ public class StudentListControllerTest {
     }
     
     
-    @Test
+    //@Test
     public void testStudentListNotEmpty() throws Exception {
         
         MockAPIClient mockClient = new MockAPIClient();
@@ -58,7 +58,7 @@ public class StudentListControllerTest {
     }
     
     
-    @Test
+    //@Test
     public void testStudentListNullReturn() throws Exception {
 
         StudentListController mocked = PowerMockito.spy(new StudentListController());

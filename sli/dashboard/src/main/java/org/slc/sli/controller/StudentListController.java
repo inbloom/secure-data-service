@@ -3,12 +3,15 @@ package org.slc.sli.controller;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.School;
+import org.slc.sli.security.SLIPrincipal;
 
 /**
  * 
@@ -38,8 +41,10 @@ public class StudentListController {
 
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
-        School[] schoolList = retrieveSchools(username);
+        SLIPrincipal user = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        School[] schoolList = retrieveSchools(user.getId());
         model.addAttribute("schoolList", gson.toJson(schoolList));
+        model.addAttribute("message", "Hello " + user.getId());
         
         return new ModelAndView("studentList");
     }
