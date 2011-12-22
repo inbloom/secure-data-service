@@ -18,6 +18,10 @@ public enum DefaultRoles {
         return name;
     }
     
+    public String getSpringRoleName() {
+        return "ROLE_" + name.toUpperCase().replace(' ', '_');
+    }
+    
     public Rights[] getRights() {
         return rights;
     }
