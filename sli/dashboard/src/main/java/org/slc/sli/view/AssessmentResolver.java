@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
+import org.slc.sli.config.DataPoint;
+import org.slc.sli.config.DataSet;
 
 //Hopefully there will be one for each of dataSet types
 
@@ -23,6 +25,8 @@ public class AssessmentResolver {
     List<Assessment> assessments;
     ViewConfig viewConfig;
     
+    public static final String DATA_SET_TYPE = "assessment";
+
     /**
      * Constructor
      */
@@ -40,7 +44,7 @@ public class AssessmentResolver {
         // This first implementation is gruelingly inefficient. But, whateves... it's gonna be 
         // thrown away. 
 
-        // A) filter out students and assessment first
+        // A) filter out students first
         List<Assessment> studentFiltered = new ArrayList();
         for (Assessment a : assessments) {
             if (a.getStudentId().equals(student.getUid())) {
@@ -49,27 +53,75 @@ public class AssessmentResolver {
         }
         if (studentFiltered.isEmpty()) { return ""; }
 
-        // B) filter out based on dataset path
-        String [] dataPointPath = dataPointId.split(".");
-        // @@@ here you are, Simon. Find a better way to specify the path.
-        //for (int i = 0; i < dataPointPath.length; i++) {
-        //     
-        //}
-        
-        // C) apply time logic. For now, just get the latest
-        //    Sort the assessments in descending order of assessment year and get the first one
-        Collections.sort(studentFiltered, new Comparator<Assessment>() {
+        // B) filter out assessments based on dataset path
+        String assessmentName = extractAssessmentName(dataPointId);
+        List<Assessment> studentAssessmentFiltered = new ArrayList();
+        for (Assessment a : assessments) {
+            if (a.getAssessmentName().equals(assessmentName)) {
+                studentAssessmentFiltered.add(a);
+            }
+        }
+        if (studentAssessmentFiltered.isEmpty()) { return ""; }
+
+        // C) Apply time logic. For now, just get the latest... there should be some 
+        //    classes that actually implement various timed logics. 
+        String timeSlot = extractTimeSlot(dataPointId);
+        Collections.sort(studentAssessmentFiltered, new Comparator<Assessment>() {
             public int compare(Assessment o1, Assessment o2) {
                 return o1.getYear() - o2.getYear();
             }
         });
-        /*
+
+        // D) get the data point
         Assessment chosenAssessment = studentFiltered.get(0);
-        if (field.equals("level")) { return chosenAssessment.getPerfLevelAsString(); }
-        if (field.equals("scaleScore")) { return chosenAssessment.getScaleScoreAsString(); }
-        if (field.equals("percentile")) { return chosenAssessment.getPercentileAsString(); }
-        if (field.equals("lexileScore")) { return chosenAssessment.getLexileScoreAsString(); }
-        */
+        String dataPointName = extractDataPointName(dataPointId);
+        if (dataPointName == null) { return ""; }
+        if (dataPointName.equals("level")) { return chosenAssessment.getPerfLevelAsString(); }
+        if (dataPointName.equals("scaleScore")) { return chosenAssessment.getScaleScoreAsString(); }
+        if (dataPointName.equals("percentile")) { return chosenAssessment.getPercentileAsString(); }
+        if (dataPointName.equals("lexileScore")) { return chosenAssessment.getLexileScoreAsString(); }
+
         return ""; 
+    }
+
+    // returns true iff this resolver's view config can resolve the data point 
+    public boolean canResolve(String dataPointId) {
+        return getDataPoint(dataPointId) != null;
+    }
+
+    // helper functions to extract names from the view config using the datapointid 
+    private String extractAssessmentName(String dataPointId) {
+        DataSet ds = getDataSet(dataPointId);
+        return ds == null ? null : ds.getName();
+    }
+    private String extractTimeSlot(String dataPointId) {
+        DataSet ds = getDataSet(dataPointId);
+        return ds == null ? null : ds.getTimeSlot();
+    }
+    private String extractDataPointName(String dataPointId) {
+        DataPoint dp = getDataPoint(dataPointId);
+        return dp == null ? null : dp.getId(); // Assume data point's name is identical to id
+    }
+    private DataSet getDataSet(String dataPointId) {
+        String [] dataPointPath = dataPointId.split("\\.");
+        String dataSetName = dataPointPath[0];
+        for (DataSet ds : viewConfig.getDataSet()) {
+            if (ds.getType().equals(DATA_SET_TYPE) && ds.getId().equals(dataSetName)) {
+                return ds;
+            }
+        }
+        return null;
+    }
+    private DataPoint getDataPoint(String dataPointId) {
+        String [] dataPointPath = dataPointId.split("\\.");
+        String dataPointName = dataPointPath[1];
+        DataSet ds = getDataSet(dataPointId);
+        if (ds == null) { return null; }
+        for (DataPoint dp : ds.getDataPoint()) {
+            if (dp.getId().equals(dataPointName)) {
+                return dp;
+            }
+        }
+        return null;
     }
 }
