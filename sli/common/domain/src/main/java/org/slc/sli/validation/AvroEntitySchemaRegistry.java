@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
 import org.apache.commons.io.FileUtils;
@@ -35,7 +33,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private Map<String, Schema> mapSchema = new HashMap<String, Schema>();
     private final String baseDir = "classpath:avroSchema";
     
-    @PostConstruct
+    // @PostConstruct
     public void init() {
         try {
             URL baseURL = ResourceUtils.getURL(baseDir);
@@ -43,7 +41,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
             String protocol = baseURL.getProtocol();
             LOG.debug("base schema url protocol is {}", protocol);
 
-            // check if the schema files are archived in jar
+            // check if the schema files are archived in jar or in file system
             if (protocol.equals("jar")) {
                 String jarPath = baseURL.getPath().substring(5, baseURL.getPath().indexOf("!"));
                 JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
@@ -57,10 +55,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                         registerSchema(schemaName);
                     }
                 }
-            }
-            // check if the schema files are in file system
-            else if (protocol.equals("file")) {
-                
+            } else if (protocol.equals("file")) {
                 File schemaDir = FileUtils.toFile(baseURL);
                 LOG.debug("base schema directory is {}", schemaDir);
                 Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[] { "avpr" }, false);
