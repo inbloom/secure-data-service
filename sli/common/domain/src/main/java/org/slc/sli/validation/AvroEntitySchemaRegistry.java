@@ -2,9 +2,14 @@ package org.slc.sli.validation;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.annotation.PostConstruct;
 
@@ -33,12 +38,31 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     @PostConstruct
     public void init() {
         try {
-            File schemaDir = ResourceUtils.getFile(baseDir);
-            
-            Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[] { "avpr" }, false);
-            while (it.hasNext()) {
-                registerSchema(it.next());
-            }
+            URL baseURL = ResourceUtils.getURL(baseDir);
+            LOG.debug("base schema url is {}", baseURL.toString());
+            String protocol = baseURL.getProtocol();
+            LOG.debug("base schema url protocol is {}", protocol);
+            if (protocol.equals("jar")) {
+                String jarPath = baseURL.getPath().substring(5, baseURL.getPath().indexOf("!"));
+                JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+                LOG.debug("base schema jar is {}", jar.getName());
+                Enumeration<JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    String name = entries.nextElement().getName();
+                    if (name.startsWith(baseDir.split(":")[1]) && name.endsWith("avpr")) {
+                        LOG.debug("schema file name is {}", name.substring(name.lastIndexOf("/") + 1));
+                    }
+                }
+            } else if (protocol.equals("file")) {
+                
+                File schemaDir = FileUtils.toFile(baseURL);
+                LOG.debug("base schema directory is {}", schemaDir);
+                Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[] { "avpr" }, false);
+                while (it.hasNext()) {
+                    registerSchema(it.next().getName());
+                }
+            } else
+                LOG.debug("can not load the avro schema files at {}", baseDir);
         } catch (IOException e) {
             LOG.debug("can not load the avro schema files at {}", baseDir);
         }
@@ -49,11 +73,11 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
         return mapSchema.get(entity.getType());
     }
     
-    private void registerSchema(File file) throws IOException {
+    private void registerSchema(String schemaFileName) throws IOException {
         Parser parser = new Schema.Parser();
-        Schema schema = parser.parse(FileUtils.openInputStream(file));
-        mapSchema.put(file.getName().split("_")[0], schema);
-        LOG.info("added the avro schema file {} into registry", file.getName());
+        URL fileURL = ResourceUtils.getURL(baseDir + "/" + schemaFileName);
+        Schema schema = parser.parse(fileURL.openStream());
+        mapSchema.put(schemaFileName.split("_")[0], schema);
+        LOG.debug("added the avro schema file {} into registry", schemaFileName);
     }
-    
 }
