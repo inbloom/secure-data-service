@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.api.security.enums.DefaultRoles;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
@@ -31,7 +32,7 @@ public class OpenamRestTokenResolverTest {
     public void testResolveSuccess() {
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
         Assert.assertNotNull(auth);
-        Assert.assertTrue(auth.getAuthorities().contains(new GrantedAuthorityImpl("ROLE_USER")));
+        Assert.assertTrue(auth.getAuthorities().contains(new GrantedAuthorityImpl(DefaultRoles.ADMINISTRATOR.getSpringRoleName())));
     }
     
     @Test

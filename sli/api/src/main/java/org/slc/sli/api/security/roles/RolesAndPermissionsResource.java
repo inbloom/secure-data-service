@@ -30,7 +30,8 @@ import java.util.List;
  *  This is meant to be a read-only operation, but contains a convenience post
  *  method to create new roles.
  *
- *  @see Rights
+ *  @see org.slc.sli.api.security.enums.Rights
+ *  @see DefaultRoles
  */
 @Path("/admin/roles")
 @Component
@@ -74,16 +75,14 @@ public class RolesAndPermissionsResource {
     }
     
     private Map<String, Object> getDefaultRole(DefaultRoles role) {
-        RoleBuilder builder = new RoleBuilder(role.getRoleName());
-        builder.addRights(role.getRights());
-        return builder.build();
+        return RoleBuilder.makeRole(role.getRoleName()).addRights(role.getRights()).build();
     }
 
     /**
      * A simple method to add a new role to the database.
      * @param name the name of the new role (eg: Educator)
      * @param rights some list of rights to be added
-     * @see Rights
+     * @see org.slc.sli.api.security.enums.Rights
      */
     @POST
     @Path("/")
@@ -95,11 +94,8 @@ public class RolesAndPermissionsResource {
                 || name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName())) {
             return;
         }
-        RoleBuilder builder = new RoleBuilder(name);
-        builder.addRights(rights);
-        
         EntityService service = getEntityService();
-        service.create(builder.build());
+        service.create(RoleBuilder.makeRole(name).addRights(rights).build());
     }
 
     private EntityService getEntityService() {
