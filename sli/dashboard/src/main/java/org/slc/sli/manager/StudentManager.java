@@ -1,7 +1,6 @@
 package org.slc.sli.manager;
 
 import org.slc.sli.entity.Student;
-import org.slc.sli.config.ConfigManager;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.DataSet;
 import org.slc.sli.config.ConfigUtil;

@@ -9,10 +9,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.config.ConfigManager;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.manager.AssessmentManager;
+import org.slc.sli.manager.ConfigManager;
 
 
 

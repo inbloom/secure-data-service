@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.Student;
+import org.slc.sli.manager.ConfigManager;
 
-import org.slc.sli.config.ConfigManager;
 import org.slc.sli.config.ViewConfig;
 
 import org.slc.sli.view.AssessmentResolver;
