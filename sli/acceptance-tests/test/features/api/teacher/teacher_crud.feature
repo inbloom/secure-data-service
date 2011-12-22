@@ -1,4 +1,4 @@
-Feature: <US562>
+Feature: <US562> In order to manage teachers
    As a client application using SLI
    I want create, read, update, and delete functionality for a teacher
    So I can manage them.

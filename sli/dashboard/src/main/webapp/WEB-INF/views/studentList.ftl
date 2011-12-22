@@ -46,8 +46,8 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
     var temp = schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
-    var studentTableUrl = "studentlisttable?studentUIDs=" + studentUIDs + "&username=" + "${username}"; 
-    $("#studentDiv").load(studentTableUrl);
+    var studentContentUrl = "studentlistcontent?population=" + studentUIDs + "&username=" + "${username}"; 
+    $("#studentDiv").load(studentContentUrl);
 }
 </script>
 </head>

@@ -89,15 +89,13 @@ end
 When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "staff" => Hash[
-        "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
-        "birthDate" => @bdate,
-        "sex" => @sex,
-        "yearsTeachingExperience" => @teachingExperience,
-        "levelOfEducation" => @levelOfEducation],
-      "teacher" => Hash[
-        "teacherUniqueStateId" => @teacherUniqueStateId,
-        "highlyQualifiedTeacher" => @highlyQualifiedTeacher]
+      "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
+      "birthDate" => @bdate,
+      "sex" => @sex,
+      "yearsTeachingExperience" => @teachingExperience,
+      "levelOfEducation" => @levelOfEducation,
+      "teacherUniqueStateId" => @teacherUniqueStateId,
+      "highlyQualifiedTeacher" => @highlyQualifiedTeacher
       ]
     data = dataH.to_json
       
@@ -141,16 +139,16 @@ When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
   if @format == "application/json"  
     dataH = JSON.parse(@res.body)
     
-    dataH["teacher"]["highlyQualifiedTeacher"].should_not == @highlyQualifiedTeacher
-    dataH["teacher"]["highlyQualifiedTeacher"] = @highlyQualifiedTeacher
+    dataH["highlyQualifiedTeacher"].should_not == @highlyQualifiedTeacher
+    dataH["highlyQualifiedTeacher"] = @highlyQualifiedTeacher
     
     data = dataH.to_json
 
   elsif @format == "application/xml"
   
     data = Document.new(@res.body)  
-    data.root.elements["teacher"]["highlyQualifiedTeacher"].text.should_not == @highlyQualifiedTeacher
-    data.root.elements["teacher"]["highlyQualifiedTeacher"].text = @highlyQualifiedTeacher
+    data.root.elements["highlyQualifiedTeacher"].text.should_not == @highlyQualifiedTeacher
+    data.root.elements["highlyQualifiedTeacher"].text = @highlyQualifiedTeacher
 
   else
     assert(false, "Unsupported MIME type")
@@ -174,58 +172,56 @@ end
 Then /^I should see that the name of the teacher is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["name"]["first"] == arg1, "Expected teacher firstname not found in response")
-  assert(result["staff"]["name"]["middle"] == arg2, "Expected teacher middlename not found in response")
-  assert(result["staff"]["name"]["last"] == arg3, "Expected teacher lastname not found in response")
+  assert(result["name"]["first"] == arg1, "Expected teacher firstname not found in response")
+  assert(result["name"]["middle"] == arg2, "Expected teacher middlename not found in response")
+  assert(result["name"]["last"] == arg3, "Expected teacher lastname not found in response")
 end
 
 Then /^I should see that (?:he|she) is "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  result["staff"]["sex"].should == arg1
+  result["sex"].should == arg1
 end
 
 Then /^I should see that (?:he|she) was born on "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["birthDate"] == arg1, "Expected teacher birthdate not found in response")
+  assert(result["birthDate"] == arg1, "Expected teacher birthdate not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["yearsTeachingExperience"] == arg1, "Expected teacher experience not found in response")
+  assert(result["yearsTeachingExperience"] == arg1, "Expected teacher experience not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacher"]["teacherUniqueStateId"] == arg1, "Expected teacher state id not found in response")
+  assert(result["teacherUniqueStateId"] == arg1, "Expected teacher state id not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacher"]["highlyQualifiedTeacher"] == Integer(arg1), "Expected teacher highly qualified status not found in response")
+  assert(result["highlyQualifiedTeacher"] == Integer(arg1), "Expected teacher highly qualified status not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["levelOfEducation"] == arg1, "Expected teacher level of education not found in response")  
+  assert(result["levelOfEducation"] == arg1, "Expected teacher level of education not found in response")  
 end
 
 When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
-    data = Hash[
+    dataH = Hash[
       "teacherUniqueStateId" => "",
       "name" => Hash[ "first" => "Should", "middle" => "Not", "last" => "Exist" ],
       "sex" => "Male",
       "birthDate" => "765432000000"]
     
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.school { |b|
@@ -235,12 +231,12 @@ When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
       b.middleName("Not")
       b.sex("Male")
       b.birthDate("765432000000")}
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    
   else
     assert(false, "Unsupported MIME type")
   end
+  restHttpPut(arg1, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 Then /^GET using that ID should return a code of (\d+)$/ do |arg1|

@@ -15,7 +15,7 @@
     <bean name="/studentlist" class="org.slc.sli.controller.StudentListController">
       <property name="apiClient" ref="APIClientBean"/>
     </bean>
-    <bean name="/studentlisttable" class="org.slc.sli.controller.StudentListTableController">
+    <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
       <property name="apiClient" ref="APIClientBean"/>
     </bean>
     

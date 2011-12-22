@@ -4,12 +4,10 @@
   "namespace" : "org.slc.sli.domain",
   "fields" : [ {
     "name" : "uniqueSectionCode",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "type" : "string"
   }, {
     "name" : "sequenceOfCourse",
-    "type" : [ "null", "int" ],
-    "default" : null
+    "type" : "int"
   }, {
     "name" : "educationalEnvironment",
     "type" : [ "null", {
