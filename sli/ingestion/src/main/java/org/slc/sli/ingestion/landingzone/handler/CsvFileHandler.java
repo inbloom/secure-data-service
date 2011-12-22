@@ -22,21 +22,21 @@ import org.xml.sax.SAXException;
 
 /**
  * handler for csv files
- * 
+ *
  * @author dduran
- * 
+ *
  */
-public class CsvFileHandler extends AbstractIngestionHandler<IngestionFileEntry> {
-    
+public class CsvFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+
     private static final Logger LOG = LoggerFactory.getLogger(CsvFileHandler.class);
-    
+
     private String targetSelector;
-    
+
     private Map<FileType, String> smooksConfigFileNameMap;
-    
+
     @Override
-    void doHandling(IngestionFileEntry item) {
-        
+    IngestionFileEntry doHandling(IngestionFileEntry item) {
+
         try {
             handleCsvFile(item);
         } catch (IOException e) {
@@ -46,32 +46,34 @@ public class CsvFileHandler extends AbstractIngestionHandler<IngestionFileEntry>
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
+        return item;
+
     }
-    
+
     void handleCsvFile(IngestionFileEntry fileEntry) throws IOException, SAXException {
         String smooksConfigFileName = smooksConfigFileNameMap.get(fileEntry.getFileType());
         if (smooksConfigFileName != null) {
             // Create Ingestion XML input stream
             InputStream inputStream = new BufferedInputStream(new FileInputStream(fileEntry.getFile()));
-            
+
             // Create Ingestion Neutral record writer
             File outputFile = File.createTempFile("camel_", ".tmp");
             outputFile.deleteOnExit();
             NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(outputFile);
-            
+
             // Create and configure smooks instance
             Smooks smooks = new Smooks(smooksConfigFileName);
             smooks.addVisitor(new SmooksEdFiVisitor("record", fileWriter), targetSelector);
-            
+
             try {
-                
+
                 // convert XML into Ingestion Neutral record instances
                 smooks.filterSource(new StreamSource(inputStream));
-                
+
                 // set the IngestionFileEntry NeutralRecord file we just wrote
                 fileEntry.setNeutralRecordFile(outputFile);
-                
+
             } catch (SmooksException smooksException) {
                 LOG.error("smooks exception encountered " + smooksException);
             } finally {
@@ -81,15 +83,15 @@ public class CsvFileHandler extends AbstractIngestionHandler<IngestionFileEntry>
         } else {
             throw new IllegalArgumentException("File type not supported: " + fileEntry.getFileType());
         }
-        
+
     }
-    
+
     public void setTargetSelector(String targetSelector) {
         this.targetSelector = targetSelector;
     }
-    
+
     public void setSmooksConfigFileNameMap(Map<FileType, String> smooksConfigFileNameMap) {
         this.smooksConfigFileNameMap = smooksConfigFileNameMap;
     }
-    
+
 }

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ValidationReport;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Validates file's checksum using MD5 algorithm.
@@ -21,7 +21,7 @@ public class ChecksumValidator extends IngestionFileValidator {
     private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, ValidationReport callback) {
+    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
         IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {

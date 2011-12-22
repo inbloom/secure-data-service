@@ -3,7 +3,7 @@ package org.slc.sli.ingestion.landingzone.validation;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ValidationReport;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * File Type validator.
@@ -12,7 +12,7 @@ import org.slc.sli.ingestion.validation.ValidationReport;
 public class FileTypeValidator extends IngestionFileValidator {
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, ValidationReport callback) {
+    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
         IngestionFileEntry entry = item.getFileItem();
         FileType fileType = entry.getFileType();
 

@@ -13,11 +13,16 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.landingzone.ValidationFaultReport;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
 
+/**
+ * Zip file handler.
+ *
+ * @author okrook
+ *
+ */
 @Component
 public class ZipFileProcessor implements Processor, MessageSourceAware {
 
@@ -36,7 +41,9 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
         BatchJob job = BatchJob.createDefault();
 
-        if (validator.isValid(zipFile, new ValidationFaultReport(job.getFaults()))) {
+        FaultsReport fr = job.getFaultsReport();
+
+        if (validator.isValid(zipFile, fr)) {
 
             // extract the zip file
             File dir = ZipFileUtil.extract(zipFile);
@@ -51,14 +58,12 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
                 return;
             } catch (IOException ex) {
-                job.getFaults().add(
-                        Fault.createError(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() },
-                                null)));
+                fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
             }
         }
 
         exchange.getOut().setBody(job, BatchJob.class);
-        exchange.getOut().setHeader("hasErrors", job.hasErrors());
+        exchange.getOut().setHeader("hasErrors", fr.hasErrors());
     }
 
     public ZipFileValidator getValidator() {

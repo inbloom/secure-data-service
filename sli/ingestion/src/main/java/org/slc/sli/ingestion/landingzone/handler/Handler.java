@@ -1,6 +1,6 @@
 package org.slc.sli.ingestion.landingzone.handler;
 
-import org.slc.sli.ingestion.validation.ValidationReport;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  *
@@ -8,14 +8,14 @@ import org.slc.sli.ingestion.validation.ValidationReport;
  *
  * @param <T>
  */
-public interface Handler<T> {
+public interface Handler<T, O> {
 
     /**
      * Handle the provided type.
      *
      * @param item
      */
-    void handle(T item);
+    O handle(T item);
 
     /**
      * Handle the provided type and utilize the provided ValidationReport for any type of validation
@@ -24,6 +24,6 @@ public interface Handler<T> {
      * @param item
      * @param vr
      */
-    void handle(T item, ValidationReport vr);
+    O handle(T item, ErrorReport vr);
 
 }

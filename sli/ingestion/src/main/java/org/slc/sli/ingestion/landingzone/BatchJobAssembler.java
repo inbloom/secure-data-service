@@ -42,7 +42,7 @@ public class BatchJobAssembler {
     public BatchJob populateJob(ControlFileDescriptor fileDesc, BatchJob job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
-        if (validator.isValid(fileDesc, new ValidationFaultReport(job.getFaults()))) {
+        if (validator.isValid(fileDesc, job.getFaultsReport())) {
             for (IngestionFileEntry entry : controlFile.getFileEntries()) {
                 if (entry.getFile() != null) {
                     job.addFile(entry);
