@@ -1,25 +1,29 @@
 Given /^I have an open web browser$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver = Selenium::WebDriver.for :firefox
 end
 
 Given /^I am not authenticated to SLI$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-When /^I type the Dashboard home page$/ do
+Given /^I am authenticated to SLI$/ do
   pending # express the regexp above with the code you wish you had
+end
+
+When /^I type the Dashboard home page$/ do
+  @url = "https://"+PropLoader.getProps['api_server_url']+"/dashboard/login" 
 end
 
 When /^I click on the Enter button$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.get @url if @url
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@driver.current_url != @url, "Failed to get redirected from "+@url)
 end
 
 Then /^I should be redirected to the Dashboard home page$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@driver.current_url == @url, "Failed to navigate to "+@url)
 end
 
 Given /^I have tried to access the Dashboard home page$/ do

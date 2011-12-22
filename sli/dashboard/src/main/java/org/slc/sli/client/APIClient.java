@@ -21,5 +21,5 @@ public interface APIClient {
     public Student[] getStudents(final String token, List<String> studentIds);
     public Assessment[] getAssessments(final String token, List<String> studentIds);
     public CustomData[] getCustomData(final String token, String key);
-    
+    public void saveCustomData(CustomData[] src, String token, String key);
 }
