@@ -26,6 +26,10 @@ public class AssessmentResolver {
     ViewConfig viewConfig;
     
     public static final String DATA_SET_TYPE = "assessment";
+    public static final String DATA_POINT_NAME_PERFLEVEL = "perfLevel";
+    public static final String DATA_POINT_NAME_SCALESCORE = "scaleScore";
+    public static final String DATA_POINT_NAME_PERCENTILE = "percentile";
+    public static final String DATA_POINT_NAME_LEXILESCORE = "lexileScore";
 
     /**
      * Constructor
@@ -56,7 +60,7 @@ public class AssessmentResolver {
         // B) filter out assessments based on dataset path
         String assessmentName = extractAssessmentName(dataPointId);
         List<Assessment> studentAssessmentFiltered = new ArrayList();
-        for (Assessment a : assessments) {
+        for (Assessment a : studentFiltered) {
             if (a.getAssessmentName().equals(assessmentName)) {
                 studentAssessmentFiltered.add(a);
             }
@@ -73,13 +77,13 @@ public class AssessmentResolver {
         });
 
         // D) get the data point
-        Assessment chosenAssessment = studentFiltered.get(0);
+        Assessment chosenAssessment = studentAssessmentFiltered.get(0);
         String dataPointName = extractDataPointName(dataPointId);
         if (dataPointName == null) { return ""; }
-        if (dataPointName.equals("level")) { return chosenAssessment.getPerfLevelAsString(); }
-        if (dataPointName.equals("scaleScore")) { return chosenAssessment.getScaleScoreAsString(); }
-        if (dataPointName.equals("percentile")) { return chosenAssessment.getPercentileAsString(); }
-        if (dataPointName.equals("lexileScore")) { return chosenAssessment.getLexileScoreAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { return chosenAssessment.getPerfLevelAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getPercentileAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScoreAsString(); }
 
         return ""; 
     }
