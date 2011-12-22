@@ -1,11 +1,14 @@
 package org.slc.sli.api.security.roles;
 
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import java.util.List;
+
 /**
- * Created by IntelliJ IDEA.
- * User: rlatta
- * Date: 12/22/11
- * Time: 9:57 AM
- * To change this template use File | Settings | File Templates.
+ * Simple interface for role mapping. Will need to grow and change as we better understand the domain of configurable
+ * roles.
  */
+
 public interface IRoleMapper {
+
+    public List<GrantedAuthorityImpl> buildMappedRoles();
 }

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * TODO: Make it work against custom roles.
  */
-public final class DefaultRoleMapperImpl implements IRoleMapper{
+public final class DefaultRoleMapperImpl implements IRoleMapper {
     List<GrantedAuthorityImpl> mappedRoles;
     List<String> theirRoles;
 
@@ -21,14 +21,16 @@ public final class DefaultRoleMapperImpl implements IRoleMapper{
                     || DefaultRoles.LEADER.getRoleName().equals(role)
                     || DefaultRoles.EDUCATOR.getRoleName().equals(role)
                     || DefaultRoles.AGGREGATOR.getRoleName().equals(role)) {
-                mappedRoles.add(new GrantedAuthorityImpl(role));
+                mappedRoles.add(new GrantedAuthorityImpl(createDefaultRole(role)));
             }
         }
-
-        //TODO When we have the IDP generating real roles we won't use this.
-        mappedRoles.add(new GrantedAuthorityImpl("ROLE_USER"));
         return mappedRoles;
     }
+    
+    private String createDefaultRole(String role) {
+        return "ROLE_" + role.toUpperCase().replace(' ', '_');
+    }
+    
     public DefaultRoleMapperImpl(List<String> roles) {
         theirRoles = roles;
         mappedRoles = new ArrayList<GrantedAuthorityImpl>();
