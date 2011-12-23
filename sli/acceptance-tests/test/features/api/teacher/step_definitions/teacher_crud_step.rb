@@ -60,23 +60,30 @@ Given /^she is \"Female\"$/ do ||
 end
 
 Given /^(?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
-  @teachingExperience = arg1
+  @teachingExperience = arg1.to_i
   @teachingExperience.should_not == nil
 end
 
 Given /^(?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
-  @teacherUniqueStateId = arg1
+  @teacherUniqueStateId = Integer(arg1)
   @teacherUniqueStateId.should_not == nil
 end
 
-Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
-  @highlyQualifiedTeacher = Integer(arg1)
+Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
+  if(arg1 == "true")
+    @highlyQualifiedTeacher = true
+  elsif(arg1 == "false")
+    @highlyQualifiedTeacher = false
+  else
+    raise "Valid values are true or false"
+  end
   @highlyQualifiedTeacher.should_not == nil
 end
 
 Given /^(?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  ["Bachelor\'s", "Master\'s", "Doctorate", "No Degree"].should include(arg1)
-  @levelOfEducation = arg1
+  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
+  ["Bachelor's", "Master's", "Doctorate", "No Degree"].should include(arg1)
+  @levelOfEducation = eduHash[arg1]
   @levelOfEducation.should_not == nil
 end
 
@@ -89,11 +96,11 @@ end
 When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
+      "name" => Hash[ "firstName" => @fname, "middleName" => @mname, "lastSurname" => @lname ],
       "birthDate" => @bdate,
       "sex" => @sex,
-      "yearsTeachingExperience" => @teachingExperience,
-      "levelOfEducation" => @levelOfEducation,
+      "yearsOfPriorTeachingExperience" => @teachingExperience,
+      "highestLevelOfEducationCompleted" => @levelOfEducation,
       "teacherUniqueStateId" => @teacherUniqueStateId,
       "highlyQualifiedTeacher" => @highlyQualifiedTeacher
       ]
@@ -111,7 +118,8 @@ When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
 
-  restHttpPost("/teachers", data)      
+  restHttpPost("/teachers", data)
+  puts @res.body      
   assert(@res != nil, "Response from rest-client POST is nil")
 
 end
@@ -154,7 +162,8 @@ When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
   
-  restHttpPut(arg1, data)    
+  restHttpPut(arg1, data)
+  puts @res.body
   assert(@res != nil, "Response from rest-client PUT is nil")
   
 end
@@ -172,9 +181,9 @@ end
 Then /^I should see that the name of the teacher is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["name"]["first"] == arg1, "Expected teacher firstname not found in response")
-  assert(result["name"]["middle"] == arg2, "Expected teacher middlename not found in response")
-  assert(result["name"]["last"] == arg3, "Expected teacher lastname not found in response")
+  assert(result["name"]["firstName"] == arg1, "Expected teacher firstname not found in response")
+  assert(result["name"]["middleName"] == arg2, "Expected teacher middlename not found in response")
+  assert(result["name"]["lastSurname"] == arg3, "Expected teacher lastname not found in response")
 end
 
 Then /^I should see that (?:he|she) is "([^"]*)"$/ do |arg1|
@@ -192,32 +201,35 @@ end
 Then /^I should see that (?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["yearsTeachingExperience"] == arg1, "Expected teacher experience not found in response")
+  assert(result["yearsOfPriorTeachingExperience"] == arg1.to_i, "Expected teacher experience not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacherUniqueStateId"] == arg1, "Expected teacher state id not found in response")
+  assert(result["teacherUniqueStateId"] == arg1.to_i, "Expected teacher state id not found in response")
 end
 
-Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
+Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
+  test = true if arg1 == "true"
+  test = false if arg1 == "false"
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["highlyQualifiedTeacher"] == Integer(arg1), "Expected teacher highly qualified status not found in response")
+  assert(result["highlyQualifiedTeacher"] == test, "Expected teacher highly qualified status not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
+  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["levelOfEducation"] == arg1, "Expected teacher level of education not found in response")  
+  assert(result["highestLevelOfEducationCompleted"] == eduHash[arg1], "Expected teacher level of education not found in response")  
 end
 
 When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
       "teacherUniqueStateId" => "",
-      "name" => Hash[ "first" => "Should", "middle" => "Not", "last" => "Exist" ],
+      "name" => Hash[ "firstName" => "Should", "middleName" => "Not", "lastSurname" => "Exist" ],
       "sex" => "Male",
       "birthDate" => "765432000000"]
     
