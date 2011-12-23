@@ -72,7 +72,11 @@ public class RealmsController {
         
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
-        model.addAttribute("relayState", relayState);
+        model.addAttribute("relayState", relayState != null ? relayState : "");
+        
+        if (relayState == null) {
+            model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
+        }
         
         return "realms";
     }
@@ -82,15 +86,16 @@ public class RealmsController {
      * 
      * @param realmId id of the realm
      * @return directive to redirect to sso init page
+     * @throws IOException 
      */
     @RequestMapping(value = "sso.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam(value = "realmId", required = false) String realmId, @RequestParam(value = "RelayState", required = false) String relayState) {
+    public String ssoInit(@RequestParam(value = "realmId", required = false) String realmId, @RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
         try {
             ResponseEntity<String> redirect = rest.getForEntity(this.ssoInitUrl, String.class, realmId);
             return "redirect:" + redirect.getBody() + "&RelayState=" + relayState;
         } catch (RestClientException e) {
             LOG.error("Error Calling API", e);
-            return String.format("redirect:/realms/list.do?RelayState=%s", relayState);
+            return this.listRealms(relayState, model);
         }
     }
     
