@@ -6,18 +6,6 @@
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
                     
-              
-<http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
-
-    <intercept-url pattern="/login" access="permitAll"/>
-    <intercept-url pattern="/studentlist" access="hasRole('ROLE_USER')"/>
-    <intercept-url pattern="/**" access="denyAll" />
-    <custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
-    <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
-</http>               
-          
-<authentication-manager alias="authenticationManager"/>                    
-
 
 <beans:bean id="sliFilter" class="org.slc.sli.security.SLIProcessingFilter">
     <beans:property name="resolver" ref="openamTokenResolver" />
@@ -37,4 +25,4 @@
     <beans:property name="dashboardLandingPage" value="http://localhost:8080/dashboard/studentlist" />
 </beans:bean>
 
-</beans:beans>                    
+</beans:beans>
