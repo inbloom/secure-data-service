@@ -53,7 +53,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = EntityDefinition.makeEntity("assessment").exposeAs("assessments").build();
         addDefinition(assessment);
 
-        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("student-school-association")
+        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("studentSchoolAssociation")
                 .exposeAs("student-school-associations").storeAs("studentschoolassociation")
                 .from(student, "getStudent", "getStudentsEnrolled").to(school, "getSchool", "getSchoolsAttended")
                 .calledFromSource("getStudentEnrollments").calledFromTarget("getSchoolEnrollments").build();

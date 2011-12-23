@@ -140,7 +140,7 @@ public class ResourceTest {
             if (typeId.type.equals("students")) {
                 List<?> links = (List<?>) body.get("links");
                 assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
-                assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "student-school-association",
+                assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "studentSchoolAssociation",
                         "base/student-school-associations/" + typeId.id)));
             }
         }
