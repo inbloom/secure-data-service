@@ -84,7 +84,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                 throw new RuntimeException("Unable to load Avro Schema file.  Unhandled protocol: " + baseURL);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Unable to load Avro Schemas from: " + baseDir, e);
+            LOG.error("Could not load any files from baseDir: " + baseDir);
         }
         return list;
     }
