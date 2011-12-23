@@ -17,7 +17,6 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -38,7 +37,7 @@ public class AvroSchemaTest {
     
     @Autowired
     private EntitySchemaRegistry schemaReg;
-
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudent() throws Exception {
@@ -74,7 +73,7 @@ public class AvroSchemaTest {
             mapValidation((Map<String, Object>) obj.get("body"), "assessment");
         }
     }
-
+    
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         AvroEntityValidator validator = new AvroEntityValidator();
         validator.setSchemaRegistry(schemaReg);
