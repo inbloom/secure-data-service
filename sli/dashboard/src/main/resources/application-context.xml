@@ -36,5 +36,8 @@
     <property name="name" value="${my.name}" />
     </bean>
     
-    <bean id="APIClientBean" class="${apiclientclass}"/>
+    <bean id="APIClientBean" class="${apiclientclass}">
+    <property name="mockDataPath" value="${project.build.directory}" />
+    </bean>
+    
 </beans>

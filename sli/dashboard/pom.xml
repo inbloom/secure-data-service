@@ -155,6 +155,11 @@
              <filtering>true</filtering>
              <targetPath>${project.build.directory}</targetPath>
             </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+            </resource>
         </resources>
 		<defaultGoal>install</defaultGoal>
 

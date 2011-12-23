@@ -23,17 +23,26 @@ import java.util.Vector;
  */
 public class MockAPIClient implements APIClient {
 
+    String mockDataPath;
+    
     public Student[] getStudents(final String token) {
-        String filename = "src/test/resources/student_mock_data.json";
+        String filename = "mockDataPath/student_mock_data.json";
         return fromFile(filename, Student[].class);
     }
+    public String getMockDataPath() {
+        return mockDataPath;
+    }
+    public void setMockDataPath(String mockDataPath) {
+        this.mockDataPath = mockDataPath;
+    }
     public School[] getSchools(final String token) {
-        String filename = "src/test/resources/" + token + "_mock_data.json";
+        String filename = mockDataPath + "/" +token + "_mock_data.json";
+        
         return fromFile(filename, School[].class);
     }
     public Assessment[] getAssessments(final String token, 
                                        List<String> studentIds) {
-        String filename = "src/test/resources/assessment_mock_data.json";
+        String filename = mockDataPath + "/assessment_mock_data.json";
         Assessment[] assessments = fromFile(filename, Assessment[].class);
         Vector<Assessment> filtered = new Vector<Assessment>();
         // perform the filtering. 
