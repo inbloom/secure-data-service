@@ -25,9 +25,8 @@ public class EntitySchemaRegistryTest {
     @Test
     public void testFindSchemaForType() {
         String[] schemaNames = new String[] { "assessment", "student", "school", "section",
-                "studentAssessmentAssociation",
-                "studentSchoolAssociation", "studentSectionAssociation", "teacher", "teacherSchoolAssociation",
-                "teacherSectionAssociation" };
+                "studentAssessmentAssociation", "studentSchoolAssociation", "studentSectionAssociation", "teacher",
+                "teacherSchoolAssociation", "teacherSectionAssociation" };
         for (String schemaName : schemaNames) {
             checkSchema(schemaName);
         }
@@ -37,6 +36,7 @@ public class EntitySchemaRegistryTest {
         Entity entity = mock(Entity.class);
         when(entity.getType()).thenReturn(schemaName);
         Schema schema = schemaRegistry.findSchemaForType(entity);
+        System.err.println(schemaName);
         assertNotNull(schema);
         assertEquals(schema.getName(), schemaName.substring(0, 1).toUpperCase() + schemaName.substring(1));
     }
