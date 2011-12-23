@@ -142,8 +142,9 @@ cmd>rake DB_HOST=myNewDbHost.domain.name api_server_url=my.API.server.com produc
 
 The properties available to override are as follows:
 
-DB_HOST
-api_server_url
+DB_HOST           This property selects which mongo instance to set the fixture to (default: localhost)
+api_server_url    This property selects which running instance of the API to run tests against (default: localhost)
+DEBUG             This property tells the test code to display debug output in the console
 eos
 
 end
