@@ -65,7 +65,6 @@ public class AvroSchemaTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    @Ignore
     public void testValidAssessment() throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/assessment_fixture.json"));
         String assessment;
