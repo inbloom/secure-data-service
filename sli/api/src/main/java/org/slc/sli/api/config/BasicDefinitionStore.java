@@ -61,7 +61,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
         addDefinition(teacher);
-
+        
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacher-section-association")
+                .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
+                .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
+                .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSchoolAssociation);
+        
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
