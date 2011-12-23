@@ -43,7 +43,6 @@ public class StudentListControllerTest {
     public void testStudentListNotEmpty() throws Exception {
         
         MockAPIClient mockClient = new MockAPIClient();
-        mockClient.setMockDataPath("src/test/resources");
         School[] schools = mockClient.getSchools("common");
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());

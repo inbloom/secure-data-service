@@ -3,6 +3,8 @@ package org.slc.sli.client;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
+
 import com.google.gson.Gson;
 
 import org.slc.sli.entity.School;
@@ -23,26 +25,29 @@ import java.util.Vector;
  */
 public class MockAPIClient implements APIClient {
 
-    String mockDataPath;
+    private ClassLoader classLoader;
+    
+    public MockAPIClient(){
+        this.classLoader = Thread.currentThread().getContextClassLoader();
+        
+    }
     
     public Student[] getStudents(final String token) {
-        String filename = "mockDataPath/student_mock_data.json";
+        URL url = classLoader.getResource("mockData/"+ token+"_mock_data.json");
+        String filename = url.getFile();
         return fromFile(filename, Student[].class);
     }
-    public String getMockDataPath() {
-        return mockDataPath;
-    }
-    public void setMockDataPath(String mockDataPath) {
-        this.mockDataPath = mockDataPath;
-    }
+
     public School[] getSchools(final String token) {
-        String filename = mockDataPath + "/" +token + "_mock_data.json";
-        
+        URL url = classLoader.getResource("mockData/"+ token+"_mock_data.json");
+        String filename = url.getFile();
         return fromFile(filename, School[].class);
     }
     public Assessment[] getAssessments(final String token, 
                                        List<String> studentIds) {
-        String filename = mockDataPath + "/assessment_mock_data.json";
+
+        URL url = classLoader.getResource("mockData/assessment_mock_data.json");
+        String filename = url.getFile();        
         Assessment[] assessments = fromFile(filename, Assessment[].class);
         Vector<Assessment> filtered = new Vector<Assessment>();
         // perform the filtering. 
@@ -73,4 +78,6 @@ public class MockAPIClient implements APIClient {
             return null;
         }
     }
+    
+    
 }
