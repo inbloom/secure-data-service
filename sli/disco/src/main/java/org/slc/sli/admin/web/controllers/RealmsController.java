@@ -7,14 +7,18 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -24,19 +28,22 @@ import org.springframework.web.client.RestTemplate;
  * 
  */
 @Controller
+@Scope("request")
 @RequestMapping("/realms")
 public class RealmsController {
     
-    private ObjectMapper mapper = new ObjectMapper();
-    private RestTemplate rest   = new RestTemplate();
+    private static final Logger LOG    = LoggerFactory.getLogger(RealmsController.class);
+    
+    private ObjectMapper        mapper = new ObjectMapper();
+    private RestTemplate        rest   = new RestTemplate();
     
     @Autowired
     @Value("${security.realms.list.url}")
-    private String       listUrl;
+    private String              listUrl;
     
     @Autowired
     @Value("${security.realms.ssoInit.url}")
-    private String       ssoInitUrl;
+    private String              ssoInitUrl;
     
     /**
      * Calls api to list available realms and injects into model
@@ -46,9 +53,11 @@ public class RealmsController {
      * @throws IOException
      */
     @RequestMapping(value = "list.do", method = RequestMethod.GET)
-    public String listRealms(@RequestParam("RelayState") String relayState, Model model) throws IOException {
+    public String listRealms(@RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
         
         ResponseEntity<String> resp = rest.getForEntity(this.listUrl, String.class);
+        
+        LOG.debug(resp.getBody());
         
         Map<String, String> map = new HashMap<String, String>();
         
@@ -75,9 +84,14 @@ public class RealmsController {
      * @return directive to redirect to sso init page
      */
     @RequestMapping(value = "sso.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam("realmId") String realmId, @RequestParam("RelayState") String relayState) {
-        ResponseEntity<String> redirect = rest.getForEntity(this.ssoInitUrl, String.class, realmId);
-        return "redirect:" + redirect.getBody() + "&RelayState=" + relayState;
+    public String ssoInit(@RequestParam(value = "realmId", required = false) String realmId, @RequestParam(value = "RelayState", required = false) String relayState) {
+        try {
+            ResponseEntity<String> redirect = rest.getForEntity(this.ssoInitUrl, String.class, realmId);
+            return "redirect:" + redirect.getBody() + "&RelayState=" + relayState;
+        } catch (RestClientException e) {
+            LOG.error("Error Calling API", e);
+            return String.format("redirect:/realms/list.do?RelayState=%s", relayState);
+        }
     }
     
     public void setRest(RestTemplate rest) {
