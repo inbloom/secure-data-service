@@ -73,6 +73,9 @@ public class ResourceTest {
         
         // post some data
         // Map of <type, id> pair to entity location.
+        /**
+         * Track an object type/id.
+         */
         final class TypeIdPair {
             protected TypeIdPair(Object type, String id) {
                 this.type = (String) type;
@@ -134,7 +137,7 @@ public class ResourceTest {
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
             
-            if (typeId.type.equals("students") == true) {
+            if (typeId.type.equals("students")) {
                 List<?> links = (List<?>) body.get("links");
                 assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
                 assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "student-school-association",
