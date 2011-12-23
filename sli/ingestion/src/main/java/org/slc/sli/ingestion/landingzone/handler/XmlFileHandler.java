@@ -23,21 +23,21 @@ import org.xml.sax.SAXException;
 
 /**
  * handler for xml files
- * 
+ *
  * @author dduran
- * 
+ *
  */
 public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry> {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileHandler.class);
-    
+
     private String smooksConfigFileName;
-    
+
     private Map<FileType, List<String>> targetSelectorMap;
-    
+
     @Override
     void doHandling(IngestionFileEntry item) {
-        
+
         try {
             handleXmlFile(item);
         } catch (IOException e) {
@@ -47,54 +47,62 @@ public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry>
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
     }
-    
+
     void handleXmlFile(IngestionFileEntry fileEntry) throws IOException, SAXException {
-        
-        // Lookup target selectors for smooks visitors
-        List<String> targetSelectorList = targetSelectorMap.get(fileEntry.getFileType());
+
+        // Create Ingestion XML input stream
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(fileEntry.getFile()));
+
+        // Create Ingestion Neutral record writer
+        File outputFile = File.createTempFile("camel_", ".tmp");
+        outputFile.deleteOnExit();
+        NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(outputFile);
+
+        Smooks smooks = initSmooks(fileEntry.getFileType(), fileWriter);
+
+        try {
+
+            // convert XML into Ingestion Neutral record instances
+            smooks.filterSource(new StreamSource(inputStream));
+
+            // set the IngestionFileEntry NeutralRecord file we just wrote
+            fileEntry.setNeutralRecordFile(outputFile);
+
+        } catch (SmooksException smooksException) {
+            LOG.error("smooks exception encountered " + smooksException);
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            fileWriter.close();
+        }
+
+    }
+
+    private Smooks initSmooks(FileType fileType, NeutralRecordFileWriter fileWriter) throws IOException, SAXException {
+
+        List<String> targetSelectorList = targetSelectorMap.get(fileType);
         if (targetSelectorList != null) {
-            
-            // Create Ingestion XML input stream
-            InputStream inputStream = new BufferedInputStream(new FileInputStream(fileEntry.getFile()));
-            
-            // Create Ingestion Neutral record writer
-            File outputFile = File.createTempFile("camel_", ".tmp");
-            outputFile.deleteOnExit();
-            NeutralRecordFileWriter fileWriter = new NeutralRecordFileWriter(outputFile);
-            
-            // Create and configure smooks instance
+
             Smooks smooks = new Smooks(smooksConfigFileName);
+
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(new SmooksEdFiVisitor("record", fileWriter), targetSelector);
             }
-            
-            try {
-                
-                // convert XML into Ingestion Neutral record instances
-                smooks.filterSource(new StreamSource(inputStream));
-                
-                // set the IngestionFileEntry NeutralRecord file we just wrote
-                fileEntry.setNeutralRecordFile(outputFile);
-                
-            } catch (SmooksException smooksException) {
-                LOG.error("smooks exception encountered " + smooksException);
-            } finally {
-                IOUtils.closeQuietly(inputStream);
-                fileWriter.close();
-            }
+
+            return smooks;
         } else {
-            throw new IllegalArgumentException("File type not supported: " + fileEntry.getFileType());
+            throw new IllegalArgumentException("File type not supported: " + fileType);
         }
+
     }
-    
+
     public void setSmooksConfigFileName(String smooksConfigFileName) {
         this.smooksConfigFileName = smooksConfigFileName;
     }
-    
+
     public void setTargetSelectorMap(Map<FileType, List<String>> targetSelectorMap) {
         this.targetSelectorMap = targetSelectorMap;
     }
-    
+
 }
