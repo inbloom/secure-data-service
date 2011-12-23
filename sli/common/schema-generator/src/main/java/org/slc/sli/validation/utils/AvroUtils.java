@@ -203,9 +203,9 @@ public class AvroUtils {
             break;
         case NULL:
             if (fieldName != null) {
-                j.writeNullField(fieldName);
+                j.writeStringField(fieldName, "null");
             } else {
-                j.writeNull();
+                j.writeString("null");
             }
             break;
         default:
