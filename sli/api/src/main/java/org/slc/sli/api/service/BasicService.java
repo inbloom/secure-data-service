@@ -52,7 +52,7 @@ public class BasicService implements EntityService {
     @Override
     public String create(EntityBody content) {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {collectionName, content});
-        return getRepo().create(collectionName, sanitizeEntityBody(content)).getEntityId();
+        return getRepo().create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
     }
     
     @Override

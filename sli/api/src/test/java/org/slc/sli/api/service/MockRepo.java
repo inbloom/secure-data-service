@@ -59,8 +59,13 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Entity create(String type, Map<String, Object> body) {
+        return create(type, body, type);
+    }
+
+    @Override
+    public Entity create(String type, Map<String, Object> body, String collectionName) {
         Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
-        update(type, newEntity);
+        update(collectionName, newEntity);
         return newEntity;
     }
     
