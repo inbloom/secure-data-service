@@ -25,9 +25,9 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String sourceKey;
     private final String targetKey;
     
-    public BasicAssocService(String collectionName, List<Treatment> treatments, List<Validator> validators,
+    public BasicAssocService(String collectionName, List<Treatment> treatments, 
             EntityRepository repo, EntityInfo source, EntityInfo target) {
-        super(collectionName, treatments, validators, repo);
+        super(collectionName, treatments, repo);
         this.sourceDefn = source.getDefn();
         this.targetDefn = target.getDefn();
         this.sourceKey = source.getKey();
