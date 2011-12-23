@@ -1,0 +1,44 @@
+{
+  "type" : "record",
+  "name" : "AcademicWeek",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents the academic weeks for a school year, optionally captured to support analyses.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "weekIdentifier",
+    "doc" : "The school label for the academic week.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "80",
+      "min-length" : "5"
+    }
+  }, {
+    "name" : "beginDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "endDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "totalInstructionalDays",
+    "type" : "int"
+  }, {
+    "name" : "calendarDateReference",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    }
+  } ]
+}

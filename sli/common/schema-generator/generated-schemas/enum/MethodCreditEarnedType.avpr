@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "MethodCreditEarnedType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The method the credits were earned, for example:  Classroom, Examination, Transfer",
+  "xsd-type" : "token",
+  "symbols" : [ "ADULT_EDUCATION_CREDIT", "CLASSROOM_CREDIT", "CONVERTED_OCCUPATIONAL_EXPERIENCE_CREDIT", "CORRESPONDENCE_CREDIT", "CREDIT_BY_EXAMINATION", "CREDIT_RECOVERY", "ONLINE_CREDIT", "TRANSFER_CREDIT", "VOCATIONAL_CREDIT" ]
+}

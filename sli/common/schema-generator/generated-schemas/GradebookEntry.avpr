@@ -1,0 +1,51 @@
+{
+  "type" : "record",
+  "name" : "GradebookEntry",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "A teacher's assignment, homework, or classroom assessment.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "gradebookEntryType",
+    "doc" : "The type of the gradebook entry; for example, homework, assignment, quiz, unit test, oral presentation, etc.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "dateAssigned",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "description",
+    "doc" : "A detailed description of the entity.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "1024",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "learningStandardReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningStandardReferenceType"
+    } ]
+  }, {
+    "name" : "learningObjectiveReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningObjectiveReferenceType"
+    } ]
+  }, {
+    "name" : "sectionReference",
+    "type" : "org.slc.sli.domain.SectionReferenceType"
+  } ]
+}

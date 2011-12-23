@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "MediumOfInstructionType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The media through which teachers provide instruction to students and students and teachers communicate about instructional matters.",
+  "xsd-type" : "token",
+  "symbols" : [ "TELEVISED", "TELEPRESENCE_VIDEO_CONFERENCE", "VIDEOTAPED_PRERECORDED_VIDEO", "OTHER_TECHNOLOGY_BASED_INSTRUCTION", "TECHNOLOGY_BASED_INSTRUCTION_IN_CLASSROOM", "CORRESPONDENCE_INSTRUCTION", "FACE_TO_FACE_INSTRUCTION", "VIRTUAL_ON_LINE_DISTANCE_LEARNING", "CENTER_BASED_INSTRUCTION", "INDEPENDENT_STUDY", "INTERNSHIP", "OTHER" ]
+}

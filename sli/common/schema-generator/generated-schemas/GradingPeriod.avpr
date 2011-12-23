@@ -1,0 +1,42 @@
+{
+  "type" : "record",
+  "name" : "GradingPeriod",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents the time span for which grades are reported.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "gradingPeriod",
+    "type" : "org.slc.sli.domain.enum.GradingPeriodType"
+  }, {
+    "name" : "beginDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "endDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "totalInstructionalDays",
+    "type" : {
+      "type" : "int",
+      "min" : "0"
+    }
+  }, {
+    "name" : "calendarDateReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  } ]
+}

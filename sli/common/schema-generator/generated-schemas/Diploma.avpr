@@ -1,0 +1,44 @@
+{
+  "type" : "record",
+  "name" : "Diploma",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This educational entity represents the conferring or certification by an educational organization that the student has successfully completed a particular course of study.  It represents the electronic version of its physical document counterpart.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "diplomaAwardDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "diplomaLevel",
+    "type" : [ null, "org.slc.sli.domain.enum.DiplomaLevelType" ]
+  }, {
+    "name" : "diplomaType",
+    "type" : "org.slc.sli.domain.enum.DiplomaType"
+  }, {
+    "name" : "cTECompleter",
+    "type" : [ null, "boolean" ]
+  }, {
+    "name" : "academicHonors",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.AcademicHonor"
+    } ]
+  }, {
+    "name" : "recognitions",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.Recognition"
+    } ]
+  }, {
+    "name" : "schoolReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  } ]
+}

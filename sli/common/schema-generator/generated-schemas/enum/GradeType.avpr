@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "GradeType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)",
+  "xsd-type" : "token",
+  "symbols" : [ "CONDUCT", "EXAM", "FINAL", "GRADING_PERIOD", "MID_TERM_GRADE", "PROGRESS_REPORT", "SEMESTER" ]
+}

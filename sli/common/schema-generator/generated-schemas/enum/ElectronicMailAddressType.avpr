@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "ElectronicMailAddressType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The type of email listed for an individual or organization.",
+  "xsd-type" : "token",
+  "symbols" : [ "HOME_PERSONAL", "ORGANIZATION", "OTHER", "WORK" ]
+}

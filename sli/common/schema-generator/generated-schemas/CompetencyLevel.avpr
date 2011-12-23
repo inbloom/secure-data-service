@@ -1,0 +1,32 @@
+{
+  "type" : "record",
+  "name" : "CompetencyLevel",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Defines various levels for assessed competencies.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "codeValue",
+    "doc" : "A code or abbreviation for an element.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "description",
+    "doc" : "A detailed description of the entity.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "1024",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "levelConversion",
+    "type" : [ null, "org.slc.sli.domain.enum.PerformanceLevelType" ]
+  } ]
+}

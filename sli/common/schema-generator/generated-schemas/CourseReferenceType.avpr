@@ -1,0 +1,22 @@
+{
+  "type" : "record",
+  "name" : "CourseReferenceType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Provides alternative references for courses during interchange. Use XML IDREF to reference a course record that is included in the interchange",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "ref",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "IDREF"
+    } ]
+  }, {
+    "name" : "courseIdentity",
+    "type" : [ null, "org.slc.sli.domain.CourseIdentityType" ]
+  } ]
+}

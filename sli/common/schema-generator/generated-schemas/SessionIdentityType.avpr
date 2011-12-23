@@ -1,0 +1,29 @@
+{
+  "type" : "record",
+  "name" : "SessionIdentityType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Encapsulates the possible attributes that can be used to lookup the identity of sessions at a school.",
+  "fields" : [ {
+    "name" : "stateOrganizationID",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "sessionName",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "term",
+    "type" : "org.slc.sli.domain.enum.TermType"
+  }, {
+    "name" : "schoolYear",
+    "type" : "org.slc.sli.domain.enum.SchoolYearType"
+  } ]
+}

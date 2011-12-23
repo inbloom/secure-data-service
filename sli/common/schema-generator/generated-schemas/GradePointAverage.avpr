@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "GradePointAverage",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Grade Point Average computed for a gradng period or cumulatively.",
+  "fields" : [ {
+    "name" : "gPAWeighted",
+    "type" : [ null, "org.slc.sli.domain.enum.GPAWeightedType" ]
+  }, {
+    "name" : "gPA",
+    "type" : {
+      "type" : "double",
+      "min" : "0",
+      "fraction-digits" : "2",
+      "xsd-type" : "decimal"
+    }
+  } ]
+}

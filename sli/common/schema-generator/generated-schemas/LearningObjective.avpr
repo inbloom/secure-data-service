@@ -1,0 +1,55 @@
+{
+  "type" : "record",
+  "name" : "LearningObjective",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents identified learning objectives for courses in specific grades.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "learningObjectiveId",
+    "doc" : "Reference to the alphanumeric ID of the learning standard.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "40",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "objective",
+    "doc" : "The designated title of the learning objective.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "description",
+    "doc" : "A detailed description of the entity.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "1024",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "academicSubject",
+    "type" : "org.slc.sli.domain.enum.AcademicSubjectType"
+  }, {
+    "name" : "objectiveGradeLevel",
+    "type" : "org.slc.sli.domain.enum.GradeLevelType"
+  }, {
+    "name" : "learningStandardReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningStandardReferenceType"
+    } ]
+  }, {
+    "name" : "learningObjectiveReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningObjectiveReferenceType"
+    } ]
+  } ]
+}

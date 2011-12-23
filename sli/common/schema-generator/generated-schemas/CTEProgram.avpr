@@ -1,0 +1,24 @@
+{
+  "type" : "record",
+  "name" : "CTEProgram",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The career cluster or pathway representing the career path of the Vocational/Career Tech concentrator.",
+  "fields" : [ {
+    "name" : "careerPathway",
+    "type" : "org.slc.sli.domain.enum.CareerPathwayType"
+  }, {
+    "name" : "cIPCode",
+    "doc" : "Number and description of the CIP Code associated with the student’s CTE program.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "120",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "primaryCTEProgramIndicator",
+    "type" : [ null, "boolean" ]
+  }, {
+    "name" : "cTEProgramCompletionIndicator",
+    "type" : [ null, "boolean" ]
+  } ]
+}

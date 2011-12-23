@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "OldEthnicityType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "Previous definition of Ethnicity combining Hispanic/Latino and Race.",
+  "xsd-type" : "token",
+  "symbols" : [ "AMERICAN_INDIAN_OR_ALASKAN_NATIVE", "ASIAN_OR_PACIFIC_ISLANDER", "BLACK_NOT_OF_HISPANIC_ORIGIN", "HISPANIC", "WHITE_NOT_OF_HISPANIC_ORIGIN" ]
+}

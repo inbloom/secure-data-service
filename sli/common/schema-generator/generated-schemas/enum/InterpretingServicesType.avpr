@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "InterpretingServicesType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "Indicates whether the student who is deaf and receiving special education and related services received, or is scheduled to receive, interpreting services during the current school semester.",
+  "xsd-type" : "token",
+  "symbols" : [ "NO_INTERPRETING_SERVICE_PROVIDED", "ORAL_TRANSLITERATION", "CUED_LANGUAGE_TRANSLITERATION", "SIGN_LANGUAGE_TRANSLITERATION", "SIGN_LANGUAGE_INTERPRETING", "COMMUNICATION_ACCESS_REALTIME_TRANSLATION_CART", "C_PRINT", "TYPE_WELL", "DEAF_BLIND_INTERPRETING" ]
+}

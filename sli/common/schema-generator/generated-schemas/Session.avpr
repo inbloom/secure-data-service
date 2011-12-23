@@ -1,0 +1,65 @@
+{
+  "type" : "record",
+  "name" : "Session",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "A prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "sessionName",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "term",
+    "type" : "org.slc.sli.domain.enum.TermType"
+  }, {
+    "name" : "schoolYear",
+    "type" : "org.slc.sli.domain.enum.SchoolYearType"
+  }, {
+    "name" : "beginDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "endDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "totalInstructionalDays",
+    "type" : "int"
+  }, {
+    "name" : "educationOrganizationReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  }, {
+    "name" : "gradingPeriodReference",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.GradingPeriodReferenceType"
+    }
+  }, {
+    "name" : "calendarDateReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  }, {
+    "name" : "academicWeekReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  } ]
+}

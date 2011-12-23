@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "RestraintEventReasonItemType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The items of categorization of the circumstances or reason for the restraint.",
+  "xsd-type" : "token",
+  "symbols" : [ "IMMINENT_SERIOUS_PHYSICAL_HARM_TO_THEMSELVES", "IMMINENT_SERIOUS_PHYSICAL_HARM_TO_OTHERS", "IMMINENT_SERIOUS_PROPERTY_DESTRUCTION" ]
+}

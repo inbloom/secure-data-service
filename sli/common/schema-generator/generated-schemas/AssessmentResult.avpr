@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "AssessmentResult",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Additional analytic scores, percentiles, or measures",
+  "fields" : [ {
+    "name" : "assessmentReportingMethod",
+    "type" : [ null, "org.slc.sli.domain.enum.AssessmentReportingMethodType" ]
+  }, {
+    "name" : "result",
+    "type" : "float"
+  } ]
+}

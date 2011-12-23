@@ -1,0 +1,43 @@
+{
+  "type" : "record",
+  "name" : "LeaveEvent",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This event entity represents the recording of the dates of staff leave (e.g., sick leave, personal time, vacation, etc.).",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "eventDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "leaveEventDescriptor",
+    "type" : "org.slc.sli.domain.enum.AttendanceEventDescriptorType"
+  }, {
+    "name" : "leaveEventReason",
+    "doc" : "Expanded reason for the staff leave.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "40",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "hoursOnLeave",
+    "type" : [ null, {
+      "type" : "double",
+      "xsd-type" : "decimal"
+    } ]
+  }, {
+    "name" : "substituteAssigned",
+    "type" : [ null, "boolean" ]
+  }, {
+    "name" : "staffReference",
+    "type" : "org.slc.sli.domain.StaffReferenceType"
+  } ]
+}

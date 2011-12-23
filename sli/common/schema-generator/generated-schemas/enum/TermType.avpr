@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "TermType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The type of the session during the school year (e.g., Fall Semester).",
+  "xsd-type" : "token",
+  "symbols" : [ "FALL_SEMESTER", "SPRING_SEMESTER", "SUMMER_SEMESTER", "FIRST_TRIMESTER", "SECOND_TRIMESTER", "THIRD_TRIMESTER", "YEAR_ROUND", "MINITERM" ]
+}

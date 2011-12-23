@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "LinguisticAccommodationItemType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The item(s) denoting the linguistic accommodations used with the student for the test. For example:\nBilingual dictionary\nEnglish dictonary\nReading Aloud - Word or Phrase\nReading Aloud - Entire Test Item\nOral Translation - Word or phrase\nClarification - Word or phrase",
+  "xsd-type" : "token",
+  "symbols" : [ "BILINGUAL_DICTIONARY", "ENGLISH_DICTIONARY", "READING_ALOUD_WORD_OR_PHRASE", "READING_ALOUD_ENTIRE_TEST_ITEM", "ORAL_TRANSLATION_WORD_OR_PHRASE", "CLARIFICATION_WORD_OR_PHRASE", "LINGUISTIC_ACCOMMODATIONS_ALLOWED_BUT_NOT_USED", "LINGUISTIC_SIMPLIFICATION", "READING_ASSISTANCE", "BILINGUAL_GLOSSARY", "ENGLISH_AND_SPANISH_TESTS_SIDE_BY_SIDE" ]
+}

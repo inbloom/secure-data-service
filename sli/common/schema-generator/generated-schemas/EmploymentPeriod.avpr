@@ -1,0 +1,27 @@
+{
+  "type" : "record",
+  "name" : "EmploymentPeriod",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The set of elements defining and characterizing a person's period of employment including start and end dates and the type and reason for separation.",
+  "fields" : [ {
+    "name" : "hireDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "endDate",
+    "type" : [ null, {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "separation",
+    "type" : [ null, "org.slc.sli.domain.enum.SeparationType" ]
+  }, {
+    "name" : "separationReason",
+    "type" : [ null, "org.slc.sli.domain.enum.SeparationReasonType" ]
+  } ]
+}

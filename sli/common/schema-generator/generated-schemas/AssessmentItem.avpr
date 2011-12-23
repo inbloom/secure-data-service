@@ -1,0 +1,49 @@
+{
+  "type" : "record",
+  "name" : "AssessmentItem",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "One of many single measures that make up an assessment.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "identificationCode",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "itemCategory",
+    "type" : "org.slc.sli.domain.enum.ItemCategoryType"
+  }, {
+    "name" : "maxRawScore",
+    "type" : "int"
+  }, {
+    "name" : "correctResponse",
+    "doc" : "The correct response for the assessment item.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "learningStandardReference",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningStandardReferenceType"
+    } ]
+  }, {
+    "name" : "nomenclature",
+    "doc" : "Reflects the common nomenclature for an element.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "35",
+      "min-length" : "1"
+    } ]
+  } ]
+}

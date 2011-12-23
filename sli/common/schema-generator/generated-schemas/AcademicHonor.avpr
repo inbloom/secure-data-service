@@ -1,0 +1,25 @@
+{
+  "type" : "record",
+  "name" : "AcademicHonor",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Academic distinctions earned by or awarded to the student",
+  "fields" : [ {
+    "name" : "academicHonorsType",
+    "type" : "org.slc.sli.domain.enum.AcademicHonorsType"
+  }, {
+    "name" : "honorsDescription",
+    "doc" : "A description of the type of academic distinctions earned by or awarded to the individual.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "80",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "honorAwardDate",
+    "type" : [ null, {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  } ]
+}

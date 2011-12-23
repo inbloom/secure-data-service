@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "ProgramSponsorType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "Ultimate and intermediate providers of funds for a particular educational or service program or activity or for an individual's participation in the program or activity; e.g., Federal, State, ESC, District, School, Private Org, etc.",
+  "xsd-type" : "token",
+  "symbols" : [ "FEDERAL", "STATE_EDUCATION_AGENCY", "EDUCATION_SERVICE_CENTER", "LOCAL_EDUCATION_AGENCY", "SCHOOL", "PRIVATE_ORGANIZATION" ]
+}

@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "ResponseIndicatorType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "Indicator of the response.  For example:\n\t\t\tNonscorable response\nIneffective response\nEffective response\nPartial response\n...",
+  "xsd-type" : "token",
+  "symbols" : [ "NONSCORABLE_RESPONSE", "INEFFECTIVE_RESPONSE", "EFFECTIVE_RESPONSE", "PARTIAL_RESPONSE" ]
+}

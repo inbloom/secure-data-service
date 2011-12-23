@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "IncidentLocationType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "Identifies where the incident occurred and whether or not it occurred on school.",
+  "xsd-type" : "token",
+  "symbols" : [ "ON_SCHOOL", "ADMINISTRATIVE_OFFICES_AREA", "CAFETERIA_AREA", "CLASSROOM", "HALLWAY_OR_STAIRS", "LOCKER_ROOM_OR_GYM_AREAS", "RESTROOM", "LIBRARY_MEDIA_CENTER", "COMPUTER_LAB", "AUDITORIUM", "ON_SCHOOL_OTHER_INSIDE_AREA", "ATHLETIC_FIELD_OR_PLAYGROUND", "STADIUM", "PARKING_LOT", "ON_SCHOOL_OTHER_OUTSIDE_AREA", "OFF_SCHOOL", "BUS_STOP", "SCHOOL_BUS", "WALKING_TO_OR_FROM_SCHOOL", "OFF_SCHOOL_AT_OTHER_SCHOOL", "OFF_SCHOOL_AT_OTHER_SCHOOL_DISTRICT_FACILITY", "ONLINE", "UNKNOWN" ]
+}

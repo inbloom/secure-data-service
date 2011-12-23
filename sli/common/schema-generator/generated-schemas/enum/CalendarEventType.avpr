@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "CalendarEventType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The type of scheduled or unscheduled event for the day.  For example:\nInstructional day\nTeacher only day\nHoliday\nMake-up day\nWeather day\nStudent late arrival/early dismissal\n...",
+  "xsd-type" : "token",
+  "symbols" : [ "INSTRUCTIONAL_DAY", "TEACHER_ONLY_DAY", "HOLIDAY", "MAKE_UP_DAY", "WEATHER_DAY", "STUDENT_LATE_ARRIVAL_EARLY_DISMISSAL", "EMERGENCY_DAY", "STRIKE", "OTHER" ]
+}

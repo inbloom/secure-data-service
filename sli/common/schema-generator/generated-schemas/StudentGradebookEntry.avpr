@@ -1,0 +1,46 @@
+{
+  "type" : "record",
+  "name" : "StudentGradebookEntry",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "A student's grade or competency level for a GradeBookEntry.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ null, {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "dateFulfilled",
+    "type" : [ null, {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "letterGradeEarned",
+    "doc" : "A final or interim (grading period) indicator of student performance in a class as submitted by the instructor.",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "numericGradeEarned",
+    "type" : [ null, "long" ]
+  }, {
+    "name" : "competencyLevelReference",
+    "type" : [ null, "org.slc.sli.domain.CompetencyLevelReferenceType" ]
+  }, {
+    "name" : "diagnosticStatement",
+    "doc" : "Long string for annotations or descriptions",
+    "type" : [ null, {
+      "type" : "string",
+      "max-length" : "1024",
+      "xsd-type" : "token",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "studentSectionAssociationReference",
+    "type" : "org.slc.sli.domain.StudentSectionAssociationReferenceType"
+  } ]
+}

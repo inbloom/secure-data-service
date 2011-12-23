@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "AttendanceEventDescriptorType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "A code describing the attendance event (e.g., excused absence, unexcused absence)",
+  "xsd-type" : "token",
+  "symbols" : [ "IN_ATTENDANCE", "EXCUSED_ABSENCE", "UNEXECUSED_ABSENCE", "TARDY", "EARLY_DEPARTURE" ]
+}

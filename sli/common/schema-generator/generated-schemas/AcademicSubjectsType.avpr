@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "AcademicSubjectsType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The teaching field(s) taught by an individual, for example English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.",
+  "fields" : [ {
+    "name" : "academicSubject",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.AcademicSubjectType"
+    } ]
+  } ]
+}

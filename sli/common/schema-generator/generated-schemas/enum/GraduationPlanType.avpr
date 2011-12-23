@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "GraduationPlanType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The type of academic plan the student is following for graduation.",
+  "xsd-type" : "token",
+  "symbols" : [ "CAREER_AND_TECHNICAL_EDUCATION", "DISTINGUISHED", "MINIMUM", "RECOMMENDED", "STANDARD" ]
+}

@@ -1,0 +1,32 @@
+{
+  "type" : "record",
+  "name" : "CourseOfferingIdentityType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Encapsulates the possible attributes that can be used to lookup the identity of course offerings.",
+  "fields" : [ {
+    "name" : "schoolId",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "localCourseCode",
+    "doc" : "The local code assigned by the LEA that identifies the organization of subject matter and related learning experiences provided for the instruction of students.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "30",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "courseCode",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.CourseCode"
+    } ]
+  }, {
+    "name" : "sessionIdentity",
+    "type" : "org.slc.sli.domain.SessionIdentityType"
+  } ]
+}

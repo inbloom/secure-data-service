@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "RecognitionType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "The nature of recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.",
+  "xsd-type" : "token",
+  "symbols" : [ "ATHLETIC_AWARDS", "AWARDING_OF_UNITS_OF_VALUE", "CITIZENSHIP_AWARD_RECOGNITION", "COMPLETION_OF_REQUIREMENT_BUT_NO_UNITS_OF_VALUE_AWARDED", "CERTIFICATE", "HONOR_AWARD", "LETTER_OF_COMMENDATION", "MEDALS", "MONOGRAM_LETTER", "POINTS", "PROMOTION_OR_ADVANCEMENT", "OTHER" ]
+}

@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "TitleIPartASchoolDesignationType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "Denotes the Title I Part A designation for the school.",
+  "xsd-type" : "token",
+  "symbols" : [ "NOT_DESIGNATED_AS_A_TITLE_I_PART_A_SCHOOL", "TITLE_I_PART_A_SCHOOLWIDE_ASSISTANCE_PROGRAM_SCHOOL", "TITLE_I_PART_A_TARGETED_ASSISTANCE_SCHOOL", "TITLE_I_TARGETED_ELIGIBLE_SCHOOL_NO_PROGRAM", "TITLE_I_TARGETED_SCHOOL", "TITLE_I_SCHOOL_WIDE_ELIGIBLE_TITLE_I_TARGETED_PROGRAM", "TITLE_I_SCHOOL_WIDE_ELIGIBLE_SCHOOL_NO_PROGRAM" ]
+}

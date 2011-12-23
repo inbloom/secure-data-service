@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "MeetingDaysType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The day(s) of the week (e.g., Monday, Wednesday) that the class meets or an indication that a class meets \"out-of-school\" or \"self-paced\".",
+  "fields" : [ {
+    "name" : "meetingDay",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.MeetingDayItemType"
+    } ]
+  } ]
+}

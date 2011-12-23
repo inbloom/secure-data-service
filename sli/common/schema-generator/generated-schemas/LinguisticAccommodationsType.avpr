@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "LinguisticAccommodationsType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Linguistic accommodations used with the student for the test.",
+  "fields" : [ {
+    "name" : "linguisticAccommodation",
+    "type" : [ null, {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.LinguisticAccommodationItemType"
+    } ]
+  } ]
+}
