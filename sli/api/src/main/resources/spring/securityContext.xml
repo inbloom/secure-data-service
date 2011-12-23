@@ -53,9 +53,7 @@
          class="org.slc.sli.api.security.SLIProcessingFilter"
          p:resolver-ref="openamTokenResolver" />
 
-   <bean id="entryPoint"
-         class="org.slc.sli.api.security.SLIAuthenticationEntryPoint"
-         p:authUrl="/pub/realm.jsp" />
+   <bean id="entryPoint" class="org.slc.sli.api.security.SLIAuthenticationEntryPoint" />
 
    <bean id="sessisonDebugResource"
          class="org.slc.sli.api.resources.SessionDebugResource"

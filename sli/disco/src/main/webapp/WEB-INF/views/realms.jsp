@@ -10,8 +10,9 @@
 <body>
 	<h2>Choose your Realm</h2>
 	<hr />
+	<div style="color: red;border: 1px solid red;width: 35%;">${errorMsg}</div>
 	<form:form action="/disco/realms/sso.do" method="GET" commandName="dummy">
-		<table>
+		<table style="border: 1px solid black;">
 			<tr>
 				<td>Realm:</td>
 				<td><form:radiobuttons path="" name="realmId" items="${realms}" /></td>
