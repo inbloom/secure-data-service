@@ -40,8 +40,8 @@ def runTests(testDirPath)
   end
 end
 
-def setFixture(collectionName, fixtureFileName)
-  sh "#{MONGO_BIN}mongoimport --drop -d sli -c #{collectionName} -h #{DB_HOST} --file test/data/#{fixtureFileName}" do |success, exit_code|
+def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data")
+  sh "#{MONGO_BIN}mongoimport --drop -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
@@ -70,6 +70,7 @@ end
 # Rake tasks
 
 task :default => :production
+
 
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
