@@ -82,7 +82,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
 
   restHttpPost(arg1, data)
-  puts @res.body
   assert(@res != nil, "Response from rest-client POST is nil")
 
 end
@@ -111,16 +110,18 @@ When /^I navigate to PUT (a school "[^"]*")$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
   restHttpPut(arg1, data)
-  puts @res.body
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I attempt to update (a school "[^"]*")$/ do |arg1|
   # NOTE: This step def is intended to be used for schools that do not exist.  Use the "I navigate to PUT" to update an existing school
   if @format == "application/json"
-    dataH = Hash["fullName" => "",
-      "shortName" => "",
-      "stateOrganizationId" => "50","webSite" => ""]
+    dataH = Hash[
+      "nameOfInstitution" => "",
+      "shortNameOfInstitution" => "",
+      "stateOrganizationId" => "123456778",
+      "webSite" => ""
+    ]
     data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)

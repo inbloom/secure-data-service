@@ -109,9 +109,25 @@ When /^I navigate to DELETE (section "[^"]*")$/ do |section_uri|
 end
 
 When /^I navigate to PUT (section "[^"]*")$/ do |section_uri|
-  section_uri.should_not be_nil
-  data = data_builder
+
+  restHttpGet(section_uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+
+  if @format == "application/json"
+    dataH = JSON.parse(@res.body)
+    dataH['sequenceOfCourse'].should_not == @course_seq
+    dataH['sequenceOfCourse'] = @course_seq
+    data = dataH.to_json
+  elsif @format == "application/xml"
+    doc = Document.new(@res.body)  
+    data = doc
+  else
+    assert(false, "Unsupported MIME type")
+  end
   restHttpPut(section_uri, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  
 end
 
 When /^I attempt to update a non\-existing (section "[^"]*")$/ do |section_uri|
