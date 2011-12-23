@@ -49,7 +49,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
   restHttpPost(arg1, data)
-  puts @res.body
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 

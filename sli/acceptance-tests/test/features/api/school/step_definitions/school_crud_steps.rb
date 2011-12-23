@@ -63,11 +63,14 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
-    dataH = Hash["fullName" => @fullName,
-      "shortName" => @shortName,
-      "stateOrganizationId" => "50","webSite" => @websiteName]
+    dataH = Hash[
+      "nameOfInstitution" => @fullName,
+      "shortNameOfInstitution" => @shortName,
+      "stateOrganizationId" => "123456778",
+      "webSite" => @websiteName]
     data = dataH.to_json
   elsif @format == "application/xml"
+    #not valid below
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.school { |b| 
       b.fullName(@fullName)
@@ -79,6 +82,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
 
   restHttpPost(arg1, data)
+  puts @res.body
   assert(@res != nil, "Response from rest-client POST is nil")
 
 end
@@ -107,6 +111,7 @@ When /^I navigate to PUT (a school "[^"]*")$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
   restHttpPut(arg1, data)
+  puts @res.body
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
@@ -151,7 +156,7 @@ end
 Then /^I should see a phone number of "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['telephone'][0]['number'] == arg1, "Expected website name not found in response")
+  assert(result['telephone'][0]['telephoneNumber'] == arg1, "Expected website name not found in response")
 end
 
 
