@@ -103,7 +103,8 @@ end
 desc "Run Association Tests"
 task :associationTests do
   associationHash = Hash[
-    "studentschoolassociation" => "student_enrollments_fixture.json"
+    "studentschoolassociation" => "student_enrollments_fixture.json",
+    "teachersectionassocation" => "teacher_section_fixture.json"
     ]
   setMultipleFixtureFiles(associationHash)
   runTests("test/features/api/associations")
@@ -139,4 +140,3 @@ api_server_url
 eos
 
 end
-

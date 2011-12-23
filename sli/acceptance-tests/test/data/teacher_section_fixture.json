@@ -1,0 +1,6 @@
+{"_id":{"$binary":"", $"type":"03"}, "type":"teacher-section-assocation", "body":{"teacherUniqueStateIds":["127474305"], "uniqueSectionCode":"" , "beginDate":"", "endDate":"", "classroomPosition":"", "highlyQualifiedTeacher":0}}}
+{"_id":{"$binary":"", $"type":"03"}, "type":"teacher-section-assocation", "body":{"teacherUniqueStateIds":["516038808"], "uniqueSectionCode":"123", "beginDate":"", "endDate":"", "classroomPosition":"", "highlyQualifiedTeacher":0}}}
+{"_id":{"$binary":"", $"type":"03"}, "type":"teacher-section-assocation", "body":{"teacherUniqueStateIds":["952549997"], "uniqueSectionCode":"123", "beginDate":"", "endDate":"", "classroomPosition":"", "highlyQualifiedTeacher":0}}}
+{"_id":{"$binary":"", $"type":"03"}, "type":"teacher-section-assocation", "body":{"teacherUniqueStateIds":["952549997"], "uniqueSectionCode":"897", "beginDate":"", "endDate":"", "classroomPosition":"", "highlyQualifiedTeacher":0}}}
+{"_id":{"$binary":"", $"type":"03"}, "type":"teacher-section-assocation", "body":{"teacherUniqueStateIds":["144447294", "725286880"], "uniqueSectionCode":"1500", "beginDate":"", "endDate":"", "classroomPosition":"", "highlyQualifiedTeacher":0}}}
+
