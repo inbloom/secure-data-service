@@ -119,6 +119,11 @@ public class ResourceTest {
         String teacherId1 = parseIdFromLocation(createResponse6);
         ids.put(new TypeIdPair("teachers", teacherId1), (String) createResponse6.getMetadata().get("Location").get(0));
         
+        Response createResponse7 = api.createEntity("sections", new EntityBody(createTestEntity()), info);
+        assertNotNull(createResponse7);
+        String sectionId1 = parseIdFromLocation(createResponse7);
+        ids.put(new TypeIdPair("sections", sectionId1), (String) createResponse7.getMetadata().get("Location").get(0)); 
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             
