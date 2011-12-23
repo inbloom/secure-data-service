@@ -184,7 +184,9 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(LINKS_ELEM);
+                LOG.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
+                LOG.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
