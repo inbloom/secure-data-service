@@ -51,7 +51,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
-
+        
         AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("student-school-association")
                 .exposeAs("student-school-associations").storeAs("studentschoolassociation")
                 .from(student, "getStudent", "getStudentsEnrolled").to(school, "getSchool", "getSchoolsAttended")
@@ -60,7 +60,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
         addDefinition(teacher);
-
+        
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacher-section-association")
+                .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
+                .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
+                .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSchoolAssociation);
+        
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
