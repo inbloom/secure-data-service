@@ -1,8 +1,5 @@
 
 
-Given /^the SLI_SMALL dataset is loaded$/ do
-  # ok
-end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
   @user = arg1
@@ -65,8 +62,7 @@ end
 
 
 When /^I navigate to GET "([^"]*)"$/ do |uri|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
     begin
@@ -82,7 +78,6 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
 end
 
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end

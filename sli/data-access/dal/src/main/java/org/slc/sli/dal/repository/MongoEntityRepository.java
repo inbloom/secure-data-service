@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Autowired
     private IdConverter idConverter;
+
+    @Autowired
+    private EntityValidator validator;
     
     @Override
     public Entity find(String entityType, String id) {
@@ -54,6 +58,7 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public void update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
+        validator.validate(entity);
         String id = entity.getEntityId();
         if (id.equals(""))
             return;
@@ -69,6 +74,7 @@ public class MongoEntityRepository implements EntityRepository {
     public Entity create(String type, Map<String, Object> body) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
+        validator.validate(entity);
         template.save(entity, type);
         LOG.info(" create a entity in collection {} with id {}", new Object[] { type, entity.getEntityId() });
         return entity;

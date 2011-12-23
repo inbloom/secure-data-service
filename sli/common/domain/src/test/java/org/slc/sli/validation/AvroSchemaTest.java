@@ -37,27 +37,43 @@ public class AvroSchemaTest {
     
     @Autowired
     private EntitySchemaRegistry schemaReg;
-
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudent() throws Exception {
-        
-        String student = new BufferedReader(new FileReader("src/test/resources/student_fixture.json")).readLine();
-        ObjectMapper oRead = new ObjectMapper();
-        Map<String, Object> obj = oRead.readValue(student, Map.class);
-        mapValidation((Map<String, Object>) obj.get("body"), "student");
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/student_fixture.json"));
+        String student;
+        while ((student = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(student, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "student");
+        }
     }
     
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSchool() throws Exception {
-        
-        String student = new BufferedReader(new FileReader("src/test/resources/school_fixture.json")).readLine();
-        ObjectMapper oRead = new ObjectMapper();
-        Map<String, Object> obj = oRead.readValue(student, Map.class);
-        mapValidation((Map<String, Object>) obj.get("body"), "school");
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/school_fixture.json"));
+        String school;
+        while ((school = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(school, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "school");
+        }
     }
-
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidAssessment() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/assessment_fixture.json"));
+        String assessment;
+        while ((assessment = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(assessment, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "assessment");
+        }
+    }
+    
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         AvroEntityValidator validator = new AvroEntityValidator();
         validator.setSchemaRegistry(schemaReg);

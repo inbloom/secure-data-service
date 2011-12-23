@@ -25,12 +25,16 @@ end
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "studentSchoolId" => @studentSchoolId,
-      "firstName" => @fname,
-      "lastSurname" => @lname,
-      "middleName" => @mname,
+      "studentUniqueStateId" => @studentSchoolId,
+      "name" => Hash[
+        "firstName" => @fname,
+        "lastSurname" => @lname,
+        "middleName" => @mname],
       "sex" => @sex,
-      "birthDate" => @bdate]
+      "birthData" => Hash[
+        "birthDate" => @bdate
+        ]
+      ]
     data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)

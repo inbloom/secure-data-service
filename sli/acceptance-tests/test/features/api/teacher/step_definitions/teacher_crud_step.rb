@@ -7,20 +7,20 @@ require_relative '../../../utils/sli_utils.rb'
 
 
 Transform /^teacher "([^"]*)"$/ do |step_arg|
-  id = "/teachers/4bb11755-3c03-45fa-8257-a92b44c9391d" if step_arg == "Macey"
-  id = "/teachers/d78dfd50-8df6-4c34-9c21-6cf79dedd6e8" if step_arg == "Belle"
-  id = "/teachers/504a4b17-f743-4682-9dc4-62f7a6c98393" if step_arg == "Christian"
-  id = "/teachers/48d349f1-d9d5-49a2-9ccb-e7686db2109b" if step_arg == "Illiana"
-  id = "/teachers/9fb0d4ea-4ff1-430e-8ceb-3e7e5ceed51e" if step_arg == "Daphne"
-  id = "/teachers/ce671ca4-32d4-4fd3-af7f-95c62d5c861a" if step_arg == "Harding"
-  id = "/teachers/9ba6ff6c-cc4d-42eb-942c-6bc81f2bb3c1" if step_arg == "Simone"
-  id = "/teachers/32848c90-1f0c-4ef4-886b-2050f6670a96" if step_arg == "Micah"
-  id = "/teachers/4b995625-aa24-4be2-97be-d1716f6eedd1" if step_arg == "Quemby"
-  id = "/teachers/3e64652a-293e-408f-b20d-0053cb5cac6f" if step_arg == "Bert"
+  id = "/teachers/fa45033c-5517-b14b-1d39-c9442ba95782" if step_arg == "Macey"
+  id = "/teachers/344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if step_arg == "Belle"
+  id = "/teachers/824643f7-174b-4a50-9383-c9a6f762c49d" if step_arg == "Christian"
+  id = "/teachers/a249d5d9-f149-d348-9b10-b26d68e7cb9c" if step_arg == "Illiana"
+  id = "/teachers/0e43f14f-ead4-b09f-1ed5-ee5c7e3eeb8c" if step_arg == "Daphne"
+  id = "/teachers/d34fd432-a41c-67ce-1a86-5c2dc6957faf" if step_arg == "Harding"
+  id = "/teachers/eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94" if step_arg == "Simone"
+  id = "/teachers/f44e0c1f-908c-8432-960a-67f650206b88" if step_arg == "Micah"
+  id = "/teachers/e24b24aa-2556-994b-d1ed-6e6f71d1be97" if step_arg == "Quemby"
+  id = "/teachers/8f403e29-2a65-643e-6fac-5ccb53000db2" if step_arg == "Bert"
   id = "/teachers/11111111-1111-1111-1111-111111111111" if step_arg == "Invalid"
   id = "/teachers/2B5AB1CC-F082-46AA-BE47-36A310F6F5EA" if step_arg == "Unknown"
-  id = "/teachers/11111111-1111-1111-1111-111111111111" if step_arg == "WrongURI"
-  id = "/teachers"                                      if step_arg == "" or step_arg == nil
+  id = "/teacher/11111111-1111-1111-1111-111111111111"  if step_arg == "WrongURI"
+  id = "/teachers"                                      if step_arg == "NoGUID" or step_arg == nil
   id
 end
 
@@ -70,7 +70,7 @@ Given /^(?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
 end
 
 Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
-  @highlyQualifiedTeacher = arg1
+  @highlyQualifiedTeacher = Integer(arg1)
   @highlyQualifiedTeacher.should_not == nil
 end
 
@@ -89,13 +89,14 @@ end
 When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-        "name" => Hash[ "firstName" => @fname, "middleName" => @mname, "lastName" => @lname ],
-        "birthDate" => @bdate,
-        "sex" => @sex,
-        "yearsOfPriorTeachingExperience" => @teachingExperience,
-        "highestLevelOfEducationCompleted" => @levelOfEducation],
-        "teacherUniqueStateId" => @teacherUniqueStateId,
-        "highlyQualifiedTeacher" => @highlyQualifiedTeacher]
+      "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
+      "birthDate" => @bdate,
+      "sex" => @sex,
+      "yearsTeachingExperience" => @teachingExperience,
+      "levelOfEducation" => @levelOfEducation,
+      "teacherUniqueStateId" => @teacherUniqueStateId,
+      "highlyQualifiedTeacher" => @highlyQualifiedTeacher
+      ]
     data = dataH.to_json
       
   elsif @format == "application/xml"
@@ -120,8 +121,8 @@ Then /^I should receive an ID for the newly created teacher$/ do
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")
   s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "Teacher ID is nil")
+  newId = s[s.rindex('/')+1..-1]
+  assert(newId != nil, "Teacher ID is nil")
 end
 
 When /^I navigate to GET (teacher "[^"]*")$/ do |arg1|
@@ -171,9 +172,9 @@ end
 Then /^I should see that the name of the teacher is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["name"]["firstName"] == arg1, "Expected teacher firstname not found in response")
-  assert(result["name"]["middleName"] == arg2, "Expected teacher middlename not found in response")
-  assert(result["name"]["lastName"] == arg3, "Expected teacher lastname not found in response")
+  assert(result["name"]["first"] == arg1, "Expected teacher firstname not found in response")
+  assert(result["name"]["middle"] == arg2, "Expected teacher middlename not found in response")
+  assert(result["name"]["last"] == arg3, "Expected teacher lastname not found in response")
 end
 
 Then /^I should see that (?:he|she) is "([^"]*)"$/ do |arg1|
@@ -191,7 +192,7 @@ end
 Then /^I should see that (?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["yearsOfPriorTeachingExperience"] == arg1, "Expected teacher experience not found in response")
+  assert(result["yearsTeachingExperience"] == arg1, "Expected teacher experience not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
@@ -203,26 +204,24 @@ end
 Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["highlyQualifiedTeacher"] == arg1, "Expected teacher highly qualified status not found in response")
+  assert(result["highlyQualifiedTeacher"] == Integer(arg1), "Expected teacher highly qualified status not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["levelOfEducation"] == arg1, "Expected teacher level of education not found in response")  
+  assert(result["levelOfEducation"] == arg1, "Expected teacher level of education not found in response")  
 end
 
 When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
-    data = Hash[
+    dataH = Hash[
       "teacherUniqueStateId" => "",
-      "name" => Hash[ "firstName" => "Should", "middleName" => "Not", "lastName" => "Exist" ],
+      "name" => Hash[ "first" => "Should", "middle" => "Not", "last" => "Exist" ],
       "sex" => "Male",
       "birthDate" => "765432000000"]
     
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data.to_json, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.school { |b|
@@ -232,12 +231,12 @@ When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
       b.middleName("Not")
       b.sex("Male")
       b.birthDate("765432000000")}
-    url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-    @res = RestClient.put(url, data, {:content_type => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response } 
-    assert(@res != nil, "Response from rest-client PUT is nil")
+    
   else
     assert(false, "Unsupported MIME type")
   end
+  restHttpPut(arg1, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 Then /^GET using that ID should return a code of (\d+)$/ do |arg1|

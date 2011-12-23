@@ -33,7 +33,6 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.service.EntityNotFoundException;
 
 /**
  * Jersey resource for all entities and associations.
@@ -48,6 +47,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 public class Resource {
     
     private static final String SELF_LINK = "self";
+    private static final String LINKS_ELEM = "links";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
@@ -92,7 +92,7 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
@@ -119,7 +119,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put("links", getLinks(uriInfo, entityDef, id, entityBody));
+                    entityBody.put(LINKS_ELEM, getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
@@ -182,7 +182,9 @@ public class Resource {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                entityDef.getService().update(id, newEntityBody);
+                EntityBody copy = new EntityBody(newEntityBody);
+                copy.remove(LINKS_ELEM);
+                entityDef.getService().update(id, copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -201,21 +203,7 @@ public class Resource {
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                             "Invalid resource path: " + typePath)).build();
         }
-        try {
-            return logic.run(entityDef);
-        } catch (EntityNotFoundException e) {
-            LOG.error("Entity not found", e);
-            return Response
-                    .status(Status.NOT_FOUND)
-                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Entity not found: " + e.getId())).build();
-        } catch (Throwable t) {
-            LOG.error("Error handling request", t);
-            return Response
-                    .status(Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                            Status.INTERNAL_SERVER_ERROR.getReasonPhrase(), "Internal Server Error")).build();
-        }
+        return logic.run(entityDef);
     }
     
     /**

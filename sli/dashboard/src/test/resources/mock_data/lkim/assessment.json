@@ -1,745 +1,1597 @@
 [
 {
         "studentId": "453827070",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "3",
         "year": "2006",
         "perfLevel": "1",
-        "scaleScore": "179",
-        "lexileScore": "179"
+        "scaleScore": "174",
+        "percentile": "23.48",
+        "lexileScore": "174"
 },
 {
         "studentId": "453827070",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "4",
         "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "159",
-        "lexileScore": "159"
+        "perfLevel": "2",
+        "scaleScore": "228",
+        "percentile": "47.62",
+        "lexileScore": "228"
 },
 {
         "studentId": "453827070",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "5",
         "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "325",
-        "lexileScore": "325"
+        "perfLevel": "0",
+        "scaleScore": "146",
+        "percentile": "0.05",
+        "lexileScore": "146"
 },
 {
         "studentId": "453827070",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "6",
         "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "240",
-        "lexileScore": "240"
+        "perfLevel": "1",
+        "scaleScore": "214",
+        "percentile": "5.42",
+        "lexileScore": "214"
 },
 {
         "studentId": "453827070",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "7",
         "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "274",
-        "lexileScore": "274"
+        "perfLevel": "2",
+        "scaleScore": "262",
+        "percentile": "65.09",
+        "lexileScore": "262"
 },
 {
         "studentId": "453827070",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
         "scaleScore": "252",
+        "percentile": "49.96",
         "lexileScore": "252"
 },
 {
         "studentId": "943715230",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "3",
         "year": "2006",
         "perfLevel": "2",
-        "scaleScore": "218",
-        "lexileScore": "218"
+        "scaleScore": "215",
+        "percentile": "44.75",
+        "lexileScore": "215"
 },
 {
         "studentId": "943715230",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "4",
         "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "196",
-        "lexileScore": "196"
+        "perfLevel": "3",
+        "scaleScore": "246",
+        "percentile": "70.82",
+        "lexileScore": "246"
 },
 {
         "studentId": "943715230",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "5",
         "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "334",
-        "lexileScore": "334"
+        "perfLevel": "1",
+        "scaleScore": "187",
+        "percentile": "15.13",
+        "lexileScore": "187"
 },
 {
         "studentId": "943715230",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "6",
         "year": "2009",
         "perfLevel": "3",
-        "scaleScore": "260",
-        "lexileScore": "260"
+        "scaleScore": "265",
+        "percentile": "81.49",
+        "lexileScore": "265"
 },
 {
         "studentId": "943715230",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "7",
         "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "256",
-        "lexileScore": "256"
+        "perfLevel": "3",
+        "scaleScore": "354",
+        "percentile": "97.69",
+        "lexileScore": "354"
 },
 {
         "studentId": "943715230",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "8",
         "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "259",
-        "lexileScore": "259"
+        "perfLevel": "1",
+        "scaleScore": "205",
+        "percentile": "11.63",
+        "lexileScore": "205"
 },
 {
         "studentId": "164420088",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "3",
         "year": "2006",
         "perfLevel": "2",
-        "scaleScore": "211",
-        "lexileScore": "211"
+        "scaleScore": "207",
+        "percentile": "56.62",
+        "lexileScore": "207"
 },
 {
         "studentId": "164420088",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "4",
         "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "212",
-        "lexileScore": "212"
-},
-{
-        "studentId": "164420088",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
         "perfLevel": "1",
         "scaleScore": "193",
+        "percentile": "2.47",
         "lexileScore": "193"
 },
 {
         "studentId": "164420088",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "235",
+        "percentile": "23.16",
+        "lexileScore": "235"
+},
+{
+        "studentId": "164420088",
+        "assessmentName": "ISAT_READING",
         "grade": "6",
         "year": "2009",
         "perfLevel": "2",
-        "scaleScore": "256",
-        "lexileScore": "256"
+        "scaleScore": "236",
+        "percentile": "52.99",
+        "lexileScore": "236"
 },
 {
         "studentId": "164420088",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "7",
         "year": "2010",
         "perfLevel": "2",
-        "scaleScore": "264",
-        "lexileScore": "264"
+        "scaleScore": "265",
+        "percentile": "22.82",
+        "lexileScore": "265"
 },
 {
         "studentId": "164420088",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "8",
         "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "270",
-        "lexileScore": "270"
+        "perfLevel": "3",
+        "scaleScore": "360",
+        "percentile": "95.94",
+        "lexileScore": "360"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "3",
         "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "264",
-        "lexileScore": "264"
+        "perfLevel": "2",
+        "scaleScore": "191",
+        "percentile": "30.74",
+        "lexileScore": "191"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "4",
         "year": "2007",
         "perfLevel": "2",
-        "scaleScore": "210",
-        "lexileScore": "210"
+        "scaleScore": "215",
+        "percentile": "36.6",
+        "lexileScore": "215"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "5",
         "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "306",
-        "lexileScore": "306"
+        "perfLevel": "2",
+        "scaleScore": "240",
+        "percentile": "69.12",
+        "lexileScore": "240"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "6",
         "year": "2009",
         "perfLevel": "2",
-        "scaleScore": "233",
-        "lexileScore": "233"
+        "scaleScore": "249",
+        "percentile": "42.47",
+        "lexileScore": "249"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "7",
         "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "342",
-        "lexileScore": "342"
+        "perfLevel": "2",
+        "scaleScore": "244",
+        "percentile": "39.47",
+        "lexileScore": "244"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
-        "scaleScore": "264",
-        "lexileScore": "264"
+        "scaleScore": "233",
+        "percentile": "68.87",
+        "lexileScore": "233"
 },
 {
         "studentId": "530425896",
-        "assessmentName": "ISAT Reading",
+        "assessmentName": "ISAT_READING",
         "grade": "3",
         "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "273",
+        "percentile": "88.86",
+        "lexileScore": "273"
+},
+{
+        "studentId": "530425896",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "177",
+        "percentile": "13.21",
+        "lexileScore": "177"
+},
+{
+        "studentId": "530425896",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "220",
+        "percentile": "41.39",
+        "lexileScore": "220"
+},
+{
+        "studentId": "530425896",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "1",
+        "scaleScore": "201",
+        "percentile": "4.76",
+        "lexileScore": "201"
+},
+{
+        "studentId": "530425896",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "249",
+        "percentile": "49.93",
+        "lexileScore": "249"
+},
+{
+        "studentId": "530425896",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "260",
+        "percentile": "36.45",
+        "lexileScore": "260"
+},
+{
+        "studentId": "429526969",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "307",
+        "percentile": "95.14",
+        "lexileScore": "307"
+},
+{
+        "studentId": "429526969",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "292",
+        "percentile": "81.67",
+        "lexileScore": "292"
+},
+{
+        "studentId": "429526969",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "233",
+        "percentile": "69.88",
+        "lexileScore": "233"
+},
+{
+        "studentId": "429526969",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "1",
+        "scaleScore": "179",
+        "percentile": "11.55",
+        "lexileScore": "179"
+},
+{
+        "studentId": "429526969",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "262",
+        "percentile": "51.93",
+        "lexileScore": "262"
+},
+{
+        "studentId": "429526969",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "187",
+        "percentile": "8.69",
+        "lexileScore": "187"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "216",
+        "percentile": "51.88",
+        "lexileScore": "216"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "220",
+        "percentile": "46.66",
+        "lexileScore": "220"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "301",
+        "percentile": "93.65",
+        "lexileScore": "301"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "240",
+        "percentile": "69.08",
+        "lexileScore": "240"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "231",
+        "percentile": "21.29",
+        "lexileScore": "231"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "245",
+        "percentile": "88.69",
+        "lexileScore": "245"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "157",
+        "percentile": "19.31",
+        "lexileScore": "157"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "235",
+        "percentile": "40.63",
+        "lexileScore": "235"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "342",
+        "percentile": "94.28",
+        "lexileScore": "342"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "247",
+        "percentile": "60.91",
+        "lexileScore": "247"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "232",
+        "percentile": "34.77",
+        "lexileScore": "232"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "274",
+        "percentile": "51.76",
+        "lexileScore": "274"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "254",
+        "percentile": "86.2",
+        "lexileScore": "254"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "307",
+        "percentile": "84.35",
+        "lexileScore": "307"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "238",
+        "percentile": "30.78",
+        "lexileScore": "238"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "347",
+        "percentile": "92.05",
+        "lexileScore": "347"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "363",
+        "percentile": "97.87",
+        "lexileScore": "363"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "245",
+        "percentile": "58.92",
+        "lexileScore": "245"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "197",
+        "percentile": "36.79",
+        "lexileScore": "197"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "187",
+        "percentile": "6.47",
+        "lexileScore": "187"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "344",
+        "percentile": "98.42",
+        "lexileScore": "344"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "356",
+        "percentile": "99.62",
+        "lexileScore": "356"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "220",
+        "percentile": "15.16",
+        "lexileScore": "220"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "258",
+        "percentile": "69.66",
+        "lexileScore": "258"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "203",
+        "percentile": "60.34",
+        "lexileScore": "203"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "165",
+        "percentile": "15.78",
+        "lexileScore": "165"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "239",
+        "percentile": "53.5",
+        "lexileScore": "239"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "226",
+        "percentile": "57.58",
+        "lexileScore": "226"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "207",
+        "percentile": "17.52",
+        "lexileScore": "207"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "227",
+        "percentile": "5.9",
+        "lexileScore": "227"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "187",
+        "percentile": "10.69",
+        "lexileScore": "187"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "206",
+        "percentile": "53.01",
+        "lexileScore": "206"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "224",
+        "percentile": "62.38",
+        "lexileScore": "224"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "317",
+        "percentile": "85.17",
+        "lexileScore": "317"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "0",
+        "scaleScore": "126",
+        "percentile": "0.11",
+        "lexileScore": "126"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "198",
+        "percentile": "5.98",
+        "lexileScore": "198"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "171",
+        "percentile": "10.82",
+        "lexileScore": "171"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "220",
+        "percentile": "58.91",
+        "lexileScore": "220"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "201",
+        "percentile": "20.95",
+        "lexileScore": "201"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "227",
+        "percentile": "30.54",
+        "lexileScore": "227"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "289",
+        "percentile": "96.05",
+        "lexileScore": "289"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "263",
+        "percentile": "82.25",
+        "lexileScore": "263"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "318",
+        "percentile": "84.7",
+        "lexileScore": "318"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "299",
+        "percentile": "79.72",
+        "lexileScore": "299"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "244",
+        "percentile": "39.16",
+        "lexileScore": "244"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "253",
+        "percentile": "42.93",
+        "lexileScore": "253"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "224",
+        "percentile": "14.48",
+        "lexileScore": "224"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "234",
+        "percentile": "47.82",
+        "lexileScore": "234"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "196",
+        "percentile": "38.77",
+        "lexileScore": "196"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "234",
+        "percentile": "54.97",
+        "lexileScore": "234"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "245",
+        "percentile": "55.76",
+        "lexileScore": "245"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "229",
+        "percentile": "54.52",
+        "lexileScore": "229"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "211",
+        "percentile": "4.39",
+        "lexileScore": "211"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "256",
+        "percentile": "82.89",
+        "lexileScore": "256"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "214",
+        "percentile": "68.05",
+        "lexileScore": "214"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "209",
+        "percentile": "55.32",
+        "lexileScore": "209"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "226",
+        "percentile": "49.98",
+        "lexileScore": "226"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "249",
+        "percentile": "52",
+        "lexileScore": "249"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "197",
+        "percentile": "20.86",
+        "lexileScore": "197"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "309",
+        "percentile": "96.41",
+        "lexileScore": "309"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "211",
+        "percentile": "27.47",
+        "lexileScore": "211"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "235",
+        "percentile": "43.79",
+        "lexileScore": "235"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "245",
+        "percentile": "37.09",
+        "lexileScore": "245"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "265",
+        "percentile": "76.55",
+        "lexileScore": "265"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "233",
+        "percentile": "61.56",
+        "lexileScore": "233"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "287",
+        "percentile": "98.04",
+        "lexileScore": "287"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "161",
+        "percentile": "16.37",
+        "lexileScore": "161"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "327",
+        "percentile": "86.65",
+        "lexileScore": "327"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "172",
+        "percentile": "20.06",
+        "lexileScore": "172"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "255",
+        "percentile": "38.98",
+        "lexileScore": "255"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "0",
+        "scaleScore": "163",
+        "percentile": "0.09",
+        "lexileScore": "163"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "266",
+        "percentile": "31.08",
+        "lexileScore": "266"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "0",
+        "scaleScore": "128",
+        "percentile": "3.98",
+        "lexileScore": "128"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "223",
+        "percentile": "63.57",
+        "lexileScore": "223"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "254",
+        "percentile": "90.3",
+        "lexileScore": "254"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "244",
+        "percentile": "16.32",
+        "lexileScore": "244"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "218",
+        "percentile": "18.12",
+        "lexileScore": "218"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "271",
+        "percentile": "38.31",
+        "lexileScore": "271"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "156",
+        "percentile": "17.14",
+        "lexileScore": "156"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "287",
+        "percentile": "79.41",
+        "lexileScore": "287"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "203",
+        "percentile": "9.16",
+        "lexileScore": "203"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "1",
+        "scaleScore": "199",
+        "percentile": "8.55",
+        "lexileScore": "199"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "258",
+        "percentile": "45.11",
+        "lexileScore": "258"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "196",
+        "percentile": "10.13",
+        "lexileScore": "196"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "165",
+        "percentile": "16.57",
+        "lexileScore": "165"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "232",
+        "percentile": "64.89",
+        "lexileScore": "232"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "198",
+        "percentile": "10.11",
+        "lexileScore": "198"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "254",
+        "percentile": "24.09",
+        "lexileScore": "254"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "243",
+        "percentile": "24.35",
+        "lexileScore": "243"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "265",
+        "percentile": "56.29",
+        "lexileScore": "265"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "179",
+        "percentile": "12.85",
+        "lexileScore": "179"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "280",
+        "percentile": "97.02",
+        "lexileScore": "280"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "221",
+        "percentile": "60.24",
+        "lexileScore": "221"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "223",
+        "percentile": "44.62",
+        "lexileScore": "223"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "202",
+        "percentile": "2.32",
+        "lexileScore": "202"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "271",
+        "percentile": "47.17",
+        "lexileScore": "271"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "204",
+        "percentile": "42.36",
+        "lexileScore": "204"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "0",
+        "scaleScore": "153",
+        "percentile": "0.17",
+        "lexileScore": "153"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "213",
+        "percentile": "7.72",
+        "lexileScore": "213"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "1",
+        "scaleScore": "197",
+        "percentile": "13.33",
+        "lexileScore": "197"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "249",
+        "percentile": "58.22",
+        "lexileScore": "249"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "326",
+        "percentile": "94.55",
+        "lexileScore": "326"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "192",
+        "percentile": "36.81",
+        "lexileScore": "192"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "209",
+        "percentile": "59.78",
+        "lexileScore": "209"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "241",
+        "percentile": "50.39",
+        "lexileScore": "241"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "230",
+        "percentile": "68.46",
+        "lexileScore": "230"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "294",
+        "percentile": "80.22",
+        "lexileScore": "294"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "255",
+        "percentile": "22.73",
+        "lexileScore": "255"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_READING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "267",
+        "percentile": "74.15",
+        "lexileScore": "267"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_READING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "226",
+        "percentile": "45.57",
+        "lexileScore": "226"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_READING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "350",
+        "percentile": "82.2",
+        "lexileScore": "350"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_READING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "264",
+        "percentile": "73.39",
+        "lexileScore": "264"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_READING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "247",
+        "percentile": "53.82",
+        "lexileScore": "247"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_READING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "207",
+        "percentile": "11.4",
+        "lexileScore": "207"
+},
+{
+        "studentId": "453827070",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "231",
+        "lexileScore": "231"
+},
+{
+        "studentId": "453827070",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "200",
+        "lexileScore": "200"
+},
+{
+        "studentId": "453827070",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "244",
+        "lexileScore": "244"
+},
+{
+        "studentId": "453827070",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
         "perfLevel": "1",
         "scaleScore": "185",
         "lexileScore": "185"
 },
 {
-        "studentId": "530425896",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "173",
-        "lexileScore": "173"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "264",
-        "lexileScore": "264"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "244",
-        "lexileScore": "244"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Reading",
+        "studentId": "453827070",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "237",
-        "lexileScore": "237"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "254",
-        "lexileScore": "254"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "222",
-        "lexileScore": "222"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "166",
-        "lexileScore": "166"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "229",
-        "lexileScore": "229"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "253",
-        "lexileScore": "253"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "275",
-        "lexileScore": "275"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "271",
-        "lexileScore": "271"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "210",
-        "lexileScore": "210"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "254",
-        "lexileScore": "254"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "234",
-        "lexileScore": "234"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "236",
-        "lexileScore": "236"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "229",
-        "lexileScore": "229"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "274",
-        "lexileScore": "274"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "184",
-        "lexileScore": "184"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "227",
-        "lexileScore": "227"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "232",
-        "lexileScore": "232"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "239",
-        "lexileScore": "239"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "233",
-        "lexileScore": "233"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "276",
-        "lexileScore": "276"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "273",
-        "lexileScore": "273"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "205",
-        "lexileScore": "205"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "232",
-        "lexileScore": "232"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "1",
-        "scaleScore": "216",
-        "lexileScore": "216"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "240",
-        "lexileScore": "240"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "266",
-        "lexileScore": "266"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "238",
-        "lexileScore": "238"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "220",
-        "lexileScore": "220"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "218",
-        "lexileScore": "218"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "235",
-        "lexileScore": "235"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "318",
-        "lexileScore": "318"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "240",
-        "lexileScore": "240"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "166",
-        "lexileScore": "166"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "324",
-        "lexileScore": "324"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "315",
-        "lexileScore": "315"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "1",
-        "scaleScore": "189",
-        "lexileScore": "189"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "245",
-        "lexileScore": "245"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "3",
-        "scaleScore": "339",
-        "lexileScore": "339"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "228",
-        "lexileScore": "228"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "191",
-        "lexileScore": "191"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "239",
-        "lexileScore": "239"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "255",
-        "lexileScore": "255"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "229",
-        "lexileScore": "229"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "272",
-        "lexileScore": "272"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "162",
-        "lexileScore": "162"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "187",
-        "lexileScore": "187"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "261",
-        "lexileScore": "261"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
         "perfLevel": "2",
         "scaleScore": "230",
         "lexileScore": "230"
 },
 {
-        "studentId": "547028299",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "260",
-        "lexileScore": "260"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Reading",
+        "studentId": "453827070",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
-        "perfLevel": "1",
-        "scaleScore": "192",
-        "lexileScore": "192"
+        "perfLevel": "2",
+        "scaleScore": "235",
+        "lexileScore": "235"
 },
 {
-        "studentId": "258392050",
-        "assessmentName": "ISAT Reading",
+        "studentId": "943715230",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
         "perfLevel": "1",
-        "scaleScore": "162",
-        "lexileScore": "162"
+        "scaleScore": "158",
+        "lexileScore": "158"
 },
 {
-        "studentId": "258392050",
-        "assessmentName": "ISAT Reading",
+        "studentId": "943715230",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "288",
-        "lexileScore": "288"
+        "perfLevel": "2",
+        "scaleScore": "233",
+        "lexileScore": "233"
 },
 {
-        "studentId": "258392050",
-        "assessmentName": "ISAT Reading",
+        "studentId": "943715230",
+        "assessmentName": "ISAT_WRITING",
         "grade": "5",
         "year": "2008",
         "perfLevel": "2",
-        "scaleScore": "215",
-        "lexileScore": "215"
+        "scaleScore": "237",
+        "lexileScore": "237"
 },
 {
-        "studentId": "258392050",
-        "assessmentName": "ISAT Reading",
+        "studentId": "943715230",
+        "assessmentName": "ISAT_WRITING",
         "grade": "6",
         "year": "2009",
         "perfLevel": "2",
-        "scaleScore": "228",
-        "lexileScore": "228"
+        "scaleScore": "221",
+        "lexileScore": "221"
 },
 {
-        "studentId": "258392050",
-        "assessmentName": "ISAT Reading",
+        "studentId": "943715230",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
         "perfLevel": "2",
@@ -747,1466 +1599,116 @@
         "lexileScore": "243"
 },
 {
-        "studentId": "258392050",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "235",
-        "lexileScore": "235"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "233",
-        "lexileScore": "233"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "309",
-        "lexileScore": "309"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "306",
-        "lexileScore": "306"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "315",
-        "lexileScore": "315"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "1",
-        "scaleScore": "183",
-        "lexileScore": "183"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Reading",
+        "studentId": "943715230",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "1",
-        "scaleScore": "189",
-        "lexileScore": "189"
+        "scaleScore": "205",
+        "lexileScore": "205"
 },
 {
-        "studentId": "100644447",
-        "assessmentName": "ISAT Reading",
+        "studentId": "164420088",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "228",
-        "lexileScore": "228"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "202",
-        "lexileScore": "202"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "236",
-        "lexileScore": "236"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "242",
-        "lexileScore": "242"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "313",
-        "lexileScore": "313"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "3",
-        "scaleScore": "344",
-        "lexileScore": "344"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "223",
-        "lexileScore": "223"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "331",
-        "lexileScore": "331"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
         "perfLevel": "2",
         "scaleScore": "226",
         "lexileScore": "226"
 },
 {
-        "studentId": "376191021",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "276",
-        "lexileScore": "276"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "295",
-        "lexileScore": "295"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "268",
-        "lexileScore": "268"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "217",
-        "lexileScore": "217"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Reading",
+        "studentId": "164420088",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
         "perfLevel": "2",
-        "scaleScore": "226",
-        "lexileScore": "226"
+        "scaleScore": "229",
+        "lexileScore": "229"
 },
 {
-        "studentId": "336344132",
-        "assessmentName": "ISAT Reading",
+        "studentId": "164420088",
+        "assessmentName": "ISAT_WRITING",
         "grade": "5",
         "year": "2008",
         "perfLevel": "3",
-        "scaleScore": "296",
-        "lexileScore": "296"
+        "scaleScore": "330",
+        "lexileScore": "330"
 },
 {
-        "studentId": "336344132",
-        "assessmentName": "ISAT Reading",
+        "studentId": "164420088",
+        "assessmentName": "ISAT_WRITING",
         "grade": "6",
         "year": "2009",
-        "perfLevel": "1",
-        "scaleScore": "199",
-        "lexileScore": "199"
+        "perfLevel": "3",
+        "scaleScore": "263",
+        "lexileScore": "263"
 },
 {
-        "studentId": "336344132",
-        "assessmentName": "ISAT Reading",
+        "studentId": "164420088",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
         "perfLevel": "2",
-        "scaleScore": "253",
-        "lexileScore": "253"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "233",
-        "lexileScore": "233"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "201",
-        "lexileScore": "201"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "0",
-        "scaleScore": "136",
-        "lexileScore": "136"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
         "scaleScore": "248",
         "lexileScore": "248"
 },
 {
-        "studentId": "711411586",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "298",
-        "lexileScore": "298"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "339",
-        "lexileScore": "339"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Reading",
+        "studentId": "164420088",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
-        "scaleScore": "271",
-        "lexileScore": "271"
+        "scaleScore": "277",
+        "lexileScore": "277"
 },
 {
-        "studentId": "131758477",
-        "assessmentName": "ISAT Reading",
+        "studentId": "505331723",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "211",
-        "lexileScore": "211"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "300",
-        "lexileScore": "300"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "231",
-        "lexileScore": "231"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "227",
-        "lexileScore": "227"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "234",
-        "lexileScore": "234"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "1",
-        "scaleScore": "225",
-        "lexileScore": "225"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "225",
-        "lexileScore": "225"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "181",
-        "lexileScore": "181"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "201",
-        "lexileScore": "201"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
         "perfLevel": "3",
         "scaleScore": "316",
         "lexileScore": "316"
 },
 {
-        "studentId": "670703438",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "322",
-        "lexileScore": "322"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "259",
-        "lexileScore": "259"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "170",
-        "lexileScore": "170"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "221",
-        "lexileScore": "221"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "201",
-        "lexileScore": "201"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "1",
-        "scaleScore": "205",
-        "lexileScore": "205"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "249",
-        "lexileScore": "249"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "3",
-        "scaleScore": "287",
-        "lexileScore": "287"
-},
-{
-        "studentId": "423037202",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "223",
-        "lexileScore": "223"
-},
-{
-        "studentId": "423037202",
-        "assessmentName": "ISAT Reading",
+        "studentId": "505331723",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
         "perfLevel": "3",
-        "scaleScore": "242",
-        "lexileScore": "242"
-},
-{
-        "studentId": "423037202",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "171",
-        "lexileScore": "171"
-},
-{
-        "studentId": "423037202",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "286",
-        "lexileScore": "286"
-},
-{
-        "studentId": "423037202",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "313",
-        "lexileScore": "313"
-},
-{
-        "studentId": "423037202",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "1",
-        "scaleScore": "224",
-        "lexileScore": "224"
-},
-{
-        "studentId": "250918988",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "298",
-        "lexileScore": "298"
-},
-{
-        "studentId": "250918988",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "179",
-        "lexileScore": "179"
-},
-{
-        "studentId": "250918988",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "189",
-        "lexileScore": "189"
-},
-{
-        "studentId": "250918988",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "259",
-        "lexileScore": "259"
-},
-{
-        "studentId": "250918988",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "261",
-        "lexileScore": "261"
-},
-{
-        "studentId": "250918988",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "247",
-        "lexileScore": "247"
-},
-{
-        "studentId": "421216329",
-        "assessmentName": "ISAT Reading",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "230",
-        "lexileScore": "230"
-},
-{
-        "studentId": "421216329",
-        "assessmentName": "ISAT Reading",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "221",
-        "lexileScore": "221"
-},
-{
-        "studentId": "421216329",
-        "assessmentName": "ISAT Reading",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "233",
-        "lexileScore": "233"
-},
-{
-        "studentId": "421216329",
-        "assessmentName": "ISAT Reading",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "236",
-        "lexileScore": "236"
-},
-{
-        "studentId": "421216329",
-        "assessmentName": "ISAT Reading",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "250",
-        "lexileScore": "250"
-},
-{
-        "studentId": "421216329",
-        "assessmentName": "ISAT Reading",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "258",
-        "lexileScore": "258"
-},
-{
-        "studentId": "453827070",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "302",
-        "lexileScore": "302"
-},
-{
-        "studentId": "453827070",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "172",
-        "lexileScore": "172"
-},
-{
-        "studentId": "453827070",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "333",
-        "lexileScore": "333"
-},
-{
-        "studentId": "453827070",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "1",
-        "scaleScore": "213",
-        "lexileScore": "213"
-},
-{
-        "studentId": "453827070",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "283",
-        "lexileScore": "283"
-},
-{
-        "studentId": "453827070",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "273",
-        "lexileScore": "273"
-},
-{
-        "studentId": "943715230",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "213",
-        "lexileScore": "213"
-},
-{
-        "studentId": "943715230",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "305",
-        "lexileScore": "305"
-},
-{
-        "studentId": "943715230",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "270",
-        "lexileScore": "270"
-},
-{
-        "studentId": "943715230",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "220",
-        "lexileScore": "220"
-},
-{
-        "studentId": "943715230",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "1",
-        "scaleScore": "219",
-        "lexileScore": "219"
-},
-{
-        "studentId": "943715230",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "242",
-        "lexileScore": "242"
-},
-{
-        "studentId": "164420088",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "261",
-        "lexileScore": "261"
-},
-{
-        "studentId": "164420088",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "213",
-        "lexileScore": "213"
-},
-{
-        "studentId": "164420088",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
         "scaleScore": "240",
         "lexileScore": "240"
 },
 {
-        "studentId": "164420088",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "226",
-        "lexileScore": "226"
-},
-{
-        "studentId": "164420088",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "241",
-        "lexileScore": "241"
-},
-{
-        "studentId": "164420088",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "263",
-        "lexileScore": "263"
+        "studentId": "505331723",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "285",
+        "lexileScore": "285"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "214",
-        "lexileScore": "214"
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "1",
+        "scaleScore": "185",
+        "lexileScore": "185"
 },
 {
         "studentId": "505331723",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "169",
-        "lexileScore": "169"
-},
-{
-        "studentId": "505331723",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "223",
-        "lexileScore": "223"
-},
-{
-        "studentId": "505331723",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "271",
-        "lexileScore": "271"
-},
-{
-        "studentId": "505331723",
-        "assessmentName": "ISAT Writing",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "314",
-        "lexileScore": "314"
-},
-{
-        "studentId": "505331723",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "252",
-        "lexileScore": "252"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "287",
-        "lexileScore": "287"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "225",
-        "lexileScore": "225"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "243",
-        "lexileScore": "243"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "234",
-        "lexileScore": "234"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "228",
-        "lexileScore": "228"
-},
-{
-        "studentId": "530425896",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "232",
-        "lexileScore": "232"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "198",
-        "lexileScore": "198"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "221",
-        "lexileScore": "221"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "176",
-        "lexileScore": "176"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "222",
-        "lexileScore": "222"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "261",
-        "lexileScore": "261"
-},
-{
-        "studentId": "429526969",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "3",
-        "scaleScore": "326",
-        "lexileScore": "326"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "206",
-        "lexileScore": "206"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "165",
-        "lexileScore": "165"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "347",
-        "lexileScore": "347"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "356",
-        "lexileScore": "356"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "230",
-        "lexileScore": "230"
-},
-{
-        "studentId": "178828452",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "260",
-        "lexileScore": "260"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "294",
-        "lexileScore": "294"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "264",
-        "lexileScore": "264"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "188",
-        "lexileScore": "188"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "255",
-        "lexileScore": "255"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "245",
-        "lexileScore": "245"
-},
-{
-        "studentId": "525878920",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "256",
-        "lexileScore": "256"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "221",
-        "lexileScore": "221"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "197",
-        "lexileScore": "197"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "218",
-        "lexileScore": "218"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "252",
-        "lexileScore": "252"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "0",
-        "scaleScore": "149",
-        "lexileScore": "149"
-},
-{
-        "studentId": "510152105",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "242",
-        "lexileScore": "242"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "213",
-        "lexileScore": "213"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "1",
-        "scaleScore": "194",
-        "lexileScore": "194"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "234",
-        "lexileScore": "234"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "289",
-        "lexileScore": "289"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "226",
-        "lexileScore": "226"
-},
-{
-        "studentId": "802709591",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "266",
-        "lexileScore": "266"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "165",
-        "lexileScore": "165"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "230",
-        "lexileScore": "230"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "336",
-        "lexileScore": "336"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "238",
-        "lexileScore": "238"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "259",
-        "lexileScore": "259"
-},
-{
-        "studentId": "437680177",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "3",
-        "scaleScore": "344",
-        "lexileScore": "344"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "174",
-        "lexileScore": "174"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "263",
-        "lexileScore": "263"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "350",
-        "lexileScore": "350"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "245",
-        "lexileScore": "245"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "350",
-        "lexileScore": "350"
-},
-{
-        "studentId": "170011136",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "257",
-        "lexileScore": "257"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "205",
-        "lexileScore": "205"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "315",
-        "lexileScore": "315"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "295",
-        "lexileScore": "295"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
         "perfLevel": "2",
         "scaleScore": "237",
         "lexileScore": "237"
 },
 {
-        "studentId": "547028299",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "279",
-        "lexileScore": "279"
-},
-{
-        "studentId": "547028299",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "1",
-        "scaleScore": "203",
-        "lexileScore": "203"
-},
-{
-        "studentId": "258392050",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "324",
-        "lexileScore": "324"
-},
-{
-        "studentId": "258392050",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "0",
-        "scaleScore": "151",
-        "lexileScore": "151"
-},
-{
-        "studentId": "258392050",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "312",
-        "lexileScore": "312"
-},
-{
-        "studentId": "258392050",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "244",
-        "lexileScore": "244"
-},
-{
-        "studentId": "258392050",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "239",
-        "lexileScore": "239"
-},
-{
-        "studentId": "258392050",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "272",
-        "lexileScore": "272"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "199",
-        "lexileScore": "199"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "215",
-        "lexileScore": "215"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "224",
-        "lexileScore": "224"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "255",
-        "lexileScore": "255"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "273",
-        "lexileScore": "273"
-},
-{
-        "studentId": "178875887",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "259",
-        "lexileScore": "259"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "192",
-        "lexileScore": "192"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "209",
-        "lexileScore": "209"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "173",
-        "lexileScore": "173"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "265",
-        "lexileScore": "265"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "282",
-        "lexileScore": "282"
-},
-{
-        "studentId": "100644447",
-        "assessmentName": "ISAT Writing",
+        "studentId": "505331723",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
@@ -2214,323 +1716,53 @@
         "lexileScore": "247"
 },
 {
-        "studentId": "376191021",
-        "assessmentName": "ISAT Writing",
+        "studentId": "530425896",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
         "perfLevel": "2",
-        "scaleScore": "199",
-        "lexileScore": "199"
+        "scaleScore": "221",
+        "lexileScore": "221"
 },
 {
-        "studentId": "376191021",
-        "assessmentName": "ISAT Writing",
+        "studentId": "530425896",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
         "perfLevel": "2",
-        "scaleScore": "203",
-        "lexileScore": "203"
+        "scaleScore": "213",
+        "lexileScore": "213"
 },
 {
-        "studentId": "376191021",
-        "assessmentName": "ISAT Writing",
+        "studentId": "530425896",
+        "assessmentName": "ISAT_WRITING",
         "grade": "5",
         "year": "2008",
         "perfLevel": "2",
-        "scaleScore": "218",
-        "lexileScore": "218"
+        "scaleScore": "232",
+        "lexileScore": "232"
 },
 {
-        "studentId": "376191021",
-        "assessmentName": "ISAT Writing",
+        "studentId": "530425896",
+        "assessmentName": "ISAT_WRITING",
         "grade": "6",
         "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "239",
-        "lexileScore": "239"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "1",
-        "scaleScore": "195",
-        "lexileScore": "195"
-},
-{
-        "studentId": "376191021",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "240",
-        "lexileScore": "240"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "181",
-        "lexileScore": "181"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "266",
-        "lexileScore": "266"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "227",
-        "lexileScore": "227"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "223",
-        "lexileScore": "223"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "1",
-        "scaleScore": "204",
-        "lexileScore": "204"
-},
-{
-        "studentId": "336344132",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "244",
-        "lexileScore": "244"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "0",
-        "scaleScore": "143",
-        "lexileScore": "143"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "217",
-        "lexileScore": "217"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "2",
-        "scaleScore": "218",
-        "lexileScore": "218"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "245",
-        "lexileScore": "245"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "1",
-        "scaleScore": "223",
-        "lexileScore": "223"
-},
-{
-        "studentId": "711411586",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "242",
-        "lexileScore": "242"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "193",
-        "lexileScore": "193"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "233",
-        "lexileScore": "233"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "184",
-        "lexileScore": "184"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "250",
-        "lexileScore": "250"
-},
-{
-        "studentId": "131758477",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
         "perfLevel": "2",
         "scaleScore": "241",
         "lexileScore": "241"
 },
 {
-        "studentId": "131758477",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "1",
-        "scaleScore": "195",
-        "lexileScore": "195"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "3",
-        "scaleScore": "248",
-        "lexileScore": "248"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "212",
-        "lexileScore": "212"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "169",
-        "lexileScore": "169"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "253",
-        "lexileScore": "253"
-},
-{
-        "studentId": "670703438",
-        "assessmentName": "ISAT Writing",
+        "studentId": "530425896",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
         "perfLevel": "2",
-        "scaleScore": "227",
-        "lexileScore": "227"
+        "scaleScore": "235",
+        "lexileScore": "235"
 },
 {
-        "studentId": "670703438",
-        "assessmentName": "ISAT Writing",
-        "grade": "8",
-        "year": "2011",
-        "perfLevel": "2",
-        "scaleScore": "269",
-        "lexileScore": "269"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Writing",
-        "grade": "3",
-        "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "209",
-        "lexileScore": "209"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Writing",
-        "grade": "4",
-        "year": "2007",
-        "perfLevel": "2",
-        "scaleScore": "210",
-        "lexileScore": "210"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Writing",
-        "grade": "5",
-        "year": "2008",
-        "perfLevel": "3",
-        "scaleScore": "247",
-        "lexileScore": "247"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Writing",
-        "grade": "6",
-        "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "224",
-        "lexileScore": "224"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
-        "perfLevel": "2",
-        "scaleScore": "228",
-        "lexileScore": "228"
-},
-{
-        "studentId": "851123275",
-        "assessmentName": "ISAT Writing",
+        "studentId": "530425896",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "1",
@@ -2538,116 +1770,278 @@
         "lexileScore": "182"
 },
 {
-        "studentId": "423037202",
-        "assessmentName": "ISAT Writing",
+        "studentId": "429526969",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
-        "perfLevel": "1",
-        "scaleScore": "160",
-        "lexileScore": "160"
+        "perfLevel": "2",
+        "scaleScore": "196",
+        "lexileScore": "196"
 },
 {
-        "studentId": "423037202",
-        "assessmentName": "ISAT Writing",
+        "studentId": "429526969",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
         "perfLevel": "2",
-        "scaleScore": "205",
-        "lexileScore": "205"
+        "scaleScore": "236",
+        "lexileScore": "236"
 },
 {
-        "studentId": "423037202",
-        "assessmentName": "ISAT Writing",
+        "studentId": "429526969",
+        "assessmentName": "ISAT_WRITING",
         "grade": "5",
         "year": "2008",
-        "perfLevel": "1",
-        "scaleScore": "212",
-        "lexileScore": "212"
+        "perfLevel": "2",
+        "scaleScore": "220",
+        "lexileScore": "220"
 },
 {
-        "studentId": "423037202",
-        "assessmentName": "ISAT Writing",
+        "studentId": "429526969",
+        "assessmentName": "ISAT_WRITING",
         "grade": "6",
         "year": "2009",
-        "perfLevel": "3",
-        "scaleScore": "342",
-        "lexileScore": "342"
+        "perfLevel": "2",
+        "scaleScore": "237",
+        "lexileScore": "237"
 },
 {
-        "studentId": "423037202",
-        "assessmentName": "ISAT Writing",
+        "studentId": "429526969",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
         "perfLevel": "2",
-        "scaleScore": "231",
-        "lexileScore": "231"
+        "scaleScore": "250",
+        "lexileScore": "250"
 },
 {
-        "studentId": "423037202",
-        "assessmentName": "ISAT Writing",
+        "studentId": "429526969",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
-        "scaleScore": "239",
-        "lexileScore": "239"
+        "scaleScore": "266",
+        "lexileScore": "266"
 },
 {
-        "studentId": "250918988",
-        "assessmentName": "ISAT Writing",
+        "studentId": "178828452",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
-        "perfLevel": "2",
-        "scaleScore": "198",
-        "lexileScore": "198"
+        "perfLevel": "3",
+        "scaleScore": "227",
+        "lexileScore": "227"
 },
 {
-        "studentId": "250918988",
-        "assessmentName": "ISAT Writing",
+        "studentId": "178828452",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "196",
+        "lexileScore": "196"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "240",
+        "lexileScore": "240"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "246",
+        "lexileScore": "246"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "268",
+        "lexileScore": "268"
+},
+{
+        "studentId": "178828452",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
         "perfLevel": "2",
         "scaleScore": "232",
         "lexileScore": "232"
 },
 {
-        "studentId": "250918988",
-        "assessmentName": "ISAT Writing",
+        "studentId": "525878920",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "208",
+        "lexileScore": "208"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "233",
+        "lexileScore": "233"
+},
+{
+        "studentId": "525878920",
+        "assessmentName": "ISAT_WRITING",
         "grade": "5",
         "year": "2008",
         "perfLevel": "2",
-        "scaleScore": "216",
-        "lexileScore": "216"
+        "scaleScore": "225",
+        "lexileScore": "225"
 },
 {
-        "studentId": "250918988",
-        "assessmentName": "ISAT Writing",
+        "studentId": "525878920",
+        "assessmentName": "ISAT_WRITING",
         "grade": "6",
         "year": "2009",
-        "perfLevel": "2",
-        "scaleScore": "238",
-        "lexileScore": "238"
+        "perfLevel": "3",
+        "scaleScore": "349",
+        "lexileScore": "349"
 },
 {
-        "studentId": "250918988",
-        "assessmentName": "ISAT Writing",
+        "studentId": "525878920",
+        "assessmentName": "ISAT_WRITING",
         "grade": "7",
         "year": "2010",
-        "perfLevel": "3",
-        "scaleScore": "280",
-        "lexileScore": "280"
+        "perfLevel": "2",
+        "scaleScore": "253",
+        "lexileScore": "253"
 },
 {
-        "studentId": "250918988",
-        "assessmentName": "ISAT Writing",
+        "studentId": "525878920",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
-        "scaleScore": "260",
-        "lexileScore": "260"
+        "scaleScore": "261",
+        "lexileScore": "261"
 },
 {
-        "studentId": "421216329",
-        "assessmentName": "ISAT Writing",
+        "studentId": "510152105",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "279",
+        "lexileScore": "279"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "230",
+        "lexileScore": "230"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "226",
+        "lexileScore": "226"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "222",
+        "lexileScore": "222"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "259",
+        "lexileScore": "259"
+},
+{
+        "studentId": "510152105",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "235",
+        "lexileScore": "235"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "250",
+        "lexileScore": "250"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "191",
+        "lexileScore": "191"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "194",
+        "lexileScore": "194"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "265",
+        "lexileScore": "265"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "272",
+        "lexileScore": "272"
+},
+{
+        "studentId": "802709591",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "241",
+        "lexileScore": "241"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_WRITING",
         "grade": "3",
         "year": "2006",
         "perfLevel": "2",
@@ -2655,48 +2049,804 @@
         "lexileScore": "191"
 },
 {
-        "studentId": "421216329",
-        "assessmentName": "ISAT Writing",
+        "studentId": "437680177",
+        "assessmentName": "ISAT_WRITING",
         "grade": "4",
         "year": "2007",
-        "perfLevel": "3",
-        "scaleScore": "336",
-        "lexileScore": "336"
+        "perfLevel": "2",
+        "scaleScore": "230",
+        "lexileScore": "230"
 },
 {
-        "studentId": "421216329",
-        "assessmentName": "ISAT Writing",
+        "studentId": "437680177",
+        "assessmentName": "ISAT_WRITING",
         "grade": "5",
         "year": "2008",
         "perfLevel": "2",
-        "scaleScore": "243",
-        "lexileScore": "243"
+        "scaleScore": "237",
+        "lexileScore": "237"
 },
 {
-        "studentId": "421216329",
-        "assessmentName": "ISAT Writing",
+        "studentId": "437680177",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "245",
+        "lexileScore": "245"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "327",
+        "lexileScore": "327"
+},
+{
+        "studentId": "437680177",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "194",
+        "lexileScore": "194"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "208",
+        "lexileScore": "208"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "268",
+        "lexileScore": "268"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "341",
+        "lexileScore": "341"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "227",
+        "lexileScore": "227"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "262",
+        "lexileScore": "262"
+},
+{
+        "studentId": "170011136",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "255",
+        "lexileScore": "255"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "203",
+        "lexileScore": "203"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "231",
+        "lexileScore": "231"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "161",
+        "lexileScore": "161"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_WRITING",
         "grade": "6",
         "year": "2009",
         "perfLevel": "1",
+        "scaleScore": "210",
+        "lexileScore": "210"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "335",
+        "lexileScore": "335"
+},
+{
+        "studentId": "547028299",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "239",
+        "lexileScore": "239"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "209",
+        "lexileScore": "209"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "211",
+        "lexileScore": "211"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "184",
+        "lexileScore": "184"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "230",
+        "lexileScore": "230"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "233",
+        "lexileScore": "233"
+},
+{
+        "studentId": "258392050",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "273",
+        "lexileScore": "273"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "285",
+        "lexileScore": "285"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "330",
+        "lexileScore": "330"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "318",
+        "lexileScore": "318"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "249",
+        "lexileScore": "249"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "261",
+        "lexileScore": "261"
+},
+{
+        "studentId": "178875887",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "237",
+        "lexileScore": "237"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "191",
+        "lexileScore": "191"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "175",
+        "lexileScore": "175"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "3",
+        "scaleScore": "338",
+        "lexileScore": "338"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "342",
+        "lexileScore": "342"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "263",
+        "lexileScore": "263"
+},
+{
+        "studentId": "100644447",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "256",
+        "lexileScore": "256"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "0",
+        "scaleScore": "125",
+        "lexileScore": "125"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "232",
+        "lexileScore": "232"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "173",
+        "lexileScore": "173"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "1",
+        "scaleScore": "174",
+        "lexileScore": "174"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "186",
+        "lexileScore": "186"
+},
+{
+        "studentId": "376191021",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "184",
+        "lexileScore": "184"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "220",
+        "lexileScore": "220"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "314",
+        "lexileScore": "314"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "228",
+        "lexileScore": "228"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "335",
+        "lexileScore": "335"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "191",
+        "lexileScore": "191"
+},
+{
+        "studentId": "336344132",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "255",
+        "lexileScore": "255"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "193",
+        "lexileScore": "193"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "215",
+        "lexileScore": "215"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "215",
+        "lexileScore": "215"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "316",
+        "lexileScore": "316"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "265",
+        "lexileScore": "265"
+},
+{
+        "studentId": "711411586",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "249",
+        "lexileScore": "249"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
         "scaleScore": "201",
         "lexileScore": "201"
 },
 {
-        "studentId": "421216329",
-        "assessmentName": "ISAT Writing",
-        "grade": "7",
-        "year": "2010",
+        "studentId": "131758477",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
         "perfLevel": "2",
-        "scaleScore": "266",
-        "lexileScore": "266"
+        "scaleScore": "229",
+        "lexileScore": "229"
 },
 {
-        "studentId": "421216329",
-        "assessmentName": "ISAT Writing",
+        "studentId": "131758477",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "233",
+        "lexileScore": "233"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "246",
+        "lexileScore": "246"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "212",
+        "lexileScore": "212"
+},
+{
+        "studentId": "131758477",
+        "assessmentName": "ISAT_WRITING",
         "grade": "8",
         "year": "2011",
         "perfLevel": "2",
-        "scaleScore": "254",
-        "lexileScore": "254"
+        "scaleScore": "234",
+        "lexileScore": "234"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "214",
+        "lexileScore": "214"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "189",
+        "lexileScore": "189"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "227",
+        "lexileScore": "227"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "284",
+        "lexileScore": "284"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "247",
+        "lexileScore": "247"
+},
+{
+        "studentId": "670703438",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "257",
+        "lexileScore": "257"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "198",
+        "lexileScore": "198"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "174",
+        "lexileScore": "174"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "219",
+        "lexileScore": "219"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "276",
+        "lexileScore": "276"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "235",
+        "lexileScore": "235"
+},
+{
+        "studentId": "851123275",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "261",
+        "lexileScore": "261"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "1",
+        "scaleScore": "163",
+        "lexileScore": "163"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "3",
+        "scaleScore": "312",
+        "lexileScore": "312"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "173",
+        "lexileScore": "173"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "3",
+        "scaleScore": "350",
+        "lexileScore": "350"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "1",
+        "scaleScore": "208",
+        "lexileScore": "208"
+},
+{
+        "studentId": "423037202",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "261",
+        "lexileScore": "261"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "3",
+        "scaleScore": "248",
+        "lexileScore": "248"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "1",
+        "scaleScore": "167",
+        "lexileScore": "167"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "1",
+        "scaleScore": "162",
+        "lexileScore": "162"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "253",
+        "lexileScore": "253"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "2",
+        "scaleScore": "249",
+        "lexileScore": "249"
+},
+{
+        "studentId": "250918988",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "258",
+        "lexileScore": "258"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "3",
+        "year": "2006",
+        "perfLevel": "2",
+        "scaleScore": "213",
+        "lexileScore": "213"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "4",
+        "year": "2007",
+        "perfLevel": "2",
+        "scaleScore": "234",
+        "lexileScore": "234"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "5",
+        "year": "2008",
+        "perfLevel": "2",
+        "scaleScore": "240",
+        "lexileScore": "240"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "6",
+        "year": "2009",
+        "perfLevel": "2",
+        "scaleScore": "229",
+        "lexileScore": "229"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "7",
+        "year": "2010",
+        "perfLevel": "3",
+        "scaleScore": "312",
+        "lexileScore": "312"
+},
+{
+        "studentId": "421216329",
+        "assessmentName": "ISAT_WRITING",
+        "grade": "8",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "210",
+        "lexileScore": "210"
 }
 ]

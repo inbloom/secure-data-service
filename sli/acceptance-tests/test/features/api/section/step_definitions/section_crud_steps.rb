@@ -7,12 +7,12 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative './section_crud_helper'
 
 Transform /^section "([^"]*)"$/ do |step_arg|
-  id = "/sections/f5532495-f338-4c32-afe2-e5452e2f8de2"  if step_arg == "123"
-  id = "/sections/b5884643-01aa-474e-974f-5038a307ee62"  if step_arg == "897"
-  id = "/sections/c76f8fb1-cef4-4839-bfeb-ab2afb8b8aec"  if step_arg == "1500"
+  id = "/sections/1e1cdb04-2094-46b7-8140-e3e481013480"  if step_arg == "chemistryF11"
+  id = "/sections/5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431"  if step_arg == "physicsS08"
   id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
-  id = "/sections/dad5b409-9660-4843-82ba-07d7a4ff37cb"  if step_arg == "567"
-  id = "/section/11111111-1111-1111-1111-111111111111"  if step_arg == "WrongURI"
+  id = "/sections/58c9ef19-c172-4798-8e6e-c73e68ffb5a3"  if step_arg == "algebraIIS10"
+  id = "/sections/40679a48-9fee-48d2-beb4-8bfd65dfdc0d"  if step_arg == "biologyF09"
+  id = "/section/11111111-1111-1111-1111-111111111111"   if step_arg == "WrongURI"
   id = "/sections"                                       if step_arg == "NoGUID"
   id
 end
@@ -40,11 +40,6 @@ Given /^the unique section code is "([^"]*)"$/ do |section_code|
   @section_code = section_code
 end
 
-Given /^the sequence of course is "([^"]*)"$/ do |course_seq|
-  course_seq.should_not be_nil
-  @course_seq = course_seq
-end
-
 Given /^the educational environment is "([^"]*)"$/ do |edu_env|
   edu_env.should_not be_nil
   @edu_env = edu_env
@@ -58,11 +53,6 @@ end
 Given /^the population served is "([^"]*)"$/ do |pop|
   pop.should_not be_nil
   @pop = pop
-end
-
-Given /^the available credit is "([^"]*)"$/ do |credit|
-  credit.should_not be_nil
-  @credit = credit
 end
 
 When /^I navigate to POST "([^"]*)"$/ do |section_uri|
@@ -90,7 +80,7 @@ end
 
 Then /^I should see the sequence of course is (\d+)$/ do |course_seq|
   parsed_results.should_not be_nil
-  parsed_results['sequenceOfCourse'].should == course_seq
+  parsed_results['sequenceOfCourse'].should == course_seq.to_i
 end
 
 Then /^I should see the educational environment is "([^"]*)"$/ do |edu_env|
@@ -108,15 +98,9 @@ Then /^I should see the population served is "([^"]*)"$/ do |pop|
   parsed_results['populationServed'].should == pop
 end
 
-Then /^I should see the available credit is "([^"]*)"$/ do |credit|
-  parsed_results.should_not be_nil
-  parsed_results['availableCredit'].should == credit
-end
-
 Given /^the sequence of course is (\d+)$/ do |course_seq|
   course_seq.should_not be_nil
-  @course_seq = course_seq
-  @course_seq.should_not be_nil
+  @course_seq = course_seq.to_i
 end
 
 When /^I navigate to DELETE (section "[^"]*")$/ do |section_uri|
@@ -125,9 +109,25 @@ When /^I navigate to DELETE (section "[^"]*")$/ do |section_uri|
 end
 
 When /^I navigate to PUT (section "[^"]*")$/ do |section_uri|
-  section_uri.should_not be_nil
-  data = data_builder
+
+  restHttpGet(section_uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+
+  if @format == "application/json"
+    dataH = JSON.parse(@res.body)
+    dataH['sequenceOfCourse'].should_not == @course_seq
+    dataH['sequenceOfCourse'] = @course_seq
+    data = dataH.to_json
+  elsif @format == "application/xml"
+    doc = Document.new(@res.body)  
+    data = doc
+  else
+    assert(false, "Unsupported MIME type")
+  end
   restHttpPut(section_uri, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  
 end
 
 When /^I attempt to update a non\-existing (section "[^"]*")$/ do |section_uri|

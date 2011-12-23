@@ -34,7 +34,7 @@ import org.slc.sli.api.service.EntityService;
  * 
  */
 @Component
-@Path("/admin")
+@Path("/pub/realms")
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class RealmResource implements IdpResolver {
@@ -53,7 +53,7 @@ public class RealmResource implements IdpResolver {
      * Provides a list of all available realms
      */
     @GET
-    @Path("realms")
+    @Path("/")
     @Override
     public Set<EntityBody> getRealms() {
         
