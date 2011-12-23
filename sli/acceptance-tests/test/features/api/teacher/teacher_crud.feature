@@ -24,32 +24,32 @@ Scenario: Create a new teacher in JSON format
               
 Scenario: Read a teacher by ID in JSON format
    Given format "application/json"
-   When I navigate to GET teacher "Rafe"
+   When I navigate to GET teacher "Macey"
    Then I should receive a return code of 200
-      And I should see that the name of the teacher is "Rafe" "Hairfire" "Esquith"
-      And I should see that he is "Male"
-      And I should see that he was born on "1954-08-31"
+      And I should see that the name of the teacher is "Macey" "" "Finch"
+      And I should see that he is "Female"
+      And I should see that he was born on "1960-02-01"
       And I should see that his "Years of Prior Teaching Experience" is "32"
-      And I should see that his "Teacher Unique State ID" is "567"
-      And I should see that his "Highly Qualified Teacher" status is "1"
-      And I should see that his "Level of Education" is "Master's"
+      And I should see that his "Teacher Unique State ID" is "738543275"
+      And I should see that his "Highly Qualified Teacher" status is "0"
+      And I should see that his "Level of Education" is "Bachelor's"
 
 Scenario: Update an existing teacher in JSON format
    Given format "application/json"
      And his "Highly Qualified Teacher" status is "0"
-   When I navigate to GET teacher "Rafe"
+   When I navigate to GET teacher "Belle"
    Then I should receive a return code of 200   
      And I should see that his "Highly Qualified Teacher" status is "1"
-   When I navigate to PUT teacher "Rafe"
+   When I navigate to PUT teacher "Belle"
    Then I should receive a return code of 204
-   When I navigate to GET teacher "Rafe"
+   When I navigate to GET teacher "Belle"
    Then I should see that his "Highly Qualified Teacher" status is "0"
       
 Scenario: Delete an existing teacher in JSON format
    Given format "application/json"
-   When I navigate to DELETE teacher "Rafe"
+   When I navigate to DELETE teacher "Christian"
    Then I should receive a return code of 204
-   When I navigate to GET teacher "Rafe"
+   When I navigate to GET teacher "Christian"
    Then I should receive a return code of 404
  
  
@@ -70,31 +70,35 @@ Scenario: Create a new teacher in XML format
 @wip     
 Scenario: Read a teacher by ID in XML format
    Given format "application/xml"
-   When I navigate to GET teacher Esquith
-   Then I should receive a return code of 2XX
-      And I should see that the name of the teacher is "Rafe" "Hairfire" "Esquith"
-      And I should see that he is "Male"
-      And I should see that he was born on "1954-08-31"
+   When I navigate to GET teacher "Macey"
+   Then I should receive a return code of 200
+      And I should see that the name of the teacher is "Macey" "" "Finch"
+      And I should see that he is "Female"
+      And I should see that he was born on "1960-02-01"
       And I should see that his "Years of Prior Teaching Experience" is "32"
-      And I should see that his "Teacher Unique State ID" is "567"
-      And I should see that his "Highly Qualified Teacher" status is "1"
+      And I should see that his "Teacher Unique State ID" is "738543275"
+      And I should see that his "Highly Qualified Teacher" status is "0"
+      And I should see that his "Level of Education" is "Bachelor's"
   
 @wip 
 Scenario: Update an existing teacher in XML format
-   Given format "application/xml"
-      And I see that his "Highly Qualified Teacher" status is "0"
-   When I navigate to PUT teacher Esquith
-   Then I should receive a return code of 2XX
-   When I navigate to GET teacher Esquith
+   Given format "application/json"
+     And his "Highly Qualified Teacher" status is "0"
+   When I navigate to GET teacher "Belle"
+   Then I should receive a return code of 200   
+     And I should see that his "Highly Qualified Teacher" status is "1"
+   When I navigate to PUT teacher "Belle"
+   Then I should receive a return code of 204
+   When I navigate to GET teacher "Belle"
    Then I should see that his "Highly Qualified Teacher" status is "0"
        
 @wip 
 Scenario: Delete anexisting teacher in XML format
-   Given format "application/xml"
-   When I navigate to DELETE teacher Esquith
-   Then I should receive a return code of 2XX
-   When I navigate to GET teacher Esquith
-   Then I should receive a return code of 4XX
+   Given format "application/json"
+   When I navigate to DELETE teacher "Christian"
+   Then I should receive a return code of 204
+   When I navigate to GET teacher "Christian"
+   Then I should receive a return code of 404
  
  
 ###Links

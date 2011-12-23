@@ -21,7 +21,6 @@ Transform /^teacher "([^"]*)"$/ do |step_arg|
   id = "/teachers/2B5AB1CC-F082-46AA-BE47-36A310F6F5EA" if step_arg == "Unknown"
   id = "/teachers/11111111-1111-1111-1111-111111111111" if step_arg == "WrongURI"
   id = "/teachers"                                      if step_arg == "" or step_arg == nil
-  id = "/teachers/" + $newId                            if step_arg == "Rafe"
   id
 end
 
@@ -90,16 +89,13 @@ end
 When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "staff" => Hash[
-        "name" => Hash[ "first" => @fname, "middle" => @mname, "last" => @lname ],
+        "name" => Hash[ "firstName" => @fname, "middleName" => @mname, "lastName" => @lname ],
         "birthDate" => @bdate,
         "sex" => @sex,
-        "yearsTeachingExperience" => @teachingExperience,
-        "levelOfEducation" => @levelOfEducation],
-      "teacher" => Hash[
+        "yearsOfPriorTeachingExperience" => @teachingExperience,
+        "highestLevelOfEducationCompleted" => @levelOfEducation],
         "teacherUniqueStateId" => @teacherUniqueStateId,
         "highlyQualifiedTeacher" => @highlyQualifiedTeacher]
-      ]
     data = dataH.to_json
       
   elsif @format == "application/xml"
@@ -124,8 +120,8 @@ Then /^I should receive an ID for the newly created teacher$/ do
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")
   s = headers['location'][0]
-  $newId = s[s.rindex('/')+1..-1]
-  assert($newId != nil, "Teacher ID is nil")
+  @newId = s[s.rindex('/')+1..-1]
+  assert(@newId != nil, "Teacher ID is nil")
 end
 
 When /^I navigate to GET (teacher "[^"]*")$/ do |arg1|
@@ -142,16 +138,16 @@ When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
   if @format == "application/json"  
     dataH = JSON.parse(@res.body)
     
-    dataH["teacher"]["highlyQualifiedTeacher"].should_not == @highlyQualifiedTeacher
-    dataH["teacher"]["highlyQualifiedTeacher"] = @highlyQualifiedTeacher
+    dataH["highlyQualifiedTeacher"].should_not == @highlyQualifiedTeacher
+    dataH["highlyQualifiedTeacher"] = @highlyQualifiedTeacher
     
     data = dataH.to_json
 
   elsif @format == "application/xml"
   
     data = Document.new(@res.body)  
-    data.root.elements["teacher"]["highlyQualifiedTeacher"].text.should_not == @highlyQualifiedTeacher
-    data.root.elements["teacher"]["highlyQualifiedTeacher"].text = @highlyQualifiedTeacher
+    data.root.elements["highlyQualifiedTeacher"].text.should_not == @highlyQualifiedTeacher
+    data.root.elements["highlyQualifiedTeacher"].text = @highlyQualifiedTeacher
 
   else
     assert(false, "Unsupported MIME type")
@@ -175,39 +171,39 @@ end
 Then /^I should see that the name of the teacher is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["name"]["first"] == arg1, "Expected teacher firstname not found in response")
-  assert(result["staff"]["name"]["middle"] == arg2, "Expected teacher middlename not found in response")
-  assert(result["staff"]["name"]["last"] == arg3, "Expected teacher lastname not found in response")
+  assert(result["name"]["firstName"] == arg1, "Expected teacher firstname not found in response")
+  assert(result["name"]["middleName"] == arg2, "Expected teacher middlename not found in response")
+  assert(result["name"]["lastName"] == arg3, "Expected teacher lastname not found in response")
 end
 
 Then /^I should see that (?:he|she) is "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  result["staff"]["sex"].should == arg1
+  result["sex"].should == arg1
 end
 
 Then /^I should see that (?:he|she) was born on "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["birthDate"] == arg1, "Expected teacher birthdate not found in response")
+  assert(result["birthDate"] == arg1, "Expected teacher birthdate not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["staff"]["yearsTeachingExperience"] == arg1, "Expected teacher experience not found in response")
+  assert(result["yearsOfPriorTeachingExperience"] == arg1, "Expected teacher experience not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacher"]["teacherUniqueStateId"] == arg1, "Expected teacher state id not found in response")
+  assert(result["teacherUniqueStateId"] == arg1, "Expected teacher state id not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacher"]["highlyQualifiedTeacher"] == arg1, "Expected teacher highly qualified status not found in response")
+  assert(result["highlyQualifiedTeacher"] == arg1, "Expected teacher highly qualified status not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
@@ -220,7 +216,7 @@ When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     data = Hash[
       "teacherUniqueStateId" => "",
-      "name" => Hash[ "first" => "Should", "middle" => "Not", "last" => "Exist" ],
+      "name" => Hash[ "firstName" => "Should", "middleName" => "Not", "lastName" => "Exist" ],
       "sex" => "Male",
       "birthDate" => "765432000000"]
     
