@@ -73,6 +73,9 @@ public class ResourceTest {
         
         // post some data
         // Map of <type, id> pair to entity location.
+        /**
+         * Track an object type/id.
+         */
         final class TypeIdPair {
             protected TypeIdPair(Object type, String id) {
                 this.type = (String) type;
@@ -119,6 +122,11 @@ public class ResourceTest {
         String teacherId1 = parseIdFromLocation(createResponse6);
         ids.put(new TypeIdPair("teachers", teacherId1), (String) createResponse6.getMetadata().get("Location").get(0));
         
+        Response createResponse7 = api.createEntity("sections", new EntityBody(createTestEntity()), info);
+        assertNotNull(createResponse7);
+        String sectionId1 = parseIdFromLocation(createResponse7);
+        ids.put(new TypeIdPair("sections", sectionId1), (String) createResponse7.getMetadata().get("Location").get(0)); 
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             
@@ -129,7 +137,7 @@ public class ResourceTest {
             assertEquals(1, body.get("field1"));
             assertEquals(2, body.get("field2"));
             
-            if (typeId.type.equals("students") == true) {
+            if (typeId.type.equals("students")) {
                 List<?> links = (List<?>) body.get("links");
                 assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
                 assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "student-school-association",

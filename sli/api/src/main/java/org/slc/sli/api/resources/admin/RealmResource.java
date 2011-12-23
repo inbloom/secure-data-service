@@ -34,7 +34,7 @@ import org.slc.sli.api.service.EntityService;
  * 
  */
 @Component
-@Path("/admin/realms")
+@Path("/pub/realms")
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class RealmResource implements IdpResolver {

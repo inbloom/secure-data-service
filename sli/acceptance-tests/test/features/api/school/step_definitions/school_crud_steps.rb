@@ -63,11 +63,14 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
-    dataH = Hash["fullName" => @fullName,
-      "shortName" => @shortName,
-      "stateOrganizationId" => "50","webSite" => @websiteName]
+    dataH = Hash[
+      "nameOfInstitution" => @fullName,
+      "shortNameOfInstitution" => @shortName,
+      "stateOrganizationId" => "123456778",
+      "webSite" => @websiteName]
     data = dataH.to_json
   elsif @format == "application/xml"
+    #not valid below
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.school { |b| 
       b.fullName(@fullName)
@@ -113,9 +116,12 @@ end
 When /^I attempt to update (a school "[^"]*")$/ do |arg1|
   # NOTE: This step def is intended to be used for schools that do not exist.  Use the "I navigate to PUT" to update an existing school
   if @format == "application/json"
-    dataH = Hash["fullName" => "",
-      "shortName" => "",
-      "stateOrganizationId" => "50","webSite" => ""]
+    dataH = Hash[
+      "nameOfInstitution" => "",
+      "shortNameOfInstitution" => "",
+      "stateOrganizationId" => "123456778",
+      "webSite" => ""
+    ]
     data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
@@ -151,7 +157,7 @@ end
 Then /^I should see a phone number of "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['telephone'][0]['number'] == arg1, "Expected website name not found in response")
+  assert(result['telephone'][0]['telephoneNumber'] == arg1, "Expected website name not found in response")
 end
 
 

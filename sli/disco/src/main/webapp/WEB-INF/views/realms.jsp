@@ -8,8 +8,8 @@
 <title>Choose your realm</title>
 </head>
 <body>
-Choose your Realm
-<hr />
+	<h2>Choose your Realm</h2>
+	<hr />
 	<form:form action="/disco/realms/sso.do" method="GET" commandName="dummy">
 		<table>
 			<tr>
@@ -18,9 +18,8 @@ Choose your Realm
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="RelayState" value="${relayState}" />
-					<input type="submit" value="run!" />
-				</td>
+				<input type="hidden" name="RelayState" value="${relayState}" /> 
+				<input type="submit" value="Choose Your Destiny" /></td>
 			</tr>
 		</table>
 	</form:form>
