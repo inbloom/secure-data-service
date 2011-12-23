@@ -5,22 +5,22 @@
   "doc" : "The raw score for the objective assessment for the student.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "rawScoreResult",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "scoreResults",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ScoreResult"
     } ]
   }, {
     "name" : "performanceLevelReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.PerformanceLevelReferenceType"
     } ]

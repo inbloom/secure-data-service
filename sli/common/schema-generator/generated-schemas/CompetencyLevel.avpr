@@ -5,7 +5,7 @@
   "doc" : "Defines various levels for assessed competencies.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -20,13 +20,13 @@
   }, {
     "name" : "description",
     "doc" : "A detailed description of the entity.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "1024",
       "min-length" : "1"
     } ]
   }, {
     "name" : "levelConversion",
-    "type" : [ null, "org.slc.sli.domain.enum.PerformanceLevelType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.PerformanceLevelType" ]
   } ]
 }

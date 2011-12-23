@@ -5,7 +5,7 @@
   "doc" : "The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies.",
   "fields" : [ {
     "name" : "racialCategory",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.RaceItemType"
     } ]

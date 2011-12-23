@@ -5,7 +5,7 @@
   "doc" : "This entity represents the schedule of class period meeting times.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]

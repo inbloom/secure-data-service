@@ -5,7 +5,7 @@
   "doc" : "This entity captures significant postsecondary events during a student's high school tenure (e.g., FASFSA application, or college application, acceptance, and enrollment.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -22,7 +22,7 @@
   }, {
     "name" : "nameOfInstitution",
     "doc" : "The full, legally accepted name of the institution.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "60",
       "min-length" : "1"
@@ -30,7 +30,7 @@
   }, {
     "name" : "institutionId",
     "doc" : "A unique number or alphanumeric code assigned to the postsecondary organization.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "30",
       "min-length" : "1"

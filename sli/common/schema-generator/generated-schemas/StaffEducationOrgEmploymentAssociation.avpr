@@ -18,7 +18,7 @@
   }, {
     "name" : "department",
     "doc" : "The department or suborganization the employee/contractor is associated with in the Education Organization.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "3",
       "min-length" : "1"
@@ -26,6 +26,6 @@
   }, {
     "name" : "fullTimeEquivalency",
     "doc" : "A proportion in relation to the whole (as measured in parts per one hundred).",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   } ]
 }

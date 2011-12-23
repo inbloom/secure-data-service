@@ -5,7 +5,7 @@
   "doc" : "One of many single measures that make up an assessment.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -33,14 +33,14 @@
     }
   }, {
     "name" : "learningStandardReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.LearningStandardReferenceType"
     } ]
   }, {
     "name" : "nomenclature",
     "doc" : "Reflects the common nomenclature for an element.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "35",
       "min-length" : "1"

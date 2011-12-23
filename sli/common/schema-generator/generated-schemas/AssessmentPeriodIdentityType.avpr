@@ -6,6 +6,6 @@
   "fields" : [ {
     "name" : "TODO_XmlSchemaChoice",
     "doc" : "Cannot handle element.",
-    "type" : null
+    "type" : "null"
   } ]
 }

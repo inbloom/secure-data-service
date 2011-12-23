@@ -11,10 +11,10 @@
     "type" : "int"
   }, {
     "name" : "percentageRanking",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "classRankingDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

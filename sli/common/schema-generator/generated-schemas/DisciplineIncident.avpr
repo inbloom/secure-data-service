@@ -5,7 +5,7 @@
   "doc" : "This event entity represents an occurrence of an infraction ranging from a minor problem behavior that disrupts the orderly functioning of a school or classroom (such as tardiness) to a criminal act that results in the involvement of a law enforcement official (such as robbery). A single event (e.g., a fight) is one incident regardless of how many perpetrators or victims are involved.  Discipline incidents are events classified as warranting discipline action.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -36,11 +36,11 @@
     "type" : "org.slc.sli.domain.enum.IncidentLocationType"
   }, {
     "name" : "reporterDescription",
-    "type" : [ null, "org.slc.sli.domain.enum.ReporterDescriptionType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ReporterDescriptionType" ]
   }, {
     "name" : "reporterName",
     "doc" : "Identifies the reporter of the incident by name.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "35",
       "min-length" : "1"
@@ -53,20 +53,20 @@
     }
   }, {
     "name" : "secondaryIncidentBehaviors",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.SecondaryIncidentBehavior"
     } ]
   }, {
     "name" : "weapons",
-    "type" : [ null, "org.slc.sli.domain.WeaponsType" ]
+    "type" : [ "null", "org.slc.sli.domain.WeaponsType" ]
   }, {
     "name" : "reportedToLawEnforcement",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "caseNumber",
     "doc" : "The case number assigned to the incident by law enforcement or other organization.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "20",
       "min-length" : "1"
@@ -76,6 +76,6 @@
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
   }, {
     "name" : "staffReference",
-    "type" : [ null, "org.slc.sli.domain.StaffReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.StaffReferenceType" ]
   } ]
 }

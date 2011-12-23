@@ -18,7 +18,7 @@
     }
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

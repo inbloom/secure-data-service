@@ -13,26 +13,26 @@
   }, {
     "name" : "cityOfBirth",
     "doc" : "The name of the city in which an address is located.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "30",
       "min-length" : "2"
     } ]
   }, {
     "name" : "stateOfBirthAbbreviation",
-    "type" : [ null, "org.slc.sli.domain.enum.StateAbbreviationType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.StateAbbreviationType" ]
   }, {
     "name" : "countryOfBirthCode",
-    "type" : [ null, "org.slc.sli.domain.enum.CountryCodeType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.CountryCodeType" ]
   }, {
     "name" : "dateEnteredUS",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "multipleBirthStatus",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   } ]
 }

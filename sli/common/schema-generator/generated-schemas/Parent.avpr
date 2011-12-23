@@ -5,7 +5,7 @@
   "doc" : "This entity represents a parent or guardian of a student, such as mother, father, or caretaker.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -18,28 +18,28 @@
     "type" : "org.slc.sli.domain.Name"
   }, {
     "name" : "otherName",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.OtherName"
     } ]
   }, {
     "name" : "sex",
-    "type" : [ null, "org.slc.sli.domain.enum.SexType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SexType" ]
   }, {
     "name" : "address",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.Address"
     } ]
   }, {
     "name" : "telephone",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.Telephone"
     } ]
   }, {
     "name" : "electronicMail",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ElectronicMail"
     } ]

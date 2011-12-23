@@ -5,7 +5,7 @@
   "doc" : "This financial entity represents the sum of the financal transactions to date for employee compensation.  An \"employee\" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]

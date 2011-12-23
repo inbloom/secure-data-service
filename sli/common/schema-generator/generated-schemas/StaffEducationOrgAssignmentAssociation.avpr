@@ -15,7 +15,7 @@
   }, {
     "name" : "positionTitle",
     "doc" : "The descriptive name of an individual's position.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "45",
       "min-length" : "1"
@@ -29,7 +29,7 @@
     }
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

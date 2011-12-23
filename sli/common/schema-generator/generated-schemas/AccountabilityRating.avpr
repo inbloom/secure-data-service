@@ -21,7 +21,7 @@
     }
   }, {
     "name" : "ratingDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
@@ -32,7 +32,7 @@
   }, {
     "name" : "ratingOrganization",
     "doc" : "The organization assigning the accountability rating.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "35",
       "min-length" : "1"
@@ -40,7 +40,7 @@
   }, {
     "name" : "ratingProgram",
     "doc" : "The rating program (e.g., NCLB)",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "30",
       "min-length" : "1"

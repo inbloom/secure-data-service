@@ -5,7 +5,7 @@
   "doc" : "Additional analytic scores, percentiles, or measures",
   "fields" : [ {
     "name" : "assessmentReportingMethod",
-    "type" : [ null, "org.slc.sli.domain.enum.AssessmentReportingMethodType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.AssessmentReportingMethodType" ]
   }, {
     "name" : "result",
     "type" : "float"

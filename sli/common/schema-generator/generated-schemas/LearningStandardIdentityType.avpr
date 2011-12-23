@@ -5,20 +5,20 @@
   "doc" : "Encapsulates the possible attributes that can be used to lookup the identity of the Learning Standards.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "ref",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "IDREF"
     } ]
   }, {
     "name" : "learningStandardId",
     "doc" : "Reference to the alphanumeric ID of the learning standard.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "40",
       "min-length" : "1"

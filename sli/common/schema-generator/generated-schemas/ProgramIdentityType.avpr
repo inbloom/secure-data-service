@@ -6,13 +6,13 @@
   "fields" : [ {
     "name" : "programId",
     "doc" : "A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "20",
       "min-length" : "1"
     } ]
   }, {
     "name" : "programType",
-    "type" : [ null, "org.slc.sli.domain.enum.ProgramType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ProgramType" ]
   } ]
 }

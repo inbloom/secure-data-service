@@ -5,7 +5,7 @@
   "doc" : "Grade Point Average computed for a gradng period or cumulatively.",
   "fields" : [ {
     "name" : "gPAWeighted",
-    "type" : [ null, "org.slc.sli.domain.enum.GPAWeightedType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.GPAWeightedType" ]
   }, {
     "name" : "gPA",
     "type" : {

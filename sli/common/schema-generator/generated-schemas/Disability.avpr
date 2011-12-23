@@ -9,13 +9,13 @@
   }, {
     "name" : "disabilityDiagnosis",
     "doc" : "A description of the disability diagnosis.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "80",
       "min-length" : "1"
     } ]
   }, {
     "name" : "orderOfDisability",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   } ]
 }

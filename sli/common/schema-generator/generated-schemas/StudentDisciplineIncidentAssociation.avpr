@@ -14,13 +14,13 @@
     "type" : "org.slc.sli.domain.enum.StudentParticipationCodeType"
   }, {
     "name" : "studentBehaviors",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.IncidentBehavior"
     } ]
   }, {
     "name" : "secondaryStudentBehaviors",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.SecondaryIncidentBehavior"
     } ]

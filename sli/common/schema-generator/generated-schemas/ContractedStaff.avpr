@@ -5,7 +5,7 @@
   "doc" : "This financial entity represents the sum of the financal transactions to date for contracted staff.  Contracted staff includes \"contractors\" or \"consultants\" who perform services for an agreed upon fee, or an employee of a management service contracted to work on site.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]

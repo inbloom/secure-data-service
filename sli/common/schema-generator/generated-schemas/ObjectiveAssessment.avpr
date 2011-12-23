@@ -5,7 +5,7 @@
   "doc" : "This entity represents subtests that assess specific learning objectves.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -19,42 +19,42 @@
     }
   }, {
     "name" : "maxRawScore",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "nomenclature",
     "doc" : "Reflects the common nomenclature for an element.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "35",
       "min-length" : "1"
     } ]
   }, {
     "name" : "assessmentItemReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ReferenceType"
     } ]
   }, {
     "name" : "learningObjectiveReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.LearningObjectiveReferenceType"
     } ]
   }, {
     "name" : "learningStandardReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.LearningStandardReferenceType"
     } ]
   }, {
     "name" : "objectAssessmentReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ReferenceType"
     } ]
   }, {
     "name" : "performanceLevelReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.PerformanceLevelReferenceType"
     } ]

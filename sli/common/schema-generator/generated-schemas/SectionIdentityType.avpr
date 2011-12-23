@@ -14,7 +14,7 @@
   }, {
     "name" : "uniqueSectionCode",
     "doc" : "A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "30",
       "min-length" : "1"
@@ -22,14 +22,14 @@
   }, {
     "name" : "TODO_XmlSchemaChoice",
     "doc" : "Cannot handle element.",
-    "type" : null
+    "type" : "null"
   }, {
     "name" : "term",
-    "type" : [ null, "org.slc.sli.domain.enum.TermType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.TermType" ]
   }, {
     "name" : "classPeriodName",
     "doc" : "An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "30",
       "min-length" : "1"
@@ -37,7 +37,7 @@
   }, {
     "name" : "location",
     "doc" : "A unique number or alphanumeric code assigned to a room by a school, school system, state, or other agency or entity.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "20",
       "min-length" : "1"

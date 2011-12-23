@@ -12,16 +12,16 @@
     }
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "separation",
-    "type" : [ null, "org.slc.sli.domain.enum.SeparationType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SeparationType" ]
   }, {
     "name" : "separationReason",
-    "type" : [ null, "org.slc.sli.domain.enum.SeparationReasonType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SeparationReasonType" ]
   } ]
 }

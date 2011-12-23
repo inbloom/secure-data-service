@@ -18,14 +18,14 @@
     }
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "reasonExited",
-    "type" : [ null, "org.slc.sli.domain.enum.ReasonExitedType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ReasonExitedType" ]
   }, {
     "name" : "educationOrganizationReference",
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
@@ -34,49 +34,49 @@
     "type" : "org.slc.sli.domain.enum.IdeaEligibilityType"
   }, {
     "name" : "specialEdServices",
-    "type" : [ null, "org.slc.sli.domain.SpecialEdServicesType" ]
+    "type" : [ "null", "org.slc.sli.domain.SpecialEdServicesType" ]
   }, {
     "name" : "interpretingServices",
-    "type" : [ null, "org.slc.sli.domain.enum.InterpretingServicesType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.InterpretingServicesType" ]
   }, {
     "name" : "educationalEnvironment",
-    "type" : [ null, "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
   }, {
     "name" : "specialEducationHoursPerWeek",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "double",
       "xsd-type" : "decimal"
     } ]
   }, {
     "name" : "multiplyDisabled",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "medicallyFragile",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "lastEvaluationDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "iEPReviewDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "iEPBeginDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "iEPEndDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

@@ -9,14 +9,14 @@
   }, {
     "name" : "recognitionDescription",
     "doc" : "The description of recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity..",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "80",
       "min-length" : "1"
     } ]
   }, {
     "name" : "recognitionAwardDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

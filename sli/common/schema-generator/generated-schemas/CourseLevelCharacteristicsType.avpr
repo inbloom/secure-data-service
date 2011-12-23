@@ -5,7 +5,7 @@
   "doc" : "Indication of the nature and difficulty of instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc.",
   "fields" : [ {
     "name" : "courseLevelCharacteristic",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.CourseLevelCharacteristicItemType"
     } ]

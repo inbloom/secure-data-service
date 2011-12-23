@@ -5,7 +5,7 @@
   "doc" : "This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -26,7 +26,7 @@
     }
   }, {
     "name" : "educationalEnvironment",
-    "type" : [ null, "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
   }, {
     "name" : "restraintEventReasons",
     "type" : "org.slc.sli.domain.RestraintEventReasonsType"
@@ -35,7 +35,7 @@
     "type" : "org.slc.sli.domain.StudentReferenceType"
   }, {
     "name" : "programReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ProgramReferenceType"
     } ]

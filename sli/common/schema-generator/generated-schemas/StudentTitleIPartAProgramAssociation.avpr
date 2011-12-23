@@ -18,14 +18,14 @@
     }
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "reasonExited",
-    "type" : [ null, "org.slc.sli.domain.enum.ReasonExitedType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ReasonExitedType" ]
   }, {
     "name" : "educationOrganizationReference",
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
@@ -34,13 +34,13 @@
     "type" : "org.slc.sli.domain.enum.TitleIPartAParticipantType"
   }, {
     "name" : "titleIPartAServices",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.TitleIPartAServicesType"
     } ]
   }, {
     "name" : "titleIPartASupportServices",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.TitleIPartASupportServicesType"
     } ]

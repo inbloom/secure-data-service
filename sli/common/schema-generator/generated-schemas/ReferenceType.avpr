@@ -5,13 +5,13 @@
   "doc" : "This is the base type for association references.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "ref",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "IDREF"
     } ]

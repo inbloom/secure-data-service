@@ -16,6 +16,6 @@
     "type" : "org.slc.sli.domain.enum.GradeLevelType"
   }, {
     "name" : "schoolYear",
-    "type" : [ null, "org.slc.sli.domain.enum.SchoolYearType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SchoolYearType" ]
   } ]
 }

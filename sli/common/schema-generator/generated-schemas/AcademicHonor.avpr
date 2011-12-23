@@ -9,14 +9,14 @@
   }, {
     "name" : "honorsDescription",
     "doc" : "A description of the type of academic distinctions earned by or awarded to the individual.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "80",
       "min-length" : "1"
     } ]
   }, {
     "name" : "honorAwardDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

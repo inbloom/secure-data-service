@@ -5,7 +5,7 @@
   "doc" : "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program.  A student is a person who has been enrolled in a school or other educational institution.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -15,7 +15,7 @@
     "type" : "int"
   }, {
     "name" : "studentIdentificationCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.StudentIdentificationCode"
     } ]
@@ -24,7 +24,7 @@
     "type" : "org.slc.sli.domain.Name"
   }, {
     "name" : "otherName",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.OtherName"
     } ]
@@ -36,95 +36,95 @@
     "type" : "org.slc.sli.domain.BirthData"
   }, {
     "name" : "address",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.Address"
     } ]
   }, {
     "name" : "telephone",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.Telephone"
     } ]
   }, {
     "name" : "electronicMail",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ElectronicMail"
     } ]
   }, {
     "name" : "profileThumbnail",
     "doc" : "ProfileThumbnail",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "59",
       "min-length" : "1"
     } ]
   }, {
     "name" : "hispanicLatinoEthnicity",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "oldEthnicity",
-    "type" : [ null, "org.slc.sli.domain.enum.OldEthnicityType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.OldEthnicityType" ]
   }, {
     "name" : "race",
     "type" : "org.slc.sli.domain.RaceType"
   }, {
     "name" : "economicDisadvantaged",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "schoolFoodServicesEligibility",
-    "type" : [ null, "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ]
   }, {
     "name" : "studentCharacteristics",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.StudentCharacteristic"
     } ]
   }, {
     "name" : "limitedEnglishProficiency",
-    "type" : [ null, "org.slc.sli.domain.enum.LimitedEnglishProficiencyType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.LimitedEnglishProficiencyType" ]
   }, {
     "name" : "languages",
-    "type" : [ null, "org.slc.sli.domain.LanguagesType" ]
+    "type" : [ "null", "org.slc.sli.domain.LanguagesType" ]
   }, {
     "name" : "homeLanguages",
-    "type" : [ null, "org.slc.sli.domain.LanguagesType" ]
+    "type" : [ "null", "org.slc.sli.domain.LanguagesType" ]
   }, {
     "name" : "disabilities",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.Disability"
     } ]
   }, {
     "name" : "section504Disabilities",
-    "type" : [ null, "org.slc.sli.domain.Section504DisabilitiesType" ]
+    "type" : [ "null", "org.slc.sli.domain.Section504DisabilitiesType" ]
   }, {
     "name" : "displacementStatus",
     "doc" : "Indicates a state health or weather related event that displaces a group of students, and may require additional funding, educational, or social services.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "30",
       "min-length" : "1"
     } ]
   }, {
     "name" : "programParticipations",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ProgramParticipation"
     } ]
   }, {
     "name" : "learningStyles",
-    "type" : [ null, "org.slc.sli.domain.LearningStyles" ]
+    "type" : [ "null", "org.slc.sli.domain.LearningStyles" ]
   }, {
     "name" : "cohortYears",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.CohortYear"
     } ]
   }, {
     "name" : "studentIndicators",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.StudentIndicator"
     } ]

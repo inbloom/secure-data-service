@@ -5,7 +5,7 @@
   "doc" : "The agency of the state charged with primary responsibility for coordinating and supervising public instruction, including the setting of standards for elementary and secondary instruction programs.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -19,7 +19,7 @@
     }
   }, {
     "name" : "educationOrgIdentificationCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.EducationOrgIdentificationCode"
     } ]
@@ -34,7 +34,7 @@
   }, {
     "name" : "shortNameOfInstitution",
     "doc" : "The full, legally accepted name of the institution.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "60",
       "min-length" : "1"
@@ -50,36 +50,36 @@
     }
   }, {
     "name" : "telephone",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.InstitutionTelephone"
     } ]
   }, {
     "name" : "webSite",
     "doc" : "The public web site address (URL) for the educational organization.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "80",
       "min-length" : "5"
     } ]
   }, {
     "name" : "operationalStatus",
-    "type" : [ null, "org.slc.sli.domain.enum.OperationalStatusType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.OperationalStatusType" ]
   }, {
     "name" : "accountabilityRatings",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.AccountabilityRating"
     } ]
   }, {
     "name" : "programReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ProgramReferenceType"
     } ]
   }, {
     "name" : "educationOrganizationPeerReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.EducationalOrgReferenceType"
     } ]

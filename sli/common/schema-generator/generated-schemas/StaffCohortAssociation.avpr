@@ -5,13 +5,13 @@
   "doc" : "This association indicates the staff associated with a cohort of students.",
   "fields" : [ {
     "name" : "staffReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.StaffReferenceType"
     } ]
   }, {
     "name" : "cohortReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.CohortReferenceType"
     } ]
@@ -24,7 +24,7 @@
     }
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"

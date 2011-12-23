@@ -5,25 +5,25 @@
   "doc" : "This educational entity represents an overall score or assessment tied to a course over a period of time (i.e., the grading period).  Student grades are usually a compilation of marks and other scores.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "letterGradeEarned",
     "doc" : "A final or interim (grading period) indicator of student performance in a class as submitted by the instructor.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "20",
       "min-length" : "1"
     } ]
   }, {
     "name" : "numericGradeEarned",
-    "type" : [ null, "long" ]
+    "type" : [ "null", "long" ]
   }, {
     "name" : "diagnosticStatement",
     "doc" : "Long string for annotations or descriptions",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "1024",
       "xsd-type" : "token",

@@ -5,14 +5,14 @@
   "doc" : "The competency assessed or evaluated for the student against a specific Learning Objective.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "diagnosticStatement",
     "doc" : "Long string for annotations or descriptions",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "1024",
       "xsd-type" : "token",

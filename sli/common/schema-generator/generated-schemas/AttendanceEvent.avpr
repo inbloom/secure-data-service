@@ -5,7 +5,7 @@
   "doc" : "This event entity represents the recording of whether a student is in attendance for a class or in attendance to receive or participate in program services.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -18,26 +18,26 @@
     }
   }, {
     "name" : "attendanceEventType",
-    "type" : [ null, "org.slc.sli.domain.enum.AttendanceEventType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.AttendanceEventType" ]
   }, {
     "name" : "attendanceEventDescriptor",
     "type" : "org.slc.sli.domain.enum.AttendanceEventDescriptorType"
   }, {
     "name" : "attendanceEventReason",
     "doc" : "The reason for the absence or tardy.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "40",
       "min-length" : "1"
     } ]
   }, {
     "name" : "educationalEnvironment",
-    "type" : [ null, "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
   }, {
     "name" : "studentReference",
     "type" : "org.slc.sli.domain.StudentReferenceType"
   }, {
     "name" : "sectionReference",
-    "type" : [ null, "org.slc.sli.domain.SectionReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.SectionReferenceType" ]
   } ]
 }

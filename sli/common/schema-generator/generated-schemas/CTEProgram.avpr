@@ -9,16 +9,16 @@
   }, {
     "name" : "cIPCode",
     "doc" : "Number and description of the CIP Code associated with the student’s CTE program.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "120",
       "min-length" : "1"
     } ]
   }, {
     "name" : "primaryCTEProgramIndicator",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "cTEProgramCompletionIndicator",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   } ]
 }

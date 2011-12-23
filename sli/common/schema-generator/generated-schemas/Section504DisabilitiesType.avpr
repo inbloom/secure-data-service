@@ -5,7 +5,7 @@
   "doc" : "A categorization o fthe disabilities associated with a student pursuant to Section 504.",
   "fields" : [ {
     "name" : "section504Disability",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.Section504DisabilityItemType"
     } ]

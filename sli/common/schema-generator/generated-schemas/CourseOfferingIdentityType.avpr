@@ -21,7 +21,7 @@
     }
   }, {
     "name" : "courseCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.CourseCode"
     } ]

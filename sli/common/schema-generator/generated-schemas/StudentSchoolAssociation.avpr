@@ -11,7 +11,7 @@
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
   }, {
     "name" : "entryDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
@@ -21,31 +21,31 @@
     "type" : "org.slc.sli.domain.enum.GradeLevelType"
   }, {
     "name" : "entryType",
-    "type" : [ null, "org.slc.sli.domain.enum.EntryType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.EntryType" ]
   }, {
     "name" : "repeatGradeIndicator",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "classOf",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "int",
       "xsd-type" : "gYear"
     } ]
   }, {
     "name" : "schoolChoiceTransfer",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "exitWithdrawDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "exitWithdrawType",
-    "type" : [ null, "org.slc.sli.domain.enum.ExitWithdrawType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ExitWithdrawType" ]
   }, {
     "name" : "educationalPlans",
-    "type" : [ null, "org.slc.sli.domain.EducationalPlansType" ]
+    "type" : [ "null", "org.slc.sli.domain.EducationalPlansType" ]
   } ]
 }

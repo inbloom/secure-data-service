@@ -8,7 +8,7 @@
     "type" : "org.slc.sli.domain.enum.CourseCodeSystemType"
   }, {
     "name" : "assigningOrganizationCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "60",
       "min-length" : "1"

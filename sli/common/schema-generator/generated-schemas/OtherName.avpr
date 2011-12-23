@@ -8,7 +8,7 @@
     "type" : "org.slc.sli.domain.enum.OtherNameType"
   }, {
     "name" : "personalTitlePrefix",
-    "type" : [ null, "org.slc.sli.domain.enum.PersonalTitlePrefixType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.PersonalTitlePrefixType" ]
   }, {
     "name" : "firstName",
     "doc" : "A name given to an individual at birth, baptism, or during another naming ceremony, or through legal change.",
@@ -20,7 +20,7 @@
   }, {
     "name" : "middleName",
     "doc" : "A secondary name given to an individual at birth, baptism, or during another naming ceremony.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "35",
       "min-length" : "1"
@@ -35,6 +35,6 @@
     }
   }, {
     "name" : "generationCodeSuffix",
-    "type" : [ null, "org.slc.sli.domain.enum.GenerationCodeSuffixType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.GenerationCodeSuffixType" ]
   } ]
 }

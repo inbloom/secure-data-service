@@ -5,7 +5,7 @@
   "doc" : "Defines various levels or thresholds for performance on the assessment.  Three styles are supported:\n   1. Specification of performance level by min and max score\n   2. Specification of performance level by cut score - min only\n   3. Specification of performance level without any mapping to scores",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -20,22 +20,22 @@
   }, {
     "name" : "description",
     "doc" : "A detailed description of the entity.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "1024",
       "min-length" : "1"
     } ]
   }, {
     "name" : "assessmentReportingMethod",
-    "type" : [ null, "org.slc.sli.domain.enum.AssessmentReportingMethodType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.AssessmentReportingMethodType" ]
   }, {
     "name" : "minimumScore",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "maximumScore",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "levelConversion",
-    "type" : [ null, "org.slc.sli.domain.enum.PerformanceLevelType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.PerformanceLevelType" ]
   } ]
 }

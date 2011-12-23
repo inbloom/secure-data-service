@@ -5,7 +5,7 @@
   "doc" : "This educational entity represents a setting in which organized instruction of course content is provided to one or more students for a given period of time.  A course may be offered to more than one class/section.  Instruction, provided by one or more teachers or other staff members, may be delivered in person or via a different medium.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -26,16 +26,16 @@
     }
   }, {
     "name" : "educationalEnvironment",
-    "type" : [ null, "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
   }, {
     "name" : "mediumOfInstruction",
-    "type" : [ null, "org.slc.sli.domain.enum.MediumOfInstructionType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.MediumOfInstructionType" ]
   }, {
     "name" : "populationServed",
-    "type" : [ null, "org.slc.sli.domain.enum.PopulationServedType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.PopulationServedType" ]
   }, {
     "name" : "availableCredit",
-    "type" : [ null, "org.slc.sli.domain.Credits" ]
+    "type" : [ "null", "org.slc.sli.domain.Credits" ]
   }, {
     "name" : "courseOfferingReference",
     "type" : "org.slc.sli.domain.CourseOfferingReferenceType"
@@ -47,13 +47,13 @@
     "type" : "org.slc.sli.domain.SessionReferenceType"
   }, {
     "name" : "locationReference",
-    "type" : [ null, "org.slc.sli.domain.ReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.ReferenceType" ]
   }, {
     "name" : "classPeriodReference",
-    "type" : [ null, "org.slc.sli.domain.ReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.ReferenceType" ]
   }, {
     "name" : "programReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ProgramReferenceType"
     } ]

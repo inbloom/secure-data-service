@@ -5,7 +5,7 @@
   "doc" : "The one or more categories of school. For example: High School, Middle School, and/or Elementary School.",
   "fields" : [ {
     "name" : "schoolCategory",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.SchoolCategoryItemType"
     } ]

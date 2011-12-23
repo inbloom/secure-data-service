@@ -5,10 +5,10 @@
   "doc" : "The 10-digit telephone number, including the area code, for the person.",
   "fields" : [ {
     "name" : "telephoneNumberType",
-    "type" : [ null, "org.slc.sli.domain.enum.TelephoneNumberType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.TelephoneNumberType" ]
   }, {
     "name" : "primaryTelephoneNumberIndicator",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "telephoneNumber",
     "doc" : "The telephone number including the area code, and extension, if applicable.",

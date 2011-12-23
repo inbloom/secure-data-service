@@ -5,7 +5,7 @@
   "doc" : "A logical grouping or association of assessments that share a common purpose, heritage, or content standard.  There may be hierarchies of Assessment Families.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -34,17 +34,17 @@
     "type" : "org.slc.sli.domain.enum.GradeLevelType"
   }, {
     "name" : "lowestGradeLevelAssessed",
-    "type" : [ null, "org.slc.sli.domain.enum.GradeLevelType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.GradeLevelType" ]
   }, {
     "name" : "contentStandard",
-    "type" : [ null, "org.slc.sli.domain.enum.ContentStandardType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ContentStandardType" ]
   }, {
     "name" : "version",
     "doc" : "The version identifier for the assessment.",
     "type" : "int"
   }, {
     "name" : "revisionDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
@@ -52,17 +52,17 @@
   }, {
     "name" : "nomenclature",
     "doc" : "Reflects the common nomenclature for an element.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "35",
       "min-length" : "1"
     } ]
   }, {
     "name" : "assessmentFamilyReference",
-    "type" : [ null, "org.slc.sli.domain.AssessmentFamilyReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.AssessmentFamilyReferenceType" ]
   }, {
     "name" : "assessmentPeriodReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.AssessmentPeriodReferenceType"
     } ]

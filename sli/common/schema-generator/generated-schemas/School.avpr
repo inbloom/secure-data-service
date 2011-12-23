@@ -5,7 +5,7 @@
   "doc" : "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -19,7 +19,7 @@
     }
   }, {
     "name" : "educationOrgIdentificationCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.EducationOrgIdentificationCode"
     } ]
@@ -34,7 +34,7 @@
   }, {
     "name" : "shortNameOfInstitution",
     "doc" : "The full, legally accepted name of the institution.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "60",
       "min-length" : "1"
@@ -50,36 +50,36 @@
     }
   }, {
     "name" : "telephone",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.InstitutionTelephone"
     } ]
   }, {
     "name" : "webSite",
     "doc" : "The public web site address (URL) for the educational organization.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "80",
       "min-length" : "5"
     } ]
   }, {
     "name" : "operationalStatus",
-    "type" : [ null, "org.slc.sli.domain.enum.OperationalStatusType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.OperationalStatusType" ]
   }, {
     "name" : "accountabilityRatings",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.AccountabilityRating"
     } ]
   }, {
     "name" : "programReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ProgramReferenceType"
     } ]
   }, {
     "name" : "educationOrganizationPeerReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.EducationalOrgReferenceType"
     } ]
@@ -91,31 +91,31 @@
     "type" : "org.slc.sli.domain.SchoolCategoriesType"
   }, {
     "name" : "schoolType",
-    "type" : [ null, "org.slc.sli.domain.enum.SchoolType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SchoolType" ]
   }, {
     "name" : "charterStatus",
-    "type" : [ null, "org.slc.sli.domain.enum.CharterStatusType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.CharterStatusType" ]
   }, {
     "name" : "titleIPartASchoolDesignation",
-    "type" : [ null, "org.slc.sli.domain.enum.TitleIPartASchoolDesignationType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.TitleIPartASchoolDesignationType" ]
   }, {
     "name" : "magnetSpecialProgramEmphasisSchool",
-    "type" : [ null, "org.slc.sli.domain.enum.MagnetSpecialProgramEmphasisSchoolType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.MagnetSpecialProgramEmphasisSchoolType" ]
   }, {
     "name" : "administrativeFundingControl",
-    "type" : [ null, "org.slc.sli.domain.enum.AdministrativeFundingControlType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.AdministrativeFundingControlType" ]
   }, {
     "name" : "localEducationAgencyReference",
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
   }, {
     "name" : "classPeriodReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ReferenceType"
     } ]
   }, {
     "name" : "locationReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ReferenceType"
     } ]

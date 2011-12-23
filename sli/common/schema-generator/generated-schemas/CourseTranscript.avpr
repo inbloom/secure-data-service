@@ -5,7 +5,7 @@
   "doc" : "The final record of a student's performance in their courses.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -14,36 +14,36 @@
     "type" : "org.slc.sli.domain.enum.CourseAttemptResultType"
   }, {
     "name" : "creditsAttempted",
-    "type" : [ null, "org.slc.sli.domain.Credits" ]
+    "type" : [ "null", "org.slc.sli.domain.Credits" ]
   }, {
     "name" : "creditsEarned",
     "type" : "org.slc.sli.domain.Credits"
   }, {
     "name" : "additionalCreditsEarned",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.AdditionalCredits"
     } ]
   }, {
     "name" : "gradeLevelWhenTaken",
-    "type" : [ null, "org.slc.sli.domain.enum.GradeLevelType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.GradeLevelType" ]
   }, {
     "name" : "methodCreditEarned",
-    "type" : [ null, "org.slc.sli.domain.enum.MethodCreditEarnedType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.MethodCreditEarnedType" ]
   }, {
     "name" : "finalLetterGradeEarned",
     "doc" : "A final or interim (grading period) indicator of student performance in a class as submitted by the instructor.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "20",
       "min-length" : "1"
     } ]
   }, {
     "name" : "finalNumericGradeEarned",
-    "type" : [ null, "long" ]
+    "type" : [ "null", "long" ]
   }, {
     "name" : "courseRepeatCode",
-    "type" : [ null, "org.slc.sli.domain.enum.CourseRepeatCodeType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.CourseRepeatCodeType" ]
   }, {
     "name" : "courseReference",
     "type" : "org.slc.sli.domain.CourseReferenceType"

@@ -5,18 +5,18 @@
   "doc" : "Provides alternative references for cohorts during interchange. Use XML IDREF to reference a course record that is included in the interchange",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "ref",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "IDREF"
     } ]
   }, {
     "name" : "cohortIdentity",
-    "type" : [ null, "org.slc.sli.domain.CohortIdentityType" ]
+    "type" : [ "null", "org.slc.sli.domain.CohortIdentityType" ]
   } ]
 }

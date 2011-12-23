@@ -11,23 +11,23 @@
     "type" : "org.slc.sli.domain.SectionReferenceType"
   }, {
     "name" : "beginDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "homeroomIndicator",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "repeatIdentifier",
-    "type" : [ null, "org.slc.sli.domain.enum.RepeatIdentifierType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.RepeatIdentifierType" ]
   } ]
 }

@@ -5,33 +5,33 @@
   "doc" : "This represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
   }, {
     "name" : "assessmentResponse",
     "doc" : "A student's response to a stimulus on a test.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "60",
       "min-length" : "1"
     } ]
   }, {
     "name" : "responseIndicator",
-    "type" : [ null, "org.slc.sli.domain.enum.ResponseIndicatorType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.ResponseIndicatorType" ]
   }, {
     "name" : "assessmentItemResult",
     "type" : "org.slc.sli.domain.enum.AssessmentItemResultType"
   }, {
     "name" : "rawScoreResult",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "studentTestAssessmentReference",
-    "type" : [ null, "org.slc.sli.domain.ReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.ReferenceType" ]
   }, {
     "name" : "studentObjectiveAssessmentReference",
-    "type" : [ null, "org.slc.sli.domain.ReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.ReferenceType" ]
   }, {
     "name" : "assessmentItemReference",
     "type" : "org.slc.sli.domain.AssessmentItemReferenceType"

@@ -16,7 +16,7 @@
   }, {
     "name" : "alternateDayName",
     "doc" : "used for the bell schedule, another name for day (e.g., Blue day,Red day)",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "20",
       "min-length" : "1"
@@ -37,6 +37,6 @@
     }
   }, {
     "name" : "officialAttendancePeriod",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   } ]
 }

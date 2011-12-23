@@ -5,7 +5,7 @@
   "doc" : "Linguistic accommodations used with the student for the test.",
   "fields" : [ {
     "name" : "linguisticAccommodation",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.LinguisticAccommodationItemType"
     } ]

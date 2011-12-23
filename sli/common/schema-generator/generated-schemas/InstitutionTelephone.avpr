@@ -5,7 +5,7 @@
   "doc" : "The 10-digit telephone number, including the area code, for the organization",
   "fields" : [ {
     "name" : "institutionTelephoneNumberType",
-    "type" : [ null, "org.slc.sli.domain.enum.InstitutionTelephoneNumberType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.InstitutionTelephoneNumberType" ]
   }, {
     "name" : "telephoneNumber",
     "doc" : "The telephone number including the area code, and extension, if applicable.",

@@ -5,7 +5,7 @@
   "doc" : "This entity represents the designation of regularly scheduled series of class meetings at designated times and days of the week.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -19,7 +19,7 @@
     }
   }, {
     "name" : "meetingTimes",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.MeetingTime"
     } ]

@@ -11,23 +11,23 @@
     "type" : "org.slc.sli.domain.ReferenceType"
   }, {
     "name" : "relation",
-    "type" : [ null, "org.slc.sli.domain.enum.RelationType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.RelationType" ]
   }, {
     "name" : "primaryContactStatus",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "livesWith",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "emergencyContactStatus",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "contactPriority",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "contactRestrictions",
     "doc" : "Restrictions for student and/or teacher contact with the individual (e.g., the student may not be picked up by the individual)",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "250",
       "min-length" : "1"

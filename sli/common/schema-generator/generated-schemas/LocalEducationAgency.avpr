@@ -5,7 +5,7 @@
   "doc" : "This entity represents an administrative unit at the local level which exists primarily to operate schools or to contract for educational services.  It includes school districts, charter schools, charter management organizations, or other local administrative organizations.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -19,7 +19,7 @@
     }
   }, {
     "name" : "educationOrgIdentificationCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.EducationOrgIdentificationCode"
     } ]
@@ -34,7 +34,7 @@
   }, {
     "name" : "shortNameOfInstitution",
     "doc" : "The full, legally accepted name of the institution.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "60",
       "min-length" : "1"
@@ -50,36 +50,36 @@
     }
   }, {
     "name" : "telephone",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.InstitutionTelephone"
     } ]
   }, {
     "name" : "webSite",
     "doc" : "The public web site address (URL) for the educational organization.",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "max-length" : "80",
       "min-length" : "5"
     } ]
   }, {
     "name" : "operationalStatus",
-    "type" : [ null, "org.slc.sli.domain.enum.OperationalStatusType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.OperationalStatusType" ]
   }, {
     "name" : "accountabilityRatings",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.AccountabilityRating"
     } ]
   }, {
     "name" : "programReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.ProgramReferenceType"
     } ]
   }, {
     "name" : "educationOrganizationPeerReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.EducationalOrgReferenceType"
     } ]
@@ -88,12 +88,12 @@
     "type" : "org.slc.sli.domain.enum.LEACategoryType"
   }, {
     "name" : "charterStatus",
-    "type" : [ null, "org.slc.sli.domain.enum.CharterStatusType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.CharterStatusType" ]
   }, {
     "name" : "educationServiceCenterReference",
-    "type" : [ null, "org.slc.sli.domain.EducationalOrgReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.EducationalOrgReferenceType" ]
   }, {
     "name" : "stateEducationAgencyReference",
-    "type" : [ null, "org.slc.sli.domain.EducationalOrgReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.EducationalOrgReferenceType" ]
   } ]
 }

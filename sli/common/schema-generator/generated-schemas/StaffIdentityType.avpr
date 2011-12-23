@@ -6,31 +6,31 @@
   "fields" : [ {
     "name" : "staffUniqueStateId",
     "doc" : "A unique numeric code assigned to a person by a state education agency.",
-    "type" : [ null, "int" ]
+    "type" : [ "null", "int" ]
   }, {
     "name" : "staffIdentificationCode",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.StaffIdentificationCode"
     } ]
   }, {
     "name" : "name",
-    "type" : [ null, "org.slc.sli.domain.Name" ]
+    "type" : [ "null", "org.slc.sli.domain.Name" ]
   }, {
     "name" : "sex",
-    "type" : [ null, "org.slc.sli.domain.enum.SexType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SexType" ]
   }, {
     "name" : "birthDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "hispanicLatinoEthnicity",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "race",
-    "type" : [ null, "org.slc.sli.domain.RaceType" ]
+    "type" : [ "null", "org.slc.sli.domain.RaceType" ]
   } ]
 }

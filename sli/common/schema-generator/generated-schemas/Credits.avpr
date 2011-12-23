@@ -5,10 +5,10 @@
   "doc" : "Credits or units of value awarded for the completion of a course",
   "fields" : [ {
     "name" : "creditType",
-    "type" : [ null, "org.slc.sli.domain.enum.CreditType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.CreditType" ]
   }, {
     "name" : "creditConversion",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "double",
       "xsd-type" : "decimal"
     } ]

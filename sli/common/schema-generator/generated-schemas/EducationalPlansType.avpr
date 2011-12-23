@@ -5,7 +5,7 @@
   "doc" : "The type of education plan(s) the student is following, if appropriate.  For example:\nSpecial education\nVocational",
   "fields" : [ {
     "name" : "educationalPlan",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.EducationalPlanItemType"
     } ]

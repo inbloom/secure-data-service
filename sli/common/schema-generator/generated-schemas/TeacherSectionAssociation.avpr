@@ -14,20 +14,20 @@
     "type" : "org.slc.sli.domain.enum.ClassroomPositionType"
   }, {
     "name" : "beginDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "endDate",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
       "xsd-type" : "date"
     } ]
   }, {
     "name" : "highlyQualifiedTeacher",
-    "type" : [ null, "boolean" ]
+    "type" : [ "null", "boolean" ]
   } ]
 }

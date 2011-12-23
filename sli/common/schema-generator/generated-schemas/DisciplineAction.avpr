@@ -5,7 +5,7 @@
   "doc" : "This event entity represents actions taken by an education organization after a disruptive event that is recorded as a discipline incident.",
   "fields" : [ {
     "name" : "id",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "string",
       "xsd-type" : "ID"
     } ]
@@ -29,13 +29,13 @@
     }
   }, {
     "name" : "disciplineActionLength",
-    "type" : [ null, "long" ]
+    "type" : [ "null", "long" ]
   }, {
     "name" : "actualDisciplineActionLength",
-    "type" : [ null, "long" ]
+    "type" : [ "null", "long" ]
   }, {
     "name" : "disciplineActionLengthDifferenceReason",
-    "type" : [ null, "org.slc.sli.domain.enum.DisciplineActionLengthDifferenceReasonType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.DisciplineActionLengthDifferenceReasonType" ]
   }, {
     "name" : "studentReference",
     "type" : {
@@ -50,7 +50,7 @@
     }
   }, {
     "name" : "staffReference",
-    "type" : [ null, {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.StaffReferenceType"
     } ]
@@ -59,6 +59,6 @@
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
   }, {
     "name" : "assignmentSchoolReference",
-    "type" : [ null, "org.slc.sli.domain.EducationalOrgReferenceType" ]
+    "type" : [ "null", "org.slc.sli.domain.EducationalOrgReferenceType" ]
   } ]
 }
