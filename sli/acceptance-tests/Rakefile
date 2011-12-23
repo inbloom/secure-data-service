@@ -57,6 +57,12 @@ def setMultipleFixtureFiles(myHash)
   end
 end
 
+def displayFailureReport()
+  $failures.each do |key, value|
+    puts "#{key} tests #{value}"
+  end
+end
+
 ############################################################################################################
 
 
@@ -66,15 +72,14 @@ end
 task :default => :production
 
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:schoolTests, :studentTests, :teacherTests, :associationTests, :securityTests, :sectionTests] do
-  $failures.each do |key, value|
-    puts "#{key} tests #{value}"
-  end
+task :production => [:apiTests, :securityTests] do
+  displayFailureReport()
   puts "Complete All Tests"
 end
 
 desc "Run API Acceptances Tests"
 task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests] do
+  displayFailureReport()
   puts "Completed API Tests"
 end
 
