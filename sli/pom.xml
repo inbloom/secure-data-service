@@ -130,6 +130,7 @@
     <module>data-access</module>
     <module>ingestion</module>
     <module>dashboard</module>
+    <module>admin</module>
   </modules>
 
   <dependencyManagement>
@@ -195,6 +196,12 @@
       <dependency>
         <groupId>org.slc.sli.ingestion</groupId>
         <artifactId>ingestion</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+            
+      <dependency>
+        <groupId>org.slc.sli.admin</groupId>
+        <artifactId>admin</artifactId>
         <version>${project.version}</version>
       </dependency>
 

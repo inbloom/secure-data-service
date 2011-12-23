@@ -1,0 +1,1 @@
+[{"name":"Educator","rights":["AGGREGATE_READ","READ_GENERAL"]},{"name":"Leader","rights":["AGGREGATE_READ","READ_GENERAL","READ_RESTRICTED"]},{"name":"Aggregate Viewer","rights":["AGGREGATE_READ"]},{"name":"IT Administrator","rights":["AGGREGATE_READ","READ_GENERAL","READ_RESTRICTED","WRITE_GENERAL","WRITE_RESTRICTED"]}]
