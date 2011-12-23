@@ -76,7 +76,7 @@ And the browser focus is on the new browser window
  
 Scenario Outline:  SEA/LEA user with a valid Default SLI Role making API call
  
-Given  I am valid SEA/LEA end user 
+Given  I am valid SEA/LEA end user <Username> with password <Password>
 And I have a Role attribute returned from the "SEA/LEA IDP"
 And the role attribute equals <AnyDefaultSLIRole>
 And I am authenticated on "SEA/LEA IDP"
@@ -84,24 +84,24 @@ When I make a REST API call
 Then I get the JSON response displayed
 
 Scenarios:
-| AnyDefaultSLIRole |
-| "educator"        |
-| "aggregator"      |
-| "administrator"   |
-| "leader"          |
+| Username        | Password            | AnyDefaultSLIRole  |
+| "educator"      | "educator1234"      | "Educator"         |
+| "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |
+| "administrator" | "administrator1234" | "IT Administrator" |
+| "leader"        | "leader1234"        | "Leader"           |
 
 Scenario:  SEA/LEA user with an invalid Default SLI Role making API call
  
-Given I am valid SEA/LEA end user 
+Given I am valid SEA/LEA end user "baduser" with password "baduser1234"
 And I have a Role attribute returned from the "SEA/LEA IDP"
-And the role attribute equals "baduser"
+And the role attribute equals "teacher"
 And I am authenticated on "SEA/LEA IDP"
 When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
  
 Scenario:  SEA/LEA user without Role attribute making API call
  
-Given I am valid SEA/LEA end user 
+Given  I am valid SEA/LEA end user "nouser" with password "nouser1234" 
 And I do not have a Role attribute returned from the "SEA/LEA IDP"
 And I am authenticated on "SEA/LEA IDP"
 When I make a REST API call

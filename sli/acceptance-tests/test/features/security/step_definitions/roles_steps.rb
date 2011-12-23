@@ -1,8 +1,9 @@
 require 'json'
 require_relative '../../utils/sli_utils.rb'
 
-Given /^I am valid SEA\/LEA end user$/ do
-  # No code needed, this is done during the IDP configuration
+Given /^I am valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |arg1, arg2| 
+  @user = arg1
+  @passwd = arg2
 end
 
 Given /^I have a Role attribute returned from the "([^"]*)"$/ do |arg1|
@@ -10,11 +11,11 @@ Given /^I have a Role attribute returned from the "([^"]*)"$/ do |arg1|
 end
 
 Given /^the role attribute equals "([^"]*)"$/ do |arg1|
-  @role = arg1
+  # No code needed, this is done during the IDP configuration
 end
 
 Given /^I am authenticated on "([^"]*)"$/ do |arg1|
-  idpLogin(@role, @role+"1234")
+  idpLogin(@user, @passwd)
   assert(@cookie != nil, "Cookie retrieved was nil")
 end
 
@@ -34,5 +35,5 @@ Then /^I get response that I am not authorized to do that operation because I do
 end
 
 Given /^I do not have a Role attribute returned from the "([^"]*)"$/ do |arg1|
-  @role = "nouser"
+  # No code needed, this is done during the IDP configuration
 end

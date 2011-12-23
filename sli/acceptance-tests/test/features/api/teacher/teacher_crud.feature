@@ -16,7 +16,7 @@ Scenario: Create a new teacher in JSON format
       And he is "Male"
       And his "Years of Prior Teaching Experience" is "32"
       And his "Teacher Unique State ID" is "567"
-      And his "Highly Qualified Teacher" status is "1"
+      And his "Highly Qualified Teacher" status is "true"
       And his "Level of Education" is "Master's"
    When I navigate to POST teacher "Rafe"
    Then I should receive a return code of 201
@@ -31,20 +31,20 @@ Scenario: Read a teacher by ID in JSON format
       And I should see that he was born on "1956-08-14"
       And I should see that his "Years of Prior Teaching Experience" is "22"
       And I should see that his "Teacher Unique State ID" is "738543275"
-      And I should see that his "Highly Qualified Teacher" status is "0"
+      And I should see that his "Highly Qualified Teacher" status is "false"
       And I should see that his "Level of Education" is "Bachelor's"
 
 Scenario: Update an existing teacher in JSON format
    Given format "application/json"
-     And her "Highly Qualified Teacher" status is "1"
+     And her "Highly Qualified Teacher" status is "true"
    When I navigate to GET teacher "Belle"
    Then I should receive a return code of 200   
-     And I should see that her "Highly Qualified Teacher" status is "0"
+     And I should see that her "Highly Qualified Teacher" status is "false"
    When I navigate to PUT teacher "Belle"
    Then I should receive a return code of 204
    When I navigate to GET teacher "Belle"
    Then I should receive a return code of 200   
-     And I should see that her "Highly Qualified Teacher" status is "1"
+     And I should see that her "Highly Qualified Teacher" status is "true"
       
 Scenario: Delete an existing teacher in JSON format
    Given format "application/json"
