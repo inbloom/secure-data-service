@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.slc.sli.ingestion.validation.ValidationReport;
+import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidator;
 
 /**
@@ -18,7 +18,7 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidator;
 public class ZipFileValidator extends SimpleValidator<File> {
 
     @Override
-    public boolean isValid(File zipFile, ValidationReport callback) {
+    public boolean isValid(File zipFile, ErrorReport callback) {
 
         ZipFile zf = null;
 

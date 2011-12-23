@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  * @author dduran
  *
  */
-public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry> {
+public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileHandler.class);
 
@@ -36,8 +36,7 @@ public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry>
     private Map<FileType, List<String>> targetSelectorMap;
 
     @Override
-    void doHandling(IngestionFileEntry item) {
-
+    IngestionFileEntry doHandling(IngestionFileEntry item) {
         try {
             handleXmlFile(item);
         } catch (IOException e) {
@@ -48,6 +47,7 @@ public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry>
             e.printStackTrace();
         }
 
+        return item;
     }
 
     void handleXmlFile(IngestionFileEntry fileEntry) throws IOException, SAXException {

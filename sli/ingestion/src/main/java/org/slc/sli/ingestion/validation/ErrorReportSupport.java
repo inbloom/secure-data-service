@@ -6,13 +6,13 @@ package org.slc.sli.ingestion.validation;
  * @author dduran
  *
  */
-public interface ValidationReportAble {
+public interface ErrorReportSupport {
 
     /**
      * Provides the ValidationReport for this type.
      *
-     * @return ValidationReport or null if not yet validated.
+     * @return ValidationReport instance.
      */
-    ValidationReport getValidationReport();
+    ErrorReport getValidationReport();
 
 }

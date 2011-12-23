@@ -15,6 +15,6 @@ public interface Validator<T> {
      * @param callback validation report callback
      * @return true if valid; false otherwise
      */
-    boolean isValid(T object, ValidationReport callback);
+    boolean isValid(T object, ErrorReport callback);
 
 }

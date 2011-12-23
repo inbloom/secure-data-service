@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
@@ -68,7 +69,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("ctlFilePreprocessor")
                 .process(ctlFileProcessor)
                 .to("seda:assembledJobs");
-        
+
 
         // routeId: zipFilePoller
         from(
@@ -131,7 +132,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                                     + job.getProperty(key));
                         }
 
-                        for (Fault fault: job.getFaults()) {
+                        FaultsReport fr = job.getFaultsReport();
+
+                        for (Fault fault: fr.getFaults()) {
                             if (fault.isError()) {
                                 jobLogger.error(fault.getMessage());
                             } else {
@@ -139,12 +142,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             }
                         }
 
-                        if (job.hasErrors()) {
+                        if (fr.hasErrors()) {
                             jobLogger.info("Job rejected due to errors");
                         } else {
                             jobLogger.info("Job ready for processing");
                         }
-                        
+
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
                     }

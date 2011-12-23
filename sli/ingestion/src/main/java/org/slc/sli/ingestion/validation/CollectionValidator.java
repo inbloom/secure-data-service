@@ -16,7 +16,7 @@ public abstract class CollectionValidator<T> extends SimpleValidator<Collection<
     private boolean failOnFirst;
 
     @Override
-    public boolean isValid(Collection<T> object, ValidationReport callback) {
+    public boolean isValid(Collection<T> object, ErrorReport callback) {
         boolean valid = true;
 
         if (this.itemValidators != null) {
@@ -41,7 +41,7 @@ public abstract class CollectionValidator<T> extends SimpleValidator<Collection<
      * @param callback validation report callback
      * @return true if item is valid; false otherwise
      */
-    protected boolean isItemValid(T object, ValidationReport callback) {
+    protected boolean isItemValid(T object, ErrorReport callback) {
         for (Validator<T> validator : this.itemValidators) {
             if (!validator.isValid(object, callback)) {
                 return false;

@@ -8,6 +8,8 @@ import java.util.Properties;
 import java.util.UUID;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.ErrorReportSupport;
 
 /**
  * Batch Job class.
@@ -15,7 +17,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  * @author okrook
  *
  */
-public class BatchJob {
+public class BatchJob implements ErrorReportSupport {
 
     /**
      * ID ====================================================================
@@ -136,36 +138,7 @@ public class BatchJob {
     /**
      * holds references to errors/warnings associated with this job
      */
-    private List<Fault> faults;
-
-    /**
-     * @return the faults
-     */
-    public List<Fault> getFaults() {
-        return faults;
-    }
-
-    /**
-     *
-     */
-    public boolean hasErrors() {
-        for (Fault f : faults) {
-            if (f.isError())
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Adds a fault.
-     *
-     * @param fault
-     * @return
-     * @see java.util.List#add(java.lang.Object)
-     */
-    public boolean addFault(Fault fault) {
-        return faults.add(fault);
-    }
+    private FaultsReport faults;
 
     /**
      * INSTANTIATION =========================================================
@@ -188,13 +161,22 @@ public class BatchJob {
         job.creationDate = new Date();
         job.configProperties = new Properties();
         job.files = new ArrayList<IngestionFileEntry>();
-        job.faults = new ArrayList<Fault>();
+        job.faults = new FaultsReport();
         return job;
     }
 
     @Override
     public String toString() {
         return "BatchJob [id=" + id + ", creationDate=" + creationDate + ", configProperties=" + configProperties + "]";
+    }
+
+    public FaultsReport getFaultsReport() {
+        return faults;
+    }
+
+    @Override
+    public ErrorReport getValidationReport() {
+        return getFaultsReport();
     }
 
 }
