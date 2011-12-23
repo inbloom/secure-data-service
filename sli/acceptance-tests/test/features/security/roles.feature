@@ -84,11 +84,11 @@ When I make a REST API call
 Then I get the JSON response displayed
 
 Scenarios:
-| Username        | Password            | AnyDefaultSLIRole |
-| "educator"      | "educator1234"      | "Educator"        |
-| "aggregator"    | "aggregator1234"    | "Educator"        |
-| "administrator" | "administrator1234" | "Educator"        |
-| "leader"        | "leader1234"        | "Educator"        |
+| Username        | Password            | AnyDefaultSLIRole  |
+| "educator"      | "educator1234"      | "Educator"         |
+| "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |
+| "administrator" | "administrator1234" | "IT Administrator" |
+| "leader"        | "leader1234"        | "Leader"           |
 
 Scenario:  SEA/LEA user with an invalid Default SLI Role making API call
  
