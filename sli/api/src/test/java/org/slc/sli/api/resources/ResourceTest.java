@@ -46,7 +46,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+        DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
     private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
     @Autowired
@@ -92,8 +92,7 @@ public class ResourceTest {
         assertNotNull(createResponse);
         assertEquals(Status.CREATED.getStatusCode(), createResponse.getStatus());
         String studentId1 = parseIdFromLocation(createResponse);
-        ids.put(new TypeIdPair("students", studentId1),
-                (String) createResponse.getMetadata().get("Location").get(0));
+        ids.put(new TypeIdPair("students", studentId1), (String) createResponse.getMetadata().get("Location").get(0));
         
         Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse2);
@@ -107,13 +106,13 @@ public class ResourceTest {
         String schoolId = parseIdFromLocation(createResponse3);
         ids.put(new TypeIdPair("schools", schoolId), (String) createResponse3.getMetadata().get("Location").get(0));
         
-        Response createResponse4 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI,
-                new EntityBody(createTestAssoication(studentId1, schoolId)), info);
+        Response createResponse4 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestAssoication(studentId1, schoolId)), info);
         assertNotNull(createResponse4);
         String assocId1 = parseIdFromLocation(createResponse4);
         
-        Response createResponse5 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI,
-                new EntityBody(createTestAssoication(studentId2, schoolId)), info);
+        Response createResponse5 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestAssoication(studentId2, schoolId)), info);
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
         
@@ -125,7 +124,13 @@ public class ResourceTest {
         Response createResponse7 = api.createEntity("sections", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse7);
         String sectionId1 = parseIdFromLocation(createResponse7);
-        ids.put(new TypeIdPair("sections", sectionId1), (String) createResponse7.getMetadata().get("Location").get(0)); 
+        ids.put(new TypeIdPair("sections", sectionId1), (String) createResponse7.getMetadata().get("Location").get(0));
+        
+        Response createResponse8 = api.createEntity("assessments", new EntityBody(createTestEntity()), info);
+        assertNotNull(createResponse8);
+        String assessmentId1 = parseIdFromLocation(createResponse8);
+        ids.put(new TypeIdPair("assessments", assessmentId1), (String) createResponse8.getMetadata().get("Location")
+                .get(0));
         
         // test get
         for (TypeIdPair typeId : ids.keySet()) {

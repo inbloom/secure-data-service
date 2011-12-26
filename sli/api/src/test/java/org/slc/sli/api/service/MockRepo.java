@@ -31,6 +31,7 @@ public class MockRepo implements EntityRepository {
         repo.put("studentschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("teacher", new LinkedHashMap<String, Entity>());
         repo.put("section", new LinkedHashMap<String, Entity>());
+        repo.put("assessment", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -61,7 +62,7 @@ public class MockRepo implements EntityRepository {
     public Entity create(String type, Map<String, Object> body) {
         return create(type, body, type);
     }
-
+    
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
         Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
