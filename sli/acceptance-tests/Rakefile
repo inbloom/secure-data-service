@@ -79,7 +79,7 @@ task :production => [:apiTests, :securityTests] do
 end
 
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests] do
   displayFailureReport()
   puts "Completed API Tests"
 end
@@ -102,6 +102,11 @@ end
 desc "Run Teacher Tests"
 task :teacherTests do
   runFixtureAndTests("test/features/api/teacher", "teacher", "teacher_fixture.json")
+end
+
+desc "Run Assessment Tests"
+task :assessmentTests do
+  runFixtureAndTests("test/features/api/assessment","assessment","assessment_fixture.json")
 end
 
 desc "Run Association Tests"
