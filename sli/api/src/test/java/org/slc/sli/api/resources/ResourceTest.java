@@ -25,17 +25,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the generic Resource class.
@@ -49,6 +48,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
         DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
     private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
+    private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
     @Autowired
     Resource api;
     
@@ -67,6 +67,14 @@ public class ResourceTest {
         return entity;
     }
     
+    public Map<String, Object> createTestStudentAssessmentAssociation(String studentId, String assessmentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("studentId", studentId);
+        entity.put("assessmentId", assessmentId);
+        entity.put("administrationLanguage", "ENGLISH");
+        return entity;
+    }
+
     @Test
     public void testResourceMethods() throws Exception {
         UriInfo info = buildMockUriInfo();
@@ -132,6 +140,11 @@ public class ResourceTest {
         ids.put(new TypeIdPair("assessments", assessmentId1), (String) createResponse8.getMetadata().get("Location")
                 .get(0));
         
+        Response createResponse9 = api.createEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, new EntityBody(
+                createTestStudentAssessmentAssociation(studentId1, assessmentId1)), info);
+        assertNotNull(createResponse9);
+        String studentAssessmentAssocId = parseIdFromLocation(createResponse9);
+
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             
@@ -164,6 +177,15 @@ public class ResourceTest {
             }
         }
         
+        // test student assessment associaiton
+        Response response = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentAssessmentAssocId, 0, 10, info);
+        EntityBody assocBody = (EntityBody) response.getEntity();
+        assertNotNull(assocBody);
+        assertEquals(studentAssessmentAssocId, assocBody.get("id"));
+        assertEquals(assocBody.get("administrationLanguage"), "ENGLISH");
+        assertEquals(studentId1, assocBody.get("studentId"));
+        assertEquals(assessmentId1, assocBody.get("assessmentId"));
+
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
             Response r = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, id, 0, 10, info);
