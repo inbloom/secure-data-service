@@ -110,9 +110,9 @@ Then I get response that I am not authorized to do that operation because I do n
 @wip
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
-Given I am valid SEA/LEA end user 
-And I am authenticated on <SEA/LEA IDP>
-And the my role is IT Administrator
+Given  I am valid SEA/LEA end user "administrator" with password "administrator1234" 
+And I am authenticated on "SEA/LEA IDP"
+And the role attribute equals "IT Administrator"
 And IT Administrator is allowed to change Student address
 When I make an API call to change the Student address
 Then the Student address is changed
@@ -120,9 +120,9 @@ Then the Student address is changed
  @wip
 Scenario: Unauthorized SLI Default Role trying to edit Student attribute
  
-Given I am valid SEA/LEA end user 
-And I am authenticated on <SEA/LEA IDP>
-And the my role is Educator
+Given  I am valid SEA/LEA end user "educator" with password "educator1234"  
+And I am authenticated on "SEA/LEA IDP"
+And the role attribute equals "Educator"
 And Educator is not allowed to change Student address
 When I make an API call to change the Student address
 Then a message is displayed that the Educator role does not allow this action 

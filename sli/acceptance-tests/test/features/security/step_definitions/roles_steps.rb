@@ -37,3 +37,51 @@ end
 Given /^I do not have a Role attribute returned from the "([^"]*)"$/ do |arg1|
   # No code needed, this is done during the IDP configuration
 end
+
+Given /^IT Administrator is allowed to change Student address$/ do
+  # No code needed, this is done during configuration
+end
+
+When /^I make an API call to change the Student address$/ do
+  student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
+  restHttpGet(student_uri,"application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  
+  dataH = JSON.parse(@res.body)
+  assert(dataH != nil, "Result of JSON parsing is nil")
+  dataH['address'] = Hash['streetNumberName' => "1234 Somewhere"]
+  data = dataH.to_json
+  
+  restHttpPut(student_uri, data, "application/json")
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+Then /^the Student address is changed$/ do
+  #Validate the Put return code first
+  assert(@res.code == 204, "Return code was not expected: "+@res.code.to_s+" but expected 204")
+  
+  #Then get the data to see it has changed
+  restHttpGet("/students/289c933b-ca69-448c-9afd-2c5879b7d221","application/json")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['address']['streetNumberName'] == "1234 Somewhere", "Expected student address not found in response")
+end
+
+Given /^Educator is not allowed to change Student address$/ do
+  # No code needed, this is done during configuration
+end
+
+Then /^a message is displayed that the Educator role does not allow this action$/ do
+  #Validate the Put return code first
+  assert(@res.code == 405, "Return code was not expected: "+@res.code.to_s+" but expected 405")
+  
+  #Then get the data to see it hasn't changed
+  restHttpGet("/students/289c933b-ca69-448c-9afd-2c5879b7d221","application/json")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['address']['streetNumberName'] != "1234 Somewhere", "Expected student address not found in response")
+
+end
