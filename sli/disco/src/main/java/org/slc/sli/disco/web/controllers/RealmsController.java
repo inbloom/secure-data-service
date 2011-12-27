@@ -1,4 +1,4 @@
-package org.slc.sli.admin.web.controllers;
+package org.slc.sli.disco.web.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
