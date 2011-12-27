@@ -95,6 +95,8 @@ public class RealmsController {
             return "redirect:" + redirect.getBody() + "&RelayState=" + relayState;
         } catch (RestClientException e) {
             LOG.error("Error Calling API", e);
+            
+            model.addAttribute("errorMsg", realmId==null? "No realm selected.  Please select your realm.": "Error calling server");            
             return this.listRealms(relayState, model);
         }
     }
