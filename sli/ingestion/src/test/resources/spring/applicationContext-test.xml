@@ -6,6 +6,23 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd ">
 
+  <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+
+    <!-- this avoids errors with *other* property placeholders -->
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+
+    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
+    <property name="ignoreResourceNotFound" value="true" />
+
+    <property name="locations">
+      <list>
+        <value>classpath:ingestion.properties</value>
+        <!-- create this file with custom settings for your dev environment -->
+        <value>classpath:ingestion-dev.properties</value>
+      </list>
+    </property>
+  </bean>
+
   <import resource="smooks-context.xml" />
 
   <context:component-scan base-package="org.slc.sli">
@@ -51,22 +68,22 @@
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
     </property>
-    <property name="smooksConfigFileName" value="smooks-all-xml.xml" />
+    <property name="smooksConfigFileName" value="${smooks.config.all.xml}" />
     <property name="targetSelectorMap">
       <map>
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_EDUCATION_ORGANIZATION}">
           <list>
-            <value>InterchangeEducationOrganization/School</value>
+            <value>${smooks.targetselector.xml.school}</value>
           </list>
         </entry>
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT}">
           <list>
-            <value>InterchangeStudent/Student</value>
+            <value>${smooks.targetselector.xml.student}</value>
           </list>
         </entry>
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT_ENROLLMENT}">
           <list>
-            <value>InterchangeStudentEnrollment/StudentSchoolAssociation</value>
+            <value>${smooks.targetselector.xml.student.school}</value>
           </list>
         </entry>
       </map>
@@ -77,12 +94,12 @@
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
     </property>
-    <property name="targetSelector" value="csv-record" />
+    <property name="targetSelector" value="${smooks.targetselector.csv}" />
     <property name="smooksConfigFileNameMap">
       <map>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT}" value="smooks-student-csv.xml" />
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SCHOOL}" value="smooks-school-csv.xml" />
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT_SCHOOL_ASSOCIATION}" value="smooks-studentSchoolAssociation-csv.xml" />
+        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT}" value="${smooks.config.student.csv}" />
+        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SCHOOL}" value="${smooks.config.school.csv}" />
+        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT_SCHOOL_ASSOCIATION}" value="${smooks.config.student.school.csv}" />
       </map>
     </property>
   </bean>
