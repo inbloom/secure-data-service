@@ -27,15 +27,17 @@ public class MongoEntity implements Entity {
     
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
         if (body == null) {
-            body = new BasicBSONObject();
+            this.body = new BasicBSONObject();
+        } else {
+            this.body = body;
         }
         if (metaData == null) {
-            metaData = new BasicBSONObject();
+            this.metaData = new BasicBSONObject();
+        } else {
+            this.metaData = metaData;
         }
         this.type = type;
-        this.entityId = id;
-        this.body = body;
-        this.metaData = metaData;
+        entityId = id;
     }
     
     @Override
@@ -58,20 +60,20 @@ public class MongoEntity implements Entity {
      */
     public DBObject toDBObject() {
         BasicDBObject dbObj = new BasicDBObject();
-        dbObj.put("type", this.type);
+        dbObj.put("type", type);
         
         UUID uid = null;
         
-        if (this.entityId == null) {
+        if (entityId == null) {
             uid = UUID.randomUUID();
-            this.entityId = uid.toString();
+            entityId = uid.toString();
         } else {
             uid = UUID.fromString(entityId);
         }
         
         dbObj.put("_id", uid);
-        dbObj.put("body", this.body);
-        dbObj.put("metadata", this.metaData);
+        dbObj.put("body", body);
+        dbObj.put("metadata", metaData);
         
         return dbObj;
     }

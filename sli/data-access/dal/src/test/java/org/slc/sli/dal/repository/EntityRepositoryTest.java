@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -18,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntityValidationException;
 
 /**
  * JUnits for DAL
@@ -69,7 +71,7 @@ public class EntityRepositoryTest {
         
         // test update
         found.getBody().put("firstName", "Mandy");
-        repository.update(found);
+        repository.update("student", found);
         entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
@@ -88,6 +90,34 @@ public class EntityRepositoryTest {
         repository.deleteAll("student");
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
+    }
+
+    @Test
+    public void testValidation() {
+        Map<String, Object> badBody = buildTestStudentEntity();
+        badBody.put("bad-entity", "true");
+        try {
+            repository.create("student", badBody);
+            fail("Should have thrown a validation exception");
+        } catch (EntityValidationException e) {
+            //received correct exception
+            assertEquals("student", e.getEntityType());
+        }
+        Entity saved = repository.create("student", buildTestStudentEntity());
+        String id = saved.getEntityId();
+        saved.getBody().put("bad-entity", "true");
+        try {
+            repository.update("student", saved);
+            fail("Should have thrown a validation exception");
+        } catch (EntityValidationException e) {
+            //received correct exception
+            assertEquals("student", e.getEntityType());
+        }
+        Map<String, String> badFields = new HashMap<String, String>();
+        badFields.put("bad-entity", "true");
+        Iterable<Entity> badEntities = repository.findByFields("student", badFields, 0, 100); 
+        assertTrue(!badEntities.iterator().hasNext());
+        repository.delete("student", id);
     }
     
     private Map<String, Object> buildTestStudentEntity() {

@@ -28,5 +28,14 @@
         <property name="testprop" value="${sli.test.prop}" />
     </bean>
 
+    <context:component-scan base-package="org.slc">
+		<context:exclude-filter type="regex"
+			expression=".*CustomImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*MongoEntityRepository" />
+		<context:exclude-filter type="regex"
+			expression=".*AvroEntityValidator" />
+	</context:component-scan>
+
 </beans>
 

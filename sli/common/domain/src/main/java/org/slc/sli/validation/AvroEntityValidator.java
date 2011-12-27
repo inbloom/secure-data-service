@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.avro.Schema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.ValidationError.ErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AvroEntityValidator implements EntityValidator {
+    private static final Logger LOG = LoggerFactory.getLogger(AvroEntityValidator.class);
     
     @Autowired
     private EntitySchemaRegistry entitySchemaRegistry;
@@ -29,7 +33,7 @@ public class AvroEntityValidator implements EntityValidator {
      * Validates the given entity using its Avro schema.
      */
     public boolean validate(Entity entity) throws EntityValidationException {
-        
+        LOG.debug("validating entity {}", entity.getBody());
         Schema schema = entitySchemaRegistry.findSchemaForType(entity);
         if (schema == null) {
             throw new RuntimeException("No schema associated for type: " + entity.getType());
@@ -38,6 +42,7 @@ public class AvroEntityValidator implements EntityValidator {
         ValidatorInstance vi = new ValidatorInstance();
         boolean valid = vi.matchesSchema(schema, "", entity.getBody(), true);
         if (!valid) {
+            LOG.debug("entity is not valid", entity);
             throw new EntityValidationException(entity.getEntityId(), entity.getType(), vi.errors);
         }
         return true;
@@ -45,7 +50,6 @@ public class AvroEntityValidator implements EntityValidator {
     
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
         this.entitySchemaRegistry = schemaRegistry;
-        
     }
     
     /**
@@ -160,7 +164,7 @@ public class AvroEntityValidator implements EntityValidator {
                 fieldsSeen.add(field.name());
             }
             
-            Set<String> dataFields = map.keySet();
+            Set<String> dataFields = new HashSet<String>(map.keySet());
             dataFields.removeAll(fieldsSeen);
             if (dataFields.size() > 0) {
                 for (String notSeen : dataFields) {

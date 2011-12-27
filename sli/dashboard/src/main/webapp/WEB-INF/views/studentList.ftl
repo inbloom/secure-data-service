@@ -1,7 +1,10 @@
 <html>
 <head>
+<script type="text/javascript" src="static/js/3p/jquery-1.7.1.js"></script>
 <script type="text/javascript">
 var schools = ${schoolList};
+
+$.ajaxSetup ({cache: false});
 
 function populateSchoolMenu(){
     var y = "<select id=\"schoolSelect\" onChange=\"populateCourseMenu(this.value)\">"
@@ -40,14 +43,11 @@ function populateSectionMenu(schoolIndex, courseIndex){
 
 function printStudentList(schoolIndex, courseIndex, sectionIndex){
     var i = 0;
-    var temp = schools[schoolIndex].courses[courseIndex].sections[sectionIndex].students;
-    var x = "<table><tr><th> Last Name</th><th> First Name</th></tr>";
-
-    for(;i<temp.length;i++){
-        x += "<tr><td>" + temp[i].lastName + "</td><td>" +  temp[i].firstName + "</td></tr>";
-    } 
-    x += "</table>";
-    document.getElementById("studentDiv").innerHTML = x;
+    var temp = schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
+    // This is going to change when we figure out what the API should be. 
+    var studentUIDs = temp.join(',');
+    var studentContentUrl = "studentlistcontent?population=" + studentUIDs + "&username=" + "${username}"; 
+    $("#studentDiv").load(studentContentUrl);
 }
 </script>
 </head>

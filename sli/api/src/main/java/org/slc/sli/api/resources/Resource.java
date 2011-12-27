@@ -33,7 +33,6 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.service.EntityNotFoundException;
 
 /**
  * Jersey resource for all entities and associations.
@@ -44,10 +43,11 @@ import org.slc.sli.api.service.EntityNotFoundException;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.XML_MEDIA_TYPE, Resource.JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE })
 public class Resource {
     
     private static final String SELF_LINK = "self";
+    private static final String LINKS_ELEM = "links";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
@@ -92,7 +92,7 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
@@ -111,32 +111,34 @@ public class Resource {
      */
     @GET
     @Path("{id}")
-    public Response getEntityOrAssociations(@PathParam("type") final String typePath, @PathParam("id") final String id,
+    public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                try {
+                if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put("links", getLinks(uriInfo, entityDef, id, entityBody));
+                    entityBody.put(LINKS_ELEM, getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
-                } catch (EntityNotFoundException e) {
-                    if (entityDef instanceof AssociationDefinition) {
-                        Iterable<String> associationIds = ((AssociationDefinition) entityDef).getService()
-                                .getAssociatedWith(id, skip, max);
+                } else if (entityDef instanceof AssociationDefinition) {
+                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                    Iterable<String> associationIds = null;
+                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociatedWith(id, skip, max);
+                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociatedTo(id, skip, max);
+                    }
+                    if (associationIds != null) {
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
                             String href = getURI(uriInfo, entityDef.getResourceName(), id).toString();
                             collection.add(id, SELF_LINK, entityDef.getType(), href);
                         }
-                        
                         return Response.ok(collection).build();
-                    } else {
-                        throw e;
                     }
                 }
-                
+                return Response.status(Status.NOT_FOUND).build();
             }
         });
     }
@@ -180,7 +182,11 @@ public class Resource {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                entityDef.getService().update(id, newEntityBody);
+                EntityBody copy = new EntityBody(newEntityBody);
+                copy.remove(LINKS_ELEM);
+                LOG.debug("updating entity {}", copy);
+                entityDef.getService().update(id, copy);
+                LOG.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -199,21 +205,7 @@ public class Resource {
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                             "Invalid resource path: " + typePath)).build();
         }
-        try {
-            return logic.run(entityDef);
-        } catch (EntityNotFoundException e) {
-            LOG.error("Entity not found", e);
-            return Response
-                    .status(Status.NOT_FOUND)
-                    .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Entity not found: " + e.getId())).build();
-        } catch (Throwable t) {
-            LOG.error("Error handling request", t);
-            return Response
-                    .status(Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                            Status.INTERNAL_SERVER_ERROR.getReasonPhrase(), "Internal Server Error")).build();
-        }
+        return logic.run(entityDef);
     }
     
     /**
@@ -243,8 +235,14 @@ public class Resource {
         } else {
             Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
             for (AssociationDefinition assoc : associations) {
-                links.add(new EmbeddedLink(assoc.getRelName(), assoc.getType(), getURI(uriInfo,
-                        assoc.getResourceName(), id).toString()));
+                if (assoc.getSourceEntity().equals(defn)) {
+                    links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
+                            assoc.getResourceName(), id).toString()));
+                }
+                if (assoc.getTargetEntity().equals(defn)) {
+                    links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), getURI(uriInfo,
+                            assoc.getResourceName(), id).toString()));
+                }
             }
         }
         return links;

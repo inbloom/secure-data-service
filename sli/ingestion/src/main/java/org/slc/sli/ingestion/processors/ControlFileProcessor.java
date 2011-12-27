@@ -35,8 +35,8 @@ public class ControlFileProcessor implements Processor {
         // TODO set faults on the exchange if the control file sucked (?)
 
         // set the exchange outbound message to the value of the job
-        exchange.getOut().setBody(job);
-        exchange.getOut().setHeader("hasErrors", job.hasErrors());
+        exchange.getIn().setBody(job, BatchJob.class);
+        exchange.getIn().setHeader("hasErrors", job.hasErrors());
 
     }
 

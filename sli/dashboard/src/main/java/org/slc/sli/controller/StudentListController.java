@@ -11,36 +11,23 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.School;
-import org.slc.sli.security.SLIPrincipal;
 
 /**
  * 
  * TODO: Write Javadoc
  *
  */
-public class StudentListController {
+public class StudentListController extends DashboardController {
 
-    private APIClient apiClient;
-    
-    public APIClient getApiClient() {
-        return apiClient;
-    }
+    // model map keys required by the view for the student list view
+    public static final String USER_NAME = "username"; 
+    public static final String SCHOOL_LIST = "schoolList"; 
 
-    public void setApiClient(APIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public StudentListController() {
-        //apiClient = new MockAPIClient();
-        
-    }
+    public StudentListController() { }
     
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {
-
-
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
         UserDetails user = getPrincipal();
@@ -48,6 +35,10 @@ public class StudentListController {
         model.addAttribute("schoolList", gson.toJson(schoolList));
         model.addAttribute("message", "Hello " + user.getUsername());
         
+
+        model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
+        model.addAttribute(USER_NAME, username);
+
         return new ModelAndView("studentList");
     }
     

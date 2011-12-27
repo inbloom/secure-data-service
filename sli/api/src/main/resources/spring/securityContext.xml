@@ -19,9 +19,9 @@
    </security:global-method-security>
 
    <security:http auto-config="true" entry-point-ref="entryPoint">
-      <security:intercept-url pattern="/pub/**" filters="none"/>
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_ADMIN,ROLE_USER,ROLE_ANONYMOUS"/>
-      <security:intercept-url pattern="/**" access="ROLE_USER" />
+      <security:intercept-url pattern="/rest/pub/**" filters="none"/>
+      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
+      <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
       <security:request-cache ref="nullCache"/>
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
 
@@ -53,9 +53,7 @@
          class="org.slc.sli.api.security.SLIProcessingFilter"
          p:resolver-ref="openamTokenResolver" />
 
-   <bean id="entryPoint"
-         class="org.slc.sli.api.security.SLIAuthenticationEntryPoint"
-         p:authUrl="/pub/realm.jsp" />
+   <bean id="entryPoint" class="org.slc.sli.api.security.SLIAuthenticationEntryPoint" />
 
    <bean id="sessisonDebugResource"
          class="org.slc.sli.api.resources.SessionDebugResource"

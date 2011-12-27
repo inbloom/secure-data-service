@@ -23,16 +23,13 @@ public class BasicService implements EntityService {
     
     private final String collectionName;
     private final List<Treatment> treatments;
-    private final List<Validator> validators;
     private final EntityRepository repo;
     private EntityDefinition defn;
     
-    public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
-            EntityRepository repo) {
+    public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
-        this.validators = validators;
         this.repo = repo;
     }
     
@@ -48,48 +45,32 @@ public class BasicService implements EntityService {
         return treatments;
     }
     
-    protected List<Validator> getValidators() {
-        return validators;
-    }
-    
     protected EntityRepository getRepo() {
         return repo;
     }
     
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
-        if (!validate(content)) {
-            LOG.info("validation failed for {}", content);
-            throw new ValidationException();
-        }
-        if (defn instanceof AssociationDefinition && !createAssocValidate(content)) {
-            LOG.info("create association validation failed for {}", content);
-            throw new ValidationException();
-        }
-        return getRepo().create(collectionName, sanitizeEntityBody(content)).getEntityId();
+        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {collectionName, content});
+        return getRepo().create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
     }
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("Deleting {} in {}", new String[] {id, collectionName});
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        getRepo().delete(entity);
+        getRepo().delete(collectionName, id);
         if (!(defn instanceof AssociationDefinition))
             removeEntityWithAssoc(entity);
     }
     
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {}", new String[] { id, collectionName });
-        if (!validate(content)) {
-            LOG.info("Validation failed for {}", content);
-            throw new ValidationException();
-        }
+        LOG.debug("Updating {} in {}", new String[] {id, collectionName});
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -100,8 +81,9 @@ public class BasicService implements EntityService {
             LOG.info("No change detected to {}", id);
             return false;
         }
+        LOG.info("new body is {}", sanitized);
         entity.getBody().putAll(sanitized);
-        getRepo().update(entity);
+        getRepo().update(collectionName, entity);
         return true;
     }
     
@@ -135,6 +117,11 @@ public class BasicService implements EntityService {
         return results;
     }
     
+    @Override
+    public boolean exists(String id) {
+        return getRepo().find(collectionName, id) != null;
+    }
+
     /**
      * given an entity, make the entity body to expose
      * 
@@ -163,47 +150,19 @@ public class BasicService implements EntityService {
         return sanitized;
     }
 
-    private boolean validate(EntityBody body) {
-        for (Validator v : validators) {
-            if (!v.validate(body)) {
-                LOG.info("Validator {} reported failure", v);
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    private boolean createAssocValidate(EntityBody body) {
-        try {
-            EntityDefinition sourceEntityDefn = ((AssociationDefinition) defn).getSourceEntity();
-            EntityDefinition targetEntityDefn = ((AssociationDefinition) defn).getTargetEntity();
-            String sourceType = sourceEntityDefn.getType();
-            String targetType = targetEntityDefn.getType();
-            String sourceId = (String) body.get(sourceType + "Id");
-            String targetId = (String) body.get(targetType + "Id");
-            Entity sourceEntity = repo.find(sourceEntityDefn.getStoredCollectionName(), sourceId);
-            Entity targetEntity = repo.find(targetEntityDefn.getStoredCollectionName(), targetId);
-            if (sourceEntity == null || targetEntity == null)
-                return false;
-        } catch (RuntimeException e) {
-            return false;
-        }
-        return true;
-    }
-    
     private void removeEntityWithAssoc(Entity entity) {
         String sourceType = entity.getType();
         String sourceId = entity.getEntityId();
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(sourceType + "Id", sourceId);
         
-        Iterator<AssociationDefinition> it = defn.getLinkedAssoc().iterator();
-        while (it.hasNext()) {
-            Iterator<Entity> foundEntities = repo.findByFields(it.next().getStoredCollectionName(), fields, 0, 1)
+        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
+            String assocCollection = assocDef.getStoredCollectionName();
+            Iterator<Entity> foundEntities = repo.findByFields(assocCollection, fields, 0, 1)
                     .iterator();
             if (foundEntities.hasNext()) {
                 Entity assocEntity = foundEntities.next();
-                repo.delete(assocEntity);
+                repo.delete(assocCollection, assocEntity.getEntityId());
             }
         }
     }

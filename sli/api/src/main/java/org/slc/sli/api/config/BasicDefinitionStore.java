@@ -44,18 +44,34 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition.addGlobalTreatment(new IdTreatment());
+        EntityDefinition section = EntityDefinition.makeEntity("section").exposeAs("sections").build();
+        addDefinition(section);
         EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
         addDefinition(student);
         EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
         addDefinition(school);
-        AssociationDefinition studentEnroll = AssociationDefinition.makeAssoc("student-enrollment")
-                .exposeAs("student-enrollments").storeAs("enrollments").from(student).to(school)
-                .called("getStudentEnrollments").build();
-        addAssocDefinition(studentEnroll);
-        AssociationDefinition schoolEnroll = AssociationDefinition.makeAssoc("schoolEnrollment")
-                .exposeAs("school-enrollments").storeAs("enrollments").from(school).to(student)
-                .called("getSchoolEnrollments").build();
-        addAssocDefinition(schoolEnroll);
+        EntityDefinition assessment = EntityDefinition.makeEntity("assessment").exposeAs("assessments").build();
+        addDefinition(assessment);
+
+        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("studentSchoolAssociation")
+                .exposeAs("student-school-associations").storeAs("studentschoolassociation")
+                .from(student, "getStudent", "getStudentsEnrolled").to(school, "getSchool", "getSchoolsAttended")
+                .calledFromSource("getStudentEnrollments").calledFromTarget("getSchoolEnrollments").build();
+        addAssocDefinition(studentSchoolAssociation);
+        
+        EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
+        addDefinition(teacher);
+        
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacher-section-association")
+                .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
+                .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
+                .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSchoolAssociation);
+        
+        // Adding the security collection
+        EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
+        addDefinition(roles);
+        addDefinition(EntityDefinition.makeEntity("realm").build());
     }
     
     private void add(EntityDefinition defn) {
@@ -72,9 +88,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         LOG.debug("adding assoc for {}", defn.getResourceName());
         add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();
+        EntityDefinition targetEntity = defn.getTargetEntity();
         links.get(sourceEntity).add(defn);
+        links.get(targetEntity).add(defn);
         mapping.get(sourceEntity.getResourceName()).addLinkedAssoc(defn);
-        // sourceEntity.addLinkedAssoc(defn);
+        mapping.get(targetEntity.getResourceName()).addLinkedAssoc(defn);
     }
-    
 }

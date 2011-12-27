@@ -44,12 +44,16 @@ public interface EntityRepository {
     public Iterable<Entity> findAll(String entityType);
     
     /**
+     * @param collection 
+     *            the collection the entity is in
      * @param entity
      *            the entity that will be updated
      */
-    public void update(Entity entity);
+    public void update(String collection, Entity entity);
     
     /**
+     * Create an entry with the collection set to the type name
+     *
      * @param type
      *            the type of entity to be persisted
      * @param body
@@ -57,12 +61,17 @@ public interface EntityRepository {
      * @return the entity that has been persisted
      */
     public Entity create(String type, Map<String, Object> body);
-    
+
     /**
-     * @param entity
-     *            the entity that will be deleted
+     * @param type
+     *            the type of entity to be persisted
+     * @param body
+     *            the entity body that will be persisted
+     * @param collectioName
+     *            the name of the collection to save it into
+     * @return the entity that has been persisted
      */
-    void delete(Entity entity);
+    public Entity create(String type, Map<String, Object> body, String collectionName);
     
     /**
      * @param entityType

@@ -1,0 +1,44 @@
+{
+  "type" : "record",
+  "name" : "TeacherSchoolAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "teacherId",
+    "type" : "string"
+  }, {
+    "name" : "schoolId",
+    "type" : {"type" : "array", "items" : "string"}
+  }, {
+    "name" : "programAssignment",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "ProgramAssignmentType",
+      "symbols" : [ "REGULAR_EDUCATION", "TITLE_I_ACADEMIC", "TITLE_I_NON_ACADEMIC", "SPECIAL_EDUCATION", "BILINGUAL_ENGLISH_AS_A_SECOND_LANGUAGE" ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "instructionalGradeLevels",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "enum",
+        "name" : "GradeLevelType",
+        "symbols" : [ "ADULT_EDUCATION", "EARLY_EDUCATION", "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "GRADE_13", "INFANT_TODDLER", "KINDERGARTEN", "NINTH_GRADE", "OTHER", "POSTSECONDARY", "PRESCHOOL_PREKINDERGARTEN", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TRANSITIONAL_KINDERGARTEN", "TWELFTH_GRADE", "UNGRADED" ]
+      },
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  }, {
+    "name" : "academicSubjects",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "enum",
+        "name" : "AcademicSubjectType",
+        "symbols" : [ "ENGLISH_LANGUAGE_AND_LITERATURE", "MATHEMATICS", "LIFE_AND_PHYSICAL_SCIENCES", "SOCIAL_SCIENCES_AND_HISTORY", "FINE_AND_PERFORMING_ARTS", "FOREIGN_LANGUAGE_AND_LITERATURE", "RELIGIOUS_EDUCATION_AND_THEOLOGY", "PHYSICAL_HEALTH_AND_SAFETY_EDUCATION", "MILITARY_SCIENCE", "COMPUTER_AND_INFORMATION_SCIENCES", "COMMUNICATION_AND_AUDIO_VISUAL_TECHNOLOGY", "BUSINESS_AND_MARKETING", "MANUFACTURING", "HEALTH_CARE_SCIENCES", "PUBLIC_PROTECTIVE_AND_GOVERNMENT_SERVICE", "HOSPITALITY_AND_TOURISM", "ARCHITECTURE_AND_CONSTRUCTION", "AGRICULTURE_FOOD_AND_NATURAL_RESOURCES", "HUMAN_SERVICES", "TRANSPORTATION_DISTRIBUTION_AND_LOGISTICS", "ENGINEERING_AND_TECHNOLOGY", "MISCELLANEOUS" ]
+      },
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  } ]
+}

@@ -1,0 +1,37 @@
+{
+  "type" : "record",
+  "name" : "TeacherSectionAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "fields" : [ {
+    "name" : "teacherId",
+    "type" : "string"
+  }, {
+    "name" : "sectionId",
+    "type" : "string"
+  }, {
+    "name" : "classroomPosition",
+    "type" : {
+      "type" : "enum",
+      "name" : "ClassroomPositionType",
+      "symbols" : [ "TEACHER_OF_RECORD", "ASSISTANT_TEACHER", "SUPPORT_TEACHER", "SUBSTITUTE_TEACHER" ]
+    } ,
+    "default" : null
+  },{
+    "name" : "beginDate",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Calendar",
+      "namespace" : "java.util",
+      "fields" : [ ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "endDate",
+    "type" : [ "null", "java.util.Calendar" ],
+    "default" : null
+  }, {
+    "name" : "highlyQualifiedTeacher",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  } ]
+}

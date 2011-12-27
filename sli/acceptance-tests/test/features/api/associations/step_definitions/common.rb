@@ -1,8 +1,12 @@
 
-
-Given /^the SLI_SMALL dataset is loaded$/ do
-  # ok
+Transform /^(?:is|equal) "([^"]*)"$/ do |step_arg|
+  retval = "FIRST_GRADE" if step_arg == "First grade"
+  retval = "SECOND_GRADE" if step_arg == "Second grade"
+  retval = "TENTH_GRADE" if step_arg == "Tenth grade"
+  retval = step_arg if retval == nil
+  retval
 end
+
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
   @user = arg1
@@ -14,7 +18,7 @@ Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
+Given /^"([^"]*)" (is "[^"]*")$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
@@ -56,7 +60,7 @@ Then /^the collection should contain a link where rel is "([^"]*)" and href ends
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
 
-Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
+Then /^"([^"]*)" should (equal "[^"]*")$/ do |key, value|
   assert(@data != nil, "Response contains no data")
   assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
   assert(@data.has_key?(key), "Response does not contain key #{key}")
@@ -65,8 +69,7 @@ end
 
 
 When /^I navigate to GET "([^"]*)"$/ do |uri|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
     begin
@@ -82,7 +85,6 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
 end
 
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+arg1
-  @res = RestClient.delete(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end

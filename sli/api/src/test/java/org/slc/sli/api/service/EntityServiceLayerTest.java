@@ -9,8 +9,10 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -38,11 +40,9 @@ public class EntityServiceLayerTest {
     private EntityDefinition studentDef;
     private EntityDefinition schoolDef;
     private AssociationDefinition studentEnrollmentDef;
-    private AssociationDefinition schoolEnrollmentDef;
     private EntityService studentService;
     private EntityService schoolService;
-    private AssociationService studentEnrollmentService;
-    private AssociationService schoolEnrollmentService;
+    private AssociationService studentSchoolAssociationService;
     @Autowired
     private EntityRepository repo;
     
@@ -53,12 +53,10 @@ public class EntityServiceLayerTest {
         repo.deleteAll("school");
         studentDef = defs.lookupByResourceName("students");
         schoolDef = defs.lookupByResourceName("schools");
-        studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("student-enrollments");
-        schoolEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("school-enrollments");
+        studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("student-school-associations");
         studentService = studentDef.getService();
         schoolService = schoolDef.getService();
-        studentEnrollmentService = studentEnrollmentDef.getService();
-        schoolEnrollmentService = schoolEnrollmentDef.getService();
+        studentSchoolAssociationService = studentEnrollmentDef.getService();
     }
     
     @Test
@@ -167,7 +165,6 @@ public class EntityServiceLayerTest {
     
     @Test
     public void testLinkedResources() {
-        assertTrue(defs.getLinked(schoolDef).contains(schoolEnrollmentDef));
         assertTrue(defs.getLinked(studentDef).contains(studentEnrollmentDef));
     }
     
@@ -196,8 +193,8 @@ public class EntityServiceLayerTest {
         assoc1.put("schoolId", schoolId);
         assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
-        String assocId1 = studentEnrollmentService.create(assoc1);
-        EntityBody retrievedAssoc1 = studentEnrollmentService.get(assocId1);
+        String assocId1 = studentSchoolAssociationService.create(assoc1);
+        EntityBody retrievedAssoc1 = studentSchoolAssociationService.get(assocId1);
         assertEquals(retrievedAssoc1.get("schoolId"), assoc1.get("schoolId"));
         assertEquals(retrievedAssoc1.get("studentId"), assoc1.get("studentId"));
         assertEquals(retrievedAssoc1.get("startDate"), assoc1.get("startDate"));
@@ -205,8 +202,8 @@ public class EntityServiceLayerTest {
         assoc2.put("schoolId", schoolId);
         assoc2.put("studentId", id2);
         assoc2.put("startDate", (new Date()).getTime());
-        String assocId2 = studentEnrollmentService.create(assoc2);
-        EntityBody retrievedAssoc2 = studentEnrollmentService.get(assocId2);
+        String assocId2 = studentSchoolAssociationService.create(assoc2);
+        EntityBody retrievedAssoc2 = studentSchoolAssociationService.get(assocId2);
         assertEquals(retrievedAssoc2.get("schoolId"), assoc2.get("schoolId"));
         assertEquals(retrievedAssoc2.get("studentId"), assoc2.get("studentId"));
         assertEquals(retrievedAssoc2.get("startDate"), assoc2.get("startDate"));
@@ -214,8 +211,8 @@ public class EntityServiceLayerTest {
         assoc3.put("schoolId", schoolId);
         assoc3.put("studentId", id3);
         assoc3.put("startDate", (new Date()).getTime());
-        String assocId3 = studentEnrollmentService.create(assoc3);
-        EntityBody retrievedAssoc3 = studentEnrollmentService.get(assocId3);
+        String assocId3 = studentSchoolAssociationService.create(assoc3);
+        EntityBody retrievedAssoc3 = studentSchoolAssociationService.get(assocId3);
         assertEquals(retrievedAssoc3.get("schoolId"), assoc3.get("schoolId"));
         assertEquals(retrievedAssoc3.get("studentId"), assoc3.get("studentId"));
         assertEquals(retrievedAssoc3.get("startDate"), assoc3.get("startDate"));
@@ -223,19 +220,19 @@ public class EntityServiceLayerTest {
         assoc4.put("schoolId", schoolId);
         assoc4.put("studentId", id4);
         assoc4.put("startDate", (new Date()).getTime());
-        String assocId4 = studentEnrollmentService.create(assoc4);
-        EntityBody retrievedAssoc4 = studentEnrollmentService.get(assocId4);
+        String assocId4 = studentSchoolAssociationService.create(assoc4);
+        EntityBody retrievedAssoc4 = studentSchoolAssociationService.get(assocId4);
         assertEquals(retrievedAssoc4.get("schoolId"), assoc4.get("schoolId"));
         assertEquals(retrievedAssoc4.get("studentId"), assoc4.get("studentId"));
         assertEquals(retrievedAssoc4.get("startDate"), assoc4.get("startDate"));
         assertEquals(Arrays.asList(retrievedAssoc1, retrievedAssoc2, retrievedAssoc3, retrievedAssoc4),
-                studentEnrollmentService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
-        assertEquals(Arrays.asList(assocId1), studentEnrollmentService.getAssociatedWith(id1, 0, 4));
-        assertEquals(Arrays.asList(assocId2), studentEnrollmentService.getAssociatedWith(id2, 0, 4));
-        assertEquals(Arrays.asList(assocId3), studentEnrollmentService.getAssociatedWith(id3, 0, 4));
-        assertEquals(Arrays.asList(assocId4), studentEnrollmentService.getAssociatedWith(id4, 0, 4));
+                studentSchoolAssociationService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
+        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociatedWith(id1, 0, 4));
+        assertEquals(Arrays.asList(assocId2), studentSchoolAssociationService.getAssociatedWith(id2, 0, 4));
+        assertEquals(Arrays.asList(assocId3), studentSchoolAssociationService.getAssociatedWith(id3, 0, 4));
+        assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociatedWith(id4, 0, 4));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
-                schoolEnrollmentService.getAssociatedWith(schoolId, 0, 4));
+                studentSchoolAssociationService.getAssociatedTo(schoolId, 0, 4));
         studentService.delete(id1);
         studentService.delete(id2);
         studentService.delete(id3);
@@ -243,49 +240,34 @@ public class EntityServiceLayerTest {
         schoolService.delete(schoolId);
     }
     
-    @Test(expected = ValidationException.class)
-    public void testCreateAssocValidate() {
-        EntityBody student1 = new EntityBody();
-        student1.put("firstName", "Bonzo");
-        student1.put("lastName", "Madrid");
-        String id1 = studentService.create(student1);
+    // test delete source entity also remove association entity
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteWithAssoc1() {
+        Map<String, String> ids = setupTestDeleteWithAssoc();
+        String studentId = ids.get("studentId");
+        String assocId = ids.get("assocId");
 
-        EntityBody school = new EntityBody();
-        school.put("name", "Battle School");
-        String schoolId = schoolService.create(school);
-
-        EntityBody assoc1 = new EntityBody();
-        assoc1.put("schoolId", schoolId);
-        // assoc1.put("studentId", id1);
-        assoc1.put("startDate", (new Date()).getTime());
-        studentEnrollmentService.create(assoc1);
-
+        EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
+        assertNotNull(assocEntity);
+        assertEquals(assocEntity.get("studentId"), studentId);
+        
+        studentService.delete(studentId);
+        studentSchoolAssociationService.get(assocId);
     }
     
+    // test delete target entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
-    public void testDeleteWithAssoc() {
+    public void testDeleteWithAssoc2() {
+        Map<String, String> ids = setupTestDeleteWithAssoc();
+        String schoolId = ids.get("schoolId");
+        String assocId = ids.get("assocId");
         
-        EntityBody student1 = new EntityBody();
-        student1.put("firstName", "Bonzo");
-        student1.put("lastName", "Madrid");
-        String id1 = studentService.create(student1);
-        
-        EntityBody school = new EntityBody();
-        school.put("name", "Battle School");
-        String schoolId = schoolService.create(school);
-        
-        EntityBody assoc1 = new EntityBody();
-        assoc1.put("schoolId", schoolId);
-        assoc1.put("studentId", id1);
-        assoc1.put("startDate", (new Date()).getTime());
-        String assocId = studentEnrollmentService.create(assoc1);
-        EntityBody assocEntity = studentEnrollmentService.get(assocId);
+        EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
-        assertEquals(assocEntity.get("studentId"), id1);
+        assertEquals(assocEntity.get("schoolId"), schoolId);
         
-        studentService.delete(id1);
-        studentEnrollmentService.get(assocId);
-
+        schoolService.delete(schoolId);
+        studentSchoolAssociationService.get(assocId);
     }
 
     private <T> List<T> iterableToList(Iterable<T> itr) {
@@ -296,4 +278,26 @@ public class EntityServiceLayerTest {
         return result;
     }
     
+    private Map<String, String> setupTestDeleteWithAssoc() {
+        Map<String, String> ids = new HashMap<String, String>();
+        EntityBody student1 = new EntityBody();
+        student1.put("firstName", "Bonzo");
+        student1.put("lastName", "Madrid");
+        String studentId = studentService.create(student1);
+        
+        EntityBody school = new EntityBody();
+        school.put("name", "Battle School");
+        String schoolId = schoolService.create(school);
+        
+        EntityBody assoc = new EntityBody();
+        assoc.put("schoolId", schoolId);
+        assoc.put("studentId", studentId);
+        assoc.put("startDate", (new Date()).getTime());
+        String assocId = studentSchoolAssociationService.create(assoc);
+        ids.put("studentId", studentId);
+        ids.put("schoolId", schoolId);
+        ids.put("assocId", assocId);
+        return ids;
+    }
+
 }
