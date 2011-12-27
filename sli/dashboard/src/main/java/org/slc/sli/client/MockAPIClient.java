@@ -39,7 +39,7 @@ public class MockAPIClient implements APIClient {
     }
 
     public School[] getSchools(final String token) {
-        URL url = classLoader.getResource("mockData/"+ token+"_mock_data.json");
+        URL url = classLoader.getResource("mockData/"+ token.replaceAll("\\W", "") +"_mock_data.json");
         String filename = url.getFile();
         return fromFile(filename, School[].class);
     }
