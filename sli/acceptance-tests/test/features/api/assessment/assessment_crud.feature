@@ -1,11 +1,13 @@
 
 Feature: In order to manage assessments
 As a SLI Application I wan t to be able to manage the basic model of assessments. This includes performing CRUD on Assessment entity. 
-Also verify the correct links from assessment to student-assessment associations and family-assessment associations.
+Also verify the correct links from assessment to student-assessment associations and family-assessment associations. An assessment can 
+be used to measure differences in individuals or groups and changes in performance from one occasion to the next.
+
 
 This is the data I am assuming for these tests
 AssessmentTitle: Mathematics Achievement Assessment Test, Writing Advanced Placement Test
-AssessmentSubject: Mathematics, Writing, Foreign Language
+AcademicSubject: Mathematics, Writing, Foreign Language
 GradeLevelAssessed: Adult
 ContentStandard: School Standard
 AssessmentCategory: Achievement  Test,  Advanced Placement Test
@@ -18,10 +20,12 @@ Background: Logged in as a super-user and using the small data set
 Scenario: Create an assessment 
 	Given format "application/json"
 		And AssessmentTitle is "Mathematics Achievement Assessment Test"
+		And AssessmentIdentificationCode is "01234B"
 		And AcademicSubject is "MATHEMATICS"
 		And AssessmentCategory is "ACHIEVEMENT_TEST"
 		And GradeLevelAssessed is "ADULT_EDUCATION"
 		And ContentStandard is "LEA_STANDARD"
+		And Version is "1.2"
 	When I navigate to POST assessment "Mathematics Test"
 	Then I should receive a return code of 201
 		And I should receive an ID for a newly created assessment
@@ -78,4 +82,7 @@ Scenario: Attempt to delete a non-existent assessment
    Given format "application/json"
    When I navigate to DELETE assessment "NonExistentAssessment"
    Then I should receive a return code of 404
+   
+   
+   
 		

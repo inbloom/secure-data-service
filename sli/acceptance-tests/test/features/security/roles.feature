@@ -82,8 +82,7 @@ And the role attribute equals <AnyDefaultSLIRole>
 And I am authenticated on "SEA/LEA IDP"
 When I make a REST API call 
 Then I get the JSON response displayed
-
-Scenarios:
+Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "educator"      | "educator1234"      | "Educator"         |
 | "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |
