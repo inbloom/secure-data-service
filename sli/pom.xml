@@ -131,6 +131,7 @@
     <module>ingestion</module>
     <module>dashboard</module>
     <module>admin</module>
+    <module>disco</module>
   </modules>
 
   <dependencyManagement>
