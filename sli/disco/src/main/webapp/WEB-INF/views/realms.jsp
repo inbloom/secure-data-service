@@ -20,7 +20,7 @@
 			<tr>
 				<td>
 				<input type="hidden" name="RelayState" value="${relayState}" /> 
-				<input type="submit" value="Choose Your Destiny" /></td>
+				<input type="submit" value="Choose Your Destiny" id="go" /></td>
 			</tr>
 		</table>
 	</form:form>

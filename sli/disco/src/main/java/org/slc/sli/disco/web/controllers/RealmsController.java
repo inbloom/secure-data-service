@@ -86,7 +86,7 @@ public class RealmsController {
      * 
      * @param realmId id of the realm
      * @return directive to redirect to sso init page
-     * @throws IOException 
+     * @throws IOException
      */
     @RequestMapping(value = "sso.do", method = { RequestMethod.GET, RequestMethod.POST })
     public String ssoInit(@RequestParam(value = "realmId", required = false) String realmId, @RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
@@ -95,6 +95,8 @@ public class RealmsController {
             return "redirect:" + redirect.getBody() + "&RelayState=" + relayState;
         } catch (RestClientException e) {
             LOG.error("Error Calling API", e);
+            
+            model.addAttribute("errorMsg", realmId == null ? "No realm selected.  Please select your realm." : "Error calling server");
             return this.listRealms(relayState, model);
         }
     }
