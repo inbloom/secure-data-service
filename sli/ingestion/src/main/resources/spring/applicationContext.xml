@@ -36,13 +36,13 @@
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
 
-  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges" 
-    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property 
+  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"
+    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
     name="showOutBody" value="true" /> <property name="showOutBodyType" value="true" /> </bean> -->
 
   <!-- not working yet. <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" /> -->
 
-  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))" 
+  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"
     /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect> </aop:config> -->
 
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
@@ -67,6 +67,9 @@
   </bean>
 
   <bean id="xmlFileHandler" class="org.slc.sli.ingestion.landingzone.handler.XmlFileHandler">
+    <property name="preValidator">
+      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+    </property>
     <property name="smooksConfigFileName" value="smooks-all-xml.xml" />
     <property name="targetSelectorMap">
       <map>
@@ -90,6 +93,9 @@
   </bean>
 
   <bean id="csvFileHandler" class="org.slc.sli.ingestion.landingzone.handler.CsvFileHandler">
+    <property name="preValidator">
+      <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
+    </property>
     <property name="targetSelector" value="csv-record" />
     <property name="smooksConfigFileNameMap">
       <map>
