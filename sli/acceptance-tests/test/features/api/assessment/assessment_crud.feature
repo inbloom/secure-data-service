@@ -33,23 +33,23 @@ Scenario: Read an assessment by ID
 		And the AssessmentTitle should be "Writing Advanced Placement Test" 
 		And the AcademicSubject should be "ENGLISH_LANGUAGE_AND_LITERATURE"
 		And the AssessmentCategory should be "ADVANCED_PLACEMENT_TEST"
-@wip
+
 Scenario: Update an assessment by ID
 	Given format "application/json"
-		When I navigate to GET  assessment "Writing Assessment 1"
+		When I navigate to GET assessment "Writing Assessment 1"
 		Then I should receive a return code of 200
 		And the AssessmentTitle should be "Writing Advanced Placement Test" 
 	When I set the AssessmentTitle to "Advanced Placement Test - Subject: Writing"
 		And I navigate to PUT assessment "Writing Assessment 1"
-	Then I should get a return code of 204
+	Then I should receive a return code of 204
 	When I navigate to GET assessment "Writing Assessment 1"
-	Then I should get a return code of 200
+	Then I should receive a return code of 200
 	And the AssessmentTitle should be "Advanced Placement Test - Subject: Writing"
-@wip
+
 Scenario: Delete an assessment by ID
 	Given format "application/json"
 	When I navigate to DELETE assessment "Writing Assessment 2"
-	Then I should get a return code of 204
+	Then I should receive a return code of 204
 	When I navigate to GET assessment "Writing Assessment 2"
 	Then I should receive a return code of 404
 
@@ -64,17 +64,16 @@ Scenario: Assessment entity links to StudentAssessment association and Assessmen
 	And I should receive a link named "getAssessmentFamily" with URI /assessment-family-associations/<'Mathematics Achievement Assessment Test' ID>
 
 ## ERROR HANDLING
-@wip
 Scenario: Attempt to read a non-existent assessment
    Given format "application/json"
    When I navigate to GET assessment "NonExistentAssessment"
    Then I should receive a return code of 404
-@wip
+
 Scenario: Attempt to update a non-existent assessment
    Given format "application/json"
-   When I navigate to PUT assessment "NonExistentAssessment"
+   When I attempt to update a non-existing assessment "NonExistentAssessment"
    Then I should receive a return code of 404
-@wip
+
 Scenario: Attempt to delete a non-existent assessment
    Given format "application/json"
    When I navigate to DELETE assessment "NonExistentAssessment"
