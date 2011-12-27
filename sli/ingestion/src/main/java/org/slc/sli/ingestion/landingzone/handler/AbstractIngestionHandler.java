@@ -17,7 +17,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     Validator<T> postValidator;
 
-    abstract O doHandling(T item);
+    abstract O doHandling(T item, ErrorReport vr);
 
     void pre(T item, ErrorReport validationReport) {
         if (preValidator != null) {
@@ -46,7 +46,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
         pre(item, vr);
 
-        o = doHandling(item);
+        o = doHandling(item, vr);
 
         post(item, vr);
 

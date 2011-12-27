@@ -17,6 +17,8 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
+import org.slc.sli.ingestion.validation.ErrorReport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -36,7 +38,7 @@ public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry,
     private Map<FileType, List<String>> targetSelectorMap;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry item) {
+    IngestionFileEntry doHandling(IngestionFileEntry item, ErrorReport vr) {
         try {
             handleXmlFile(item);
         } catch (IOException e) {
