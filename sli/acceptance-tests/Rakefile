@@ -128,6 +128,16 @@ task :securityTests do
   runTests("test/features/security")  
 end
 
+desc "Run Dashboard Tests"
+task :dashboardTests do
+  # securityHash = Hash[
+    # "school" => "school_fixture.json",
+    # "student" => "student_fixture.json"
+    # ]
+  # setMultipleFixtureFiles(securityHash)
+  runTests("test/features/dashboard")  
+end
+
 desc "Help information for this Rakefile"
 task :help do
   puts <<-eos
