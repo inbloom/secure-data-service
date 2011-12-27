@@ -57,48 +57,6 @@ Given /^ContentStandard is "([^"]*)"$/ do |arg1|
   @contentStandard.should_not == nil
 end
 
-Given /^he is \"Male\"$/ do ||
-  @sex = "Male"
-end
-
-Given /^she is \"Female\"$/ do ||
-  @sex = "Female"
-end
-
-Given /^(?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
-  @teachingExperience = arg1.to_i
-  @teachingExperience.should_not == nil
-end
-
-Given /^(?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
-  @teacherUniqueStateId = Integer(arg1)
-  @teacherUniqueStateId.should_not == nil
-end
-
-Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
-  if(arg1 == "true")
-    @highlyQualifiedTeacher = true
-  elsif(arg1 == "false")
-    @highlyQualifiedTeacher = false
-  else
-    raise "Valid values are true or false"
-  end
-  @highlyQualifiedTeacher.should_not == nil
-end
-
-Given /^(?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
-  ["Bachelor's", "Master's", "Doctorate", "No Degree"].should include(arg1)
-  @levelOfEducation = eduHash[arg1]
-  @levelOfEducation.should_not == nil
-end
-
-Given /^I should see that (?:his|her) hispanic latino ethnicity is "([^"]*)"$/ do |arg1|
-  ["true","false"].should include(arg1)
-  @hispanicLatinoEthnicity = arg1
-  @hispanicLatinoEthnicity.should_not == nil
-end
-
 When /^I navigate to POST (assessment "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
@@ -142,7 +100,11 @@ When /^I navigate to GET (assessment "[^"]*")$/ do |arg1|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
+When /^I set the AssessmentTitle to "([^"]*)"$/ do |arg1|
+  @assessmentTitle=arg1
+end
+
+When /^I navigate to PUT (assessment "[^"]*")$/ do |arg1|
 
   restHttpGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -151,16 +113,16 @@ When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
   if @format == "application/json"  
     dataH = JSON.parse(@res.body)
     
-    dataH["highlyQualifiedTeacher"].should_not == @highlyQualifiedTeacher
-    dataH["highlyQualifiedTeacher"] = @highlyQualifiedTeacher
+    dataH["assessmentTitle"].should_not == @assessmentTitle
+    dataH["assessmentTitle"] = @assessmentTitle
     
     data = dataH.to_json
 
   elsif @format == "application/xml"
   
     data = Document.new(@res.body)  
-    data.root.elements["highlyQualifiedTeacher"].text.should_not == @highlyQualifiedTeacher
-    data.root.elements["highlyQualifiedTeacher"].text = @highlyQualifiedTeacher
+    data.root.elements["assessmentTitle"].text.should_not == @assessmentTitle
+    data.root.elements["assessmentTitle"].text = @assessmentTitle
 
   else
     assert(false, "Unsupported MIME type")
@@ -172,7 +134,7 @@ When /^I navigate to PUT (teacher "[^"]*")$/ do |arg1|
   
 end
 
-When /^I navigate to DELETE (teacher "[^"]*")$/ do |arg1|
+When /^I navigate to DELETE (assessment "[^"]*")$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
@@ -200,67 +162,30 @@ Then /^the AssessmentCategory should be "([^"]*)"$/ do |arg1|
   assert(result["assessmentCategory"] == arg1, "Expected assessmentCategory not found in response")
 end
 
-Then /^I should see that (?:he|she) was born on "([^"]*)"$/ do |arg1|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["birthDate"] == arg1, "Expected teacher birthdate not found in response")
-end
 
-Then /^I should see that (?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["yearsOfPriorTeachingExperience"] == arg1.to_i, "Expected teacher experience not found in response")
-end
-
-Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacherUniqueStateId"] == arg1.to_i, "Expected teacher state id not found in response")
-end
-
-Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
-  test = true if arg1 == "true"
-  test = false if arg1 == "false"
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["highlyQualifiedTeacher"] == test, "Expected teacher highly qualified status not found in response")
-end
-
-Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["highestLevelOfEducationCompleted"] == eduHash[arg1], "Expected teacher level of education not found in response")  
-end
-
-When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
+When /^I attempt to update a non\-existing (assessment "[^"]*")$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "teacherUniqueStateId" => "",
-      "name" => Hash[ "firstName" => "Should", "middleName" => "Not", "lastSurname" => "Exist" ],
-      "sex" => "Male",
-      "birthDate" => "765432000000"]
+      "assessmentTitle" => @assessmentTitle,
+      "academicSubject" => @academicSubject,
+      "assessmentCategory" => @assessmentCategory,
+      "gradeLevelAssessed" => @gradeLevelAssessed,
+      "contentStandard" => @contentStandard]
     
     data = dataH.to_json
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
-    data = builder.school { |b|
-      b.studentSchoolId("")
-      b.firstName("Should") 
-      b.lastSurname("Exist")
-      b.middleName("Not")
-      b.sex("Male")
-      b.birthDate("765432000000")}
+    data = builder.assessment { |b|
+      b.assessmentTitle(@assessmentTitle)
+      b.academicSubject(@academicSubject) 
+      b.assessmentCategory(@assessmentCategory)
+      b.gradeLevelAssessed(@gradeLevelAssessed)
+      b.contentStandard(@contentStandard)
+      }
     
   else
     assert(false, "Unsupported MIME type")
   end
   restHttpPut(arg1, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
-end
-
-Then /^GET using that ID should return a code of (\d+)$/ do |arg1|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/teachers/" + @newTeacherID
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
-  assert(@res != nil, "Response from rest-client GET is nil")
 end
