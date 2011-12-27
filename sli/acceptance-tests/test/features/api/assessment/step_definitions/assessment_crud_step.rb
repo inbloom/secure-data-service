@@ -37,6 +37,11 @@ Given /^AssessmentTitle is "([^"]*)"$/ do |arg1|
   @assessmentTitle.should_not == nil
 end
 
+Given /^AssessmentIdentificationCode is "([^"]*)"$/ do |arg1|
+  @assessmentIdentificationCode = arg1
+  @assessmentIdentificationCode.should_not == nil
+end
+
 Given /^AcademicSubject is "([^"]*)"$/ do |arg1|
   @academicSubject = arg1
   @academicSubject.should_not == nil
@@ -57,14 +62,21 @@ Given /^ContentStandard is "([^"]*)"$/ do |arg1|
   @contentStandard.should_not == nil
 end
 
+Given /^Version is "([^"]*)"$/ do |arg1|
+  @version = arg1
+  @version.should_not == nil
+end
+
 When /^I navigate to POST (assessment "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
       "assessmentTitle" => @assessmentTitle,
+      "assessmentIdentificationCode" => [Hash["id"=>@assessmentIdentificationCode]],
       "academicSubject" => @academicSubject,
       "assessmentCategory" => @assessmentCategory,
       "gradeLevelAssessed" => @gradeLevelAssessed,
-      "contentStandard" => @contentStandard
+      "contentStandard" => @contentStandard,
+      "version" => @version
       ]
     data = dataH.to_json
       

@@ -76,7 +76,7 @@
     "default" : null
   }, {
     "name" : "version",
-    "type" : [ "null", "int" ],
+    "type" : [ "null", "string" ],
     "default" : null
   }, {
     "name" : "revisionDate",
