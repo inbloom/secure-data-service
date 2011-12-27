@@ -24,6 +24,12 @@ import java.util.Vector;
  */
 public class MockAPIClient implements APIClient {
 
+    private ClassLoader classLoader;
+    
+    public MockAPIClient() {
+        this.classLoader = Thread.currentThread().getContextClassLoader();
+    }
+    
 
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
@@ -41,8 +47,7 @@ public class MockAPIClient implements APIClient {
     }
     @Override
     public School[] getSchools(final String token) {
-        String filename = "src/test/resources/mock_data/" + token.replaceAll("\\W", "") + "/school.json";
-        return fromFile(filename, School[].class);
+        return fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/school.json"), School[].class);
     }
     
     @Override
@@ -131,6 +136,11 @@ public class MockAPIClient implements APIClient {
                 System.err.println(e);
             }
         }
+    }
+    
+    private String getFilename(String filename){
+        URL url = classLoader.getResource(filename);
+        return url.getFile();
     }
 
 }

@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  * 
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(StudentListController.class)
+@PrepareForTest({StudentListController.class, MockAPIClient.class })
 public class StudentListControllerTest {
 
     private StudentListController studentListController;
@@ -42,7 +42,8 @@ public class StudentListControllerTest {
     @Test
     public void testStudentListNotEmpty() throws Exception {
         
-        MockAPIClient mockClient = new MockAPIClient();
+        MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
+        PowerMockito.doReturn("src/test/resources/mock_data/common/school.json").when(mockClient, "getFilename", "mock_data/common/school.json");
         School[] schools = mockClient.getSchools("common");
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());

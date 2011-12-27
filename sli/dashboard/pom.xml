@@ -179,7 +179,7 @@
             <plugin>
              <artifactId>maven-war-plugin</artifactId>
              <configuration>
-                 <webXml>${project.build.directory}/web.xml</webXml>
+                 <webXml>target/web.xml</webXml>
              </configuration>
             </plugin>    
           <plugin>
@@ -187,6 +187,7 @@
          <artifactId>maven-jetty-plugin</artifactId>
          <version>${maven.jetty.version}</version>
          <configuration>
+            <webXml>target/web.xml</webXml>
             <scanIntervalSeconds>5</scanIntervalSeconds>
          </configuration>
       </plugin>
