@@ -920,6 +920,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
         <version>${maven.surefire.version}</version>
         <configuration>
           <systemPropertyVariables>
+            <emma.rt.control>false</emma.rt.control>
             <sli.env>${sli.env}</sli.env>
           </systemPropertyVariables>          
         </configuration>

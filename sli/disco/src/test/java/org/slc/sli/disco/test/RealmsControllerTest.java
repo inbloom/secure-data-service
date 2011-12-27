@@ -73,6 +73,7 @@ public class RealmsControllerTest {
         
         final Map<String, Object> values = new HashMap<String, Object>();
         Model model = Mockito.mock(Model.class);
+        
         Mockito.when(model.addAttribute(Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer<Model>() {
             
             @Override
