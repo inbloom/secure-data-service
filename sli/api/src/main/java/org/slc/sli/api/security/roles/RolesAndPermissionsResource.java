@@ -55,7 +55,6 @@ public class RolesAndPermissionsResource {
     @GET
     @Path("/")
     public List<Map<String, Object>> getRolesAndPermissions() {
-        Map<String, Object> roles = new HashMap<String, Object>();
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
         EntityService service = getEntityService();
         
