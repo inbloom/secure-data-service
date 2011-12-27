@@ -48,6 +48,9 @@
   </camelContext>
 
   <bean id="xmlFileHandler" class="org.slc.sli.ingestion.landingzone.handler.XmlFileHandler">
+    <property name="preValidator">
+      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+    </property>
     <property name="smooksConfigFileName" value="smooks-all-xml.xml" />
     <property name="targetSelectorMap">
       <map>
@@ -71,6 +74,9 @@
   </bean>
 
   <bean id="csvFileHandler" class="org.slc.sli.ingestion.landingzone.handler.CsvFileHandler">
+    <property name="preValidator">
+      <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
+    </property>
     <property name="targetSelector" value="csv-record" />
     <property name="smooksConfigFileNameMap">
       <map>
