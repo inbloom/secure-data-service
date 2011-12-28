@@ -8,6 +8,7 @@ import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.validation.ErrorReport;
 import org.xml.sax.SAXException;
 
 /**
@@ -21,21 +22,21 @@ public class SliSmooksFactory {
     private static Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private static String beanId;
 
-    public static Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter) throws IOException,
-            SAXException {
+    public static Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
+            throws IOException, SAXException {
 
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
         if (sliSmooksConfig != null) {
 
-            return createSmooksFromConfig(sliSmooksConfig, fileWriter);
+            return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport);
 
         } else {
             throw new IllegalArgumentException("File type not supported : " + fileType);
         }
     }
 
-    private static Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter)
-            throws IOException, SAXException {
+    private static Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
+            ErrorReport errorReport) throws IOException, SAXException {
         Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
         // based on target selectors for this file type, add visitors
@@ -43,7 +44,7 @@ public class SliSmooksFactory {
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            Visitor smooksEdFiVisitor = new SmooksEdFiVisitor(beanId, fileWriter);
+            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, fileWriter, errorReport);
 
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);

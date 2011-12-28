@@ -81,7 +81,7 @@ public class SmooksEdFiVisitorTest {
                     outputFile);
 
             Smooks smooks = new Smooks(SMOOKS_CONFIG);
-            smooks.addVisitor(new SmooksEdFiVisitor("record", nrfWriter),
+            smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                     "InterchangeStudent/Student");
 
             try {
