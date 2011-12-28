@@ -20,9 +20,9 @@ import org.springframework.web.filter.GenericFilterBean;
  * @author dkornishev
  * 
  */
-public class SLIProcessingFilter extends GenericFilterBean {
+public class SliRequestFilter extends GenericFilterBean {
     
-    private static final Logger   LOG                 = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger   LOG                 = LoggerFactory.getLogger(SliRequestFilter.class);
     
     private static final String   PARAM_SESSION       = "sessionId";
     private static final String   HEADER_SESSION_NAME = "sessionId";
@@ -51,6 +51,7 @@ public class SLIProcessingFilter extends GenericFilterBean {
             
             if (HEADER_SESSION_NAME.equalsIgnoreCase(header)) {
                 sessionId = headerValue;
+                break;
             }
             
         }
