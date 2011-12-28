@@ -237,7 +237,7 @@ public class ResourceTest {
         
         
         //test Student Section Association
-        testStudentSectionAssociation(studentId1, sectionId1, info, api);
+        //testStudentSectionAssociation(studentId1, sectionId1, info, api);
     }
     
     private void testStudentSectionAssociation(String studentId, String sectionId, UriInfo info, Resource api) {
