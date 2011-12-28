@@ -26,6 +26,15 @@ Given /^"([^"]*)" (is "[^"]*")$/ do |key, value|
   @fields[key] = value
 end
 
+Then /^I should receive a ID for the newly created (.*)$/ do |type|
+  headers = @res.raw_headers
+  assert(headers != nil, "Result contained no headers")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
+  s = headers['location'][0]
+  assocId = s[s.rindex('/')+1..-1]
+  assert(assocId != nil, "#{type} ID is nil")
+end
+
 Then /^I should receive a return code of (\d+)$/ do |code|
   assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
 end
@@ -84,6 +93,20 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
     assert(false, "Unsupported MediaType")
   end
 end
+
+When /^I navigate to POST "([^"]*)"$/ do |uri|
+  if @format == "application/json"
+    dataH = @fields
+    data=dataH.to_json
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+  restHttpPost(uri, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
+
 
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
   restHttpDelete(arg1)
