@@ -17,38 +17,42 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     Validator<T> postValidator;
 
-    abstract O doHandling(T item, ErrorReport vr);
+    abstract O doHandling(T item, ErrorReport errorReport);
 
-    void pre(T item, ErrorReport validationReport) {
+    void pre(T item, ErrorReport errorReport) {
         if (preValidator != null) {
-            preValidator.isValid(item, validationReport);
+            preValidator.isValid(item, errorReport);
         }
     };
 
-    void post(T item, ErrorReport validationReport) {
+    void post(T item, ErrorReport errorReport) {
         if (postValidator != null) {
-            preValidator.isValid(item, validationReport);
+            preValidator.isValid(item, errorReport);
         }
     };
 
     @Override
     public O handle(T item) {
 
-        ErrorReport vr = (item instanceof ErrorReportSupport) ? ((ErrorReportSupport) item)
-                .getValidationReport() : new DummyErrorReport();
+        ErrorReport errorReport = null;
+        if (item instanceof ErrorReportSupport) {
+            errorReport = ((ErrorReportSupport) item).getErrorReport();
+        } else {
+            errorReport = new DummyErrorReport();
+        }
 
-        return handle(item, vr);
+        return handle(item, errorReport);
     }
 
     @Override
-    public O handle(T item, ErrorReport vr) {
+    public O handle(T item, ErrorReport errorReport) {
         O o;
 
-        pre(item, vr);
+        pre(item, errorReport);
 
-        o = doHandling(item, vr);
+        o = doHandling(item, errorReport);
 
-        post(item, vr);
+        post(item, errorReport);
 
         return o;
     }

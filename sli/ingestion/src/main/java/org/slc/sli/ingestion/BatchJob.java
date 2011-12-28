@@ -175,7 +175,7 @@ public class BatchJob implements ErrorReportSupport {
     }
 
     @Override
-    public ErrorReport getValidationReport() {
+    public ErrorReport getErrorReport() {
         return getFaultsReport();
     }
 

@@ -64,43 +64,15 @@
     <contextScan></contextScan>
   </camelContext>
 
-  <bean id="xmlFileHandler" class="org.slc.sli.ingestion.landingzone.handler.XmlFileHandler">
+  <bean id="xmlFileHandler" class="org.slc.sli.ingestion.landingzone.handler.SmooksFileHandler">
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
     </property>
-    <property name="smooksConfigFileName" value="${smooks.config.all.xml}" />
-    <property name="targetSelectorMap">
-      <map>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_EDUCATION_ORGANIZATION}">
-          <list>
-            <value>${smooks.targetselector.xml.school}</value>
-          </list>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT}">
-          <list>
-            <value>${smooks.targetselector.xml.student}</value>
-          </list>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT_ENROLLMENT}">
-          <list>
-            <value>${smooks.targetselector.xml.student.school}</value>
-          </list>
-        </entry>
-      </map>
-    </property>
   </bean>
 
-  <bean id="csvFileHandler" class="org.slc.sli.ingestion.landingzone.handler.CsvFileHandler">
+  <bean id="csvFileHandler" class="org.slc.sli.ingestion.landingzone.handler.SmooksFileHandler">
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
-    </property>
-    <property name="targetSelector" value="${smooks.targetselector.csv}" />
-    <property name="smooksConfigFileNameMap">
-      <map>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT}" value="${smooks.config.student.csv}" />
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SCHOOL}" value="${smooks.config.school.csv}" />
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT_SCHOOL_ASSOCIATION}" value="${smooks.config.student.school.csv}" />
-      </map>
     </property>
   </bean>
 

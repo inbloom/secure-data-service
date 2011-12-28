@@ -1,7 +1,7 @@
 package org.slc.sli.ingestion.validation;
 
 /**
- * Type's validation is reportable.
+ * Type's errors are reportable.
  *
  * @author dduran
  *
@@ -9,10 +9,10 @@ package org.slc.sli.ingestion.validation;
 public interface ErrorReportSupport {
 
     /**
-     * Provides the ValidationReport for this type.
+     * Provides the ErrorReport for this type.
      *
-     * @return ValidationReport instance.
+     * @return ErrorReport instance.
      */
-    ErrorReport getValidationReport();
+    ErrorReport getErrorReport();
 
 }
