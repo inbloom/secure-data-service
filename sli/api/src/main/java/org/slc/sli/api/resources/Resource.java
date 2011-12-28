@@ -92,16 +92,15 @@ public class Resource {
             }
         });
     }
-
+    
     /**
-     * Get a single entity or association unless the URI represents an association and the id
-     * represents a
-     * source entity for that association.
+     * Return either a single entity or a collection of entities depending on the combination of the
+     * typePath and the type of entity the id references.
      * 
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
-     *            either the association id or the association's source entity id
+     *            either the association id or one of the association's source source ids.
      * @param skip
      *            number of results to skip
      * @param max
