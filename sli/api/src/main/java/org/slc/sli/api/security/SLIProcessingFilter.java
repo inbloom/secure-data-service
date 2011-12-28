@@ -7,7 +7,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -23,10 +22,10 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class SLIProcessingFilter extends GenericFilterBean {
     
-    private static final Logger   LOG           = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger   LOG                 = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private static final String   COOKIE_NAME   = "iPlanetDirectoryPro";
-    private static final String   PARAM_SESSION = "sessionId";
+    private static final String   PARAM_SESSION       = "sessionId";
+    private static final String   HEADER_SESSION_NAME = "sessionId";
     
     private SecurityTokenResolver resolver;
     
@@ -44,26 +43,16 @@ public class SLIProcessingFilter extends GenericFilterBean {
         @SuppressWarnings("unchecked")
         Enumeration<String> e = req.getHeaderNames();
         
-        LOG.debug("------------ HEADERS --------------");
         while (e.hasMoreElements()) {
             String header = e.nextElement();
             String headerValue = req.getHeader(header);
             
             LOG.debug("[H]" + header + "->" + headerValue);
-        }
-        LOG.debug("------------ HEADERS --------------");
-        
-        if (req.getCookies() != null) {
-            for (Cookie c : req.getCookies()) {
-                LOG.debug(("Cookie " + c.getName() + "->" + c.getValue()));
-                
-                if (COOKIE_NAME.equals(c.getName())) {
-                    sessionId = c.getValue();
-                    LOG.debug(("Found session cookie: " + c.getName() + "->" + c.getValue()));
-                    break;
-                }
-                
+            
+            if (HEADER_SESSION_NAME.equals(header)) {
+                sessionId = headerValue;
             }
+            
         }
         
         if (req.getParameter(PARAM_SESSION) != null) {
