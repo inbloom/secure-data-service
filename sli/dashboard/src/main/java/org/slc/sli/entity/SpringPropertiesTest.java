@@ -1,6 +1,5 @@
 package org.slc.sli.entity;
 
-
 /**
  * 
  * TODO: Write Javadoc

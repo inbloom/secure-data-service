@@ -36,8 +36,6 @@
       <property name="resolver" ref="openamRestTokenResolver" />
    </bean>
 
-   <bean id="sessisonDebugResource" class="org.slc.sli.api.resources.SessionDebugResource" p:authPathUrl="/api/pub/realm.jsp" />
-
    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
 </beans>
