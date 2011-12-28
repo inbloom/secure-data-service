@@ -112,16 +112,30 @@ Scenario: Authorized SLI Default Role trying to edit Student attribute
 Given  I am valid SEA/LEA end user "administrator" with password "administrator1234" 
 And I am authenticated on "SEA/LEA IDP"
 And the role attribute equals "IT Administrator"
-And IT Administrator is allowed to change Student address
+And "IT Administrator" is allowed to change Student address
 When I make an API call to change the Student address to "1234 Somewhere"
 Then the Student address is changed
  
  @wip
-Scenario: Unauthorized SLI Default Role trying to edit Student attribute
+Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
-Given  I am valid SEA/LEA end user "educator" with password "educator1234"  
+Given  I am valid SEA/LEA end user <Username> with password <Password>  
 And I am authenticated on "SEA/LEA IDP"
-And the role attribute equals "Educator"
-And Educator is not allowed to change Student address
+And the role attribute equals <Role>
+And <Role> is not allowed to change Student address
 When I make an API call to change the Student address to "9876 Nowhere"
-Then a message is displayed that the Educator role does not allow this action 
+Then a message is displayed that the <Role> role does not allow this action 
+Examples:
+| Username   | Password       | Role       |
+| "educator" | "educator1234" | "Educator" |
+| "leader"   | "leader1234"   | "Leader"   |
+
+@wip
+Scenario: Unauthorized SLI Default Role trying to view Student object
+
+Given  I am valid SEA/LEA end user "aggregator" with password "aggregator1234" 
+And I am authenticated on "SEA/LEA IDP"
+And the role attribute equals "Aggregate Viewer"
+And "Aggregate Viewer" is not allowed to view Student data
+When I make an API call to view a Student's data
+Then a message is displayed that the "Aggregate Viewer" role cannot view this data
