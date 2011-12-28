@@ -140,7 +140,7 @@ public class MockAPIClient implements APIClient {
         }
     }
     
-    private String getFilename(String filename){
+    public String getFilename(String filename){
         URL url = classLoader.getResource(filename);
         return url.getFile();
     }
