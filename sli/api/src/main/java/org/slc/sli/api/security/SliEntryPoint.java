@@ -22,9 +22,9 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class SliEntryPoint implements AuthenticationEntryPoint {
     
-    private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SliEntryPoint.class);
     
     @Autowired
     @Value("${security.noSession.landing.url}")

@@ -6,18 +6,21 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slc.sli.api.security.SLIAuthenticationEntryPoint;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityTokenResolver;
-import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityTokenResolver;
+import org.slc.sli.api.security.SliEntryPoint;
+import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
 
 /**
  * Creates Spring Authentication object by calling openAM restful API
@@ -26,12 +29,15 @@ import org.springframework.web.client.RestTemplate;
  * @author dkornishev
  * 
  */
+@Component
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
-    private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
+    private static final Logger LOG  = LoggerFactory.getLogger(SliEntryPoint.class);
     
+    private RestTemplate        rest = new RestTemplate();
+    
+    @Value("${security.tokenService.url}")
     private String              tokenServiceUrl;
-    private RestTemplate        rest;
     
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -39,7 +45,6 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
      * @param token
      *            sessionId to use in lookups
      * @return populated Authentication or null if sessionId isn't valid
-     * @throws AuthenticationException
      */
     @Override
     public Authentication resolve(String token) {
@@ -87,12 +92,12 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         
         return new PreAuthenticatedAuthenticationToken(principal, token, new DefaultRoleMapperImpl(principal.getTheirRoles()).buildMappedRoles());
     }
-
+    
     private List<String> extractRoles(String payload) {
         List<String> roles = new ArrayList<String>();
         Pattern p = Pattern.compile("userdetails\\.role=id=([^,]*)", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
-
+        
         while (m.find()) {
             roles.add(m.group(1));
         }
