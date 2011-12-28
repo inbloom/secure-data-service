@@ -113,7 +113,7 @@ Given  I am valid SEA/LEA end user "administrator" with password "administrator1
 And I am authenticated on "SEA/LEA IDP"
 And the role attribute equals "IT Administrator"
 And IT Administrator is allowed to change Student address
-When I make an API call to change the Student address
+When I make an API call to change the Student address to "1234 Somewhere"
 Then the Student address is changed
  
  @wip
@@ -123,5 +123,5 @@ Given  I am valid SEA/LEA end user "educator" with password "educator1234"
 And I am authenticated on "SEA/LEA IDP"
 And the role attribute equals "Educator"
 And Educator is not allowed to change Student address
-When I make an API call to change the Student address
+When I make an API call to change the Student address to "9876 Nowhere"
 Then a message is displayed that the Educator role does not allow this action 
