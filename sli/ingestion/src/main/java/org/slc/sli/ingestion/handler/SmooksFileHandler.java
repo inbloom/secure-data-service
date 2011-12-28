@@ -18,6 +18,7 @@ import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,6 +27,7 @@ import org.xml.sax.SAXException;
  * @author dduran
  *
  */
+@Component
 public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
@@ -37,10 +39,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             generateNeutralRecord(fileEntry, errorReport);
 
         } catch (IOException e) {
-            errorReport.fatal("Could not instantiate smooks: " + Arrays.toString(e.getStackTrace()),
+            errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
-            errorReport.fatal("Could not instantiate smooks: " + Arrays.toString(e.getStackTrace()),
+            errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
 
@@ -54,7 +56,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = SliSmooksFactory.createInstance(fileEntry.getFileType(), nrFileWriter);
+        Smooks smooks = SliSmooksFactory.createInstance(fileEntry.getFileType(), nrFileWriter, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(fileEntry.getFile()));
         try {
@@ -66,10 +68,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             fileEntry.setNeutralRecordFile(neutralRecordOutFile);
 
         } catch (SmooksException se) {
-            LOG.error("smooks exception encountered " + se);
-            errorReport.error(
-                    "SmooksException encountered while filtering input: " + Arrays.toString(se.getStackTrace()),
-                    SmooksFileHandler.class);
+            LOG.error("smooks exception encountered:\n" + Arrays.toString(se.getStackTrace()));
+            errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
             nrFileWriter.close();
