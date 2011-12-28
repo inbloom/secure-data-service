@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.landingzone.handler;
+package org.slc.sli.ingestion.handler;
 
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;

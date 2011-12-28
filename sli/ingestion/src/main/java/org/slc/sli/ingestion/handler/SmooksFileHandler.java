@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.landingzone.handler;
+package org.slc.sli.ingestion.handler;
 
 import java.io.BufferedInputStream;
 import java.io.File;
