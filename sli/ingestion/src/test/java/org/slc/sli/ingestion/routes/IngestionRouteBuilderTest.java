@@ -1,19 +1,13 @@
 package org.slc.sli.ingestion.routes;
 
-import static org.junit.Assert.*;
-
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.model.RouteDefinition;
 import org.apache.camel.test.junit4.CamelSpringTestSupport;
-
-//import org.junit.Ignore;
 import org.junit.Test;
+import org.slc.sli.ingestion.BatchJob;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.Fault;
 
 /**
  *
