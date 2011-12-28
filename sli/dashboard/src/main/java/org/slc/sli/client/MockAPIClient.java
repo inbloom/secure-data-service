@@ -33,15 +33,15 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-        String filename = "src/test/resources/mock_data/" + token + "/student.json";
-        Student[] students = fromFile(filename, Student[].class);
+        Student[] students = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student.json"), Student[].class);
         // perform the filtering. 
         Vector<Student> filtered = new Vector<Student>();
-        for (Student student : students) { 
-            if (studentIds.contains(student.getUid())) { 
-                filtered.add(student);
+        if(studentIds != null)
+            for (Student student : students) { 
+                if (studentIds.contains(student.getUid())) { 
+                    filtered.add(student);
+                }
             }
-        }
         Student[] retVal = new Student[filtered.size()];
         return filtered.toArray(retVal);
     }
@@ -53,22 +53,24 @@ public class MockAPIClient implements APIClient {
     @Override
     public Assessment[] getAssessments(final String token, List<String> studentIds) {
         String filename = "src/test/resources/mock_data/" + token + "/assessment.json";
-        Assessment[] assessments = fromFile(filename, Assessment[].class);
+        Assessment[] assessments = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/assessment.json"), Assessment[].class);
         Vector<Assessment> filtered = new Vector<Assessment>();
         // perform the filtering. 
+        /* TODO: Start filtering again, when we actually get student uids from a list
         for (Assessment assessment : assessments) { 
             if (studentIds.contains(assessment.getStudentId())) { 
                 filtered.add(assessment);
             }
         }
-        Assessment[] retVal = new Assessment[filtered.size()];
+        Assessment[] retVal = new Assessment[filtered.size()]; 
         return filtered.toArray(retVal);
+        */
+        return assessments;
     }
 
     @Override
     public CustomData[] getCustomData(String token, String key) {
-        String filename = "src/test/resources/mock_data/" + token + "/custom_" + key + ".json";
-        return fromFile(filename, CustomData[].class);
+        return fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/custom_" + key + ".json"), CustomData[].class);
     }
     
     @Override
