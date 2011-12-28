@@ -23,6 +23,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -240,6 +241,25 @@ public class EntityServiceLayerTest {
         schoolService.delete(schoolId);
     }
     
+    // test referential validation for association creation
+    @Test(expected = EntityValidationException.class)
+    public void testCreateAssocValidate() {
+        EntityBody student1 = new EntityBody();
+        student1.put("firstName", "Bonzo");
+        student1.put("lastName", "Madrid");
+        String id1 = studentService.create(student1);
+        
+        EntityBody school = new EntityBody();
+        school.put("name", "Battle School");
+        String schoolId = schoolService.create(school);
+        
+        EntityBody assoc1 = new EntityBody();
+        // assoc1.put("schoolId", schoolId);
+        assoc1.put("studentId", id1);
+        assoc1.put("startDate", (new Date()).getTime());
+        studentSchoolAssociationService.create(assoc1);
+    }
+
     // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteWithAssoc1() {

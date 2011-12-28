@@ -128,6 +128,29 @@ task :securityTests do
   runTests("test/features/security")  
 end
 
+desc "Run Dashboard Tests"
+task :dashboardTests do
+  # securityHash = Hash[
+    # "school" => "school_fixture.json",
+    # "student" => "student_fixture.json"
+    # ]
+  # setMultipleFixtureFiles(securityHash)
+  runTests("test/features/dashboard")  
+end
+
+desc "Import Sandbox Test Data"
+task :importSandboxData do
+  testHash = Hash[
+    "section" => "section_fixture.json",
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "teacher" => "teacher_fixture.json",
+    "assessment" => "assessment_fixture.json",
+    "studentschoolassociation" => "student_enrollments_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
+
 desc "Help information for this Rakefile"
 task :help do
   puts <<-eos

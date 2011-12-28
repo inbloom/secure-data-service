@@ -64,7 +64,3 @@ end
 When /^I click on the browser Back button$/ do
   pending # express the regexp above with the code you wish you had
 end
-
-After do |scenario|
-  #@driver.quit if @driver
-end

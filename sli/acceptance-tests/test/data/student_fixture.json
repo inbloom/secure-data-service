@@ -8,3 +8,4 @@
 { "_id" : {"$binary": "iPNJvBE6+077VjXJAAAAAA==", "$type":"03"}, "studentUniqueStateId" : 32641154, "name" : { "firstName" : "Jane", "middleName" : "", "lastSurname" : "Doe" }, "sex" : "Female", "birthData" : { "birthDate" : "1999-07-12" } }
 { "_id" : {"$binary": "iPNJvF46+078VjXJAAAAAA==", "$type":"03"}, "studentUniqueStateId" : 2353523, "name" : { "firstName" : "Albert", "middleName" : "", "lastSurname" : "Wright" }, "sex" : "Male", "birthData" : { "birthDate" : "1999-07-12" } }
 { "_id" : {"$binary": "iPNJvH86+079VjXJAAAAAA==", "$type":"03"}, "studentUniqueStateId" : 2345325, "name" : { "firstName" : "Kevin", "middleName" : "", "lastSurname" : "Smith" }, "sex" : "Male", "birthData" : { "birthDate" : "1999-07-12" } }
+{"_id":{"$binary":"LEDsicPe/Xr1Pq557czmjw==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":123456789,"name":{"firstName":"Jane","middleName":"","lastSurname":"Doe"},"sex":"Female","birthData":{"birthDate":"1995-12-31"}}}

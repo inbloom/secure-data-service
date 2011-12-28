@@ -38,11 +38,11 @@ Given /^I do not have a Role attribute returned from the "([^"]*)"$/ do |arg1|
   # No code needed, this is done during the IDP configuration
 end
 
-Given /^IT Administrator is allowed to change Student address$/ do
+Given /^"([^"]*)" is allowed to change Student address$/ do |arg1|
   # No code needed, this is done during configuration
 end
 
-When /^I make an API call to change the Student address$/ do
+When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
   student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
   restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -50,11 +50,13 @@ When /^I make an API call to change the Student address$/ do
   
   dataH = JSON.parse(@res.body)
   assert(dataH != nil, "Result of JSON parsing is nil")
-  dataH['address'] = Hash['streetNumberName' => "1234 Somewhere"]
+  dataH['address'] = [Hash["streetNumberName" => arg1]]
+  dataH['address' => [Hash["streetNumberName" => arg1]]]
   data = dataH.to_json
-  
+
   restHttpPut(student_uri, data, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
+  @address = arg1
 end
 
 Then /^the Student address is changed$/ do
@@ -66,14 +68,14 @@ Then /^the Student address is changed$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['address']['streetNumberName'] == "1234 Somewhere", "Expected student address not found in response")
+  assert(result['address'][0]["streetNumberName"] == @address, "Expected student address not found in response")
 end
 
-Given /^Educator is not allowed to change Student address$/ do
+Given /^"([^"]*)" is not allowed to change Student address$/ do |arg1|
   # No code needed, this is done during configuration
 end
 
-Then /^a message is displayed that the Educator role does not allow this action$/ do
+Then /^a message is displayed that the "([^"]*)" role does not allow this action$/ do |arg1|
   #Validate the Put return code first
   assert(@res.code == 405, "Return code was not expected: "+@res.code.to_s+" but expected 405")
   
@@ -82,6 +84,21 @@ Then /^a message is displayed that the Educator role does not allow this action$
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['address']['streetNumberName'] != "1234 Somewhere", "Expected student address not found in response")
+  assert(result['address'][0]['streetNumberName'] != @address, "Expected student address not found in response")
 
+end
+
+Given /^"([^"]*)" is not allowed to view Student data$/ do |arg1|
+  # No code needed, this is done during configuration
+end
+
+When /^I make an API call to view a Student's data$/ do
+  student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
+  restHttpGet(student_uri,"application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+end
+
+Then /^a message is displayed that the "([^"]*)" role cannot view this data$/ do |arg1|
+  assert(@res.code == 405, "Return code was not expected: "+@res.code.to_s+" but expected 405")  
 end
