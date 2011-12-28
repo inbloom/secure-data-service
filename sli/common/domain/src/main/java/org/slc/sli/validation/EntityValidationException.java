@@ -16,7 +16,7 @@ public class EntityValidationException extends RuntimeException {
     final String entityId;
     final String entityType;
     
-    protected EntityValidationException(String entityId, String entityType, List<ValidationError> errors) {
+    public EntityValidationException(String entityId, String entityType, List<ValidationError> errors) {
         this.entityId = entityId;
         this.entityType = entityType;
         this.errors = Collections.unmodifiableList(errors);

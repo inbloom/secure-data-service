@@ -24,7 +24,7 @@ public class BasicService implements EntityService {
     private final String collectionName;
     private final List<Treatment> treatments;
     private final EntityRepository repo;
-    private EntityDefinition defn;
+    protected EntityDefinition defn;
     
     public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo) {
         super();
