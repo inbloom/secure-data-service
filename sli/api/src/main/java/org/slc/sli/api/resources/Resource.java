@@ -100,7 +100,7 @@ public class Resource {
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
-     *            either the association id or one of the association's source source ids.
+     *            either the association id or one of the association's source ids.
      * @param skip
      *            number of results to skip
      * @param max
