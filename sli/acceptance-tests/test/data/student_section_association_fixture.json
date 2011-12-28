@@ -1,0 +1,6 @@
+{ "_id" : {"$binary": "iPNJvBRL+04CVzXJAAAAAA==", "$type":"03"}, "repeatIdentifier" : "NOT_REPEATED", "studentId" : "4efb3a11-bc49-f388-0000-0000c93556fb", "sectionId" : "4efb4292-bc49-f388-0000-0000c9355701" }
+{ "_id" : {"$binary": "iPNJvC9L+04DVzXJAAAAAA==", "$type":"03"}, "repeatIdentifier" : "NOT_REPEATED", "studentId" : "4efb3a11-bc49-f388-0000-0000c93556fb", "sectionId" : "4efb4243-bc49-f388-0000-0000c93556ff" }
+{ "_id" : {"$binary": "iPNJvDhL+04EVzXJAAAAAA==", "$type":"03"}, "repeatIdentifier" : "NOT_REPEATED", "studentId" : "4efb3a11-bc49-f388-0000-0000c93556fb", "sectionId" : "4efb4238-bc49-f388-0000-0000c93556fe" }
+{ "_id" : {"$binary": "iPNJvHJS+04FVzXJAAAAAA==", "$type":"03"}, "repeatIdentifier" : "NOT_REPEATED", "studentId" : "4efb3a5e-bc49-f388-0000-0000c93556fc", "sectionId" : "4efb4238-bc49-f388-0000-0000c93556fe" }
+{ "_id" : {"$binary": "iPNJvItS+04GVzXJAAAAAA==", "$type":"03"}, "repeatIdentifier" : "NOT_REPEATED", "studentId" : "4efb3a7f-bc49-f388-0000-0000c93556fd", "sectionId" : "4efb4238-bc49-f388-0000-0000c93556fe" }
+{ "_id" : {"$binary": "AXuIhBR2+05VuvlZAAAAAA==", "$type":"03"}, "repeatIdentifier" : "REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE", "studentId" : "4efb3a5e-bc49-f388-0000-0000c93556fc", "sectionId" : "4efb4292-bc49-f388-0000-0000c9355701", "beginDate" : "09/15/2011", "endDate" : "12/15/2011" }
