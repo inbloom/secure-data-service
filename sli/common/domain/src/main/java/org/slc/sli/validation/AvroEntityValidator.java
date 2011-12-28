@@ -254,7 +254,7 @@ public class AvroEntityValidator implements EntityValidator {
         
         private boolean wrapError(boolean isMatch, boolean captureErrors, String dataName, Object dataValue,
                 String expectedType) {
-            if (captureErrors) {
+            if (!isMatch && captureErrors) {
                 ErrorType type = dataValue == null ? ErrorType.REQUIRED_FIELD_MISSING : ErrorType.INVALID_DATATYPE;
                 errors.add(new ValidationError(type, dataName, dataValue, new String[] { expectedType }));
             }
