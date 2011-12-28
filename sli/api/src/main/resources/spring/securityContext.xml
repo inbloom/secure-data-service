@@ -31,11 +31,9 @@
    <security:authentication-manager alias="authenticationManager">
       <security:authentication-provider>
          <security:user-service>
-            <security:user name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" />
-            <security:user name="bob" password="bob" authorities="ROLE_USER" />
+            <security:user name="jimi" password="jimi" disabled="true" authorities=""/>
          </security:user-service>
       </security:authentication-provider>
-
    </security:authentication-manager>
 
    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
