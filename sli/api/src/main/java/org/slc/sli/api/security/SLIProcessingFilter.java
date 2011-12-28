@@ -49,7 +49,7 @@ public class SLIProcessingFilter extends GenericFilterBean {
             
             LOG.debug("[H]" + header + "->" + headerValue);
             
-            if (HEADER_SESSION_NAME.equals(header)) {
+            if (HEADER_SESSION_NAME.equalsIgnoreCase(header)) {
                 sessionId = headerValue;
             }
             
