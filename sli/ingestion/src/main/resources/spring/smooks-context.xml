@@ -8,7 +8,7 @@
        ">
 
   <bean id="smooks" class="org.milyn.Smooks" destroy-method="close">
-    <constructor-arg index="0" value="smooks-config.xml"></constructor-arg>
+    <constructor-arg index="0" value="smooks_conf/smooks-config.xml"></constructor-arg>
   </bean>
 
   <bean id="smooksConfigMap" class="org.springframework.beans.factory.config.MapFactoryBean">
