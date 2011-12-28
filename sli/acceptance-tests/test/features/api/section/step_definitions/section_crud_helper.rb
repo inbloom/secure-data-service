@@ -10,7 +10,7 @@ end
 # Description: Helper function to create json or XML data structures to PUT or POST 
 #                   to reduce replication of code
 def data_builder
-  if @format == "application/json"
+  if @format == "application/vnd.slc+json" or @format == "application/json"
   data = Hash[
     "uniqueSectionCode" => @section_code,
     "sequenceOfCourse" => @course_seq,
@@ -20,7 +20,7 @@ def data_builder
     "availableCredit" => @credit
   ]
   data = data.to_json
-  elsif @format == "application/xml"
+  elsif @format == "application/vnd.slc+xml" or @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent => 2)
     data = builder.section { |b| 
       b.uniqueSectionCode(@section_code)
