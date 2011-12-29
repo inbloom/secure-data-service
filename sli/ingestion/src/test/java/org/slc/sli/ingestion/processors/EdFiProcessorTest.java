@@ -59,7 +59,6 @@ public class EdFiProcessorTest {
         edFiProcessor.processFileEntry(inputFileEntry);
 
         assertTrue("Empty csv file should give error.", inputFileEntry.getErrorReport().hasErrors());
-        assertEquals("Incorrect error message reported.", "Input file is empty: student.csv", inputFileEntry.getFaultsReport().getFaults().get(0).getMessage());
     }
 
     @Test
@@ -76,7 +75,6 @@ public class EdFiProcessorTest {
         edFiProcessor.processFileEntry(inputFileEntry);
 
         assertTrue("Empty xml file should give error.", inputFileEntry.getErrorReport().hasErrors());
-        assertEquals("Incorrect error message reported.", "Input file is empty: student.xml", inputFileEntry.getFaultsReport().getFaults().get(0).getMessage());
     }
 
     @Test
