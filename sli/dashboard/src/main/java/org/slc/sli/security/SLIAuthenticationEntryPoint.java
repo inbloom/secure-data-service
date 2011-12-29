@@ -1,11 +1,17 @@
 package org.slc.sli.security;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,12 +62,31 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         
-        String callBackURL = request.getHeader("referer");
-        String securityLoginUrl = loginPageUrl + callBackPageUrlPrefix + ((callBackURL == null) ? dashboardLandingPage : callBackURL);
-        String realmURL = loginPageUrl + authUrl + "?return=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
-        LOG.info("Redirecting user to realm " + realmURL);
+        String urlProtocol =  "http";
+        String serverAddress = "testapi1.slidev.org";
+        int serverPort = 8080;
+        String callBackPageUrlPrefix =  "?RelayState=";
+        String apiCallPrefix =  "/api";        
+
+        URL url = new URL(urlProtocol, serverAddress, serverPort, apiCallPrefix + "/rest/system/session/check");
+        URLConnection connection = url.openConnection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         
-        response.sendRedirect(realmURL);
+        String inputLine;
+        StringBuffer responseString = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            responseString.append(inputLine);
+        }
+        in.close();
+        
+        Gson gson = new Gson();
+        System.out.println(responseString);
+        SecurityResponse resp = gson.fromJson(responseString.toString(), SecurityResponse.class);
+        String redirectUrl = resp.getRedirect_user();
+        
+        String realmUrl = redirectUrl + callBackPageUrlPrefix + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
+        response.sendRedirect(realmUrl);
 
     }
     
