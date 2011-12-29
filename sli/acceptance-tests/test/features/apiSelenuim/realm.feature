@@ -8,9 +8,8 @@ So that I could be redirected on my State/District IDP login page
 Scenario: Go to Realm page
  
 Given I have an open web browser
-When I type the Realm page URL
-And I click on the Enter button
-Then I should be redirected to the Realm page
+When I navigate to the Realm page URL
+Then I should be directed to the Realm page
  
 Scenario: Go to Realm Login page with a chosen realm
  

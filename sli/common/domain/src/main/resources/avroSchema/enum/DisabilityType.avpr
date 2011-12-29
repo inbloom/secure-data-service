@@ -1,0 +1,8 @@
+{
+  "type" : "enum",
+  "name" : "DisabilityType",
+  "namespace" : "org.slc.sli.domain.enum",
+  "doc" : "A disability condition that describes a child's impairment.",
+  "xsd-type" : "token",
+  "symbols" : [ "AUTISTIC_AUTISM", "DEAF_BLINDNESS", "DEAFNESS", "DEVELOPMENTAL_DELAY", "EMOTIONAL_DISTURBANCE", "HEARING_AUDITORY_IMPAIRMENT", "INFANTS_AND_TODDLERS_WITH_DISABILITIES", "MENTAL_RETARDATION", "MULTIPLE_DISABILITIES", "ORTHOPEDIC_IMPAIRMENT", "OTHER_HEALTH_IMPAIRMENT", "SPEECH_OR_LANGUAGE_IMPAIRMENT", "SPECIFIC_LEARNING_DISABILITY", "TRAUMATIC_BRAIN_DELAY", "VISUAL_IMPAIRMENT" ]
+}
