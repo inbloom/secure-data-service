@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "A person's gender.",
   "xsd-type" : "token",
-  "symbols" : [ "FEMALE", "MALE" ]
+  "symbols" : [ "Female", "Male" ]
 }

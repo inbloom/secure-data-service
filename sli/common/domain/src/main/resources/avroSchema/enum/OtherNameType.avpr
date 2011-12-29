@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The types of alternate names for a person.",
   "xsd-type" : "token",
-  "symbols" : [ "ALIAS", "NICKNAME", "OTHER_NAME", "PREVIOUS_LEGAL_NAME" ]
+  "symbols" : [ "Alias", "Nickname", "Other_Name", "Previous_Legal_Name" ]
 }
