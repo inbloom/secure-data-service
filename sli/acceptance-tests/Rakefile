@@ -118,8 +118,14 @@ desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
 end
+
+desc "Run Home URI Tests"
+task :homeUriTests do
+  #setFixture("student", "student_fixture.json")
+  runTests("test/features/api/home_uri")
+end
 ############################################################
-# API tests start
+# API tests end
 ############################################################
 
 ############################################################
@@ -135,7 +141,7 @@ task :securityTests do
   runTests("test/features/security")  
 end
 ############################################################
-# Security tests start
+# Security tests end
 ############################################################
 
 ############################################################
@@ -180,11 +186,7 @@ task :importSandboxData do
   setMultipleFixtureFiles(testHash)
 end
 
-desc "Run Home URI Tests"
-task :homeUriTests do
-  #setFixture("student", "student_fixture.json")
-  runTests("test/features/api/home_uri")
-end
+
 
 desc "Help information for this Rakefile"
 task :help do
