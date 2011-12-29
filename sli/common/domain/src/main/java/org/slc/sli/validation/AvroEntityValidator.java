@@ -111,7 +111,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             
             for (String possibleValue : enumNum.getEnumSymbols()) {
-                if (possibleValue.equalsIgnoreCase(dataValue.toString())) {
+                if (possibleValue.equals(dataValue.toString())) {
                     return true;
                 }
             }
