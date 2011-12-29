@@ -33,7 +33,12 @@
                     },
                     {
                         "section": "M. Jones - 7th Grade English - Sec. 3",
-                        "studentUIDs": []
+                        "studentUIDs": [
+                                     "111111111",
+                                     "222222222",
+                                     "333333333",
+                                     "444444444"
+                                       ]
                     }
                 ]
             },

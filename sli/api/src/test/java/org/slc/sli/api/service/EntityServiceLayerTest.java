@@ -23,6 +23,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -240,6 +241,25 @@ public class EntityServiceLayerTest {
         schoolService.delete(schoolId);
     }
     
+    // test referential validation for association creation
+    @Test(expected = EntityValidationException.class)
+    public void testCreateAssocValidate() {
+        EntityBody student1 = new EntityBody();
+        student1.put("firstName", "Bonzo");
+        student1.put("lastName", "Madrid");
+        String id1 = studentService.create(student1);
+        
+        EntityBody school = new EntityBody();
+        school.put("name", "Battle School");
+        String schoolId = schoolService.create(school);
+        
+        EntityBody assoc1 = new EntityBody();
+        // assoc1.put("schoolId", schoolId);
+        assoc1.put("studentId", id1);
+        assoc1.put("startDate", (new Date()).getTime());
+        studentSchoolAssociationService.create(assoc1);
+    }
+
     // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteWithAssoc1() {
@@ -261,13 +281,15 @@ public class EntityServiceLayerTest {
         Map<String, String> ids = setupTestDeleteWithAssoc();
         String schoolId = ids.get("schoolId");
         String assocId = ids.get("assocId");
+        String assoc2Id = ids.get("assoc2Id");
         
         EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
         assertEquals(assocEntity.get("schoolId"), schoolId);
         
         schoolService.delete(schoolId);
-        studentSchoolAssociationService.get(assocId);
+        // studentSchoolAssociationService.get(assocId);
+        studentSchoolAssociationService.get(assoc2Id);
     }
 
     private <T> List<T> iterableToList(Iterable<T> itr) {
@@ -285,6 +307,13 @@ public class EntityServiceLayerTest {
         student1.put("lastName", "Madrid");
         String studentId = studentService.create(student1);
         
+        EntityBody student2 = new EntityBody();
+        student1.put("firstName", "Jane");
+        student1.put("lastName", "Doe");
+        String student2Id = studentService.create(student2);
+        
+        
+        
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         String schoolId = schoolService.create(school);
@@ -294,9 +323,20 @@ public class EntityServiceLayerTest {
         assoc.put("studentId", studentId);
         assoc.put("startDate", (new Date()).getTime());
         String assocId = studentSchoolAssociationService.create(assoc);
+        
+        EntityBody assoc2 = new EntityBody();
+        assoc2.put("schoolId", schoolId);
+        assoc2.put("studentId", student2Id);
+        assoc2.put("startDate", (new Date()).getTime());
+        String assoc2Id = studentSchoolAssociationService.create(assoc2);
+        
         ids.put("studentId", studentId);
         ids.put("schoolId", schoolId);
         ids.put("assocId", assocId);
+
+        ids.put("student2Id", student2Id);
+        ids.put("assoc2Id", assoc2Id);
+
         return ids;
     }
 

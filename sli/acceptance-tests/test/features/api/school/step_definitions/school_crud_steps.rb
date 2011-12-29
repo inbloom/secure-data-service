@@ -160,5 +160,18 @@ Then /^I should see a phone number of "([^"]*)"$/ do |arg1|
   assert(result['telephone'][0]['telephoneNumber'] == arg1, "Expected website name not found in response")
 end
 
+Then /^I should receive a link where rel is "([^"]*)" and href ends with "([^"]*)"$/ do |rel, href|
+  @data = JSON.parse(@res.body)
+  assert(@data != nil, "Response contains no data")
+  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
+  assert(@data.has_key?("links"), "Response contains no links")
+  found = false
+  @data["links"].each do |link|
+    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+      found = true
+    end
+  end
+  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+end
 
 

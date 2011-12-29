@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+   xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
    xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util
@@ -14,52 +11,32 @@
 
 
    <!-- Configure security -->
-   <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
-      <security:expression-handler ref="expressionHandler" />
-   </security:global-method-security>
+   <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
 
-   <security:http auto-config="true" entry-point-ref="entryPoint">
-      <security:intercept-url pattern="/rest/pub/**" filters="none"/>
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
+   <security:http auto-config="true" entry-point-ref="sliEntryPoint">
+      <security:intercept-url pattern="/rest/pub/**" filters="none" />
+      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS" />
       <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
-      <security:request-cache ref="nullCache"/>
-      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
+      <security:request-cache ref="nullCache" />
+      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter" />
 
       <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
    </security:http>
 
+   <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
    <security:authentication-manager alias="authenticationManager">
       <security:authentication-provider>
          <security:user-service>
-            <security:user name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" />
-            <security:user name="bob" password="bob" authorities="ROLE_USER" />
+            <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR" />
          </security:user-service>
       </security:authentication-provider>
-
    </security:authentication-manager>
 
+   <bean id="sliRequestFilter" class="org.slc.sli.api.security.SliRequestFilter">
+      <property name="resolver" ref="openamRestTokenResolver" />
+   </bean>
+
    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
-
-   <bean id="openamTokenResolver"
-         class="org.slc.sli.api.security.openam.OpenamRestTokenResolver"
-         p:tokenServiceUrl="http://devdanil.slidev.org:8080/idp"
-         p:rest-ref="restTemplate" />
-
-   <bean id="expressionHandler"
-         class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"
-         p:permissionEvaluator-ref="dynamicPermissionEvaluator" />
-
-   <bean id="sliFilter"
-         class="org.slc.sli.api.security.SLIProcessingFilter"
-         p:resolver-ref="openamTokenResolver" />
-
-   <bean id="entryPoint" class="org.slc.sli.api.security.SLIAuthenticationEntryPoint" />
-
-   <bean id="sessisonDebugResource"
-         class="org.slc.sli.api.resources.SessionDebugResource"
-         p:authPathUrl="/api/pub/realm.jsp" />
-
    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
-
 </beans>
         

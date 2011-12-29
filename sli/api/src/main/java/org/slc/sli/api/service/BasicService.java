@@ -24,7 +24,7 @@ public class BasicService implements EntityService {
     private final String collectionName;
     private final List<Treatment> treatments;
     private final EntityRepository repo;
-    private EntityDefinition defn;
+    protected EntityDefinition defn;
     
     public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo) {
         super();
@@ -158,13 +158,15 @@ public class BasicService implements EntityService {
         
         for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
             String assocCollection = assocDef.getStoredCollectionName();
-            Iterator<Entity> foundEntities = repo.findByFields(assocCollection, fields, 0, 1)
-                    .iterator();
-            if (foundEntities.hasNext()) {
-                Entity assocEntity = foundEntities.next();
-                repo.delete(assocCollection, assocEntity.getEntityId());
+            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
+            Iterator<Entity> foundEntities;
+            if (iterable != null) {
+                foundEntities = iterable.iterator();
+                while (foundEntities.hasNext()) {
+                    Entity assocEntity = foundEntities.next();
+                    repo.delete(assocCollection, assocEntity.getEntityId());
+                }
             }
         }
     }
-
 }

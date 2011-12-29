@@ -17,7 +17,7 @@ public class ValidationError {
      * 
      */
     public enum ErrorType {
-        INVALID_DATE_FORMAT, REQUIRED_FIELD_MISSING, UNKNOWN_FIELD, ENUMERATION_MISMATCH, INVALID_DATATYPE
+        INVALID_DATE_FORMAT, REQUIRED_FIELD_MISSING, UNKNOWN_FIELD, ENUMERATION_MISMATCH, INVALID_DATATYPE, REFERENTIAL_INFO_MISSING
         
     }
     
@@ -26,7 +26,7 @@ public class ValidationError {
     final Object fieldValue;
     final String[] expectedTypes;
     
-    protected ValidationError(ErrorType type, String fieldName, Object fieldValue, String[] expectedTypes) {
+    public ValidationError(ErrorType type, String fieldName, Object fieldValue, String[] expectedTypes) {
         this.type = type;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;

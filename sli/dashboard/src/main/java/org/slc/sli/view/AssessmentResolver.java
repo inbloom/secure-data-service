@@ -5,8 +5,6 @@ import org.slc.sli.entity.Student;
 
 import org.slc.sli.config.ViewConfig;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import org.slc.sli.config.DataPoint;
@@ -26,10 +24,15 @@ public class AssessmentResolver {
     ViewConfig viewConfig;
     
     public static final String DATA_SET_TYPE = "assessment";
+
     public static final String DATA_POINT_NAME_PERFLEVEL = "perfLevel";
     public static final String DATA_POINT_NAME_SCALESCORE = "scaleScore";
     public static final String DATA_POINT_NAME_PERCENTILE = "percentile";
     public static final String DATA_POINT_NAME_LEXILESCORE = "lexileScore";
+    
+    public static final String TIMESLOT_MOSTRECENTWINDOW = "MOST_RECENT_WINDOW";
+    public static final String TIMESLOT_MOSTRECENTRESULT = "MOST_RECENT_RESULT";
+    public static final String TIMESLOT_HIGHESTEVER = "HIGHEST_EVER";
 
     /**
      * Constructor
@@ -68,17 +71,23 @@ public class AssessmentResolver {
         if (studentAssessmentFiltered.isEmpty()) { return ""; }
 
         // C) Apply time logic. For now, just get the latest... there should be some 
-        //    classes that actually implement various timed logics. 
+        //    classes that actually implement various timed logics.
+        Assessment chosenAssessment = null;
         String timeSlot = extractTimeSlot(dataPointId);
-        Collections.sort(studentAssessmentFiltered, new Comparator<Assessment>() {
-            public int compare(Assessment o1, Assessment o2) {
-                return o1.getYear() - o2.getYear();
-            }
-        });
+        if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered);
+        } else if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
+            chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
+        } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
+            chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
+        } else {
+            // Decide whether to throw runtime exception here. Should timed logic default @@@
+            chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
+        }
 
         // D) get the data point
-        Assessment chosenAssessment = studentAssessmentFiltered.get(0);
         String dataPointName = extractDataPointName(dataPointId);
+        if (chosenAssessment == null) { return ""; }
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { return chosenAssessment.getPerfLevelAsString(); }
         if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }

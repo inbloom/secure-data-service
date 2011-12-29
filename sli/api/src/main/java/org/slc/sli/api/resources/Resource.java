@@ -1,8 +1,5 @@
 package org.slc.sli.api.resources;
 
-import java.net.URI;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -33,6 +30,7 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.resources.util.ResourceUtil;
 
 /**
  * Jersey resource for all entities and associations.
@@ -46,8 +44,6 @@ import org.slc.sli.api.representation.ErrorResponse;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class Resource {
     
-    private static final String SELF_LINK = "self";
-    private static final String LINKS_ELEM = "links";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
@@ -87,7 +83,8 @@ public class Resource {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                String uri = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id)
+                        .toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
@@ -119,7 +116,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put(LINKS_ELEM, getLinks(uriInfo, entityDef, id, entityBody));
+                    entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
@@ -132,8 +129,8 @@ public class Resource {
                     if (associationIds != null) {
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
-                            String href = getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                            collection.add(id, SELF_LINK, entityDef.getType(), href);
+                            String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                            collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
                         }
                         return Response.ok(collection).build();
                     }
@@ -183,7 +180,7 @@ public class Resource {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
-                copy.remove(LINKS_ELEM);
+                copy.remove(ResourceUtil.LINKS);
                 LOG.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
                 LOG.debug("updating entity {}", copy);
@@ -222,34 +219,18 @@ public class Resource {
      * @return the list of links that the resource should include
      */
     private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id, EntityBody entityBody) {
-        List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
-        links.add(new EmbeddedLink(SELF_LINK, defn.getType(), getURI(uriInfo, defn.getResourceName(), id).toString()));
+        List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, id, defn);
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
-            links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), getURI(uriInfo,
+            links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
                     sourceEntity.getResourceName(), (String) entityBody.get(assocDef.getSourceKey())).toString()));
             EntityDefinition targetEntity = assocDef.getTargetEntity();
-            links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), getURI(uriInfo,
+            links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
                     targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
         } else {
-            Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
-            for (AssociationDefinition assoc : associations) {
-                if (assoc.getSourceEntity().equals(defn)) {
-                    links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
-                            assoc.getResourceName(), id).toString()));
-                }
-                if (assoc.getTargetEntity().equals(defn)) {
-                    links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), getURI(uriInfo,
-                            assoc.getResourceName(), id).toString()));
-                }
-            }
+            links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
         }
         return links;
     }
-    
-    private URI getURI(UriInfo uriInfo, String type, String id) {
-        return uriInfo.getBaseUriBuilder().path(type).path(id).build();
-    }
-    
 }

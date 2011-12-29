@@ -18,7 +18,7 @@ import org.slc.sli.api.security.mock.Mocker;
  */
 public class SLIProcessingFilterTest {
     
-    private SLIProcessingFilter     filter;
+    private SliRequestFilter     filter;
     
     private MockHttpServletRequest  request;
     private MockHttpServletResponse response;
@@ -26,7 +26,7 @@ public class SLIProcessingFilterTest {
     
     @Before
     public void init() {
-        filter = new SLIProcessingFilter();
+        filter = new SliRequestFilter();
         filter.setResolver(Mocker.getMockedOpenamResolver());
         
         this.request = new MockHttpServletRequest();
