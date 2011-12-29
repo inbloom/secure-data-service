@@ -11,8 +11,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
 
-/*
- * Aspects invoked when performing operations on EntityService.
+/**
+ * Aspect for handling Entity Service operations.
+ * 
+ * @author shalka
+ * 
  */
 
 @Aspect
