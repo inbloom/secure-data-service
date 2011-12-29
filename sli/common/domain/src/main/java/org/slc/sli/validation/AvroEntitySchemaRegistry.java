@@ -122,6 +122,9 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
             int lastQueSize = -1;
             while (loadQue.size() > 0) {
                 if (lastQueSize == loadQue.size()) {
+                    for (String schemaName : loadQue) {
+                        LOG.error("Unable to load schema: " + schemaName);
+                    }
                     throw new RuntimeException(
                             "Schema loader making no progress.  Perhaps due to missing or circular dependencies.");
                 }
