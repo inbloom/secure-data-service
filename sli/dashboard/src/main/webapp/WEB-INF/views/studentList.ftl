@@ -50,17 +50,32 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
     $("#studentDiv").load(studentContentUrl);
 }
 </script>
+<link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
 </head>
 <body onLoad="populateSchoolMenu()">
-<h3>${message}</h3>
-<h1>Student List</h1>
 
-<div>
-<span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
-</div>
-<div>
-<span id="studentDiv">
-</span>
+<div id="container">
+
+    <div id="header">
+    </div>
+    
+    <div id="banner">
+        <h1>
+            SLI Dashboard - List of Students
+        </h1>
+    </div>
+
+    <div id="content">
+    
+        <div id="populationSelect">
+            <span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
+        </div>
+    
+        <div id="listView">
+            <span id="studentDiv"></span>
+        </div>
+    </div>
+    
 </div>
 
 </body>

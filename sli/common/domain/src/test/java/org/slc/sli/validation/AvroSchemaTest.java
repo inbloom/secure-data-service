@@ -74,6 +74,19 @@ public class AvroSchemaTest {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStudentAssessmentAssociation() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader(
+                "src/test/resources/studentassessmentassociation_fixture.json"));
+        String studentassessmentassoc;
+        while ((studentassessmentassoc = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(studentassessmentassoc, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
+        }
+    }
+
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         AvroEntityValidator validator = new AvroEntityValidator();
         validator.setSchemaRegistry(schemaReg);
