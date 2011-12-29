@@ -20,31 +20,9 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
 public class BatchJob implements ErrorReportSupport {
 
     /**
-     * ID ====================================================================
+     * holds references to the files involved in this Job
      */
-
-    /**
-     * stores a globally unique ID for the Job
-     */
-    private String id;
-
-    /**
-     * generates a new unique ID
-     */
-    protected static String createId() {
-        return UUID.randomUUID().toString();
-    }
-
-    /**
-     * @return the jobId
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * CREATION DATE =========================================================
-     */
+    private List<IngestionFileEntry> files;
 
     /**
      * stores the date upon which the Job was created
@@ -52,15 +30,9 @@ public class BatchJob implements ErrorReportSupport {
     private Date creationDate;
 
     /**
-     * @return the creationDate
+     * stores a globally unique ID for the Job
      */
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    /**
-     * PROPERTIES ============================================================
-     */
+    private String id;
 
     /**
      * stores configuration properties for the Job
@@ -68,81 +40,9 @@ public class BatchJob implements ErrorReportSupport {
     private Properties configProperties;
 
     /**
-     * @param key
-     * @param defaultValue
-     * @return
-     * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
-     */
-    public String getProperty(String key, String defaultValue) {
-        return configProperties.getProperty(key, defaultValue);
-    }
-
-    /**
-     * @param key
-     * @return
-     * @see java.util.Properties#getProperty(java.lang.String)
-     */
-    public String getProperty(String key) {
-        return configProperties.getProperty(key);
-    }
-
-    /**
-     * @return
-     * @see java.util.Properties#propertyNames()
-     */
-    public Enumeration<?> propertyNames() {
-        return configProperties.propertyNames();
-    }
-
-    /**
-     * @param key
-     * @param value
-     * @return
-     * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
-     */
-    public Object setProperty(String key, String value) {
-        return configProperties.setProperty(key, value);
-    }
-
-    /**
-     * FILES =================================================================
-     */
-
-    /**
-     * holds references to the files involved in this Job
-     */
-    private List<IngestionFileEntry> files;
-
-    /**
-     * @return the files
-     */
-    public List<IngestionFileEntry> getFiles() {
-        return files;
-    }
-
-    /**
-     * Adds a file.
-     *
-     * @param file
-     * @return
-     * @see java.util.List#add(java.lang.Object)
-     */
-    public boolean addFile(IngestionFileEntry file) {
-        return files.add(file);
-    }
-
-    /**
-     * FAULTS (errors/warnings) ==============================================
-     */
-
-    /**
      * holds references to errors/warnings associated with this job
      */
     private FaultsReport faults;
-
-    /**
-     * INSTANTIATION =========================================================
-     */
 
     /**
      * non-public constructor; use factory methods
@@ -165,18 +65,94 @@ public class BatchJob implements ErrorReportSupport {
         return job;
     }
 
+    /**
+     * generates a new unique ID
+     */
+    protected static String createId() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * Adds a file.
+     *
+     * @param file
+     * @return
+     * @see java.util.List#add(java.lang.Object)
+     */
+    public boolean addFile(IngestionFileEntry file) {
+        return files.add(file);
+    }
+
+    /**
+     * @return the creationDate
+     */
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
     @Override
-    public String toString() {
-        return "BatchJob [id=" + id + ", creationDate=" + creationDate + ", configProperties=" + configProperties + "]";
+    public ErrorReport getErrorReport() {
+        return getFaultsReport();
     }
 
     public FaultsReport getFaultsReport() {
         return faults;
     }
 
+    /**
+     * @return the files
+     */
+    public List<IngestionFileEntry> getFiles() {
+        return files;
+    }
+
+    /**
+     * @return the jobId
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param key
+     * @return
+     * @see java.util.Properties#getProperty(java.lang.String)
+     */
+    public String getProperty(String key) {
+        return configProperties.getProperty(key);
+    }
+
+    /**
+     * @param key
+     * @param defaultValue
+     * @return
+     * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
+     */
+    public String getProperty(String key, String defaultValue) {
+        return configProperties.getProperty(key, defaultValue);
+    }
+
+    /**
+     * @return
+     * @see java.util.Properties#propertyNames()
+     */
+    public Enumeration<?> propertyNames() {
+        return configProperties.propertyNames();
+    }
+
+    /**
+     * @param key
+     * @param value
+     * @return
+     * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
+     */
+    public Object setProperty(String key, String value) {
+        return configProperties.setProperty(key, value);
+    }
+
     @Override
-    public ErrorReport getErrorReport() {
-        return getFaultsReport();
+    public String toString() {
+        return "BatchJob [id=" + id + ", creationDate=" + creationDate + ", configProperties=" + configProperties + "]";
     }
 
 }
