@@ -89,27 +89,27 @@ end
 
 desc "Run Section Tests"
 task :sectionTests do
-  runFixtureAndTests("test/features/api/section", "section", "section_fixture.json")
+  runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
 task :schoolTests do
-  runFixtureAndTests("test/features/api/school", "school", "school_fixture.json")
+  runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
 task :studentTests do
-  runFixtureAndTests("test/features/api/student", "student", "student_fixture.json")
+  runFixtureAndTests("test/features/api/entities/student", "student", "student_fixture.json")
 end
 
 desc "Run Teacher Tests"
 task :teacherTests do
-  runFixtureAndTests("test/features/api/teacher", "teacher", "teacher_fixture.json")
+  runFixtureAndTests("test/features/api/entities/teacher", "teacher", "teacher_fixture.json")
 end
 
 desc "Run Assessment Tests"
 task :assessmentTests do
-  runFixtureAndTests("test/features/api/assessment","assessment","assessment_fixture.json")
+  runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated

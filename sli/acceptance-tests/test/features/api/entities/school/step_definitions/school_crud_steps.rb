@@ -3,7 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 include REXML
-require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../../utils/sli_utils.rb'
 #puts $:
 
 
