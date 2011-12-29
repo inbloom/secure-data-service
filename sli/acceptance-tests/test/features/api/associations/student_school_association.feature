@@ -35,22 +35,22 @@ Scenario: Read a student association by id
 		And "id" should equal "122a340e-e237-4766-98e3-4d2d67786572"
 		And "studentId" should equal "714c1304-8a04-4e23-b043-4ad80eb60992"
 		And "schoolId" should equal "eb3b8c35-f582-df23-e406-6947249a19f2"
-		And "entryGradeLevel" should equal "First grade"
+		And "entryGradeLevel" should equal "FIRST_GRADE"
 		And I should receive a link where rel is "self" and href ends with "/student-school-associations/122a340e-e237-4766-98e3-4d2d67786572"
 		And I should receive a link where rel is "getSchool" and href ends with "/schools/eb3b8c35-f582-df23-e406-6947249a19f2"
 		And I should receive a link where rel is "getStudent" and href ends with "/students/714c1304-8a04-4e23-b043-4ad80eb60992"
 
 Scenario: Update an existing student-school-association
 	Given format "application/json"
-		And "entryGradeLevel" is "Second grade"
+		And "entryGradeLevel" is "SECOND_GRADE"
 	When I navigate to PUT "/student-school-associations/<Alfonso at Apple Alternative Elementary School ID>"
 	Then I should receive a return code of 204
 	When I navigate to GET "/student-school-associations/<Alfonso at Apple Alternative Elementary School ID>"
-	Then "entryGradeLevel" should equal "Second grade"
+	Then "entryGradeLevel" should equal "SECOND_GRADE"
 	
 Scenario: Create a new student-school-association
 	Given format "application/json"
-		And "entryGradeLevel" is "Tenth grade"
+		And "entryGradeLevel" is "TENTH_GRADE"
 		And "schoolId" is "eb3b8c35-f582-df23-e406-6947249a19f2"
 		And "studentId" is "714c1304-8a04-4e23-b043-4ad80eb60992"
 		And "entryDate" is "2010-01-01T00:00:00.00Z"
