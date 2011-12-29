@@ -111,7 +111,8 @@ public class AvroEntityValidator implements EntityValidator {
             }
             
             for (String possibleValue : enumNum.getEnumSymbols()) {
-                if (possibleValue.equals(dataValue.toString())) {
+                // TODO remove ignoresCase. Pending all the schemas being updated
+                if (possibleValue.equalsIgnoreCase(dataValue.toString())) {
                     return true;
                 }
             }
