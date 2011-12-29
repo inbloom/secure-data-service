@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.routes;
 
+import static org.apache.camel.builder.PredicateBuilder.or;
+
 import java.io.File;
 import java.util.Enumeration;
 
@@ -8,9 +10,6 @@ import ch.qos.logback.classic.Logger;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
@@ -22,6 +21,8 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion route builder.
@@ -33,7 +34,7 @@ import org.slc.sli.ingestion.processors.ZipFileProcessor;
 public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
-    EdFiProcessor xmlProcessor;
+    EdFiProcessor edFiProcessor;
 
     @Autowired
     ControlFileProcessor ctlFileProcessor;
@@ -96,10 +97,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobDispatch
         from("seda:assembledJobs")
                 .routeId("jobDispatch")
-                .wireTap("direct:jobReporting")
                 .choice()
                     .when(header("hasErrors").isEqualTo(true))
-                    .stop()
+                    .to("direct:stop")
                 .otherwise()
                     .to("seda:acceptedJobs");
 
@@ -157,7 +157,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobPipeline
         from("seda:acceptedJobs")
                 .routeId("jobPipeline")
-                .process(xmlProcessor)
+                .process(edFiProcessor)
                 .to("seda:persist");
 
         // routeId: persistencePipeline
@@ -165,11 +165,20 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("persistencePipeline")
                 .log("persist: jobId: " + header("jobId").toString())
                 .choice()
-                    .when(header("dry-run").isEqualTo(true))
-                        .log("dry-run specified; data will not be published")
+                    .when(or(header("dry-run").isEqualTo(true), header("hasErrors").isEqualTo(true)))
+                        .log("job has errors or dry-run specified; data will not be published")
+                        .to("direct:stop")
                     .otherwise()
                         .log("publishing data now!")
-                        .process(persistenceProcessor);
+                        .process(persistenceProcessor)
+                        .to("direct:stop");
+
+        // end of routing
+        from("direct:stop")
+                .routeId("stop")
+                .wireTap("direct:jobReporting")
+                .log("end of job: " + header("jobId").toString())
+                .stop();
     }
 
 }
