@@ -126,6 +126,7 @@ end
 desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
+  runTests("test/features/api/studentassessmentassociation")
 end
 
 desc "Run Home URI Tests"
@@ -189,7 +190,8 @@ task :importSandboxData do
     "teacher" => "teacher_fixture.json",
     "assessment" => "assessment_fixture.json",
     "studentschoolassociation" => "student_enrollments_fixture.json",
-    "teachersectionassociation" => "teacher_section_fixture.json"
+    "teachersectionassociation" => "teacher_section_fixture.json",
+    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

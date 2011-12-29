@@ -2,15 +2,12 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 
-When /^I type the Realm page URL$/ do
-  @url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do" 
+When /^I navigate to the Realm page URL$/ do
+  @url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
+  @driver.get @url
 end
 
-When /^I click on the Enter button$/ do
-  @driver.get @url if @url
-end
-
-Then /^I should be redirected to the Realm page$/ do
+Then /^I should be directed to the Realm page$/ do
   assert(@driver.current_url == @url, "Failed to navigate to "+@url)
 end
 
