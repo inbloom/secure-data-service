@@ -8,9 +8,8 @@ Scenario: Go to SLI Default Roles Admin Page when not authenticated to SLI IDP
  
 Given I have an open web browser
 And I am not authenticated to SLI IDP
-When I type the SLI Default Roles Admin Page
-And I click on the Enter button
-Then I should be redirected to the SLI IDP Login page
+When I navigate to the SLI Default Roles Admin Page
+Then I should be redirected to the Realm page
  
  @wip
 Scenario: Go to SLI Default Roles Admin Page when authenticated to SLI IDP

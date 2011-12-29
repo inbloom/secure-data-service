@@ -6,11 +6,11 @@ Given /^I am not authenticated to SLI IDP$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-When /^I type the SLI Default Roles Admin Page$/ do
+When /^I navigate to the SLI Default Roles Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I should be redirected to the SLI IDP Login page$/ do
+Then /^I should be redirected to the Realm page$/ do
   pending # express the regexp above with the code you wish you had
 end
 
