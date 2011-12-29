@@ -157,7 +157,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                                 success = false; // skip parsing with the main parser
                                 // END TODO
                             } else {
-                                loadQue.add(file);
+                                loadQue.add(schemaName);
                             }
                         }
                         if (success) {
