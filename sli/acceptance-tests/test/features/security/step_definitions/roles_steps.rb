@@ -96,9 +96,26 @@ When /^I make an API call to view a Student's data$/ do
   student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
   restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
 end
 
 Then /^a message is displayed that the "([^"]*)" role cannot view this data$/ do |arg1|
   assert(@res.code == 405, "Return code was not expected: "+@res.code.to_s+" but expected 405")  
+end
+
+Given /^"([^"]*)" is allowed to view restricted Student fields$/ do |arg1|
+  # No code needed, this is done during configuration
+end
+
+Then /^the Student restricted fields are visible in the response$/ do
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  pending # express the regexp above with the code you wish you had
+end
+
+Given /^"([^"]*)" is not allowed to view restricted Student fields$/ do |arg1|
+  # No code needed, this is done during configuration
+end
+
+Then /^the Student restricted fields are not visible in the response$/ do
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  pending # express the regexp above with the code you wish you had
 end
