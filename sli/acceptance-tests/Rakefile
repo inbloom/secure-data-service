@@ -112,12 +112,10 @@ task :assessmentTests do
   runFixtureAndTests("test/features/api/assessment","assessment","assessment_fixture.json")
 end
 
+# dependecy on importSandboxData so that association tests can depend on the associated
+# entiy data to be available
 desc "Run Association Tests"
-task :associationTests do
-  associationHash = Hash[
-    "studentschoolassociation" => "student_enrollments_fixture.json"
-    ]
-  setMultipleFixtureFiles(associationHash)
+task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
 end
 ############################################################
