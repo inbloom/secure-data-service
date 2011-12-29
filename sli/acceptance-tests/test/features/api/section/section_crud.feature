@@ -8,83 +8,71 @@ Background: Logged in as a super-user and using the small data set
     Given I have access to all students
 
 #### Happy Path 
-Scenario: Create a new section JSON
-    Given format "application/json"
-      	And the unique section code is "biologyF09"
+Scenario Outline: Create a new section
+    Given format <format>
+      	And the unique section code is "SpanishB09"
       	And the sequence of course is 1
-       	And the educational environment is "CLASSROOM"
-       	And the medium of instruction is "FACE_TO_FACE_INSTRUCTION"
-       	And the population served is "GIFTED_AND_TALENTED_STUDENTS"
+       	And the educational environment is "OFF_SCHOOL_CENTER"
+       	And the medium of instruction is "INDEPENDENT_STUDY"
+       	And the population served is "REGULAR_STUDENTS"
 	When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
        	And I should receive a ID for the newly created section
+    When I navigate to GET section "SpanishB09"
+    Then I should see the sequence of course is 1
+      And I should see the educational environment is "OFF_SCHOOL_CENTER"
+      And I should see the medium of instruction is "INDEPENDENT_STUDY"
+      And I should see the population served is "REGULAR_STUDENTS"
+    Examples:
+    		| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/xml"  |
 
-Scenario: Read a section by id JSON
-    Given format "application/json"
-    When I navigate to GET section "algebraIIS10"
+Scenario Outline: Read a section by id
+    Given format <format>
+    When I navigate to GET section "biologyF09"
     Then I should receive a return code of 200
     	And I should see the sequence of course is 1
      	And I should see the educational environment is "OFF_SCHOOL_CENTER"
      	And I should see the medium of instruction is "INDEPENDENT_STUDY"
      	And I should see the population served is "REGULAR_STUDENTS"
+    Examples:
+    		| format                     |
+    		| "application/json"         |
+#   		| "application/vnd.slc+json" |
+#    		| "application/xml"  |
 
-Scenario: Update an existing section JSON
-    Given format "application/json"
+Scenario Outline: Update an existing section
+    Given format <format>
     And the sequence of course is 2
-    When I navigate to PUT section "algebraIIS10"
-    Then I should receive a return code of 204
-    When I navigate to GET section "algebraIIS10"
-     And I should see the sequence of course is 2
-        
-Scenario: Delete an existing section JSON
-    Given format "application/json"
-    When I navigate to DELETE section "algebraIIS10"
-    Then I should receive a return code of 204
-    When I navigate to GET section "algebraIIS10"
-    Then I should receive a return code of 404
-    
-    
-#### XML version
-@wip
-Scenario: Create a new section XML
-     Given format "application/xml"
-        And the unique section code is "chemistryF11"
-        And the sequence of course is 1
-        And the educational environment is "CLASSROOM"
-        And the medium of instruction is "VIRTUAL_ON_LINE_DISTANCE_LEARNING"
-        And the population served is "BILINGUAL_STUDENTS"
-    When I navigate to POST "/sections/" 
-    Then I should receive a return code of 201
-        And I should receive a ID for the newly created section
-@wip
-Scenario: Read a section by id XML
-    Given format "application/xml"
-    When I navigate to GET section "chemistryF11"
-    Then I should receive a return code of 200
-        And I should see the sequence of course is 1
-        And I should see the educational environment is "CLASSROOM"
-        And I should see the medium of instruction is "VIRTUAL_ON_LINE_DISTANCE_LEARNING"
-        And I should see the population served is "BILINGUAL_STUDENTS"
-@wip
-Scenario: Update an existing section XML
-    Given format "application/xml"
-    And the sequence of course is 2
-    When I navigate to PUT section "chemistryF11"
+    When I navigate to PUT section "biologyF09"
     Then I should receive a return code of 204
     When I navigate to GET section "biologyF09"
-        And I should see the sequence of course is 2
-@wip    
-Scenario: Delete an existing section XML
-    Given format "application/xml"
-    When I navigate to DELETE section "chemistryF11"
+     And I should see the sequence of course is 2
+    Examples:
+    		| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/vnd.slc+xml"  |
+        
+Scenario Outline: Delete an existing section
+    Given format <format>
+    When I navigate to DELETE section "biologyF09"
     Then I should receive a return code of 204
-    When  I navigate to GET section "chemistryF11"
+    When I navigate to GET section "biologyF09"
     Then I should receive a return code of 404
+    Examples:
+    		| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/vnd.slc+xml"  |
+    
     
 ###Links
 @wip
 Scenario: Section Resource links to teacher section association
-   Given format "application/json"
+   Given format "application/vnd.slc+json"
    When I navigate to Section "567"
    Then I should receive a return code of 200
       And I should receive a link named "getTeacherSectionAssociations" with URI /teacher-section-associations/<'567' ID>

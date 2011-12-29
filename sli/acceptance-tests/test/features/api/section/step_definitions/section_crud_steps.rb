@@ -11,14 +11,21 @@ Transform /^section "([^"]*)"$/ do |step_arg|
   id = "/sections/5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431"  if step_arg == "physicsS08"
   id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
   id = "/sections/58c9ef19-c172-4798-8e6e-c73e68ffb5a3"  if step_arg == "algebraIIS10"
-  id = "/sections/40679a48-9fee-48d2-beb4-8bfd65dfdc0d"  if step_arg == "biologyF09"
+  id = "/sections/" + @newSectionId                     if step_arg == "SpanishB09"
+  if step_arg == "biologyF09"
+    if @format == "application/json" or @format == "application/vnd.slc+json"
+      id = "/sections/2934f72d-f9e3-48fd-afdd-56b94e2a3454" # biologyF09J
+    elsif @format == "application/xml" or @format == "application/vnd.slc+xml"
+      id = "/sections/c2efa2b3-f0c6-472a-b0d3-2e7495554acc" # biologyF09X
+    end
+  end
   id = "/section/11111111-1111-1111-1111-111111111111"   if step_arg == "WrongURI"
   id = "/sections"                                       if step_arg == "NoGUID"
   id
 end
 
 Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/xml", "text/plain"].should include(arg1)
+  ["application/json", "application/vnd.slc+json", "application/xml", "text/plain"].should include(arg1)
   @format = arg1
 end
 
@@ -70,8 +77,8 @@ Then /^I should receive a ID for the newly created section$/ do
   headers.should_not be_nil
   headers['location'].should_not be_nil
   s = headers['location'][0]
-  newSectionId = s[s.rindex('/')+1..-1]
-  newSectionId.should_not be_nil
+  @newSectionId = s[s.rindex('/')+1..-1]
+  @newSectionId.should_not be_nil
 end
 
 When /^I navigate to GET (section "[^"]*")$/ do |section_uri|
@@ -114,7 +121,7 @@ When /^I navigate to PUT (section "[^"]*")$/ do |section_uri|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
 
-  if @format == "application/json"
+  if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH = JSON.parse(@res.body)
     dataH['sequenceOfCourse'].should_not == @course_seq
     dataH['sequenceOfCourse'] = @course_seq
