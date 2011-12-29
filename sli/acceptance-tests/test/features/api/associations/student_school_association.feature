@@ -64,6 +64,37 @@ Scenario: Delete a student-school-association
 	Then I should receive a return code of 204
 	When I navigate to GET "/student-school-associations/<Alfonso at Apple Alternative Elementary School ID>"
 	Then I should receive a return code of 404
+	
+###Referential Integrity Tests
+Scenario: Delete a student and his/her associations should be deleted
+    Given format "application/json"
+    When I navigate to GET "/student-school-associations/<Priscilla at Orange Middle School ID>"
+	Then I should receive a return code of 200
+	When I navigate to GET "/student-school-associations/<Priscilla at Ellington Middle School ID>"
+	Then I should receive a return code of 200
+	When I navigate to DELETE "/students/<Priscilla's ID>"
+	Then I should receive a return code of 204
+	When I navigate to GET "/students/<Priscilla's ID>"
+	Then I should receive a return code of 404
+	When I navigate to GET "/student-school-associations/<Priscilla at Orange Middle School ID>"
+	Then I should receive a return code of 404
+	When I navigate to GET "/student-school-associations/<Priscilla at Ellington Middle School ID>"
+	Then I should receive a return code of 404
+	
+Scenario: Delete a school and its associations should be deleted
+    Given format "application/json"
+    When I navigate to GET "/student-school-associations/<Donna at Purple Middle School ID>"
+	Then I should receive a return code of 200
+	When I navigate to GET "/student-school-associations/<Rachel at Purple Middle School ID>"
+	Then I should receive a return code of 200
+	When I navigate to DELETE "/schools/<Purple Middle School ID>"
+	Then I should receive a return code of 204
+	When I navigate to GET "/schools/<Purple Middle School ID>"
+	Then I should receive a return code of 404
+	When I navigate to GET "/student-school-associations/<Donna at Purple Middle School ID>"
+	Then I should receive a return code of 404
+	When I navigate to GET "/student-school-associations/<Rachel at Purple Middle School ID>"
+	Then I should receive a return code of 404
 
 
 ### Error handling

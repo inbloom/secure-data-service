@@ -27,9 +27,9 @@ Scenario: Read a school by id
 Scenario: Update an existing school
     Given format "application/json"
       And the full name is "Yellow Middle and High School"
-    When I navigate to PUT a school "Yellow Middle and High School"
+    When I navigate to PUT a school "Yellow Middle School"
     Then I should receive a return code of 204
-     When  I navigate to GET a school "Yellow Middle and High School"
+     When  I navigate to GET a school "Yellow Middle School"
  	 And I should see the school "Yellow Middle and High School"
  	 
 Scenario: Delete an existing school

@@ -3,13 +3,13 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 include REXML
-require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../../utils/sli_utils.rb'
 #puts $:
 
 
 Transform /^a school "([^"]*)"$/ do |step_arg|
   id = "/schools/eb3b8c35-f582-df23-e406-6947249a19f2" if step_arg == "Apple Alternative Elementary School"
-  id = "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d" if step_arg == "Yellow Middle and High School"
+  id = "/schools/2058ddfb-b5c6-70c4-3bee-b43e9e93307d" if step_arg == "Yellow Middle School"
   id = "/schools/fdacc41b-8133-f12d-5d47-358e6c0c791c" if step_arg == "Delete Me Middle School"
   id = "/schools/11111111-1111-1111-1111-111111111111" if step_arg == "that doesn't exist"
   id = "/school/eb3b8c35-f582-df23-e406-6947249a19f2" if step_arg == "using a wrong URI"

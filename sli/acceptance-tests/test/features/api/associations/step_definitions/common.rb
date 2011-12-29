@@ -73,7 +73,7 @@ Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
 end
 
 
-When /^I navigate to GET "(\/student-school-associations\/<[^"]*>)"$/ do |uri|
+When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |uri|
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
@@ -89,7 +89,7 @@ When /^I navigate to GET "(\/student-school-associations\/<[^"]*>)"$/ do |uri|
   end
 end
 
-When /^I navigate to DELETE "(\/student-school-associations\/<[^"]*>)"$/ do |arg1|
+When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
