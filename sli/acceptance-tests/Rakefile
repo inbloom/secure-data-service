@@ -176,7 +176,8 @@ task :importSandboxData do
     "student" => "student_fixture.json",
     "teacher" => "teacher_fixture.json",
     "assessment" => "assessment_fixture.json",
-    "studentschoolassociation" => "student_enrollments_fixture.json"
+    "studentschoolassociation" => "student_enrollments_fixture.json",
+    "teachersectionassociation" => "teacher_section_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

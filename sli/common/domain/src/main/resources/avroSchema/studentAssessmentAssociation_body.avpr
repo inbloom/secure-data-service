@@ -178,5 +178,9 @@
     "name" : "assessmentId",
     "type" : [ "null", "string" ],
     "default" : null
+  }, {
+    "name" : "performanceLevel",
+    "type" : [ "null", "string" ],
+    "default" : null
   } ]
 }
