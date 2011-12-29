@@ -38,7 +38,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonArray getRoles(String token) {
-        return makeJsonRequest("admin/roles", null).getAsJsonArray();
+        return makeJsonRequest("admin/roles", token).getAsJsonArray();
     }
     
     /**
