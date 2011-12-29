@@ -20,12 +20,6 @@ public class EntityServiceAspect {
     
     private static final Logger ASPECT_LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
 
-    /**
-     * 
-     * @param pjp
-     * @return
-     * @throws Throwable
-     */
     //@Around("call(* org.slc.sli.api.service.EntityService.*(..))")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
         Rights neededRight = Rights.READ_GENERAL;
