@@ -68,12 +68,11 @@ public class ResourceTest {
         return entity;
     }
     
-    public Map<String, Object> createStudentSectionTestAssociation(String studentId, String sectionId) {
+    public Map<String, Object> createTestStudentSectionAssociation(String studentId, String sectionId) {
         Map<String, Object> assoc = new HashMap<String, Object>();
         assoc.put("studentId", studentId);
         assoc.put("sectionId", sectionId);
-        assoc.put("beginDate", new java.util.GregorianCalendar(2000, 1, 1)); // January 1, 2000
-        assoc.put("endDate", new java.util.GregorianCalendar(2000, 6, 1));   // June 1, 2000
+        assoc.put("repeatIdentifier", "NOT_REPEATED");
         return assoc;
     }
     
@@ -155,6 +154,11 @@ public class ResourceTest {
                 createTestStudentAssessmentAssociation(studentId1, assessmentId1)), info);
         assertNotNull(createResponse9);
         String studentAssessmentAssocId = parseIdFromLocation(createResponse9);
+        
+        Response createResponseSSA = api.createEntity(STUDENT_SECTION_ASSOCIATION_URI, new EntityBody(
+                createTestStudentSectionAssociation(studentId1, sectionId1)), info);
+        assertNotNull(createResponseSSA);
+        String studentSectionAssocId = parseIdFromLocation(createResponseSSA);
 
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
@@ -197,6 +201,14 @@ public class ResourceTest {
         assertEquals(assocBody.get("administrationLanguage"), "ENGLISH");
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
+        
+        //test student section association
+        Response ssaResponse = api.getEntity(STUDENT_SECTION_ASSOCIATION_URI, studentSectionAssocId, 0, 10, info);
+        EntityBody ssaAssocBody = (EntityBody) ssaResponse.getEntity();
+        assertNotNull(ssaAssocBody);
+        assertEquals(studentSectionAssocId, ssaAssocBody.get("id"));
+        assertEquals(studentId1, ssaAssocBody.get("studentId"));
+        assertEquals(sectionId1, ssaAssocBody.get("sectionId"));
 
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
@@ -235,32 +247,6 @@ public class ResourceTest {
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
-        
-        //test Student Section Association
-        //testStudentSectionAssociation(studentId1, sectionId1, info, api);
-    }
-    
-    private void testStudentSectionAssociation(String studentId, String sectionId, UriInfo info, Resource api) {
-        Response createResponse8 = api.createEntity(STUDENT_SECTION_ASSOCIATION_URI,
-                new EntityBody(createStudentSectionTestAssociation(studentId, sectionId)), info);
-        assertNotNull(createResponse8);
-        String assocId = parseIdFromLocation(createResponse8);
-        
-        Response res = api.getEntity(STUDENT_SECTION_ASSOCIATION_URI, assocId, 0, 10, info);
-        EntityBody assoc = (EntityBody) res.getEntity();
-        assertNotNull(assoc);
-        assertEquals(new java.util.GregorianCalendar(2000, 1, 1), assoc.get("beginDate"));
-        assertEquals(new java.util.GregorianCalendar(2000, 6, 1), assoc.get("endDate"));
-        assertNotNull(assoc.get("studentId"));
-        assertEquals(studentId, assoc.get("studentId"));
-        CollectionResponse cr = (CollectionResponse) res.getEntity();
-        assertNotNull(cr);
-        assertEquals(1, cr.size());
-        assertNotNull(cr.get(0).getId());
-        assertEquals(assocId, cr.get(0).getId());
-        assertNotNull(cr.get(0).getLink());
-        assertEquals("self", cr.get(0).getLink().getRel());
-        assertTrue(cr.get(0).getLink().getHref().contains(cr.get(0).getId()));
     }
     
     private static String parseIdFromLocation(Response response) {
