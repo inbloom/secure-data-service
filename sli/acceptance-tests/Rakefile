@@ -78,8 +78,11 @@ task :production => [:apiTests, :securityTests] do
   puts "Complete All Tests"
 end
 
+############################################################
+# API tests start
+############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests, :homeUriTests] do
   displayFailureReport()
   puts "Completed API Tests"
 end
@@ -109,34 +112,64 @@ task :assessmentTests do
   runFixtureAndTests("test/features/api/assessment","assessment","assessment_fixture.json")
 end
 
+# dependecy on importSandboxData so that association tests can depend on the associated
+# entiy data to be available
 desc "Run Association Tests"
-task :associationTests do
-  associationHash = Hash[
-    "studentschoolassociation" => "student_enrollments_fixture.json"
-    ]
-  setMultipleFixtureFiles(associationHash)
+task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
 end
 
+desc "Run Home URI Tests"
+task :homeUriTests do
+  #setFixture("student", "student_fixture.json")
+  runTests("test/features/api/home_uri")
+end
+############################################################
+# API tests end
+############################################################
+
+############################################################
+# Security tests start
+############################################################
 desc "Run Security Tests"
 task :securityTests do
   securityHash = Hash[
-    "school" => "school_fixture.json",
     "student" => "student_fixture.json"
     ]
   setMultipleFixtureFiles(securityHash)
   runTests("test/features/security")  
 end
+############################################################
+# Security tests end
+############################################################
 
+############################################################
+# Dashboard tests start
+############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests do
+task :dashboardTests => [:dashboardPopWidgetTests] do
   # securityHash = Hash[
     # "school" => "school_fixture.json",
     # "student" => "student_fixture.json"
     # ]
   # setMultipleFixtureFiles(securityHash)
   runTests("test/features/dashboard")  
+  puts "Completed Dashboard tests"
 end
+
+desc "Run Dashboard population widget Tests"
+task :dashboardPopWidgetTests do
+  runTests("test/features/dashboard/population_widget.feature")  
+end
+
+desc "Run Dashboard YY Tests"
+task :dashboardTests do
+  runTests("test/features/dashboard") 
+   
+end
+############################################################
+# Dashboard tests end
+############################################################
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
@@ -146,10 +179,13 @@ task :importSandboxData do
     "student" => "student_fixture.json",
     "teacher" => "teacher_fixture.json",
     "assessment" => "assessment_fixture.json",
-    "studentschoolassociation" => "student_enrollments_fixture.json"
+    "studentschoolassociation" => "student_enrollments_fixture.json",
+    "teachersectionassociation" => "teacher_section_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
+
+
 
 desc "Help information for this Rakefile"
 task :help do

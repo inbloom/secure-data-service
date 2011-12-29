@@ -59,6 +59,14 @@ Scenario: Delete an existing student XML
     Then I should receive a return code of 204
      When I GET the newly created student by id
      Then I should receive a return code of 404
+     
+
+Scenario: Student resource provides a link to it's school associations
+	Given format "application/json"
+	When I navigate to GET student "Alfonso" 
+	Then I should receive a return code of 200
+	    And I should receive a link where rel is "self" and href ends with "/students/714c1304-8a04-4e23-b043-4ad80eb60992"
+		And I should receive a link where rel is "getStudentEnrollments" and href ends with "/student-school-associations/714c1304-8a04-4e23-b043-4ad80eb60992"
 
 ### Error handling
 Scenario: Attempt to read a non-existing student

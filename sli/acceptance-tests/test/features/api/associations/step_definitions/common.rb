@@ -1,11 +1,5 @@
 
-Transform /^(?:is|equal) "([^"]*)"$/ do |step_arg|
-  retval = "FIRST_GRADE" if step_arg == "First grade"
-  retval = "SECOND_GRADE" if step_arg == "Second grade"
-  retval = "TENTH_GRADE" if step_arg == "Tenth grade"
-  retval = step_arg if retval == nil
-  retval
-end
+
 
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
@@ -18,7 +12,7 @@ Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Given /^"([^"]*)" (is "[^"]*")$/ do |key, value|
+Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
@@ -60,7 +54,7 @@ Then /^the collection should contain a link where rel is "([^"]*)" and href ends
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
 
-Then /^"([^"]*)" should (equal "[^"]*")$/ do |key, value|
+Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
   assert(@data != nil, "Response contains no data")
   assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
   assert(@data.has_key?(key), "Response does not contain key #{key}")
@@ -68,7 +62,7 @@ Then /^"([^"]*)" should (equal "[^"]*")$/ do |key, value|
 end
 
 
-When /^I navigate to GET "([^"]*)"$/ do |uri|
+When /^I navigate to GET "(\/student-school-associations\/<[^"]*>)"$/ do |uri|
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
@@ -84,7 +78,7 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
   end
 end
 
-When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
+When /^I navigate to DELETE "(\/student-school-associations\/<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end

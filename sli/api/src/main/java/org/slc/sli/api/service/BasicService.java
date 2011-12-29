@@ -158,13 +158,15 @@ public class BasicService implements EntityService {
         
         for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
             String assocCollection = assocDef.getStoredCollectionName();
-            Iterator<Entity> foundEntities = repo.findByFields(assocCollection, fields, 0, 1)
-                    .iterator();
-            if (foundEntities.hasNext()) {
-                Entity assocEntity = foundEntities.next();
-                repo.delete(assocCollection, assocEntity.getEntityId());
+            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
+            Iterator<Entity> foundEntities;
+            if (iterable != null) {
+                foundEntities = iterable.iterator();
+                while (foundEntities.hasNext()) {
+                    Entity assocEntity = foundEntities.next();
+                    repo.delete(assocCollection, assocEntity.getEntityId());
+                }
             }
         }
     }
-
 }

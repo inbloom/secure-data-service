@@ -1,4 +1,4 @@
-@wip
+#@wip
 
 Feature: Dashboard User Login Authentication
 
@@ -9,8 +9,7 @@ Scenario: Go to Dashboard page when not authenticated to SLI
 
 Given I have an open web browser
 And I am not authenticated to SLI
-When I type the Dashboard home page
-And I click on the Enter button
+When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
 Scenario: Go to Dashboard page when authenticated to SLI
