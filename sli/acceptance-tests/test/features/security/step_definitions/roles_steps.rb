@@ -77,7 +77,7 @@ end
 
 Then /^a message is displayed that the "([^"]*)" role does not allow this action$/ do |arg1|
   #Validate the Put return code first
-  assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 405")
+  assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
   
   #Then get the data to see it hasn't changed
   restHttpGet("/students/289c933b-ca69-448c-9afd-2c5879b7d221","application/json")
@@ -99,7 +99,7 @@ When /^I make an API call to view a Student's data$/ do
 end
 
 Then /^a message is displayed that the "([^"]*)" role cannot view this data$/ do |arg1|
-  assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 405")  
+  assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")  
 end
 
 Given /^"([^"]*)" is allowed to view restricted Student fields$/ do |arg1|

@@ -1,5 +1,9 @@
 package org.slc.sli.admin.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.admin.client.RESTClient;
 
 /**
@@ -9,14 +13,12 @@ import org.slc.sli.admin.client.RESTClient;
  */
 public abstract class AdminController {
     
-    protected RESTClient restClient = null;
+    @Autowired
+    protected RESTClient restClient;
     
-    public void setClient(RESTClient client) {
-        this.restClient = client;
+    protected String getToken(HttpSession session) {
+        return (String) session.getAttribute("ADMIN_SESSION_ID");
     }
     
-    public RESTClient geClient() {
-        return this.restClient;
-    }
 
 }
