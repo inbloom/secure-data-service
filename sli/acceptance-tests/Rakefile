@@ -78,6 +78,9 @@ task :production => [:apiTests, :securityTests] do
   puts "Complete All Tests"
 end
 
+############################################################
+# API tests start
+############################################################
 desc "Run API Acceptances Tests"
 task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests, :homeUriTests] do
   displayFailureReport()
@@ -117,7 +120,13 @@ task :associationTests do
   setMultipleFixtureFiles(associationHash)
   runTests("test/features/api/associations")
 end
+############################################################
+# API tests start
+############################################################
 
+############################################################
+# Security tests start
+############################################################
 desc "Run Security Tests"
 task :securityTests do
   securityHash = Hash[
@@ -127,16 +136,37 @@ task :securityTests do
   setMultipleFixtureFiles(securityHash)
   runTests("test/features/security")  
 end
+############################################################
+# Security tests start
+############################################################
 
+############################################################
+# Dashboard tests start
+############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests do
+task :dashboardTests => [:dashboardPopWidgetTests] do
   # securityHash = Hash[
     # "school" => "school_fixture.json",
     # "student" => "student_fixture.json"
     # ]
   # setMultipleFixtureFiles(securityHash)
   runTests("test/features/dashboard")  
+  puts "Completed Dashboard tests"
 end
+
+desc "Run Dashboard population widget Tests"
+task :dashboardPopWidgetTests do
+  runTests("test/features/dashboard/population_widget.feature")  
+end
+
+desc "Run Dashboard YY Tests"
+task :dashboardTests do
+  runTests("test/features/dashboard") 
+   
+end
+############################################################
+# Dashboard tests end
+############################################################
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
