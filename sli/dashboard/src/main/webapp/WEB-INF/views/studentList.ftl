@@ -1,6 +1,5 @@
 <html>
 <head>
-<script src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="static/js/3p/jquery-1.7.1.js"></script>
 <script type="text/javascript">
 var schools = ${schoolList};
@@ -51,17 +50,32 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
     $("#studentDiv").load(studentContentUrl);
 }
 </script>
+<link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
 </head>
 <body onLoad="populateSchoolMenu()">
-<h3>${message}</h3>
-<h1>Student List</h1>
 
-<div>
-<span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
-</div>
-<div>
-<span id="studentDiv">
-</span>
+<div id="container">
+
+    <div id="header">
+    </div>
+    
+    <div id="banner">
+        <h1>
+            SLI Dashboard - List of Students
+        </h1>
+    </div>
+
+    <div id="content">
+    
+        <div id="populationSelect">
+            <span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
+        </div>
+    
+        <div id="listView">
+            <span id="studentDiv"></span>
+        </div>
+    </div>
+    
 </div>
 
 </body>
