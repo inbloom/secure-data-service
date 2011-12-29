@@ -12,6 +12,7 @@ public final class DummyErrorReport implements ErrorReport {
     public void fatal(String message, Object sender) {
         // nothing
     }
+
     @Override
     public void error(String message, Object sender) {
         // nothing
@@ -20,6 +21,11 @@ public final class DummyErrorReport implements ErrorReport {
     @Override
     public void warning(String message, Object sender) {
         // nothing
+    }
+
+    @Override
+    public boolean hasErrors() {
+        return false;
     }
 
 }
