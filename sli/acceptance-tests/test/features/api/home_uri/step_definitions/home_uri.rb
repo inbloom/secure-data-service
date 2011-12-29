@@ -26,8 +26,7 @@ Transform /^<([^"]*)>$/ do |step_arg|
 end
 
 When /^I navigate to GET (<[^"]*>)$/ do |uri|
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+uri
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json"
     begin
