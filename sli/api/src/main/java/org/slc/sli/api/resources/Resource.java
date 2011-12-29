@@ -1,8 +1,5 @@
 package org.slc.sli.api.resources;
 
-import java.net.URI;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -34,7 +31,6 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.service.EntityNotFoundException;
 
 /**
  * Jersey resource for all entities and associations.
@@ -88,7 +84,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
                 String uri = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id)
-                		.toString();
+                        .toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });

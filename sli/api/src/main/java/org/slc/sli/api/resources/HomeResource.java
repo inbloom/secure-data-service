@@ -26,14 +26,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+/**
+ * Jersey resource for home entity and associations.
+ * 
+ */
 @Path("home")
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class HomeResource {
     
-	private static final Logger LOG = 
-    		LoggerFactory.getLogger(HomeResource.class);
+    private static final Logger LOG = 
+            LoggerFactory.getLogger(HomeResource.class);
     
     final EntityDefinitionStore entityDefs;
     
