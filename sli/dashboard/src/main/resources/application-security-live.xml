@@ -9,6 +9,7 @@
 <http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
 
     <intercept-url pattern="/login" access="permitAll"/>
+    <intercept-url pattern="/static/**" filters="none"/>    
     <intercept-url pattern="/studentlist" access="hasRole('ROLE_USER')"/>
     <intercept-url pattern="/studentlistcontent" access="hasRole('ROLE_USER')"/>
     <intercept-url pattern="/**" access="denyAll" />
