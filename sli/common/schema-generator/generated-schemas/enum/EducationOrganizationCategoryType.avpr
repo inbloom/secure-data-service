@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The classification of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.",
   "xsd-type" : "token",
-  "symbols" : [ "STATE_EDUCATION_AGENCY", "EDUCATION_SERVICE_CENTER", "LOCAL_EDUCATION_AGENCY", "SCHOOL" ]
+  "symbols" : [ "State_Education_Agency", "Education_Service_Center", "Local_Education_Agency", "School" ]
 }

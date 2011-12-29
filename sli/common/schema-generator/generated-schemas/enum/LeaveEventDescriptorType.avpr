@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "A code describing the type of the leave event.",
   "xsd-type" : "token",
-  "symbols" : [ "VACATION", "JURY", "TRAINING", "FLEX_TIME", "WORK_COMPENSATION", "ADMINISTRATIVE", "ANNUAL_LEAVE", "BEREAVEMENT", "COMPENSATORY_LEAVE_TIME", "FAMILY_AND_MEDICAL_LEAVE", "GOVERNMENT_REQUESTED", "MILITARY_LEAVE", "PERSONAL", "RELEASE_TIME", "SABBATICAL_LEAVE", "SICK_LEAVE", "SUSPENSION", "OTHER" ]
+  "symbols" : [ "Vacation", "Jury", "Training", "Flex_Time", "Work_Compensation", "Administrative", "Annual_leave", "Bereavement", "Compensatory_leave_time", "Family_and_medical_leave", "Government_requested", "Military_leave", "Personal", "Release_time", "Sabbatical_leave", "Sick_leave", "Suspension", "Other" ]
 }

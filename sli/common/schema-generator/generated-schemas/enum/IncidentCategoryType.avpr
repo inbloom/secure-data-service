@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "Enumeration items defining the categories of behavior coded for use in describing an incident.",
   "xsd-type" : "token",
-  "symbols" : [ "CRIME", "STATE_OFFENSE", "SCHOOL_OFFENSE", "SCHOOL_CODE_OF_CONDUCT" ]
+  "symbols" : [ "Crime", "State_Offense", "School_Offense", "School_Code_of_Conduct" ]
 }

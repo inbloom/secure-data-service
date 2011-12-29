@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "Reflects the type of employment or contract.",
   "xsd-type" : "token",
-  "symbols" : [ "PROBATIONARY", "CONTRACTUAL", "SUBSTITUTE_TEMPORARY", "TENURED_OR_PERMANENT", "VOLUNTEER_NO_CONTRACT", "EMPLOYED_OR_AFFILIATED_WITH_OUTSIDE_ORGANIZATION", "CONTINGENT_UPON_FUNDING", "NON_CONTRACTUAL", "SELF_EMPLOYED_PART_TIME", "EMPLOYED_OR_AFFILIATED_WITH_OUTSIDE_AGENCY_PART_TIME", "OTHER" ]
+  "symbols" : [ "Probationary", "Contractual", "Substitute_temporary", "Tenured_or_permanent", "Volunteer_no_contract", "Employed_or_affiliated_with_outside_organization", "Contingent_upon_funding", "Non_contractual", "Self_employed_part_time", "Employed_or_affiliated_with_outside_agency_part_time", "Other" ]
 }

@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The type of students the course was designed for.",
   "xsd-type" : "token",
-  "symbols" : [ "REGULAR_STUDENTS", "BILINGUAL_STUDENTS", "COMPENSATORY_REMEDIAL_EDUCATION_STUDENTS", "GIFTED_AND_TALENTED_STUDENTS", "CAREER_AND_TECHNICAL_EDUCATION_STUDENTS", "SPECIAL_EDUCATION_STUDENTS", "ESL_STUDENTS", "ADULT_BASIC_EDUCATION_STUDENTS", "HONORS_STUDENTS", "MIGRANT_STUDENTS" ]
+  "symbols" : [ "Regular_Students", "Bilingual_Students", "Compensatory_Remedial_Education_Students", "Gifted_and_Talented_Students", "Career_and_Technical_Education_Students", "Special_Education_Students", "ESL_Students", "Adult_Basic_Education_Students", "Honors_Students", "Migrant_Students" ]
 }

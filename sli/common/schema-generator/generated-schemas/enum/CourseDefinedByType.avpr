@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "Specifies whether the course was defined by the SEA, LEA, School, or national organization.",
   "xsd-type" : "token",
-  "symbols" : [ "LEA", "NATIONAL_ORGANIZATION", "SEA", "SCHOOL" ]
+  "symbols" : [ "LEA", "National_Organization", "SEA", "School" ]
 }

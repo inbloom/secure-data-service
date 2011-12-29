@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "A designation of the type of academic distinctions earned by or awarded to the student.",
   "xsd-type" : "token",
-  "symbols" : [ "HONOR_ROLL", "HONOR_SOCIETY", "HONORABLE_MENTION", "HONORS_PROGRAM", "PRIZE_AWARDS", "SCHOLARSHIPS", "AWARDING_OF_UNITS_OF_VALUE", "CITIZENSHIP_AWARD_RECOGNITION", "COMPLETION_OF_REQUIREMENT_BUT_NO_UNITS_OF_VALUE_AWARDED", "ATTENDANCE_AWARD", "CERTIFICATE", "HONOR_AWARD", "LETTER_OF_STUDENT_COMMENDATION", "MEDALS", "NATIONAL_MERIT_SCHOLAR", "POINTS", "PROMOTION_OR_ADVANCEMENT", "OTHER" ]
+  "symbols" : [ "Honor_roll", "Honor_society", "Honorable_mention", "Honors_program", "Prize_awards", "Scholarships", "Awarding_of_units_of_value", "Citizenship_award_recognition", "Completion_of_requirement_but_no_units_of_value_awarded", "Attendance_award", "Certificate", "Honor_award", "Letter_of_student_commendation", "Medals", "National_Merit_scholar", "Points", "Promotion_or_advancement", "Other" ]
 }

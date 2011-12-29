@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The type of address listed for an individual or organization.",
   "xsd-type" : "token",
-  "symbols" : [ "HOME", "PHYSICAL", "BILLING", "MAILING", "OTHER", "TEMPORARY", "WORK" ]
+  "symbols" : [ "Home", "Physical", "Billing", "Mailing", "Other", "Temporary", "Work" ]
 }

@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The secondary course's level of rigor.",
   "xsd-type" : "token",
-  "symbols" : [ "BASIC_OR_REMEDIAL", "ENRICHED_OR_ADVANCED", "GENERAL_OR_REGULAR", "HONORS" ]
+  "symbols" : [ "Basic_or_remedial", "Enriched_or_advanced", "General_or_regular", "Honors" ]
 }

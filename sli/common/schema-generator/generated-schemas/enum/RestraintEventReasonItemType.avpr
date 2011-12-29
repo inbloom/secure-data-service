@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The items of categorization of the circumstances or reason for the restraint.",
   "xsd-type" : "token",
-  "symbols" : [ "IMMINENT_SERIOUS_PHYSICAL_HARM_TO_THEMSELVES", "IMMINENT_SERIOUS_PHYSICAL_HARM_TO_OTHERS", "IMMINENT_SERIOUS_PROPERTY_DESTRUCTION" ]
+  "symbols" : [ "Imminent_Serious_Physical_Harm_To_Themselves", "Imminent_Serious_Physical_Harm_To_Others", "Imminent_Serious_Property_Destruction" ]
 }

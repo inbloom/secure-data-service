@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The type of education institution as classified by its primary focus.",
   "xsd-type" : "token",
-  "symbols" : [ "ALTERNATIVE", "REGULAR", "SPECIAL_EDUCATION", "VOCATIONAL" ]
+  "symbols" : [ "Alternative", "Regular", "Special_Education", "Vocational" ]
 }

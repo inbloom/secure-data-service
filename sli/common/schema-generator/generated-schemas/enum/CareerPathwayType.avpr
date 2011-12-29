@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The career cluster or pathway representing the career path of the Vocational/Career Tech concentrator.",
   "xsd-type" : "token",
-  "symbols" : [ "AGRICULTURE_FOOD_AND_NATURAL_RESOURCES", "ARCHITECTURE_AND_CONSTRUCTION", "ARTS_A_V_TECHNOLOGY_AND_COMMUNICATIONS", "BUSINESS_MANAGEMENT_AND_ADMINISTRATION", "EDUCATION_AND_TRAINING", "FINANCE", "GOVERNMENT_AND_PUBLIC_ADMINISTRATION", "HEALTH_SCIENCE", "HOSPITALITY_AND_TOURISM", "HUMAN_SERVICES", "INFORMATION_TECHNOLOGY", "LAW_PUBLIC_SAFETY_CORRECTIONS_AND_SECURITY", "MANUFACTURING", "MARKETING_SALES_AND_SERVICE", "SCIENCE_TECHNOLOGY_ENGINEERING_AND_MATHEMATICS", "TRANSPORTATION_DISTRIBUTION_AND_LOGISTICS" ]
+  "symbols" : [ "Agriculture_Food_and_Natural_Resources", "Architecture_and_Construction", "Arts_A_V_Technology_and_Communications", "Business_Management_and_Administration", "Education_and_Training", "Finance", "Government_and_Public_Administration", "Health_Science", "Hospitality_and_Tourism", "Human_Services", "Information_Technology", "Law_Public_Safety_Corrections_and_Security", "Manufacturing", "Marketing_Sales_and_Service", "Science_Technology_Engineering_and_Mathematics", "Transportation_Distribution_and_Logistics" ]
 }

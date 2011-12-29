@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The type of communication number listed for an organization.",
   "xsd-type" : "token",
-  "symbols" : [ "MAIN", "ADMINISTRATIVE", "HEALTHCLINIC", "ATTENDANCE", "OTHER", "FAX" ]
+  "symbols" : [ "Main", "Administrative", "HealthClinic", "Attendance", "Other", "Fax" ]
 }

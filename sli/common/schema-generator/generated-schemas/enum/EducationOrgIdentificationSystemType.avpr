@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "A coding scheme that is used for identification and record-keeping purposes by education organizations, social services, or other agencies to refer to an education organization.",
   "xsd-type" : "token",
-  "symbols" : [ "SCHOOL", "ACT", "LEA", "SEA", "NCES", "FEDERAL", "DUNS", "OTHER_FEDERAL", "OTHER" ]
+  "symbols" : [ "School", "ACT", "LEA", "SEA", "NCES", "Federal", "DUNS", "Other_Federal", "Other" ]
 }

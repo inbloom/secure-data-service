@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The category of charter school. For example: School Charter, Open Enrollment Charter",
   "xsd-type" : "token",
-  "symbols" : [ "SCHOOL_CHARTER", "COLLEGE_UNIVERSITY_CHARTER", "OPEN_ENROLLMENT", "NOT_A_CHARTER_SCHOOL" ]
+  "symbols" : [ "School_Charter", "College_University_Charter", "Open_Enrollment", "Not_a_Charter_School" ]
 }

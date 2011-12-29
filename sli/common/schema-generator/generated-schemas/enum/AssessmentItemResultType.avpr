@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The analyzed result of a student's response to an assessment item.. For example:\nCorrect\nIncorrect\nMet standard\n...",
   "xsd-type" : "token",
-  "symbols" : [ "CORRECT", "INCORRECT", "MET_STANDARD" ]
+  "symbols" : [ "Correct", "Incorrect", "Met_standard" ]
 }

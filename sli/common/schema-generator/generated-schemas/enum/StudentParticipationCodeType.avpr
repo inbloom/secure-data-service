@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The role or type of participation of a student in a discipline incident; for example: Victim, Perpetrator, Witness, Reporter",
   "xsd-type" : "token",
-  "symbols" : [ "VICTIM", "PERPETRATOR", "WITNESS", "REPORTER" ]
+  "symbols" : [ "Victim", "Perpetrator", "Witness", "Reporter" ]
 }

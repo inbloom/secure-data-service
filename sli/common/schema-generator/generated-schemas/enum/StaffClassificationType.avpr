@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "An individual's title of employment, official status or rank.",
   "xsd-type" : "token",
-  "symbols" : [ "PRE_KINDERGARTEN_TEACHERS", "KINDERGARTEN_TEACHERS", "ELEMENTARY_TEACHERS", "SECONDARY_TEACHERS", "UNGRADED_TEACHERS", "PARAPROFESSIONALS_INSTRUCTIONAL_AIDES", "SCHOOL_COUNSELORS", "LIBRARIANS_MEDIA_SPECIALISTS", "LIBRARY_MEDIA_SUPPORT_STAFF", "LEA_ADMINISTRATORS", "LEA_ADMINISTRATIVE_SUPPORT_STAFF", "SCHOOL_ADMINISTRATORS", "SCHOOL_ADMINISTRATIVE_SUPPORT_STAFF", "STUDENT_SUPPORT_SERVICES_STAFF", "ALL_OTHER_SUPPORT_STAFF", "INSTRUCTIONAL_COORDINATORS_AND_SUPERVISORS_TO_THE_STAFF" ]
+  "symbols" : [ "Pre_kindergarten_Teachers", "Kindergarten_Teachers", "Elementary_Teachers", "Secondary_Teachers", "Ungraded_Teachers", "Paraprofessionals_Instructional_Aides", "School_Counselors", "Librarians_Media_Specialists", "Library_Media_Support_Staff", "LEA_Administrators", "LEA_Administrative_Support_Staff", "School_Administrators", "School_Administrative_Support_Staff", "Student_Support_Services_Staff", "All_Other_Support_Staff", "Instructional_Coordinators_and_Supervisors_to_the_Staff" ]
 }

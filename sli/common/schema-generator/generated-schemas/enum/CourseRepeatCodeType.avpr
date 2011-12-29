@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.",
   "xsd-type" : "token",
-  "symbols" : [ "REPEATCOUNTED", "REPEATNOTCOUNTED", "REPLACEMENTCOUNTED", "REPLACEDNOTCOUNTED", "REPEATOTHERINSTITUTION", "NOTCOUNTEDOTHER" ]
+  "symbols" : [ "RepeatCounted", "RepeatNotCounted", "ReplacementCounted", "ReplacedNotCounted", "RepeatOtherInstitution", "NotCountedOther" ]
 }

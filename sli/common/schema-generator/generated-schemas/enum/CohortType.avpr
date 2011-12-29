@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The type of the cohort (e.g., academic intervention, classroom breakout, etc.)",
   "xsd-type" : "token",
-  "symbols" : [ "ACADEMIC_INTERVENTION", "ATTENDANCE_INTERVENTION", "DISCIPLINE_INTERVENTION", "CLASSROOM_BREAKOUT", "PRINCIPAL_WATCH_LIST", "COUNSELOR_LIST", "IN_SCHOOL_SUSPENSION", "STUDY_HALL", "OTHER" ]
+  "symbols" : [ "Academic_Intervention", "Attendance_Intervention", "Discipline_Intervention", "Classroom_Breakout", "Principal_Watch_List", "Counselor_List", "In_school_Suspension", "Study_Hall", "Other" ]
 }

@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The category of LEA/district. For example: Independent or Charter",
   "xsd-type" : "token",
-  "symbols" : [ "INDEPENDENT", "CHARTER" ]
+  "symbols" : [ "Independent", "Charter" ]
 }

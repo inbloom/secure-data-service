@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The item(s) to specify the social education services provided to a student.",
   "xsd-type" : "token",
-  "symbols" : [ "ASSISTIVE_TECHNOLOGY_DEVICE_OR_SERVICE", "AUDIOLOGICAL_SERVICES", "COUNSELING_SERVICES", "EARLY_CHILDHOOD_INTERVENTION_PROGRAM", "INTERPRETING_SERVICES", "MEDICAL_DIAGNOSTIC_SERVICES", "OCCUPATIONAL_THERAPY", "ORIENTATION_AND_MOBILITY_TRAINING_SERVICES", "PHYSICAL_THERAPY", "PRESCHOOL_CHILDREN_WITH_DISABILITIES_PROGRAM", "PSYCHOLOGICAL_SERVICES", "RECREATIONAL_SERVICES", "REGIONAL_DAY_SCHOOL_PROGRAM_FOR_THE_DEAF", "SCHOOL_HEALTH_SERVICES", "SOCIAL_WORK_SERVICES", "SPEECH_THERAPY", "TRANSPORTATION_SERVICE" ]
+  "symbols" : [ "Assistive_technology_device_or_service", "Audiological_services", "Counseling_services", "Early_Childhood_Intervention_program", "Interpreting_services", "Medical_diagnostic_services", "Occupational_therapy", "Orientation_and_mobility_training_services", "Physical_therapy", "Preschool_children_with_disabilities_program", "Psychological_services", "Recreational_services", "Regional_Day_School_Program_for_the_Deaf", "School_health_services", "Social_work_services", "Speech_therapy", "Transportation_service" ]
 }

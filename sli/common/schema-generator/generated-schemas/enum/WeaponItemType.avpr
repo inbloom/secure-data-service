@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The enumeration items for the types of weapon used during an incident.",
   "xsd-type" : "token",
-  "symbols" : [ "FIREARM", "ILLEGAL_KNIFE", "NON_ILLEGAL_KNIFE", "CLUB", "OTHER_SHARP_OBJECTS", "OTHER_OBJECT", "SUBSTANCE_USED_AS_WEAPON", "KNIFE", "UNKNOWN", "NONE", "OTHER" ]
+  "symbols" : [ "Firearm", "Illegal_Knife", "Non_Illegal_Knife", "Club", "Other_Sharp_Objects", "Other_Object", "Substance_Used_as_Weapon", "Knife", "Unknown", "None", "Other" ]
 }

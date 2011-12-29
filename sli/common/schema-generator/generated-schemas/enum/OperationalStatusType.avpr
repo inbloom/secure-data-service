@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The current operational status of the education organization (e.g., active, inactive).",
   "xsd-type" : "token",
-  "symbols" : [ "ACTIVE", "ADDED", "CHANGED_AGENCY", "CLOSED", "CONTINUING", "FUTURE", "INACTIVE", "NEW", "REOPENED" ]
+  "symbols" : [ "Active", "Added", "Changed_Agency", "Closed", "Continuing", "Future", "Inactive", "New", "Reopened" ]
 }

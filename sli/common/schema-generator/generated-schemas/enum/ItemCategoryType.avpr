@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "Category or type of the assessment item.  For example:\n\t\t\tMultiple choice\nAnalytic\nProse\n....",
   "xsd-type" : "token",
-  "symbols" : [ "ANALYTIC", "LIST_QUESTION", "MATH_MATRIX", "MATCHING", "MULTIPLE_CHOICE", "PROSE", "TRUE_FALSE" ]
+  "symbols" : [ "Analytic", "List_Question", "Math_Matrix", "Matching", "Multiple_Choice", "Prose", "True_False" ]
 }

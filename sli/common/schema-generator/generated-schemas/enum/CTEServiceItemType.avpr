@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "Enumeration items for Special CTE program services provided to student.",
   "xsd-type" : "token",
-  "symbols" : [ "TRANSPORTATION_SERVICES" ]
+  "symbols" : [ "Transportation_Services" ]
 }

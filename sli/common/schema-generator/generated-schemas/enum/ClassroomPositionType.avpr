@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The type of position the staff member holds in the specific class/section.",
   "xsd-type" : "token",
-  "symbols" : [ "TEACHER_OF_RECORD", "ASSISTANT_TEACHER", "SUPPORT_TEACHER", "SUBSTITUTE_TEACHER" ]
+  "symbols" : [ "Teacher_of_Record", "Assistant_Teacher", "Support_Teacher", "Substitute_Teacher" ]
 }

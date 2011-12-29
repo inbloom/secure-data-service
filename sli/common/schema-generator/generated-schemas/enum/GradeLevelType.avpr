@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The enumeration items for the set of grade levels.",
   "xsd-type" : "token",
-  "symbols" : [ "ADULT_EDUCATION", "EARLY_EDUCATION", "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "GRADE_13", "INFANT_TODDLER", "KINDERGARTEN", "NINTH_GRADE", "OTHER", "POSTSECONDARY", "PRESCHOOL_PREKINDERGARTEN", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TRANSITIONAL_KINDERGARTEN", "TWELFTH_GRADE", "UNGRADED" ]
+  "symbols" : [ "Adult_Education", "Early_Education", "Eighth_grade", "Eleventh_grade", "Fifth_grade", "First_grade", "Fourth_grade", "Grade_13", "Infant_toddler", "Kindergarten", "Ninth_grade", "Other", "Postsecondary", "Preschool_Prekindergarten", "Second_grade", "Seventh_grade", "Sixth_grade", "Tenth_grade", "Third_grade", "Transitional_Kindergarten", "Twelfth_grade", "Ungraded" ]
 }
