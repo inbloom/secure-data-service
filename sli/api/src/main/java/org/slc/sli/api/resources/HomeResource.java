@@ -29,7 +29,8 @@ import org.springframework.stereotype.Component;
 /**
  * Jersey resource for home entity and associations.
  * 
- */@Path("home")
+ */
+@Path("home")
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE })
