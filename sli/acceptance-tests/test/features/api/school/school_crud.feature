@@ -57,6 +57,13 @@ Scenario: Delete an existing school XML
     Then I should receive a return code of 204
      When I GET the newly created school by id
      Then I should receive a return code of 404
+     
+Scenario: School resource provides a link to it's student associations
+	Given format "application/json"
+	When I navigate to GET a school "Apple Alternative Elementary School"
+	Then I should receive a return code of 200
+	   And I should receive a link where rel is "self" and href ends with "/schools/eb3b8c35-f582-df23-e406-6947249a19f2"
+	   And I should receive a link where rel is "getSchoolEnrollments" and href ends with "/student-school-associations/eb3b8c35-f582-df23-e406-6947249a19f2"
 	  
 ### Error handling
 Scenario: Attempt to read a non-existing school
