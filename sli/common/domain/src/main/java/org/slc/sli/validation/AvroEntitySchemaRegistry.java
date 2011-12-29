@@ -24,11 +24,12 @@ import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
 import org.apache.avro.SchemaParseException;
 import org.apache.commons.io.FileUtils;
-import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Provides a registry for retrieving Avro schema
@@ -67,7 +68,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                 Enumeration<JarEntry> entries = jar.entries();
                 while (entries.hasMoreElements()) {
                     String name = entries.nextElement().getName();
-                    if (name.startsWith(baseDir.split(":")[1]) && name.endsWith("avpr")) {
+                    if (name.matches(baseDir.split(":")[1] + "/\\w+\\.avpr")) {
                         String schemaName = name.substring(name.lastIndexOf("/") + 1);
                         LOG.debug("schema file name is {}", schemaName);
                         list.add(schemaName);
@@ -78,7 +79,9 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                 LOG.debug("base schema directory is {}", schemaDir);
                 Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[] { "avpr" }, false);
                 while (it.hasNext()) {
-                    list.add(it.next().getName());
+                    String schemaName = it.next().getName();
+                    LOG.debug("schema file name is {}", schemaName);
+                    list.add(schemaName);
                 }
             } else {
                 throw new RuntimeException("Unable to load Avro Schema file.  Unhandled protocol: " + baseURL);
