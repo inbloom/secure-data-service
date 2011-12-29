@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.SimpleValidator;
+import org.slc.sli.ingestion.validation.spring.SimpleValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,17 +36,16 @@ public class CsvFileValidator extends SimpleValidator<IngestionFileEntry> {
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
-                errorReport.fatal("Input file is empty: " + fileEntry.getFileName(), CsvFileValidator.class);
+                errorReport.fatal(getFailureMessage("SL_ERR_MSG13", fileEntry.getFileName()), CsvFileValidator.class);
                 isEmpty = true;
             }
-
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + fileEntry.getFileName());
-            errorReport.error("File not found: " + fileEntry.getFileName(), CsvFileValidator.class);
+            errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), CsvFileValidator.class);
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + fileEntry.getFileName());
-            errorReport.error("Problem reading file: " + fileEntry.getFileName(), CsvFileValidator.class);
+            errorReport.error(getFailureMessage("SL_ERR_MSG12", fileEntry.getFileName()), CsvFileValidator.class);
             isEmpty = true;
         }
         return isEmpty;
