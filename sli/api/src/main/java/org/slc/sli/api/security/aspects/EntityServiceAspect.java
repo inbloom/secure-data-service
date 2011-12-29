@@ -7,7 +7,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
@@ -31,14 +30,10 @@ public class EntityServiceAspect {
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
         Rights neededRight = Rights.READ_GENERAL;
         String functionName = pjp.getSignature().getName();
-        if (functionName == "get"             ||
-            functionName == "exists"          || 
-            functionName == "list"           ) { 
+        if (functionName == "get" || functionName == "exists" || functionName == "list") {
             neededRight = Rights.READ_GENERAL;
-        } else if (functionName == "create"   ||
-            functionName == "update"          || 
-            functionName == "delete"         ) { 
-            neededRight = Rights.WRITE_GENERAL; 
+        } else if (functionName == "create" || functionName == "update" || functionName == "delete") {
+            neededRight = Rights.WRITE_GENERAL;
         }        
         // add an else here to set the Rights to be as restrictive as possible
         // -> better case would be to add a Right that denotes failed to find a Right (no one has the Right so it always fails)
@@ -52,10 +47,9 @@ public class EntityServiceAspect {
         for (GrantedAuthority auth : myAuthorities) { 
             ASPECT_LOG.debug("checking rights for role: {}", auth.getAuthority());
             try { 
-                for(DefaultRoles role : DefaultRoles.values()) { 
-                    if(role.getSpringRoleName().equals(auth.getAuthority()) && 
-                       role.hasRight(neededRight)) {
-                        hasAccess = true; 
+                for (DefaultRoles role : DefaultRoles.values()) { 
+                    if (role.getSpringRoleName().equals(auth.getAuthority()) && role.hasRight(neededRight)) {
+                        hasAccess = true;
                         ASPECT_LOG.debug("granting access to user for entity");
                         break; 
                     }
