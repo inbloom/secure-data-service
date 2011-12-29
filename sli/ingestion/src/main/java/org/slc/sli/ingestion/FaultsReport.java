@@ -22,6 +22,7 @@ public class FaultsReport implements ErrorReport {
     public void fatal(String message, Object sender) {
         error(message, sender);
     }
+
     @Override
     public void error(String message, Object sender) {
         this.faults.add(Fault.createError(message));
@@ -36,6 +37,11 @@ public class FaultsReport implements ErrorReport {
         return Collections.unmodifiableList(this.faults);
     }
 
+    public synchronized void append(FaultsReport addFaultsReport) {
+        this.faults.addAll(addFaultsReport.getFaults());
+    }
+
+    @Override
     public boolean hasErrors() {
         for (Fault f : faults) {
             if (f.isError())
