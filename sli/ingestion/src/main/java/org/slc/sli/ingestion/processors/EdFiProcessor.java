@@ -39,6 +39,10 @@ public class EdFiProcessor implements Processor {
 
             job.getFaultsReport().append(fe.getFaultsReport());
         }
+
+        // report status of errors to exchange
+        boolean alreadyHasErrors = (Boolean) exchange.getIn().getHeader("hasErrors");
+        exchange.getIn().setHeader("hasErrors", alreadyHasErrors || job.getErrorReport().hasErrors());
     }
 
     public void processFileEntry(IngestionFileEntry fe) {
