@@ -46,13 +46,17 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     @Override
     public O handle(T item, ErrorReport errorReport) {
-        O o;
+
+        O o = null;
 
         pre(item, errorReport);
 
-        o = doHandling(item, errorReport);
+        if (!errorReport.hasErrors()) {
 
-        post(item, errorReport);
+            o = doHandling(item, errorReport);
+
+            post(item, errorReport);
+        }
 
         return o;
     }
