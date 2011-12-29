@@ -340,7 +340,7 @@ public class XsdToAvroSchema {
     
     private String prepareEnum(String enumVal) {
         enumVal = enumVal.trim().replaceAll("['\"]", "").replaceAll("([\\s,/\\\\.;\\(\\)'\":-])+", "_")
-                .replaceAll("_+$", "").toUpperCase();
+                .replaceAll("_+$", "");
         if (enumVal.matches("^\\d.*")) {
             enumVal = "TODO_" + enumVal;
         }
