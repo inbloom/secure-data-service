@@ -36,6 +36,8 @@ public class EdFiProcessor implements Processor {
         for (IngestionFileEntry fe : job.getFiles()) {
 
             processFileEntry(fe);
+
+            job.getFaultsReport().append(fe.getFaultsReport());
         }
     }
 
@@ -46,7 +48,8 @@ public class EdFiProcessor implements Processor {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
 
             // get the handler for this file format
-            AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = fileHandlerMap.get(fileFormat);
+            AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = fileHandlerMap
+                    .get(fileFormat);
             if (fileHandler != null) {
 
                 fileHandler.handle(fe);
@@ -59,7 +62,8 @@ public class EdFiProcessor implements Processor {
         }
     }
 
-    public void setFileHandlerMap(Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap) {
+    public void setFileHandlerMap(
+            Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap) {
         this.fileHandlerMap = fileHandlerMap;
     }
 }
