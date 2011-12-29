@@ -94,4 +94,16 @@
     </property>
   </bean>
 
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetClass" value="org.slc.sli.ingestion.smooks.SliSmooksFactory" />
+    <property name="targetMethod">
+      <value>setBeanId</value>
+    </property>
+    <property name="arguments">
+      <list>
+        <value>${smooks.config.bean.id}</value>
+      </list>
+    </property>
+  </bean>
+
 </beans>
