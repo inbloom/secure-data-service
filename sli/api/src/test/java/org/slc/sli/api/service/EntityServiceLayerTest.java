@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ import org.slc.sli.api.resources.SecurityContextInjection;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -62,6 +64,11 @@ public class EntityServiceLayerTest {
         studentService = studentDef.getService();
         schoolService = schoolDef.getService();
         studentSchoolAssociationService = studentEnrollmentDef.getService();
+    }
+    
+    @After
+    public void tearDown() {
+        SecurityContextHolder.clearContext();
     }
     
     @Test
@@ -341,5 +348,4 @@ public class EntityServiceLayerTest {
         
         return ids;
     }
-    
 }
