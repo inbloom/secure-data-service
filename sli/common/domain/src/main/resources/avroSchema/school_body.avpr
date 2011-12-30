@@ -79,7 +79,11 @@
     "type" : "org.slc.sli.domain.GradeLevelsType"
   }, {
     "name" : "schoolCategories",
-    "type" : "org.slc.sli.domain.SchoolCategoriesType"
+    "doc" : "The one or more categories of school. For example: High School, Middle School, and/or Elementary School.",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.SchoolCategoryItemType"
+    } ]
   }, {
     "name" : "schoolType",
     "type" : [ "null", "org.slc.sli.domain.enum.SchoolType" ]
