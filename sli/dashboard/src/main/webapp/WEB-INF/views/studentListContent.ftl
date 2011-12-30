@@ -6,7 +6,7 @@
      students: contains the list of students to be displayed. Should be StudentResolver object. 
   -->
 
-<table> 
+<table id="studentList"> 
 
 <#-- draw header -->
 <tr>

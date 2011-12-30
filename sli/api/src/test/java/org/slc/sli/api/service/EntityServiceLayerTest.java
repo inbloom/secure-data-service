@@ -281,13 +281,15 @@ public class EntityServiceLayerTest {
         Map<String, String> ids = setupTestDeleteWithAssoc();
         String schoolId = ids.get("schoolId");
         String assocId = ids.get("assocId");
+        String assoc2Id = ids.get("assoc2Id");
         
         EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
         assertEquals(assocEntity.get("schoolId"), schoolId);
         
         schoolService.delete(schoolId);
-        studentSchoolAssociationService.get(assocId);
+        // studentSchoolAssociationService.get(assocId);
+        studentSchoolAssociationService.get(assoc2Id);
     }
 
     private <T> List<T> iterableToList(Iterable<T> itr) {
@@ -305,6 +307,13 @@ public class EntityServiceLayerTest {
         student1.put("lastName", "Madrid");
         String studentId = studentService.create(student1);
         
+        EntityBody student2 = new EntityBody();
+        student1.put("firstName", "Jane");
+        student1.put("lastName", "Doe");
+        String student2Id = studentService.create(student2);
+        
+        
+        
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         String schoolId = schoolService.create(school);
@@ -314,9 +323,20 @@ public class EntityServiceLayerTest {
         assoc.put("studentId", studentId);
         assoc.put("startDate", (new Date()).getTime());
         String assocId = studentSchoolAssociationService.create(assoc);
+        
+        EntityBody assoc2 = new EntityBody();
+        assoc2.put("schoolId", schoolId);
+        assoc2.put("studentId", student2Id);
+        assoc2.put("startDate", (new Date()).getTime());
+        String assoc2Id = studentSchoolAssociationService.create(assoc2);
+        
         ids.put("studentId", studentId);
         ids.put("schoolId", schoolId);
         ids.put("assocId", assocId);
+
+        ids.put("student2Id", student2Id);
+        ids.put("assoc2Id", assoc2Id);
+
         return ids;
     }
 

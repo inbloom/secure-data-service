@@ -8,13 +8,16 @@
 
 <http auto-config="true" use-expressions="true">
     <intercept-url pattern="/login" access="permitAll"/>
+    <intercept-url pattern="/static/**" filters="none"/>
     <intercept-url pattern="/studentlist" access="hasRole('ROLE_USER')"/>
     <intercept-url pattern="/studentlistcontent" access="hasRole('ROLE_USER')"/>
+    <intercept-url pattern="/appselector" access="hasRole('ROLE_USER')"/>
+    <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
     <intercept-url pattern="/**" access="denyAll" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
     <form-login/>
+    <logout/>
 </http>
-
 
 <authentication-manager alias="authenticationManager">
     <authentication-provider>
@@ -22,6 +25,7 @@
         <user name="demo" password ="demo" authorities="ROLE_USER"/>
         <user name="DemoUser" password="demo" authorities="ROLE_USER"/>
         <user name="lkim" password="lkim" authorities="ROLE_USER" /> 
+        <user name="cgray" password="cgray" authorities="ROLE_USER" /> 
     </user-service>
     </authentication-provider>
 </authentication-manager>

@@ -36,6 +36,7 @@ def runTests(testDirPath)
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
+      $SUCCESS=false
     end
   end
 end
@@ -75,53 +76,66 @@ task :default => :production
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
-  puts "Complete All Tests"
+  if $SUCCESS
+    puts "Completed API Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests, :homeUriTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests] do
   displayFailureReport()
-  puts "Completed API Tests"
+  if $SUCCESS
+    puts "Completed API Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Section Tests"
 task :sectionTests do
-  runFixtureAndTests("test/features/api/section", "section", "section_fixture.json")
+  runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
 task :schoolTests do
-  runFixtureAndTests("test/features/api/school", "school", "school_fixture.json")
+  runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
 task :studentTests do
-  runFixtureAndTests("test/features/api/student", "student", "student_fixture.json")
+  runFixtureAndTests("test/features/api/entities/student", "student", "student_fixture.json")
 end
 
 desc "Run Teacher Tests"
 task :teacherTests do
-  runFixtureAndTests("test/features/api/teacher", "teacher", "teacher_fixture.json")
+  runFixtureAndTests("test/features/api/entities/teacher", "teacher", "teacher_fixture.json")
 end
 
 desc "Run Assessment Tests"
 task :assessmentTests do
-  runFixtureAndTests("test/features/api/assessment","assessment","assessment_fixture.json")
+  runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
 end
 
+# dependecy on importSandboxData so that association tests can depend on the associated
+# entiy data to be available
 desc "Run Association Tests"
-task :associationTests do
-  associationHash = Hash[
-    "studentschoolassociation" => "student_enrollments_fixture.json"
-    ]
-  setMultipleFixtureFiles(associationHash)
+task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
+  runTests("test/features/api/association/studentassessmentassociation")
+end
+
+desc "Run Home URI Tests"
+task :homeUriTests do
+  #setFixture("student", "student_fixture.json")
+  runTests("test/features/api/home_uri")
 end
 ############################################################
-# API tests start
+# API tests end
 ############################################################
 
 ############################################################
@@ -130,14 +144,13 @@ end
 desc "Run Security Tests"
 task :securityTests do
   securityHash = Hash[
-    "school" => "school_fixture.json",
     "student" => "student_fixture.json"
     ]
   setMultipleFixtureFiles(securityHash)
   runTests("test/features/security")  
 end
 ############################################################
-# Security tests start
+# Security tests end
 ############################################################
 
 ############################################################
@@ -176,16 +189,14 @@ task :importSandboxData do
     "student" => "student_fixture.json",
     "teacher" => "teacher_fixture.json",
     "assessment" => "assessment_fixture.json",
-    "studentschoolassociation" => "student_enrollments_fixture.json"
+    "studentschoolassociation" => "student_enrollments_fixture.json",
+    "teachersectionassociation" => "teacher_section_fixture.json",
+    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
 
-desc "Run Home URI Tests"
-task :homeUriTests do
-  #setFixture("student", "student_fixture.json")
-  runTests("test/features/api/home_uri")
-end
+
 
 desc "Help information for this Rakefile"
 task :help do
