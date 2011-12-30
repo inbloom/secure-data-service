@@ -4,11 +4,11 @@
   "namespace" : "org.slc.sli.domain",
   "doc" : "This association represents the school to which a student is enrolled.",
   "fields" : [ {
-    "name" : "studentReference",
-    "type" : "org.slc.sli.domain.StudentReferenceType"
+    "name" : "studentId",
+    "type" : "string"
   }, {
-    "name" : "schoolReference",
-    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+    "name" : "schoolId",
+    "type" : "string"
   }, {
     "name" : "entryDate",
     "type" : [ "null", {
