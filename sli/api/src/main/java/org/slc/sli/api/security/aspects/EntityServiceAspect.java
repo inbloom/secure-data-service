@@ -28,9 +28,9 @@ public class EntityServiceAspect {
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
         Rights neededRight = null;
         String functionName = pjp.getSignature().getName();
-        if (functionName == "get" || functionName == "exists" || functionName == "list") {
+        if (functionName.equals("get") || functionName.equals("exists") || functionName.equals("list")) {
             neededRight = Rights.READ_GENERAL;
-        } else if (functionName == "create" || functionName == "update" || functionName == "delete") {
+        } else if (functionName.equals("create") || functionName.equals("update") || functionName.equals("delete")) {
             neededRight = Rights.WRITE_GENERAL;
         }
         
