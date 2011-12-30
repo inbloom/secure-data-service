@@ -1,4 +1,3 @@
-@wip
 Feature: In order to manage sections and students
 As a SLI application I want to use this association to get the course section(s) a student is assigned to, or all the student(s) a section has.  
 I must be able to perform CRUD functions on student-section association.
