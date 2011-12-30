@@ -49,7 +49,7 @@
     "name" : "address",
     "type" : {
       "type" : "array",
-      "items" : "org.slc.sli.domain.Address"
+      "items" : [ "null", "org.slc.sli.domain.Address" ]
     }
   }, {
     "name" : "telephone",
