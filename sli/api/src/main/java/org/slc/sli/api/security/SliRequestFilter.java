@@ -2,6 +2,7 @@ package org.slc.sli.api.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -20,7 +21,6 @@ import java.io.IOException;
 public class SliRequestFilter extends GenericFilterBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(SliRequestFilter.class);
-
     private static final String PARAM_SESSION = "sessionId";
     private static final String HEADER_SESSION_NAME = "sessionId";
 
