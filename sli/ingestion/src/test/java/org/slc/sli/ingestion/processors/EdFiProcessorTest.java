@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
