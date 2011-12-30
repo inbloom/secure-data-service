@@ -2,75 +2,50 @@
   "type" : "record",
   "name" : "StudentSchoolAssociation",
   "namespace" : "org.slc.sli.domain",
+  "doc" : "This association represents the school to which a student is enrolled.",
   "fields" : [ {
-    "name" : "studentId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "name" : "studentReference",
+    "type" : "org.slc.sli.domain.StudentReferenceType"
   }, {
-    "name" : "schoolId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "name" : "schoolReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
   }, {
     "name" : "entryDate",
     "type" : [ "null", {
-      "type" : "record",
-      "name" : "Calendar",
-      "namespace" : "java.util",
-      "fields" : [ ]
-    } ],
-    "default" : null
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
   }, {
     "name" : "entryGradeLevel",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "GradeLevelType",
-      "symbols" : [ "ADULT_EDUCATION", "EARLY_EDUCATION", "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "GRADE_13", "INFANT_TODDLER", "KINDERGARTEN", "NINTH_GRADE", "OTHER", "POSTSECONDARY", "PRESCHOOL_PREKINDERGARTEN", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TRANSITIONAL_KINDERGARTEN", "TWELFTH_GRADE", "UNGRADED" ]
-    } ],
-    "default" : null
+    "type" : "org.slc.sli.domain.enum.GradeLevelType"
   }, {
     "name" : "entryType",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "EntryType",
-      "symbols" : [ "TRANSFER_FROM_A_PUBLIC_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFER_FROM_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFER_FROM_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFER_FROM_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFER_FROM_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFER_FROM_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFER_FROM_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFER_FROM_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFER_FROM_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFER_FROM_A_SCHOOL_OUTSIDE_OF_THE_COUNTRY", "TRANSFER_FROM_AN_INSTITUTION", "TRANSFER_FROM_A_CHARTER_SCHOOL", "TRANSFER_FROM_HOME_SCHOOLING", "RE_ENTRY_FROM_THE_SAME_SCHOOL_WITH_NO_INTERRUPTION_OF_SCHOOLING", "RE_ENTRY_AFTER_A_VOLUNTARY_WITHDRAWAL", "RE_ENTRY_AFTER_AN_INVOLUNTARY_WITHDRAWAL", "ORIGINAL_ENTRY_INTO_A_UNITED_STATES_SCHOOL", "ORIGINAL_ENTRY_INTO_A_UNITED_STATES_SCHOOL_FROM_A_FOREIGN_COUNTRY_WITH_NO_INTERRUPTION_IN_SCHOOLING", "ORIGINAL_ENTRY_INTO_A_UNITED_STATES_SCHOOL_FROM_A_FOREIGN_COUNTRY_WITH_AN_INTERRUPTION_IN_SCHOOLING", "NEXT_YEAR_SCHOOL", "OTHER" ]
-    } ],
-    "default" : null
+    "type" : [ "null", "org.slc.sli.domain.enum.EntryType" ]
   }, {
     "name" : "repeatGradeIndicator",
-    "type" : [ "null", "boolean" ],
-    "default" : null
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "classOf",
     "type" : [ "null", {
-      "type" : "record",
-      "name" : "XMLGregorianCalendar",
-      "namespace" : "javax.xml.datatype",
-      "fields" : [ ]
-    } ],
-    "default" : null
+      "type" : "int",
+      "xsd-type" : "gYear"
+    } ]
   }, {
     "name" : "schoolChoiceTransfer",
-    "type" : [ "null", "boolean" ],
-    "default" : null
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "exitWithdrawDate",
-    "type" : [ "null", "java.util.Calendar" ],
-    "default" : null
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
   }, {
     "name" : "exitWithdrawType",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "ExitWithdrawType",
-      "symbols" : [ "STUDENT_IS_IN_A_DIFFERENT_PUBLIC_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFERRED_TO_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFERRED_TO_A_PUBLIC_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFERRED_TO_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFERRED_TO_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFERRED_TO_A_PRIVATE_NON_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFERRED_TO_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_THE_SAME_LOCAL_EDUCATION_AGENCY", "TRANSFERRED_TO_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_LOCAL_EDUCATION_AGENCY_IN_THE_SAME_STATE", "TRANSFERRED_TO_A_PRIVATE_RELIGIOUSLY_AFFILIATED_SCHOOL_IN_A_DIFFERENT_STATE", "TRANSFERRED_TO_A_SCHOOL_OUTSIDE_OF_THE_COUNTRY", "TRANSFERRED_TO_AN_INSTITUTION", "TRANSFERRED_TO_HOME_SCHOOLING", "TRANSFERRED_TO_A_CHARTER_SCHOOL", "GRADUATED_WITH_REGULAR_ADVANCED_INTERNATIONAL_BACCALAUREATE_OR_OTHER_TYPE_OF_DIPLOMA", "COMPLETED_SCHOOL_WITH_OTHER_CREDENTIALS", "DIED_OR_IS_PERMANENTLY_INCAPACITATED", "WITHDRAWN_DUE_TO_ILLNESS", "EXPELLED_OR_INVOLUNTARILY_WITHDRAWN", "REACHED_MAXIMUM_AGE_FOR_SERVICES", "DISCONTINUED_SCHOOLING", "COMPLETED_GRADE_12_BUT_DID_NOT_MEET_ALL_GRADUATION_REQUIREMENTS", "ENROLLED_IN_A_POSTSECONDARY_EARLY_ADMISSION_PROGRAM_ELIGIBLE_TO_RETURN", "NOT_ENROLLED_UNKNOWN_STATUS", "STUDENT_IS_IN_THE_SAME_LOCAL_EDUCATION_AGENCY_AND_RECEIVING_EDUCATION_SERVICES_BUT_IS_NOT_ASSIGNED_TO_A_PARTICULAR_SCHOOL", "ENROLLED_IN_AN_ADULT_EDUCATION_OR_TRAINING_PROGRAM", "COMPLETED_A_STATE_RECOGNIZED_VOCATIONAL_EDUCATION_PROGRAM", "NOT_ENROLLED_ELIGIBLE_TO_RETURN", "ENROLLED_IN_A_FOREIGN_EXCHANGE_PROGRAM_ELIGIBLE_TO_RETURN", "WITHDRAWN_FROM_SCHOOL_UNDER_THE_AGE_FOR_COMPULSORY_ATTENDANCE_ELIGIBLE_TO_RETURN", "EXITED", "STUDENT_IS_IN_A_CHARTER_SCHOOL_MANAGED_BY_THE_SAME_LOCAL_EDUCATION_AGENCY", "COMPLETED_WITH_A_STATE_RECOGNIZED_EQUIVALENCY_CERTIFICATE", "OTHER" ]
-    } ],
-    "default" : null
+    "type" : [ "null", "org.slc.sli.domain.enum.ExitWithdrawType" ]
   }, {
     "name" : "educationalPlans",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "string",
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
+    "type" : [ "null", "org.slc.sli.domain.EducationalPlansType" ]
   } ]
 }
