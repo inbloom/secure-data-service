@@ -3,7 +3,7 @@ Feature: Admin Tool SLI Default Roles and Permissions Page
 As a SLI Operator/Administrator, I want to login to the SLI Default Roles Admin Page,
 so I could get an information about the default roles in SLI and their permissions.
 
-@wip
+@wipn
 Scenario: Go to SLI Default Roles Admin Page when not authenticated to SLI IDP
  
 Given I have an open web browser
@@ -11,7 +11,7 @@ And I am not authenticated to SLI IDP
 When I navigate to the SLI Default Roles Admin Page
 Then I should be redirected to the Realm page
  
- @wip
+ @wipn
 Scenario: Go to SLI Default Roles Admin Page when authenticated to SLI IDP
  
 Given I have an open web browser
@@ -19,7 +19,7 @@ And I am authenticated to SLI IDP
 When I navigate to the SLI Default Roles Admin Page
 Then I should be redirected to the SLI Default Roles Admin Page
  
- @wip
+ @wipn
 Scenario: Valid SLI IDP user login to SLI Default Roles Admin Page
  
 Given I am not authenticated to SLI IDP
