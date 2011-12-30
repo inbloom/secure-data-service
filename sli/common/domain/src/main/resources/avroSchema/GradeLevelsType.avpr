@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "GradeLevelsType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The enumerated collection for specifying one or more grade levels.",
+  "fields" : [ {
+    "name" : "gradeLevel",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.GradeLevelType"
+    }
+  } ]
+}
