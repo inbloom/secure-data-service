@@ -2,6 +2,8 @@ dashboard_server_address: "localhost:8080"
 dashboard_app_prefix: "/dashboard"
 dashboard_login_page: "" 
 dashboard_landing_page: "/studentlist"
+
+admintools_server_url: "localhost:8080"
 api_server_url: "localhost:8080"
 databrowser_server_url: "devapi1.slidev.org:8080"
 idp_server_url: "devdanil.slidev.org:8080"
