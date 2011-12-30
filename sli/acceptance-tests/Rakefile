@@ -126,7 +126,8 @@ end
 desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
-  runTests("test/features/api/association/studentassessmentassociation")
+  runTests("test/features/api/association/student_section_association")
+  runTests("test/features/api/association/student_assessment_association")
 end
 
 desc "Run Home URI Tests"
@@ -178,7 +179,7 @@ task :dashboardTests => [:dashboardPopWidgetTests] do
     # "student" => "student_fixture.json"
     # ]
   # setMultipleFixtureFiles(securityHash)
-  runTests("test/features/dashboard")  
+  # runTests("test/features/dashboard")  
   puts "Completed Dashboard tests"
 end
 
@@ -206,7 +207,8 @@ task :importSandboxData do
     "assessment" => "assessment_fixture.json",
     "studentschoolassociation" => "student_enrollments_fixture.json",
     "teachersectionassociation" => "teacher_section_fixture.json",
-    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json"
+    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json",
+    "studentsectionassociation" => "student_section_association_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
