@@ -46,7 +46,7 @@ public class SmooksFileHandlerTest {
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);
 
-        assertTrue("Missing column should give error.", errorReport.getFaults().size() != 0);
+        assertTrue("Missing column should give error.", errorReport.hasErrors());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class SmooksFileHandlerTest {
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);
 
-        assertTrue("Incorrect column name should give error.", errorReport.getFaults().size() != 0);
+        assertTrue("Incorrect column name should give error.", errorReport.hasErrors());
     }
 
     /*
@@ -85,7 +85,25 @@ public class SmooksFileHandlerTest {
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);
 
-        assertTrue("Incorrect attribute should give error.", errorReport.getFaults().size() != 0);
+        assertTrue("Incorrect attribute should give error.", errorReport.hasErrors());
+    }
+
+    @Test
+    public void valueTypeNotMatchAttributeType() throws IOException, SAXException {
+
+        // Get Input File
+        File inputFile = IngestionTest
+                .getFile("fileLevelTestData/invalidXML/valueTypeNotMatchAttributeType/student.xml");
+
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+
+        FaultsReport errorReport = new FaultsReport();
+        smooksFileHandler.handle(inputFileEntry, errorReport);
+
+        assertTrue("Value type mismatch should give error.", errorReport.hasErrors());
     }
 
     @Test
@@ -102,6 +120,6 @@ public class SmooksFileHandlerTest {
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);
 
-        assertTrue("Valid XML should give no errors.", errorReport.getFaults().size() == 0);
+        assertTrue("Valid XML should give no errors.", !errorReport.hasErrors());
     }
 }
