@@ -82,28 +82,11 @@
     </property>
   </bean>
 
-  <bean id="sliSmooksResource" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="targetClass" value="org.slc.sli.ingestion.smooks.SliSmooksFactory" />
-    <property name="targetMethod">
-      <value>setSliSmooksConfigMap</value>
+  <bean id="sliSmooksFactory" class="org.slc.sli.ingestion.smooks.SliSmooksFactory">
+    <property name="sliSmooksConfigMap">
+      <ref bean="smooksConfigMap" />
     </property>
-    <property name="arguments">
-      <list>
-        <ref bean="smooksConfigMap" />
-      </list>
-    </property>
-  </bean>
-
-  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="targetClass" value="org.slc.sli.ingestion.smooks.SliSmooksFactory" />
-    <property name="targetMethod">
-      <value>setBeanId</value>
-    </property>
-    <property name="arguments">
-      <list>
-        <value>${smooks.config.bean.id}</value>
-      </list>
-    </property>
+    <property name="beanId" value="${smooks.config.bean.id}" />
   </bean>
 
 </beans>
