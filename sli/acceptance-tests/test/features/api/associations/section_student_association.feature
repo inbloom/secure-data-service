@@ -12,15 +12,15 @@ Background: Nothing yet
 Scenario: Create a student-section-association
 Given format "application/json"
 	And Section is <'Biology II - C' ID>
-	And beginDate is "01/12/2011"
-    And endDate is "04/12/2011"
+	And beginDate is "2001/01/12"
+    And endDate is "2011/04/12"
 	And Student is <'Jane Doe' ID>
 When I navigate to POST "/student-section-associations"
 Then I should receive a return code of 201
 	And I should receive a ID for the newly created student-section-association
 When I navigate to GET /student-section-associations/<'newly created student-section-association' ID>
-Then the endDate should be "04/12/2011"
-  And the beginDate should be "01/12/2011"
+Then the endDate should be "2011/04/12"
+  And the beginDate should be "2011/01/12"
 
 Scenario: Read a student-section-association
 Given format "application/json"
@@ -30,8 +30,8 @@ Then I should receive a  return code of 200
 	And I should receive a link named "getStudent" with URI /students/<'Jane Doe' ID>
 	And I should receive a link named "getSection" with URI /sections/<'Biology II - C' ID>
     And I should receive a link named "self" with URI /student-section-association/<'self' ID>
-	And the beginDate should be "09/15/2011"
-	And the endDate should be "12/15/2011"
+	And the beginDate should be "2011/09/15"
+	And the endDate should be "2011/12/15"
 	And the repeatIdentifier should be 1
 
 Scenario: Reading a student-section-association for a student
@@ -59,12 +59,12 @@ Then I should receive a return code of 200
 Scenario: Update a student-section-association 
 Given  format "application/json"
 And I navigate to GET /student-section-associations/<'Section "Biology II - C" and Student "Jane Doe"' ID>
-	And beginDate is "06/1/2011"
-When I set the beginDate to "08/15/2011"
+	And beginDate is "2011/06/1"
+When I set the beginDate to "2011/08/15"
 	And I navigate to PUT /student-section-associations/<'the previous association' ID>
 Then I should get a return code of 200
 	And I navigate to GET /student-section-associations/<'the previous association' ID>
-	And the beginDate should be "08/15/2011"
+	And the beginDate should be "2011/08/15"
 
 Scenario: Delete a student-section-association
 Given format "application/json"

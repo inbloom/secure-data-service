@@ -17,14 +17,14 @@ Scenario: Create a student-assessment-association
 Given format "application/json"
 	And Assessment is <'Mathematics Achievement Assessment Test' ID>
 	And Student is <'Jane Doe' ID>
-	And administrationDate is "12/01/2011"
+	And administrationDate is "2011/12/01"
 	And scoreResults is "85"
 	And performanceLevel is 3
 When I navigate to POST "/student-assessment-associations"
 Then I should receive a return code of 201
 	And I should receive a ID for the newly created student-assessment-association
 When I navigate to GET /teacher-section-associations/<'newly created student-assessment-association' ID>
-Then the AdministrationDate is "12/01/2011"
+Then the AdministrationDate is "2011/12/01"
     And the scoreResult is "85"
     And the performanceLevel is 3
 
@@ -36,8 +36,8 @@ Then I should receive a  return code of 200
     And I should receive a link named "getStudent" with URI /students/<'Jane Doe' ID>
 	And I should receive a link named "getAssessment" with URI /assessments/<'Mathematics Advanced Placement Test' ID>
     And I should receive a link named "self" with URI /student-assessment-association/<'self' ID>
-	And the administrationDate should be "09/15/2011"
-	And the administrationEnd date should be "12/15/2011"
+	And the administrationDate should be "2011/09/15"
+	And the administrationEnd date should be "2011/12/15"
 	And the retestIndicator should be 1
 	And the scoreResults should be 85
 	And the performanceLevel should be 3
