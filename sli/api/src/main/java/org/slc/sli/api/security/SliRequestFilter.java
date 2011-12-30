@@ -2,10 +2,11 @@ package org.slc.sli.api.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -18,12 +19,14 @@ import java.io.IOException;
  *
  * @author dkornishev
  */
+@Component
 public class SliRequestFilter extends GenericFilterBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(SliRequestFilter.class);
     private static final String PARAM_SESSION = "sessionId";
     private static final String HEADER_SESSION_NAME = "sessionId";
 
+    @Resource(name = "openamRestTokenResolver")
     private SecurityTokenResolver resolver;
 
     /**

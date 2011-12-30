@@ -47,10 +47,5 @@
       </security:authentication-provider>
    </security:authentication-manager>
 
-    <bean id="sliRequestFilter" class="org.slc.sli.api.security.SliRequestFilter">
-        <property name="resolver" ref="openamRestTokenResolver" />
-    </bean>
-
     <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
 </beans>
