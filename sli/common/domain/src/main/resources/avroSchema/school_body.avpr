@@ -47,10 +47,10 @@
     } ]
   }, {
     "name" : "address",
-    "type" : {
+    "type" : [ "null" , {
       "type" : "array",
-      "items" : [ "null", "org.slc.sli.domain.Address" ]
-    }
+      "items" : "org.slc.sli.domain.Address"
+    } ]
   }, {
     "name" : "telephone",
     "type" : [ "null", {
