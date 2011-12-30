@@ -25,7 +25,7 @@
 <#-- draw body --> 
 <#list students.list() as student>
 
-<tr class="listBody">
+<tr class="listRow">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
