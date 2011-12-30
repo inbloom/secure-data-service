@@ -179,7 +179,7 @@ task :dashboardTests => [:dashboardPopWidgetTests] do
     # "student" => "student_fixture.json"
     # ]
   # setMultipleFixtureFiles(securityHash)
-  runTests("test/features/dashboard")  
+  # runTests("test/features/dashboard")  
   puts "Completed Dashboard tests"
 end
 
