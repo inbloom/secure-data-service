@@ -19,10 +19,10 @@ import org.xml.sax.SAXException;
  */
 public class SliSmooksFactory {
 
-    private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
-    private String beanId;
+    private static Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
+    private static String beanId;
 
-    public Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
+    public static Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
             throws IOException, SAXException {
 
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
@@ -35,7 +35,7 @@ public class SliSmooksFactory {
         }
     }
 
-    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
+    private static Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
             ErrorReport errorReport) throws IOException, SAXException {
         Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
@@ -53,11 +53,11 @@ public class SliSmooksFactory {
         return smooks;
     }
 
-    public void setSliSmooksConfigMap(Map<FileType, SliSmooksConfig> sliSmooksConfigMap) {
-        this.sliSmooksConfigMap = sliSmooksConfigMap;
+    public static void setSliSmooksConfigMap(Map<FileType, SliSmooksConfig> sliSmooksConfigMap) {
+        SliSmooksFactory.sliSmooksConfigMap = sliSmooksConfigMap;
     }
 
-    public void setBeanId(String beanId) {
-        this.beanId = beanId;
+    public static void setBeanId(String beanId) {
+        SliSmooksFactory.beanId = beanId;
     }
 }

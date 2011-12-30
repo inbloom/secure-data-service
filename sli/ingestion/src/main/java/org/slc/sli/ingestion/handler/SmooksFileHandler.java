@@ -32,8 +32,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
-    private SliSmooksFactory sliSmooksFactory;
-
     @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         try {
@@ -58,7 +56,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(fileEntry.getFileType(), nrFileWriter, errorReport);
+        Smooks smooks = SliSmooksFactory.createInstance(fileEntry.getFileType(), nrFileWriter, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(fileEntry.getFile()));
         try {
@@ -82,10 +80,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         File outputFile = File.createTempFile("camel_", ".tmp");
         outputFile.deleteOnExit();
         return outputFile;
-    }
-
-    public void setSliSmooksFactory(SliSmooksFactory sliSmooksFactory) {
-        this.sliSmooksFactory = sliSmooksFactory;
     }
 
 }

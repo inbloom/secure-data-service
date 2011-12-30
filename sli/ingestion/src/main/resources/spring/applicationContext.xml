@@ -70,17 +70,11 @@
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
     </property>
-    <property name="sliSmooksFactory">
-      <ref bean="sliSmooksFactory" />
-    </property>
   </bean>
 
   <bean id="csvFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
-    </property>
-    <property name="sliSmooksFactory">
-      <ref bean="sliSmooksFactory" />
     </property>
   </bean>
 
