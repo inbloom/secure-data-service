@@ -1,11 +1,5 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
@@ -13,6 +7,13 @@ import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -20,11 +21,11 @@ import org.slf4j.LoggerFactory;
  */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
-    
-    private final String collectionName;
-    private final List<Treatment> treatments;
-    private final EntityRepository repo;
-    protected EntityDefinition defn;
+
+    private String collectionName;
+    private List<Treatment> treatments;
+    private EntityRepository repo;
+    private EntityDefinition defn;
     
     public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo) {
         super();
@@ -32,11 +33,26 @@ public class BasicService implements EntityService {
         this.treatments = treatments;
         this.repo = repo;
     }
-    
+
+    public BasicService() {
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
+    }
+
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
+    }
+
+    public void setRepo(EntityRepository repo) {
+        this.repo = repo;
+    }
+
     public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
-    
+
     protected String getCollectionName() {
         return collectionName;
     }
@@ -93,6 +109,7 @@ public class BasicService implements EntityService {
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
+
         return makeEntityBody(entity);
     }
     
