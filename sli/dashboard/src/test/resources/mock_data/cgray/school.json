@@ -9,7 +9,16 @@
             "course": "Senior Homeroom"
         },
         {
-            "course": "Writing about Government"
+            "course": "Writing about Government",
+            "sections": [
+                {
+                    "section": "Sec 923",
+                    "studentUIDs": [
+            	        "525878920",
+                        "510152105"
+                    ]
+                }
+			]
         },
         {
             "course": "Honors American Literature"

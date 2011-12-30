@@ -15,6 +15,7 @@
     <intercept-url pattern="/**" access="denyAll" />
     <custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
+    <logout/>
 </http>
 
 <authentication-manager alias="authenticationManager" />
