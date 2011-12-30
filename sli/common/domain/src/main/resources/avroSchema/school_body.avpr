@@ -41,7 +41,10 @@
     } ]
   }, {
     "name" : "organizationCategories",
-    "type" : "org.slc.sli.domain.EducationOrganizationCategoriesType"
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.EducationOrganizationCategoryType"
+    } ]
   }, {
     "name" : "address",
     "type" : {
