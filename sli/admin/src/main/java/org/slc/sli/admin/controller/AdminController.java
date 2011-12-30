@@ -20,5 +20,7 @@ public abstract class AdminController {
         return (String) session.getAttribute("ADMIN_SESSION_ID");
     }
     
-
+    public void setRESTClient(RESTClient client) {
+        this.restClient = client;
+    }
 }
