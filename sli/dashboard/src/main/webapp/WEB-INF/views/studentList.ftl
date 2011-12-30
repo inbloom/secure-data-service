@@ -56,6 +56,7 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
 <div id="container">
 
     <div id="header">
+		<#include "header.ftl">
     </div>
     
     <div id="banner">
@@ -63,7 +64,6 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
             SLI Dashboard - List of Students
         </h1>
     </div>
-	<#include "header.ftl">
     <div id="content">
     
         <div id="populationSelect">

@@ -73,13 +73,11 @@ public class StudentSchoolAssociationIngestionTest {
                 FileType.XML_STUDENT_ENROLLMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-        
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
         
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
         
         verifyStudentSchoolAssociations(studentSchoolAssociationRepository, 0);
@@ -108,13 +106,11 @@ public class StudentSchoolAssociationIngestionTest {
                 FileType.CSV_STUDENT_SCHOOL_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-        
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
         
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
         
         verifyStudentSchoolAssociations(studentSchoolAssociationRepository, 0);
@@ -204,7 +200,8 @@ public class StudentSchoolAssociationIngestionTest {
         studentSchoolAssociationXml += "<StudentSchoolAssociation>" + "\n";
         
         // Test Version Only - allow specification of Association ID
-        studentSchoolAssociationXml += "<AssociationId>" + studentSchoolAssociation.getAssociationId() + "</AssociationId>" + "\n";
+        studentSchoolAssociationXml += "<AssociationId>" + studentSchoolAssociation.getAssociationId()
+                + "</AssociationId>" + "\n";
         
         studentSchoolAssociationXml += "<StudentReference><StudentIdentity>" + "\n";
         studentSchoolAssociationXml += "<StudentUniqueStateId>";
@@ -270,7 +267,7 @@ public class StudentSchoolAssociationIngestionTest {
         Iterable iterable = repository.findAll();
         Iterator iterator = iterable.iterator();
         while (iterator.hasNext()) {
-            StudentSchoolAssociation studentSchoolAssociation = (StudentSchoolAssociation)iterator.next();
+            StudentSchoolAssociation studentSchoolAssociation = (StudentSchoolAssociation) iterator.next();
             verifyStudentSchoolAssociation(studentSchoolAssociation);
         }
         

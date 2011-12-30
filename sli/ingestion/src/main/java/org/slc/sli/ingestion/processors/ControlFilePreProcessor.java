@@ -9,6 +9,12 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 
+/**
+ * Transforms body from ControlFile to ControlFileDescriptor type.
+ *
+ * @author okrook
+ *
+ */
 public class ControlFilePreProcessor implements Processor {
 
     private LandingZone landingZone;

@@ -52,6 +52,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
         DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
     private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
+    private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
     @Autowired
     Resource api;
@@ -69,6 +70,14 @@ public class ResourceTest {
         entity.put("schoolId", schoolId);
         entity.put("entryGradeLevel", "First grade");
         return entity;
+    }
+    
+    public Map<String, Object> createTestStudentSectionAssociation(String studentId, String sectionId) {
+        Map<String, Object> assoc = new HashMap<String, Object>();
+        assoc.put("studentId", studentId);
+        assoc.put("sectionId", sectionId);
+        assoc.put("repeatIdentifier", "NOT_REPEATED");
+        return assoc;
     }
     
     public Map<String, Object> createTestStudentAssessmentAssociation(String studentId, String assessmentId) {
@@ -144,6 +153,7 @@ public class ResourceTest {
         String teacherId1 = parseIdFromLocation(createResponse6);
         ids.put(new TypeIdPair("teachers", teacherId1), (String) createResponse6.getMetadata().get("Location").get(0));
         
+        // test section
         Response createResponse7 = api.createEntity("sections", new EntityBody(createTestEntity()), info);
         assertNotNull(createResponse7);
         String sectionId1 = parseIdFromLocation(createResponse7);
@@ -160,6 +170,11 @@ public class ResourceTest {
         assertNotNull(createResponse9);
         String studentAssessmentAssocId = parseIdFromLocation(createResponse9);
         
+        Response createResponseSSA = api.createEntity(STUDENT_SECTION_ASSOCIATION_URI, new EntityBody(
+                createTestStudentSectionAssociation(studentId1, sectionId1)), info);
+        assertNotNull(createResponseSSA);
+        String studentSectionAssocId = parseIdFromLocation(createResponseSSA);
+
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             
@@ -191,6 +206,7 @@ public class ResourceTest {
                 fail();
             }
         }
+       
         
         // test student assessment associaiton
         Response response = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentAssessmentAssocId, 0, 10, info);
@@ -201,6 +217,14 @@ public class ResourceTest {
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
         
+        //test student section association
+        Response ssaResponse = api.getEntity(STUDENT_SECTION_ASSOCIATION_URI, studentSectionAssocId, 0, 10, info);
+        EntityBody ssaAssocBody = (EntityBody) ssaResponse.getEntity();
+        assertNotNull(ssaAssocBody);
+        assertEquals(studentSectionAssocId, ssaAssocBody.get("id"));
+        assertEquals(studentId1, ssaAssocBody.get("studentId"));
+        assertEquals(sectionId1, ssaAssocBody.get("sectionId"));
+
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
             Response r = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, id, 0, 10, info);

@@ -78,13 +78,11 @@ public class StudentIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-        
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
         
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
         
         verifyStudents(studentRepository, 0);
@@ -107,13 +105,11 @@ public class StudentIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-        
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
         
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
         
         verifyStudents(studentRepository, 0);
@@ -132,13 +128,11 @@ public class StudentIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-        
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
+        edFiProcessor.processFileEntry(inputFileEntry);
         
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
         
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
         
         assertEquals(100, studentRepository.count());
