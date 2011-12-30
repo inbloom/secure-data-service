@@ -33,6 +33,12 @@ Scenario: Read a teacher by ID in JSON format
       And I should see that his "Teacher Unique State ID" is "738543275"
       And I should see that his "Highly Qualified Teacher" status is "false"
       And I should see that his "Level of Education" is "Bachelor's"
+      And I should receive a link named "getTeacherSectionAssociations" with URI /teacher-section-associations/<'Teacher Macy' ID>
+      And I should receive a link named "getSections" with URI /teacher-section-associations/<'Teacher Macy' ID>/targets
+      And I should receive a link named "getTeacherSchoolAssociations" with URI /teacher-school-associations/<'Teacher Macy' ID>
+      And I should receive a link named "getSchools" with URI /teacher-school-associations/<'Teacher Macy' ID>/targets
+      And I should receive a link named "self" with URI /teachers/<'Teacher Macy' ID>
+
 
 Scenario: Update an existing teacher in JSON format
    Given format "application/json"

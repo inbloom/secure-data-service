@@ -10,7 +10,7 @@ Assume that Teacher, Student, Section, Assessment entity and associations are av
 Background: Nothing yet
 
 Scenario: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
-Given format "application/vnd.slc+json"
+Given format "application/json"
 When I navigate to GET /teachers/<'Ms. Jones' ID>
 Then I should receive of 3 links
 	And I should see a link named "getTeacherSectionAssociations" with URI  /teacher-section-associations/<'Ms. Jones' ID>

@@ -21,15 +21,19 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
 
+import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+//import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -74,7 +78,18 @@ public class ResourceTest {
         entity.put("administrationLanguage", "ENGLISH");
         return entity;
     }
-
+    
+    @Before
+    public void setUp() {
+        // inject administrator security context for unit testing
+        SecurityContextInjection.setAdminContext();
+    }
+    
+    @After
+    public void tearDown() {
+        SecurityContextHolder.clearContext();
+    }
+    
     @Test
     public void testResourceMethods() throws Exception {
         UriInfo info = buildMockUriInfo();
@@ -144,7 +159,7 @@ public class ResourceTest {
                 createTestStudentAssessmentAssociation(studentId1, assessmentId1)), info);
         assertNotNull(createResponse9);
         String studentAssessmentAssocId = parseIdFromLocation(createResponse9);
-
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             
@@ -185,7 +200,7 @@ public class ResourceTest {
         assertEquals(assocBody.get("administrationLanguage"), "ENGLISH");
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
-
+        
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
             Response r = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, id, 0, 10, info);

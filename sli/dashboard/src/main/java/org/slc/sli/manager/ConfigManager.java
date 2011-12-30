@@ -42,7 +42,6 @@ public class ConfigManager {
         try {
             userViewConfigSet = ConfigPersistor.getConfigSet(userId);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
                 

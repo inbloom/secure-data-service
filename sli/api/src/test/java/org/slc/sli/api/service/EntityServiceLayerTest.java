@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +23,11 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjection;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -49,6 +52,9 @@ public class EntityServiceLayerTest {
     
     @Before
     public void setUp() {
+        // inject administrator security context for unit testing
+        SecurityContextInjection.setAdminContext();
+        
         defs.init();
         repo.deleteAll("student");
         repo.deleteAll("school");
@@ -58,6 +64,11 @@ public class EntityServiceLayerTest {
         studentService = studentDef.getService();
         schoolService = schoolDef.getService();
         studentSchoolAssociationService = studentEnrollmentDef.getService();
+    }
+    
+    @After
+    public void tearDown() {
+        SecurityContextHolder.clearContext();
     }
     
     @Test
@@ -259,14 +270,14 @@ public class EntityServiceLayerTest {
         assoc1.put("startDate", (new Date()).getTime());
         studentSchoolAssociationService.create(assoc1);
     }
-
+    
     // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteWithAssoc1() {
         Map<String, String> ids = setupTestDeleteWithAssoc();
         String studentId = ids.get("studentId");
         String assocId = ids.get("assocId");
-
+        
         EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
         assertEquals(assocEntity.get("studentId"), studentId);
@@ -291,7 +302,7 @@ public class EntityServiceLayerTest {
         // studentSchoolAssociationService.get(assocId);
         studentSchoolAssociationService.get(assoc2Id);
     }
-
+    
     private <T> List<T> iterableToList(Iterable<T> itr) {
         List<T> result = new ArrayList<T>();
         for (T item : itr) {
@@ -312,8 +323,6 @@ public class EntityServiceLayerTest {
         student1.put("lastName", "Doe");
         String student2Id = studentService.create(student2);
         
-        
-        
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         String schoolId = schoolService.create(school);
@@ -333,11 +342,10 @@ public class EntityServiceLayerTest {
         ids.put("studentId", studentId);
         ids.put("schoolId", schoolId);
         ids.put("assocId", assocId);
-
+        
         ids.put("student2Id", student2Id);
         ids.put("assoc2Id", assoc2Id);
-
+        
         return ids;
     }
-
 }
