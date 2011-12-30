@@ -95,8 +95,5 @@
   }, {
     "name" : "administrativeFundingControl",
     "type" : [ "null", "org.slc.sli.domain.enum.AdministrativeFundingControlType" ]
-  }, {
-    "name" : "localEducationAgencyReference",
-    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
   } ]
 }
