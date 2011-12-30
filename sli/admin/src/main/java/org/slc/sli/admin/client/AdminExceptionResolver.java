@@ -28,6 +28,10 @@ public class AdminExceptionResolver extends SimpleMappingExceptionResolver {
     @Autowired
     private RESTClient restClient;
     
+    public void setRESTClient(RESTClient client) {
+        this.restClient = client;
+    }
+    
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
             Exception ex) {

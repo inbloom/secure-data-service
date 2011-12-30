@@ -19,7 +19,7 @@ end
 
 When /^I look in the school drop\-down$/ do
   @dropDownId = "schoolSelect"
-  assertMissingField(@dropDownId)
+  assertMissingField(@dropDownId, "id")
 end
 
 Then /^I only see "([^"]*)"$/ do |listContent|
@@ -38,7 +38,7 @@ end
 
 When /^I look in the course drop\-down$/ do
   @dropDownId = "courseSelect"
-  assertMissingField(@dropDownId)
+  assertMissingField(@dropDownId, "id")
 end
 
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
@@ -58,12 +58,12 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   assert(result == [""], "list content does not match required content: " + listContent)  
 end
 
-Then /^I see these values in the class drop\-down: "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I see a list of (\d+) students$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I see a list of (\d+) students$/ do |numOfStudents|
+  # TODO number of headers row may vary - need to better differentiate
+  actualCount = countTableRows()-2
+  puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
+  # TODO enable this
+  # assert(actualCount == numOfStudents, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
 end
 
 When /^I select school "([^"]*)"$/ do |optionToSelect|
@@ -87,6 +87,23 @@ When /^I select section "([^"]*)"$/ do |optionToSelect|
 end
 
 Then /^the list includes: "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  puts "**** Implement this ***"
+  # pending # express the regexp above with the code you wish you had
 end
 
+Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent|
+  @dropDownId = "sectionSelect"
+  desiredContentArray = listContent.split(";")
+  select = @driver.find_element(:id, @dropDownId)
+  all_options = select.find_elements(:tag_name, "option")
+  matchCondition = true
+  selectContent = ""
+  # If any list item has a value that is not in the list - set flag to false
+  all_options.each do |option|
+    selectContent += option.attribute("text") + ";"
+    puts "selectContent = " + selectContent
+  end
+  selectContentArray = selectContent.split(";")
+  result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
+  assert(result == [""], "list content does not match required content: " + listContent)  
+end

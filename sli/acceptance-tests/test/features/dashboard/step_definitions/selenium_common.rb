@@ -23,7 +23,7 @@ def localLogin (username, password)
   end
   baseUrl = "http://"+PropLoader.getProps['dashboard_server_address']+ 
           PropLoader.getProps['dashboard_app_prefix'] 
-  url = baseUrl + PropLoader.getProps['dashboard_login_page']
+  url = baseUrl + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
@@ -38,7 +38,7 @@ def localLogin (username, password)
   putTextToField(username, "j_username", "name")
   putTextToField(password, "j_password", "name")
   clickButton("submit", "name")
-  url = baseUrl + "/appselector"
+  # url = baseUrl + "/appselector"
   assert(@driver.current_url.start_with?(url),  "Failed to navigate to "+url)
 end
 
@@ -80,4 +80,12 @@ def selectOption(selectFieldId, optionToSelect)
     end
   end  
   assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
+end
+
+# TODO: add this paramteres (tableRef, by), also may want to add TR class
+def countTableRows()
+  # TODO count only "regular rows and not headers"
+  tableRows = @driver.find_elements(:xpath, "//tr")
+  puts "tableRows.length = " + tableRows.length.to_s
+  return tableRows.length
 end

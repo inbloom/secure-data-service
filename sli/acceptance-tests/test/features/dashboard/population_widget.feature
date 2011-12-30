@@ -3,7 +3,7 @@ Feature: <US435>
 Scenario: Selecting classes on LOS
 
 Given I am logged in using "cgray" "cgray"
-	And I selected the "Dashboard" application
+#	And I selected the "Dashboard" application
 
 When I look in the school drop-down
 Then I only see "Daybreak Central High"
@@ -24,7 +24,7 @@ And the list includes: "Johnny Patel;Carmen Ortiz"
 
 When I select school "Daybreak Central High"
 And I select course "Writing about Government"
-Then I see these values in the class drop-down: "Sec 923"
+Then I see these values in the section drop-down: "Sec 923"
 
 When I select school "Daybreak Central High"
 And I select course "American Literature"

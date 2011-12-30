@@ -33,6 +33,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     private RESTClient restClient;
     
+    public void setRESTClient(RESTClient rest) {
+        this.restClient = rest;
+    }
+    
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object controller,
             Exception exception) throws Exception {

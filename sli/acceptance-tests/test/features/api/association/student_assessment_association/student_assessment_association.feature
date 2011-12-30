@@ -40,27 +40,27 @@ Then I should receive a return code of 200
 	And the "retestIndicator" should be "1"
 	And the "scoreResults" should be "85"
 	And the "performanceLevel" should be "3"
-
-@wip
+	
+	
 Scenario: Reading a student-assessment-association for a student
-Given format "application/vnd.slc+json"
-When I navigate to GET Student Assessment Associations for the Student "Jane Doe"
-Then I should receive a return code of 2xx
-	And I should receive 2 student-assessment-associations
-	And I should receive a link named "getStudent" with URI /students/<'Jane Doe' ID>
-	And I should receive a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
-	And I should receive a link named "getAssessment" with URI /assessments/<'Writing Advanced Placement Test' ID>
+Given format "application/json"
+When I navigate to GET /student-assessment-associations/<'Jane Doe' ID>
+Then I should receive a return code of 200
+	And I should receive a collection of 2 student-assessment-associations that resolve to
+	And I should get a link named "getStudent" with URI /students/<'Jane Doe' ID>
+	And I should get a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
+	And I should get a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
 
 @wip
 Scenario: Reading a student-assessment-association for a assessment
-Given  format "application/vnd.slc+json"
-When I navigate to GET Student Section Associations for the Assessment "Mathematics Achievement Assessment Test"
-Then I should receive a return code of 2xx
-	And I should 	receive 3 student-assessment-associations
-	And I should receive a link named "getStudent" with URI /students/<'Jane Doe' ID>
-	And I should receive a link named "getStudent" with URI /students/<'Albert Wright' ID>
-	And I should receive a link named "getStudent" with URI /students/<'Kevin Smith' ID>
-	And I should receive a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
+Given  format "application/json"
+When I navigate to GET  /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
+Then I should receive a return code of 200
+	And I should receive a collection of 3 student-assessment-associations that resolve to
+	And I should get a link named "getStudent" with URI /students/<'Jane Doe' ID>
+	And I should get a link named "getStudent" with URI /students/<'Albert Wright' ID>
+	And I should get a link named "getStudent" with URI /students/<'Kevin Smith' ID>
+	And I should get a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
 
 @wip
 Scenario: Update a student-section-association 
