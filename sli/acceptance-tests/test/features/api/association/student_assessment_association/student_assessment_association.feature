@@ -51,10 +51,9 @@ Then I should receive a return code of 200
 	And I should get a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
 	And I should get a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
 
-@wip
 Scenario: Reading a student-assessment-association for a assessment
 Given  format "application/json"
-When I navigate to GET  /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
+When I navigate to GET /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
 Then I should receive a return code of 200
 	And I should receive a collection of 3 student-assessment-associations that resolve to
 	And I should get a link named "getStudent" with URI /students/<'Jane Doe' ID>
@@ -62,22 +61,29 @@ Then I should receive a return code of 200
 	And I should get a link named "getStudent" with URI /students/<'Kevin Smith' ID>
 	And I should get a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
 
-@wip
-Scenario: Update a student-section-association 
-Given  format "application/vnd.slc+json"
-And I navigate to GET Student Assessment Associations for the AssessmentTitle "Mathematics Achievement Assessment Test" and Student "Jane Doe"
-	And Assessment Subject is "Mathematics Level I"
-When I set the Assessment Subject to "Mathematics Level II"
+Scenario: Update a student-assessment-association 
+Given  format "application/json"
+And I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>
+	Then  the "scoreResults" should be "85"
+When I set the ScoreResult to "95" 
+	And I set the PerformanceLevel to"4"
 	And I navigate to PUT /student-assessment-associations/<the previous association ID>
-Then I should get a return code of 2xx
-	And I navigate to GET /student-assessment-associations/<the previous association ID>
-	And the Assessment Subject should be "Mathematics Level II"
+Then I should receive a return code of 204
+When I navigate to GET /student-assessment-associations/<the previous association ID>
+	Then the "scoreResults" should be "95"
+	And the "performanceLevel" should be "4"
 
-@wip
+
 Scenario: Delete a student-assessment-association
-Given format "application/vnd.slc+json"
-And I navigate to DELETE /student-assessment-associations/<the previous association Id>
-Then I should get a return code of 2xx
-	And I navigate to GET /student-assessment-associations/<the previous association Id>
+Given format "application/json"
+And I navigate to DELETE /student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id>
+Then I should receive a return code of 204
+	And I navigate to GET /student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id>
 	And I should receive a return code of 404
+
+
+Scenario: Delete a nonexistent student-assessment-association
+Given format "application/json"
+And I navigate to DELETE /student-assessment-associations/<NonExistence Id>
+Then I should receive a return code of 404
 

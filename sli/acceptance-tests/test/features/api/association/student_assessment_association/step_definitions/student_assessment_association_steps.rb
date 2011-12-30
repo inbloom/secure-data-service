@@ -10,8 +10,11 @@ Transform /^\/student-assessment-associations\/<([^>]*)>$/ do |step_arg|
   s = "/student-assessment-associations/"
   id = s+"1e0ddefb-6b61-4f7d-b8c3-33bb5676115a" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID"
   id = s+"7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
-  id = s+"122a340e-e237-4766-98e3-4d2d67786572" if step_arg == "Alfonso at Apple Alternative Elementary School ID"
-  id = s+"11111111-1111-1111-1111-111111111111" if step_arg == "Invalid ID"
+  id = s+"a22532c4-6455-41da-b24d-4f93224f526d" if step_arg == "'Mathematics Achievement Assessment Test' ID"
+  id = "newId" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID"
+  id = "oldId" if step_arg =="the previous association ID"
+  id = s+"11111111-1111-1111-1111-111111111111" if step_arg == "NonExistence Id"
+  id = s+"68fbec8e-2041-4536-aad7-1105ab042c77" if step_arg == "AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id"
   id = s                                        if step_arg == "No GUID"
   id
 end
@@ -27,6 +30,8 @@ end
 Transform /^\/students\/<([^>]*)>$/ do |step_arg|
   s = "/students/"
   id = s+"7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
+  id = s+"034e6e7f-9da2-454a-b67c-b95bd9f36433" if step_arg == "'Albert Wright' ID"
+  id = s+"bda1a4df-c155-4897-85c2-953926a3ebd8" if step_arg == "'Kevin Smith' ID"
   id
 end
 
@@ -49,7 +54,7 @@ end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
-  puts @format
+  #puts @format
 end
 
 Given /^Assessment (ID is <[^>]*>)$/ do |arg1|
@@ -95,12 +100,54 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
   end
   restHttpPost(uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
+  @@oldId =uri
 end
 
 When /^I navigate to GET (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
-  puts uri
+  #puts uri
+  if uri == "newId"
+    #puts @@assocId
+  uri="/student-assessment-associations/"+@@assocId
+  elsif uri =="oldId"
+    uri=@@oldId
+  end
+  #puts uri
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
+  @@oldId=uri
+end
+
+When /^I set the ScoreResult to "([^"]*)"$/ do |arg1|
+  @scoreResults = arg1
+  @scoreResults.should_not == nil
+end
+
+When /^I set the PerformanceLevel to"([^"]*)"$/ do |arg1|
+  @performanceLevel = arg1
+  @performanceLevel.should_not == nil
+end
+
+When /^I navigate to PUT \/student\-assessment\-associations\/<the previous association ID>$/ do
+  uri = "/student-assessment-associations/"+@@assocId
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    
+    dataH["scoreResults"]=[Hash["result"=>@scoreResults]]
+    dataH["performanceLevel"]=@performanceLevel
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+  data=dataH.to_json
+  restHttpPut(uri, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
+  @@oldId=uri
+end
+
+Given /^I navigate to DELETE (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
+  restHttpDelete(uri)
+  assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
 Then /^I should receive a return code of (\d+)$/ do |arg1|
@@ -112,8 +159,9 @@ Then /^I should receive a ID for the newly created student\-assessment\-associat
   assert(headers != nil, "Result contained no headers")
   assert(headers['location'] != nil, "There is no location link from the previous request")
   s = headers['location'][0]
-  assocId = s[s.rindex('/')+1..-1]
-  assert(assocId != nil, "Student-Assessment-Association ID is nil")
+  @@assocId = s[s.rindex('/')+1..-1]
+  assert(@@assocId != nil, "Student-Assessment-Association ID is nil")
+  #puts @@assocId
 end
 
 Then /^I should receive (\d+) student\-assessment\-assoications$/ do |arg1|
