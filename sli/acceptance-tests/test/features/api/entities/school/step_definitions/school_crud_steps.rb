@@ -67,6 +67,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       "nameOfInstitution" => @fullName,
       "shortNameOfInstitution" => @shortName,
       "stateOrganizationId" => "123456778",
+      "gradesOffered" => [ "First_grade", "Second_grade" ],
       "webSite" => @websiteName]
     data = dataH.to_json
   elsif @format == "application/xml"
