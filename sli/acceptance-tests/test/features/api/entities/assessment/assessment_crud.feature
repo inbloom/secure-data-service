@@ -1,6 +1,6 @@
 
 Feature: In order to manage assessments
-As a SLI Application I wan t to be able to manage the basic model of assessments. This includes performing CRUD on Assessment entity. 
+As a SLI Application I want to be able to manage the basic model of assessments. This includes performing CRUD on Assessment entity.
 Also verify the correct links from assessment to student-assessment associations and family-assessment associations. An assessment can 
 be used to measure differences in individuals or groups and changes in performance from one occasion to the next.
 
@@ -29,6 +29,12 @@ Scenario: Create an assessment
 	When I navigate to POST assessment "Mathematics Test"
 	Then I should receive a return code of 201
 		And I should receive an ID for a newly created assessment
+        And AssessmentIdentificationCode is "01234B"
+        And AcademicSubject is "MATHEMATICS"
+        And AssessmentCategory is "ACHIEVEMENT_TEST"
+        And GradeLevelAssessed is "ADULT_EDUCATION"
+        And ContentStandard is "LEA_STANDARD"
+        And Version is "1.2"
 
 Scenario: Read an assessment by ID
 	Given format "application/json"
@@ -62,8 +68,9 @@ Scenario: Delete an assessment by ID
 Scenario: Assessment entity links to StudentAssessment association and AssessmentFamily association
    Given format "application/json"
    When I navigate to Assessment <'Mathematics Achievement Assessment Test' ID>
-   Then I should receive a return code of 2XX
-      And I should receive a link named "getStudentAssessmentAssociations" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
+   Then I should receive a return code of 200
+    And I should receive a link named "self" with URI /assessment/<'Mathematics Achievement Assessment Test' ID>
+    And I should receive a link named "getStudentAssessmentAssociations" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
 	And I should receive a link named "getStudentAssessments" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test'' ID>/targets
 	And I should receive a link named "getAssessmentFamily" with URI /assessment-family-associations/<'Mathematics Achievement Assessment Test' ID>
 
