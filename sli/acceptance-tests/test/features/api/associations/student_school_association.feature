@@ -35,7 +35,7 @@ Scenario: Read a student association by id
 		And "id" should equal "122a340e-e237-4766-98e3-4d2d67786572"
 		And "studentId" should equal "714c1304-8a04-4e23-b043-4ad80eb60992"
 		And "schoolId" should equal "eb3b8c35-f582-df23-e406-6947249a19f2"
-		And "entryGradeLevel" should equal "FIRST_GRADE"
+		And "entryGradeLevel" should equal "First_grade"
 		And I should receive a link where rel is "self" and href ends with "/student-school-associations/<Alfonso at Apple Alternative Elementary School ID>"
 		And I should receive a link where rel is "getSchool" and href ends with "/schools/<Apple Alternative Elementary School ID>"
 		And I should receive a link where rel is "getStudent" and href ends with "/students/<Alfonso's ID>"
