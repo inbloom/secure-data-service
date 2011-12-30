@@ -50,8 +50,10 @@ When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
   
   dataH = JSON.parse(@res.body)
   assert(dataH != nil, "Result of JSON parsing is nil")
-  dataH['address'] = [Hash["streetNumberName" => arg1]]
-  dataH['address' => [Hash["streetNumberName" => arg1]]]
+  dataH['address'] = [Hash["streetNumberName" => arg1,
+                           "city" => "Urbania",
+                           "stateAbbreviation" => "NC",
+                           "postalCode" => "12345"]]
   data = dataH.to_json
 
   restHttpPut(student_uri, data, "application/json")
