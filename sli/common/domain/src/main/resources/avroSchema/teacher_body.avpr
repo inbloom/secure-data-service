@@ -3,13 +3,8 @@
   "name" : "Teacher",
   "namespace" : "org.slc.sli.domain",
   "doc" : "This entity represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties.",
-  "fields" : [ {
-    "name" : "id",
-    "type" : [ "null", {
-      "type" : "string",
-      "xsd-type" : "ID"
-    } ]
-  }, {
+  "fields" : [ 
+  {
     "name" : "staffUniqueStateId",
     "doc" : "A unique numeric code assigned to a person by a state education agency.",
     "type" : "int"
