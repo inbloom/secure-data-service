@@ -10,20 +10,20 @@ Background: Logged in as a super-user and using the small data set
 #### Happy Path 
 Scenario Outline: Create a new section
     Given format <format>
-      	And the UniqueSectionCode is "SpanishB09"
-      	And the SequenceOfCourse is 1
-       	And the EducationalEnvironment is "OFF_SCHOOL_CENTER"
-       	And the MediumOfInstruction is "INDEPENDENT_STUDY"
-       	And the PopulationServed is "REGULAR_STUDENTS"
+      	And the uniqueSectionCode is "SpanishB09"
+      	And the sequenceOfCourse is 1
+       	And the educationalEnvironment is "OFF_SCHOOL_CENTER"
+       	And the mediumOfInstruction is "INDEPENDENT_STUDY"
+       	And the populationServed is "REGULAR_STUDENTS"
 	When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
        	And I should receive a ID for the newly created section
     When I navigate to GET /sections/<'newly created section' ID>
-    Then I should see the SequenceOfCourse is 1
-      And I should see the EducationalEnvironment is "OFF_SCHOOL_CENTER"
-      And I should see the MediumOfInstruction is "INDEPENDENT_STUDY"
-      And I should see the PopulationServed is "REGULAR_STUDENTS"
-      And I should see the UniqueSectionCode is "SpanishB09"
+    Then I should see the sequenceOfCourse is 1
+      And I should see the educationalEnvironment is "OFF_SCHOOL_CENTER"
+      And I should see the mediumOfInstruction is "INDEPENDENT_STUDY"
+      And I should see the populationServed is "REGULAR_STUDENTS"
+      And I should see the uniqueSectionCode is "SpanishB09"
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -34,10 +34,10 @@ Scenario Outline: Read a section by id
     Given format <format>
     When I navigate to GET /sections/<'biologyF09' ID>
     Then I should receive a return code of 200
-    	And I should see the SequenceOfCourse is 1
-     	And I should see the EducationalEnvironment is "OFF_SCHOOL_CENTER"
-     	And I should see the MediumOfInstruction is "INDEPENDENT_STUDY"
-     	And I should see the PopulationServed is "REGULAR_STUDENTS"
+    	And I should see the sequenceOfCourse is 1
+     	And I should see the educationalEnvironment is "OFF_SCHOOL_CENTER"
+     	And I should see the mediumOfInstruction is "INDEPENDENT_STUDY"
+     	And I should see the populationServed is "REGULAR_STUDENTS"
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -50,7 +50,7 @@ Scenario Outline: Update an existing section
     When I navigate to PUT /sections/<'biologyF09' ID>
     Then I should receive a return code of 204
     When I navigate to GET /sections/<'biologyF09' ID>
-     And I should see the SequenceOfCourse is 2
+     And I should see the sequenceOfCourse is 2
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -76,7 +76,6 @@ Scenario: Section Resource links to teacher section association
    Given format "application/json"
    When I navigate to GET /sections/<'biology567' ID>
    Then I should receive a return code of 200
-      # these are links contained in a single entity
       And I should receive a link named "getTeacherSectionAssociations" with URI /teacher-section-associations/<'biology567' ID>
 	  And I should receive a link named "getStudentSectionAssociations" with URI /student-section-associations/<'biology567' ID>
    	  And I should receive a link named "getTeachers" with URI /teacher-section-associations/<'biology567' ID>/targets
@@ -96,7 +95,7 @@ Scenario: Attempt to delete a non-existing section
 
 Scenario: Update a non-existing section
     Given format "application/json"
-    When I attempt to update a non-existing /sections/<'Invalid' ID>
+    When I attempt to PUT /sections/<'Invalid' ID>
     Then I should receive a return code of 404      
     
 Scenario: Fail when asking for an unsupported format "text/plain"

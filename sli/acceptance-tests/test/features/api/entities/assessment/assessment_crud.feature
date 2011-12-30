@@ -6,11 +6,11 @@ be used to measure differences in individuals or groups and changes in performan
 
 
 This is the data I am assuming for these tests
-AssessmentTitle: Mathematics Achievement Assessment Test, Writing Advanced Placement Test
-AcademicSubject: Mathematics, Writing, Foreign Language
-GradeLevelAssessed: Adult
-ContentStandard: School Standard
-AssessmentCategory: Achievement  Test,  Advanced Placement Test
+assessmentTitle: Mathematics Achievement Assessment Test, Writing Advanced Placement Test
+academicSubject: Mathematics, Writing, Foreign Language
+gradeLevelAssessed: Adult
+contentStandard: School Standard
+assessmentCategory: Achievement  Test,  Advanced Placement Test
 
 Background: Logged in as a super-user and using the small data set
   	Given I am logged in using "demo" "demo1234"
@@ -19,43 +19,43 @@ Background: Logged in as a super-user and using the small data set
 ## JSON
 Scenario: Create an assessment 
 	Given format "application/json"
-		And AssessmentTitle is "Mathematics Achievement Assessment Test"
-		And AssessmentIdentificationCode is "01234B"
-		And AcademicSubject is "MATHEMATICS"
-		And AssessmentCategory is "ACHIEVEMENT_TEST"
-		And GradeLevelAssessed is "ADULT_EDUCATION"
-		And ContentStandard is "LEA_STANDARD"
+		And assessmentTitle is "Mathematics Achievement Assessment Test"
+		And assessmentIdentificationCode is "01234B"
+		And academicSubject is "MATHEMATICS"
+		And assessmentCategory is "ACHIEVEMENT_TEST"
+		And gradeLevelAssessed is "ADULT_EDUCATION"
+		And contentStandard is "LEA_STANDARD"
 		And Version is "1.2"
 	When I navigate to POST assessment "Mathematics Test"
 	Then I should receive a return code of 201
 		And I should receive an ID for a newly created assessment
     When I navigate to GET /assessments/<'newly created assessment' ID>
-    Then the AssessmentIdentificationCode is "01234B"
-        And AcademicSubject is "MATHEMATICS"
-        And AssessmentCategory is "ACHIEVEMENT_TEST"
-        And GradeLevelAssessed is "ADULT_EDUCATION"
-        And ContentStandard is "LEA_STANDARD"
+    Then the assessmentIdentificationCode is "01234B"
+        And academicSubject is "MATHEMATICS"
+        And assessmentCategory is "ACHIEVEMENT_TEST"
+        And gradeLevelAssessed is "ADULT_EDUCATION"
+        And contentStandard is "LEA_STANDARD"
         And Version is "1.2"
 
 Scenario: Read an assessment by ID
 	Given format "application/json"
 	When I navigate to GET /assessments/<'Writing Assessment 1' ID>
 	Then I should receive a return code of 200
-		And the AssessmentTitle should be "Writing Advanced Placement Test" 
-		And the AcademicSubject should be "ENGLISH_LANGUAGE_AND_LITERATURE"
-		And the AssessmentCategory should be "ADVANCED_PLACEMENT_TEST"
+		And the assessmentTitle should be "Writing Advanced Placement Test"
+		And the academicSubject should be "ENGLISH_LANGUAGE_AND_LITERATURE"
+		And the assessmentCategory should be "ADVANCED_PLACEMENT_TEST"
 
 Scenario: Update an assessment by ID
 	Given format "application/json"
 		When I navigate to GET /assessments/<'Writing Assessment 1' ID>
 		Then I should receive a return code of 200
-		And the AssessmentTitle should be "Writing Advanced Placement Test" 
-	When I set the AssessmentTitle to "Advanced Placement Test - Subject: Writing"
+		And the assessmentTitle should be "Writing Advanced Placement Test"
+	When I set the assessmentTitle to "Advanced Placement Test - Subject: Writing"
 		And I navigate to PUT /assessments/<'Writing Assessment 1' ID>
 	Then I should receive a return code of 204
 	When I navigate to GET /assessments/<'Writing Assessment 1' ID>
 	Then I should receive a return code of 200
-	And the AssessmentTitle should be "Advanced Placement Test - Subject: Writing"
+	And the assessmentTitle should be "Advanced Placement Test - Subject: Writing"
 
 Scenario: Delete an assessment by ID
 	Given format "application/json"
