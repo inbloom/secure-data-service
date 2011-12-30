@@ -64,7 +64,10 @@
     "type" : [ "null", "org.slc.sli.domain.enum.OldEthnicityType" ]
   }, {
     "name" : "race",
-    "type" : "org.slc.sli.domain.RaceType"
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.RaceItemType"
+     } ]
   }, {
     "name" : "highestLevelOfEducationCompleted",
     "type" : "org.slc.sli.domain.enum.LevelOfEducationType"
