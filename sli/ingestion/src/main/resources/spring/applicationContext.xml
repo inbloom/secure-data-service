@@ -66,13 +66,19 @@
     </property>
   </bean>
 
-  <bean id="xmlFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+    <property name="sliSmooksFactory">
+      <ref bean="sliSmooksFactory" />
+    </property>
+  </bean>
+
+  <bean id="xmlFileHandler" parent="smooksFileHandler">
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
     </property>
   </bean>
 
-  <bean id="csvFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+  <bean id="csvFileHandler" parent="smooksFileHandler">
     <property name="preValidator">
       <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
     </property>
