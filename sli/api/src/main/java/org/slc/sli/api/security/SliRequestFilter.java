@@ -26,7 +26,7 @@ public class SliRequestFilter extends GenericFilterBean {
     private static final String PARAM_SESSION = "sessionId";
     private static final String HEADER_SESSION_NAME = "sessionId";
 
-    @Resource(name="openamRestTokenResolver")
+    @Resource(name = "openamRestTokenResolver")
     private SecurityTokenResolver resolver;
 
     /**
