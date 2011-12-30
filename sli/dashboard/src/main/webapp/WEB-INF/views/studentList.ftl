@@ -53,7 +53,6 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
 <link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
 </head>
 <body onLoad="populateSchoolMenu()">
-
 <div id="container">
 
     <div id="header">
@@ -64,7 +63,7 @@ function printStudentList(schoolIndex, courseIndex, sectionIndex){
             SLI Dashboard - List of Students
         </h1>
     </div>
-
+	<#include "header.ftl">
     <div id="content">
     
         <div id="populationSelect">

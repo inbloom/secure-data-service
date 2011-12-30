@@ -36,6 +36,7 @@ def runTests(testDirPath)
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
+      $SUCCESS=false
     end
   end
 end
@@ -75,16 +76,24 @@ task :default => :production
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
-  puts "Complete All Tests"
+  if $SUCCESS
+    puts "Completed API Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests, :homeUriTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests] do
   displayFailureReport()
-  puts "Completed API Tests"
+  if $SUCCESS
+    puts "Completed API Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Section Tests"
@@ -117,6 +126,7 @@ end
 desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
+  runTests("test/features/api/association/studentassessmentassociation")
 end
 
 desc "Run Home URI Tests"
@@ -180,7 +190,8 @@ task :importSandboxData do
     "teacher" => "teacher_fixture.json",
     "assessment" => "assessment_fixture.json",
     "studentschoolassociation" => "student_enrollments_fixture.json",
-    "teachersectionassociation" => "teacher_section_fixture.json"
+    "teachersectionassociation" => "teacher_section_fixture.json",
+    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

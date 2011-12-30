@@ -4,5 +4,5 @@
   "namespace" : "org.slc.sli.domain.enum",
   "doc" : "The enumeration items for the set of cohort years.",
   "xsd-type" : "token",
-  "symbols" : [ "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "NINTH_GRADE", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TWELFTH_GRADE" ]
+  "symbols" : [ "Eighth_grade", "Eleventh_grade", "Fifth_grade", "First_grade", "Fourth_grade", "Ninth_grade", "Second_grade", "Seventh_grade", "Sixth_grade", "Tenth_grade", "Third_grade", "Twelfth_grade" ]
 }
