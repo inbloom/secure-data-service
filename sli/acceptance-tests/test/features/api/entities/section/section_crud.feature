@@ -10,19 +10,20 @@ Background: Logged in as a super-user and using the small data set
 #### Happy Path 
 Scenario Outline: Create a new section
     Given format <format>
-      	And the unique section code is "SpanishB09"
-      	And the sequence of course is 1
-       	And the educational environment is "OFF_SCHOOL_CENTER"
-       	And the medium of instruction is "INDEPENDENT_STUDY"
-       	And the population served is "REGULAR_STUDENTS"
+      	And the UniqueSectionCode is "SpanishB09"
+      	And the SequenceOfCourse is 1
+       	And the EducationalEnvironment is "OFF_SCHOOL_CENTER"
+       	And the MediumOfInstruction is "INDEPENDENT_STUDY"
+       	And the PopulationServed is "REGULAR_STUDENTS"
 	When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
        	And I should receive a ID for the newly created section
-    When I navigate to GET section "SpanishB09"
-    Then I should see the sequence of course is 1
-      And I should see the educational environment is "OFF_SCHOOL_CENTER"
-      And I should see the medium of instruction is "INDEPENDENT_STUDY"
-      And I should see the population served is "REGULAR_STUDENTS"
+    When I navigate to GET /sections/<'newly created section' ID>
+    Then I should see the SequenceOfCourse is 1
+      And I should see the EducationalEnvironment is "OFF_SCHOOL_CENTER"
+      And I should see the MediumOfInstruction is "INDEPENDENT_STUDY"
+      And I should see the PopulationServed is "REGULAR_STUDENTS"
+      And I should see the UniqueSectionCode is "SpanishB09"
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -31,12 +32,12 @@ Scenario Outline: Create a new section
 
 Scenario Outline: Read a section by id
     Given format <format>
-    When I navigate to GET section "biologyF09"
+    When I navigate to GET /sections/<'biologyF09' ID>
     Then I should receive a return code of 200
-    	And I should see the sequence of course is 1
-     	And I should see the educational environment is "OFF_SCHOOL_CENTER"
-     	And I should see the medium of instruction is "INDEPENDENT_STUDY"
-     	And I should see the population served is "REGULAR_STUDENTS"
+    	And I should see the SequenceOfCourse is 1
+     	And I should see the EducationalEnvironment is "OFF_SCHOOL_CENTER"
+     	And I should see the MediumOfInstruction is "INDEPENDENT_STUDY"
+     	And I should see the PopulationServed is "REGULAR_STUDENTS"
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -45,11 +46,11 @@ Scenario Outline: Read a section by id
 
 Scenario Outline: Update an existing section
     Given format <format>
-    And the sequence of course is 2
-    When I navigate to PUT section "biologyF09"
+    And the SequenceOfCourse is 2
+    When I navigate to PUT /sections/<'biologyF09' ID>
     Then I should receive a return code of 204
-    When I navigate to GET section "biologyF09"
-     And I should see the sequence of course is 2
+    When I navigate to GET /sections/<'biologyF09' ID>
+     And I should see the SequenceOfCourse is 2
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -58,9 +59,9 @@ Scenario Outline: Update an existing section
         
 Scenario Outline: Delete an existing section
     Given format <format>
-    When I navigate to DELETE section "biologyF09"
+    When I navigate to DELETE /sections/<'biologyF09' ID>
     Then I should receive a return code of 204
-    When I navigate to GET section "biologyF09"
+    When I navigate to GET /sections/<'biologyF09' ID>
     Then I should receive a return code of 404
     Examples:
     		| format                     |
@@ -72,42 +73,43 @@ Scenario Outline: Delete an existing section
 ###Links
 @wip
 Scenario: Section Resource links to teacher section association
-   Given format "application/vnd.slc+json"
-   When I navigate to Section "567"
+   Given format "application/json"
+   When I navigate to GET /sections/<'biology567' ID>
    Then I should receive a return code of 200
-      And I should receive a link named "getTeacherSectionAssociations" with URI /teacher-section-associations/<'567' ID>
-	  And I should receive a link named "getStudentSectionAssociations" with URI /student-section-associations/<'567' ID>
-   	  And I should receive a link named "getTeachers" with URI /teacher-section-associations/<'567' ID>/targets
-	  And I should receive a link named "getStudents" with URI /student-section-associations/<'567' ID>/targets
-	  And I should receive a link named "getSections" with URI /sections/<'567' ID>
+      # these are links contained in a single entity
+      And I should receive a link named "getTeacherSectionAssociations" with URI /teacher-section-associations/<'biology567' ID>
+	  And I should receive a link named "getStudentSectionAssociations" with URI /student-section-associations/<'biology567' ID>
+   	  And I should receive a link named "getTeachers" with URI /teacher-section-associations/<'biology567' ID>/targets
+	  And I should receive a link named "getStudents" with URI /student-section-associations/<'biology567' ID>/targets
+	  And I should receive a link named "self" with URI /sections/<'biology567' ID>
     
 ### Error handling
 Scenario: Attempt to read a non-existing section
     Given format "application/json"
-    When I navigate to GET section "Invalid"
+    When I navigate to GET /sections/<'Invalid' ID>
     Then I should receive a return code of 404      
 
 Scenario: Attempt to delete a non-existing section
     Given format "application/json"
-    When I navigate to DELETE section "Invalid"
+    When I navigate to DELETE /sections/<'Invalid' ID>
     Then I should receive a return code of 404      
 
 Scenario: Update a non-existing section
     Given format "application/json"
-    When I attempt to update a non-existing section "Invalid"
+    When I attempt to update a non-existing /sections/<'Invalid' ID>
     Then I should receive a return code of 404      
     
 Scenario: Fail when asking for an unsupported format "text/plain"
     Given format "text/plain"
-    When I navigate to GET section "physicsS08"
+    When I navigate to GET /sections/<'physicsS08' ID>
     Then I should receive a return code of 406
     
 Scenario: Fail if going to the wrong URI
     Given format "application/json"
-    When I navigate to GET section "WrongURI"
+    When I navigate to GET /sections/<'WrongURI' ID>
     Then I should receive a return code of 404
     
  Scenario: Attempt to read the base section resource with no GUID
     Given format "application/json"
-    When I navigate to GET section "NoGUID"
+    When I navigate to GET /sections/<'NoGUID' ID>
     Then I should receive a return code of 405

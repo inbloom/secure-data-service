@@ -29,7 +29,8 @@ Scenario: Create an assessment
 	When I navigate to POST assessment "Mathematics Test"
 	Then I should receive a return code of 201
 		And I should receive an ID for a newly created assessment
-        And AssessmentIdentificationCode is "01234B"
+    When I navigate to GET /assessments/<'newly created assessment' ID>
+    Then the AssessmentIdentificationCode is "01234B"
         And AcademicSubject is "MATHEMATICS"
         And AssessmentCategory is "ACHIEVEMENT_TEST"
         And GradeLevelAssessed is "ADULT_EDUCATION"
@@ -38,7 +39,7 @@ Scenario: Create an assessment
 
 Scenario: Read an assessment by ID
 	Given format "application/json"
-	When I navigate to GET assessment "Writing Assessment 1"
+	When I navigate to GET /assessments/<'Writing Assessment 1' ID>
 	Then I should receive a return code of 200
 		And the AssessmentTitle should be "Writing Advanced Placement Test" 
 		And the AcademicSubject should be "ENGLISH_LANGUAGE_AND_LITERATURE"
@@ -46,30 +47,30 @@ Scenario: Read an assessment by ID
 
 Scenario: Update an assessment by ID
 	Given format "application/json"
-		When I navigate to GET assessment "Writing Assessment 1"
+		When I navigate to GET /assessments/<'Writing Assessment 1' ID>
 		Then I should receive a return code of 200
 		And the AssessmentTitle should be "Writing Advanced Placement Test" 
 	When I set the AssessmentTitle to "Advanced Placement Test - Subject: Writing"
-		And I navigate to PUT assessment "Writing Assessment 1"
+		And I navigate to PUT /assessments/<'Writing Assessment 1' ID>
 	Then I should receive a return code of 204
-	When I navigate to GET assessment "Writing Assessment 1"
+	When I navigate to GET /assessments/<'Writing Assessment 1' ID>
 	Then I should receive a return code of 200
 	And the AssessmentTitle should be "Advanced Placement Test - Subject: Writing"
 
 Scenario: Delete an assessment by ID
 	Given format "application/json"
-	When I navigate to DELETE assessment "Writing Assessment 2"
+	When I navigate to DELETE /assessments/<'Writing Assessment 2' ID>
 	Then I should receive a return code of 204
-	When I navigate to GET assessment "Writing Assessment 2"
+	When I navigate to GET /assessments/<'Writing Assessment 2'  ID>
 	Then I should receive a return code of 404
 
 ## LINKS
 @wip
 Scenario: Assessment entity links to StudentAssessment association and AssessmentFamily association
    Given format "application/json"
-   When I navigate to Assessment <'Mathematics Achievement Assessment Test' ID>
+   When I navigate to /assessments/<'Mathematics Achievement Assessment Test' ID>
    Then I should receive a return code of 200
-    And I should receive a link named "self" with URI /assessment/<'Mathematics Achievement Assessment Test' ID>
+    And I should receive a link named "self" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
     And I should receive a link named "getStudentAssessmentAssociations" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
 	And I should receive a link named "getStudentAssessments" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test'' ID>/targets
 	And I should receive a link named "getAssessmentFamily" with URI /assessment-family-associations/<'Mathematics Achievement Assessment Test' ID>
@@ -77,17 +78,17 @@ Scenario: Assessment entity links to StudentAssessment association and Assessmen
 ## ERROR HANDLING
 Scenario: Attempt to read a non-existent assessment
    Given format "application/json"
-   When I navigate to GET assessment "NonExistentAssessment"
+   When I navigate to GET /assessments/<'NonExistentAssessment' ID>
    Then I should receive a return code of 404
 
 Scenario: Attempt to update a non-existent assessment
    Given format "application/json"
-   When I attempt to update a non-existing assessment "NonExistentAssessment"
+   When I navigate to PUT /assessments/'NonExistentAssessment' ID>
    Then I should receive a return code of 404
 
 Scenario: Attempt to delete a non-existent assessment
    Given format "application/json"
-   When I navigate to DELETE assessment "NonExistentAssessment"
+   When I navigate to DELETE /assessments/<'NonExistentAssessment' ID>
    Then I should receive a return code of 404
    
    
