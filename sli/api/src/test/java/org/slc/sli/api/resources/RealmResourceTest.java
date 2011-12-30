@@ -52,6 +52,9 @@ public class RealmResourceTest {
     
     @Before
     public void init() {
+        // inject administrator security context for unit testing
+        SecurityContextInjection.setAdminContext();
+        
         entities = new HashMap<String, EntityBody>();
         
         EntityBody entity = new EntityBody();
