@@ -27,7 +27,6 @@ end
 
 When /^I click on the page Go button$/ do
   @driver.find_element(:id, "go").click
-#  pending # express the regexp above with the code you wish you had
 end
 
 Then /^I should be redirected to "([^"]*)" Realm Login page$/ do |arg1|
