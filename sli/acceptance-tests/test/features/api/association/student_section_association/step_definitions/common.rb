@@ -105,6 +105,7 @@ Then /^I should receive a ID for the newly created (.*)$/ do |type|
   s = headers['location'][0]
   assocId = s[s.rindex('/')+1..-1]
   assert(assocId != nil, "#{type} ID is nil")
+  @post_uri = assocId
 end
 
 Then /^I should receive a return code of (\d+)$/ do |code|

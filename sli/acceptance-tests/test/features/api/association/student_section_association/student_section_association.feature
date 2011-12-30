@@ -9,16 +9,27 @@ Student: Jane Doe
 Background: 
 	Given I am logged in using "demo" "demo1234"
 
-Scenario: Create a student-section-association
-	Given format "application/vnd.slc+json"
+Scenario Outline: Create a student-section-association
+	Given format <format>
 		And "sectionId" is Section "Biology II - C"
 		And "studentId" is Student "Jane Doe"
+		And "beginDate" is "2011-12-15T15:00:00Z"
 	When I navigate to POST "/student-section-associations"
 	Then I should receive a return code of 201
 		And I should receive a ID for the newly created student-section-association
+	When I navigate to GET Student Section Association for Student "Jane Doe" and Section "Biology II - C"
+	Then I should receive a return code of 200
+		And "sectionId" should equal Section "Biology II - C"
+		And "studentId" should equal Student "Jane Doe"
+		And "beginDate" should equal "2011-12-15T15:00:00Z"
+	Examples:
+	    	| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/xml"          |
 
-Scenario: Read a student-section-association
-	Given format "application/vnd.slc+json"
+Scenario Outline: Read a student-section-association
+	Given format <format>
 	When I navigate to GET Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
 	Then I should receive a return code of 200
 		And I should receive 1 student-section-association
@@ -27,6 +38,11 @@ Scenario: Read a student-section-association
 		And "beginDate" should equal "2011-09-15T15:00:00Z"
 		And "endDate" should equal "2011-12-15T15:00:00Z"
 		And "repeatIdentifier" should equal "REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE"
+	Examples:
+	    	| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/xml"          |
 
 Scenario: Reading a student-section-association for a student
 	Given format "application/vnd.slc+json"
@@ -47,21 +63,31 @@ Scenario: Reading a student-section-association for a section
 		And I should receive a link named "getStudent" with URI for Student "Kevin Smith"
 		And I should receive a link named "getStudent" with URI for Student "Jane Doe"
 
-Scenario: Update a student-section-association 
-	Given  format "application/vnd.slc+json"
+Scenario Outline: Update a student-section-association 
+	Given format <format>
 		And I navigate to GET Student Section Association for Student "Albert Wright" and Section "Foreign Language - A" 
 	When "repeatIdentifier" is updated to "NOT_REPEATED"
 		And I navigate to PUT Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
 	Then I should receive a return code of 204
 	When I navigate to GET Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
 	Then "repeatIdentifier" should equal "NOT_REPEATED"
+	Examples:
+	    	| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/xml"          |
 
-Scenario: Delete a student-section-association
-	Given format "application/vnd.slc+json"
+Scenario Outline: Delete a student-section-association
+	Given format <format>
 	And I navigate to DELETE Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
 	Then I should receive a return code of 204
 		And I navigate to GET Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
 		And I should receive a return code of 404
+		Examples:
+	    	| format                     |
+    		| "application/json"         |
+#    		| "application/vnd.slc+json" |
+#    		| "application/xml"          |
 	
 ### Error Handling
 Scenario: Attempt to read a non-existing student section association

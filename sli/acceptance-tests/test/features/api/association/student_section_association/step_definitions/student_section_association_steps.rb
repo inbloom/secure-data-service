@@ -27,6 +27,7 @@ Transform /^Student Section Association for Student "([^"]*)" and Section "([^"]
   uri = "4efb5272-bc49-f388-0000-0000c9355705" if student == "Albert Wright" and section == "Chemistry I - A"
   uri = "4efb4b14-bc49-f388-0000-0000c9355702" if student == "Kevin Smith" and section == "Chemistry I - A"
   uri = "4efb7614-8488-7b01-0000-000059f9ba55" if student == "Albert Wright" and section == "Foreign Language - A"
+  uri = @post_uri                              if student == "Jane Doe" and section == "Biology II - C"
   uri
 end
 
@@ -59,4 +60,8 @@ end
 #Thens
 Then /^I should receive a link named "([^"]*)" with URI for ((Student|Section) "[^"]*")$/ do |link_name, uri, type|
   step 'I should receive a link named "' + link_name + '" with URI for "' + uri + '"'
+end
+
+Then /^("[^"]*") should equal ((Section|Student) "[^"]*")$/ do |key, value, student_or_section|
+  step key + ' should equal "' + value + '"'
 end
