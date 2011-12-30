@@ -1,4 +1,4 @@
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../../utils/sli_utils.rb'
 
 Transform /^(?:is|equal) "([^"]*)"$/ do |step_arg|
   retval = "FIRST_GRADE" if step_arg == "First grade"
@@ -14,16 +14,22 @@ Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
   assert(@cookie != nil, "Cookie retrieved was nil")
 end
 
-
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Given /^"([^"]*)" (is "[^"]*")$/ do |key, value|
+Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
   @fields[key] = value
+end
+
+When /^"([^"]*)" is updated to "([^"]*)"$/ do |key, new_value|
+  if !defined? @updates
+    @updates = {}
+  end
+  @updates[key] = new_value
 end
 
 Then /^I should receive a ID for the newly created (.*)$/ do |type|
@@ -70,13 +76,12 @@ Then /^the collection should contain a link where rel is "([^"]*)" and href ends
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
 
-Then /^"([^"]*)" should (equal "[^"]*")$/ do |key, value|
+Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
   assert(@data != nil, "Response contains no data")
   assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
   assert(@data.has_key?(key), "Response does not contain key #{key}")
   assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
 end
-
 
 When /^I navigate to GET "([^"]*)"$/ do |uri|
   restHttpGet(uri)
@@ -92,6 +97,24 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
   else
     assert(false, "Unsupported MediaType")
   end
+end
+
+When /^I navigate to PUT "([^"]*)"$/ do |uri|
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET was nil")
+  assert(@res.code == 200, "Return code was not expected: #{@res.code} but expected 200")
+  
+  if @format == "application/json"
+    dataH = JSON.parse(@res.body)
+    @updates.each do |key, value|
+      dataH[key] = value
+    end
+    data = dataH.to_json
+  elsif @format == "application/xml"
+    data = Document.new(@res.body)
+  end
+  restHttpPut(uri, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I navigate to POST "([^"]*)"$/ do |uri|
