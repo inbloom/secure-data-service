@@ -75,18 +75,6 @@
       "items" : "org.slc.sli.domain.AccountabilityRating"
     } ]
   }, {
-    "name" : "programReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "org.slc.sli.domain.ProgramReferenceType"
-    } ]
-  }, {
-    "name" : "educationOrganizationPeerReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "org.slc.sli.domain.EducationalOrgReferenceType"
-    } ]
-  }, {
     "name" : "gradesOffered",
     "type" : "org.slc.sli.domain.GradeLevelsType"
   }, {
@@ -110,17 +98,5 @@
   }, {
     "name" : "localEducationAgencyReference",
     "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
-  }, {
-    "name" : "classPeriodReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "org.slc.sli.domain.ReferenceType"
-    } ]
-  }, {
-    "name" : "locationReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "org.slc.sli.domain.ReferenceType"
-    } ]
   } ]
 }
