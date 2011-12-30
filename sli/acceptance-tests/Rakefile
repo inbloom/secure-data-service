@@ -126,7 +126,7 @@ end
 desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
-  runTests("test/features/api/association/studentassessmentassociation")
+  runTests("test/features/api/association/student_assessment_association")
 end
 
 desc "Run Home URI Tests"

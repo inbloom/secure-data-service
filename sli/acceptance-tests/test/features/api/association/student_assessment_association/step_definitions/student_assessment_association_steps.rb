@@ -9,7 +9,7 @@ require_relative '../../../../utils/sli_utils.rb'
 Transform /^\/student-assessment-associations\/<([^>]*)>$/ do |step_arg|
   s = "/student-assessment-associations/"
   id = s+"1e0ddefb-6b61-4f7d-b8c3-33bb5676115a" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID"
-  id = s+"714c1304-8a04-4e23-b043-4ad80eb60992" if step_arg == "Alfonso's ID"
+  id = s+"7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
   id = s+"122a340e-e237-4766-98e3-4d2d67786572" if step_arg == "Alfonso at Apple Alternative Elementary School ID"
   id = s+"11111111-1111-1111-1111-111111111111" if step_arg == "Invalid ID"
   id = s                                        if step_arg == "No GUID"
@@ -33,6 +33,7 @@ end
 Transform /^\/assessments\/<([^>]*)>$/ do |step_arg|
   s = "/assessments/"
   id = s+"6a53f63e-deb8-443d-8138-fc5a7368239c" if step_arg == "'Writing Achievement Assessment Test' ID"
+  id = s+"a22532c4-6455-41da-b24d-4f93224f526d" if step_arg =="'Mathematics Achievement Assessment Test' ID"
   id
 end
 
@@ -84,6 +85,7 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
     dataH = Hash["studentId"=> @studentId,
     "assessmentId" => @assessmentId,
     "administrationDate" => @administrationDate,
+    "scoreResults"=>[Hash["result"=>@scoreResults]],
     "performanceLevel"=> @performanceLevel]
   data=dataH.to_json
   elsif @format == "application/xml"
@@ -184,10 +186,20 @@ Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|
   end
 end
 
-Then /^the administration end date should be "([^"]*)"$/ do |arg1|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
+Then /^I should receive a collection of (\d+) student\-assessment\-associations that resolve to$/ do |arg1|
+   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
-    assert(dataH["administrationEndDate"]==arg1,"Expected administration end date not found in response")
+    @collectionLinks = []
+    counter=0
+    @ids = Array.new
+    dataH.each do|link|
+      if link["link"]["rel"]=="self"
+      counter=counter+1
+      @ids.push(link["id"])
+     # puts @ids
+      end
+    end
+    assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
   else
@@ -195,17 +207,48 @@ Then /^the administration end date should be "([^"]*)"$/ do |arg1|
   end
 end
 
-Then /^the retest indicator should be (\d+)$/ do |arg1|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
+Then /^I should get a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ do |rel,href|
+    found =false
+   @ids.each do |id|
+     uri = "/student-assessment-associations/"+id
+     restHttpGet(uri)
+     assert(@res != nil, "Response from rest-client GET is nil")
+     if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
-    assert(dataH["retestIndicator"]==arg1,"Expected retest indicator not found in response")
+    dataH["links"].each do|link|
+      if link["rel"]==rel and link["href"].include? href
+      found =true
+      end
+    end
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
   else
     assert(false, "Unsupported MIME type")
   end
-end
+    end
+     assert(found, "didnt receive link named #{rel} with URI #{href}")
+    end
+ 
 
-Then /^the Score Results should be (\d+)$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
+Then /^I should get a link named "([^"]*)" with URI (\/assessments\/<[^>]*>)$/ do |rel,href|
+  found =false
+   @ids.each do |id|
+     uri = "/student-assessment-associations/"+id
+     restHttpGet(uri)
+     assert(@res != nil, "Response from rest-client GET is nil")
+     if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    dataH["links"].each do|link|
+      if link["rel"]==rel and link["href"].include? href
+      found =true
+      end
+    end
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+    end
+     assert(found, "didnt receive link named #{rel} with URI #{href}")
+    end
+
