@@ -3,58 +3,70 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 
 Given /^I am not authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.manage.delete_all_cookies
 end
 
 When /^I navigate to the SLI Default Roles Admin Page$/ do
-  pending # express the regexp above with the code you wish you had
+  url = "http://"+PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  @driver.get url
+  assert(@driver.current_url == url, "Failed to navigate to "+url)
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@driver.current_url.index("/disco/realms/") != nil, "Failed to be redirected to Realmchooser")
 end
 
 Given /^I am authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
+  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  @driver.get url
+  @driver.find_element(:id, "IDToken1").send_keys "administrator"
+  @driver.find_element(:id, "IDToken2").send_keys "administrator1234"
+  @driver.find_element(:name, "Login.Submit").click
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@driver.current_url.index("/admin/roles") != nil, "Failed to navigate to the Admintools Role page")
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.get url
+  assert(@driver.current_url == url, "Failed to navigate to "+url)
+end
+
+Given /^I was redirected to the Realm page$/ do
+  assert(@driver.current_url.index("/disco/realms/") != nil, "Failed to be redirected to Realmchooser")
+end
+
+Given /^I choose my realm$/ do
+  @driver.find_element(:id, "3").click
+  @driver.find_element(:id, "go").click
 end
 
 Given /^I was redirected to the SLI IDP Login page$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@driver.current_url.index("/idp") != nil, "Failed to navigate to IDP login page")
 end
 
-Given /^I am user  "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Given /^I am user "([^"]*)"$/ do |arg1|
+  #No code needed for this step
 end
 
 Given /^"([^"]*)" is valid "([^"]*)" user$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  #No code needed for this step
 end
 
 When /^I enter "([^"]*)" in the username text field$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "IDToken1").send_keys arg1
 end
 
-When /^I enter  "([^"]*)" in the password text field$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I enter "([^"]*)" in the password text field$/ do |arg1|
+  @driver.find_element(:id, "IDToken2").send_keys arg1
 end
 
 When /^I click the Go button$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:name, "Login.Submit").click
 end
 
 Then /^I am authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I am redirected to the SLI Default Roles Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
 
