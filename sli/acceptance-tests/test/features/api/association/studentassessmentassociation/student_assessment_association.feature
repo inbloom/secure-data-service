@@ -17,9 +17,9 @@ Background: Logged in as a super-user and using the small data set
 
 
 Scenario: Create a student-assessment-association
-Given format "application/json"
-	And Assessment ID is "Mathematics Achievement  Assessment Test ID"
-	And Student ID is "Jane Doe ID"
+Given format "application/vnd.slc+json"
+	And Assessment ID is <'Mathematics Achievement  Assessment Test' ID>
+	And Student ID is <'Jane Doe' ID>
 	And AdministrationDate is "2011-12-01"
 	And ScoreResults is "85"
 	And PerformanceLevel is "3"
@@ -27,18 +27,19 @@ Given format "application/json"
 Then I should receive a return code of 201
 	And I should receive a ID for the newly created student-assessment-association
 
-@wip
+
 Scenario: Read a student-assessment-association
-Given format "application/vnd.slc+json"
-When I navigate to GET Student Assessment Association for Student "Jane Doe" and AssessmentTitle "Mathematics Achievement Assessment Test"
-Then I should receive a  return code of 2xx
+Given format "application/json"
+When I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
+Then I should receive a return code of 200
 	And I should receive 1 student-assessment-assoications
 	And I should receive a link named "getStudent" with URI /students/<'Jane Doe' ID>
-	And I should receive a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
-	And the administration date should be "09/15/2011"
-	And the administration end date should be "12/15/2011"
-	And the retest indicator should be 0
-	And the Score Results should be 85
+	And I should receive a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
+	And the "administrationDate" should be "2011-09-15"
+	And the "administrationEndDate" should be "2011-12-15"
+	And the "retestIndicator" should be "1"
+	And the "scoreResults" should be "85"
+	And the "performanceLevel" should be "3"
 
 @wip
 Scenario: Reading a student-assessment-association for a student
