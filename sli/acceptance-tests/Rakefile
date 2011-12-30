@@ -36,6 +36,7 @@ def runTests(testDirPath)
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
+      $SUCCESS=false
     end
   end
 end
@@ -75,41 +76,49 @@ task :default => :production
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
-  puts "Complete All Tests"
+  if $SUCCESS
+    puts "Completed API Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :associationTests, :sectionTests, :assessmentTests, :homeUriTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests] do
   displayFailureReport()
-  puts "Completed API Tests"
+  if $SUCCESS
+    puts "Completed API Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Section Tests"
 task :sectionTests do
-  runFixtureAndTests("test/features/api/section", "section", "section_fixture.json")
+  runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
 task :schoolTests do
-  runFixtureAndTests("test/features/api/school", "school", "school_fixture.json")
+  runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
 task :studentTests do
-  runFixtureAndTests("test/features/api/student", "student", "student_fixture.json")
+  runFixtureAndTests("test/features/api/entities/student", "student", "student_fixture.json")
 end
 
 desc "Run Teacher Tests"
 task :teacherTests do
-  runFixtureAndTests("test/features/api/teacher", "teacher", "teacher_fixture.json")
+  runFixtureAndTests("test/features/api/entities/teacher", "teacher", "teacher_fixture.json")
 end
 
 desc "Run Assessment Tests"
 task :assessmentTests do
-  runFixtureAndTests("test/features/api/assessment","assessment","assessment_fixture.json")
+  runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated
@@ -117,6 +126,8 @@ end
 desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
+  runTests("test/features/api/association/student_section_association")
+  runTests("test/features/api/association/student_assessment_association")
 end
 
 desc "Run Home URI Tests"
@@ -126,6 +137,21 @@ task :homeUriTests do
 end
 ############################################################
 # API tests end
+############################################################
+
+############################################################
+# API Selenium tests start
+# NOTE: Do not add these tests to the production run yet!
+#       While they can be run locally without issues,
+#       Firefox cannot start on Jenkins, and will cause
+#       all these tests to fail
+############################################################
+desc "Run API Selenium Tests"
+task :apiSeleniumTests do
+  runTests("test/features/apiSelenium")  
+end
+############################################################
+# API Selenium tests end
 ############################################################
 
 ############################################################
@@ -180,7 +206,9 @@ task :importSandboxData do
     "teacher" => "teacher_fixture.json",
     "assessment" => "assessment_fixture.json",
     "studentschoolassociation" => "student_enrollments_fixture.json",
-    "teachersectionassociation" => "teacher_section_fixture.json"
+    "teachersectionassociation" => "teacher_section_fixture.json",
+    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json",
+    "studentsectionassociation" => "student_section_association_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
