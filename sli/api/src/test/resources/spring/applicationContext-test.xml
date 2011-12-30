@@ -28,6 +28,11 @@
 		class=" org.springframework.security.authentication.TestingAuthenticationProvider">
 	</bean>
 
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+    <bean id="sliRequestFilter" class="org.slc.sli.api.security.SliRequestFilter">
+        <property name="resolver" ref="openamRestTokenResolver" />
+    </bean>
+    
 	<context:component-scan base-package="org.slc">
 		<context:exclude-filter type="regex"
 			expression=".*CustomImpl" />
