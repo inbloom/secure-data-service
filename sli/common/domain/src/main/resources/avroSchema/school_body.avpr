@@ -76,7 +76,11 @@
     } ]
   }, {
     "name" : "gradesOffered",
-    "type" : "org.slc.sli.domain.GradeLevelsType"
+    "doc" : "The enumerated collection for specifying one or more grade levels.",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.GradeLevelType"
+    }
   }, {
     "name" : "schoolCategories",
     "doc" : "The one or more categories of school. For example: High School, Middle School, and/or Elementary School.",
