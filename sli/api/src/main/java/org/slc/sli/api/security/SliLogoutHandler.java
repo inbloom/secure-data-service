@@ -30,8 +30,7 @@ public class SliLogoutHandler implements LogoutHandler {
     @Value("http://devdanil.slidev.org:8080/idp")
     private String tokenServiceUrl;
 
-    @Autowired
-    private RestTemplate rest;
+    private RestTemplate rest = new RestTemplate();
 
     @Autowired
     private SliRequestFilter requestFilter;
