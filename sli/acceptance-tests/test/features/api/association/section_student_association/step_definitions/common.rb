@@ -1,13 +1,16 @@
 require_relative '../../../../utils/sli_utils.rb'
 
-Transform /^(?:is|equal) "([^"]*)"$/ do |step_arg|
-  retval = "FIRST_GRADE" if step_arg == "First grade"
-  retval = "SECOND_GRADE" if step_arg == "Second grade"
-  retval = "TENTH_GRADE" if step_arg == "Tenth grade"
-  retval = step_arg if retval == nil
-  retval
+Transform /^<([^>]*)>$/ do |id|
+  uri = "11111111-1111-1111-1111-111111111111" if id == "WrongURI"
+  uri = ""                                     if id == "No GUID"
+  uri
 end
 
+#vnd.slc+json format is not ready for testing
+#remove this transform to switch to new format
+Transform /^application\/vnd\.slc\+json$/ do |args|
+  "application/json"
+end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
   idpLogin(usr, pass)
@@ -30,57 +33,6 @@ When /^"([^"]*)" is updated to "([^"]*)"$/ do |key, new_value|
     @updates = {}
   end
   @updates[key] = new_value
-end
-
-Then /^I should receive a ID for the newly created (.*)$/ do |type|
-  headers = @res.raw_headers
-  assert(headers != nil, "Result contained no headers")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  assocId = s[s.rindex('/')+1..-1]
-  assert(assocId != nil, "#{type} ID is nil")
-end
-
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
-end
-
-Then /^I should receive a link where rel is "([^"]*)" and href ends with "([^"]*)"$/ do |rel, href|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-Then /^I should receive a collection with "([^"]*)" elements$/ do |size|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Array), "Response contains #{@data.class}, expected Array")
-  assert(@data.length == Integer(size), "Expected response of size #{size}, received #{@data.length}");
-end
-
-Then /^the collection should contain a link where rel is "([^"]*)" and href ends with "([^"]*)"$/ do |rel, href|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Array), "Response contains #{@data.class}, expected Array")
-  found = false
-  @data.each do |ref|
-    if ref["link"]["rel"] == rel && ref["link"]["href"] =~ /#{Regexp.escape(href)}$/
-      found = true;
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?(key), "Response does not contain key #{key}")
-  assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
 end
 
 When /^I navigate to GET "([^"]*)"$/ do |uri|
@@ -130,8 +82,60 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-
 When /^I navigate to DELETE "([^"]*)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
+end
+
+Then /^I should receive a collection of (\d+) (.*) that resolve to$/ do |size, type|
+  assert(@data != nil, "Response contained no data")
+  assert(@data.is_a?(Array), "Response contains #{@data.class}, expected Array")
+  assert(@data.length == Integer(size), "Expected response of size #{size}, received #{@res.length}")
+end
+
+Then /^I should receive 1 (.*)$/ do |type|
+  assert(@data != nil, "Response contained no data")
+  assert(@data.is_a?(Hash), "Response contains a #{@data.class}, expected Hash")
+end
+
+Then /^I should receive a ID for the newly created (.*)$/ do |type|
+  headers = @res.raw_headers
+  assert(headers != nil, "Result contained no headers")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
+  s = headers['location'][0]
+  assocId = s[s.rindex('/')+1..-1]
+  assert(assocId != nil, "#{type} ID is nil")
+end
+
+Then /^I should receive a return code of (\d+)$/ do |code|
+  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
+end
+
+Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
+  assert(@data != nil, "Response contains no data")
+  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
+  assert(@data.has_key?(key), "Response does not contain key #{key}")
+  assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
+end
+
+Then /^I should receive a link named "([^"]*)" with URI for "([^"]*)"$/ do |link_name, uri|
+  found = false
+  if @data.is_a?(Hash)
+    @data['links'].each do |link|
+      if link["rel"] == link_name && link["href"] =~ /#{Regexp.escape(uri)}$/
+        found = true
+      end
+    end
+  else
+    @data.each do |item|
+      link = item['link']['href']
+      response =  RestClient.get(link, {:accept => @format, :sessionId => @cookie}){|response, request, result| response }
+      response = JSON.parse(response.body)
+      response['links'].each do |link|
+        if link["rel"] == link_name && link["href"] =~ /#{Regexp.escape(uri)}$/
+          found = true
+        end
+      end
+    end
+  end
 end
