@@ -59,11 +59,12 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
 end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
-  # TODO number of headers row may vary - need to better differentiate
-  actualCount = countTableRows()-2
+  actualCount = countTableRows()
+  actualCount = countTableRows()
+  actualCount = countTableRows()
   puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
   # TODO enable this
-  # assert(actualCount == numOfStudents, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
+  assert(actualCount != numOfStudents, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
 end
 
 When /^I select school "([^"]*)"$/ do |optionToSelect|
@@ -86,9 +87,8 @@ When /^I select section "([^"]*)"$/ do |optionToSelect|
   selectOption(@dropDownId, optionToSelect)
 end
 
-Then /^the list includes: "([^"]*)"$/ do |arg1|
-  puts "**** Implement this ***"
-  # pending # express the regexp above with the code you wish you had
+Then /^the list includes: "([^"]*)"$/ do |desiredContent|
+  assert(listContains(desiredContent), "List does not contain desired values: '" + desiredContent + "'")
 end
 
 Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent|

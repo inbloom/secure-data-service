@@ -84,8 +84,28 @@ end
 
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
-  # TODO count only "regular rows and not headers"
-  tableRows = @driver.find_elements(:xpath, "//tr")
-  puts "tableRows.length = " + tableRows.length.to_s
+  tableRows = @driver.find_elements(:css, "tr.listRow")
+  puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
+end
+
+def listContains(desiredContent)
+  result = false
+
+  desiredContentArray = desiredContent.split(";")
+  # Find all student names based on their class attribute
+  studentNames = @driver.find_elements(:xpath, "//td[@class='studentInfo.name']")
+  puts "num of studs = "+ studentNames.length.to_s
+  
+  nonFoundItems = desiredContentArray.length
+  
+  desiredContentArray.each do |searchValue|
+    studentNames.each do |student|
+      if student.attribute("innerHTML").to_s.include?(searchValue)
+        puts "Found desired item '" + searchValue + "'"
+        nonFoundItems -= 1
+      end
+    end
+  end
+  return nonFoundItems == 0
 end
