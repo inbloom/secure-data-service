@@ -17,13 +17,13 @@ Background: Logged in as a super-user and using the small data set
 
 
 Scenario: Create a student-assessment-association
-Given format "application/vnd.slc+json"
+Given format "application/json"
 	And Assessment ID is <'Mathematics Achievement  Assessment Test' ID>
 	And Student ID is <'Jane Doe' ID>
 	And AdministrationDate is "2011-12-01"
 	And ScoreResults is "85"
 	And PerformanceLevel is "3"
-	When I navigate to POST "/student-assessment-associations"
+When I navigate to POST "/student-assessment-associations"
 Then I should receive a return code of 201
 	And I should receive a ID for the newly created student-assessment-association
 
@@ -63,7 +63,7 @@ Then I should receive a return code of 200
 
 Scenario: Update a student-assessment-association 
 Given  format "application/json"
-And I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>
+When I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>
 	Then  the "scoreResults" should be "85"
 When I set the ScoreResult to "95" 
 	And I set the PerformanceLevel to"4"
@@ -81,7 +81,18 @@ Then I should receive a return code of 204
 	And I navigate to GET /student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id>
 	And I should receive a return code of 404
 
+### Error Handling
 
+Scenario: Attempt to read a non-existing student assessment association
+	Given format "application/json"
+	When I navigate to GET /student-assessment-associations/<NonExistence Id>
+	Then I should receive a return code of 404
+	
+Scenario: Attempt to update a non-existing student assessment association
+	Given format "application/json"
+	When I navigate to PUT /student-assessment-associations/<NonExistence Id>
+	Then I should receive a return code of 404
+	
 Scenario: Delete a nonexistent student-assessment-association
 Given format "application/json"
 And I navigate to DELETE /student-assessment-associations/<NonExistence Id>

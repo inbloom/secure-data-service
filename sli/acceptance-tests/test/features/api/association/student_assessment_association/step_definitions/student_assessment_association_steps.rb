@@ -54,7 +54,7 @@ end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
-  #puts @format
+#puts @format
 end
 
 Given /^Assessment (ID is <[^>]*>)$/ do |arg1|
@@ -100,21 +100,21 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
   end
   restHttpPost(uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-  @@oldId =uri
+  @oldId =uri
 end
 
 When /^I navigate to GET (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
-  #puts uri
+#puts uri
   if uri == "newId"
-    #puts @@assocId
-  uri="/student-assessment-associations/"+@@assocId
+  #puts @@newId
+  uri=@@newId
   elsif uri =="oldId"
-    uri=@@oldId
+  uri=@oldId
   end
   #puts uri
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
-  @@oldId=uri
+  @oldId=uri
 end
 
 When /^I set the ScoreResult to "([^"]*)"$/ do |arg1|
@@ -127,13 +127,21 @@ When /^I set the PerformanceLevel to"([^"]*)"$/ do |arg1|
   @performanceLevel.should_not == nil
 end
 
-When /^I navigate to PUT \/student\-assessment\-associations\/<the previous association ID>$/ do
-  uri = "/student-assessment-associations/"+@@assocId
+When /^I navigate to PUT (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
+  if uri == "oldId"
+  uri = @oldId
+  elsif uri == "newId"
+  uri = @@newId
+  end
   if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    
-    dataH["scoreResults"]=[Hash["result"=>@scoreResults]]
-    dataH["performanceLevel"]=@performanceLevel
+    if @res != nil
+      dataH=JSON.parse(@res.body)
+
+      dataH["scoreResults"]=[Hash["result"=>@scoreResults]]
+      dataH["performanceLevel"]=@performanceLevel
+    else
+      dataH = Hash[]
+    end
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
   else
@@ -142,7 +150,7 @@ When /^I navigate to PUT \/student\-assessment\-associations\/<the previous asso
   data=dataH.to_json
   restHttpPut(uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-  @@oldId=uri
+  @oldId=uri
 end
 
 Given /^I navigate to DELETE (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
@@ -159,9 +167,9 @@ Then /^I should receive a ID for the newly created student\-assessment\-associat
   assert(headers != nil, "Result contained no headers")
   assert(headers['location'] != nil, "There is no location link from the previous request")
   s = headers['location'][0]
-  @@assocId = s[s.rindex('/')+1..-1]
-  assert(@@assocId != nil, "Student-Assessment-Association ID is nil")
-  #puts @@assocId
+  @@newId = "/student-assessment-associations/"+s[s.rindex('/')+1..-1]
+  assert(@@newId != nil, "Student-Assessment-Association ID is nil")
+#puts @@newId
 end
 
 Then /^I should receive (\d+) student\-assessment\-assoications$/ do |arg1|
@@ -235,16 +243,16 @@ Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|
 end
 
 Then /^I should receive a collection of (\d+) student\-assessment\-associations that resolve to$/ do |arg1|
-   if @format == "application/json" or @format == "application/vnd.slc+json"
+  if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
     @collectionLinks = []
     counter=0
     @ids = Array.new
     dataH.each do|link|
       if link["link"]["rel"]=="self"
-      counter=counter+1
-      @ids.push(link["id"])
-     # puts @ids
+        counter=counter+1
+        @ids.push(link["id"])
+      # puts @ids
       end
     end
     assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
@@ -256,47 +264,46 @@ Then /^I should receive a collection of (\d+) student\-assessment\-associations 
 end
 
 Then /^I should get a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ do |rel,href|
-    found =false
-   @ids.each do |id|
-     uri = "/student-assessment-associations/"+id
-     restHttpGet(uri)
-     assert(@res != nil, "Response from rest-client GET is nil")
-     if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    dataH["links"].each do|link|
-      if link["rel"]==rel and link["href"].include? href
-      found =true
+  found =false
+  @ids.each do |id|
+    uri = "/student-assessment-associations/"+id
+    restHttpGet(uri)
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @format == "application/json" or @format == "application/vnd.slc+json"
+      dataH=JSON.parse(@res.body)
+      dataH["links"].each do|link|
+        if link["rel"]==rel and link["href"].include? href
+        found =true
+        end
       end
+    elsif @format == "application/xml"
+      assert(false, "application/xml is not supported")
+    else
+      assert(false, "Unsupported MIME type")
     end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
   end
-    end
-     assert(found, "didnt receive link named #{rel} with URI #{href}")
-    end
- 
+  assert(found, "didnt receive link named #{rel} with URI #{href}")
+end
 
 Then /^I should get a link named "([^"]*)" with URI (\/assessments\/<[^>]*>)$/ do |rel,href|
   found =false
-   @ids.each do |id|
-     uri = "/student-assessment-associations/"+id
-     restHttpGet(uri)
-     assert(@res != nil, "Response from rest-client GET is nil")
-     if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    dataH["links"].each do|link|
-      if link["rel"]==rel and link["href"].include? href
-      found =true
+  @ids.each do |id|
+    uri = "/student-assessment-associations/"+id
+    restHttpGet(uri)
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @format == "application/json" or @format == "application/vnd.slc+json"
+      dataH=JSON.parse(@res.body)
+      dataH["links"].each do|link|
+        if link["rel"]==rel and link["href"].include? href
+        found =true
+        end
       end
+    elsif @format == "application/xml"
+      assert(false, "application/xml is not supported")
+    else
+      assert(false, "Unsupported MIME type")
     end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
   end
-    end
-     assert(found, "didnt receive link named #{rel} with URI #{href}")
-    end
+  assert(found, "didnt receive link named #{rel} with URI #{href}")
+end
 
