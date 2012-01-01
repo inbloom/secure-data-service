@@ -199,7 +199,7 @@ Then /^I should receive a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ 
       end
     end
     if found == false
-      assert(found, "didnt receive link named #{ref} with URI #{href}")
+      assert(found, "didnt receive link named #{rel} with URI #{href}")
     end
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")

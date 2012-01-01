@@ -71,8 +71,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition studentAssessmentAssociation = AssociationDefinition
                 .makeAssoc("studentAssessmentAssociation").exposeAs("student-assessment-associations")
                 .storeAs("studentassessmentassociation").from(student, "getStudent", "getAssessmentsAssigned")
-                .to(assessment, "getAssessment", "getStudnetsAssigned").calledFromSource("getAssessmentsAssigned")
-                .calledFromTarget("getStudentsAssigned").build();
+                .to(assessment, "getAssessment", "getStudentsAssigned").calledFromSource("getStudentAssessmentAssociations")
+                .calledFromTarget("getStudentAssessmentAssociations").build();
         addAssocDefinition(studentAssessmentAssociation);
         
         AssociationDefinition studentSectionAssociation = AssociationDefinition
