@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -24,6 +25,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.util.ResourceUtils;
 
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.processors.ContextManager;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -172,6 +175,18 @@ public class IngestionTest {
         }
 
         return list;
+    }
+
+    public static long getTotalCountOfEntityInRepository(EntityRepository repository, String entityType) {
+        int count = 0;
+        Iterator<Entity> entities = repository.findAll(entityType).iterator();
+
+        while (entities.hasNext()) {
+            count++;
+            entities.next();
+        }
+
+        return count;
     }
 
 }
