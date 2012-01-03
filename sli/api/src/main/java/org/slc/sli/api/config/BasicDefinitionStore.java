@@ -62,11 +62,11 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
         addDefinition(teacher);
         
-        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacherSectionAssociation")
+        AssociationDefinition teacherSectionAssociation = AssociationDefinition.makeAssoc("teacherSectionAssociation")
                 .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
                 .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
                 .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
-        addAssocDefinition(teacherSchoolAssociation);
+        addAssocDefinition(teacherSectionAssociation);
         
         AssociationDefinition studentAssessmentAssociation = AssociationDefinition
                 .makeAssoc("studentAssessmentAssociation").exposeAs("student-assessment-associations")
@@ -81,6 +81,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .to(section, "getSection", "getStudentsAssigned").calledFromSource("getSectionsAssigned")
                 .calledFromTarget("getStudentsAssigned").build();
         addAssocDefinition(studentSectionAssociation);
+        
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition
+                .makeAssoc("teacherSchoolAssociation").exposeAs("teacher-school-associations")
+                .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getSchoolsAssigned")
+                .to(school, "getSchool", "getTeachersAssigned").calledFromSource("getSchoolsAssigned")
+                .calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSchoolAssociation);
         
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
