@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.enums.Rights;
+import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -36,7 +36,7 @@ public class OpenamRestTokenResolverTest {
     public void testResolveSuccess() {
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
         Assert.assertNotNull(auth);
-        Assert.assertTrue(auth.getAuthorities().contains(Rights.READ_GENERAL));
+        Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
     
     @Test

@@ -10,11 +10,11 @@ import java.util.List;
  * Also has a few utility functions to see if a role contains a right.
  */
 public enum DefaultRoles {
-    EDUCATOR("Educator", new Rights[] { Rights.AGGREGATE_READ, Rights.READ_GENERAL }), LEADER("Leader", new Rights[] { Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED }), AGGREGATOR("Aggregate Viewer",
-            new Rights[] { Rights.AGGREGATE_READ }), ADMINISTRATOR("IT Administrator", new Rights[] { Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED, Rights.WRITE_GENERAL, Rights.WRITE_RESTRICTED }), NONE("None",
-            new Rights[] {});
+    EDUCATOR("Educator", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL }), LEADER("Leader", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }), AGGREGATOR("Aggregate Viewer",
+            new Right[] { Right.AGGREGATE_READ }), ADMINISTRATOR("IT Administrator", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }), NONE("None",
+            new Right[] {});
     private final String   name;
-    private final Rights[] rights;
+    private final Right[] rights;
     
     public String getRoleName() {
         return name;
@@ -24,12 +24,12 @@ public enum DefaultRoles {
         return "ROLE_" + name.toUpperCase().replace(' ', '_');
     }
 
-    public List<Rights> getRights() {
+    public List<Right> getRights() {
         return Arrays.asList(rights);
     }
 
-    public boolean hasRight(Rights right) {
-        for (Rights checkedRight : rights) {
+    public boolean hasRight(Right right) {
+        for (Right checkedRight : rights) {
             if (checkedRight == right) {
                 return true;
             }
@@ -37,7 +37,7 @@ public enum DefaultRoles {
         return false;
     }
 
-    private DefaultRoles(String role, Rights[] rights) {
+    private DefaultRoles(String role, Right[] rights) {
         name = role;
         this.rights = rights;
     }
@@ -48,5 +48,17 @@ public enum DefaultRoles {
             names.add(role.getRoleName());
         }
         return names;
+    }
+    
+    public static DefaultRoles getDefaultRoleByName(String name) {
+        if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName()))
+            return DefaultRoles.EDUCATOR;
+        if (name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName()))
+            return DefaultRoles.ADMINISTRATOR;
+        if (name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName()))
+            return DefaultRoles.AGGREGATOR;
+        if (name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName()))
+            return DefaultRoles.LEADER;
+        return DefaultRoles.NONE;
     }
 }

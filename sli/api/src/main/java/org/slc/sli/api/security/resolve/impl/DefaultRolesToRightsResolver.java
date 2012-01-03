@@ -3,7 +3,10 @@ package org.slc.sli.api.security.resolve.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.api.security.roles.RolesAndPermissionsResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,9 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     
     @Autowired
     private ClientRoleResolver roleMapper;
+
+    @Autowired
+    private RolesAndPermissionsResource roleResource;
     
     @Override
     public List<GrantedAuthority> resolveRoles(List<String> roleNames) {
@@ -31,7 +37,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             List<String> sliRoleNames = roleMapper.resolveRoles(roleNames);
             
             for (String sliRoleName : sliRoleNames) {
-                auths.addAll(Arrays.asList(findRole(sliRoleName).getRights()));
+                auths.addAll(findRole(sliRoleName).getRights());
             }
             
         }
@@ -40,16 +46,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     }
     
     private DefaultRoles findRole(String roleName) {
-        DefaultRoles role = DefaultRoles.NONE;
-        
-        for (DefaultRoles r : DefaultRoles.values()) {
-            if (r.getRoleName().equals(roleName)) {
-                role = r;
-                break;
-            }
-        }
-        
-        return role;
+        return DefaultRoles.getDefaultRoleByName(roleName);
     }
     
     public void setRoleMapper(ClientRoleResolver roleMapper) {

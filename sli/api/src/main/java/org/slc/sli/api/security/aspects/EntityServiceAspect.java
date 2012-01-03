@@ -3,7 +3,7 @@ package org.slc.sli.api.security.aspects;
 import java.util.Collection;
 
 import org.slc.sli.api.security.enums.DefaultRoles;
-import org.slc.sli.api.security.enums.Rights;
+import org.slc.sli.api.security.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,12 +26,12 @@ public class EntityServiceAspect {
     
     @Around("call(* org.slc.sli.api.service.EntityService.*(..))")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
-        Rights neededRight = null;
+        Right neededRight = null;
         String functionName = pjp.getSignature().getName();
         if (functionName.equals("get") || functionName.equals("exists") || functionName.equals("list")) {
-            neededRight = Rights.READ_GENERAL;
+            neededRight = Right.READ_GENERAL;
         } else if (functionName.equals("create") || functionName.equals("update") || functionName.equals("delete")) {
-            neededRight = Rights.WRITE_GENERAL;
+            neededRight = Right.WRITE_GENERAL;
         }
         
         LOG.debug("context: {}", SecurityContextHolder.getContext().getAuthentication().toString());
