@@ -197,6 +197,8 @@
                 <include>org/slc/sli/unit/controller/*.java</include>
                 <include>org/slc/sli/unit/config/*.java</include>
                 <include>org/slc/sli/unit/manager/*.java</include>
+                <include>org/slc/sli/unit/view/*.java</include>
+                <include>org/slc/sli/unit/view/widget/*.java</include>
               </includes>
               <excludes>
                 <exclude>org/slc/sli/selenium/controller/*.java</exclude>
