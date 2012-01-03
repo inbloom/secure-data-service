@@ -21,32 +21,27 @@ Then I should be redirected to the Dashboard home page
 
 Scenario: Valid user login
 
-Given I am not authenticated to SLI
-And I have tried to access the Dashboard home page
+Given I have an open web browser
+And I am not authenticated to SLI
+And I navigate to the Dashboard home page
 And was redirected to the Realm page
 And I chose "SLI IDP" 
-And I clicked the button Go 
-And I was redirected to the SLI IDP Login page
-And I am user "demo"
-And "demo" is valid "SLI IDP" user
-When I enter "demo" in the username text field
-And I enter "demo1234" in the password text field
-And I click the Go button
-Then I am authenticated to SLI
-And I am redirected to the Dashboard home page
+And I clicked the Go button
+And was redirected to the SLI-IDP login page
+And I enter "demo" in the username text field and "demo1234" in the password text field
+And I clicked the Go button
+Then I am redirected to the Dashboard home page
 
 Scenario: Invalid user login
 
-Given I am not authenticated to SLI
-And I have tried to access the Dashboard home page
+Given I have an open web browser
+And I am not authenticated to SLI
+And I navigate to the Dashboard home page
 And was redirected to the Realm page
 And I chose "SLI IDP" 
-And I clicked the button Go 
-And I was redirected to the SLI IDP Login page
-And I am user "InvalidJohnDoe"
-And "InvalidJohnDoe" is invalid "SLI IDP" user
-When I enter "InvalidJohnDoe" in the username text field
-And I enter "demo1234" in the password text field
+And I clicked the Go button 
+And was redirected to the SLI-IDP login page
+And I enter "InvalidJohnDoe" in the username text field and "demo1234" in the password text field
 And I click the Go button
 Then I am informed that "InvalidJohnDoe" does not exists
 And I am redirected to the SLI-IDP Login Page
@@ -54,7 +49,8 @@ And I am redirected to the SLI-IDP Login Page
 Scenario: hitting diff types of URLs (protected, deny, static)
 
 # Consider performing logout to make sure no auth
-Given I am not authenticated to SLI 
+Given I have an open web browser
+And I am not authenticated to SLI 
 When I access "dashboard/simon"
 Then I get an error code "???"
 
