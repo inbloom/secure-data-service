@@ -32,8 +32,14 @@ public class ColorByPerf {
         String perfDataPointId = assmtName + ".perfLevel";
         
         // get number of levels and assmt result level
-        int numLevels = 4; // based on assmt meta data
-        int level = Integer.parseInt(assmts.get(perfDataPointId, student));
+        int numLevels = 4; // TODO: base on assmt meta data
+        int level = 0;
+        try {
+            level = Integer.parseInt(assmts.get(perfDataPointId, student));
+        } catch (Exception e) {
+            System.out.println("Could not find performance level");
+            return 0;
+        }
         
         return getColorIndex(level, numLevels);
     }
@@ -44,6 +50,11 @@ public class ColorByPerf {
     public int getColorIndex(int level, int numLevels) {
         
         int colorIndex = 0;
+        
+        // range check
+        if (level <= 0 || level > numLevels) {
+            return 0;
+        }
         
         if (numLevels == 5) {
             colorIndex = level;
