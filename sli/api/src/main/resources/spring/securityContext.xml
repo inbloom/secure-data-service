@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
-   xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
-   xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd
@@ -11,22 +12,24 @@
                            ">
 
 
-   <!-- Configure security -->
-   <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
+    <!-- Configure security -->
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-   <security:http entry-point-ref="sliEntryPoint">
-       <security:form-login />
-       <security:http-basic />
-      <security:intercept-url pattern="/rest/pub/**" filters="none"/>
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
-      <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
-      <security:request-cache ref="nullCache"/>
+    <security:http entry-point-ref="sliEntryPoint">
+        <security:form-login/>
+        <security:http-basic/>
+        <security:intercept-url pattern="/rest/pub/**" filters="none"/>
+        <security:intercept-url pattern="/rest/system/session/check**"
+                                access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
+        <security:intercept-url pattern="/**"
+                                access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER"/>
+        <security:request-cache ref="nullCache"/>
 
-      <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter" />
-      <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
+        <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter"/>
+        <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
 
-      <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
-   </security:http>
+        <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS"/>
+    </security:http>
 
     <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
         <constructor-arg index="0" value="/rest/system/session/check"/>
@@ -39,16 +42,16 @@
         <property name="filterProcessesUrl" value="/rest/system/session/logout"/>
     </bean>
 
-   <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
-   <security:authentication-manager alias="authenticationManager">
-      <security:authentication-provider>
-         <security:user-service>
-            <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR" />
-         </security:user-service>
-      </security:authentication-provider>
-   </security:authentication-manager>
+    <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
 
-    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
+    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache"/>
 
     <bean id="securityContextLogoutHandler"
           class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
