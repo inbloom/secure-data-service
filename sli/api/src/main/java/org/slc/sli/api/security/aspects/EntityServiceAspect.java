@@ -13,7 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.service.EntityService;
-//import org.slc.sli.validation.EntitySchemaRegistry;
+import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -35,11 +35,11 @@ public class EntityServiceAspect {
     private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
     private static Map<String, Rights> neededRights = new HashMap<String, Rights>();
     
-//    private EntitySchemaRegistry schemaRegistry;
-//    
-//    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
-//        this.schemaRegistry = schemaRegistry;
-//    }
+    private EntitySchemaRegistry schemaRegistry;
+    
+    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
+        this.schemaRegistry = schemaRegistry;
+    }
     
     static {
         neededRights.put("get", Rights.READ_GENERAL);
