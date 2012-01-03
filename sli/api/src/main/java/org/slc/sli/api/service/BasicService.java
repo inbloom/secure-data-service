@@ -22,7 +22,7 @@ import org.slc.sli.validation.EntityValidator;
  */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
-
+    
     private String collectionName;
     private List<Treatment> treatments;
     private EntityRepository repo;
@@ -66,9 +66,8 @@ public class BasicService implements EntityService {
     public EntityDefinition getEntityDefinition() {
         return defn;
     }
-
-    @Override
-    public String getCollectionName() {
+    
+    protected String getCollectionName() {
         return collectionName;
     }
     
