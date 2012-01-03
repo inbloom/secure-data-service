@@ -22,7 +22,7 @@
       <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
       <security:request-cache ref="nullCache"/>
 
-      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter" />
+      <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter" />
       <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
 
       <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
@@ -33,6 +33,7 @@
         <constructor-arg index="1">
             <list>
                 <ref bean="sliLogoutHandler"/>
+                <ref bean="securityContextLogoutHandler"/>
             </list>
         </constructor-arg>
         <property name="filterProcessesUrl" value="/rest/system/session/logout"/>
@@ -48,4 +49,7 @@
    </security:authentication-manager>
 
     <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
+
+    <bean id="securityContextLogoutHandler"
+          class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
 </beans>
