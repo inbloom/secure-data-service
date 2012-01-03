@@ -77,7 +77,7 @@ desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
   if $SUCCESS
-    puts "Completed API Tests"
+    puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
@@ -89,11 +89,6 @@ end
 desc "Run API Acceptances Tests"
 task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests] do
   displayFailureReport()
-  if $SUCCESS
-    puts "Completed API Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 
 desc "Run Section Tests"
@@ -242,4 +237,3 @@ DEBUG             This property tells the test code to display debug output in t
 eos
 
 end
-

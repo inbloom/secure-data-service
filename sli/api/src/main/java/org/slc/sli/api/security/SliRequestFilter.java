@@ -37,7 +37,6 @@ public class SliRequestFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        @SuppressWarnings("unchecked")
         String sessionId = getSessionIdFromRequest((HttpServletRequest) request);
 
         if (sessionId != null) {
@@ -47,7 +46,7 @@ public class SliRequestFilter extends GenericFilterBean {
         chain.doFilter(request, response);
     }
 
-    protected String getSessionIdFromRequest(HttpServletRequest req) {
+    private String getSessionIdFromRequest(HttpServletRequest req) {
 
         String sessionId = "";
 
