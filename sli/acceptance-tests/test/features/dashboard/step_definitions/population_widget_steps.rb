@@ -60,8 +60,6 @@ end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
   actualCount = countTableRows()
-  actualCount = countTableRows()
-  actualCount = countTableRows()
   puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
   # TODO enable this
   assert(actualCount != numOfStudents, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
