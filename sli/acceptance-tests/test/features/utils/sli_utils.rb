@@ -41,7 +41,7 @@ def restHttpPost(id, data, format = @format, cookie = @cookie)
   # Validate Cookie is not nil
   assert(cookie != nil, "Cookie passed into POST was nil")
   
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   @res = RestClient.post(url, data, {:content_type => format, :sessionId => cookie}){|response, request, result| response } 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -60,7 +60,7 @@ def restHttpGet(id, format = @format, cookie = @cookie)
   # Validate Cookie is not nil
   assert(cookie != nil, "Cookie passed into GET was nil")
 
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   @res = RestClient.get(url,{:accept => format,  :sessionId => cookie}){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -80,7 +80,7 @@ def restHttpPut(id, data, format = @format, cookie = @cookie)
   # Validate Cookie is not nil
   assert(cookie != nil, "Cookie passed into PUT was nil")
   
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   @res = RestClient.put(url, data, {:content_type => format,  :sessionId => cookie}){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -99,7 +99,7 @@ def restHttpDelete(id, format = @format, cookie = @cookie)
   # Validate Cookie is not nil
   assert(cookie != nil, "Cookie passed into DELETE was nil")
 
-  url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest"+id
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   @res = RestClient.delete(url,{:accept => format,  :sessionId => cookie}){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
