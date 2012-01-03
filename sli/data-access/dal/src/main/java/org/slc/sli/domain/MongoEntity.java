@@ -25,6 +25,13 @@ public class MongoEntity implements Entity {
     private final Map<String, Object> body;
     private final Map<String, Object> metaData;
     
+    public MongoEntity(String type, Map<String, Object> body) {
+        this.type = type;
+        this.body = body;
+        this.metaData = new BasicBSONObject();
+        this.entityId = null;
+    }
+    
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
         if (body == null) {
             this.body = new BasicBSONObject();
@@ -103,4 +110,7 @@ public class MongoEntity implements Entity {
         return new MongoEntity(type, id, body, metaData);
     }
     
+    public static MongoEntity create(String type, Map<String, Object> body) {
+        return new MongoEntity(type, body);
+    }
 }
