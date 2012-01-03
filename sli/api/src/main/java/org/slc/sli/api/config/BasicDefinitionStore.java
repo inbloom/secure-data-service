@@ -7,13 +7,12 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  * Default implementation of the entity definition store
@@ -69,13 +68,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher", validator).exposeAs("teachers").build();
         addDefinition(teacher);
         
-        AssociationDefinition teacherSchoolAssociation = AssociationDefinition
+        AssociationDefinition teacherSectionAssociation = AssociationDefinition
                 .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
-                .storeAs("teachersectionassociation").from(teacher, "getTeacher", "getSectionsAssigned")
-                .to(section, "getSection", "getTeachersAssigned").calledFromSource("getSectionsAssigned")
-                .calledFromTarget("getTeachersAssigned").build();
-        addAssocDefinition(teacherSchoolAssociation);
-        
+                .storeAs("teachersectionassociation")
+                .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
+                .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSectionAssociation);
+
         AssociationDefinition studentAssessmentAssociation = AssociationDefinition
                 .makeAssoc("studentAssessmentAssociation", validator).exposeAs("student-assessment-associations")
                 .storeAs("studentassessmentassociation").from(student, "getStudent", "getAssessmentsAssigned")
@@ -90,6 +89,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .to(section, "getSection", "getStudentsAssigned").calledFromSource("getSectionsAssigned")
                 .calledFromTarget("getStudentsAssigned").build();
         addAssocDefinition(studentSectionAssociation);
+        
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition
+                .makeAssoc("teacherSchoolAssociation", validator).exposeAs("teacher-school-associations")
+                .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getSchoolsAssigned")
+                .to(school, "getSchool", "getTeachersAssigned").calledFromSource("getSchoolsAssigned")
+                .calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSchoolAssociation);
         
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles", validator).storeAs("roles").build();
