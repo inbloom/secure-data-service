@@ -1,18 +1,21 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -24,13 +27,17 @@ public class BasicService implements EntityService {
     private List<Treatment> treatments;
     private EntityRepository repo;
     
+    private EntityValidator validator;
+    
     private EntityDefinition defn;
     
-    public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo) {
+    public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo,
+            EntityValidator validator) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.repo = repo;
+        this.validator = validator;
     }
     
     public BasicService() {
@@ -52,6 +59,10 @@ public class BasicService implements EntityService {
         this.defn = defn;
     }
     
+    public void setEntityValidator(EntityValidator validator) {
+        this.validator = validator;
+    }
+    
     public EntityDefinition getEntityDefinition() {
         return defn;
     }
@@ -71,7 +82,12 @@ public class BasicService implements EntityService {
     @Override
     public String create(EntityBody content) {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
-        return getRepo().create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
+        String type = defn.getType();
+        EntityBody body = sanitizeEntityBody(content);
+        MongoEntity entity = MongoEntity.create(type, body);
+        validator.validate(entity);
+        
+        return getRepo().create(type, body, collectionName).getEntityId();
     }
     
     @Override
@@ -102,6 +118,7 @@ public class BasicService implements EntityService {
         }
         LOG.info("new body is {}", sanitized);
         entity.getBody().putAll(sanitized);
+        validator.validate(entity);
         getRepo().update(collectionName, entity);
         return true;
     }
