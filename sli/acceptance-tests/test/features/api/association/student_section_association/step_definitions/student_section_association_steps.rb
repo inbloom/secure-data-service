@@ -15,6 +15,8 @@ Transform /^<'([^']*)' ID>$/ do |id|
   uri = "4efb4238-bc49-f388-0000-0000c93556fe" if id == "Chemistry I - A"
   uri = "4efb7614-8488-7b01-0000-000059f9ba55" if id == 'Section "Foreign Language - A" and Student "Albert Wright"'
   uri = @new_id if id == "newly created student-section-association" or id == "the previous association"
+  uri = "11111111-1111-1111-1111-111111111111" if id == "WrongURI"
+  uri = "" if id == "No GUID"
   uri
 end
 
@@ -43,13 +45,18 @@ end
 
 #Whens
 
+When /^I navigate to (GET|DELETE|PUT) \/student\-section\-association\/(<'Student "[^"]*" and Section "[^"]*"' ID>)$/ do |method, uri|
+  step 'I navigate to ' + method +  ' "/student-section-associations/' + uri + '"'
+end
+
+
 When /^I navigate to (GET|DELETE|PUT) \/student\-section\-associations\/(<'[^']*' ID>)$/ do |method, uri|
   step 'I navigate to ' + method +  ' "/student-section-associations/' + uri + '"'
 end
 
 #Thens
-Then /^I should receive a link named "([^"]*)" with URI (\/(students|sections)\/<[^>]*>)$/ do |link_name, uri, type|
-  step 'I should receive a link named "' + link_name + '" with URI for "' + uri + '"'
+Then /^I should receive a link named "([^"]*)" with URI \/(students|sections)\/(<[^>]*>)$/ do |link_name, type, uri|
+  step 'I should receive a link named "' + link_name + '" with URI for "' + type + '/' + uri + '"'
 end
 
 Then /^("[^"]*") should equal ((Section|Student) "[^"]*")$/ do |key, value, student_or_section|

@@ -22,7 +22,7 @@ Given /^(\w+) is "([^"]*)"$/ do |key, value|
   @fields[key] = value
 end
 
-When /^"([^"]*)" is updated to "([^"]*)"$/ do |key, new_value|
+When /^(\w+) is updated to "([^"]*)"$/ do |key, new_value|
   if !defined? @updates
     @updates = {}
   end
@@ -133,4 +133,5 @@ Then /^I should receive a link named "([^"]*)" with URI for "([^"]*)"$/ do |link
       end
     end
   end
+  assert(found, "Link was not found! looking for #{link_name} in #{uri}")
 end
