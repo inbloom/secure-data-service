@@ -31,6 +31,8 @@ public class ColorByPerfTest {
         assertEquals(3, c.getColorIndex(3, 5));
         assertEquals(4, c.getColorIndex(4, 5));
         assertEquals(5, c.getColorIndex(5, 5));
+        assertEquals(0, c.getColorIndex(6, 5));
+        assertEquals(0, c.getColorIndex(-1, 5));
         
         assertEquals(1, c.getColorIndex(1, 4));
         assertEquals(2, c.getColorIndex(2, 4));
