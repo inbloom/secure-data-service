@@ -18,6 +18,7 @@ import org.slc.sli.config.ViewConfig;
 
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.StudentResolver;
+import org.slc.sli.view.widget.WidgetFactory;
 
 /**
  * Controller for showing the list of studentview.  
@@ -31,6 +32,7 @@ public class StudentListContentController extends DashboardController {
     public static final String VIEW_CONFIG = "viewConfig"; 
     public static final String ASSESSMENTS = "assessments"; 
     public static final String STUDENTS = "students"; 
+    public static final String WIDGET_FACTORY = "widgetFactory";
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView studentListContent(String username, 
@@ -54,6 +56,9 @@ public class StudentListContentController extends DashboardController {
         List<Assessment> assessments = Arrays.asList(apiClient.getAssessments(user.getUsername(), uids));
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, viewConfig));
 
+        // insert a widget factory into the modelmap
+        model.addAttribute(WIDGET_FACTORY, new WidgetFactory());
+        
         return new ModelAndView("studentListContent");
     }
 
