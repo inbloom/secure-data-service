@@ -1,5 +1,16 @@
 package org.slc.sli.validation;
 
+import org.apache.avro.Schema;
+import org.apache.avro.Schema.Parser;
+import org.apache.avro.SchemaParseException;
+import org.apache.commons.io.FileUtils;
+import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
+
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,19 +28,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import javax.annotation.PostConstruct;
-
-import org.apache.avro.Schema;
-import org.apache.avro.Schema.Parser;
-import org.apache.avro.SchemaParseException;
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
-
-import org.slc.sli.domain.Entity;
 
 /**
  * Provides a registry for retrieving Avro schema
@@ -186,6 +184,11 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     
     @Override
     public Schema findSchemaForType(Entity entity) {
-        return entityTypeToSchemaMap.get(entity.getType());
+        return findSchemaForName(entity.getType());
+    }
+    
+    @Override
+    public Schema findSchemaForName(String entityType) {
+        return entityTypeToSchemaMap.get(entityType);
     }
 }
