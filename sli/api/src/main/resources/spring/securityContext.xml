@@ -14,20 +14,15 @@
    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
 
    <security:http auto-config="true" entry-point-ref="sliEntryPoint">
-      <security:intercept-url pattern="/rest/pub/**" filters="none" />
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS" />
-      <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
       <security:request-cache ref="nullCache" />
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter" />
-
-      <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
    </security:http>
 
    <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
    <security:authentication-manager alias="authenticationManager">
       <security:authentication-provider>
          <security:user-service>
-            <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR" />
+            <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR" disabled="true"/>
          </security:user-service>
       </security:authentication-provider>
    </security:authentication-manager>
