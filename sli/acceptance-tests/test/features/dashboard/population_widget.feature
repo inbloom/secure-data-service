@@ -19,6 +19,7 @@ Then I see these values in the drop-down: "Sec 142;Sec 143;Sec 144;Sec 145"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 144"
+And I wait for "2" seconds
 Then I see a list of 24 students
 
 When I select school "Daybreak Central High"

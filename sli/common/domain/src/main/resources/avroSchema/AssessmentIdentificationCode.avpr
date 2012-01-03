@@ -1,11 +1,11 @@
 {
   "type" : "record",
-  "name" : "StaffIdentificationCode",
+  "name" : "AssessmentIdentificationCode",
   "namespace" : "org.slc.sli.domain",
-  "doc" : "A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to staff member.",
+  "doc" : "A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.",
   "fields" : [ {
     "name" : "identificationSystem",
-    "type" : "org.slc.sli.domain.enum.StaffIdentificationSystemType"
+    "type" : "org.slc.sli.domain.enum.AssessmentIdentificationSystemType"
   }, {
     "name" : "assigningOrganizationCode",
     "type" : [ "null", {
@@ -14,7 +14,7 @@
       "min-length" : "1"
     } ]
   }, {
-    "name" : "ID",
+    "name" : "id",
     "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
     "type" : {
       "type" : "string",
@@ -23,4 +23,3 @@
     }
   } ]
 }
-

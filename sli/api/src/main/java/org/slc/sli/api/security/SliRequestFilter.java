@@ -47,7 +47,7 @@ public class SliRequestFilter extends GenericFilterBean {
         chain.doFilter(request, response);
     }
 
-    protected String getSessionIdFromRequest(HttpServletRequest req) {
+    private String getSessionIdFromRequest(HttpServletRequest req) {
 
         String sessionId = "";
 
