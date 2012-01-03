@@ -22,3 +22,4 @@ Scenario: Previous functionality which is now shared logic continues to work as 
 		And I should receive a link where rel is "self" and href ends with "/students/" and appropriate ID
 		And I should receive a link where rel is "getStudentEnrollments" and href ends with "/student-school-associations/" and appropriate ID
 
+#this is a test
