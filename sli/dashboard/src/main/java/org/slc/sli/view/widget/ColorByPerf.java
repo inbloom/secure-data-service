@@ -9,13 +9,13 @@ import org.slc.sli.view.AssessmentResolver;
  * 
  * @author dwu
  */
-public class ColorByPerfLevel {
+public class ColorByPerf {
     
     Field field;
     Student student;
     AssessmentResolver assmts;
     
-    public ColorByPerfLevel(Field field, Student student, AssessmentResolver assmts) {
+    public ColorByPerf(Field field, Student student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;

@@ -31,12 +31,19 @@
     <td class="${field.getValue()}">
       <#-- try out each resolver to see if this data point can be resolved using it -->
       <#assign dataPointId = field.getValue()>
-      <#if field.getVisual()?? && field.getVisual() = "colorNum">
-        <#include "widget/colorNum.ftl">
-      <#elseif assessments.canResolve(dataPointId)>
-        ${assessments.get(dataPointId, student)}
+      
+      <#-- assessment results -->
+      <#if assessments.canResolve(dataPointId)>
+        <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+          <#include "widget/" + field.getVisual() + ".ftl">
+        <#else>
+          ${assessments.get(dataPointId, student)}
+        </#if>
+        
+      <#-- student info -->
       <#elseif students.canResolve(dataPointId)>
         ${students.get(dataPointId, student)}
+        
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.
