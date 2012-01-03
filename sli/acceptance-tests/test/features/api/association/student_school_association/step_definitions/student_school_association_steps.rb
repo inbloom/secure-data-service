@@ -3,7 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 include REXML
-require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../../utils/sli_utils.rb'
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2" if arg2 == "Apple Alternative Elementary School ID"
