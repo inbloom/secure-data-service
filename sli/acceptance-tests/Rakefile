@@ -128,6 +128,7 @@ task :associationTests => [:importSandboxData] do
   runTests("test/features/api/associations")
   runTests("test/features/api/association/student_section_association")
   runTests("test/features/api/association/student_assessment_association")
+  runTests("test/features/api/association/student_school_association")
 end
 
 desc "Run Home URI Tests"

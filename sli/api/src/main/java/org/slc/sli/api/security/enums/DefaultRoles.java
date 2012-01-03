@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.enums;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ public enum DefaultRoles {
         return "ROLE_" + name.toUpperCase().replace(' ', '_');
     }
 
-    public Rights[] getRights() {
-        return rights;
+    public List<Rights> getRights() {
+        return Arrays.asList(rights);
     }
 
     public boolean hasRight(Rights right) {
