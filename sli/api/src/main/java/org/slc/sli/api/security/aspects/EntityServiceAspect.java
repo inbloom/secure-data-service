@@ -22,13 +22,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Aspect for handling Entity Service operations.
- *
+ * 
  * @author shalka
  */
 
 @Aspect
 public class EntityServiceAspect {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
     private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
@@ -52,7 +52,7 @@ public class EntityServiceAspect {
     
     @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
-
+        
         boolean hasAccess = false;
         Rights neededRight = null;
         Signature entitySignature = pjp.getSignature();
@@ -66,32 +66,32 @@ public class EntityServiceAspect {
             hasAccess = true;
         } else {
             neededRight = neededRights.get(entityFunctionName);
-        }
-
-        LOG.debug("attempted access of {} function", entitySignature.toString());
-        Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication()
-                .getAuthorities();
-        LOG.debug("user rights: {}", myAuthorities.toString());
-
-        for (GrantedAuthority auth : myAuthorities) {
-            LOG.debug("checking rights for role: {}", auth.getAuthority());
-            try {
-                for (DefaultRoles role : DefaultRoles.values()) {
-                    if (role.getSpringRoleName().equals(auth.getAuthority()) && role.hasRight(neededRight)) {
-                        LOG.debug("granting access to user for entity");
-                        hasAccess = true;
+            
+            LOG.debug("attempted access of {} function", entitySignature.toString());
+            Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication()
+                    .getAuthorities();
+            LOG.debug("user rights: {}", myAuthorities.toString());
+            
+            for (GrantedAuthority auth : myAuthorities) {
+                LOG.debug("checking rights for role: {}", auth.getAuthority());
+                try {
+                    for (DefaultRoles role : DefaultRoles.values()) {
+                        if (role.getSpringRoleName().equals(auth.getAuthority()) && role.hasRight(neededRight)) {
+                            LOG.debug("granting access to user for entity");
+                            hasAccess = true;
+                            break;
+                        }
+                    }
+                    if (hasAccess) {
                         break;
                     }
+                } catch (IllegalArgumentException ex) {
+                    LOG.debug("could not find role. skipping current entry...");
+                    continue;
                 }
-                if (hasAccess) {
-                    break;
-                }
-            } catch (IllegalArgumentException ex) {
-                LOG.debug("could not find role. skipping current entry...");
-                continue;
             }
         }
-
+        
         if (hasAccess) {
             LOG.debug("entering {} function [using Around]", entitySignature.toString());
             Object entityReturned = pjp.proceed();
