@@ -15,6 +15,11 @@
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
       <property name="apiClient" ref="APIClientBean"/>
     </bean>
+
+    <!-- Redirect view --> 
+    <bean name="/" class="org.slc.sli.controller.LandingPageController">
+      <property name="url" value="studentlist" />
+    </bean>
     
     <!-- freemarker config -->
     <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">

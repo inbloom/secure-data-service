@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.service.EntityService;
+//import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,18 +22,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Aspect for handling Entity Service operations.
- * 
+ *
  * @author shalka
  */
 
 @Aspect
 public class EntityServiceAspect {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
     private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
     private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
     private static Map<String, Rights> neededRights = new HashMap<String, Rights>();
+    
+//    private EntitySchemaRegistry schemaRegistry;
+//    
+//    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
+//        this.schemaRegistry = schemaRegistry;
+//    }
     
     static {
         neededRights.put("get", Rights.READ_GENERAL);
@@ -45,7 +52,7 @@ public class EntityServiceAspect {
     
     @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
-        
+
         boolean hasAccess = false;
         Rights neededRight = null;
         Signature entitySignature = pjp.getSignature();
@@ -60,12 +67,12 @@ public class EntityServiceAspect {
         } else {
             neededRight = neededRights.get(entityFunctionName);
         }
-        
+
         LOG.debug("attempted access of {} function", entitySignature.toString());
         Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication()
                 .getAuthorities();
         LOG.debug("user rights: {}", myAuthorities.toString());
-        
+
         for (GrantedAuthority auth : myAuthorities) {
             LOG.debug("checking rights for role: {}", auth.getAuthority());
             try {
@@ -84,7 +91,7 @@ public class EntityServiceAspect {
                 continue;
             }
         }
-        
+
         if (hasAccess) {
             LOG.debug("entering {} function [using Around]", entitySignature.toString());
             Object entityReturned = pjp.proceed();
