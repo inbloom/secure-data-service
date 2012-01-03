@@ -2,36 +2,32 @@
   "type" : "record",
   "name" : "StudentSectionAssociation",
   "namespace" : "org.slc.sli.domain",
+  "doc" : "This association indicates the course sections a student is assigned to.",
   "fields" : [ {
     "name" : "studentId",
     "type" : "string"
   }, {
     "name" : "sectionId",
     "type" : "string"
-  },  {
+  }, {
     "name" : "beginDate",
     "type" : [ "null", {
-      "type" : "record",
-      "name" : "Calendar",
-      "namespace" : "java.util",
-      "fields" : [ ]
-    } ],
-    "default" : null
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
   }, {
     "name" : "endDate",
-    "type" : [ "null", "java.util.Calendar" ],
-    "default" : null
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
   }, {
     "name" : "homeroomIndicator",
-    "type" : [ "null", "boolean" ],
-    "default" : null
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "repeatIdentifier",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "RepeatIdentifierType",
-      "symbols" : [ "REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE", "REPEATED_NOT_COUNTED_IN_GRADE_POINT_AVERAGE", "NOT_REPEATED", "OTHER" ]
-    } ],
-    "default" : null
+    "type" : [ "null", "org.slc.sli.domain.enum.RepeatIdentifierType" ]
   } ]
 }
