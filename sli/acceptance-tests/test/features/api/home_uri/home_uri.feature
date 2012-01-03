@@ -1,4 +1,4 @@
-Feature: <US63> In order to provide base information
+Feature: In order to provide base information
 	As a client application using SLI
 	I want to know what links are available to a user based on their user type.
 	This means all associations should be returned as links when accessing the HOME URI.
