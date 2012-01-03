@@ -82,7 +82,7 @@ When /^I navigate to POST (assessment "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
       "assessmentTitle" => @assessmentTitle,
-      "assessmentIdentificationCode" => [Hash["id"=>@assessmentIdentificationCode]],
+      "assessmentIdentificationCode" => [Hash["identificationSystem"=>"School","id"=>@assessmentIdentificationCode]],
       "academicSubject" => @academicSubject,
       "assessmentCategory" => @assessmentCategory,
       "gradeLevelAssessed" => @gradeLevelAssessed,

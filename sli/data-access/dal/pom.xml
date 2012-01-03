@@ -18,13 +18,11 @@
       <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>sli-configuration</artifactId>
-          <version>${project.version}</version>
       </dependency>
-      
+
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>domain</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- Spring Framework -->
@@ -93,7 +91,7 @@
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
         </dependency>
-        
+
         <!-- spring data mongodb dependency -->
         <dependency>
             <groupId>org.springframework.data</groupId>

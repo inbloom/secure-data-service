@@ -11,7 +11,7 @@ Transform /^\/student-assessment-associations\/<([^>]*)>$/ do |step_arg|
   id = s+"1e0ddefb-6b61-4f7d-b8c3-33bb5676115a" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID"
   id = s+"7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
   id = s+"a22532c4-6455-41da-b24d-4f93224f526d" if step_arg == "'Mathematics Achievement Assessment Test' ID"
-  id = "newId" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID"
+  id = s+"c8672d3b-0953-4ad7-a1b5-d5395bc0150a" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID"
   id = "oldId" if step_arg =="the previous association ID"
   id = s+"11111111-1111-1111-1111-111111111111" if step_arg == "NonExistence Id"
   id = s+"68fbec8e-2041-4536-aad7-1105ab042c77" if step_arg == "AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id"
@@ -90,7 +90,7 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
     dataH = Hash["studentId"=> @studentId,
     "assessmentId" => @assessmentId,
     "administrationDate" => @administrationDate,
-    "scoreResults"=>[Hash["result"=>@scoreResults]],
+    "scoreResults"=>[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@scoreResults]],
     "performanceLevel"=> @performanceLevel]
   data=dataH.to_json
   elsif @format == "application/xml"
@@ -104,11 +104,7 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
 end
 
 When /^I navigate to GET (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
-#puts uri
-  if uri == "newId"
-  #puts @@newId
-  uri=@@newId
-  elsif uri =="oldId"
+  if uri =="oldId"
   uri=@oldId
   end
   #puts uri
@@ -128,16 +124,14 @@ When /^I set the PerformanceLevel to"([^"]*)"$/ do |arg1|
 end
 
 When /^I navigate to PUT (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
-  if uri == "oldId"
-  uri = @oldId
-  elsif uri == "newId"
-  uri = @@newId
+  if uri =="oldId"
+  uri=@oldId
   end
   if @format == "application/json" or @format == "application/vnd.slc+json"
     if @res != nil
       dataH=JSON.parse(@res.body)
 
-      dataH["scoreResults"]=[Hash["result"=>@scoreResults]]
+      dataH["scoreResults"]=[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@scoreResults]]
       dataH["performanceLevel"]=@performanceLevel
     else
       dataH = Hash[]
@@ -167,9 +161,9 @@ Then /^I should receive a ID for the newly created student\-assessment\-associat
   assert(headers != nil, "Result contained no headers")
   assert(headers['location'] != nil, "There is no location link from the previous request")
   s = headers['location'][0]
-  @@newId = "/student-assessment-associations/"+s[s.rindex('/')+1..-1]
-  assert(@@newId != nil, "Student-Assessment-Association ID is nil")
-#puts @@newId
+  newId = "/student-assessment-associations/"+s[s.rindex('/')+1..-1]
+  assert(newId != nil, "Student-Assessment-Association ID is nil")
+#puts newId
 end
 
 Then /^I should receive (\d+) student\-assessment\-assoications$/ do |arg1|

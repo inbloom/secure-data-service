@@ -10,10 +10,6 @@ When /^I click on the Enter button$/ do
   @driver.get @url if @url
 end
 
-Then /^I should be redirected to the Realm page$/ do
-  assert(@driver.current_url == @url, "Failed to navigate to "+@url)
-end
-
 Given /^I see the Realm page$/ do
   @driver = Selenium::WebDriver.for :firefox
   url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
