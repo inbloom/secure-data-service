@@ -27,10 +27,12 @@ import org.springframework.util.ResourceUtils;
 
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.processors.ContextManager;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 
+/*
+ * a set of static functions that can be used by Ingestion Tests.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
@@ -43,8 +45,8 @@ public class IngestionTest {
     public static final String INGESTION_CSV_FILE_SUFFIX = ".csv";
     public static final String INGESTION_XML_FILE_SUFFIX = ".xml";
 
-    @Autowired
-    private ContextManager contextManager;
+//    @Autowired
+//    private ContextManager contextManager;
 
     @Autowired
     private EdFiProcessor edFiProcessor;
@@ -56,9 +58,9 @@ public class IngestionTest {
     public void setup() {
     }
 
-    protected ContextManager getRepositoryFactory() {
-        return this.contextManager;
-    }
+//    protected ContextManager getRepositoryFactory() {
+//        return this.contextManager;
+//    }
 
     protected EdFiProcessor getEdFiProcessor() {
         return this.edFiProcessor;
