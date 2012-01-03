@@ -15,9 +15,8 @@ Then I should be redirected to the Realm page
 Scenario: Go to Dashboard page when authenticated to SLI
 
 Given I have an open web browser
-And I am authenticated to SLI
-When I type the Dashboard home page
-And I click on the Enter button
+And I am authenticated to SLI as "cgray" password "cgray"
+When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard home page
 
 Scenario: Valid user login
