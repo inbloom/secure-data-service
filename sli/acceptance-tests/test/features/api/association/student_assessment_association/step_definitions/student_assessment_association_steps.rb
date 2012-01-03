@@ -90,7 +90,7 @@ When /^I navigate to POST "([^"]*)"$/ do |uri|
     dataH = Hash["studentId"=> @studentId,
     "assessmentId" => @assessmentId,
     "administrationDate" => @administrationDate,
-    "scoreResults"=>[Hash["result"=>@scoreResults]],
+    "scoreResults"=>[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@scoreResults]],
     "performanceLevel"=> @performanceLevel]
   data=dataH.to_json
   elsif @format == "application/xml"
@@ -137,7 +137,7 @@ When /^I navigate to PUT (\/student\-assessment\-associations\/<[^>]*>)$/ do |ur
     if @res != nil
       dataH=JSON.parse(@res.body)
 
-      dataH["scoreResults"]=[Hash["result"=>@scoreResults]]
+      dataH["scoreResults"]=[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@scoreResults]]
       dataH["performanceLevel"]=@performanceLevel
     else
       dataH = Hash[]

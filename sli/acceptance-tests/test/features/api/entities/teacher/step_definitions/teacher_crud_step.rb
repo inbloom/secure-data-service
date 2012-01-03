@@ -81,9 +81,8 @@ Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
 end
 
 Given /^(?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  eduHash = Hash["Master's" => "Masters", "Bachelor's" => "Bachelors"]
-  ["Bachelor's", "Master's", "Doctorate", "No Degree"].should include(arg1)
-  @levelOfEducation = eduHash[arg1]
+  ["Bachelors", "Masters", "Doctorate", "No_Degree"].should include(arg1)
+  @levelOfEducation = arg1
   @levelOfEducation.should_not == nil
 end
 
@@ -219,10 +218,9 @@ Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\w
 end
 
 Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["highestLevelOfEducationCompleted"] == eduHash[arg1], "Expected teacher level of education not found in response")  
+  assert(result["highestLevelOfEducationCompleted"] == arg1, "Expected teacher level of education not found in response")  
 end
 
 When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
