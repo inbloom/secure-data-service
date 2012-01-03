@@ -74,24 +74,24 @@
 
   </properties>
 
-  <!-- 
-       Environment profiles.  
-       
+  <!--
+       Environment profiles.
+
        A profile encapsulates a set of properties and filters for a particular build configuration.
-       
+
        Per profile properties and filters can be set at an individual project basis to specify
-       variables used within that environment.  For example, specifying different database 
-       connection strings for 'local' and 'ci' builds.  
-       
-       From the command line, add the -P and specify the profile name you want to use.  
-       
-       If no profile is specified, the 'sli.env' value specified in the above properties section 
-       is used by default. 
-       
-       Note that this POM only defines what the profile name is and the 'sli.env' value for that profile.  
-       It is up to individual projects to identify resources required per profile. 
+       variables used within that environment.  For example, specifying different database
+       connection strings for 'local' and 'ci' builds.
+
+       From the command line, add the -P and specify the profile name you want to use.
+
+       If no profile is specified, the 'sli.env' value specified in the above properties section
+       is used by default.
+
+       Note that this POM only defines what the profile name is and the 'sli.env' value for that profile.
+       It is up to individual projects to identify resources required per profile.
   -->
-  <profiles>  
+  <profiles>
       <!-- A local dev profile -->
       <profile>
           <id>local</id>
@@ -111,7 +111,7 @@
              <sli.env>dev</sli.env>
           </properties>
      </profile>
-      
+
       <!-- Profile to use during continuous integration -->
       <profile>
           <id>ci</id>
@@ -121,7 +121,7 @@
       </profile>
 
       <!-- Add additional profiles here. For example: integration, production, multishard, ... -->
-  </profiles>    
+  </profiles>
 
   <modules>
     <module>sli-configuration</module>
@@ -143,7 +143,7 @@
       	<artifactId>sli-configuration</artifactId>
       	<version>${project.version}</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.slc.sli.common</groupId>
         <artifactId>common</artifactId>
@@ -199,7 +199,7 @@
         <artifactId>ingestion</artifactId>
         <version>${project.version}</version>
       </dependency>
-            
+
       <dependency>
         <groupId>org.slc.sli.admin</groupId>
         <artifactId>admin</artifactId>
@@ -714,7 +714,7 @@
 
     <pluginManagement>
       <plugins>
-      
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -906,7 +906,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 	  <xmlOutput>true</xmlOutput>
 	</configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -918,7 +918,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           </dependency>
         </dependencies>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -927,10 +927,10 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           <systemPropertyVariables>
             <emma.rt.control>false</emma.rt.control>
             <sli.env>${sli.env}</sli.env>
-          </systemPropertyVariables>          
+          </systemPropertyVariables>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
 	<artifactId>maven-jetty-plugin</artifactId>
@@ -941,11 +941,10 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           </systemPropertyVariables>
         </configuration>
       </plugin>
-      
+
       <plugin>
 	      <groupId>org.apache.maven.plugins</groupId>
 	      <artifactId>maven-site-plugin</artifactId>
-	      <version>3.0-beta-3</version>
 	      <configuration>
 	        <reportPlugins>
 	          <plugin>
@@ -981,7 +980,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 		  </executions-->
       </plugin>
     </plugins>
-    
+
   </build>
 
   <repositories>

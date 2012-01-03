@@ -13,7 +13,7 @@ Scenario Outline: Create a student-section-association
 	Given format <format>
 		And "sectionId" is Section "Biology II - C"
 		And "studentId" is Student "Jane Doe"
-		And "beginDate" is "2011-12-15T15:00:00Z"
+		And "beginDate" is "2011-12-15"
 	When I navigate to POST "/student-section-associations"
 	Then I should receive a return code of 201
 		And I should receive a ID for the newly created student-section-association
@@ -21,7 +21,7 @@ Scenario Outline: Create a student-section-association
 	Then I should receive a return code of 200
 		And "sectionId" should equal Section "Biology II - C"
 		And "studentId" should equal Student "Jane Doe"
-		And "beginDate" should equal "2011-12-15T15:00:00Z"
+		And "beginDate" should equal "2011-12-15"
 	Examples:
 	    	| format                     |
     		| "application/json"         |
@@ -35,9 +35,9 @@ Scenario Outline: Read a student-section-association
 		And I should receive 1 student-section-association
 		And I should receive a link named "getStudent" with URI for Student "Albert Wright"
 		And I should receive a link named "getSection" with URI for Section "Foreign Language - A"
-		And "beginDate" should equal "2011-09-15T15:00:00Z"
-		And "endDate" should equal "2011-12-15T15:00:00Z"
-		And "repeatIdentifier" should equal "REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE"
+		And "beginDate" should equal "2011-09-15"
+		And "endDate" should equal "2011-12-15"
+		And "repeatIdentifier" should equal "Repeated_counted_in_grade_point_average"
 	Examples:
 	    	| format                     |
     		| "application/json"         |
@@ -66,11 +66,11 @@ Scenario: Reading a student-section-association for a section
 Scenario Outline: Update a student-section-association 
 	Given format <format>
 		And I navigate to GET Student Section Association for Student "Albert Wright" and Section "Foreign Language - A" 
-	When "repeatIdentifier" is updated to "NOT_REPEATED"
+	When "repeatIdentifier" is updated to "Not_repeated"
 		And I navigate to PUT Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
 	Then I should receive a return code of 204
 	When I navigate to GET Student Section Association for Student "Albert Wright" and Section "Foreign Language - A"
-	Then "repeatIdentifier" should equal "NOT_REPEATED"
+	Then "repeatIdentifier" should equal "Not_repeated"
 	Examples:
 	    	| format                     |
     		| "application/json"         |
