@@ -20,7 +20,7 @@ Given /^I am authenticated on "([^"]*)"$/ do |arg1|
 end
 
 When /^I make a REST API call$/ do
-  restHttpGet("/schools/eb3b8c35-f582-df23-e406-6947249a19f2", "application/json")
+  restHttpGet("/system/session/debug", "application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -50,8 +50,10 @@ When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
   
   dataH = JSON.parse(@res.body)
   assert(dataH != nil, "Result of JSON parsing is nil")
-  dataH['address'] = [Hash["streetNumberName" => arg1]]
-  dataH['address' => [Hash["streetNumberName" => arg1]]]
+  dataH['address'] = [Hash["streetNumberName" => arg1,
+                           "city" => "Urbania",
+                           "stateAbbreviation" => "NC",
+                           "postalCode" => "12345"]]
   data = dataH.to_json
 
   restHttpPut(student_uri, data, "application/json")
@@ -77,7 +79,7 @@ end
 
 Then /^a message is displayed that the "([^"]*)" role does not allow this action$/ do |arg1|
   #Validate the Put return code first
-  assert(@res.code == 405, "Return code was not expected: "+@res.code.to_s+" but expected 405")
+  assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
   
   #Then get the data to see it hasn't changed
   restHttpGet("/students/289c933b-ca69-448c-9afd-2c5879b7d221","application/json")
@@ -99,7 +101,7 @@ When /^I make an API call to view a Student's data$/ do
 end
 
 Then /^a message is displayed that the "([^"]*)" role cannot view this data$/ do |arg1|
-  assert(@res.code == 405, "Return code was not expected: "+@res.code.to_s+" but expected 405")  
+  assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")  
 end
 
 Given /^"([^"]*)" is allowed to view restricted Student fields$/ do |arg1|

@@ -31,6 +31,9 @@ public class ConfigUtil {
         }
     }
     
+    /*
+     * Transforms a view config set into its XML representation
+     */
     public static String toXMLString(ViewConfigSet configSet) throws Exception {
         
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -40,6 +43,9 @@ public class ConfigUtil {
         return os.toString("UTF-8");
     }
 
+    /*
+     * Transforms view config XML into its Java object representation
+     */
     public static ViewConfigSet fromXMLString(String configStr) throws Exception {
         
         InputStream is = new ByteArrayInputStream(configStr.getBytes("UTF-8"));
@@ -48,6 +54,9 @@ public class ConfigUtil {
         return configSet;
     }
     
+    /*
+     * Given a view config, returns a list of all data set elements
+     */
     public static List<DataSet> getDataSets(ViewConfig config, String dataSetType) {
         List<DataSet> dataSets = new ArrayList<DataSet>();
         for (DataSet dataSet : config.getDataSet()) {

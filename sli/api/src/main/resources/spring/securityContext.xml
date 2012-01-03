@@ -7,21 +7,36 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd
                            http://www.springframework.org/schema/security
-                           http://www.springframework.org/schema/security/spring-security.xsd">
+                           http://www.springframework.org/schema/security/spring-security.xsd
+                           ">
 
 
    <!-- Configure security -->
    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
 
-   <security:http auto-config="true" entry-point-ref="sliEntryPoint">
-      <security:intercept-url pattern="/rest/pub/**" filters="none" />
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS" />
+   <security:http entry-point-ref="sliEntryPoint">
+       <security:form-login />
+       <security:http-basic />
+      <security:intercept-url pattern="/rest/pub/**" filters="none"/>
+      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
       <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
-      <security:request-cache ref="nullCache" />
+      <security:request-cache ref="nullCache"/>
+
       <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter" />
+      <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
 
       <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
    </security:http>
+
+    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg index="0" value="/rest/system/session/check"/>
+        <constructor-arg index="1">
+            <list>
+                <ref bean="sliLogoutHandler"/>
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/rest/system/session/logout"/>
+    </bean>
 
    <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
    <security:authentication-manager alias="authenticationManager">
@@ -32,11 +47,5 @@
       </security:authentication-provider>
    </security:authentication-manager>
 
-   <bean id="sliRequestFilter" class="org.slc.sli.api.security.SliRequestFilter">
-      <property name="resolver" ref="openamRestTokenResolver" />
-   </bean>
-
-   <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
-   <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
+    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
 </beans>
-        

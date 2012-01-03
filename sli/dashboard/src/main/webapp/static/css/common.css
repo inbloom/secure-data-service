@@ -105,6 +105,31 @@ h1
     padding-top: 10px;
 }
 
+.perfLevel1
+{
+    color: #b40610;
+}
+
+.perfLevel2
+{
+    color: #e58829;
+}
+
+.perfLevel3
+{
+    color: #dfc836;
+}
+
+.perfLevel4
+{
+    color: #7fc124;
+}
+
+.perfLevel5
+{
+    color: #438746;
+}
+
 /**** styles that will be user-customizable ****/
 
 #banner

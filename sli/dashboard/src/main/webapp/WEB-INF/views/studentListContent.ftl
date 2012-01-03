@@ -6,15 +6,15 @@
      students: contains the list of students to be displayed. Should be StudentResolver object. 
   -->
 
-<table> 
+<table id="studentList"> 
 
 <#-- draw header -->
-<tr>
+<tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <th colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
 </#list>
 </tr>
-<tr>
+<tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <th>${field.getDisplayName()}</th>
@@ -25,13 +25,15 @@
 <#-- draw body --> 
 <#list students.list() as student>
 
-<tr>
+<tr class="listRow">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
-    <td>
+    <td class="${field.getValue()}">
       <#-- try out each resolver to see if this data point can be resolved using it -->
       <#assign dataPointId = field.getValue()>
-      <#if assessments.canResolve(dataPointId)>
+      <#if field.getVisual()?? && field.getVisual() = "colorNum">
+        <#include "widget/colorNum.ftl">
+      <#elseif assessments.canResolve(dataPointId)>
         ${assessments.get(dataPointId, student)}
       <#elseif students.canResolve(dataPointId)>
         ${students.get(dataPointId, student)}

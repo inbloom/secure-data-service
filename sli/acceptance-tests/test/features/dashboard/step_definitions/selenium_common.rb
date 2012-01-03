@@ -23,35 +23,50 @@ def localLogin (username, password)
   end
   baseUrl = "http://"+PropLoader.getProps['dashboard_server_address']+ 
           PropLoader.getProps['dashboard_app_prefix'] 
-  url = baseUrl + PropLoader.getProps['dashboard_login_page']
+  url = baseUrl + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
-  assert(@driver.current_url == url, "Failed to navigate to "+url)
+  # assert(@driver.current_url == url, "Failed to navigate to "+url)
   
   # assertMissingField("Sivan")
 
   # Perform login and verify
-  assertMissingField("username")
-  assertMissingField("password")
-  assertMissingField("submit")
-  putTextToField(username, "username")
-  putTextToField(password, "password")
-  clickButton("submit")
-  url = baseUrl + "/appselector"
+  assertMissingField("j_username", "name")
+  assertMissingField("j_password", "name")
+  assertMissingField("submit", "name")
+  putTextToField(username, "j_username", "name")
+  putTextToField(password, "j_password", "name")
+  clickButton("submit", "name")
+  # url = baseUrl + "/appselector"
   assert(@driver.current_url.start_with?(url),  "Failed to navigate to "+url)
 end
 
-def assertMissingField(fieldId)
-  assert(@driver.find_element(:id, fieldId) != nil, "Page does not contain a field with id:" + fieldId)
+def assertMissingField(field, by)
+  flag = true
+  if (by == "id") and (@driver.find_element(:id, field) != nil)
+    flag = false
+  elsif (by == "name") and (@driver.find_element(:name, field) != nil)
+    flag = false
+  end
+  assert(!flag, "Page does not contain a field with id:" + field)
 end
 
-def putTextToField(text, fieldId)
-  @driver.find_element(:id, fieldId).send_keys text
-end
+def putTextToField(text, field, by)
+  flag = true
+  if (by == "id") and (@driver.find_element(:id, field) != nil)
+    @driver.find_element(:id, field).send_keys text
+  elsif (by == "name") and (@driver.find_element(:name, field) != nil)
+    @driver.find_element(:name, field).send_keys text
+  end
+end    
 
-def clickButton(buttonId)
-  @driver.find_element(:id, buttonId).click
+def clickButton(button, by)
+  if (by == "id")
+    @driver.find_element(:id, button).click
+  elsif (by == "name")
+    @driver.find_element(:name, button).click
+  end
 end
 
 def selectOption(selectFieldId, optionToSelect)
@@ -65,4 +80,32 @@ def selectOption(selectFieldId, optionToSelect)
     end
   end  
   assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
+end
+
+# TODO: add this paramteres (tableRef, by), also may want to add TR class
+def countTableRows()
+  tableRows = @driver.find_elements(:css, "tr.listRow")
+  puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
+  return tableRows.length
+end
+
+def listContains(desiredContent)
+  result = false
+
+  desiredContentArray = desiredContent.split(";")
+  # Find all student names based on their class attribute
+  studentNames = @driver.find_elements(:xpath, "//td[@class='studentInfo.name']")
+  puts "num of studs = "+ studentNames.length.to_s
+  
+  nonFoundItems = desiredContentArray.length
+  
+  desiredContentArray.each do |searchValue|
+    studentNames.each do |student|
+      if student.attribute("innerHTML").to_s.include?(searchValue)
+        puts "Found desired item '" + searchValue + "'"
+        nonFoundItems -= 1
+      end
+    end
+  end
+  return nonFoundItems == 0
 end

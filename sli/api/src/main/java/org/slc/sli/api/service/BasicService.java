@@ -1,11 +1,5 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
@@ -14,50 +8,75 @@ import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Implementation of EntityService that can be used for most entities.
- * 
  */
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
-    
-    private final String collectionName;
-    private final List<Treatment> treatments;
-    private final EntityRepository repo;
-    protected EntityDefinition defn;
-    
+
+    private String collectionName;
+    private List<Treatment> treatments;
+    private EntityRepository repo;
+
+    private EntityDefinition defn;
+
     public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.repo = repo;
     }
-    
+
+    public BasicService() {
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
+    }
+
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
+    }
+
+    public void setRepo(EntityRepository repo) {
+        this.repo = repo;
+    }
+
     public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
-    
+
+    public EntityDefinition getDefn() {
+        return defn;
+    }
+
     protected String getCollectionName() {
         return collectionName;
     }
-    
+
     protected List<Treatment> getTreatments() {
         return treatments;
     }
-    
+
     protected EntityRepository getRepo() {
         return repo;
     }
-    
+
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {collectionName, content});
+        LOG.debug("Creating a new entity in collection {} with content {}", new Object[]{collectionName, content});
         return getRepo().create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
     }
-    
+
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] {id, collectionName});
+        LOG.debug("Deleting {} in {}", new String[]{id, collectionName});
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -67,10 +86,10 @@ public class BasicService implements EntityService {
         if (!(defn instanceof AssociationDefinition))
             removeEntityWithAssoc(entity);
     }
-    
+
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {}", new String[] {id, collectionName});
+        LOG.debug("Updating {} in {}", new String[]{id, collectionName});
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -86,16 +105,17 @@ public class BasicService implements EntityService {
         getRepo().update(collectionName, entity);
         return true;
     }
-    
+
     @Override
     public EntityBody get(String id) {
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
+
         return makeEntityBody(entity);
     }
-    
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -107,7 +127,7 @@ public class BasicService implements EntityService {
         }
         return results;
     }
-    
+
     @Override
     public Iterable<String> list(int start, int numResults) {
         List<String> results = new ArrayList<String>();
@@ -116,7 +136,7 @@ public class BasicService implements EntityService {
         }
         return results;
     }
-    
+
     @Override
     public boolean exists(String id) {
         return getRepo().find(collectionName, id) != null;
@@ -124,7 +144,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity, make the entity body to expose
-     * 
+     *
      * @param entity
      * @return
      */
@@ -135,10 +155,10 @@ public class BasicService implements EntityService {
         }
         return toReturn;
     }
-    
+
     /**
      * given an entity body that was exposed, return the version with the treatments reversed
-     * 
+     *
      * @param content
      * @return
      */
@@ -155,7 +175,7 @@ public class BasicService implements EntityService {
         String sourceId = entity.getEntityId();
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(sourceType + "Id", sourceId);
-        
+
         for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
             String assocCollection = assocDef.getStoredCollectionName();
             Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);

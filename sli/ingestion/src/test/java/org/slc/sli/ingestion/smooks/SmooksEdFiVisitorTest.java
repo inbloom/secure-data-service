@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 public class SmooksEdFiVisitorTest {
 
+    private static final String SMOOKS_CONFIG = "smooks_conf/smooks-config.xml";
     @Test
     public void testJavaResult() throws IOException, SAXException {
 
@@ -40,7 +41,7 @@ public class SmooksEdFiVisitorTest {
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
 
-            Smooks smooks = new Smooks("smooks-config.xml");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
             // smooks.addVisitor(new SmooksEdFiVisitor("student"),
             // "InterchangeStudent/Student");
 
@@ -79,8 +80,8 @@ public class SmooksEdFiVisitorTest {
             NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
                     outputFile);
 
-            Smooks smooks = new Smooks("smooks-config.xml");
-            smooks.addVisitor(new SmooksEdFiVisitor("record", nrfWriter),
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
+            smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                     "InterchangeStudent/Student");
 
             try {
@@ -123,7 +124,7 @@ public class SmooksEdFiVisitorTest {
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
 
-            Smooks smooks = new Smooks("smooks-config.xml");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
             // smooks.addVisitor(new SmooksEdFiVisitor("student"),
             // "InterchangeStudent/Student");
 
@@ -158,7 +159,7 @@ public class SmooksEdFiVisitorTest {
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
 
-            Smooks smooks = new Smooks("smooks-config.xml");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
             // smooks.addVisitor(new SmooksEdFiVisitor("student"),
             // "InterchangeStudent/Student");
 

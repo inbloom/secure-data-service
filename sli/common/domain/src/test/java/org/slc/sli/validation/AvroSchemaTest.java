@@ -19,10 +19,11 @@ import org.apache.avro.io.DecoderFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Tests sample Avro schema for Students.
@@ -74,6 +75,19 @@ public class AvroSchemaTest {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStudentAssessmentAssociation() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader(
+                "src/test/resources/studentassessmentassociation_fixture.json"));
+        String studentassessmentassoc;
+        while ((studentassessmentassoc = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(studentassessmentassoc, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
+        }
+    }
+    
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         AvroEntityValidator validator = new AvroEntityValidator();
         validator.setSchemaRegistry(schemaReg);
@@ -86,7 +100,7 @@ public class AvroSchemaTest {
             assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
             for (ValidationError err : ex.getValidationErrors()) {
-                System.out.println(err);
+                System.err.println(err);
             }
             fail();
         }

@@ -45,7 +45,7 @@ public class StudentListContentController extends DashboardController {
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
         List<String> uids = null;
-        if(population != null)
+        if (population != null)
             uids = Arrays.asList(population.split(","));
         List<Student> students = Arrays.asList(apiClient.getStudents(user.getUsername(), uids));
         model.addAttribute(STUDENTS, new StudentResolver(students, viewConfig));
