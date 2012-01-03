@@ -12,9 +12,8 @@
    <packaging>war</packaging>
    <name>Discovery Page</name>
    <description>SLI :: Discovery Module</description>
-   <url>http://maven.apache.org</url>
    <build>
-      <finalName>admin</finalName>
+      <finalName>disco</finalName>
    </build>
    <dependencies>
       <dependency>

@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.springframework.stereotype.Component;
 
 /**
  * Mock implementation of the EntityRepository for unit testing.
@@ -31,6 +30,9 @@ public class MockRepo implements EntityRepository {
         repo.put("studentschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("teacher", new LinkedHashMap<String, Entity>());
         repo.put("section", new LinkedHashMap<String, Entity>());
+        repo.put("assessment", new LinkedHashMap<String, Entity>());
+        repo.put("studentassessmentassociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentsectionassociation", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -59,8 +61,13 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Entity create(String type, Map<String, Object> body) {
+        return create(type, body, type);
+    }
+    
+    @Override
+    public Entity create(String type, Map<String, Object> body, String collectionName) {
         Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
-        update(type, newEntity);
+        update(collectionName, newEntity);
         return newEntity;
     }
     
@@ -112,11 +119,14 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
-        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         List<Entity> toReturn = new ArrayList<Entity>();
-        for (Entity entity : all) {
-            if (matchesFields(entity, fields)) {
-                toReturn.add(entity);
+        
+        if (repo.containsKey(entityType)) {
+            List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+            for (Entity entity : all) {
+                if (matchesFields(entity, fields)) {
+                    toReturn.add(entity);
+                }
             }
         }
         return toReturn;

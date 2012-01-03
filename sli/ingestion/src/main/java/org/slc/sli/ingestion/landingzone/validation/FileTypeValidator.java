@@ -1,29 +1,27 @@
 package org.slc.sli.ingestion.landingzone.validation;
 
-import java.util.List;
-
-import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
- * 
+ * File Type validator.
  *
  */
 public class FileTypeValidator extends IngestionFileValidator {
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, List<Fault> faults) {
+    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
         IngestionFileEntry entry = item.getFileItem();
         FileType fileType = entry.getFileType();
+
         if (fileType == null) {
-            faults.add(Fault.createError(
-                    "unknown or empty file type specified for file ["
-                    + entry.getFileName() + "]"));
+            fail(callback, getFailureMessage("SL_ERR_MSG1", entry.getFileName(), "type"));
+
             return false;
         }
         return true;
     }
-    
+
 }

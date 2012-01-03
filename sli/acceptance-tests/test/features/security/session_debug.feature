@@ -8,15 +8,15 @@ Scenario: Authenticate with valid cookie and get the session debug context succe
     Then I should receive a return code of "200"
     And I should see the session debug context in the response body
 
-Scenario: Redirect to login when request session debug context without cookie
+Scenario: Deny access when request session debug context without cookie
 
 	When I GET the url "/system/session/debug" using a blank cookie
-    Then I should receive a return code of "302"
+    Then I should receive a return code of "401"
 
-Scenario: Redirect to login when request session debug context with invalid cookie
+Scenario: Deny access when request session debug context with invalid cookie
 
 	When I GET the url "/system/session/debug" using an invalid cookie
-    Then I should receive a return code of "302"
+    Then I should receive a return code of "401"
 
 Scenario: Access the session check resource with valid authentication cookie
 

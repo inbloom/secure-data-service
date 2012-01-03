@@ -9,11 +9,11 @@ import java.util.Set;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates an Entity body against an Avro schema.
@@ -111,6 +111,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             
             for (String possibleValue : enumNum.getEnumSymbols()) {
+                // TODO remove ignoresCase. Pending all the schemas being updated
                 if (possibleValue.equalsIgnoreCase(dataValue.toString())) {
                     return true;
                 }
@@ -200,25 +201,57 @@ public class AvroEntityValidator implements EntityValidator {
         
         private boolean matchesUnion(Schema union, String dataName, Object dataValue, boolean captureErrors) {
             boolean nullable = false;
-            for (Schema possibleSchema : union.getTypes()) {
-                if (possibleSchema.getType().equals(Schema.Type.NULL)) {
-                    nullable = true;
+            if (union.getTypes().size() == 2 && containsNull(union.getTypes())) {
+                // The usual case is that the union has two possibilities: null and one other type.
+                // If this is the case, we can capture errors when we check the provided data
+                // against the type.
+                for (Schema possibleSchema : union.getTypes()) {
+                    if (Schema.Type.NULL.equals(possibleSchema.getType())) {
+                        nullable = true;
+                        if (matchesSchema(possibleSchema, dataName, dataValue, false)) {
+                            return true;
+                        }
+                    } else {
+                        if (matchesSchema(possibleSchema, dataName, dataValue, true)) {
+                            return true;
+                        }
+                    }
                 }
-                if (matchesSchema(possibleSchema, dataName, dataValue, false)) {
-                    return true;
+                if (captureErrors) {
+                    String[] validTypes = new String[union.getTypes().size()];
+                    for (int i = 0; i < union.getTypes().size(); i++) {
+                        validTypes[i] = union.getTypes().get(i).getName();
+                    }
+                    if (!nullable) {
+                        errors.add(new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, dataName, dataValue,
+                                validTypes));
+                    }
+                }
+            } else {
+                // If the union has multiple types, we cannot be sure what the input was supposed to
+                // be, so we turn off error capture for the matchesSchema call.
+                for (Schema possibleSchema : union.getTypes()) {
+                    if (possibleSchema.getType().equals(Schema.Type.NULL)) {
+                        nullable = true;
+                    }
+                    if (matchesSchema(possibleSchema, dataName, dataValue, false)) {
+                        return true;
+                    }
+                }
+                if (captureErrors) {
+                    String[] validTypes = new String[union.getTypes().size()];
+                    for (int i = 0; i < union.getTypes().size(); i++) {
+                        validTypes[i] = union.getTypes().get(i).getName();
+                    }
+                    if (!nullable) {
+                        errors.add(new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, dataName, dataValue,
+                                validTypes));
+                    } else {
+                        errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue, validTypes));
+                    }
                 }
             }
-            if (captureErrors) {
-                String[] validTypes = new String[union.getTypes().size()];
-                for (int i = 0; i < union.getTypes().size(); i++) {
-                    validTypes[i] = union.getTypes().get(i).getName();
-                }
-                if (!nullable) {
-                    errors.add(new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, dataName, dataValue, validTypes));
-                } else {
-                    errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue, validTypes));
-                }
-            }
+            
             return false;
         }
         
@@ -252,9 +285,18 @@ public class AvroEntityValidator implements EntityValidator {
             }
         }
         
+        private static boolean containsNull(List<Schema> schemas) {
+            for (Schema s : schemas) {
+                if (Schema.Type.NULL.equals(s.getType())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
         private boolean wrapError(boolean isMatch, boolean captureErrors, String dataName, Object dataValue,
                 String expectedType) {
-            if (captureErrors) {
+            if (!isMatch && captureErrors) {
                 ErrorType type = dataValue == null ? ErrorType.REQUIRED_FIELD_MISSING : ErrorType.INVALID_DATATYPE;
                 errors.add(new ValidationError(type, dataName, dataValue, new String[] { expectedType }));
             }

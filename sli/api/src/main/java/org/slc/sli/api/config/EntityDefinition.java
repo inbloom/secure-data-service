@@ -8,7 +8,6 @@ import java.util.List;
 import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.Treatment;
-import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;
 
 /**
@@ -107,7 +106,6 @@ public class EntityDefinition {
         private String collectionName;
         private String resourceName;
         private List<Treatment> treatments = new LinkedList<Treatment>(GLOBAL_TREATMENTS);
-        private List<Validator> validators = new LinkedList<Validator>();
         private EntityRepository repo;
         
         /**
@@ -134,18 +132,6 @@ public class EntityDefinition {
          */
         public Builder withTreatments(Treatment... treatments) {
             this.treatments.addAll(Arrays.asList(treatments));
-            return this;
-        }
-        
-        /**
-         * Add a list of validators to the definition
-         * 
-         * @param validators
-         *            the list of validators
-         * @return the builder
-         */
-        public Builder withValidators(Validator... validators) {
-            this.validators.addAll(Arrays.asList(validators));
             return this;
         }
         
@@ -203,10 +189,6 @@ public class EntityDefinition {
             return treatments;
         }
         
-        protected List<Validator> getValidators() {
-            return validators;
-        }
-        
         protected EntityRepository getRepo() {
             return repo;
         }
@@ -218,7 +200,7 @@ public class EntityDefinition {
          */
         public EntityDefinition build() {
 
-            BasicService entityService = new BasicService(collectionName, treatments, validators, repo);
+            BasicService entityService = new BasicService(collectionName, treatments, repo);
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);
             return entityDefinition;

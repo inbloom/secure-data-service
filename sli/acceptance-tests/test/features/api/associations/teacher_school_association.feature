@@ -1,75 +1,69 @@
 @wip
-Feature: <US313> In order to manage teachers and schools 
-    As a client application using SLI
-    I want to know what teachers are currently employed at a particular school, 
-		and I want to know what schools a teacher currently works at.  
-		I also want to be able to manage these relationships by having teachers work and stop working at any school.
-		This means we should be able to CREATE, READ, UPDATE, and DELETE teacher employment associations.
+Feature: As an SLI application, I want to be able to manage teacher-school associations
+This means I want to be able to perform CRUD on teacher-school-associations. 
+Also so verify the correct links from that resource to the appropriate teacher and schools.
+  
+    This is the data I am assuming for these tests:
+    Teacher: Ms Jones, Mr. Smith
+    School: Chemistry Elementary, Physics Middle, Biology High, Algebra Alternative
 
+  Background: Nothing yet
 
-Background: Logged in as a super-user and using the small data set
-	Given the SLI_SMALL dataset is loaded
-	Given I am logged in using "jimi" "jimi"
-	Given I have access to all teachers and schools
+  Scenario: Create a teacher-school-association
+    Given format "application/vnd.slc+json"
+      And the Teacher is <Ms. Jones' ID>
+      And the School is <Algebra Alternative>
+    When I navigate to POST "/teacher-school-associations"
+    Then I should receive a return code of 201
+      And I should receive an ID for the newly created teacher-school-association
 
+ Scenario: Read a teacher-school-association
+   Given format "application/vnd.slc+json"
+   When I navigate to Teacher Section Associations for Teacher "Ms. Jones"
+   Then I should receive a return code of 2xx
+    And the grade levels should be "9"
+    And the subjects taught should be "Algebra"
+    And the school should be "Algebra Alterative School"
+    And the program assignment type should be "Alternative Education"
+    And I should receive 2 teacher-section-associations
+    And I should receive a link named "getTeacher" with URI /teachers/<Ms. Jones' ID>
+    And I should receive a link named "getSchool" with URI /schools/<Algebra Alternative School's ID>
 
-#### Reading 
-Scenario: List all teachers currently employed in a school
-    Given format "application/json"
-    When I navigate to GET "/schools/152901001/teachers" 
-    Then I should receive a return code of 200
-        And I should see 5 teachers
-	   And I should find the teacher "Belle Fernandez"
-	   And I should not find the teacher "Bert Munoz"
+  Scenario: Reading a teacher-school-association for a teacher
+   Given format "application/vnd.slc+json"
+   When I navigate to Teacher School Associations for Teacher "Mr. Smith"
+   Then I should receive a return code of 2XX
+      And the subjects taught should be "Biology"
+      And the school type should be "High School"
+      And the school should be "Biology High School"
+      And I should receive 2 teacher-school-associations
+      And I should receive a link named "getTeacher" with URI /teachers/<Mr. Smith's ID>
+      And I should receive a link named "getSchool" with URI /schools/<Biology High School>
 
-Scenario: Find one school for a teacher
-    When I navigate to GET "/teachers/725286880/schools"
-    Then I should receive a return code of 200
-		And I should see 1 schools
-		And I should find the school "Orange Middle School"
+Scenario: Reading a teacher-school-association for a school
+   Given format "application/vnd.slc+json"
+   When I navigate to Teacher School Association for the School "Biology High School"
+   Then I should receive a return code of 2XX
+      And the school type should be "High School"
+      And I should receive 3 teacher-school-associations
+      And I should receive a link named "getTeacher" with URI /schools/<Ms. Jones's ID>
+      And I should receive a link named "getTeacher" with URI/schools/<Mr. Smith's ID>
+      And I should receive a link named "getSchool" with URI/schools/<Biology High School's ID>
+      
+  Scenario: Update a teacher-section-association
+   Given format "application/vnd.slc+json"
+     And I navigate to Teacher Section Associations for Teacher "Ms. Jones" and School "Algebra Alternative"
+     And the program assignment type is "Alternative Education"
+   When I set the program assignment type to "Special Education"
+     And I navigate to PUT /teacher-section-associations/<the previous association Id>
+   Then I should get a return code of 2xx
+     And I navigate to PUT /teacher-section-associations/<the previous association Id>
+     And the program assignment type should be "Special Education"
 
-#note, teacher 1234567890 is not in the test database currently is employed at 2 schools
-Scenario: Find multiple schools for a teacher
-    When I navigate to GET "/teachers/1234567890/schools"
-    Then I should receive a return code of 200
-		And I should see 2 schools
-		And I should find the school "Orange Middle School"
-		And I should find the school "Apple Alternative Elementary School"
+  Scenario: Delete a teacher-section-association
+   Given format "application/vnd.slc+json"
+   When I navigate to DELETE /teacher-section-associations/<the previous association Id>
+   Then I should get a return code of 2xx
+    And I navigate to PUT /teacher-section-associations/<the previous association Id>
+    And I should receive a return code of 404
 
-
-#### Update
-Scenario: A teacher switches schools
-    Given "Bert Munoz" works at "Orange Middle School"
-        And format "application/json"
-    When I navigate to PUT "/schools/152901001/teachers/725286880" 
-    Then I should receive a return code of 204
-        And I should see the teacher "Bert Munoz" works at "Apple Alternative Elementary School"
-        And I should see the teacher "Bert Munoz" does not work at "Orange Middle School"
-
-
-#### Create
-Scenario: A teacher starts to work at another school
-    Given "Bert Munoz" works at "Orange Middle School"
-    When I navigate to POST "/schools/152901002/teachers/725286880" 
-        And format "application/json"
-    Then I should receive a return code of 204
-        And I should see the teacher "Bert Munoz" works at "Apple Alternative Elementary School"
-        And I should see the teacher "Bert Munoz" works at "Orange Middle School"
-
-
-### Delete
-Scenario: A teacher stops working at a school
-    Given format "application/json"
-    When I navigate to DELETE "/schools/152901002/teachers/1234567890" 
-    Then I should receive a return code of 200
-        And I should see the teacher "John Adams" does not work at "Apple Alternative Elementary School"
-        And I should see the teacher "John Adams" works at "Orange Middle School"
-
-
-#### Errors 
-#Scenario: Delete a school-teacher relationship that leaves a teacher not working at any schools
-#    Given 
-#    When 
-#    Then 
-
-#Scenario: ....

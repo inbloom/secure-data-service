@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
-import org.slc.sli.api.service.Validator;
 import org.slc.sli.dal.repository.EntityRepository;
 
 /**
@@ -317,12 +316,6 @@ public final class AssociationDefinition extends EntityDefinition {
         }
         
         @Override
-        public AssocBuilder withValidators(Validator... validators) {
-            super.withValidators(validators);
-            return this;
-        }
-        
-        @Override
         public AssocBuilder storeAs(String collectionName) {
             super.storeAs(collectionName);
             return this;
@@ -342,8 +335,8 @@ public final class AssociationDefinition extends EntityDefinition {
         
         @Override
         public AssociationDefinition build() {
-            BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getValidators(),
-                    getRepo(), source, target);
+            BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getRepo(), 
+                                                              source, target);
             source.setLinkToAssociation(this.relNameFromSource);
             target.setLinkToAssociation(this.relNameFromTarget);
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),

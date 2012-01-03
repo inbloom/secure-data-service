@@ -1,0 +1,28 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/security
+                    http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+                    
+
+<beans:bean id="sliFilter" class="org.slc.sli.security.SLIProcessingFilter">
+    <beans:property name="resolver" ref="openamTokenResolver" />
+</beans:bean>
+
+<beans:bean id="openamTokenResolver" class="org.slc.sli.security.OpenamRestTokenResolver">
+	<beans:property name="tokenServiceUrl" value="http://devdanil.slidev.org:8080/idp" />
+	<beans:property name="rest" ref="restTemplate" />
+</beans:bean>
+
+<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+
+<beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
+    <beans:property name="authUrl" value="/pub/realm.jsp" /> 
+    <beans:property name="loginPageUrl" value="http://devapi1.slidev.org:8080/api" />
+    <beans:property name="callBackPageUrlPrefix" value="/pub/realm.jsp?return=" />
+    <beans:property name="dashboardLandingPage" value="http://localhost:8080/dashboard/studentlist" />
+</beans:bean>
+
+</beans:beans>

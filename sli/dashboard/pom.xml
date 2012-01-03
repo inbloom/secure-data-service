@@ -1,89 +1,141 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
+	<parent>
+		<groupId>org.slc.sli</groupId>
+		<artifactId>sli</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>dashboard</artifactId>
+	<packaging>war</packaging>
+	<name>SLI Dashboard</name>
+
+	<properties>
+		<freemarker.version>2.3.18</freemarker.version>
+		<gson.version>2.0</gson.version>
+		<powermock.version>1.4.10</powermock.version>
+		<env>dev</env>
+		<apiclientclass>org.slc.sli.client.MockAPIClient</apiclientclass>
+	</properties>
+
+	<profiles>
+	   <profile>
+	       <id>default</id>
+	       <activation>
+	           <activeByDefault>true</activeByDefault>
+	       </activation>
+	       <build>
+	           <filters>
+	               <filter>src/main/filters/server.properties</filter>
+	           </filters>
+	       </build>
+	   </profile>
+	
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<!-- Servlet dependencies -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<!-- Power mock dependencies -->
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Easy mock dependencies -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- SLI - Domain -->
+		<!-- <dependency> <groupId>org.slc.sli.common</groupId> <artifactId>domain</artifactId> 
+			</dependency> -->
+
+		<!-- Freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
+
+		<!-- Spring Web MVC dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>2.14.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+    <dependency>
     <groupId>org.slc.sli</groupId>
-    <artifactId>sli</artifactId>
+    <artifactId>api</artifactId>
     <version>1.0-SNAPSHOT</version>
-  </parent>
-
-  <artifactId>dashboard</artifactId>
-  <packaging>war</packaging>
-  <name>SLI Dashboard</name>
-
-  <properties>
-    <freemarker.version>2.3.18</freemarker.version>
-    <gson.version>2.0</gson.version>
-    <powermock.version>1.4.10</powermock.version>
-    <env>dev</env>
-    <apiclientclass>org.slc.sli.client.MockAPIClient</apiclientclass>
-  </properties>
-
-<profiles>
-  <profile>
-    <id>dev</id>
-    <properties>
-      <env>dev</env>
-    </properties>
-  </profile>
-  <profile>
-    <id>test</id>
-    <properties>
-      <env>test</env>
-    </properties>
-  </profile>  
-  </profiles>
-
-  <dependencies>
-
-    <!-- Power mock dependencies -->
-
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-   </dependency>
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-   </dependency>  
-   
-   <!-- Easy mock dependencies -->  
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>3.0</version>
-      <scope>test</scope>
     </dependency>
 
-    <!-- SLI - Domain -->
-    <!-- <dependency>
-      <groupId>org.slc.sli.common</groupId>
-      <artifactId>domain</artifactId>
-    </dependency>-->
 
-    <!-- Freemarker -->
+     <!-- Spring Security Core dependency -->
     <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>${freemarker.version}</version>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
     </dependency>
 
-    <!-- Spring Web MVC dependency -->
+    <!-- Spring Security Config dependency -->
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
     </dependency>
-
+ 
+     <!-- Spring Security Web dependency -->
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>${gson.version}</version>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
     </dependency>
 
     <dependency>
@@ -91,24 +143,51 @@
         <artifactId>selenium-java</artifactId>
         <version>2.14.0</version>
     </dependency>
+
    <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
       <version>${powermock.version}</version>
       <scope>test</scope>
    </dependency>
+
+	</dependencies>
+
+	<build>
+	      <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+             <directory>src/main/webapp/WEB-INF</directory>
+             <includes>
+                 <include>web.xml</include>
+             </includes>
+             <filtering>true</filtering>
+             <targetPath>${project.build.directory}</targetPath>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+		<defaultGoal>install</defaultGoal>
+
  
-  </dependencies>
-
-  <build>
-    <defaultGoal>install</defaultGoal>
-
-    <plugins>
+      <plugins>
+            <plugin>
+             <artifactId>maven-war-plugin</artifactId>
+             <configuration>
+                 <webXml>target/web.xml</webXml>
+             </configuration>
+            </plugin>    
           <plugin>
          <groupId>org.mortbay.jetty</groupId>
          <artifactId>maven-jetty-plugin</artifactId>
          <version>${maven.jetty.version}</version>
          <configuration>
+            <webXml>target/web.xml</webXml>
             <scanIntervalSeconds>5</scanIntervalSeconds>
          </configuration>
       </plugin>
@@ -158,15 +237,8 @@
     </executions>
     </plugin>
     </plugins>
-    
-    
-    
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-      </resources>    
+
   </build>
+
 
 </project>

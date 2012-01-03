@@ -130,6 +130,8 @@
     <module>data-access</module>
     <module>ingestion</module>
     <module>dashboard</module>
+    <module>admin</module>
+    <module>disco</module>
   </modules>
 
   <dependencyManagement>
@@ -195,6 +197,12 @@
       <dependency>
         <groupId>org.slc.sli.ingestion</groupId>
         <artifactId>ingestion</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+            
+      <dependency>
+        <groupId>org.slc.sli.admin</groupId>
+        <artifactId>admin</artifactId>
         <version>${project.version}</version>
       </dependency>
 
@@ -784,6 +792,11 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0-beta-3</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -912,6 +925,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
         <version>${maven.surefire.version}</version>
         <configuration>
           <systemPropertyVariables>
+            <emma.rt.control>false</emma.rt.control>
             <sli.env>${sli.env}</sli.env>
           </systemPropertyVariables>          
         </configuration>
@@ -926,6 +940,45 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
             <sli.env>${sli.env}</sli.env>
           </systemPropertyVariables>
         </configuration>
+      </plugin>
+      
+      <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-site-plugin</artifactId>
+	      <version>3.0-beta-3</version>
+	      <configuration>
+	        <reportPlugins>
+	          <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-project-info-reports-plugin</artifactId>
+		        <version>2.4</version>
+	            <reports>
+	              <report>dependencies</report>
+	              <report>dependency-management</report>
+	              <report>dependency-convergence</report>
+	              <report>project-team</report>
+	              <report>mailing-list</report>
+	              <report>cim</report>
+	              <report>issue-tracking</report>
+	              <report>license</report>
+	              <report>index</report>
+	              <report>summary</report>
+	              <report>plugins</report>
+	              <report>plugin-management</report>
+	            </reports>
+	          </plugin>
+	        </reportPlugins>
+	      </configuration>
+	      <!-- uncomment this execution block if you want to generate the site reports in conjunction with the regular build -->
+		  <!--executions>
+		    <execution>
+		      <id>site</id>
+		      <phase>compile</phase>
+		      <goals>
+		        <goal>stage</goal>
+		      </goals>
+		    </execution>
+		  </executions-->
       </plugin>
     </plugins>
     
@@ -961,6 +1014,10 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
       <name>SLI Repository</name>
       <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
     </snapshotRepository>
+    <site>
+    	<id>site</id>
+    	<name>SLI Site</name>
+    	<url>stage</url>
+    </site>
   </distributionManagement>
-
 </project>

@@ -21,10 +21,23 @@ import java.util.ArrayList;
 public class AssessmentManager {
     
     private static AssessmentManager instance = null;
+    private MockAPIClient apiClient;
     
     protected AssessmentManager() {        
+        // call the api
+        // TODO: mock/real api switch
+        apiClient = new MockAPIClient();
+    
     }
     
+    public MockAPIClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(MockAPIClient apiClient) {
+        this.apiClient = apiClient;
+    }
+
     public static AssessmentManager getInstance() {
         if (instance == null) {
             instance = new AssessmentManager();
@@ -37,9 +50,7 @@ public class AssessmentManager {
         // extract the studentInfo data set configs
         List<DataSet> dataSets = ConfigUtil.getDataSets(config, "assessment");
         
-        // call the api
-        // TODO: mock/real api switch
-        MockAPIClient apiClient = new MockAPIClient();
+
         
         // TODO: API question: do we make one call and get all assessments, then filter? or make calls for only what we need?
         //       For now, make one call and filter.

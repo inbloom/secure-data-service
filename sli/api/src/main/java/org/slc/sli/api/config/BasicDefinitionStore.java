@@ -53,7 +53,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = EntityDefinition.makeEntity("assessment").exposeAs("assessments").build();
         addDefinition(assessment);
 
-        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("student-school-association")
+        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("studentSchoolAssociation")
                 .exposeAs("student-school-associations").storeAs("studentschoolassociation")
                 .from(student, "getStudent", "getStudentsEnrolled").to(school, "getSchool", "getSchoolsAttended")
                 .calledFromSource("getStudentEnrollments").calledFromTarget("getSchoolEnrollments").build();
@@ -62,11 +62,25 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
         addDefinition(teacher);
         
-        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacher-section-association")
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacherSectionAssociation")
                 .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
                 .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
                 .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
         addAssocDefinition(teacherSchoolAssociation);
+        
+        AssociationDefinition studentAssessmentAssociation = AssociationDefinition
+                .makeAssoc("studentAssessmentAssociation").exposeAs("student-assessment-associations")
+                .storeAs("studentassessmentassociation").from(student, "getStudent", "getAssessmentsAssigned")
+                .to(assessment, "getAssessment", "getStudentsAssigned").calledFromSource("getStudentAssessmentAssociations")
+                .calledFromTarget("getStudentAssessmentAssociations").build();
+        addAssocDefinition(studentAssessmentAssociation);
+        
+        AssociationDefinition studentSectionAssociation = AssociationDefinition
+                .makeAssoc("studentSectionAssociation").exposeAs("student-section-associations")
+                .storeAs("studentsectionassociation").from(student, "getStudent", "getSectionsAssigned")
+                .to(section, "getSection", "getStudentsAssigned").calledFromSource("getSectionsAssigned")
+                .calledFromTarget("getStudentsAssigned").build();
+        addAssocDefinition(studentSectionAssociation);
         
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
