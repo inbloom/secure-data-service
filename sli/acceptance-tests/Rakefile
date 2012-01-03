@@ -77,7 +77,7 @@ desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
   if $SUCCESS
-    puts "Completed API Tests"
+    puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
@@ -87,13 +87,8 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests] do
   displayFailureReport()
-  if $SUCCESS
-    puts "Completed API Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 
 desc "Run Section Tests"
@@ -121,6 +116,11 @@ task :assessmentTests do
   runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
 end
 
+desc "Run Validation Tests"
+task :validationTests do
+  runTests("test/features/api/validation")
+end
+
 # dependecy on importSandboxData so that association tests can depend on the associated
 # entiy data to be available
 desc "Run Association Tests"
@@ -129,6 +129,7 @@ task :associationTests => [:importSandboxData] do
   runTests("test/features/api/association/student_section_association")
   runTests("test/features/api/association/student_assessment_association")
   runTests("test/features/api/association/student_school_association")
+  runTests("test/features/api/association/teacher_school_association")
 end
 
 desc "Run Home URI Tests"
@@ -209,7 +210,8 @@ task :importSandboxData do
     "studentschoolassociation" => "student_enrollments_fixture.json",
     "teachersectionassociation" => "teacher_section_fixture.json",
     "studentassessmentassociation"=> "studentassessmentassociation_fixture.json",
-    "studentsectionassociation" => "student_section_association_fixture.json"
+    "studentsectionassociation" => "student_section_association_fixture.json",
+    "teacherschoolassociation" => "teacher_school_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

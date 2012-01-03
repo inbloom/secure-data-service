@@ -1,19 +1,24 @@
 package org.slc.sli.api.security.aspects;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
-import org.slc.sli.api.service.BasicService;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 
 /**
  * Aspect for handling Entity Service operations.
@@ -26,7 +31,26 @@ public class EntityServiceAspect {
     
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
-    @Around("call(* org.slc.sli.api.service.EntityService.*(..))")
+    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
+    private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
+    private static Map<String, Rights> neededRights = new HashMap<String, Rights>();
+    
+    private EntitySchemaRegistry schemaRegistry;
+    
+    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
+        this.schemaRegistry = schemaRegistry;
+    }
+    
+    static {
+        neededRights.put("get", Rights.READ_GENERAL);
+        neededRights.put("list", Rights.READ_GENERAL);
+        neededRights.put("exists", Rights.READ_GENERAL);
+        neededRights.put("create", Rights.WRITE_GENERAL);
+        neededRights.put("update", Rights.WRITE_GENERAL);
+        neededRights.put("delete", Rights.WRITE_GENERAL);
+    }
+    
+    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
         
         boolean hasAccess = false;
@@ -34,58 +58,37 @@ public class EntityServiceAspect {
         Signature entitySignature = pjp.getSignature();
         String entityFunctionName = entitySignature.getName();
         
-        // if the class invoking the underlying EntityService call is 'BasicService' (realm
-        // discovery)
-        if (pjp.getTarget().getClass().equals(BasicService.class)) {
-            String entityDefinitionType = ((BasicService) pjp.getTarget()).getDefn().getType().toString();
-            
-            if (entityFunctionName.equals("get")) {
-                if (entityDefinitionType.equals("realm")) {
-                    LOG.debug("realm entity requested - passing straight through");
-                    LOG.debug("granting access to user for entity");
-                    hasAccess = true;
-                } else {
-                    neededRight = Rights.READ_GENERAL;
-                }
-            } else {
-                if (entityFunctionName.equals("exists") || entityFunctionName.equals("list")) {
-                    neededRight = Rights.READ_GENERAL;
-                } else if (entityFunctionName.equals("create") || entityFunctionName.equals("update")
-                        || entityFunctionName.equals("delete")) {
-                    neededRight = Rights.WRITE_GENERAL;
-                }
-            }
+        EntityService service = (EntityService) pjp.getTarget();
+        String entityDefinitionType = service.getEntityDefinition().getType();
+        
+        if (entitiesAlwaysAllow.contains(entityDefinitionType) || methodsAlwaysAllow.contains(entityFunctionName)) {
+            LOG.debug("granting access to user for entity");
+            hasAccess = true;
         } else {
-            if (entityFunctionName.equals("get") || entityFunctionName.equals("exists")
-                    || entityFunctionName.equals("list")) {
-                neededRight = Rights.READ_GENERAL;
-            } else if (entityFunctionName.equals("create") || entityFunctionName.equals("update")
-                    || entityFunctionName.equals("delete")) {
-                neededRight = Rights.WRITE_GENERAL;
-            }
-        }
-        
-        LOG.debug("attempted access of {} function", entitySignature.toString());
-        Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication()
-                .getAuthorities();
-        LOG.debug("user rights: {}", myAuthorities.toString());
-        
-        for (GrantedAuthority auth : myAuthorities) {
-            LOG.debug("checking rights for role: {}", auth.getAuthority());
-            try {
-                for (DefaultRoles role : DefaultRoles.values()) {
-                    if (role.getSpringRoleName().equals(auth.getAuthority()) && role.hasRight(neededRight)) {
-                        LOG.debug("granting access to user for entity");
-                        hasAccess = true;
+            neededRight = neededRights.get(entityFunctionName);
+            
+            LOG.debug("attempted access of {} function", entitySignature.toString());
+            Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication()
+                    .getAuthorities();
+            LOG.debug("user rights: {}", myAuthorities.toString());
+            
+            for (GrantedAuthority auth : myAuthorities) {
+                LOG.debug("checking rights for role: {}", auth.getAuthority());
+                try {
+                    for (DefaultRoles role : DefaultRoles.values()) {
+                        if (role.getSpringRoleName().equals(auth.getAuthority()) && role.hasRight(neededRight)) {
+                            LOG.debug("granting access to user for entity");
+                            hasAccess = true;
+                            break;
+                        }
+                    }
+                    if (hasAccess) {
                         break;
                     }
+                } catch (IllegalArgumentException ex) {
+                    LOG.debug("could not find role. skipping current entry...");
+                    continue;
                 }
-                if (hasAccess) {
-                    break;
-                }
-            } catch (IllegalArgumentException ex) {
-                LOG.debug("could not find role. skipping current entry...");
-                continue;
             }
         }
         

@@ -1,4 +1,4 @@
-package org.slc.sli.view;
+package org.slc.sli.unit.view;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.view.TimedLogic;
 
 /**
  * Unit tests for the StudentManager class.
