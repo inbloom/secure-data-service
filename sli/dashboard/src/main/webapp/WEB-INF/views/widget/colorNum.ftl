@@ -4,10 +4,14 @@
      field: config info about the data to be displayed
      assessments: contains assessment results for the list of students. Should be AssessmentResolver object
      student: a Student object
-     assessmentInfo: assessment meta-data, including cutpoints
+     assessmentInfo: assessment meta-data
   -->
 
-<#-- figure out color css class based on perf level and number of levels -->
+<#-- use ColorByPerfLevel class to determine display text and color -->
 
 
-${assessments.get(dataPointId, student)}
+<#--${assessments.get(dataPointId, student)} -->
+
+<#assign colorByPerfLevel = widgetFactory.createColorByPerfLevel(field, student, assessments)>
+
+<span class="perfLevel${colorByPerfLevel.getColorIndex()}">${colorByPerfLevel.getText()}</span>
