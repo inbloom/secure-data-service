@@ -1,11 +1,5 @@
 require_relative '../../../../utils/sli_utils.rb'
 
-Transform /^<([^>]*)>$/ do |id|
-  uri = "11111111-1111-1111-1111-111111111111" if id == "WrongURI"
-  uri = ""                                     if id == "No GUID"
-  uri
-end
-
 #vnd.slc+json format is not ready for testing
 #remove this transform to switch to new format
 Transform /^application\/vnd\.slc\+json$/ do |args|
@@ -21,14 +15,14 @@ Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
+Given /^(\w+) is "([^"]*)"$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
   @fields[key] = value
 end
 
-When /^"([^"]*)" is updated to "([^"]*)"$/ do |key, new_value|
+When /^(\w+) is updated to "([^"]*)"$/ do |key, new_value|
   if !defined? @updates
     @updates = {}
   end
@@ -105,14 +99,14 @@ Then /^I should receive a ID for the newly created (.*)$/ do |type|
   s = headers['location'][0]
   assocId = s[s.rindex('/')+1..-1]
   assert(assocId != nil, "#{type} ID is nil")
-  @post_uri = assocId
+  @new_id = assocId
 end
 
 Then /^I should receive a return code of (\d+)$/ do |code|
   assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
 end
 
-Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
+Then /^the (\w+) should be "([^"]*)"$/ do |key, value|
   assert(@data != nil, "Response contains no data")
   assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
   assert(@data.has_key?(key), "Response does not contain key #{key}")
@@ -139,4 +133,5 @@ Then /^I should receive a link named "([^"]*)" with URI for "([^"]*)"$/ do |link
       end
     end
   end
+  assert(found, "Link was not found! looking for #{link_name} in #{uri}")
 end

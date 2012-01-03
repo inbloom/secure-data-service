@@ -9,20 +9,20 @@ import org.slc.sli.view.AssessmentResolver;
  * 
  * @author dwu
  */
-public class ColorByPerfLevel {
+public class ColorByPerf {
     
     Field field;
     Student student;
     AssessmentResolver assmts;
     
-    public ColorByPerfLevel(Field field, Student student, AssessmentResolver assmts) {
+    public ColorByPerf(Field field, Student student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;
     }
     
     /*
-     * Returns the color index for display
+     * Get the color index for display
      */
     public int getColorIndex() {
         
@@ -32,9 +32,29 @@ public class ColorByPerfLevel {
         String perfDataPointId = assmtName + ".perfLevel";
         
         // get number of levels and assmt result level
-        int numLevels = 4; // based on assmt meta data
-        int level = Integer.parseInt(assmts.get(perfDataPointId, student));
+        int numLevels = 4; // TODO: base on assmt meta data
+        int level = 0;
+        try {
+            level = Integer.parseInt(assmts.get(perfDataPointId, student));
+        } catch (Exception e) {
+            System.out.println("Could not find performance level");
+            return 0;
+        }
+        
+        return getColorIndex(level, numLevels);
+    }
+    
+    /*
+     * Get the color index, given the performance level and total number of levels
+     */
+    public int getColorIndex(int level, int numLevels) {
+        
         int colorIndex = 0;
+        
+        // range check
+        if (level <= 0 || level > numLevels) {
+            return 0;
+        }
         
         if (numLevels == 5) {
             colorIndex = level;

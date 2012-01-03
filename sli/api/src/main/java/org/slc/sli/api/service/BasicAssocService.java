@@ -108,7 +108,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         }
         
         if (!errors.isEmpty()) {
-            throw new EntityValidationException("", getDefn().getType(), errors);
+            throw new EntityValidationException("", getEntityDefinition().getType(), errors);
         }
         return true;
     }

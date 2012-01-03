@@ -63,7 +63,7 @@ public class BasicService implements EntityService {
         this.validator = validator;
     }
     
-    public EntityDefinition getDefn() {
+    public EntityDefinition getEntityDefinition() {
         return defn;
     }
     
