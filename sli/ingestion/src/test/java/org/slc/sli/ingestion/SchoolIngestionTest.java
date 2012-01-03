@@ -13,14 +13,11 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.School;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,19 +25,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
-<<<<<<< HEAD
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.School;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
-import org.slc.sli.ingestion.processors.PersistenceProcessor;
-import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.repository.SchoolRepository;
 
-=======
->>>>>>> 6861cffb23e19f0f9b177c2a715143990c2569bf
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
@@ -92,23 +80,12 @@ public class SchoolIngestionTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_SCHOOL,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-<<<<<<< HEAD
 
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
-
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
-=======
-        
         edFiProcessor.processFileEntry(inputFileEntry);
-        
+
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-        
+
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
->>>>>>> 6861cffb23e19f0f9b177c2a715143990c2569bf
                 ingestionPersistenceProcessorOutputFile);
 
         verifySchools(repository, 0);
@@ -130,23 +107,12 @@ public class SchoolIngestionTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_SCHOOL,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-<<<<<<< HEAD
 
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
-
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
-=======
-        
         edFiProcessor.processFileEntry(inputFileEntry);
-        
+
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-        
+
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
->>>>>>> 6861cffb23e19f0f9b177c2a715143990c2569bf
                 ingestionPersistenceProcessorOutputFile);
 
         verifySchools(repository, 0);
@@ -164,23 +130,12 @@ public class SchoolIngestionTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_SCHOOL,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-<<<<<<< HEAD
 
-        File ingestionEdFiProcessorOutputFile = IngestionTest.createTempFile();
-
-        edFiProcessor.processIngestionStream(inputFileEntry, ingestionEdFiProcessorOutputFile);
-
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(ingestionEdFiProcessorOutputFile,
-=======
-        
         edFiProcessor.processFileEntry(inputFileEntry);
-        
+
         File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-        
+
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
->>>>>>> 6861cffb23e19f0f9b177c2a715143990c2569bf
                 ingestionPersistenceProcessorOutputFile);
 
         assertEquals(2, IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType));
