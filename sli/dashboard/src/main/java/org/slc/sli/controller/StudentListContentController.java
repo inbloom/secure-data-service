@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.Student;
+import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
 
@@ -49,11 +51,11 @@ public class StudentListContentController extends DashboardController {
         List<String> uids = null;
         if (population != null)
             uids = Arrays.asList(population.split(","));
-        List<Student> students = Arrays.asList(apiClient.getStudents(user.getUsername(), uids));
+        List<Student> students = StudentManager.getInstance().getStudentInfo(user.getUsername(), uids, viewConfig);
         model.addAttribute(STUDENTS, new StudentResolver(students, viewConfig));
 
         // insert the assessments object into the modelmap
-        List<Assessment> assessments = Arrays.asList(apiClient.getAssessments(user.getUsername(), uids));
+        List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, viewConfig));
 
         // insert a widget factory into the modelmap

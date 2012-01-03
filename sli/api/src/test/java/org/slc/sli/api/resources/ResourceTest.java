@@ -54,6 +54,7 @@ public class ResourceTest {
     private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
     private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
+    private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
     @Autowired
     Resource api;
     
@@ -85,6 +86,13 @@ public class ResourceTest {
         entity.put("studentId", studentId);
         entity.put("assessmentId", assessmentId);
         entity.put("administrationLanguage", "ENGLISH");
+        return entity;
+    }
+    
+    public Map<String, Object> createTestTeacherSchoolAssociation(String teacherId, String schoolId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("teacherId", teacherId);
+        entity.put("schoolId", schoolId);
         return entity;
     }
     
@@ -175,6 +183,11 @@ public class ResourceTest {
         assertNotNull(createResponseSSA);
         String studentSectionAssocId = parseIdFromLocation(createResponseSSA);
 
+        Response createResponse11 = api.createEntity(TEACHER_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestTeacherSchoolAssociation(teacherId1, schoolId)), info);
+        assertNotNull(createResponse11);
+        String teacherSchoolAssocId = parseIdFromLocation(createResponse11);
+
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             
@@ -224,6 +237,14 @@ public class ResourceTest {
         assertEquals(studentSectionAssocId, ssaAssocBody.get("id"));
         assertEquals(studentId1, ssaAssocBody.get("studentId"));
         assertEquals(sectionId1, ssaAssocBody.get("sectionId"));
+
+        //test teacher school association
+        Response tsaResponse = api.getEntity(TEACHER_SCHOOL_ASSOCIATION_URI, teacherSchoolAssocId, 0, 10, info);
+        EntityBody tsaAssocBody = (EntityBody) tsaResponse.getEntity();
+        assertNotNull(tsaAssocBody);
+        assertEquals(teacherSchoolAssocId, tsaAssocBody.get("id"));
+        assertEquals(teacherId1, tsaAssocBody.get("teacherId"));
+        assertEquals(schoolId, tsaAssocBody.get("schoolId"));
 
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
