@@ -36,7 +36,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
     private RestTemplate        rest = new RestTemplate();
     
-    @Value("${security.tokenService.url}")
+    @Value("${sli.security.tokenService.url}")
     private String              tokenServiceUrl;
     
     /**
