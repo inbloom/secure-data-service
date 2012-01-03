@@ -20,15 +20,12 @@ import java.util.ArrayList;
  */
 public class StudentManager {
     
-    private static StudentManager instance = null;
+    private static StudentManager instance = new StudentManager();
     
     protected StudentManager() {        
     }
     
     public static StudentManager getInstance() {
-        if (instance == null) {
-            instance = new StudentManager();
-        }
         return instance;
     }
     

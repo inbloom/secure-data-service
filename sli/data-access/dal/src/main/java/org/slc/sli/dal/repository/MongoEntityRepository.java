@@ -5,10 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +12,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.Assert;
+
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -34,9 +34,6 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Autowired
     private IdConverter idConverter;
-
-    @Autowired
-    private EntityValidator validator;
     
     @Override
     public Entity find(String entityType, String id) {
@@ -58,7 +55,6 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public void update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
-        validator.validate(entity);
         String id = entity.getEntityId();
         if (id.equals(""))
             return;
@@ -74,12 +70,11 @@ public class MongoEntityRepository implements EntityRepository {
     public Entity create(String type, Map<String, Object> body) {
         return create(type, body, type);
     }
-
+    
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
-        validator.validate(entity);
         template.save(entity, collectionName);
         LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, entity.getEntityId() });
         return entity;
@@ -141,5 +136,5 @@ public class MongoEntityRepository implements EntityRepository {
                     new Object[] { entityType, results.size() });
         
     }
-
+    
 }
