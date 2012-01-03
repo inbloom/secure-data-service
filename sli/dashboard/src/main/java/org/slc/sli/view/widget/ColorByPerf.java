@@ -22,7 +22,7 @@ public class ColorByPerf {
     }
     
     /*
-     * Returns the color index for display
+     * Get the color index for display
      */
     public int getColorIndex() {
         
@@ -34,6 +34,15 @@ public class ColorByPerf {
         // get number of levels and assmt result level
         int numLevels = 4; // based on assmt meta data
         int level = Integer.parseInt(assmts.get(perfDataPointId, student));
+        
+        return getColorIndex(level, numLevels);
+    }
+    
+    /*
+     * Get the color index, given the performance level and total number of levels
+     */
+    public int getColorIndex(int level, int numLevels) {
+        
         int colorIndex = 0;
         
         if (numLevels == 5) {
