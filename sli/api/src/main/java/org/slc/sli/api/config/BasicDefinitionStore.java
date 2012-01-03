@@ -69,8 +69,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher", validator).exposeAs("teachers").build();
         addDefinition(teacher);
         
-        AssociationDefinition teacherSectionAssociation = AssociationDefinition.makeAssoc("teacherSectionAssociation")
-                .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
+        AssociationDefinition teacherSectionAssociation = AssociationDefinition
+                .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
+                .storeAs("teachersectionassociation")
                 .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
                 .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
         addAssocDefinition(teacherSectionAssociation);
@@ -91,7 +92,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addAssocDefinition(studentSectionAssociation);
         
         AssociationDefinition teacherSchoolAssociation = AssociationDefinition
-                .makeAssoc("teacherSchoolAssociation").exposeAs("teacher-school-associations")
+                .makeAssoc("teacherSchoolAssociation", validator).exposeAs("teacher-school-associations")
                 .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getSchoolsAssigned")
                 .to(school, "getSchool", "getTeachersAssigned").calledFromSource("getSchoolsAssigned")
                 .calledFromTarget("getTeachersAssigned").build();
