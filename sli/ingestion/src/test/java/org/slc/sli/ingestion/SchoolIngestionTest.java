@@ -258,7 +258,7 @@ public class SchoolIngestionTest {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType);
 
-        assertEquals(repositorySize, numberOfSchools);
+        assertEquals(numberOfSchools, repositorySize);
 
         for (int index = 1; index <= repositorySize; index++) {
             Map<String, String> queryMap = new HashMap<String, String>();
