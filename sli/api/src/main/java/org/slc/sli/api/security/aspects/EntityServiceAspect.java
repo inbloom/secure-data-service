@@ -44,7 +44,7 @@ public class EntityServiceAspect {
         // if the class invoking the underlying EntityService call is 'BasicService' (realm
         // discovery)
         if (pjp.getTarget().getClass().equals(BasicService.class)) {
-            String entityDefinitionType = ((BasicService) pjp.getTarget()).getDefn().getType().toString();
+            String entityDefinitionType = ((BasicService) pjp.getTarget()).getEntityDefinition().getType().toString();
 
             if (entityFunctionName.equals("get")) {
                 if (entityDefinitionType.equals("realm")) {
