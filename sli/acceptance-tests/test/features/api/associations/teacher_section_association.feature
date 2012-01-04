@@ -1,7 +1,7 @@
 @wip
 Feature: As an SLI application, I want to be able to manage teacher-section associations
   This means I want to be able to perform CRUD on teacher-section-associations
-  And also verify the correct links from that resource to the appropriate teacher and section.
+  Also verify the correct links from that resource to the appropriate teacher and section.
 
 This is the data I am assuming for these tests:
 Teacher: Ms Jones, Ms. Smith
