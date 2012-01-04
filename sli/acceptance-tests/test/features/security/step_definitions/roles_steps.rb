@@ -111,6 +111,9 @@ end
 Then /^the Student restricted fields are visible in the response$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   pending # express the regexp above with the code you wish you had
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['economicDisadvantaged'] != nil, "Expected restricted student fields were nil in response")
+  assert(result['economicDisadvantaged'] != "", "Expected restricted student fields were blank in response")
 end
 
 Given /^"([^"]*)" is not allowed to view restricted Student fields$/ do |arg1|
@@ -120,4 +123,6 @@ end
 Then /^the Student restricted fields are not visible in the response$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   pending # express the regexp above with the code you wish you had
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['economicDisadvantaged'] == nil, "Expected no restriced student fields, but saw them in response")
 end

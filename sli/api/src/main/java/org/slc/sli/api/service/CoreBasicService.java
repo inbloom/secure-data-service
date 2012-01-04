@@ -1,24 +1,19 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.EntityValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Core operations of the Basic Service.
  */
 public class CoreBasicService implements CoreEntityService {
-    private static final Logger LOG = LoggerFactory.getLogger(CoreBasicService.class);
 
     private String collectionName;
     private EntityRepository repo;
     private EntityValidator validator;
-    private EntityDefinition defn;
 
     public CoreBasicService(String collectionName, EntityRepository repo, EntityValidator validator) {
         super();
