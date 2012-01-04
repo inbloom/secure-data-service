@@ -110,11 +110,9 @@ public class EntityServiceAspect {
         return hasAccess;
     }
 
-    @Around("call(Entity EntityService.get(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
+    @Around("call(Entity CoreEntityService.get(..)) && !withincode(* *.mock*())")
     public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
         Entity entity = (Entity) pjp.proceed();
-
-        //READ_GENERAL("READ_GENERAL"), WRITE_GENERAL("WRITE_GENERAL"), READ_RESTRICTED("READ_RESTRICTED")
 
         Set<Rights> grantedRights = getGrantedRights();
 
