@@ -9,6 +9,7 @@ import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * Definition of an entity resource
@@ -17,7 +18,7 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public class EntityDefinition {
-
+    
     private final String type;
     private final String resourceName;
     private final EntityService service;
@@ -46,7 +47,7 @@ public class EntityDefinition {
     public String getStoredCollectionName() {
         return this.collectionName;
     }
-
+    
     public String getType() {
         return type;
     }
@@ -67,7 +68,7 @@ public class EntityDefinition {
     public boolean isOfType(String id) {
         return service.exists(id);
     }
-
+    
     public static void setDefaultRepo(EntityRepository defaultRepo) {
         EntityDefinition.defaultRepo = defaultRepo;
     }
@@ -88,14 +89,18 @@ public class EntityDefinition {
     
     /**
      * Create a builder for an entity definition with the same collection and resource name as the
-     * type
+     * type.
+     * 
+     * TODO: Remove validator param when class is spring managed
      * 
      * @param entityName
      *            the collection/resource name
+     * @param validator
+     *            The validator to use.
      * @return the builder to create the entity definition
      */
-    public static Builder makeEntity(String entityName) {
-        return new Builder(entityName);
+    public static Builder makeEntity(String entityName, EntityValidator validator) {
+        return new Builder(entityName, validator);
     }
     
     /**
@@ -107,6 +112,7 @@ public class EntityDefinition {
         private String resourceName;
         private List<Treatment> treatments = new LinkedList<Treatment>(GLOBAL_TREATMENTS);
         private EntityRepository repo;
+        private EntityValidator validator;
         
         /**
          * Create a builder for an entity definition
@@ -116,11 +122,12 @@ public class EntityDefinition {
          * @param resourceName
          *            the name of the entity in the ReST uri
          */
-        Builder(String type) {
+        Builder(String type, EntityValidator validator) {
             this.type = type;
             this.collectionName = type;
             this.resourceName = type;
             this.repo = getDefaultRepo();
+            this.validator = validator;
         }
         
         /**
@@ -148,7 +155,6 @@ public class EntityDefinition {
             return this;
         }
         
-
         /**
          * TODO
          * 
@@ -193,14 +199,18 @@ public class EntityDefinition {
             return repo;
         }
         
+        protected EntityValidator getValidator() {
+            return validator;
+        }
+        
         /**
          * Create the actual entity definition
          * 
          * @return the entity definition
          */
         public EntityDefinition build() {
-
-            BasicService entityService = new BasicService(collectionName, treatments, repo);
+            
+            BasicService entityService = new BasicService(collectionName, treatments, repo, validator);
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);
             return entityDefinition;

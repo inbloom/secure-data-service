@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,14 +76,14 @@ public class BatchJobTest {
 
     @Test
     public void testFaults() {
-        BatchJob job = BatchJob.createDefault();
-        assertEquals(0, job.getFaults().size());
-        job.addFault(Fault.createWarning("this is a warning"));
-        assertEquals(1, job.getFaults().size());
-        assertFalse(job.hasErrors());
-        job.addFault(Fault.createError("this is an error"));
-        assertEquals(2, job.getFaults().size());
-        assertTrue(job.hasErrors());
+        FaultsReport fr = new FaultsReport();
+        assertEquals(0, fr.getFaults().size());
+        fr.warning("this is a warning", this);
+        assertEquals(1, fr.getFaults().size());
+        assertFalse(fr.hasErrors());
+        fr.error("this is an error", this);
+        assertEquals(2, fr.getFaults().size());
+        assertTrue(fr.hasErrors());
     }
 
     @Test
@@ -105,7 +106,7 @@ public class BatchJobTest {
         ArrayList<IngestionFileEntry> files = (ArrayList<IngestionFileEntry>) job.getFiles();
         assertEquals(files.size(), 0);
 
-        ArrayList<Fault> faults = (ArrayList<Fault>) job.getFaults();
+        List<Fault> faults = job.getFaultsReport().getFaults();
         assertEquals(faults.size(), 0);
 
     }

@@ -5,15 +5,26 @@ require 'rexml/document'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
 
+Transform /^\/student-assessment-associations\/<([^>]*)>$/ do |step_arg|
+  s = "/student-assessment-associations/"
+  id = s+"dd9165f2-65fe-4e27-a8ac-bec5f4b757f6" if step_arg == "'Mathematics Achievement Assessment Test' ID"
+  id
+end
 
 Transform /^assessment "([^"]*)"$/ do |step_arg|
-  id = "/assessments/dd9165f2-65fe-4e27-a8ac-bec5f4b757f6" if step_arg == "Mathematics Assessment 1"
+  id = "/assessments/dd9165f2-65fe-4e27-a8ac-bec5f4b757f6" if step_arg == "Mathematics Achievement Assessment Test ID"
   id = "/assessments/29f044bd-1449-4fb7-8e9a-5e2cf9ad252a" if step_arg == "Mathematics Assessment 2"
   id = "/assessments/542b0b38-ea57-4d81-aa9c-b55a629a3bd6" if step_arg == "Mathematics Assessment 3"
   id = "/assessments/6c572483-fe75-421c-9588-d82f1f5f3af5" if step_arg == "Writing Assessment 1"
   id = "/assessments/df897f7a-7ac4-42e4-bcbc-8cc6fd88b91a" if step_arg == "Writing Assessment 2"
   id = "/assessments/11111111-1111-1111-1111-111111111111" if step_arg == "NonExistentAssessment"
   id = "/assessments"                                      if step_arg == "NoGUID" or step_arg == nil
+  id
+end
+
+Transform /^\/assessments\/<([^>]*)>$/ do |step_arg|
+  s = "/assessments/"
+  id = s+"dd9165f2-65fe-4e27-a8ac-bec5f4b757f6" if step_arg =="'Mathematics Achievement Assessment Test' ID"
   id
 end
 
@@ -71,7 +82,7 @@ When /^I navigate to POST (assessment "[^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
       "assessmentTitle" => @assessmentTitle,
-      "assessmentIdentificationCode" => [Hash["id"=>@assessmentIdentificationCode]],
+      "assessmentIdentificationCode" => [Hash["identificationSystem"=>"School","id"=>@assessmentIdentificationCode]],
       "academicSubject" => @academicSubject,
       "assessmentCategory" => @assessmentCategory,
       "gradeLevelAssessed" => @gradeLevelAssessed,
@@ -172,6 +183,40 @@ Then /^the AssessmentCategory should be "([^"]*)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
   assert(result["assessmentCategory"] == arg1, "Expected assessmentCategory not found in response")
+end
+
+Then /^I should receive a link named "([^"]*)" with URI (\/assessments\/<[^>]*>)$/ do |rel,href|
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    found = false
+    dataH["links"].each do|link|
+      if link["rel"]==rel and link["href"].include? href
+      found =true
+      end
+    end
+      assert(found, "didnt receive link named #{rel} with URI #{href}")
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+end
+
+Then /^I should receive a link named "([^"]*)" with URI (\/student\-assessment\-associations\/<[^>]*>)$/ do |rel,href|
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    found = false
+    dataH["links"].each do|link|
+      if link["rel"]==rel and link["href"].include? href
+      found =true
+      end
+    end
+      assert(found, "didnt receive link named #{rel} with URI #{href}")
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
 end
 
 

@@ -8,6 +8,8 @@ import java.util.Properties;
 import java.util.UUID;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.ErrorReportSupport;
 
 /**
  * Batch Job class.
@@ -15,96 +17,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  * @author okrook
  *
  */
-public class BatchJob {
-
-    /**
-     * ID ====================================================================
-     */
-
-    /**
-     * stores a globally unique ID for the Job
-     */
-    private String id;
-
-    /**
-     * generates a new unique ID
-     */
-    protected static String createId() {
-        return UUID.randomUUID().toString();
-    }
-
-    /**
-     * @return the jobId
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * CREATION DATE =========================================================
-     */
-
-    /**
-     * stores the date upon which the Job was created
-     */
-    private Date creationDate;
-
-    /**
-     * @return the creationDate
-     */
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    /**
-     * PROPERTIES ============================================================
-     */
-
-    /**
-     * stores configuration properties for the Job
-     */
-    private Properties configProperties;
-
-    /**
-     * @param key
-     * @param defaultValue
-     * @return
-     * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
-     */
-    public String getProperty(String key, String defaultValue) {
-        return configProperties.getProperty(key, defaultValue);
-    }
-
-    /**
-     * @param key
-     * @return
-     * @see java.util.Properties#getProperty(java.lang.String)
-     */
-    public String getProperty(String key) {
-        return configProperties.getProperty(key);
-    }
-
-    /**
-     * @return
-     * @see java.util.Properties#propertyNames()
-     */
-    public Enumeration<?> propertyNames() {
-        return configProperties.propertyNames();
-    }
-
-    /**
-     * @param key
-     * @param value
-     * @return
-     * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
-     */
-    public Object setProperty(String key, String value) {
-        return configProperties.setProperty(key, value);
-    }
-
-    /**
-     * FILES =================================================================
-     */
+public class BatchJob implements ErrorReportSupport {
 
     /**
      * holds references to the files involved in this Job
@@ -112,64 +25,24 @@ public class BatchJob {
     private List<IngestionFileEntry> files;
 
     /**
-     * @return the files
+     * stores the date upon which the Job was created
      */
-    public List<IngestionFileEntry> getFiles() {
-        return files;
-    }
+    private Date creationDate;
 
     /**
-     * Adds a file.
-     *
-     * @param file
-     * @return
-     * @see java.util.List#add(java.lang.Object)
+     * stores a globally unique ID for the Job
      */
-    public boolean addFile(IngestionFileEntry file) {
-        return files.add(file);
-    }
+    private String id;
 
     /**
-     * FAULTS (errors/warnings) ==============================================
+     * stores configuration properties for the Job
      */
+    private Properties configProperties;
 
     /**
      * holds references to errors/warnings associated with this job
      */
-    private List<Fault> faults;
-
-    /**
-     * @return the faults
-     */
-    public List<Fault> getFaults() {
-        return faults;
-    }
-
-    /**
-     *
-     */
-    public boolean hasErrors() {
-        for (Fault f : faults) {
-            if (f.isError())
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Adds a fault.
-     *
-     * @param fault
-     * @return
-     * @see java.util.List#add(java.lang.Object)
-     */
-    public boolean addFault(Fault fault) {
-        return faults.add(fault);
-    }
-
-    /**
-     * INSTANTIATION =========================================================
-     */
+    private FaultsReport faults;
 
     /**
      * non-public constructor; use factory methods
@@ -188,8 +61,93 @@ public class BatchJob {
         job.creationDate = new Date();
         job.configProperties = new Properties();
         job.files = new ArrayList<IngestionFileEntry>();
-        job.faults = new ArrayList<Fault>();
+        job.faults = new FaultsReport();
         return job;
+    }
+
+    /**
+     * generates a new unique ID
+     */
+    protected static String createId() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * Adds a file.
+     *
+     * @param file
+     * @return
+     * @see java.util.List#add(java.lang.Object)
+     */
+    public boolean addFile(IngestionFileEntry file) {
+        return files.add(file);
+    }
+
+    /**
+     * @return the creationDate
+     */
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public ErrorReport getErrorReport() {
+        return getFaultsReport();
+    }
+
+    public FaultsReport getFaultsReport() {
+        return faults;
+    }
+
+    /**
+     * @return the files
+     */
+    public List<IngestionFileEntry> getFiles() {
+        return files;
+    }
+
+    /**
+     * @return the jobId
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param key
+     * @return
+     * @see java.util.Properties#getProperty(java.lang.String)
+     */
+    public String getProperty(String key) {
+        return configProperties.getProperty(key);
+    }
+
+    /**
+     * @param key
+     * @param defaultValue
+     * @return
+     * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
+     */
+    public String getProperty(String key, String defaultValue) {
+        return configProperties.getProperty(key, defaultValue);
+    }
+
+    /**
+     * @return
+     * @see java.util.Properties#propertyNames()
+     */
+    public Enumeration<?> propertyNames() {
+        return configProperties.propertyNames();
+    }
+
+    /**
+     * @param key
+     * @param value
+     * @return
+     * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
+     */
+    public Object setProperty(String key, String value) {
+        return configProperties.setProperty(key, value);
     }
 
     @Override

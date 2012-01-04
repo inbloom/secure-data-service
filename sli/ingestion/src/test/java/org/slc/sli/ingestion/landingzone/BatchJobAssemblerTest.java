@@ -18,10 +18,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.util.MD5;
 
+/**
+ * Unit Tests for batch job assembler.
+ *
+ * @author okrook
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:/spring/applicationContext-test.xml" })
 public class BatchJobAssemblerTest {
@@ -53,9 +60,11 @@ public class BatchJobAssemblerTest {
 
         BatchJob job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
 
+        FaultsReport fr = job.getFaultsReport();
+
         assertEquals(2, job.getFiles().size());
-        assertEquals(0, job.getFaults().size());
-        assertFalse(job.hasErrors());
+        assertEquals(0, fr.getFaults().size());
+        assertFalse(fr.hasErrors());
         assertEquals("world", job.getProperty("hello"));
 
     }
@@ -88,13 +97,15 @@ public class BatchJobAssemblerTest {
 
         BatchJob job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
 
-        assertEquals(0, job.getFiles().size());
-        assertEquals(2, job.getFaults().size());
-        assertTrue(job.hasErrors());
+        FaultsReport fr = job.getFaultsReport();
 
-        assertEquals(job.getFaults().get(0).getMessage(),
+        assertEquals(0, job.getFiles().size());
+        assertEquals(2, fr.getFaults().size());
+        assertTrue(fr.hasErrors());
+
+        assertEquals(fr.getFaults().get(0).getMessage(),
                 messageSource.getMessage("SL_ERR_MSG3", new Object[] { entries.get(0).getFileName() }, null));
-        assertEquals(job.getFaults().get(1).getMessage(),
+        assertEquals(fr.getFaults().get(1).getMessage(),
                 messageSource.getMessage("SL_ERR_MSG2", new Object[] { entries.get(1).getFileName() }, null));
         assertEquals("world", job.getProperty("hello"));
 

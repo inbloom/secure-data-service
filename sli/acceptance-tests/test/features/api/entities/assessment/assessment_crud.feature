@@ -64,15 +64,14 @@ Scenario: Delete an assessment by ID
 	Then I should receive a return code of 404
 
 ## LINKS
-@wip
 Scenario: Assessment entity links to StudentAssessment association and AssessmentFamily association
    Given format "application/json"
-   When I navigate to Assessment <'Mathematics Achievement Assessment Test' ID>
+   When I navigate to GET assessment "Mathematics Achievement Assessment Test ID"
    Then I should receive a return code of 200
-    And I should receive a link named "self" with URI /assessment/<'Mathematics Achievement Assessment Test' ID>
+    And I should receive a link named "self" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
     And I should receive a link named "getStudentAssessmentAssociations" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
-	And I should receive a link named "getStudentAssessments" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test'' ID>/targets
-	And I should receive a link named "getAssessmentFamily" with URI /assessment-family-associations/<'Mathematics Achievement Assessment Test' ID>
+#	And I should receive a link named "getStudentAssessments" with URI /student-assessment-associations/<'Mathematics Achievement Assessment Test'' ID>/targets
+#	And I should receive a link named "getAssessmentFamily" with URI /assessment-family-associations/<'Mathematics Achievement Assessment Test' ID>
 
 ## ERROR HANDLING
 Scenario: Attempt to read a non-existent assessment

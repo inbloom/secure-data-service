@@ -53,6 +53,7 @@ public class SessionDebugResource {
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
+            sessionDetails.put("granted_authorities", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", getLoginUrl(uriInfo));

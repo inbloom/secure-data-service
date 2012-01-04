@@ -11,3 +11,4 @@
 {"_id":{"$binary":"LEDsicPe/Xr1Pq557czmjw==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":123456789,"name":{"firstName":"Jane","middleName":"","lastSurname":"Doe"},"sex":"Female","birthData":{"birthDate":"1995-12-31"}}}
 {"_id":{"$binary":"SkWinX9uTgMzZPPZW7l8tg==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":123456789,"name":{"firstName":"Albert","middleName":"","lastSurname":"Wright"},"sex":"Male","birthData":{"birthDate":"1995-12-31"}}}
 {"_id":{"$binary":"l0hVwd+kob3Y66MmOZXChQ==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":123456789,"name":{"firstName":"Kevin","middleName":"","lastSurname":"Smith"},"sex":"Male","birthData":{"birthDate":"1995-12-31"}}}
+{"_id":{"$binary":"JkG4XMm/IxDIgkan709qrg==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":123456789,"name":{"firstName":"Jane","middleName":"","lastSurname":"Brown"},"sex":"Male","birthData":{"birthDate":"1995-12-31"}}}

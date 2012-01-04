@@ -6,6 +6,7 @@ import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * Definition of an association resource
@@ -14,7 +15,7 @@ import org.slc.sli.dal.repository.EntityRepository;
  * 
  */
 public final class AssociationDefinition extends EntityDefinition {
-
+    
     private final EntityDefinition sourceEntity;
     private final EntityDefinition targetEntity;
     private final String relNameFromSource;
@@ -76,7 +77,7 @@ public final class AssociationDefinition extends EntityDefinition {
     public String getRelNameFromTarget() {
         return relNameFromTarget;
     }
-
+    
     /**
      * The label for the link to the source
      * 
@@ -85,11 +86,11 @@ public final class AssociationDefinition extends EntityDefinition {
     public String getSourceLink() {
         return sourceLink;
     }
-
+    
     /**
      * The label for the link from the target directly to the source
-     *
-     * @return 
+     * 
+     * @return
      */
     public String getHoppedTargetLink() {
         return targetHopLink;
@@ -97,8 +98,8 @@ public final class AssociationDefinition extends EntityDefinition {
     
     /**
      * The label for the link from the target directly to the source
-     *
-     * @return 
+     * 
+     * @return
      */
     public String getHoppedSourceLink() {
         return sourceHopLink;
@@ -130,7 +131,7 @@ public final class AssociationDefinition extends EntityDefinition {
     public String getTargetKey() {
         return targetKey;
     }
-
+    
     @Override
     public AssociationService getService() {
         return (AssociationService) super.getService();
@@ -143,8 +144,8 @@ public final class AssociationDefinition extends EntityDefinition {
      *            the collection/resource name
      * @return the builder to create the entity definition
      */
-    public static AssocBuilder makeAssoc(String entityName) {
-        return new AssocBuilder(entityName);
+    public static AssocBuilder makeAssoc(String entityName, EntityValidator validator) {
+        return new AssocBuilder(entityName, validator);
     }
     
     /**
@@ -156,8 +157,9 @@ public final class AssociationDefinition extends EntityDefinition {
      *            the name of the entity in the ReST uri
      * @return the builder to create the entity definition
      */
-    public static AssocBuilder makeAssoc(String type, String collectionName, String resourceName) {
-        return new AssocBuilder(type);
+    public static AssocBuilder makeAssoc(String type, String collectionName, String resourceName,
+            EntityValidator validator) {
+        return new AssocBuilder(type, validator);
     }
     
     /**
@@ -177,8 +179,8 @@ public final class AssociationDefinition extends EntityDefinition {
          * @param resourceName
          *            the name of the association in the ReST uri
          */
-        public AssocBuilder(String type) {
-            super(type);
+        public AssocBuilder(String type, EntityValidator validator) {
+            super(type, validator);
         }
         
         /**
@@ -286,7 +288,7 @@ public final class AssociationDefinition extends EntityDefinition {
             this.relNameFromTarget = relName;
             return this;
         }
-
+        
         /**
          * The name of the link on the source entity to the relationship
          * 
@@ -308,7 +310,7 @@ public final class AssociationDefinition extends EntityDefinition {
             this.relNameFromTarget = relName;
             return this;
         }
-
+        
         @Override
         public AssocBuilder withTreatments(Treatment... treatments) {
             super.withTreatments(treatments);
@@ -335,8 +337,8 @@ public final class AssociationDefinition extends EntityDefinition {
         
         @Override
         public AssociationDefinition build() {
-            BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getRepo(), 
-                                                              source, target);
+            BasicAssocService service = new BasicAssocService(getCollectionName(), getTreatments(), getRepo(), source,
+                    target, super.getValidator());
             source.setLinkToAssociation(this.relNameFromSource);
             target.setLinkToAssociation(this.relNameFromTarget);
             AssociationDefinition associationDefinition = new AssociationDefinition(getType(), getResourceName(),
@@ -384,7 +386,7 @@ public final class AssociationDefinition extends EntityDefinition {
         public String getLinkName() {
             return linkName;
         }
-
+        
         public String getHopLinkName() {
             return hopLinkName;
         }
@@ -396,10 +398,10 @@ public final class AssociationDefinition extends EntityDefinition {
         public void setLinkToAssociation(String linkToAssociation) {
             this.linkToAssociation = linkToAssociation;
         }
-
+        
         public String getLinkToAssociation() {
             return linkToAssociation;
         }
-
+        
     }
 }

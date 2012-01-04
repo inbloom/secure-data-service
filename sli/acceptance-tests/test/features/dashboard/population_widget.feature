@@ -18,9 +18,9 @@ Then I see these values in the drop-down: "Sec 142;Sec 143;Sec 144;Sec 145"
 
 When I select school "Daybreak Central High"
 And I select course "American Literature"
-And I select section "Sec 145"
-Then I see a list of 28 students
-And the list includes: "Johnny Patel;Carmen Ortiz"
+And I select section "Sec 144"
+And I wait for "2" seconds
+Then I see a list of 24 students
 
 When I select school "Daybreak Central High"
 And I select course "Writing about Government"
@@ -28,5 +28,6 @@ Then I see these values in the section drop-down: "Sec 923"
 
 When I select school "Daybreak Central High"
 And I select course "American Literature"
-And I select section "Sec 142"
-Then I see a list of 24 students
+And I select section "Sec 145"
+Then I see a list of 28 students
+And the list includes: "Johnny Patel;Carmen Ortiz"

@@ -12,17 +12,17 @@ Scenario Outline: Create a new section
     Given format <format>
       	And the unique section code is "SpanishB09"
       	And the sequence of course is 1
-       	And the educational environment is "OFF_SCHOOL_CENTER"
-       	And the medium of instruction is "INDEPENDENT_STUDY"
-       	And the population served is "REGULAR_STUDENTS"
+       	And the educational environment is "Off_school_center"
+       	And the medium of instruction is "Independent_study"
+       	And the population served is "Regular_students"
 	When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
        	And I should receive a ID for the newly created section
     When I navigate to GET section "SpanishB09"
     Then I should see the sequence of course is 1
-      And I should see the educational environment is "OFF_SCHOOL_CENTER"
-      And I should see the medium of instruction is "INDEPENDENT_STUDY"
-      And I should see the population served is "REGULAR_STUDENTS"
+      And I should see the educational environment is "Off_school_center"
+      And I should see the medium of instruction is "Independent_study"
+      And I should see the population served is "Regular_students"
     Examples:
     		| format                     |
     		| "application/json"         |
@@ -34,9 +34,9 @@ Scenario Outline: Read a section by id
     When I navigate to GET section "biologyF09"
     Then I should receive a return code of 200
     	And I should see the sequence of course is 1
-     	And I should see the educational environment is "OFF_SCHOOL_CENTER"
-     	And I should see the medium of instruction is "INDEPENDENT_STUDY"
-     	And I should see the population served is "REGULAR_STUDENTS"
+     	And I should see the educational environment is "Off_school_center"
+     	And I should see the medium of instruction is "Independent_study"
+     	And I should see the population served is "Regular_students"
     Examples:
     		| format                     |
     		| "application/json"         |
