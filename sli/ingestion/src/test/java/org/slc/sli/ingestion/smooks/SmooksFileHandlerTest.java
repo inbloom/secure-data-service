@@ -90,6 +90,24 @@ public class SmooksFileHandlerTest {
     }
 
     @Test
+    public void malformedXML() throws IOException, SAXException {
+
+        // Get Input File
+        File inputFile = IngestionTest
+                .getFile("fileLevelTestData/invalidXML/malformedXML/student.xml");
+
+        // Create Ingestion File Entry
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
+                inputFile.getName(), MD5.calculate(inputFile));
+        inputFileEntry.setFile(inputFile);
+
+        FaultsReport errorReport = new FaultsReport();
+        smooksFileHandler.handle(inputFileEntry, errorReport);
+
+        assertTrue("Malformed XML should give error.", errorReport.hasErrors());
+    }
+
+    @Test
     public void validXml() throws IOException, SAXException {
 
         // Get Input File
