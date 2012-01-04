@@ -51,4 +51,14 @@ public enum DefaultRoles {
         }
         return names;
     }
+
+    public static DefaultRoles find(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getSpringRoleName().equals(roleName)) {
+                return role;
+            }
+        }
+        return null;
+    }
+
 }

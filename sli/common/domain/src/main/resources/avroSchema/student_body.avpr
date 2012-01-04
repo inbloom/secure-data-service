@@ -75,7 +75,10 @@
      } ]
   }, {
     "name" : "economicDisadvantaged",
-    "type" : [ "null", "boolean" ]
+    "type" : [ "null", "boolean" ],
+    "props" : {
+      "restricted" : true
+     }
   }, {
     "name" : "schoolFoodServicesEligibility",
     "type" : [ "null", "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ]

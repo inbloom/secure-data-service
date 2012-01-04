@@ -39,4 +39,8 @@
 
 
 	<context:annotation-config />
+
+    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect" factory-method="aspectOf">
+        <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
+    </bean>
 </beans>
