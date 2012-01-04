@@ -30,7 +30,9 @@
     } ]
   }, {
     "name" : "sex",
-    "type" : "org.slc.sli.domain.enum.SexType"
+    "type" : "org.slc.sli.domain.enum.SexType",
+    "read_enforcement" : "restricted"
+	
   }, {
     "name" : "birthData",
     "type" : "org.slc.sli.domain.BirthData"
@@ -75,10 +77,7 @@
      } ]
   }, {
     "name" : "economicDisadvantaged",
-    "type" : [ "null", "boolean" ],
-    "props" : {
-      "restricted" : true
-     }
+    "type" : [ "null", "boolean" ]
   }, {
     "name" : "schoolFoodServicesEligibility",
     "type" : [ "null", "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ]
