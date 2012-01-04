@@ -32,7 +32,7 @@ import org.slc.sli.domain.MongoEntity;
 /**
  * a set of test for school ingestion
  *
- *  @author yuan
+ * @author yuan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -120,7 +120,7 @@ public class SchoolIngestionTest {
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
 
-        verifySchools(repository, 0);
+        verifySchools(repository, numberOfSchools);
 
     }
 
@@ -221,7 +221,8 @@ public class SchoolIngestionTest {
         // Test Version Only - allow specification of Student ID
         schoolXml += "<SchoolId>" + (school.getBody()).get("schoolId") + "</SchoolId>" + "\n";
 
-        schoolXml += "<StateOrganizationId>" + (school.getBody()).get("stateOrganizationId") + "</StateOrganizationId>" + "\n";
+        schoolXml += "<StateOrganizationId>" + (school.getBody()).get("stateOrganizationId") + "</StateOrganizationId>"
+                + "\n";
         schoolXml += "<NameOfInstitution>" + (school.getBody()).get("fullName") + "</NameOfInstitution>" + "\n";
         schoolXml += "</School>" + "\n";
 
@@ -257,9 +258,7 @@ public class SchoolIngestionTest {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType);
 
-        if (numberOfSchools > 0) {
-            assertEquals(repositorySize, numberOfSchools);
-        }
+        assertEquals(repositorySize, numberOfSchools);
 
         for (int index = 1; index <= repositorySize; index++) {
             Map<String, String> queryMap = new HashMap<String, String>();
