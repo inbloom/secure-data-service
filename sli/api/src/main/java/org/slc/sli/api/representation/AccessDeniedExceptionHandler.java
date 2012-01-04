@@ -3,16 +3,17 @@ package org.slc.sli.api.representation;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-import org.springframework.security.authentication.BadCredentialsException;;
 
 /**
- * Hander for catching bad credentials exceptions.
+ * Handler for catching access denied exceptions.
+ * @author shalka
  */
 @Provider
 @Component
-public class BadCredentialsExceptionHandler implements ExceptionMapper<BadCredentialsException> {
-    public Response toResponse(BadCredentialsException e) {
+public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
+    public Response toResponse(AccessDeniedException e) {
         Response.Status errorStatus = Response.Status.FORBIDDEN;
         return Response.status(errorStatus)
             .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
