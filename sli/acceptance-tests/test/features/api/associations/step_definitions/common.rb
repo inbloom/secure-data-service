@@ -6,18 +6,23 @@ Transform /^href ends with "([^"]*)<([^"]*)>"$/ do |arg1, arg2|
   uri = arg1+"6de7d3b6-54d7-48f0-92ad-0914fe229016" if arg2 == "Alfonso at Yellow Middle School ID"
   uri = arg1+"714c1304-8a04-4e23-b043-4ad80eb60992" if arg2 == "Alfonso's ID"
   uri = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2" if arg2 == "Apple Alternative Elementary School ID"
-  uri = arg1+"" if arg2 == ""
+  uri = arg1+"eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94" if arg2 == "Ms. Jones' ID"
+  uri = arg1+"58c9ef19-c172-4798-8e6e-c73e68ffb5a3" if arg2 == "Algebra II ID"
+  uri = arg1+"12f25c0f-75d7-4e45-8f36-af1bcc342871" if arg2 == "Association between Ms. Jones and Algebra II ID"
   uri = arg1+"" if arg2 == ""
   uri = arg1+arg2 if uri == nil
   uri
 end
-
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
   @user = arg1
   @passwd = arg2
 end
 
+Given /^that I have admin access$/ do
+  idpLogin(@user,@passwd)
+  assert(@cookie != nil, "Cookie retrieved was nil")
+end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
@@ -31,7 +36,7 @@ Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
 end
 
 Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
+  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}\nbody was #{@res}")
 end
 
 Then /^I should receive a link where rel is "([^"]*)" and (href ends with "[^"]*")$/ do |rel, href|
@@ -69,7 +74,7 @@ Then /^"([^"]*)" should equal "([^"]*)"$/ do |key, value|
   assert(@data != nil, "Response contains no data")
   assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
   assert(@data.has_key?(key), "Response does not contain key #{key}")
-  assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
+  assert(@data[key].to_s == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
 end
 
 
