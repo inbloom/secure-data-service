@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.aspects;
 
+import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -9,6 +10,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,29 +111,31 @@ public class EntityServiceAspect {
         return hasAccess;
     }
 
-    @Around("call(EntityBody EntityService.get(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
-    public EntityBody filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
-        EntityBody entityBody = (EntityBody) pjp.proceed();
+    @Around("call(Entity EntityService.get(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
+    public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
+        Entity entity = (Entity) pjp.proceed();
 
         //READ_GENERAL("READ_GENERAL"), WRITE_GENERAL("WRITE_GENERAL"), READ_RESTRICTED("READ_RESTRICTED")
 
         Set<Rights> grantedRights = getGrantedRights();
 
         if (!grantedRights.equals(Rights.READ_RESTRICTED)) {
-            filterReadRestricted(entityBody);
+            filterReadRestricted(entity);
         }
         if (!grantedRights.equals(Rights.READ_GENERAL)) {
-            filterReadGeneral(entityBody);
+            filterReadGeneral(entity);
         }
 
-        return entityBody;
+        return entity;
     }
 
-    private void filterReadGeneral(EntityBody entityBody) {
+    private void filterReadGeneral(Entity entity) {
+        Schema schema = schemaRegistry.findSchemaForType(entity);
         //TODO
     }
 
-    private void filterReadRestricted(EntityBody entityBody) {
+    private void filterReadRestricted(Entity entity) {
+        Schema schema = schemaRegistry.findSchemaForType(entity);
         //TODO
     }
 
