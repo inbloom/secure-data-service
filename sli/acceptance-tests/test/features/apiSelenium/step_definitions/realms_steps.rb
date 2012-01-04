@@ -3,7 +3,7 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 
 When /^I navigate to the Realm page URL$/ do
-  @url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
+  @url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
   @driver.get @url
 end
 
@@ -13,16 +13,17 @@ end
 
 Given /^I see the Realm page$/ do
   @driver = Selenium::WebDriver.for :firefox
-  url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
+  url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
   @driver.get url
   assert(@driver.current_url == url, "Failed to navigate to "+url)
 end
 
 When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
-  id = "1" if arg1 == "UED"
-  id = "2" if arg1 == "OotP"
-  id = "3" if arg1 == "SLI"
-  @driver.find_element(:id, id).click
+  dropdownbox = @driver.find_element(:name, "realmId")
+  dropdownbox.click
+  dropdownbox.find_elements(:tag_name => "option").find do |option|
+    option.text == arg1
+  end.click
 end
 
 When /^I click on the page Go button$/ do
@@ -34,7 +35,7 @@ Then /^I should be redirected to "([^"]*)" Realm Login page$/ do |arg1|
 end
 
 Given /^a realm in the drop\-down list is not \(pre\)selected$/ do
-  #No code needed, just dont click on anything
+  #No code needed, just don't click on anything
 end
 
 Then /^I should be notified that I must choose a realm$/ do
