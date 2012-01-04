@@ -10,10 +10,10 @@ import java.util.List;
  * Also has a few utility functions to see if a role contains a right.
  */
 public enum DefaultRoles {
-    EDUCATOR("Educator", new Rights[]{Rights.AGGREGATE_READ, Rights.READ_GENERAL}),
-    LEADER("Leader", new Rights[]{Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED}),
-    AGGREGATOR("Aggregate Viewer", new Rights[]{Rights.AGGREGATE_READ}),
-    ADMINISTRATOR("IT Administrator", new Rights[]{Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED,
+    EDUCATOR("Educator", new Rights[]{Rights.READ_AGGREGATE, Rights.READ_GENERAL}),
+    LEADER("Leader", new Rights[]{Rights.READ_AGGREGATE, Rights.READ_GENERAL, Rights.READ_RESTRICTED}),
+    AGGREGATOR("Aggregate Viewer", new Rights[]{Rights.READ_AGGREGATE}),
+    ADMINISTRATOR("IT Administrator", new Rights[]{Rights.READ_AGGREGATE, Rights.READ_GENERAL, Rights.READ_RESTRICTED,
             Rights.WRITE_GENERAL, Rights.WRITE_RESTRICTED});
     private final String name;
     private final Rights[] rights;
@@ -51,4 +51,14 @@ public enum DefaultRoles {
         }
         return names;
     }
+
+    public static DefaultRoles find(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getSpringRoleName().equals(roleName)) {
+                return role;
+            }
+        }
+        return null;
+    }
+
 }

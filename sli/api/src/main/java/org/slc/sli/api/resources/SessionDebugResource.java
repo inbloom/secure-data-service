@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources;
 
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,12 @@ public class SessionDebugResource {
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-            sessionDetails.put("granted_authorities", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            sessionDetails.put("user_id", principal.getId());
+            sessionDetails.put("full_name", principal.getName());
+            sessionDetails.put("granted_authorities", principal.getTheirRoles());
+
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", getLoginUrl(uriInfo));

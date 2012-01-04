@@ -7,7 +7,7 @@ Given /^I am not authenticated to SLI IDP$/ do
 end
 
 When /^I navigate to the SLI Default Roles Admin Page$/ do
-  url = "http://"+PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
   @driver.get url
 end
 
@@ -24,11 +24,11 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  assert(@driver.title == "Admin - Roles", "Failed to navigate to the Admintools Role page")
+  assert(@driver.title.index("SLI Default Roles") != nil, "Failed to navigate to the Admintools Role page")
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do
-  url = "http://"+PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
   @driver.get url
 end
 
@@ -37,7 +37,11 @@ Given /^I was redirected to the Realm page$/ do
 end
 
 Given /^I choose my realm$/ do
-  @driver.find_element(:id, "3").click
+  dropdownbox = @driver.find_element(:name, "realmId")
+  dropdownbox.click
+  dropdownbox.find_elements(:tag_name => "option").find do |option|
+    option.text == "Shared Learning Initiative"
+  end.click
   @driver.find_element(:id, "go").click
 end
 

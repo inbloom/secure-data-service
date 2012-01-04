@@ -82,7 +82,7 @@ public class RoleControllerTest {
         List<Map<String, Object>> roles = (List<Map<String, Object>>) values.get("roleJsonData");
         for (Map<String, Object> role : roles) {
             if (role.get("name").equals("Educator")) {
-                Assert.assertEquals("Leader should have blank for restricted data", null, role.get("restricted"));
+                Assert.assertEquals("Leader should have blank for restricted data", "None", role.get("restricted"));
                 Assert.assertEquals("Leader should have R for general data", "R", role.get("general"));
                 Assert.assertEquals("Leader should have true for aggregate data", true, role.get("aggregate"));
             }

@@ -30,7 +30,9 @@
     } ]
   }, {
     "name" : "sex",
-    "type" : "org.slc.sli.domain.enum.SexType"
+    "type" : "org.slc.sli.domain.enum.SexType",
+    "read_enforcement" : "restricted"
+	
   }, {
     "name" : "birthData",
     "type" : "org.slc.sli.domain.BirthData"

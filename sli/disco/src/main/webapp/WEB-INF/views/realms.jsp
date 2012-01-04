@@ -8,21 +8,13 @@
 <title>Choose your realm</title>
 </head>
 <body>
-	<h2>Choose your Realm</h2>
-	<hr />
-	<div style="color: red;border: 1px solid red;width: 35%;">${errorMsg}</div>
+	<div style="color: red;width: 35%;">${errorMsg}</div>
 	<form:form action="/disco/realms/sso.do" method="GET" commandName="dummy">
-		<table style="border: 1px solid black;">
-			<tr>
-				<td>Realm:</td>
-				<td><form:radiobuttons path="" name="realmId" items="${realms}" /></td>
-			</tr>
-			<tr>
-				<td>
-				<input type="hidden" name="RelayState" value="${relayState}" /> 
-				<input type="submit" value="Choose Your Destiny" id="go" /></td>
-			</tr>
-		</table>
+		<input type="hidden" name="RelayState" value="${relayState}" />
+		Please choose your State/District:
+		<form:select path="" name="realmId" items="${realms}" />
+		<input type="submit" value="Go" id="go" />
+
 	</form:form>
 </body>
 </html>
