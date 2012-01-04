@@ -34,6 +34,8 @@
 			expression=".*CustomImpl" />
 			<context:exclude-filter type="regex"
 			expression=".*MongoEntityRepository" />
+			<context:exclude-filter type="regex"
+			expression=".*AvroEntityValidator" />
 	</context:component-scan>
 
 
