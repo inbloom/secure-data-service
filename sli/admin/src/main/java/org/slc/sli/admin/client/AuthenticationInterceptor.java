@@ -4,7 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -78,14 +77,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     
     private String loadUserName(String token) {
         JsonObject json = this.restClient.sessionCheck(token);
-        JsonElement authoritiesElement = json.get("granted_authorities");
-        if (authoritiesElement != null) {
-            JsonArray authorities = authoritiesElement.getAsJsonArray();
-            JsonElement authorityElement = authorities.get(0);
-            if (authorityElement != null) {
-                JsonElement nameElement = authorityElement.getAsJsonObject().get("authority");
-                return nameElement.getAsString();
-            }
+        JsonElement nameElement = json.get("full_name");
+        if (nameElement != null) {
+            return nameElement.getAsString();
         }
         return "";
     }
