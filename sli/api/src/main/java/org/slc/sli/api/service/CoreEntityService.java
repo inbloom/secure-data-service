@@ -3,6 +3,9 @@ package org.slc.sli.api.service;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.Entity;
 
+/**
+ * Core service for retrieving entities in DB
+ */
 public interface CoreEntityService {
 
     /**

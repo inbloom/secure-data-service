@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Core operations of the Basic Service.
  */
-public class CoreBasicService implements CoreEntityService{
+public class CoreBasicService implements CoreEntityService {
     private static final Logger LOG = LoggerFactory.getLogger(CoreBasicService.class);
 
     private String collectionName;
@@ -50,6 +50,6 @@ public class CoreBasicService implements CoreEntityService{
 
     @Override
     public void delete(Entity entity) {
-        repo.delete(collectionName, entity.getEntityId() );
+        repo.delete(collectionName, entity.getEntityId());
     }
 }

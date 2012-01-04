@@ -32,7 +32,7 @@ public class BasicService implements EntityService {
     private CoreEntityService coreService;
 
     public BasicService(String collectionName, List<Treatment> treatments, EntityRepository repo,
-            EntityValidator validator) {
+                        EntityValidator validator) {
         super();
         this.collectionName = collectionName;
         this.treatments = treatments;
@@ -82,7 +82,7 @@ public class BasicService implements EntityService {
 
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
+        LOG.debug("Creating a new entity in collection {} with content {}", new Object[]{collectionName, content});
         String type = defn.getType();
         EntityBody body = sanitizeEntityBody(content);
         return coreService.create(body, type);
@@ -90,7 +90,7 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("Deleting {} in {}", new String[]{id, collectionName});
         Entity entity = coreService.get(id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -104,7 +104,7 @@ public class BasicService implements EntityService {
 
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {}", new String[] { id, collectionName });
+        LOG.debug("Updating {} in {}", new String[]{id, collectionName});
         Entity entity = coreService.get(id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -116,7 +116,7 @@ public class BasicService implements EntityService {
             return false;
         }
         LOG.info("new body is {}", sanitized);
-        coreService.update(entity,sanitized);
+        coreService.update(entity, sanitized);
         return true;
     }
 

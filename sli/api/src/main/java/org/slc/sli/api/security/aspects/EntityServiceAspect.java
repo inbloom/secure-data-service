@@ -5,7 +5,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
@@ -119,10 +118,10 @@ public class EntityServiceAspect {
 
         Set<Rights> grantedRights = getGrantedRights();
 
-        if (!grantedRights.equals(Rights.READ_RESTRICTED)) {
+        if (!grantedRights.equals(Rights.READ_RESTRICTED.getRight())) {
             filterReadRestricted(entity);
         }
-        if (!grantedRights.equals(Rights.READ_GENERAL)) {
+        if (!grantedRights.equals(Rights.READ_GENERAL.getRight())) {
             filterReadGeneral(entity);
         }
 
