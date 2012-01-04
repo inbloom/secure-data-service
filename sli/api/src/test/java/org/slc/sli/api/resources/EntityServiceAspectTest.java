@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.security.aspects.EntityServiceAspect;
 import org.slc.sli.api.service.EntityService;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -36,6 +36,7 @@ public class EntityServiceAspectTest {
     public void init() {
         returnObj = new Object();
         myAspect = new EntityServiceAspect();
+    
     }
     
     @After
@@ -71,7 +72,7 @@ public class EntityServiceAspectTest {
         Assert.assertEquals("Response doesn't match", returnObj, resp);
     }
     
-    @Test(expected = BadCredentialsException.class)
+    @Test(expected = AccessDeniedException.class)
     public void testCreateStudentCallAsEducator() throws Throwable {
         SecurityContextInjection.setEducatorContext();
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_CREATE, ENTITY_TYPE_STUDENT, ROLE_SPRING_NAME_EDUCATOR);
@@ -87,6 +88,7 @@ public class EntityServiceAspectTest {
         EntityDefinition ed     = Mockito.mock(EntityDefinition.class);
         Signature sig           = createSignature(methodName);
         
+     
         Mockito.when(ed.getType()).thenReturn(entityType);
         Mockito.when(es.getEntityDefinition()).thenReturn(ed);
         Mockito.when(auth.getAuthority()).thenReturn(springRole);

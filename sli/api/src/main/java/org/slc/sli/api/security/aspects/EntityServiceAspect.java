@@ -54,8 +54,8 @@ public class EntityServiceAspect {
         neededRights.put("update", Rights.WRITE_GENERAL);
         neededRights.put("delete", Rights.WRITE_GENERAL);
     }
-    
-    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*(..))")
+
+    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
 
         if (!isAuthorized(pjp)) {
@@ -136,13 +136,13 @@ public class EntityServiceAspect {
         LOG.debug("schema fields {}", schema.getFields());
         Iterator<String> keyIter = entity.getBody().keySet().iterator();
 
-        while (keyIter.hasNext()) {
+        while ( keyIter.hasNext() ) {
             String fieldName = keyIter.next();
-
+            
             Schema.Field field = schema.getField(fieldName);
             LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
             if (isReadGeneral(field)) {
-                keyIter.remove();
+               keyIter.remove();
             }
         }
     }
@@ -159,7 +159,7 @@ public class EntityServiceAspect {
     private void filterReadRestricted(Entity entity) {
         Schema schema = schemaRegistry.findSchemaForType(entity);
         Iterator<String> keyIter = entity.getBody().keySet().iterator();
-        while (keyIter.hasNext()) {
+        while ( keyIter.hasNext() ) {
             String fieldName = keyIter.next();
 
             Schema.Field field = schema.getField(fieldName);
@@ -175,6 +175,10 @@ public class EntityServiceAspect {
             return false;
         }
 
+        Map props = field.props();
+        if ( props.containsKey( "read_enforcement" )) {
+            LOG.debug( "Found read_enforcement");
+        }
         String readProp = field.getProp("read_enforcement");
         return (readProp != null && readProp.equals("restricted"));
     }

@@ -4,7 +4,7 @@ dashboard_login_page: "/spring_security_login"
 dashboard_logout_page: "/j_spring_security_logout"
 dashboard_landing_page: "/studentlist"
 
-admintools_server_url: "localhost:8080"
+admintools_server_url: "http://localhost:8080"
 api_server_url: "http://localhost:8080"
 databrowser_server_url: "devapi1.slidev.org:8080"
 idp_server_url: "devdanil.slidev.org:8080"
