@@ -114,8 +114,8 @@ Then /^the Student restricted fields are visible in the response$/ do
   result = JSON.parse(@res.body)
   pending # express the regexp above with the code you wish you had
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['sex'] != nil, "Expected restricted student fields were nil in response")
-  assert(result['sex'] != "", "Expected restricted student fields were blank in response")
+  assert(result['economicDisadvantaged'] != nil, "Expected restricted student fields were nil in response")
+  assert(result['economicDisadvantaged'] != "", "Expected restricted student fields were blank in response")
 end
 
 Given /^"([^"]*)" is not allowed to view restricted Student fields$/ do |arg1|
@@ -128,5 +128,5 @@ Then /^the Student restricted fields are not visible in the response$/ do
   result = JSON.parse(@res.body)
   pending # express the regexp above with the code you wish you had
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['sex'] == nil, "Expected no restriced student fields, but saw them in response")
+  assert(result['economicDisadvantaged'] == nil, "Expected no restriced student fields, but saw them in response")
 end
