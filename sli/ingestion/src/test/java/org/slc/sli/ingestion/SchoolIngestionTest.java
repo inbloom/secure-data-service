@@ -51,7 +51,7 @@ public class SchoolIngestionTest {
     @Autowired
     private EntityRepository repository;
 
-    private static String schoolEntityType = "School";
+    private static String schoolEntityType = "school";
 
     @Test
     public void testSchoolIngestionPersistence() throws IOException, SAXException {
