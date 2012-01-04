@@ -1,4 +1,4 @@
-@wip
+
 Feature: As an SLI application, I want to be able to manage teacher-section associations
   This means I want to be able to perform CRUD on teacher-section-associations
   Also verify the correct links from that resource to the appropriate teacher and section.
@@ -65,7 +65,7 @@ Given format "application/json"
   And ClassroomPosition should be "teacher of record"
 When I set the ClassroomPosition to assistant teacher
   And I navigate to PUT /teacher-section-associations/<Association between Ms. Jones and Algebra II ID>
-Then I should receive a return code of 200
+Then I should receive a return code of 204
   And I navigate to Teacher Section Associations for Teacher "Ms. Jones" and Section "Algebra II"
   And the ClassroomPosition should be "assistant teacher"
 

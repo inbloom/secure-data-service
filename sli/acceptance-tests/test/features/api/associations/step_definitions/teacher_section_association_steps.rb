@@ -190,7 +190,7 @@ end
 
 When /^I navigate to PUT \/([^\/]*\/[^\/]*)$/ do |uri|
   @data.update(@fields)
-  restHttpPut("/"+uri, @data)
+  restHttpPut("/"+uri, @data.to_json)
 end
 
 When /^I navigate to DELETE Teacher Section Associations for Teacher "([^"]*)" and Section "([^"]*)"$/ do |teacherarg, sectionarg|
