@@ -50,7 +50,7 @@ public class EntityServiceAspect {
         neededRights.put("delete", Rights.WRITE_GENERAL);
     }
     
-    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
+    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*(..))")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
         
         boolean hasAccess = false;
