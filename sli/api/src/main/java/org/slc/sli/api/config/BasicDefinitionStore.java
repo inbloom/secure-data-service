@@ -7,13 +7,12 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  * Default implementation of the entity definition store
@@ -69,8 +68,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = EntityDefinition.makeEntity("teacher", validator).exposeAs("teachers").build();
         addDefinition(teacher);
         
-        AssociationDefinition teacherSectionAssociation = AssociationDefinition.makeAssoc("teacherSectionAssociation")
-                .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
+        AssociationDefinition teacherSectionAssociation = AssociationDefinition
+                .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
+                .storeAs("teachersectionassociation")
                 .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
                 .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
         addAssocDefinition(teacherSectionAssociation);
@@ -91,7 +91,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addAssocDefinition(studentSectionAssociation);
         
         AssociationDefinition teacherSchoolAssociation = AssociationDefinition
-                .makeAssoc("teacherSchoolAssociation").exposeAs("teacher-school-associations")
+                .makeAssoc("teacherSchoolAssociation", validator).exposeAs("teacher-school-associations")
                 .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getSchoolsAssigned")
                 .to(school, "getSchool", "getTeachersAssigned").calledFromSource("getSchoolsAssigned")
                 .calledFromTarget("getTeachersAssigned").build();
