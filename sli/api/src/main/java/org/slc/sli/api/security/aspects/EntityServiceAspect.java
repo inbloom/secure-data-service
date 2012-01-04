@@ -3,20 +3,25 @@ package org.slc.sli.api.security.aspects;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Rights;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -31,15 +36,15 @@ public class EntityServiceAspect {
     
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
-    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
-    private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
-    private static Map<String, Rights> neededRights = new HashMap<String, Rights>();
-    
     private EntitySchemaRegistry schemaRegistry;
     
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
         this.schemaRegistry = schemaRegistry;
     }
+    
+    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
+    private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
+    private static Map<String, Rights> neededRights = new HashMap<String, Rights>();
     
     static {
         neededRights.put("get", Rights.READ_GENERAL);
@@ -50,7 +55,7 @@ public class EntityServiceAspect {
         neededRights.put("delete", Rights.WRITE_GENERAL);
     }
     
-    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !withincode(* *.mock*())")
+    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !call(* EntityService.getEntityDefinition(..))")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
         
         boolean hasAccess = false;
@@ -99,7 +104,84 @@ public class EntityServiceAspect {
             return entityReturned;
         } else {
             LOG.debug("user was denied access due to insufficient permissions.");
-            throw new BadCredentialsException("User does not have authority to access entity.");
+            throw new AccessDeniedException("User does not have authority to access entity.");
         }
+    }
+    
+    @Around("call(* CoreEntityService.get(..))")
+    public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
+        LOG.debug("[ASPECT] filtering read");
+        Entity entity = (Entity) pjp.proceed();
+        
+        Set<Rights> grantedRights = getGrantedRights();
+        LOG.debug("Rights {}", grantedRights);
+        
+        if (!grantedRights.contains(Rights.READ_RESTRICTED.getRight())) {
+            LOG.debug("Filtering restricted on {}", entity.getEntityId());
+            filterReadRestricted(entity);
+        }
+        if (!grantedRights.contains(Rights.READ_GENERAL.getRight())) {
+            LOG.debug("Filtering general on {}", entity.getEntityId());
+            filterReadGeneral(entity);
+        }
+        
+        return entity;
+    }
+    
+    private void filterReadGeneral(Entity entity) {
+        Schema schema = schemaRegistry.findSchemaForType(entity);
+        LOG.debug("schema fields {}", schema.getFields());
+        Iterator<String> keyIter = entity.getBody().keySet().iterator();
+        
+        while (keyIter.hasNext()) {
+            String fieldName = keyIter.next();
+            
+            Schema.Field field = schema.getField(fieldName);
+            LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
+            if (isReadGeneral(field)) {
+                keyIter.remove();
+            }
+        }
+    }
+    
+    private boolean isReadGeneral(Schema.Field field) {
+        if (field == null) {
+            return false;
+        }
+        
+        String readProp = field.getProp("read_enforcement");
+        return (readProp != null && !readProp.matches("restricted") && !readProp.matches("aggregate"));
+    }
+    
+    private void filterReadRestricted(Entity entity) {
+        Schema schema = schemaRegistry.findSchemaForType(entity);
+        Iterator<String> keyIter = entity.getBody().keySet().iterator();
+        while (keyIter.hasNext()) {
+            String fieldName = keyIter.next();
+            
+            Schema.Field field = schema.getField(fieldName);
+            LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
+            if (isRestrictedField(field)) {
+                keyIter.remove();
+            }
+        }
+    }
+    
+    private boolean isRestrictedField(Schema.Field field) {
+        if (field == null) {
+            return false;
+        }
+        
+        Map props = field.props();
+        if (props.containsKey("read_enforcement")) {
+            LOG.debug("Found read_enforcement");
+        }
+        String readProp = field.getProp("read_enforcement");
+        return (readProp != null && readProp.equals("restricted"));
+    }
+    
+    private Set<Rights> getGrantedRights() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getRights();
     }
 }

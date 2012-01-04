@@ -114,13 +114,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.slc.sli</groupId>
-      <artifactId>api</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-
     <!-- Spring Security Core dependency -->
     <dependency>
       <groupId>org.springframework.security</groupId>

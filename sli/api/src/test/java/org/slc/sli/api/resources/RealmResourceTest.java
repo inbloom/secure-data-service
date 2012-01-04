@@ -50,7 +50,7 @@ public class RealmResourceTest {
     private RealmResource realmer;
     
     @Autowired
-    @Value("${security.sso.url}")
+    @Value("${sli.security.sso.url}")
     private String ssoInitUrl;
     
     private Map<String, EntityBody> entities;

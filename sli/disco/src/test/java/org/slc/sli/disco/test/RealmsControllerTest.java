@@ -45,11 +45,11 @@ public class RealmsControllerTest {
     private RealmsController    controller;
     
     @Autowired
-    @Value("${security.realms.list.url}")
+    @Value("${sli.security.realms.list.url}")
     private String              listUrl;
     
     @Autowired
-    @Value("${security.realms.ssoInit.url}")
+    @Value("${sli.security.realms.ssoInit.url}")
     private String              ssoInitUrl;
     
     private RestTemplate        rest;
