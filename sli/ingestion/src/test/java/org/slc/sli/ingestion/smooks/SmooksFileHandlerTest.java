@@ -70,23 +70,6 @@ public class SmooksFileHandlerTest {
      * XML TESTS
      */
 
-    @Test
-    public void incorrectAttributeXml() throws IOException, SAXException {
-
-        // Get Input File
-        File inputFile = IngestionTest
-                .getFile("fileLevelTestData/invalidXML/firstRecordHasIncorrectAttribute/student.xml");
-
-        // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
-                inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-
-        FaultsReport errorReport = new FaultsReport();
-        smooksFileHandler.handle(inputFileEntry, errorReport);
-
-        assertTrue("Incorrect attribute should give error.", errorReport.hasErrors());
-    }
 
     @Test
     public void valueTypeNotMatchAttributeType() throws IOException, SAXException {
