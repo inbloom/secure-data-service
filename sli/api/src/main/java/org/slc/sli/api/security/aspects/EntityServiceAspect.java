@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -110,16 +111,20 @@ public class EntityServiceAspect {
         return hasAccess;
     }
 
-    @Around("call(Entity CoreEntityService.get(..)) && !withincode(* *.mock*())")
+    @Around("call(* org.slc.sli.api.service.CoreEntityService.get(..)) && !withincode(* *.mock*())")
     public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
+        LOG.debug("[ASPECT] filtering read");
         Entity entity = (Entity) pjp.proceed();
 
         Set<Rights> grantedRights = getGrantedRights();
+        LOG.debug("Rights {}", grantedRights);
 
-        if (!grantedRights.equals(Rights.READ_RESTRICTED.getRight())) {
+        if (!grantedRights.contains(Rights.READ_RESTRICTED.getRight())) {
+            LOG.debug("Filtering restricted on {}", entity.getEntityId());
             filterReadRestricted(entity);
         }
-        if (!grantedRights.equals(Rights.READ_GENERAL.getRight())) {
+        if (!grantedRights.contains(Rights.READ_GENERAL.getRight())) {
+            LOG.debug("Filtering general on {}", entity.getEntityId());
             filterReadGeneral(entity);
         }
 
@@ -128,12 +133,54 @@ public class EntityServiceAspect {
 
     private void filterReadGeneral(Entity entity) {
         Schema schema = schemaRegistry.findSchemaForType(entity);
-        //TODO
+        LOG.debug("schema fields {}", schema.getFields());
+        Iterator<String> keyIter = entity.getBody().keySet().iterator();
+
+        while ( keyIter.hasNext() ) {
+            String fieldName = keyIter.next();
+            
+            Schema.Field field = schema.getField(fieldName);
+            LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
+            if (isReadGeneral(field)) {
+               keyIter.remove();
+            }
+        }
+    }
+
+    private boolean isReadGeneral(Schema.Field field) {
+        if (field == null) {
+            return false;
+        }
+
+        String readProp = field.getProp("read_enforcement");
+        return (readProp != null && !readProp.matches("restricted") && !readProp.matches("aggregate"));
     }
 
     private void filterReadRestricted(Entity entity) {
         Schema schema = schemaRegistry.findSchemaForType(entity);
-        //TODO
+        Iterator<String> keyIter = entity.getBody().keySet().iterator();
+        while ( keyIter.hasNext() ) {
+            String fieldName = keyIter.next();
+
+            Schema.Field field = schema.getField(fieldName);
+            LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
+            if (isRestrictedField(field)) {
+                keyIter.remove();
+            }
+        }
+    }
+
+    private boolean isRestrictedField(Schema.Field field) {
+        if (field == null) {
+            return false;
+        }
+
+        Map props = field.props();
+        if ( props.containsKey( "read_enforcement" )) {
+            LOG.debug( "Found read_enforcement");
+        }
+        String readProp = field.getProp("read_enforcement");
+        return (readProp != null && readProp.equals("restricted"));
     }
 
     private Set<Rights> getGrantedRights() {
