@@ -51,7 +51,7 @@ public class SchoolIngestionTest {
     @Autowired
     private EntityRepository repository;
 
-    private static String schoolEntityType = "school";
+    private static String schoolEntityType = "School";
 
     @Test
     public void testSchoolIngestionPersistence() throws IOException, SAXException {
@@ -274,9 +274,8 @@ public class SchoolIngestionTest {
     }
 
     public static void verifySchool(int schoolId, Entity school) {
-
         assertNotNull(school);
-        assertEquals("" + schoolId, (school.getBody()).get("stateOrganizationId"));
+        assertEquals("" + schoolId, (school.getBody()).get("schoolId"));
         assertEquals("nameOfInstitution" + "_" + schoolId, (school.getBody()).get("fullName"));
 
     }
