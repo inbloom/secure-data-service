@@ -73,9 +73,6 @@ public class Translator {
     public static Entity mapFromNeutralRecord(NeutralRecord neutralRecord) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.putAll(neutralRecord.getAttributes());
-        body.put("localId", neutralRecord.getLocalId());
-        body.put("jobId", neutralRecord.getJobId());
-        body.put("SourceId", neutralRecord.getSourceId());
 
         return new MongoEntity(neutralRecord.getRecordType(), null, Collections.unmodifiableMap(body), null);
     }
@@ -94,12 +91,7 @@ public class Translator {
         Map<String, Object> body = instance.getBody();
 
         for (String key : body.keySet()) {
-            if (key.equals("localId"))
-                neutralRecord.setLocalId(body.get(key));
-            else if (key.equals("jobId") || key.equals("sourceId"))
-                continue;
-            else
-                attributes.put(key, body.get(key));
+            attributes.put(key, body.get(key));
         }
 
         neutralRecord.setAttributes(attributes);

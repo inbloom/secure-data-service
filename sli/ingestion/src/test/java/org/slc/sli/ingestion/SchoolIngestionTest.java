@@ -29,6 +29,11 @@ import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
+/**
+ * a set of test for school ingestion
+ *
+ *  @author yuan
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
@@ -46,7 +51,7 @@ public class SchoolIngestionTest {
     @Autowired
     private EntityRepository repository;
 
-    private static String schoolEntityType = "school";
+    private static String schoolEntityType = "School";
 
     @Test
     public void testSchoolIngestionPersistence() throws IOException, SAXException {
@@ -269,9 +274,8 @@ public class SchoolIngestionTest {
     }
 
     public static void verifySchool(int schoolId, Entity school) {
-
         assertNotNull(school);
-        assertEquals("" + schoolId, (school.getBody()).get("stateOrganizationId"));
+        assertEquals("" + schoolId, (school.getBody()).get("schoolId"));
         assertEquals("nameOfInstitution" + "_" + schoolId, (school.getBody()).get("fullName"));
 
     }

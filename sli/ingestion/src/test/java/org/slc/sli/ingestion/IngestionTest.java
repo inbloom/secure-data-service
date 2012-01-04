@@ -30,8 +30,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 
-/*
+/**
  * a set of static functions that can be used by Ingestion Tests.
+ *
+ *  @author yuan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
