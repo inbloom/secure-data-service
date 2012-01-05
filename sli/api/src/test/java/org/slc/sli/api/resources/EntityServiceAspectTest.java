@@ -1,40 +1,59 @@
 package org.slc.sli.api.resources;
 
+import java.util.Map;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.security.aspects.EntityServiceAspect;
+import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.EntitySchemaRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit tests for Aspect on EntityService.
  * 
  * @author shalka
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityServiceAspectTest {
-    
-    private static Object returnObj;
-    private EntityServiceAspect myAspect;
     
     private static final String ENTITY_TYPE_STUDENT = "student";
     private static final String ENTITY_TYPE_REALM = "realm";
-    private static final String ROLE_SPRING_NAME_EDUCATOR = "ROLE_EDUCATOR";
+    private static final String ROLE_SPRING_NAME_EDUCATOR = DefaultRoles.EDUCATOR.getSpringRoleName();
+    private static final String ROLE_SPRING_NAME_ADMINISTRATOR = DefaultRoles.ADMINISTRATOR.getSpringRoleName();
     private static final String ASPECT_FUNCTION_GET = "get";
     private static final String ASPECT_FUNCTION_CREATE = "create";
     private static final String ASPECT_FUNCTION_GETDEFN = "getEntityDefinition";
+    
+    private static Object returnObj;
+    private static EntityServiceAspect myAspect;
+    
+    @Autowired
+    private EntitySchemaRegistry schemaRegistry;
     
     @Before
     public void init() {
         returnObj = new Object();
         myAspect = new EntityServiceAspect();
+        myAspect.setSchemaRegistry(schemaRegistry);
     }
     
     @After
@@ -80,6 +99,56 @@ public class EntityServiceAspectTest {
         
         @SuppressWarnings("unused")
         Object resp = myAspect.controlAccess(pjp);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testFieldViewForEducator() throws Throwable {
+        SecurityContextInjection.setEducatorContext();
+        
+        String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
+                + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
+                + "\"birthData\":{\"birthDate\":\"1999-07-12\"}}";
+        
+        Map<String, Object> map = new ObjectMapper().readValue(studentBody, Map.class);
+        Entity mockedStudent = new MongoEntity("student", map);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent,
+                ROLE_SPRING_NAME_EDUCATOR);
+        Entity returnEntity = myAspect.filterEntityRead(pjp);
+        
+        Assert.assertEquals("Restricted field should have been filtered.", false,
+                returnEntity.getBody().containsKey("economicDisadvantaged"));
+        Assert.assertEquals("General field shouldn't have been filtered.", true,
+                returnEntity.getBody().containsKey("name"));
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testFieldViewForAdministrator() throws Throwable {
+        SecurityContextInjection.setAdminContext();
+        
+        String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
+                + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
+                + "\"birthData\":{\"birthDate\":\"1999-07-12\"}}";
+        
+        Map<String, Object> map = new ObjectMapper().readValue(studentBody, Map.class);
+        Entity mockedStudent = new MongoEntity("student", map);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent, 
+                ROLE_SPRING_NAME_ADMINISTRATOR);
+        Entity returnEntity = myAspect.filterEntityRead(pjp);
+        
+        Assert.assertEquals("Restricted field shouldn't have been filtered.", true,
+                returnEntity.getBody().containsKey("economicDisadvantaged"));
+        Assert.assertEquals("General field shouldn't have been filtered.", true,
+                returnEntity.getBody().containsKey("name"));
+    }
+    
+    // inserts mocked student entity into proceeding join point (for CoreEntityService unit testing)
+    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, Entity entity, String springRole)
+            throws Throwable {
+        ProceedingJoinPoint mockPjp = Mockito.mock(ProceedingJoinPoint.class);
+        Mockito.when(mockPjp.proceed()).thenReturn(entity);
+        return mockPjp;
     }
     
     private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, String entityType, String springRole)
