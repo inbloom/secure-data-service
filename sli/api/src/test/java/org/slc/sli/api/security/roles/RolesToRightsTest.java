@@ -2,6 +2,7 @@ package org.slc.sli.api.security.roles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -34,19 +35,19 @@ public class RolesToRightsTest {
     @Test
     public void testMappedRoles() throws Exception {
         
-        List<GrantedAuthority> rights = resolver.resolveRoles(Arrays.asList(DefaultRoles.EDUCATOR.getRoleName(), DefaultRoles.AGGREGATOR.getRoleName()));
+        Set<GrantedAuthority> rights = resolver.resolveRoles(Arrays.asList(DefaultRoles.EDUCATOR.getRoleName(), DefaultRoles.AGGREGATOR.getRoleName()));
         Assert.assertTrue(rights.size() > 0);
     }
     
     @Test
     public void testBadRoles() throws Exception {
-        List<GrantedAuthority> authorities = resolver.resolveRoles(Arrays.asList("Pink", "Goo"));
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(Arrays.asList("Pink", "Goo"));
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
     
     @Test
     public void testMixedRoles() throws Exception {
-        List<GrantedAuthority> authorities = resolver.resolveRoles(Arrays.asList(DefaultRoles.EDUCATOR.getRoleName(), DefaultRoles.AGGREGATOR.getRoleName(), "bad", "doggie"));
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(Arrays.asList(DefaultRoles.EDUCATOR.getRoleName(), DefaultRoles.AGGREGATOR.getRoleName(), "bad", "doggie"));
         Assert.assertTrue(authorities.size() > 0);
     }
 }

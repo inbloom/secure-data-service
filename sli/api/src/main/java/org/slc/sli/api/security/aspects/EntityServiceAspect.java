@@ -77,23 +77,8 @@ public class EntityServiceAspect {
                     .getAuthorities();
             LOG.debug("user rights: {}", myAuthorities.toString());
             
-            for (GrantedAuthority auth : myAuthorities) {
-                LOG.debug("checking rights for role: {}", auth.getAuthority());
-                try {
-                    for (DefaultRoles role : DefaultRoles.values()) {
-                        if (role.getSpringRoleName().equals(auth.getAuthority()) && role.hasRight(neededRight)) {
-                            LOG.debug("granting access to user for entity");
-                            hasAccess = true;
-                            break;
-                        }
-                    }
-                    if (hasAccess) {
-                        break;
-                    }
-                } catch (IllegalArgumentException ex) {
-                    LOG.debug("could not find role. skipping current entry...");
-                    continue;
-                }
+            if (myAuthorities.contains(neededRight)) {
+                hasAccess = true;
             }
         }
         

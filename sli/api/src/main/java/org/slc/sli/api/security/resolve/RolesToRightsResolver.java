@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.resolve;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -10,5 +11,5 @@ import org.springframework.security.core.GrantedAuthority;
  * 
  */
 public interface RolesToRightsResolver {
-    public List<GrantedAuthority> resolveRoles(List<String> roleNames);
+    public Set<GrantedAuthority> resolveRoles(List<String> roleNames);
 }

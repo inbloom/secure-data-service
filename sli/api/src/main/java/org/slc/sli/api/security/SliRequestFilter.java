@@ -49,7 +49,7 @@ public class SliRequestFilter extends GenericFilterBean {
         }
         else {
             LOG.warn("Unauthorized access");
-            if (!(((HttpServletRequest) request).getRequestURL().toString().contains("system/session"))) {
+            if (!(((HttpServletRequest) request).getRequestURL().toString().contains("system/session/check"))) {
 
                 ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
