@@ -1,4 +1,5 @@
 use POSIX;
+use List::Util qw[min max];
 
 # Generates assessment json for a given list of students.
 # 
@@ -78,9 +79,8 @@ while ($line = <INPUT_STUDENT>)
     if ($line =~ /^\#/) { next; }
     chomp($line);
     ($studentUid, $current_grade) = split (/,/, $line);
-    # there is an assessment instance for each grade from 3 till the current grade, 
-    # and the student is never retained. 
-    for(my $grade = 3; $grade <= $current_grade; $grade++) {
+    # Enter two years' worth of student data, the student is never retained. 
+    for(my $grade = max($current_grade-1, 3); $grade <= $current_grade; $grade++) {
         # determine if this window would be skipped
 	my $skip_rand = rand();
         if ($skip_rand * 100 < $skip_probability) { next; }
@@ -107,10 +107,14 @@ while ($line = <INPUT_STUDENT>)
 	$percentile = $percentile + $percentileLow;
 	$percentile = floor ($percentile * 10000) / 100;
 
+        # deternube the lexile
+        my $lexile = $percentile * 12 + 100; # this should give me a number between 100 and 1300
+        $lexile = floor($lexile) . "L";
+
 	# debug
         # print $random_number . " " . $grade . " " . $score . " " . $scale . " " . $percentile . "\n";
 	# put into result array
-	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile);
+	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile, $lexile);
 	push (@results, \@thisAssessment);
     }
 }
@@ -129,7 +133,7 @@ for(my $i = 0; $i <= $#results; $i++)
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
     if (!($omit_percentile_rank eq 'y') ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
-    print "        \"lexileScore\": \"" . $assessment[4] . "\"\n";
+    print "        \"lexileScore\": \"" . $assessment[6] . "\"\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }
 print "]\n";
