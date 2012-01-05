@@ -1,6 +1,9 @@
 package org.slc.sli.api.resources;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -13,15 +16,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
@@ -31,6 +29,11 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Jersey resource for all entities and associations.
@@ -47,6 +50,8 @@ public class Resource {
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
+    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
+
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
     
@@ -83,8 +88,7 @@ public class Resource {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id)
-                        .toString();
+                String uri = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
@@ -111,6 +115,7 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+        final Map<String, String> queryFields = getQueryFields(uriInfo);
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -122,11 +127,12 @@ public class Resource {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociatedWith(id, skip, max);
+                        associationIds = associationDefinition.getService().getAssociatedWith(id, skip, max,
+                                queryFields);
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociatedTo(id, skip, max);
+                        associationIds = associationDefinition.getService().getAssociatedTo(id, skip, max, queryFields);
                     }
-                    if (associationIds != null) {
+                    if (associationIds != null && associationIds.iterator().hasNext()) {
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
                             String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
@@ -232,5 +238,18 @@ public class Resource {
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
         }
         return links;
+    }
+    
+    private Map<String, String> getQueryFields(UriInfo uriInfo) {
+        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+        Map<String, String> fields = new HashMap<String, String>();
+        if (queryParams != null) {
+        for (String key : queryParams.keySet()) {
+            if ((!Arrays.asList(reservedQueryKeys).contains(key)) && queryParams.get(key) != null) {
+                fields.put(key, queryParams.getFirst(key));
+            }
+            }
+        }
+        return fields;
     }
 }

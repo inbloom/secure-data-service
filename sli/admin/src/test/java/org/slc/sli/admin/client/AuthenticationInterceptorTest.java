@@ -35,13 +35,16 @@ import org.slc.sli.admin.test.bootstrap.WebContextTestExecutionListener;
         DirtiesContextTestExecutionListener.class })
 public class AuthenticationInterceptorTest {
     
-    private static final String RAW_JSON = "{\"authenticated\":false,\"redirect_user\":\"http://testapi1.slidev.org:8080/disco/realms/list.do\"}";
+    private static final String NO_SESSION_JSON = "{\"authenticated\":false,\"redirect_user\":\"http://testapi1.slidev.org:8080/disco/realms/list.do\"}";
+    private static final String VALID_SESSION_JSON = "{\"authenticated\":true,\"full_name\":\"Test User\"}";
     private AuthenticationInterceptor interceptor;
+    private RESTClient rest;
     
     @Before
     public void init() {
         interceptor = new AuthenticationInterceptor();
-
+        rest = Mockito.mock(RESTClient.class);
+        interceptor.setRESTClient(rest);
     }
     
     @Test
@@ -50,6 +53,9 @@ public class AuthenticationInterceptorTest {
         HttpServletResponse response = new MockHttpServletResponse();
         request.setCookies(new Cookie("iPlanetDirectoryPro", "1234567890"));
         
+        JsonParser parser = new JsonParser();
+        JsonObject jsonArray = parser.parse(VALID_SESSION_JSON).getAsJsonObject();
+        Mockito.when(rest.sessionCheck("1234567890")).thenReturn(jsonArray);
         try {
             interceptor.preHandle(request, response, null);
         } catch (Exception e) {
@@ -59,6 +65,7 @@ public class AuthenticationInterceptorTest {
         
         Assert.assertEquals("SessionId was not set in session attributes", "1234567890", request.getSession()
                 .getAttribute("ADMIN_SESSION_ID"));
+        Assert.assertEquals("Full name does not match", "Test User", request.getSession().getAttribute("USER_NAME"));
     }
     
     @Test
@@ -66,6 +73,7 @@ public class AuthenticationInterceptorTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         HttpServletResponse response = new MockHttpServletResponse();
         request.getSession().setAttribute("ADMIN_SESSION_ID", "1234567890");
+        
         
         try {
             interceptor.preHandle(request, response, null);
@@ -82,12 +90,10 @@ public class AuthenticationInterceptorTest {
     public void testNoSessionNoCookie() throws IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        
-        RESTClient rest = Mockito.mock(RESTClient.class);
+
         JsonParser parser = new JsonParser();
-        JsonObject jsonArray = parser.parse(RAW_JSON).getAsJsonObject();
+        JsonObject jsonArray = parser.parse(NO_SESSION_JSON).getAsJsonObject();
         Mockito.when(rest.sessionCheck(null)).thenReturn(jsonArray);
-        interceptor.setRESTClient(rest);
         
         try {
             interceptor.preHandle(request, response, null);

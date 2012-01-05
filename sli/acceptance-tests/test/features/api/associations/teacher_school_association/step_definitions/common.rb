@@ -13,7 +13,7 @@ end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, password|
   idpLogin(user,password)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |fmt|
