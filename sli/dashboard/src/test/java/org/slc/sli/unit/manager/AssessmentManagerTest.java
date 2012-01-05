@@ -15,7 +15,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.assessmentmetadata.AssessmentFamilyMetaData;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 
@@ -54,7 +54,7 @@ public class AssessmentManagerTest {
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
         aManager.setApiClient(mockClient);
-        List<AssessmentFamilyMetaData> metaData = aManager.getAssessmentMetaData("lkim");
+        List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
         assertEquals(2, metaData.size()); // mock data has now 2 families: ISAT Reading and ISAT Writing
     }
 }

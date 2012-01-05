@@ -39,7 +39,9 @@
                 "longName": "Score not available (N/A)"
             }
         ],
-        "childrenFamily": [
+        "windowStart": "03/05",
+        "windowEnd": "03/15",
+        "children": [
             {
                 "name": "ISAT_READING_GRADE_3",
                 "cutpoints": [
@@ -54,13 +56,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_READING_GRADE_3_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_READING_GRADE_3_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_READING_GRADE_3_2010" },
+                    { "name": "ISAT_READING_GRADE_3_2011" }
                 ]
             },
             {
@@ -77,13 +75,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_READING_GRADE_4_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_READING_GRADE_4_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_READING_GRADE_4_2010" },
+                    { "name": "ISAT_READING_GRADE_4_2011" }
                 ]
             },
             {
@@ -100,13 +94,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_READING_GRADE_5_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_READING_GRADE_5_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_READING_GRADE_5_2010" },
+                    { "name": "ISAT_READING_GRADE_5_2011" }
                 ]
             },
             {
@@ -123,13 +113,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_READING_GRADE_6_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_READING_GRADE_6_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_READING_GRADE_6_2010" },
+                    { "name": "ISAT_READING_GRADE_6_2011" }
                 ]
             },
             {
@@ -146,13 +132,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_READING_GRADE_7_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_READING_GRADE_7_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_READING_GRADE_7_2010" },
+                    { "name": "ISAT_READING_GRADE_7_2011" }
                 ]
             },
             {
@@ -169,13 +151,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_READING_GRADE_8_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_READING_GRADE_8_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_READING_GRADE_8_2010" },
+                    { "name": "ISAT_READING_GRADE_8_2011" }
                 ]
             }
         ]
@@ -221,7 +199,7 @@
                 "longName": "Score not available (N/A)"
             }
         ],
-        "childrenFamily": [
+        "children": [
             {
                 "name": "ISAT_WRITING_GRADE_3",
                 "cutpoints": [
@@ -236,13 +214,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_WRITING_GRADE_3_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_WRITING_GRADE_3_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_3_2010" },
+                    { "name": "ISAT_WRITING_GRADE_3_2011" }
                 ]
             },
             {
@@ -259,13 +233,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_WRITING_GRADE_4_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_WRITING_GRADE_4_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_4_2010" },
+                    { "name": "ISAT_WRITING_GRADE_4_2011" }
                 ]
             },
             {
@@ -282,13 +252,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_WRITING_GRADE_5_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_WRITING_GRADE_5_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_5_2010" },
+                    { "name": "ISAT_WRITING_GRADE_5_2011" }
                 ]
             },
             {
@@ -305,13 +271,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_WRITING_GRADE_6_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_WRITING_GRADE_6_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_6_2010" },
+                    { "name": "ISAT_WRITING_GRADE_6_2011" }
                 ]
             },
             {
@@ -328,13 +290,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_WRITING_GRADE_7_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_WRITING_GRADE_7_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_7_2010" },
+                    { "name": "ISAT_WRITING_GRADE_7_2011" }
                 ]
             },
             {
@@ -351,13 +309,9 @@
                     { "name": "I",
                       "range": [] }
                 ],
-                "childrenAssessments": [
-                    { "name": "ISAT_WRITING_GRADE_8_2010",
-                      "windowStart": "06/01/2010",
-                      "windowEnd": "06/15/2010" },
-                    { "name": "ISAT_WRITING_GRADE_8_2011",
-                      "windowStart": "06/01/2011",
-                      "windowEnd": "06/15/2011" }
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_8_2010" },
+                    { "name": "ISAT_WRITING_GRADE_8_2011" }
                 ]
             }
         ]
