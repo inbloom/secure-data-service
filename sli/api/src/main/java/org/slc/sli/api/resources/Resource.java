@@ -51,7 +51,7 @@ public class Resource {
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
     
@@ -93,7 +93,7 @@ public class Resource {
             }
         });
     }
-
+    
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
@@ -127,9 +127,11 @@ public class Resource {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max, queryFields);
+                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
+                                queryFields);
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max, queryFields);
+                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
+                                queryFields);
                     }
                     if (associationIds != null && associationIds.iterator().hasNext()) {
                         CollectionResponse collection = new CollectionResponse();
@@ -144,7 +146,7 @@ public class Resource {
             }
         });
     }
-
+    
     @GET
     @Path("{id}/targets")
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
@@ -153,30 +155,35 @@ public class Resource {
         final Map<String, String> queryFields = getQueryFields(uriInfo);
         return handle(typePath, new ResourceLogic() {
             @Override
-            public Response run(EntityDefinition entityDef) { 
-                AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                Iterable<String> relatives = null;
-                EntityDefinition relative = null;
-                if (associationDefinition.getSourceEntity().isOfType(id)) {
-                    relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max, queryFields);
-                    relative = associationDefinition.getTargetEntity();
-                } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                    relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max, queryFields);
-                    relative = associationDefinition.getSourceEntity();
+            public Response run(EntityDefinition entityDef) {
+                if (entityDef instanceof AssociationDefinition) {
+                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                    Iterable<String> relatives = null;
+                    EntityDefinition relative = null;
+                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max,
+                                queryFields);
+                        relative = associationDefinition.getTargetEntity();
+                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max,
+                                queryFields);
+                        relative = associationDefinition.getSourceEntity();
+                    } else {
+                        return Response.status(Status.NOT_FOUND).build();
+                    }
+                    CollectionResponse collection = new CollectionResponse();
+                    for (String id : relatives) {
+                        String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
+                        collection.add(id, ResourceUtil.SELF, relative.getType(), href);
+                    }
+                    return Response.ok(collection).build();
                 } else {
                     return Response.status(Status.NOT_FOUND).build();
                 }
-                CollectionResponse collection = new CollectionResponse();
-                for (String id : relatives) {
-                    String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
-                    collection.add(id, ResourceUtil.SELF, relative.getType(), href);
-                }
-               return Response.ok(collection).build(); 
             }
         });
     }
-
-            
+    
     /**
      * Delete an entity or association
      * 
@@ -275,10 +282,10 @@ public class Resource {
         MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
         Map<String, String> fields = new HashMap<String, String>();
         if (queryParams != null) {
-        for (String key : queryParams.keySet()) {
-            if ((!Arrays.asList(reservedQueryKeys).contains(key)) && queryParams.get(key) != null) {
-                fields.put(key, queryParams.getFirst(key));
-            }
+            for (String key : queryParams.keySet()) {
+                if ((!Arrays.asList(reservedQueryKeys).contains(key)) && queryParams.get(key) != null) {
+                    fields.put(key, queryParams.getFirst(key));
+                }
             }
         }
         return fields;
