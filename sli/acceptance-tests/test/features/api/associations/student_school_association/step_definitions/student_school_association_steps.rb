@@ -23,7 +23,7 @@ end
 
 Given /^I have access to all students and schools$/ do
   idpLogin(@user,@passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 Then /^I should receive a ID for the newly created student\-school\-association$/ do

@@ -16,7 +16,7 @@ end
 
 Given /^I am authenticated on "([^"]*)"$/ do |arg1|
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 When /^I make a REST API call$/ do

@@ -49,7 +49,7 @@ end
 
 Given /^I have access to all students and assessments$/ do
   idpLogin(@user,@passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 Given /^format "([^"]*)"$/ do |fmt|

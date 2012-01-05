@@ -40,7 +40,7 @@ end
 
 Given /^that I have admin access$/ do
   idpLogin(@user,@passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 Given /^format "([^"]*)"$/ do |fmt|

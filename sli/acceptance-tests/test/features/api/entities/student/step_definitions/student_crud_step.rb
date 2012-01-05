@@ -118,7 +118,7 @@ end
 
 Given /^I have access to all students$/ do
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
