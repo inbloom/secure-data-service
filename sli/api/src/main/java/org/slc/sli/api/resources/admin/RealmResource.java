@@ -46,7 +46,7 @@ public class RealmResource implements IdpResolver {
     private EntityDefinitionStore store;
     
     @Autowired
-    @Value("${security.sso.url}")
+    @Value("${sli.security.sso.url}")
     private String                ssoInitUrl;
     
     /**

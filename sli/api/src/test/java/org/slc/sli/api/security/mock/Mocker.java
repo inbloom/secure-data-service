@@ -11,9 +11,14 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.impl.DefaultClientRoleResolver;
+import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
+
 /**
- * Does something with mocking? 
- * TODO write real javadoc
+ * Generates mocked objects for unit tests
+ * 
+ * @author dkornishev
  */
 public class Mocker {
     public static final String MOCK_URL      = "mock";
@@ -50,6 +55,14 @@ public class Mocker {
         OpenamRestTokenResolver resolver = new OpenamRestTokenResolver();
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
+        resolver.setResolver(getResolver());
+        
+        return resolver;
+    }
+    
+    private static RolesToRightsResolver getResolver() {
+        DefaultRolesToRightsResolver resolver = new DefaultRolesToRightsResolver();
+        resolver.setRoleMapper(new DefaultClientRoleResolver());
         
         return resolver;
     }

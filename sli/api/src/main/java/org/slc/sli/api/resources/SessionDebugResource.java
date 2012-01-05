@@ -27,12 +27,12 @@ import java.util.TreeMap;
 @Scope("request")
 @Produces("application/json")
 public class SessionDebugResource {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(SessionDebugResource.class);
-
-    @Value("${security.noSession.landing.url}")
+    
+    @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
-
+    
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
@@ -44,13 +44,13 @@ public class SessionDebugResource {
     public SecurityContext getSecurityContext() {
         return SecurityContextHolder.getContext();
     }
-
+    
     @GET
     @Path("check")
     public Object sessionCheck(@Context final UriInfo uriInfo) {
-
+        
         Map<String, Object> sessionDetails = new TreeMap<String, Object>();
-
+        
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
@@ -64,18 +64,18 @@ public class SessionDebugResource {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", getLoginUrl(uriInfo));
         }
-
+        
         sessionDetails.put("all_roles", DefaultRoles.getDefaultRoleNames());
-
+        
         return sessionDetails;
     }
-
+    
     private boolean isAuthenticated(SecurityContext securityContext) {
         return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
     }
-
+    
     private String getLoginUrl(UriInfo uriInfo) {
         return realmPage;
     }
-
+    
 }

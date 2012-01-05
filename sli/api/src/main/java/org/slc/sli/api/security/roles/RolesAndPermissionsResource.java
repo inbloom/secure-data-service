@@ -29,7 +29,7 @@ import java.util.List;
  *  This is meant to be a read-only operation, but contains a convenience post
  *  method to create new roles.
  *
- *  @see org.slc.sli.api.security.enums.Rights
+ *  @see org.slc.sli.api.security.enums.Right
  *  @see DefaultRoles
  */
 @Path("/admin/roles")
@@ -39,6 +39,7 @@ import java.util.List;
 
 public class RolesAndPermissionsResource {
 
+    public static final int NUM_RESULTS = 100;
     @Autowired
     private EntityDefinitionStore store;
 
@@ -64,7 +65,7 @@ public class RolesAndPermissionsResource {
         roleList.add(getDefaultRole(DefaultRoles.ADMINISTRATOR));
 
         //TODO get some way to findAll.
-        Iterable<String> names = service.list(0, 100);
+        Iterable<String> names = service.list(0, NUM_RESULTS);
         Iterable<EntityBody> entities = service.get(names);
         for (EntityBody body : entities) {
             roleList.add(body);
@@ -80,7 +81,7 @@ public class RolesAndPermissionsResource {
      * A simple method to add a new role to the database.
      * @param name the name of the new role (eg: Educator)
      * @param rights some list of rights to be added
-     * @see org.slc.sli.api.security.enums.Rights
+     * @see org.slc.sli.api.security.enums.Right
      */
     @POST
     @Path("/")

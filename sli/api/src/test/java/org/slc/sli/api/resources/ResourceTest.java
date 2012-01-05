@@ -14,20 +14,21 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-//import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
@@ -109,7 +110,7 @@ public class ResourceTest {
     
     @Test
     public void testResourceMethods() throws Exception {
-        UriInfo info = buildMockUriInfo();
+        UriInfo info = buildMockUriInfo(null);
         
         // post some data
         // Map of <type, id> pair to entity location.
@@ -219,7 +220,6 @@ public class ResourceTest {
                 fail();
             }
         }
-       
         
         // test student assessment associaiton
         Response response = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentAssessmentAssocId, 0, 10, info);
@@ -230,15 +230,28 @@ public class ResourceTest {
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
         
-        //test student section association
+        // test query on student assessment association
+        Map<String, String> queryFields = new HashMap<String, String>();
+        queryFields.put("administrationLanguage", "ENGLISH");
+        UriInfo queryInfo = buildMockUriInfo(queryFields);
+        Response queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
+        CollectionResponse queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
+        assertNotNull(queryCollectionResponse);
+        queryFields.put("administrationLanguage", "FRENCH");
+        queryInfo = buildMockUriInfo(queryFields);
+        queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
+        queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
+        assertNull(queryCollectionResponse);
+        
+        // test student section association
         Response ssaResponse = api.getEntity(STUDENT_SECTION_ASSOCIATION_URI, studentSectionAssocId, 0, 10, info);
         EntityBody ssaAssocBody = (EntityBody) ssaResponse.getEntity();
         assertNotNull(ssaAssocBody);
         assertEquals(studentSectionAssocId, ssaAssocBody.get("id"));
         assertEquals(studentId1, ssaAssocBody.get("studentId"));
         assertEquals(sectionId1, ssaAssocBody.get("sectionId"));
-
-        //test teacher school association
+        
+        // test teacher school association
         Response tsaResponse = api.getEntity(TEACHER_SCHOOL_ASSOCIATION_URI, teacherSchoolAssocId, 0, 10, info);
         EntityBody tsaAssocBody = (EntityBody) tsaResponse.getEntity();
         assertNotNull(tsaAssocBody);
@@ -296,7 +309,7 @@ public class ResourceTest {
         return matcher.group(1);
     }
     
-    public UriInfo buildMockUriInfo() throws Exception {
+    public UriInfo buildMockUriInfo(Map<String, String> queryFields) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
             
@@ -319,7 +332,13 @@ public class ResourceTest {
                 return new UriBuilderImpl().path("request");
             }
         });
-        
+        if (queryFields != null) {
+            MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+            for (String key : queryFields.keySet()) {
+                parameters.putSingle(key, queryFields.get(key));
+            }
+            when(mock.getQueryParameters()).thenReturn(parameters);
+        }
         return mock;
     }
 }

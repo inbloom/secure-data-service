@@ -205,6 +205,7 @@ public class EntityServiceLayerTest {
         assoc1.put("schoolId", schoolId);
         assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
+        assoc1.put("entryGradeLevel", "First grade");
         String assocId1 = studentSchoolAssociationService.create(assoc1);
         EntityBody retrievedAssoc1 = studentSchoolAssociationService.get(assocId1);
         assertEquals(retrievedAssoc1.get("schoolId"), assoc1.get("schoolId"));
@@ -214,6 +215,7 @@ public class EntityServiceLayerTest {
         assoc2.put("schoolId", schoolId);
         assoc2.put("studentId", id2);
         assoc2.put("startDate", (new Date()).getTime());
+        assoc2.put("entryGradeLevel", "Second grade");
         String assocId2 = studentSchoolAssociationService.create(assoc2);
         EntityBody retrievedAssoc2 = studentSchoolAssociationService.get(assocId2);
         assertEquals(retrievedAssoc2.get("schoolId"), assoc2.get("schoolId"));
@@ -223,6 +225,7 @@ public class EntityServiceLayerTest {
         assoc3.put("schoolId", schoolId);
         assoc3.put("studentId", id3);
         assoc3.put("startDate", (new Date()).getTime());
+        assoc3.put("entryGradeLevel", "Third grade");
         String assocId3 = studentSchoolAssociationService.create(assoc3);
         EntityBody retrievedAssoc3 = studentSchoolAssociationService.get(assocId3);
         assertEquals(retrievedAssoc3.get("schoolId"), assoc3.get("schoolId"));
@@ -232,6 +235,7 @@ public class EntityServiceLayerTest {
         assoc4.put("schoolId", schoolId);
         assoc4.put("studentId", id4);
         assoc4.put("startDate", (new Date()).getTime());
+        assoc4.put("entryGradeLevel", "Fourth grade");
         String assocId4 = studentSchoolAssociationService.create(assoc4);
         EntityBody retrievedAssoc4 = studentSchoolAssociationService.get(assocId4);
         assertEquals(retrievedAssoc4.get("schoolId"), assoc4.get("schoolId"));
@@ -239,12 +243,20 @@ public class EntityServiceLayerTest {
         assertEquals(retrievedAssoc4.get("startDate"), assoc4.get("startDate"));
         assertEquals(Arrays.asList(retrievedAssoc1, retrievedAssoc2, retrievedAssoc3, retrievedAssoc4),
                 studentSchoolAssociationService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociatedWith(id1, 0, 4));
-        assertEquals(Arrays.asList(assocId2), studentSchoolAssociationService.getAssociatedWith(id2, 0, 4));
-        assertEquals(Arrays.asList(assocId3), studentSchoolAssociationService.getAssociatedWith(id3, 0, 4));
-        assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociatedWith(id4, 0, 4));
+        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociatedWith(id1, 0, 4, null));
+        assertEquals(Arrays.asList(assocId2), studentSchoolAssociationService.getAssociatedWith(id2, 0, 4, null));
+        assertEquals(Arrays.asList(assocId3), studentSchoolAssociationService.getAssociatedWith(id3, 0, 4, null));
+        assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociatedWith(id4, 0, 4, null));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
-                studentSchoolAssociationService.getAssociatedTo(schoolId, 0, 4));
+                studentSchoolAssociationService.getAssociatedTo(schoolId, 0, 4, null));
+
+        // test query fields
+        Map<String, String> queryFields = new HashMap<String, String>();
+        queryFields.put("entryGradeLevel", "First grade");
+        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociatedWith(id1, 0, 4, queryFields));
+        queryFields.put("entryGradeLevel", "Second grade");
+        assertFalse(studentSchoolAssociationService.getAssociatedWith(id1, 0, 4, queryFields).iterator().hasNext());
+
         studentService.delete(id1);
         studentService.delete(id2);
         studentService.delete(id3);
