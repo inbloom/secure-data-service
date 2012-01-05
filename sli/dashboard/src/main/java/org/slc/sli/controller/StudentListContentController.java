@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentFamilyMetaData;
 import org.slc.sli.entity.Student;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
@@ -56,6 +57,7 @@ public class StudentListContentController extends DashboardController {
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);
+        List<AssessmentFamilyMetaData> assessmentsMetaData = AssessmentManager.getInstance().getAssessmentMetaData(user.getUsername());
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, viewConfig));
 
         // insert a widget factory into the modelmap
