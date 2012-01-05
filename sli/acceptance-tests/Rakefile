@@ -125,11 +125,11 @@ end
 # entiy data to be available
 desc "Run Association Tests"
 task :associationTests => [:importSandboxData] do
-  runTests("test/features/api/association/student_section_association")
-  runTests("test/features/api/association/student_assessment_association")
-  runTests("test/features/api/association/student_school_association")
-  runTests("test/features/api/association/teacher_school_association")
-  runTests("test/features/api/association/teacher_section_association")
+  runTests("test/features/api/associations/student_section_association")
+  runTests("test/features/api/associations/student_assessment_association")
+  runTests("test/features/api/associations/student_school_association")
+  runTests("test/features/api/associations/teacher_school_association")
+  runTests("test/features/api/associations/teacher_section_association")
 end
 
 desc "Run Home URI Tests"
