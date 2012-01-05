@@ -19,7 +19,7 @@
 
 		<!-- jb:value property="sourceId" data="" / -->
 		<!-- jb:value property="jobId" data="" / -->
-		<jb:expression property="recordType">'StudentSchoolAssociation'</jb:expression>
+		<jb:expression property="recordType">'studentSchoolAssociation'</jb:expression>
 		<jb:wiring property="attributes" beanIdRef="studentSchoolAssociationAttributes" />
 		<jb:wiring property="localParentIds" beanIdRef="studentSchoolAssociationParentIds" />
 	</jb:bean>
