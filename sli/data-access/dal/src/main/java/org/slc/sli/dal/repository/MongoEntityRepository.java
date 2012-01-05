@@ -156,32 +156,32 @@ public class MongoEntityRepository implements EntityRepository {
         for (String query : queryStrings) {
             if (!isReservedQueryKey(query)) {
                 Criteria criteria = null;
-            if (query.contains(">=")) {
-                String[] keyAndValue = getKeyAndValue(query,">=");
+                if (query.contains(">=")) {
+                    String[] keyAndValue = getKeyAndValue(query, ">=");
                     if (keyAndValue != null)
-                    criteria = Criteria.where("body." + keyAndValue[0]).gte(keyAndValue[1]);
-            } else if (query.contains("<=")) {
+                        criteria = Criteria.where("body." + keyAndValue[0]).gte(keyAndValue[1]);
+                } else if (query.contains("<=")) {
                     String[] keyAndValue = getKeyAndValue(query, "<=");
                     if (keyAndValue != null)
                         criteria = Criteria.where("body." + keyAndValue[0]).lte(keyAndValue[1]);
-                
-            } else if (query.contains("=")) {
+                    
+                } else if (query.contains("=")) {
                     String[] keyAndValue = getKeyAndValue(query, "=");
                     if (keyAndValue != null)
                         criteria = Criteria.where("body." + keyAndValue[0]).is(keyAndValue[1]);
-                
-            } else if (query.contains("<")) {
+                    
+                } else if (query.contains("<")) {
                     String[] keyAndValue = getKeyAndValue(query, "<");
                     if (keyAndValue != null)
                         criteria = Criteria.where("body." + keyAndValue[0]).lt(keyAndValue[1]);
-                
-            } else if (query.contains(">")) {
+                    
+                } else if (query.contains(">")) {
                     String[] keyAndValue = getKeyAndValue(query, ">");
                     if (keyAndValue != null)
                         criteria = Criteria.where("body." + keyAndValue[0]).gt(keyAndValue[1]);
-            }
+                }
                 if (criteria != null)
-                mongoQuery.addCriteria(criteria);
+                    mongoQuery.addCriteria(criteria);
             }
         }
         return mongoQuery;
@@ -202,6 +202,6 @@ public class MongoEntityRepository implements EntityRepository {
         if (keyAndValue.length != 2)
             return null;
         else
-        return keyAndValue;
+            return keyAndValue;
     }
 }
