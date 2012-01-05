@@ -14,6 +14,7 @@ import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
+import org.slc.sli.entity.assessmentmetadata.AssessmentFamilyMetaData;
 
 import java.util.List;
 import java.util.Vector;
@@ -36,7 +37,7 @@ public class MockAPIClient implements APIClient {
         Student[] students = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student.json"), Student[].class);
         // perform the filtering. 
         Vector<Student> filtered = new Vector<Student>();
-        if(studentIds != null)
+        if (studentIds != null)
             for (Student student : students) { 
                 if (studentIds.contains(student.getUid())) { 
                     filtered.add(student);
@@ -79,6 +80,11 @@ public class MockAPIClient implements APIClient {
         toFile(src, filename, CustomData[].class);
     }
     
+    @Override
+    public AssessmentFamilyMetaData[] getAssessmentMetaData(final String token) {
+        return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentFamilyMetaData[].class);
+    }
+
     // Helper function to translate a .json file into object. 
     private static <T> T[] fromFile(String fileName, Class<T[]> c) {
     
@@ -140,7 +146,7 @@ public class MockAPIClient implements APIClient {
         }
     }
     
-    public String getFilename(String filename){
+    public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
         return url.getFile();
     }

@@ -11,6 +11,12 @@ import org.apache.commons.codec.binary.Hex;
 
 import org.slc.sli.ingestion.landingzone.LandingZone;
 
+/**
+ * Utility class to calculate MD5 on a file.
+ *
+ * @author okrook
+ *
+ */
 public class MD5 {
     public static String calculate(String fileName, LandingZone lz) {
         String md5 = "";
