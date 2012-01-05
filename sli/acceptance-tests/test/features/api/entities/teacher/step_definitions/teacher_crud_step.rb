@@ -31,7 +31,7 @@ end
 
 Given /^I have access to all teachers$/ do
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |arg1|
@@ -251,6 +251,6 @@ end
 
 Then /^GET using that ID should return a code of (\d+)$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/teachers/" + @newTeacherID
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @sessionId}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end

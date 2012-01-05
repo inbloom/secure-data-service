@@ -35,7 +35,7 @@ end
 
 Given /^I have access to all assessments$/ do
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |arg1|
