@@ -25,7 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Container format to store any type of Ingestion data generically.
- * 
+ *
  */
 public class NeutralRecord {
 
@@ -192,8 +192,8 @@ public class NeutralRecord {
 
     /**
      * compare neutral records for equality initial version compares JSON
-     * representations 
-     * 
+     * representations
+     *
      * TODO - replace with version incorporating CRC as basis for comparison
      */
     public boolean equals(Object anObject) {
