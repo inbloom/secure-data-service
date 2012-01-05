@@ -115,4 +115,6 @@ public interface EntityRepository {
      */
     Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
     
+    Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max);
+
 }
