@@ -1,7 +1,7 @@
 package org.slc.sli.api.security;
 
 import org.slc.sli.api.security.enums.DefaultRoles;
-import org.slc.sli.api.security.enums.Rights;
+import org.slc.sli.api.security.enums.Right;
 
 import java.security.Principal;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class SLIPrincipal implements Principal {
     private String name;
     private String state;
     private List<String> theirRoles;
-    private Set<Rights> rights = new HashSet<Rights>();
+    private Set<Right> rights = new HashSet<Right>();
 
     @Override
     public String getName() {
@@ -65,7 +65,7 @@ public class SLIPrincipal implements Principal {
         }
     }
 
-    public Set<Rights> getRights() {
+    public Set<Right> getRights() {
         return rights;
     }
 }

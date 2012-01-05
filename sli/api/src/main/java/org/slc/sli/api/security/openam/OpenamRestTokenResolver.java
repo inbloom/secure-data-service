@@ -3,9 +3,9 @@ package org.slc.sli.api.security.openam;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.SliEntryPoint;
-import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +37,9 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
 
     @Value("${sli.security.tokenService.url}")
     private String tokenServiceUrl;
+
+    @Autowired
+    private RolesToRightsResolver resolver;
 
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -73,21 +77,14 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         return auth;
     }
 
-    public void setTokenServiceUrl(String tokenServiceUrl) {
-        this.tokenServiceUrl = tokenServiceUrl;
-    }
-
-    public void setRest(RestTemplate rest) {
-        this.rest = rest;
-    }
-
     private Authentication buildAuthentication(String token, String payload) {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setTheirRoles(extractRoles(payload));
 
-        return new PreAuthenticatedAuthenticationToken(principal, token, new DefaultRoleMapperImpl(principal.getTheirRoles()).buildMappedRoles());
+        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getTheirRoles()));
+
     }
 
     private List<String> extractRoles(String payload) {
@@ -112,5 +109,17 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         }
 
         return result;
+    }
+    
+    public void setTokenServiceUrl(String tokenServiceUrl) {
+        this.tokenServiceUrl = tokenServiceUrl;
+    }
+    
+    public void setRest(RestTemplate rest) {
+        this.rest = rest;
+    }
+    
+    public void setResolver(RolesToRightsResolver resolver) {
+        this.resolver = resolver;
     }
 }
