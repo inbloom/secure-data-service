@@ -190,14 +190,31 @@ public class NeutralRecord {
         this.attributesCrc = attributesCrc;
     }
 
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
     /**
      * compare neutral records for equality initial version compares JSON
      * representations
      *
      * TODO - replace with version incorporating CRC as basis for comparison
      */
-    public boolean equals(Object anObject) {
-        return (this.toString().equals(anObject.toString()));
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return (this.toString().equals(obj.toString()));
     }
 
     /**

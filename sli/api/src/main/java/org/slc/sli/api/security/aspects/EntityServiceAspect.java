@@ -34,13 +34,9 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Aspect
 public class EntityServiceAspect {
     
-    private static final Logger  LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
+    private static final Logger       LOG                 = LoggerFactory.getLogger(EntityServiceAspect.class);
     
-    private EntitySchemaRegistry schemaRegistry;
-    
-    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
-        this.schemaRegistry = schemaRegistry;
-    }
+    private EntitySchemaRegistry      schemaRegistry;
     
     private static List<String>       entitiesAlwaysAllow = Arrays.asList("realm");
     private static List<String>       methodsAlwaysAllow  = Arrays.asList("getEntityDefinition");
@@ -61,7 +57,6 @@ public class EntityServiceAspect {
         Right neededRight = null;
         Signature entitySignature = pjp.getSignature();
         String entityFunctionName = entitySignature.getName();
-        
         EntityService service = (EntityService) pjp.getTarget();
         String entityDefinitionType = service.getEntityDefinition().getType();
         
@@ -156,10 +151,6 @@ public class EntityServiceAspect {
             return false;
         }
         
-        Map props = field.props();
-        if (props.containsKey("read_enforcement")) {
-            LOG.debug("Found read_enforcement");
-        }
         String readProp = field.getProp("read_enforcement");
         return (readProp != null && readProp.equals("restricted"));
     }
@@ -168,4 +159,9 @@ public class EntityServiceAspect {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return principal.getRights();
     }
+    
+    public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
+        this.schemaRegistry = schemaRegistry;
+    }
+    
 }
