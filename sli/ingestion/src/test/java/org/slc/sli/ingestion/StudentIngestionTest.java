@@ -8,12 +8,11 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +23,20 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.util.MD5;
 
-import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-
+/**
+ * Tests for Student entity
+ *
+ * @author dduran
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
@@ -90,7 +94,7 @@ public class StudentIngestionTest {
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
 
-        verifyStudents(studentRepository, 0);
+        verifyStudents(studentRepository, numberOfStudents);
 
     }
 
@@ -117,7 +121,7 @@ public class StudentIngestionTest {
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
                 ingestionPersistenceProcessorOutputFile);
 
-        verifyStudents(studentRepository, 0);
+        verifyStudents(studentRepository, numberOfStudents);
 
     }
 
@@ -219,9 +223,10 @@ public class StudentIngestionTest {
         // Test Version Only - allow specification of Student ID
         studentXml += "<StudentId>" + student.getBody().get("studentId") + "</StudentId>" + "\n";
 
-        studentXml += "<StudentUniqueStateId>" + student.getBody().get("studentUniqueStateId") + "</StudentUniqueStateId>" + "\n";
+        studentXml += "<StudentUniqueStateId>" + student.getBody().get("studentUniqueStateId")
+                + "</StudentUniqueStateId>" + "\n";
         studentXml += "<Name><FirstName>" + student.getBody().get("firstName") + "</FirstName><LastSurname>"
-                        + student.getBody().get("lastSurname") + "</LastSurname></Name>" + "\n";
+                + student.getBody().get("lastSurname") + "</LastSurname></Name>" + "\n";
         studentXml += "<BirthData><BirthDate>" + student.getBody().get("birthDate") + "</BirthDate></BirthData>" + "\n";
         studentXml += "</Student>" + "\n";
 
@@ -243,8 +248,10 @@ public class StudentIngestionTest {
         studentCsv += ",";
         studentCsv += student.getBody().get("lastSurname") + ",";
 
-        // Skip 9 fields for now
-        studentCsv += ",,,,,,,,,";
+        // Skip 8 fields for now
+        studentCsv += ",,,,,,,,";
+
+        studentCsv += student.getBody().get("sex") + ",";
 
         studentCsv += student.getBody().get("birthDate");
 
@@ -259,6 +266,7 @@ public class StudentIngestionTest {
         body.put("studentUniqueStateId", Integer.toString(studentId));
         body.put("firstName", "firstName" + "_" + studentId);
         body.put("lastSurname", "lastSurname" + "_" + studentId);
+        body.put("sex", "Female");
 
         Date birthDate = new Timestamp(23234000);
 
@@ -272,7 +280,7 @@ public class StudentIngestionTest {
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, studentEntityType);
 
         if (numberOfStudents > 0) {
-            assertEquals(repositorySize, numberOfStudents);
+            assertEquals(numberOfStudents, repositorySize);
         }
 
         for (int index = 1; index <= repositorySize; index++) {
