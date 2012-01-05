@@ -25,89 +25,91 @@ import java.util.regex.Pattern;
 /**
  * Creates Spring Authentication object by calling openAM restful API
  * To validate and fetch attributes for provided token
- *
+ * 
  * @author dkornishev
  */
 @Component
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SliEntryPoint.class);
-
-    private RestTemplate rest = new RestTemplate();
-
+    
+    private static final Logger   LOG  = LoggerFactory.getLogger(SliEntryPoint.class);
+    
+    private RestTemplate          rest = new RestTemplate();
+    
     @Value("${sli.security.tokenService.url}")
-    private String tokenServiceUrl;
-
+    private String                tokenServiceUrl;
+    
     @Autowired
     private RolesToRightsResolver resolver;
-
+    
     /**
      * Populates Authentication object by calling openAM with given token id
-     *
+     * 
      * @param token sessionId to use in lookups
      * @return populated Authentication or null if sessionId isn't valid
      */
     @Override
     public Authentication resolve(String token) {
-
+        
         Authentication auth = null;
-
-        try {
-
-            String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
-
-            // Validate Session
-            ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
-
-            if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
-
-                // Get session attributes
-                entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object>emptyMap());
-                LOG.debug("-------------------------------------");
-                LOG.debug(entity.getBody());
-                LOG.debug("-------------------------------------");
-
-                // Create Authentication object and cram it into SCH
-                auth = buildAuthentication(token, entity.getBody());
+        
+        if (token != null && !"".equals(token)) {
+            
+            try {
+                
+                String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
+                
+                // Validate Session
+                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
+                
+                if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
+                    
+                    // Get session attributes
+                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object>emptyMap());
+                    LOG.debug("-------------------------------------");
+                    LOG.debug(entity.getBody());
+                    LOG.debug("-------------------------------------");
+                    
+                    // Create Authentication object and cram it into SCH
+                    auth = buildAuthentication(token, entity.getBody());
+                }
+            } catch (RestClientException e) {
+                LOG.error("Error calling openAM Restful Service", e);
             }
-        } catch (RestClientException e) {
-            LOG.error("Error calling openAM Restful Service", e);
         }
-
         return auth;
     }
-
+    
     private Authentication buildAuthentication(String token, String payload) {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setTheirRoles(extractRoles(payload));
-
+        
         return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getTheirRoles()));
-
+        
     }
-
+    
     private List<String> extractRoles(String payload) {
         List<String> roles = new ArrayList<String>();
         Pattern p = Pattern.compile("userdetails\\.role=id=([^,]*)", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
-
+        
         while (m.find()) {
             roles.add(m.group(1));
         }
         return roles;
     }
-
+    
     private String extractValue(String valueName, String payload) {
         String result = "";
-
+        
         Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
-
+        
         if (m.find()) {
             result = m.group(1);
         }
-
+        
         return result;
     }
     

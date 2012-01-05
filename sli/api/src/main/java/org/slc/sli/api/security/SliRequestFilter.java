@@ -48,7 +48,7 @@ public class SliRequestFilter extends GenericFilterBean {
         
         Authentication auth = resolver.resolve(sessionId);
         
-        if (auth != null || (((HttpServletRequest) request).getRequestURL().toString().contains("system/session/check"))) {
+        if (auth != null || (((HttpServletRequest) request).getRequestURL().toString().contains("system/session/check")) || (((HttpServletRequest) request).getRequestURL().toString().contains("rest/pub/realms/"))) {
             SecurityContextHolder.getContext().setAuthentication(auth);
             chain.doFilter(request, response);
         } else {
