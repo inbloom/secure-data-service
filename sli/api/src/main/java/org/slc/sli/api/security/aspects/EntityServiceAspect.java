@@ -93,7 +93,7 @@ public class EntityServiceAspect {
         }
     }
     
-    @Around("call(* CoreEntityService.get(..))")
+    @Around("call(* org.slc.sli.api.service.CoreEntityService.get(..))")
     public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
         LOG.debug("[ASPECT] filtering read");
         Entity entity = (Entity) pjp.proceed();
