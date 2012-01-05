@@ -23,6 +23,10 @@ import org.slc.sli.repository.SchoolRepository;
 import org.slc.sli.repository.StudentRepository;
 import org.slc.sli.repository.StudentSchoolAssociationRepository;
 
+/**
+ * Context Manager.
+ *
+ */
 @Deprecated
 @Component
 public class ContextManager implements ApplicationContextAware {
