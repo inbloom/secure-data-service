@@ -34,7 +34,7 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Aspect
 public class EntityServiceAspect {
     
-    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
+    private static final Logger  LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
     private EntitySchemaRegistry schemaRegistry;
     
@@ -42,9 +42,9 @@ public class EntityServiceAspect {
         this.schemaRegistry = schemaRegistry;
     }
     
-    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
-    private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
-    private static Map<String, Right> neededRights = new HashMap<String, Right>();
+    private static List<String>       entitiesAlwaysAllow = Arrays.asList("realm");
+    private static List<String>       methodsAlwaysAllow  = Arrays.asList("getEntityDefinition");
+    private static Map<String, Right> neededRights        = new HashMap<String, Right>();
     
     static {
         neededRights.put("get", Right.READ_GENERAL);
@@ -61,7 +61,6 @@ public class EntityServiceAspect {
         Right neededRight = null;
         Signature entitySignature = pjp.getSignature();
         String entityFunctionName = entitySignature.getName();
-
         
         EntityService service = (EntityService) pjp.getTarget();
         String entityDefinitionType = service.getEntityDefinition().getType();
@@ -73,8 +72,7 @@ public class EntityServiceAspect {
             neededRight = neededRights.get(entityFunctionName);
             
             LOG.debug("attempted access of {} function", entitySignature.toString());
-            Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication()
-                    .getAuthorities();
+            Collection<GrantedAuthority> myAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             LOG.debug("user rights: {}", myAuthorities.toString());
             
             if (myAuthorities.contains(neededRight)) {
@@ -98,18 +96,19 @@ public class EntityServiceAspect {
         LOG.debug("[ASPECT] filtering read");
         Entity entity = (Entity) pjp.proceed();
         
-        Set<Right> grantedRights = getGrantedRights();
-        LOG.debug("Rights {}", grantedRights);
-        
-        if (!grantedRights.contains(Right.READ_RESTRICTED.getRight())) {
-            LOG.debug("Filtering restricted on {}", entity.getEntityId());
-            filterReadRestricted(entity);
+        if (entity != null) {
+            Set<Right> grantedRights = getGrantedRights();
+            LOG.debug("Rights {}", grantedRights);
+            
+            if (!grantedRights.contains(Right.READ_RESTRICTED.getRight())) {
+                LOG.debug("Filtering restricted on {}", entity.getEntityId());
+                filterReadRestricted(entity);
+            }
+            if (!grantedRights.contains(Right.READ_GENERAL.getRight())) {
+                LOG.debug("Filtering general on {}", entity.getEntityId());
+                filterReadGeneral(entity);
+            }
         }
-        if (!grantedRights.contains(Right.READ_GENERAL.getRight())) {
-            LOG.debug("Filtering general on {}", entity.getEntityId());
-            filterReadGeneral(entity);
-        }
-        
         return entity;
     }
     
