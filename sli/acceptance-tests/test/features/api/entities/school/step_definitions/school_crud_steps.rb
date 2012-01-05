@@ -26,7 +26,7 @@ end
 
 Given /^I have access to all schools$/ do
   idpLogin(@user,@passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 Given /^format "([^"]*)"$/ do |arg1|

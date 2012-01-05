@@ -13,7 +13,7 @@ Given /^I login with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
 end
 
 Given /^I get an authentication cookie from the gatekeeper$/ do
-    assert(@cookie != nil, "Cookie retrieved was nil")
+    assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 When /^I GET the url "([^"]*)" using that cookie$/ do |arg1|

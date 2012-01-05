@@ -8,7 +8,7 @@ end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
   idpLogin(usr, pass)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Cookie retrieved was nil")
 end
 
 Given /^format "([^"]*)"$/ do |fmt|
@@ -124,7 +124,7 @@ Then /^I should receive a link named "([^"]*)" with URI for "([^"]*)"$/ do |link
   else
     @data.each do |item|
       link = item['link']['href']
-      response =  RestClient.get(link, {:accept => @format, :sessionId => @cookie}){|response, request, result| response }
+      response =  RestClient.get(link, {:accept => @format, :sessionId => @sessionId}){|response, request, result| response }
       response = JSON.parse(response.body)
       response['links'].each do |link|
         if link["rel"] == link_name && link["href"] =~ /#{Regexp.escape(uri)}$/
