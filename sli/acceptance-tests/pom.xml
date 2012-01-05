@@ -14,7 +14,7 @@
    </dependencies>
 
    <build>
-      <plugins>
+<!--       <plugins>
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -35,7 +35,7 @@
             </configuration>
          </plugin>
       </plugins>
-   </build>
+ -->   </build>
 
 </project>
 
