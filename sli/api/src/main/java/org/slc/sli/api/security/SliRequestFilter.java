@@ -35,7 +35,7 @@ public class SliRequestFilter extends GenericFilterBean {
     
     @Value("${sli.security.noSession.landing.url}")
     private String                realmSelectionUrl;
-    
+
     /**
      * Intercepter method called by spring
      * Checks cookies to see if SLI session id exists
@@ -79,4 +79,9 @@ public class SliRequestFilter extends GenericFilterBean {
     public void setResolver(SecurityTokenResolver resolver) {
         this.resolver = resolver;
     }
+    
+    public void setRealmSelectionUrl(String realmSelectionUrl) {
+        this.realmSelectionUrl = realmSelectionUrl;
+    }
+
 }
