@@ -119,12 +119,9 @@ public class StudentSchoolAssociationIngestionTest {
 
     }
 
-    @SuppressWarnings("unused")
     private void createStudents(int numberOfStudents) throws IOException, SAXException {
 
         repository.deleteAll(STUDENT_ENTITY);
-
-        StudentIngestionTest studentIngestionTest = new StudentIngestionTest();
 
         List<NeutralRecord> neutralRecords = StudentIngestionTest
                 .createStudentIngestionNeutralRecords(numberOfStudents);
@@ -137,12 +134,9 @@ public class StudentSchoolAssociationIngestionTest {
 
     }
 
-    @SuppressWarnings("unused")
     private void createSchools(int numberOfSchools) throws IOException, SAXException {
 
         repository.deleteAll(SCHOOL_ENTITY);
-
-        SchoolIngestionTest schoolIngestionTest = new SchoolIngestionTest();
 
         List<NeutralRecord> neutralRecords = SchoolIngestionTest.createSchoolIngestionNeutralRecords(numberOfSchools);
 
@@ -260,7 +254,7 @@ public class StudentSchoolAssociationIngestionTest {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, STUDENT_SCHOOL_ASSOC_ENTITY);
 
-        assertEquals(repositorySize, expectedCount);
+        assertEquals(expectedCount, repositorySize);
 
         for (int index = 1; index <= repositorySize; index++) {
             Map<String, String> queryMap = new HashMap<String, String>();
