@@ -2,6 +2,7 @@ package org.slc.sli.api.security;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +21,9 @@ import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
- *  Tests functioning of the Authentication filter used to authenticate users
- *  
- *  @author dkornishev
+ * Tests functioning of the Authentication filter used to authenticate users
+ * 
+ * @author dkornishev
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,7 +31,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class SLIProcessingFilterTest {
     
-    private SliRequestFilter     filter;
+    private SliRequestFilter        filter;
     
     private MockHttpServletRequest  request;
     private MockHttpServletResponse response;
@@ -40,10 +41,16 @@ public class SLIProcessingFilterTest {
     public void init() {
         filter = new SliRequestFilter();
         filter.setResolver(Mocker.getMockedOpenamResolver());
+        filter.setRealmSelectionUrl("Valhala");
         
         this.request = new MockHttpServletRequest();
         this.response = new MockHttpServletResponse();
         this.chain = new MockFilterChain();
+    }
+    
+    @After
+    public void teardown() {
+        SecurityContextHolder.clearContext();
     }
     
     @Test
