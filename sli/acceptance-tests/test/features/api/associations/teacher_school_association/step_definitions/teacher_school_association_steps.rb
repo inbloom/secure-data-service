@@ -178,7 +178,7 @@ Then /^I should receive a link named "([^"]*)" with URI (\/[^"]*\/)(<[^"]*>)$/ d
   else
     @data.each do |item|
       link = item['link']['href']
-      response =  RestClient.get(link, {:accept => @format, :sessionId => @cookie}){|response, request, result| response }
+      response =  RestClient.get(link, {:accept => @format, :sessionId => @sessionId}){|response, request, result| response }
       response = JSON.parse(response.body)
       response['links'].each do |link|
         if link["rel"] == link_name && link["href"] =~ /#{Regexp.escape(uri)}$/

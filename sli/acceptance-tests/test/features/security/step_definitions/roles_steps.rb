@@ -16,7 +16,7 @@ end
 
 Given /^I am authenticated on "([^"]*)"$/ do |arg1|
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 When /^I make a REST API call$/ do
@@ -112,7 +112,6 @@ Then /^the Student restricted fields are visible in the response$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
 
   result = JSON.parse(@res.body)
-  pending # express the regexp above with the code you wish you had
   assert(result != nil, "Result of JSON parsing is nil")
   assert(result['economicDisadvantaged'] != nil, "Expected restricted student fields were nil in response")
   assert(result['economicDisadvantaged'] != "", "Expected restricted student fields were blank in response")
@@ -126,7 +125,6 @@ Then /^the Student restricted fields are not visible in the response$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
 
   result = JSON.parse(@res.body)
-  pending # express the regexp above with the code you wish you had
   assert(result != nil, "Result of JSON parsing is nil")
   assert(result['economicDisadvantaged'] == nil, "Expected no restriced student fields, but saw them in response")
 end
