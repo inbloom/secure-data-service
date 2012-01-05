@@ -81,9 +81,13 @@ public class ResourceUtil {
             if (assoc.getSourceEntity().equals(defn)) {
                 links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), ResourceUtil.getURI(uriInfo,
                         assoc.getResourceName(), id).toString()));
+                links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), ResourceUtil.getURI(uriInfo,
+                        assoc.getResourceName(), id).toString() + "/targets"));
             } else if (assoc.getTargetEntity().equals(defn)) {
                 links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), ResourceUtil.getURI(uriInfo,
                         assoc.getResourceName(), id).toString()));
+                links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), ResourceUtil.getURI(uriInfo,
+                        assoc.getResourceName(), id).toString() + "/targets"));
             }
         }
         return links;

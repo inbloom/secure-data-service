@@ -122,9 +122,9 @@ public class Resource {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociatedWith(id, skip, max);
+                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max);
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociatedTo(id, skip, max);
+                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max);
                     }
                     if (associationIds != null) {
                         CollectionResponse collection = new CollectionResponse();
@@ -139,7 +139,38 @@ public class Resource {
             }
         });
     }
-    
+
+    @GET
+    @Path("{id}/targets")
+    public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
+            @QueryParam("start-index") @DefaultValue("0") final int skip,
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+        return handle(typePath, new ResourceLogic() {
+            @Override
+            public Response run(EntityDefinition entityDef) { 
+                AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                Iterable<String> relatives = null;
+                EntityDefinition relative = null;
+                if (associationDefinition.getSourceEntity().isOfType(id)) {
+                    relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max);
+                    relative = associationDefinition.getTargetEntity();
+                } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                    relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max);
+                    relative = associationDefinition.getSourceEntity();
+                } else {
+                    return Response.status(Status.NOT_FOUND).build();
+                }
+                CollectionResponse collection = new CollectionResponse();
+                for (String id : relatives) {
+                    String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
+                    collection.add(id, ResourceUtil.SELF, relative.getType(), href);
+                }
+               return Response.ok(collection).build(); 
+            }
+        });
+    }
+
+            
     /**
      * Delete an entity or association
      * 

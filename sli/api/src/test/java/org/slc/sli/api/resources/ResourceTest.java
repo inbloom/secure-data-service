@@ -8,9 +8,12 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,17 +24,12 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
 
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-//import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,6 +37,12 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.CollectionResponse.EntityReference;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the generic Resource class.
@@ -51,6 +55,21 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
+    // post some data
+    // Map of <type, id> pair to entity location.
+    /**
+     * Track an object type/id.
+     */
+    final class TypeIdPair {
+        protected TypeIdPair(Object type, String id) {
+            this.type = (String) type;
+            this.id = id;
+        }
+        
+        String type;
+        String id;
+    }
+
     private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
     private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
@@ -111,21 +130,6 @@ public class ResourceTest {
     public void testResourceMethods() throws Exception {
         UriInfo info = buildMockUriInfo();
         
-        // post some data
-        // Map of <type, id> pair to entity location.
-        /**
-         * Track an object type/id.
-         */
-        final class TypeIdPair {
-            protected TypeIdPair(Object type, String id) {
-                this.type = (String) type;
-                this.id = id;
-            }
-            
-            String type;
-            String id;
-        }
-        
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         
         Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), info);
@@ -182,28 +186,15 @@ public class ResourceTest {
                 createTestStudentSectionAssociation(studentId1, sectionId1)), info);
         assertNotNull(createResponseSSA);
         String studentSectionAssocId = parseIdFromLocation(createResponseSSA);
-
+        
         Response createResponse11 = api.createEntity(TEACHER_SCHOOL_ASSOCIATION_URI, new EntityBody(
                 createTestTeacherSchoolAssociation(teacherId1, schoolId)), info);
         assertNotNull(createResponse11);
         String teacherSchoolAssocId = parseIdFromLocation(createResponse11);
-
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
-            
-            Response r = api.getEntity(typeId.type, typeId.id, 0, 100, info);
-            EntityBody body = (EntityBody) r.getEntity();
-            assertNotNull(body);
-            assertEquals(typeId.id, body.get("id"));
-            assertEquals(1, body.get("field1"));
-            assertEquals(2, body.get("field2"));
-            
-            if (typeId.type.equals("students")) {
-                List<?> links = (List<?>) body.get("links");
-                assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
-                assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "studentSchoolAssociation",
-                        "base/student-school-associations/" + typeId.id)));
-            }
+            assertStudentCorrect(info, typeId);
         }
         
         // test associations
@@ -219,7 +210,6 @@ public class ResourceTest {
                 fail();
             }
         }
-       
         
         // test student assessment associaiton
         Response response = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentAssessmentAssocId, 0, 10, info);
@@ -230,22 +220,22 @@ public class ResourceTest {
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
         
-        //test student section association
+        // test student section association
         Response ssaResponse = api.getEntity(STUDENT_SECTION_ASSOCIATION_URI, studentSectionAssocId, 0, 10, info);
         EntityBody ssaAssocBody = (EntityBody) ssaResponse.getEntity();
         assertNotNull(ssaAssocBody);
         assertEquals(studentSectionAssocId, ssaAssocBody.get("id"));
         assertEquals(studentId1, ssaAssocBody.get("studentId"));
         assertEquals(sectionId1, ssaAssocBody.get("sectionId"));
-
-        //test teacher school association
+        
+        // test teacher school association
         Response tsaResponse = api.getEntity(TEACHER_SCHOOL_ASSOCIATION_URI, teacherSchoolAssocId, 0, 10, info);
         EntityBody tsaAssocBody = (EntityBody) tsaResponse.getEntity();
         assertNotNull(tsaAssocBody);
         assertEquals(teacherSchoolAssocId, tsaAssocBody.get("id"));
         assertEquals(teacherId1, tsaAssocBody.get("teacherId"));
         assertEquals(schoolId, tsaAssocBody.get("schoolId"));
-
+        
         // test freaky association uri
         for (String id : new String[] { studentId1, studentId2 }) {
             Response r = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, id, 0, 10, info);
@@ -261,6 +251,8 @@ public class ResourceTest {
             assertNotNull(cr.get(0).getLink().getHref());
             assertTrue(cr.get(0).getLink().getHref().contains(cr.get(0).getId()));
         }
+        
+        testHops(info, studentId1, studentId2, schoolId);
         
         // test update/get/delete
         for (TypeIdPair typeId : ids.keySet()) {
@@ -283,6 +275,37 @@ public class ResourceTest {
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
+    }
+
+    private void assertStudentCorrect(UriInfo info, TypeIdPair typeId) {
+        Response r = api.getEntity(typeId.type, typeId.id, 0, 100, info);
+        EntityBody body = (EntityBody) r.getEntity();
+        assertNotNull(body);
+        assertEquals(typeId.id, body.get("id"));
+        assertEquals(1, body.get("field1"));
+        assertEquals(2, body.get("field2"));
+        
+        if (typeId.type.equals("students")) {
+            List<?> links = (List<?>) body.get("links");
+            assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
+            assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "studentSchoolAssociation",
+                    "base/student-school-associations/" + typeId.id)));
+            assertTrue(links.contains(new EmbeddedLink("getSchools", "school", "base/student-school-associations/"
+                    + typeId.id + "/targets")));
+        }
+    }
+    
+    //The .../targets links, has nothing to do with beer 
+    private void testHops(UriInfo info, String studentId1, String studentId2, String schoolId) {
+        Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, info);
+        CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
+        assertNotNull(hopCollection);
+        assertEquals(2, hopCollection.size());
+        Set<String> hoppedRelatives = new HashSet<String>();
+        for (EntityReference entity : hopCollection) {
+            hoppedRelatives.add(entity.getId());
+        }
+        assertEquals(new HashSet<String>(Arrays.asList(studentId1, studentId2)), hoppedRelatives);
     }
     
     private static String parseIdFromLocation(Response response) {
