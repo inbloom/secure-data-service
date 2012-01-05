@@ -28,6 +28,7 @@ public class RoleInitializer {
     public static final String LEADER = "Leader";
     private static final Logger LOG = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String ROLES = "roles";
+
     @Autowired
     private EntityRepository repository;
 
@@ -43,6 +44,7 @@ public class RoleInitializer {
         boolean hasLeader = false;
         boolean hasIT = false;
         boolean hasAggregate = false;
+
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
             if (body.get("name").equals(EDUCATOR)) {
