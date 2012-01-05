@@ -22,7 +22,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.repository.StudentRepository;
+import org.slc.sli.dal.repository.EntityRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -36,12 +36,14 @@ public class StudentIngestionCamelTest {
     private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    private StudentRepository studentRepository;
+    private EntityRepository studentRepository;
+
+    private static String studentEntityType = "student";
 
     @Test
     public void testDirectRoute() throws Exception {
 
-        studentRepository.deleteAll();
+        studentRepository.deleteAll(studentEntityType);
 
         int numberOfStudents = 2;
 
