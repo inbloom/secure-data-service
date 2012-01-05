@@ -47,7 +47,7 @@ public class TimedLogic {
      * Returns the assessment from the latest window
      */
     // pretty sure you'll need the assessment metat data for this... but whateves.
-    // For now, just pretend all assessments are administered once a year in January 01.
+    // For now, just pretend all assessments are administered once a year between windowStart and windowEnd
     public static Assessment getMostRecentAssessmentWindow(List<Assessment> a) {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         for (Assessment ass : a) {

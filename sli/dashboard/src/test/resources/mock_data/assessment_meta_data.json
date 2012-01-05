@@ -1,0 +1,319 @@
+[
+    {
+        "name": "ISAT_READING",
+        "perfLevels": [
+            {
+                "name": "1",
+                "code": "W",
+                "shortName": "1 / W",
+                "longName": "Level 1: Academic Warning (W)"
+            },
+            {
+                "name": "2",
+                "code": "B",
+                "shortName": "2 / B",
+                "longName": "Level 2: Below Standards (B)"
+            },
+            {
+                "name": "3",
+                "code": "M",
+                "shortName": "3 / M",
+                "longName": "Level 3: Meets Standards (S)"
+            },
+            {
+                "name": "4",
+                "code": "E",
+                "shortName": "4 / E",
+                "longName": "Level 4: Exceeds Standards (E)"
+            },
+            {
+                "name": "I",
+                "code": "!",
+                "shortName": "Inv.",
+                "longName": "Invalid Score or Data Error"
+            },
+            {
+                "name": "N",
+                "code": "-",
+                "shortName": "N/A",
+                "longName": "Score not available (N/A)"
+            }
+        ],
+        "windowStart": "03/05",
+        "windowEnd": "03/15",
+        "children": [
+            {
+                "name": "ISAT_READING_GRADE_3",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,156] },
+                    { "name": "2",
+                      "range": [156,191] },
+                    { "name": "3",
+                      "range": [191,227] },
+                    { "name": "4",
+                      "range": [227,329] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_READING_GRADE_3_2010" },
+                    { "name": "ISAT_READING_GRADE_3_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_READING_GRADE_4",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,158] },
+                    { "name": "2",
+                      "range": [158,203] },
+                    { "name": "3",
+                      "range": [203,237] },
+                    { "name": "4",
+                      "range": [237,341] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_READING_GRADE_4_2010" },
+                    { "name": "ISAT_READING_GRADE_4_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_READING_GRADE_5",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,161] },
+                    { "name": "2",
+                      "range": [161,215] },
+                    { "name": "3",
+                      "range": [215,247] },
+                    { "name": "4",
+                      "range": [247,351] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_READING_GRADE_5_2010" },
+                    { "name": "ISAT_READING_GRADE_5_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_READING_GRADE_6",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,167] },
+                    { "name": "2",
+                      "range": [167,220] },
+                    { "name": "3",
+                      "range": [220,257] },
+                    { "name": "4",
+                      "range": [257,360] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_READING_GRADE_6_2010" },
+                    { "name": "ISAT_READING_GRADE_6_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_READING_GRADE_7",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,174] },
+                    { "name": "2",
+                      "range": [174,226] },
+                    { "name": "3",
+                      "range": [226,267] },
+                    { "name": "4",
+                      "range": [267,369] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_READING_GRADE_7_2010" },
+                    { "name": "ISAT_READING_GRADE_7_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_READING_GRADE_8",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,180] },
+                    { "name": "2",
+                      "range": [180,231] },
+                    { "name": "3",
+                      "range": [231,278] },
+                    { "name": "4",
+                      "range": [278,364] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_READING_GRADE_8_2010" },
+                    { "name": "ISAT_READING_GRADE_8_2011" }
+                ]
+            }
+        ]
+    },
+
+    {
+        "name": "ISAT_WRITING",
+        "perfLevels": [
+            {
+                "name": "1",
+                "code": "W",
+                "shortName": "1 / W",
+                "longName": "Level 1: Academic Warning (W)"
+            },
+            {
+                "name": "2",
+                "code": "B",
+                "shortName": "2 / B",
+                "longName": "Level 2: Below Standards (B)"
+            },
+            {
+                "name": "3",
+                "code": "M",
+                "shortName": "3 / M",
+                "longName": "Level 3: Meets Standards (S)"
+            },
+            {
+                "name": "4",
+                "code": "E",
+                "shortName": "4 / E",
+                "longName": "Level 4: Exceeds Standards (E)"
+            },
+            {
+                "name": "I",
+                "code": "!",
+                "shortName": "Inv.",
+                "longName": "Invalid Score or Data Error"
+            },
+            {
+                "name": "N",
+                "code": "-",
+                "shortName": "N/A",
+                "longName": "Score not available (N/A)"
+            }
+        ],
+        "children": [
+            {
+                "name": "ISAT_WRITING_GRADE_3",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,163] },
+                    { "name": "2",
+                      "range": [163,184] },
+                    { "name": "3",
+                      "range": [184,224] },
+                    { "name": "4",
+                      "range": [224,341] }, 
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_3_2010" },
+                    { "name": "ISAT_WRITING_GRADE_3_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_WRITING_GRADE_4",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,172] },
+                    { "name": "2",
+                      "rang": [172,200] },
+                    { "name": "3",
+                      "range": [200,247] },
+                    { "name": "4",
+                      "range": [247,355] }, 
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_4_2010" },
+                    { "name": "ISAT_WRITING_GRADE_4_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_WRITING_GRADE_5",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,180] },
+                    { "name": "2",
+                      "range": [180,214] },
+                    { "name": "3",
+                      "range": [214,271] },
+                    { "name": "4",
+                      "range": [271,369] }, 
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_5_2010" },
+                    { "name": "ISAT_WRITING_GRADE_5_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_WRITING_GRADE_6",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,194] },
+                    { "name": "2",
+                      "range": [194,225] },
+                    { "name": "3",
+                      "range": [225,176] },
+                    { "name": "4",
+                      "range": [176,379] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_6_2010" },
+                    { "name": "ISAT_WRITING_GRADE_6_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_WRITING_GRADE_7",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,207] },
+                    { "name": "2",
+                      "range": [207,235] },
+                    { "name": "3",
+                      "range": [235,281] },
+                    { "name": "4",
+                      "range": [281,392] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_7_2010" },
+                    { "name": "ISAT_WRITING_GRADE_7_2011" }
+                ]
+            },
+            {
+                "name": "ISAT_WRITING_GRADE_8",
+                "cutpoints": [
+                    { "name": "1",
+                      "range": [120,221] },
+                    { "name": "2",
+                      "range": [221,246] },
+                    { "name": "3",
+                      "range": [246,288] },
+                    { "name": "4",
+                      "range": [288,410] },
+                    { "name": "I",
+                      "range": [] }
+                ],
+                "children": [
+                    { "name": "ISAT_WRITING_GRADE_8_2010" },
+                    { "name": "ISAT_WRITING_GRADE_8_2011" }
+                ]
+            }
+        ]
+  }
+]

@@ -10,12 +10,12 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.InterchangeAssociation;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
@@ -35,11 +35,7 @@ public class PersistenceProcessor implements Processor {
     Logger log = LoggerFactory.getLogger(PersistenceProcessor.class);
 
     @Autowired
-    private ContextManager contextManager;
-
-    public ContextManager getContextManager() {
-        return this.contextManager;
-    }
+    private MongoEntityRepository repository;
 
     /**
      * Camel Exchange process callback method
@@ -104,21 +100,9 @@ public class PersistenceProcessor implements Processor {
                 log.debug("processing " + ingestionRecord);
 
                 // Map Ingestion Neutral JSON format into instance
-                Object ingestionInstance = Translator.mapFromNeutralRecord(ingestionRecord);
+                Entity ingestionInstance = Translator.mapFromNeutralRecord(ingestionRecord);
 
-                // Initialize Ingestion association instances
-                if (ingestionInstance instanceof InterchangeAssociation) {
-
-                    // Init Ingestion association instance
-                    ((InterchangeAssociation) ingestionInstance).init(this.getContextManager());
-
-                    // Persist Ingestion association instance
-                    this.persist(((InterchangeAssociation) ingestionInstance).getAssociation());
-                } else {
-
-                    // Persist Ingestion instance
-                    this.persist(ingestionInstance);
-                }
+                this.persist(ingestionInstance);
 
                 // Update Ingestion counter
                 ingestionCounter++;
@@ -153,14 +137,8 @@ public class PersistenceProcessor implements Processor {
      * @param instance
      * @return
      */
-    public Object persist(Object instance) {
-
-        // Lookup Repository for Ingestion instance class
-        PagingAndSortingRepository repository = this.getContextManager().getRepository(
-                instance.getClass().getName());
-
-        // Persist the Ingestion instance
-        return repository.save(instance);
+    public Entity persist(Entity instance) {
+        return repository.create(instance.getType(), instance.getBody());
     }
 
 }

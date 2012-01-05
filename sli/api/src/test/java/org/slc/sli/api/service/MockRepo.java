@@ -133,4 +133,10 @@ public class MockRepo implements EntityRepository {
         return toReturn;
     }
     
+    @Override
+    public Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }
