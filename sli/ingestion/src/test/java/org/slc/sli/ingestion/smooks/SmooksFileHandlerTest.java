@@ -111,7 +111,7 @@ public class SmooksFileHandlerTest {
     public void validXml() throws IOException, SAXException {
 
         // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/validXml/student.xml");
+        File inputFile = IngestionTest.getFile("fileLevelTestData/validXML/student.xml");
 
         // Create Ingestion File Entry
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
