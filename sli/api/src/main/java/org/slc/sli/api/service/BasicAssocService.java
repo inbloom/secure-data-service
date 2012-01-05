@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.api.config.AssociationDefinition.EntityInfo;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
@@ -16,6 +13,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of AssociationService.
@@ -39,13 +38,13 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
     @Override
-    public Iterable<String> getAssociatedWith(String id, int start, int numResults) {
-        return getAssociations(sourceDefn, id, sourceKey, start, numResults);
+    public Iterable<String> getAssociatedWith(String id, int start, int numResults, Map<String, String> queryFields) {
+        return getAssociations(sourceDefn, id, sourceKey, start, numResults, queryFields);
     }
     
     @Override
-    public Iterable<String> getAssociatedTo(String id, int start, int numResults) {
-        return getAssociations(targetDefn, id, targetKey, start, numResults);
+    public Iterable<String> getAssociatedTo(String id, int start, int numResults, Map<String, String> queryFields) {
+        return getAssociations(targetDefn, id, targetKey, start, numResults, queryFields);
     }
     
     public String create(EntityBody content) {
@@ -69,7 +68,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the number of entities to return
      * @return
      */
-    private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults) {
+    private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults,
+            Map<String, String> queryFields) {
         LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         EntityBody existingEntity = type.getService().get(id);
         if (existingEntity == null) {
@@ -77,6 +77,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
         }
         Map<String, String> fields = new HashMap<String, String>();
         fields.put(key, id);
+        if (queryFields != null)
+            fields.putAll(queryFields);
         List<String> results = new ArrayList<String>();
         for (Entity entity : getRepo().findByFields(getCollectionName(), fields, start, numResults)) {
             results.add(entity.getEntityId());
