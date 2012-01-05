@@ -28,7 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Aspect for handling Entity Service operations.
- * 
  * @author shalka
  */
 
