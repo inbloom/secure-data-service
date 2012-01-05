@@ -48,4 +48,7 @@
         <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
     </bean>
 
+    <!-- Default role initializer -->
+    <bean id="roleInitializer" class="org.slc.sli.api.security.roles.initializers.RoleInitializer" init-method="init"></bean>
+
 </beans>
