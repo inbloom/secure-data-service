@@ -13,17 +13,17 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.DefaultRoles;
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntitySchemaRegistry;
 
 /**
  * Aspect for handling Entity Service operations.
