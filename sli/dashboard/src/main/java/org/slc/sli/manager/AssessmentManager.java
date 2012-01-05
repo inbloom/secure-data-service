@@ -1,6 +1,7 @@
 package org.slc.sli.manager;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentFamilyMetaData;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.ViewConfig;
@@ -73,5 +74,7 @@ public class AssessmentManager {
         return filteredAssmts;
     }
     
-    
+    public List<AssessmentFamilyMetaData> getAssessmentMetaData(String username) {
+        return Arrays.asList(apiClient.getAssessmentMetaData(username));
+    }
 }
