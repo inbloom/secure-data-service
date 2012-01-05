@@ -31,7 +31,7 @@ public class SliRequestFilter extends GenericFilterBean {
     @Resource(name = "openamRestTokenResolver")
     private SecurityTokenResolver resolver;
 
-    @Value("${security.noSession.landing.url}")
+    @Value("${sli.security.noSession.landing.url}")
     private String realmSelectionUrl;
 
     /**

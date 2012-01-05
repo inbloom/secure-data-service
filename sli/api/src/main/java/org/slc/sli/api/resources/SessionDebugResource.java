@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources;
 
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +27,12 @@ import java.util.TreeMap;
 @Scope("request")
 @Produces("application/json")
 public class SessionDebugResource {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(SessionDebugResource.class);
-
-    @Value("${security.noSession.landing.url}")
+    
+    @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
-
+    
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
@@ -43,33 +44,38 @@ public class SessionDebugResource {
     public SecurityContext getSecurityContext() {
         return SecurityContextHolder.getContext();
     }
-
+    
     @GET
     @Path("check")
     public Object sessionCheck(@Context final UriInfo uriInfo) {
-
+        
         Map<String, Object> sessionDetails = new TreeMap<String, Object>();
-
+        
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-            sessionDetails.put("granted_authorities", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            sessionDetails.put("user_id", principal.getId());
+            sessionDetails.put("full_name", principal.getName());
+            sessionDetails.put("granted_authorities", principal.getTheirRoles());
+
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", getLoginUrl(uriInfo));
         }
-
+        
         sessionDetails.put("all_roles", DefaultRoles.getDefaultRoleNames());
-
+        
         return sessionDetails;
     }
-
+    
     private boolean isAuthenticated(SecurityContext securityContext) {
         return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
     }
-
+    
     private String getLoginUrl(UriInfo uriInfo) {
         return realmPage;
     }
-
+    
 }

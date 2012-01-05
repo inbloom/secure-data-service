@@ -49,16 +49,21 @@ public enum DefaultRoles {
         }
         return names;
     }
-    
-    public static DefaultRoles getDefaultRoleByName(String name) {
-        if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName()))
-            return DefaultRoles.EDUCATOR;
-        if (name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName()))
-            return DefaultRoles.ADMINISTRATOR;
-        if (name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName()))
-            return DefaultRoles.AGGREGATOR;
-        if (name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName()))
-            return DefaultRoles.LEADER;
+
+    public static DefaultRoles find(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getSpringRoleName().equals(roleName)) {
+                return role;
+            }
+        }
+        return DefaultRoles.NONE;
+    }
+
+    public static DefaultRoles getDefaultRoleByName(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getRoleName().equalsIgnoreCase(roleName))
+                return role;
+        }
         return DefaultRoles.NONE;
     }
 }
