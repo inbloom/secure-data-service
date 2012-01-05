@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class SecurityContextInjection {
         
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
-        roles.add("IT Administrator");
+        roles.add(DefaultRoles.ADMINISTRATOR.getSpringRoleName());
         
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
@@ -54,7 +55,7 @@ public class SecurityContextInjection {
         
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
-        roles.add("Educator");
+        roles.add(DefaultRoles.EDUCATOR.getSpringRoleName());
         
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
