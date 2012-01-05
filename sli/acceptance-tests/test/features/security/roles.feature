@@ -18,7 +18,7 @@ Then I get the JSON response displayed
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "educator"      | "educator1234"      | "Educator"         |
-| "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |
+#| "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |  We need data and associated getters and setters for aggregate data before we can run this specific test
 | "administrator" | "administrator1234" | "IT Administrator" |
 | "leader"        | "leader1234"        | "Leader"           |
 
