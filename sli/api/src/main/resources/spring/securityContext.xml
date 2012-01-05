@@ -49,6 +49,6 @@
     </bean>
 
     <!-- Default role initializer -->
-    <bean id="roleInitializer" class="org.slc.sli.api.security.roles.initializers.RoleInitializer" init-method="init"></bean>
+    <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
 
 </beans>

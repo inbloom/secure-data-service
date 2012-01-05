@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.roles.initializers;
+package org.slc.sli.api.init;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.enums.Right;

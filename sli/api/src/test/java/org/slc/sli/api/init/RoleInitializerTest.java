@@ -1,7 +1,8 @@
-package org.slc.sli.api.security.roles.initializers;
+package org.slc.sli.api.init;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
