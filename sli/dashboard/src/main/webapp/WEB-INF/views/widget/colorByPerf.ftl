@@ -4,6 +4,7 @@
      field: config info about the data to be displayed
      assessments: contains assessment results for the list of students. Should be AssessmentResolver object
      student: a Student object
+     widgetFactory
   -->
 
 <#-- use ColorByPerfLevel class to determine display text and color -->

@@ -132,6 +132,7 @@
     <module>dashboard</module>
     <module>admin</module>
     <module>disco</module>
+	<module>acceptance-tests</module>
   </modules>
 
   <dependencyManagement>

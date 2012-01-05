@@ -39,7 +39,7 @@ Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
 end
 
 Given /^I have access to all students$/ do
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^the unique section code is "([^"]*)"$/ do |section_code|

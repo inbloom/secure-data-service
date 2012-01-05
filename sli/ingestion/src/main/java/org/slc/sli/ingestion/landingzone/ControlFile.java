@@ -13,6 +13,10 @@ import java.util.regex.Pattern;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 
+/**
+ * Represents control file information.
+ *
+ */
 public class ControlFile {
 
     protected File file;
