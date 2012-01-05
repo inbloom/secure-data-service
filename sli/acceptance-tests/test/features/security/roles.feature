@@ -70,7 +70,6 @@ And "Aggregate Viewer" is not allowed to view Student data
 When I make an API call to view a Student's data
 Then a message is displayed that the "Aggregate Viewer" role cannot view this data
 
-@wip
 Scenario: Authorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "leader" with password "leader1234"
@@ -80,7 +79,6 @@ And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data
 Then the Student restricted fields are visible in the response
 
-@wip
 Scenario: Unauthorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "educator" with password "educator1234"
