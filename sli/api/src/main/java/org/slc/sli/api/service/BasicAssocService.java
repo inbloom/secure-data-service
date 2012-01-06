@@ -74,6 +74,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the number of entities in the list to skip
      * @param numResults
      *            the number of entities to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return
      */
     private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults,
@@ -100,6 +102,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the number of entities in the list to skip
      * @param numResults
      *            the number of entities to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return
      */
     private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
@@ -131,6 +135,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the number of entities in the list to skip
      * @param numResults
      *            the number of entities to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return
      */
     private Iterable<Entity> getAssociationObjects(EntityDefinition type, String id, String key, int start,

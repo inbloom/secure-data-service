@@ -58,7 +58,7 @@ public class SessionDebugResource {
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
-            sessionDetails.put("granted_authorities", principal.getTheirRoles());
+            sessionDetails.put("granted_authorities", principal.getRoles());
 
         } else {
             sessionDetails.put("authenticated", false);
