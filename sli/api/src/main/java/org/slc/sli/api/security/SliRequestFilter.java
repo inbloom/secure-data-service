@@ -1,6 +1,12 @@
 package org.slc.sli.api.security;
 
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -9,14 +15,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
+import java.io.IOException;
 
 /**
  * A security filter responsible for checking SLI session
@@ -48,7 +47,9 @@ public class SliRequestFilter extends GenericFilterBean {
         
         Authentication auth = resolver.resolve(sessionId);
         
-        if (auth != null || (((HttpServletRequest) request).getRequestURL().toString().contains("system/session/check")) || (((HttpServletRequest) request).getRequestURL().toString().contains("rest/pub/realms/"))) {
+        if (auth != null ||
+                (((HttpServletRequest) request).getRequestURI().startsWith("/api/rest/system/session/check")) ||
+                (((HttpServletRequest) request).getRequestURI().startsWith("/api/rest/pub/"))) {
             SecurityContextHolder.getContext().setAuthentication(auth);
             chain.doFilter(request, response);
         } else {
