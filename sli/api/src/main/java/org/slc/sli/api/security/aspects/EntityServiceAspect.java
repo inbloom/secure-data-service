@@ -6,12 +6,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.api.security.roles.AnonymousPrincipal;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
@@ -106,7 +108,8 @@ public class EntityServiceAspect {
     }
 
     private boolean isPublicContext() {
-        return SecurityContextHolder.getContext().getAuthentication() == null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getPrincipal().getClass().equals(AnonymousPrincipal.class);
     }
 
     private void removeReadGeneralAttributes(Entity entity) {
