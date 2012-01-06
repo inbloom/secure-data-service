@@ -29,7 +29,7 @@ import java.util.List;
  *  This is meant to be a read-only operation, but contains a convenience post
  *  method to create new roles.
  *
- *  @see org.slc.sli.api.security.roles.Right
+ *  @see org.slc.sli.api.security.enums.Right
  *  @see org.slc.sli.api.security.roles.Role
  */
 @Path("/admin/roles")
@@ -41,7 +41,7 @@ public class RolesAndPermissionsResource {
 
     public static final int NUM_RESULTS = 100;
     @Autowired
-    private EntityDefinitionStore store;
+    private IRoleRightAccess roleAccessor;
 
     private static final Logger LOG = LoggerFactory.getLogger(RolesAndPermissionsResource.class);
 
@@ -56,13 +56,9 @@ public class RolesAndPermissionsResource {
     @Path("/")
     public List<Map<String, Object>> getRolesAndPermissions() {
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
-        EntityService service = getEntityService();
-
-        //TODO get some way to findAll.
-        Iterable<String> names = service.list(0, NUM_RESULTS);
-        Iterable<EntityBody> entities = service.get(names);
-        for (EntityBody body : entities) {
-            roleList.add(body);
+        List<Role>  roles = roleAccessor.fetchAllRoles();
+        for (Role role : roles) {
+            roleList.add(role.getRoleAsEntityBody());
         }
         return roleList;
     }
@@ -75,21 +71,16 @@ public class RolesAndPermissionsResource {
      */
     @POST
     @Path("/")
-    public void createRoleWithPermission(String name, List<String> rights) {
-        //Make sure we aren't creating a duplicate of a default role
-        if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName())
-                || name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName())
-                || name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName())
-                || name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName())) {
-            return;
-        }
-        EntityService service = getEntityService();
-        service.create(RoleBuilder.makeRole(name).addRights(rights).buildEntityBody());
+    public boolean createRoleWithPermission(String name, List<String> rights) {
+        //TODO prevent default role manipulation
+        return roleAccessor.addRole(RoleBuilder.makeRole(name).addRights(rights).build());
     }
 
-    private EntityService getEntityService() {
-        EntityDefinition def = store.lookupByResourceName("roles");
-        return def.getService();
+    //Injection method
+    public void setRoleAccessor(IRoleRightAccess roleRights) {
+        this.roleAccessor = roleRights;
     }
+
+
 
 }
