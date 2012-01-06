@@ -12,6 +12,7 @@ When /^I navigate to the SLI Default Roles Admin Page$/ do
 end
 
 Then /^I should be redirected to the Realm page$/ do
+  puts @driver.page_source
   assert(@driver.current_url.index("/disco/realms/") != nil, "Failed to be redirected to Realmchooser")
 end
 
@@ -24,6 +25,7 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
+  puts @driver.page_source
   assert(@driver.title.index("SLI Default Roles") != nil, "Failed to navigate to the Admintools Role page")
 end
 
