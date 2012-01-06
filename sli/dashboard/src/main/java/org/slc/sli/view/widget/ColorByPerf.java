@@ -38,7 +38,8 @@ public class ColorByPerf {
         perfField.setTimeSlot(field.getTimeSlot());
         
         // get number of levels and assmt result level
-        int numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
+        Integer numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
+        if (numLevels == null) { numLevels = 0; }  
         int level = 0;
         try {
             level = Integer.parseInt(assmts.get(perfField, student));
