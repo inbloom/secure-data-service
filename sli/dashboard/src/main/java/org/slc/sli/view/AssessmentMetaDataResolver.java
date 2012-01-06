@@ -82,4 +82,21 @@ public class AssessmentMetaDataResolver {
         }
         return null;
     }
+
+    
+    public Integer findNumRealPerfLevelsForFamily(String name) {
+        AssessmentMetaData metaData = allMetaData.get(name);
+        if (metaData == null) return null; 
+        while (metaData != null) {
+            if (metaData.getPerfLevels() != null) {
+                int retVal = 0;
+                for (PerfLevel pl : Arrays.asList(metaData.getPerfLevels())) {
+                    if (pl.getIsReal()) { retVal++; }
+                }
+                return retVal;
+            }
+            metaData = parent.get(metaData);
+        }
+        return null;
+    }
 }

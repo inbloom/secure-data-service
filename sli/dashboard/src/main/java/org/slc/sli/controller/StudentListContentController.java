@@ -57,8 +57,8 @@ public class StudentListContentController extends DashboardController {
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);
-        model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments));
         List<AssessmentMetaData> assessmentsMetaData = AssessmentManager.getInstance().getAssessmentMetaData(user.getUsername());
+        model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
 
         // insert a widget factory into the modelmap
         model.addAttribute(WIDGET_FACTORY, new WidgetFactory());

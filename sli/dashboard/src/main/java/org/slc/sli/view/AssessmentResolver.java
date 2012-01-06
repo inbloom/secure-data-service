@@ -1,6 +1,7 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.Student;
 
 import org.slc.sli.config.Field;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
  */
 public class AssessmentResolver {
     List<Assessment> assessments;
+    AssessmentMetaDataResolver metaDataResolver;
     
     public static final String DATA_SET_TYPE = "assessment";
 
@@ -35,8 +37,10 @@ public class AssessmentResolver {
     /**
      * Constructor
      */
-    public AssessmentResolver(List<Assessment> a) {
+    public AssessmentResolver(List<Assessment> a, List<AssessmentMetaData> md) {
         assessments = a;
+        metaDataResolver = new AssessmentMetaDataResolver(md);
+        
     }
     
     /**
@@ -71,7 +75,9 @@ public class AssessmentResolver {
         Assessment chosenAssessment = null;
         String timeSlot = field.getTimeSlot();
         if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered);
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, 
+                                                                        metaDataResolver, 
+                                                                        assessmentName);
         } else if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
         } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
@@ -93,6 +99,10 @@ public class AssessmentResolver {
         return ""; 
     }
 
+    public AssessmentMetaDataResolver getMetaData() { 
+        return metaDataResolver;
+    }
+    
     // helper functions to extract names from the view config using the datapointid 
     private String extractAssessmentName(String dataPointId) {
         String [] strs = dataPointId.split("\\.");

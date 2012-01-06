@@ -10,6 +10,7 @@ public class PerfLevel {
     private String code;
     private String shortName;
     private String longName;
+    private boolean isReal;
 
     public void setName(String s) {
         this.name = s;
@@ -34,5 +35,11 @@ public class PerfLevel {
     }
     public String getLongName() {
         return longName;
+    }
+    public void setIsReal(boolean b) {
+        this.isReal = b;
+    }
+    public boolean getIsReal() {
+        return isReal;
     }
 }
