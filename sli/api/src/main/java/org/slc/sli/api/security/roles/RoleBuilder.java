@@ -1,10 +1,10 @@
 package org.slc.sli.api.security.roles;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.enums.Right;
 
+import org.slc.sli.api.security.roles.Right;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple class to help build a Role in terms of their associated rights.
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public final class RoleBuilder {
 
-    EntityBody body;
+    Role role;
     List<String> rights;
     
     public static RoleBuilder makeRole(String name) {
@@ -22,58 +22,46 @@ public final class RoleBuilder {
     }
     
     private RoleBuilder(String name) {
-        body = new EntityBody();
+        role = new Role(name);
         rights = new ArrayList<String>();
-        body.put("name", name);
+        
     }
     
     public RoleBuilder addName(String name) {
-        body.put("name", name);
+        role.setName(name);
         return this;
     }
 
     public RoleBuilder addRight(Right right) {
-        rights.add(right.getRight());
+        role.addRight(right);
         return this;
     }
 
     public RoleBuilder addRights(Right[] rights) {
-        checkAndClearRights();
         for (Right right : rights) {
             addRight(right);
         }
         return this;
     }
 
-    private void checkAndClearRights() {
-        if (this.rights.size() != 0) {
-            this.rights.clear();
-        }
-    }
-
     public RoleBuilder addRight(String right) {
-        rights.add(right);
+        role.addRight(new Right(right));
         return this;
     }
     
     public RoleBuilder addRights(List<String> rights) {
-        checkAndClearRights();
         for (String right : rights) {
-            addRight(right);
+            addRight(new Right(right));
         }
         return this;
     }
-    
-    public RoleBuilder addRights(Object rights) {
-        checkAndClearRights();
-        body.put("rights", rights);
-        return this;
-    }
 
-    public EntityBody build() {
-        if (!body.containsKey("rights"))
-            body.put("rights", rights);
-        return body;
+    public Map<String, Object> buildEntityBody() {
+        return role.getRoleAsEntityBody();
+    }
+    
+    public Role buildRole() {
+        return role;
     }
 
 }
