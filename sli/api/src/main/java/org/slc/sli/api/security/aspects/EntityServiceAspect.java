@@ -6,14 +6,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
@@ -37,14 +35,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Aspect
 public class EntityServiceAspect {
     
-    private static final Logger                  LOG                 = LoggerFactory.getLogger(EntityServiceAspect.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
     @Autowired
-    private EntitySchemaRegistry                 mySchemaRegistry;
+    private EntitySchemaRegistry mySchemaRegistry;
     
-    private static List<String>                  entitiesAlwaysAllow = Arrays.asList("realm");
-    private static List<String>                  methodsAlwaysAllow  = Arrays.asList("getEntityDefinition");
-    private static Map<String, GrantedAuthority> neededRights        = new HashMap<String, GrantedAuthority>();
+    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
+    private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
+    private static Map<String, GrantedAuthority> neededRights = new HashMap<String, GrantedAuthority>();
     
     static {
         neededRights.put("get", Right.READ_GENERAL);
@@ -58,9 +56,11 @@ public class EntityServiceAspect {
     /**
      * Controls access to functions in the EntityService class.
      * 
-     * @param pjp Method invoked if principal has required rights.
+     * @param pjp
+     *            Method invoked if principal has required rights.
      * @return Entity returned from invoked method (if method is entered).
-     * @throws Throwable AccessDeniedException (HTTP 403).
+     * @throws Throwable
+     *             AccessDeniedException (HTTP 403).
      */
     @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !call(* EntityService.getEntityDefinition(..))")
     public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
@@ -173,7 +173,8 @@ public class EntityServiceAspect {
     /**
      * Returns true if the Field is marked "restricted" under "read_enforcement".
      * 
-     * @param field Field to be checked for a 'restricted' read enforcement flag.
+     * @param field
+     *            Field to be checked for a 'restricted' read enforcement flag.
      * @return Boolean indicating whether or not the Field requires READ_RESTRICTED right to be
      *         read.
      */
