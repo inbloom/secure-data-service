@@ -1,14 +1,14 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.Student;
 
-import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.Field;
 
 import java.util.List;
 import java.util.ArrayList;
-import org.slc.sli.config.DataPoint;
-import org.slc.sli.config.DataSet;
+
 
 //Hopefully there will be one for each of dataSet types
 
@@ -21,7 +21,7 @@ import org.slc.sli.config.DataSet;
  */
 public class AssessmentResolver {
     List<Assessment> assessments;
-    ViewConfig viewConfig;
+    AssessmentMetaDataResolver metaDataResolver;
     
     public static final String DATA_SET_TYPE = "assessment";
 
@@ -37,16 +37,17 @@ public class AssessmentResolver {
     /**
      * Constructor
      */
-    public AssessmentResolver(List<Assessment> a, ViewConfig v) {
+    public AssessmentResolver(List<Assessment> a, List<AssessmentMetaData> md) {
         assessments = a;
-        viewConfig = v;
+        metaDataResolver = new AssessmentMetaDataResolver(md);
+        
     }
     
     /**
      * Looks up a representation for the result of the assessment, taken by the student 
-     * Returns the string representation of the result, identified by the datapoint ID
+     * Returns the string representation of the result, identified by the Field
      */
-    public String get(String dataPointId, Student student) {
+    public String get(Field field, Student student) {
 
         // This first implementation is gruelingly inefficient. But, whateves... it's gonna be 
         // thrown away. 
@@ -61,7 +62,7 @@ public class AssessmentResolver {
         if (studentFiltered.isEmpty()) { return ""; }
 
         // B) filter out assessments based on dataset path
-        String assessmentName = extractAssessmentName(dataPointId);
+        String assessmentName = extractAssessmentName(field.getValue());
         List<Assessment> studentAssessmentFiltered = new ArrayList();
         for (Assessment a : studentFiltered) {
             if (a.getAssessmentName().equals(assessmentName)) {
@@ -70,12 +71,13 @@ public class AssessmentResolver {
         }
         if (studentAssessmentFiltered.isEmpty()) { return ""; }
 
-        // C) Apply time logic. For now, just get the latest... there should be some 
-        //    classes that actually implement various timed logics.
+        // C) Apply time logic. 
         Assessment chosenAssessment = null;
-        String timeSlot = extractTimeSlot(dataPointId);
+        String timeSlot = field.getTimeSlot();
         if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered);
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, 
+                                                                        metaDataResolver, 
+                                                                        assessmentName);
         } else if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
         } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
@@ -86,7 +88,7 @@ public class AssessmentResolver {
         }
 
         // D) get the data point
-        String dataPointName = extractDataPointName(dataPointId);
+        String dataPointName = extractDataPointName(field.getValue());
         if (chosenAssessment == null) { return ""; }
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { return chosenAssessment.getPerfLevelAsString(); }
@@ -97,44 +99,19 @@ public class AssessmentResolver {
         return ""; 
     }
 
-    // returns true iff this resolver's view config can resolve the data point 
-    public boolean canResolve(String dataPointId) {
-        return getDataPoint(dataPointId) != null;
+    public AssessmentMetaDataResolver getMetaData() { 
+        return metaDataResolver;
     }
-
+    
     // helper functions to extract names from the view config using the datapointid 
     private String extractAssessmentName(String dataPointId) {
-        DataSet ds = getDataSet(dataPointId);
-        return ds == null ? null : ds.getName();
+        String [] strs = dataPointId.split("\\.");
+        return strs[0];
     }
-    private String extractTimeSlot(String dataPointId) {
-        DataSet ds = getDataSet(dataPointId);
-        return ds == null ? null : ds.getTimeSlot();
-    }
+
     private String extractDataPointName(String dataPointId) {
-        DataPoint dp = getDataPoint(dataPointId);
-        return dp == null ? null : dp.getId(); // Assume data point's name is identical to id
+        String [] strs = dataPointId.split("\\.");
+        return strs[1];
     }
-    private DataSet getDataSet(String dataPointId) {
-        String [] dataPointPath = dataPointId.split("\\.");
-        String dataSetName = dataPointPath[0];
-        for (DataSet ds : viewConfig.getDataSet()) {
-            if (ds.getType().equals(DATA_SET_TYPE) && ds.getId().equals(dataSetName)) {
-                return ds;
-            }
-        }
-        return null;
-    }
-    private DataPoint getDataPoint(String dataPointId) {
-        String [] dataPointPath = dataPointId.split("\\.");
-        String dataPointName = dataPointPath[1];
-        DataSet ds = getDataSet(dataPointId);
-        if (ds == null) { return null; }
-        for (DataPoint dp : ds.getDataPoint()) {
-            if (dp.getId().equals(dataPointName)) {
-                return dp;
-            }
-        }
-        return null;
-    }
+
 }

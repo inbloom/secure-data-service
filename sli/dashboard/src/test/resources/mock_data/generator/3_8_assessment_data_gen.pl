@@ -127,8 +127,8 @@ for(my $i = 0; $i <= $#results; $i++)
     @assessment = @{$results[$i]};
     print "{\n";
     print "        \"studentId\": \"" . $assessment[0] . "\",\n";
-    print "        \"assessmentName\": \"" . $assessmentCode . "\",\n";
-    print "        \"assessmentCode\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\",\n";
+    print "        \"assessmentFamilyName\": \"" . $assessmentCode . "\",\n";
+    print "        \"assessmentName\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\",\n";
     print "        \"grade\": \"" . $assessment[1] . "\",\n";
     print "        \"year\": \"" . $assessment[2] . "\",\n";
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
