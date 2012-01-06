@@ -113,7 +113,7 @@ public class EntityServiceAspect {
         LOG.debug("[ASPECT] filtering read");
         Entity entity = (Entity) pjp.proceed();
 
-        if (entity != null || isWhiteListed(pjp)) {
+        if (entity != null && !isWhiteListed(pjp)) {
             Set<Right> grantedRights = getGrantedRights();
             LOG.debug("Rights {}", grantedRights);
 
