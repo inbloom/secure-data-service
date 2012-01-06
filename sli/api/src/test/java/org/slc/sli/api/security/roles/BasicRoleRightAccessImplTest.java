@@ -1,14 +1,17 @@
 package org.slc.sli.api.security.roles;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjection;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -39,9 +42,12 @@ public class BasicRoleRightAccessImplTest {
 
     @Before
     public void setUp() throws Exception {
+
+        SecurityContextInjection.setAdminContext();
         List<String> ids = new ArrayList<String>();
         mockService = mock(EntityService.class);
         access.setService(mockService);
+        
         ids.add("EducatorID");
         ids.add("LeaderID");
         ids.add("AggregatorID");
@@ -53,6 +59,11 @@ public class BasicRoleRightAccessImplTest {
         when(mockService.get("BadID")).thenReturn(getEntityBody());
 
         when(mockService.list(0, 100)).thenReturn(ids);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        SecurityContextHolder.clearContext();
     }
 
     private EntityBody getEntityBody() {
