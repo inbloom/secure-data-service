@@ -83,9 +83,9 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
-        principal.setTheirRoles(extractRoles(payload));
+        principal.setRoles(extractRoles(payload));
         
-        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getTheirRoles()));
+        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getRoles()));
         
     }
     

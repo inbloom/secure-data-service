@@ -74,23 +74,34 @@
 
 	function calcBase64toJUUID()
 	{
-		
 		var blah = "EUqfFEsgzmdUZWik/lDqvw==";
 		var input = document.forms['base64toJUUID'].base64Input.value;
-		document.forms['base64toJUUID'].guidOutput.value = toJUUID(input);
+		if(input == null || input == ""){
+			document.forms['base64toJUUID'].guidOutput.value = "****Invalid Base64 Input****"
+		}
+		else {
+			document.forms['base64toJUUID'].guidOutput.value = toJUUID(input);
+		}
 	}
 	
 	function calcJUUIDtoBase64()
 	{
 		var input = document.forms['JUUIDtoBase64'].JUUIDInput.value;
-		document.forms['JUUIDtoBase64'].base64Output.value = JUUID(input);
+		if(input == null || input == ""){
+			document.forms['JUUIDtoBase64'].base64Output.value = "****Invalid JUUID Input****"
+		}
+		else {
+			document.forms['JUUIDtoBase64'].base64Output.value = JUUID(input);
+		}
 	}
 </script>
 
 </head>
 <body>
 	<form name="base64toJUUID" onsubmit="calcBase64toJUUID(); return false;">
+		<p>Input base64 string in the form "XXXXXXXXXXXXXXXXXXXXXX==" (ie EUqfFEsgzmdUZWik/lDqvw==)</p>
 		<table>
+			
 			<tr>
 				<td>Base64 String: </td><td><input type="text" name="base64Input" size="50"/></td>
 			</tr>
@@ -102,6 +113,7 @@
 	</form>
 	<br/>
 	<br/>
+	<p>Input JUUID string in the form "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" (ie 67ce204b-149f-4a11-bfea-50fea4686554)</p>
 	<form name="JUUIDtoBase64" onsubmit="calcJUUIDtoBase64(); return false;">
 		<table>
 			<tr>

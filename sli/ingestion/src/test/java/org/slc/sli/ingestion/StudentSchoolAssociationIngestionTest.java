@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class StudentSchoolAssociationIngestionTest {
     private static final String STUDENT_ENTITY = "student";
     private static final String STUDENT_SCHOOL_ASSOC_ENTITY = "studentSchoolAssociation";
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testStudentSchoolAssociationInterchangeXmlParsing() throws IOException, SAXException {
 
@@ -86,6 +88,7 @@ public class StudentSchoolAssociationIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testStudentSchoolAssociationInterchangeCsvParsing() throws IOException, SAXException {
 

@@ -17,14 +17,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +30,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.CollectionResponse.EntityReference;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,12 +42,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.CollectionResponse.EntityReference;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the generic Resource class.
@@ -71,7 +68,7 @@ public class ResourceTest {
         String type;
         String id;
     }
-
+    
     private static final String STUDENT_SCHOOL_ASSOCIATION_URI = "student-school-associations";
     private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
@@ -107,6 +104,7 @@ public class ResourceTest {
         entity.put("studentId", studentId);
         entity.put("assessmentId", assessmentId);
         entity.put("administrationLanguage", "ENGLISH");
+        entity.put("administrationDate", "2011-01-01");
         return entity;
     }
     
@@ -223,17 +221,22 @@ public class ResourceTest {
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
         
         // test query on student assessment association
-        Map<String, String> queryFields = new HashMap<String, String>();
-        queryFields.put("administrationLanguage", "ENGLISH");
-        UriInfo queryInfo = buildMockUriInfo(queryFields);
+        UriInfo queryInfo = buildMockUriInfo("administrationLanguage=ENGLISH");
         Response queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
         CollectionResponse queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
         assertNotNull(queryCollectionResponse);
-        queryFields.put("administrationLanguage", "FRENCH");
-        queryInfo = buildMockUriInfo(queryFields);
+        queryInfo = buildMockUriInfo("administrationLanguage=FRENCH");
         queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
         queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
         assertNull(queryCollectionResponse);
+        queryInfo = buildMockUriInfo("administrationDate>=2011-12-01");
+        queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
+        queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
+        assertNull(queryCollectionResponse);
+        queryInfo = buildMockUriInfo("administrationDate<=2011-12-01");
+        queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
+        queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
+        assertNotNull(queryCollectionResponse);
         
         // test student section association
         Response ssaResponse = api.getEntity(STUDENT_SECTION_ASSOCIATION_URI, studentSectionAssocId, 0, 10, info);
@@ -291,7 +294,7 @@ public class ResourceTest {
         }
         
     }
-
+    
     private void assertStudentCorrect(UriInfo info, TypeIdPair typeId) {
         Response r = api.getEntity(typeId.type, typeId.id, 0, 100, info);
         EntityBody body = (EntityBody) r.getEntity();
@@ -310,7 +313,7 @@ public class ResourceTest {
         }
     }
     
-    //The .../targets links, has nothing to do with beer 
+    // The .../targets links, has nothing to do with beer
     private void testHops(UriInfo info, String studentId1, String studentId2, String schoolId) {
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, info);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
@@ -334,7 +337,7 @@ public class ResourceTest {
         return matcher.group(1);
     }
     
-    public UriInfo buildMockUriInfo(Map<String, String> queryFields) throws Exception {
+    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
             
@@ -357,13 +360,8 @@ public class ResourceTest {
                 return new UriBuilderImpl().path("request");
             }
         });
-        if (queryFields != null) {
-            MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
-            for (String key : queryFields.keySet()) {
-                parameters.putSingle(key, queryFields.get(key));
-            }
-            when(mock.getQueryParameters()).thenReturn(parameters);
-        }
+        
+        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(null));
         return mock;
     }
 }

@@ -38,7 +38,7 @@ public class SecurityContextInjection {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
         principal.setName(fullName);
-        principal.setTheirRoles(roles);
+        principal.setRoles(roles);
         
         LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = new PreAuthenticatedAuthenticationToken(principal,
@@ -61,7 +61,7 @@ public class SecurityContextInjection {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
         principal.setName(fullName);
-        principal.setTheirRoles(roles);
+        principal.setRoles(roles);
         
         LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = new PreAuthenticatedAuthenticationToken(principal,

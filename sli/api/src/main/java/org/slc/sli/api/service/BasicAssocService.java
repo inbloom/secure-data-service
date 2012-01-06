@@ -1,9 +1,7 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slc.sli.api.config.AssociationDefinition.EntityInfo;
 import org.slc.sli.api.config.EntityDefinition;
@@ -38,25 +36,25 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
     @Override
-    public Iterable<String> getAssociationsWith(String id, int start, int numResults, Map<String, String> queryFields) {
-        return getAssociations(sourceDefn, id, sourceKey, start, numResults, queryFields);
+    public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString) {
+        return getAssociations(sourceDefn, id, sourceKey, start, numResults, queryString);
     }
     
     @Override
-    public Iterable<String> getAssociationsTo(String id, int start, int numResults, Map<String, String> queryFields) {
-        return getAssociations(targetDefn, id, targetKey, start, numResults, queryFields);
+    public Iterable<String> getAssociationsTo(String id, int start, int numResults, String queryString) {
+        return getAssociations(targetDefn, id, targetKey, start, numResults, queryString);
     }
     
     @Override
-    public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, Map<String, String> queryFields) {
-        return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, start, numResults, queryFields);
+    public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, String queryString) {
+        return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, start, numResults, queryString);
     }
-
+    
     @Override
-    public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, Map<String, String> queryFields) {
-        return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, start, numResults, queryFields);
+    public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, String queryString) {
+        return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, start, numResults, queryString);
     }
-
+    
     public String create(EntityBody content) {
         
         createAssocValidate(content);
@@ -79,16 +77,16 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @return
      */
     private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults,
-            Map<String, String> queryFields) {
+            String queryString) {
         LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         List<String> results = new ArrayList<String>();
-        Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryFields);
+        Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryString);
         for (Entity entity : entityObjects) {
             results.add(entity.getEntityId());
         }
         return results;
     }
-
+    
     /**
      * Get associations to the entity of the given type and id, where id is keyed off of key
      * 
@@ -104,21 +102,22 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the number of entities to return
      * @return
      */
-    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey, int start, int numResults, Map<String, String> queryFields) {
+    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
+            int start, int numResults, String queryString) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         List<String> results = new ArrayList<String>();
-        Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryFields);
+        Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryString);
         for (Entity entity : entityObjects) {
             Object other = entity.getBody().get(otherEntityKey);
             if (other != null && other instanceof String) {
                 results.add((String) other);
             } else {
-                LOG.error("Association had bad value of key {}: {}", new Object[]{otherEntityKey, other});
+                LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
             }
         }
         return results;
     }
-
+    
     /**
      * Gets the actual association objects (and not just the ids
      * 
@@ -134,17 +133,19 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the number of entities to return
      * @return
      */
-    private Iterable<Entity> getAssociationObjects(EntityDefinition type, String id, String key, int start, int numResults, Map<String, String> queryFields) {
+    private Iterable<Entity> getAssociationObjects(EntityDefinition type, String id, String key, int start,
+            int numResults, String queryString) {
         EntityBody existingEntity = type.getService().get(id);
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);
         }
-        Map<String, String> fields = new HashMap<String, String>();
-        fields.put(key, id);
-        if (queryFields != null)
-            fields.putAll(queryFields);
-
-        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), fields, start, numResults);
+        
+        if (queryString != null && !queryString.equals(""))
+            queryString = queryString + "&" + key + "=" + id;
+        else
+            queryString = key + "=" + id;
+        
+        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), queryString, start, numResults);
         return entityObjects;
     }
     

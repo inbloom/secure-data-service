@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Iterator;
@@ -22,21 +23,21 @@ import java.util.Set;
 
 /**
  * Aspect for handling Entity Service operations.
- *
+ * 
  * @author shalka
  */
 
 @Aspect
 public class EntityServiceAspect {
-
-    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
-
+    
+    private static final Logger                  LOG                 = LoggerFactory.getLogger(EntityServiceAspect.class);
+    
     @Autowired
     private EntitySchemaRegistry mySchemaRegistry;
 
     /**
      * Controls access to functions in the EntityService class.
-     *
+     * 
      * @param pjp Method invoked if principal has required rights.
      * @return Entity returned from invoked method (if method is entered).
      * @throws Throwable AccessDeniedException (HTTP 403).
@@ -69,7 +70,7 @@ public class EntityServiceAspect {
         if (entity != null && !isPublicContext()) {
             Set<Right> grantedRights = getGrantedRights();
             LOG.debug("Rights {}", grantedRights);
-
+            
             if (!grantedRights.contains(Right.READ_RESTRICTED)) {
                 LOG.debug("Filtering restricted on {}", entity.getEntityId());
                 filterReadRestricted(entity);
@@ -79,7 +80,7 @@ public class EntityServiceAspect {
                 filterReadGeneral(entity);
             }
         }
-
+        
         return entity;
     }
 
@@ -96,10 +97,10 @@ public class EntityServiceAspect {
         Schema schema = mySchemaRegistry.findSchemaForType(entity);
         LOG.debug("schema fields {}", schema.getFields());
         Iterator<String> keyIter = entity.getBody().keySet().iterator();
-
+        
         while (keyIter.hasNext()) {
             String fieldName = keyIter.next();
-
+            
             Schema.Field field = schema.getField(fieldName);
             LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
             if (isReadGeneral(field)) {
@@ -107,23 +108,23 @@ public class EntityServiceAspect {
             }
         }
     }
-
+    
     private boolean isReadGeneral(Schema.Field field) {
         if (field == null) {
             return false;
         }
-
+        
         String readProp = field.getProp("read_enforcement");
         return (readProp != null && !readProp.matches("restricted") && !readProp.matches("aggregate"));
     }
-
+    
     private void filterReadRestricted(Entity entity) {
         Schema schema = mySchemaRegistry.findSchemaForType(entity);
         Iterator<String> keyIter = entity.getBody().keySet().iterator();
-
+        
         while (keyIter.hasNext()) {
             String fieldName = keyIter.next();
-
+            
             Schema.Field field = schema.getField(fieldName);
             LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
             if (isRestrictedField(field)) {
@@ -131,10 +132,10 @@ public class EntityServiceAspect {
             }
         }
     }
-
+    
     /**
      * Returns true if the Field is marked "restricted" under "read_enforcement".
-     *
+     * 
      * @param field Field to be checked for a 'restricted' read enforcement flag.
      * @return Boolean indicating whether or not the Field requires READ_RESTRICTED right to be
      *         read.
@@ -143,16 +144,15 @@ public class EntityServiceAspect {
         if (field == null) {
             return false;
         }
-
+        
         String readProp = field.getProp("read_enforcement");
         return (readProp != null && readProp.equals("restricted"));
     }
-
-    private Set<Right> getGrantedRights() {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.getRights();
+    
+    private Collection<GrantedAuthority> getGrantedRights() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
-
+    
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
         this.mySchemaRegistry = schemaRegistry;
     }
