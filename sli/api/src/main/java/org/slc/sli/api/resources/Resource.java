@@ -1,9 +1,6 @@
 package org.slc.sli.api.resources;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -16,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -115,7 +111,6 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        final Map<String, String> queryFields = getQueryFields(uriInfo);
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -128,10 +123,10 @@ public class Resource {
                     Iterable<String> associationIds = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
                         associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                     }
                     if (associationIds != null && associationIds.iterator().hasNext()) {
                         CollectionResponse collection = new CollectionResponse();
@@ -152,7 +147,6 @@ public class Resource {
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        final Map<String, String> queryFields = getQueryFields(uriInfo);
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -162,11 +156,11 @@ public class Resource {
                     EntityDefinition relative = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getSourceEntity();
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
@@ -276,18 +270,5 @@ public class Resource {
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
         }
         return links;
-    }
-    
-    private Map<String, String> getQueryFields(UriInfo uriInfo) {
-        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-        Map<String, String> fields = new HashMap<String, String>();
-        if (queryParams != null) {
-            for (String key : queryParams.keySet()) {
-                if ((!Arrays.asList(reservedQueryKeys).contains(key)) && queryParams.get(key) != null) {
-                    fields.put(key, queryParams.getFirst(key));
-                }
-            }
-        }
-        return fields;
     }
 }
