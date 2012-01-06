@@ -91,7 +91,7 @@ public class BasicService implements EntityService {
     @Override
     public void delete(String id) {
         LOG.debug("Deleting {} in {}", new String[]{id, collectionName});
-        Entity entity = coreService.get(id);
+        Entity entity = repo.find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -105,7 +105,7 @@ public class BasicService implements EntityService {
     @Override
     public boolean update(String id, EntityBody content) {
         LOG.debug("Updating {} in {}", new String[]{id, collectionName});
-        Entity entity = coreService.get(id);
+        Entity entity = repo.find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
