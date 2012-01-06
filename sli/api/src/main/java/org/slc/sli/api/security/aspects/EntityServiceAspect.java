@@ -11,12 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.api.security.roles.AnonymousPrincipal;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
+
 
 // add this import if we move to CoreEntityService paradigm
 // import org.slc.sli.api.service.CoreEntityService;
@@ -103,7 +106,8 @@ public class EntityServiceAspect {
     }
     
     private boolean isPublicContext() {
-        return SecurityContextHolder.getContext().getAuthentication() == null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getPrincipal().getClass().equals(AnonymousPrincipal.class);
     }
     
     private void removeReadGeneralAttributes(Entity entity) {
