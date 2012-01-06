@@ -192,6 +192,9 @@ public class ResourceTest {
         assertNotNull(createResponse11);
         String teacherSchoolAssocId = parseIdFromLocation(createResponse11);
         
+        //test staff entity
+        assertEntityResponse("staff", info, ids);
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);
@@ -293,6 +296,18 @@ public class ResourceTest {
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
+    }
+    
+    /**
+     * Helper method for testing entity responses
+     * @param entityName
+     */
+    private void assertEntityResponse(String entityName, UriInfo info, Map<TypeIdPair, String> typeIds) {
+    	Response createResponse = api.createEntity(entityName, new EntityBody(createTestEntity()), info);
+        assertNotNull(createResponse);
+        
+        String assessmentId = parseIdFromLocation(createResponse);
+        typeIds.put(new TypeIdPair(entityName, assessmentId), (String) createResponse.getMetadata().get("Location").get(0));
     }
     
     private void assertStudentCorrect(UriInfo info, TypeIdPair typeId) {

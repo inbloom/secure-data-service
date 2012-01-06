@@ -40,8 +40,8 @@ public class RolesAndPermissionsResourceTest {
     private Map<String, Object> createTestRole() {
         Map<String, Object> role = new HashMap<String, Object>();
         List<String> permissions = new ArrayList<String>();
-        permissions.add(Right.READ_RESTRICTED.getRight());
-        permissions.add(Right.WRITE_RESTRICTED.getRight());
+        permissions.add(Right.READ_RESTRICTED.toString());
+        permissions.add(Right.WRITE_RESTRICTED.toString());
         role.put("name", "Role1");
         role.put("rights", permissions);
         return role;

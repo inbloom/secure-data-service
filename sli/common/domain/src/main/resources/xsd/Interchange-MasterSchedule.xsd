@@ -4,18 +4,18 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:include schemaLocation="..\Ed-Fi-Core.xsd"/>
 	<xs:annotation>
-		<xs:documentation>===== Education Organization Interchange Model  =====</xs:documentation>
+		<xs:documentation>===== Master Schedule Interchange Model  =====</xs:documentation>
 	</xs:annotation>
-	<xs:element name="InterchangeEducationOrgCalendar">
+	<xs:element name="InterchangeMasterSchedule">
 		<xs:annotation>
-			<xs:documentation>This interchange is for school calendar information.</xs:documentation>
+			<xs:documentation>This interchange is for education organizations education course offerings schedule.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="Session" type="Session"/>
-				<xs:element name="GradingPeriod" type="GradingPeriod"/>
-				<xs:element name="CalendarDate" type="CalendarDate"/>
-				<xs:element name="AcademicWeek" type="AcademicWeek"/>
+				<xs:element name="CourseOffering" type="CourseOffering"/>
+				<xs:element name="Section" type="Section"/>
+				<xs:element name="BellSchedule" type="BellSchedule"/>
+				<xs:element name="MeetingTime" type="MeetingTime"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
