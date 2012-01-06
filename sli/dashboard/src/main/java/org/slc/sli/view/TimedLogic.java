@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
@@ -46,10 +47,21 @@ public class TimedLogic {
     /**
      * Returns the assessment from the latest window
      */
-    // pretty sure you'll need the assessment metat data for this... but whateves.
     // For now, just pretend all assessments are administered once a year between windowStart and windowEnd
-    public static Assessment getMostRecentAssessmentWindow(List<Assessment> a) {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+    public static Assessment getMostRecentAssessmentWindow(List<Assessment> a, 
+                                                           AssessmentMetaDataResolver metaDataResolver,
+                                                           String assmtName) {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        
+        // if the window has already passed in the current year, then the latest window is in this year. 
+        // Otherwise it's the last year. 
+        String windowEndDate = metaDataResolver.findWindowEndDateForFamily(assmtName);
+        int windowEndMonth = Integer.parseInt(windowEndDate.split("/")[0]);
+        int windowEndDay = Integer.parseInt(windowEndDate.split("/")[1]);
+        Calendar thisYearWindowEndDate = new GregorianCalendar(currentYear, windowEndMonth, windowEndDay);
+        
+        int year = thisYearWindowEndDate.before(Calendar.getInstance()) ? currentYear : currentYear - 1; 
+        
         for (Assessment ass : a) {
             if (ass.getYear() == year) {
                 return ass;

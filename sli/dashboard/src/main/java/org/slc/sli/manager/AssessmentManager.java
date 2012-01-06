@@ -5,11 +5,13 @@ import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.DataSet;
+import org.slc.sli.config.Field;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * AssessmentManager supplies student assessment data to the controllers.
@@ -45,9 +47,8 @@ public class AssessmentManager {
 
     public List<Assessment> getAssessments(String username, List<String> studentIds, ViewConfig config) {
         
-        // extract the studentInfo data set configs
-        List<DataSet> dataSets = ConfigUtil.getDataSets(config, "assessment");
-        
+        // extract the studentInfo data fields we need
+        List<Field> dataFields = ConfigUtil.getDataFields(config, "assessment");
 
         
         // TODO: API question: do we make one call and get all assessments, then filter? or make calls for only what we need?
@@ -55,23 +56,35 @@ public class AssessmentManager {
         List<Assessment> assmts = Arrays.asList(apiClient.getAssessments(username, studentIds));
         
         // get list of assmt names
-        List<String> assmtNames = new ArrayList<String>();
-        for (DataSet dataSet : dataSets) {
-            assmtNames.add(dataSet.getName());
-        }
+        Set<String> assmtNames = getAssmtNames(dataFields);
+        assmtNames = getAssmtNames(dataFields);
         
         // filter out unwanted assmts
         List<Assessment> filteredAssmts = new ArrayList<Assessment>();
+        filteredAssmts.addAll(assmts);
+        /* To do this right, we'll need all the assessments under the assmt family's name, and 
+         * we'll require assessment metadata for it 
         for (Assessment assmt : assmts) {
             if (assmtNames.contains(assmt.getAssessmentName()))
                 filteredAssmts.add(assmt);
         }
-        
-        // TODO: apply time slot filter
-        //List<Assessment> filteredAssmts = 
+        */
         
         // return the results
         return filteredAssmts;
+    }
+    
+    /*
+     * Get names of assessments we need data for
+     */
+    private Set<String> getAssmtNames(List<Field> dataFields) {
+    
+        Set<String> assmtNames = new HashSet<String>();
+        for (Field field : dataFields) {
+            String fieldValue = field.getValue();
+            assmtNames.add(fieldValue.substring(0, fieldValue.indexOf('.')));
+        }
+        return assmtNames;
     }
     
     public List<AssessmentMetaData> getAssessmentMetaData(String username) {

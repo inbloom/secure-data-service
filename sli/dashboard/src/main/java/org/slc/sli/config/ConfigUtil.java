@@ -57,6 +57,7 @@ public class ConfigUtil {
     /*
      * Given a view config, returns a list of all data set elements
      */
+    /*
     public static List<DataSet> getDataSets(ViewConfig config, String dataSetType) {
         List<DataSet> dataSets = new ArrayList<DataSet>();
         for (DataSet dataSet : config.getDataSet()) {
@@ -66,4 +67,37 @@ public class ConfigUtil {
         }
         return dataSets;
     }
+    */
+    
+    
+    /*
+     * Given a list of display sets, returns a list of all fields of a certain type
+     */
+    public static List<Field> getDataFields(ViewConfig config, String fieldType) {
+    
+        return getDataFields(config.getDisplaySet(), fieldType);
+    }
+    
+    /*
+     * Given a list of display sets, returns a list of all fields of a certain type
+     */
+    public static List<Field> getDataFields(List<DisplaySet> displaySets, String fieldType) {
+        
+        List<Field> dataFields = new ArrayList<Field>();
+        
+        for (DisplaySet displaySet : displaySets) {
+
+            // recursive call for child display sets 
+            dataFields.addAll(getDataFields(displaySet.getDisplaySet(), fieldType));
+            
+            // add fields
+            for (Field field : displaySet.getField()) {
+                if (field.getType().equals(fieldType)) {
+                    dataFields.add(field);
+                }
+            }
+        }
+        return dataFields;
+    }
+    
 }

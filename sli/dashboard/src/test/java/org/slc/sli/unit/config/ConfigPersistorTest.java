@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.config.ConfigPersistor;
-import org.slc.sli.config.DataPoint;
-import org.slc.sli.config.DataSet;
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfigSet;
@@ -35,10 +33,6 @@ public class ConfigPersistorTest {
             e.printStackTrace();
         }
         ViewConfig config = configSet.getViewConfig().get(0);
-        assertEquals(3, config.getDataSet().size());
-        assertEquals(1, config.getDataSet().get(0).getDataPoint().size());
-        assertEquals(4, config.getDataSet().get(1).getDataPoint().size());
-        assertEquals(2, config.getDataSet().get(2).getDataPoint().size());
         assertEquals(3, config.getDisplaySet().size());
         assertEquals(1, config.getDisplaySet().get(0).getField().size());
         assertEquals(4, config.getDisplaySet().get(1).getField().size());
@@ -52,14 +46,6 @@ public class ConfigPersistorTest {
         ViewConfig view = new ViewConfig();
         view.setName("listOfStudents");
         configs.getViewConfig().add(view);
-        
-        DataSet dataSet = new DataSet();
-        dataSet.setType("studentInfo");
-        view.getDataSet().add(dataSet);
-       
-        DataPoint dataPoint = new DataPoint();
-        dataPoint.setId("name");
-        dataSet.getDataPoint().add(dataPoint);
         
         DisplaySet displaySet = new DisplaySet();
         displaySet.setDisplayName("");

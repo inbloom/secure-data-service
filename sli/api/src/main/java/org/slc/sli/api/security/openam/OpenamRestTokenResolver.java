@@ -1,13 +1,16 @@
 package org.slc.sli.api.security.openam;
 
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityTokenResolver;
-import org.slc.sli.api.security.SliEntryPoint;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,14 +19,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityTokenResolver;
+import org.slc.sli.api.security.SliEntryPoint;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Creates Spring Authentication object by calling openAM restful API
@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
  * @author dkornishev
  */
 @Component
+@Primary
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
     private static final Logger   LOG  = LoggerFactory.getLogger(SliEntryPoint.class);
