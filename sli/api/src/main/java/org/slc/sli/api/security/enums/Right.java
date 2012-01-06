@@ -13,4 +13,5 @@ public enum Right implements GrantedAuthority {
     public String getAuthority() {
         return this.toString();
     }
+
 }

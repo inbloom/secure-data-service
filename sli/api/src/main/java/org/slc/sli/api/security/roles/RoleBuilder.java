@@ -3,8 +3,6 @@ package org.slc.sli.api.security.roles;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.enums.Right;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

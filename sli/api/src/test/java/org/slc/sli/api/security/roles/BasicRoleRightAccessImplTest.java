@@ -37,8 +37,6 @@ public class BasicRoleRightAccessImplTest {
     
     private EntityService mockService;
 
-
-    
     @Before
     public void setUp() throws Exception {
         List<String> ids = new ArrayList<String>();
@@ -60,8 +58,8 @@ public class BasicRoleRightAccessImplTest {
     private EntityBody getEntityBody() {
         EntityBody roleBody;
         List<String> rights = new ArrayList<String>();
-        rights.add(Right.READ_GENERAL.getRight());
-        rights.add(Right.READ_RESTRICTED.getRight());
+        rights.add(Right.READ_GENERAL.toString());
+        rights.add(Right.READ_RESTRICTED.toString());
         roleBody = new EntityBody();
         roleBody.put("name", "Educator");
         roleBody.put("rights", rights);

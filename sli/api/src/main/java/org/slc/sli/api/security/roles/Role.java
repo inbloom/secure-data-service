@@ -3,7 +3,9 @@ package org.slc.sli.api.security.roles;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.enums.Right;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -49,7 +51,11 @@ public class Role {
     public EntityBody getRoleAsEntityBody() {
         EntityBody body = new EntityBody();
         body.put("name", getName());
-        body.put("rights", rights);
+        List<String> rightStrings = new ArrayList<String>();
+        for (Right right : rights) {
+            rightStrings.add(right.toString());
+        }
+        body.put("rights", rightStrings);
         return body;
     }
 }
