@@ -7,6 +7,7 @@ Given /^I am not authenticated to SLI IDP$/ do
 end
 
 When /^I navigate to the SLI Default Roles Admin Page$/ do
+  puts PropLoader.getProps['admintools_server_url']
   url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
   @driver.get url
 end
