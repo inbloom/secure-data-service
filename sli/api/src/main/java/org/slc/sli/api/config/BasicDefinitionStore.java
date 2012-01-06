@@ -57,6 +57,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = EntityDefinition.makeEntity("assessment", validator).exposeAs("assessments")
                 .build();
         addDefinition(assessment);
+        //staff entity
+        EntityDefinition staff = EntityDefinition.makeEntity("staff", validator).exposeAs("staff").build();
+        addDefinition(staff);
         
         AssociationDefinition studentSchoolAssociation = AssociationDefinition
                 .makeAssoc("studentSchoolAssociation", validator).exposeAs("student-school-associations")
