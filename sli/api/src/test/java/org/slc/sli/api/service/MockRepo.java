@@ -229,4 +229,10 @@ public class MockRepo implements EntityRepository {
         }
         return match;
     }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, String queryString) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

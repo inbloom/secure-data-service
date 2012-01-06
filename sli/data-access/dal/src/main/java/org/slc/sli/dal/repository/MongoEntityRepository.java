@@ -204,4 +204,16 @@ public class MongoEntityRepository implements EntityRepository {
         else
             return keyAndValue;
     }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, String queryString) {
+        boolean match = false;
+        Query query = stringToQuery(queryString);
+        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+        for (MongoEntity entity : results) {
+            if (entity.getEntityId().equals(id))
+                match = true;
+        }
+        return match;
+    }
 }
