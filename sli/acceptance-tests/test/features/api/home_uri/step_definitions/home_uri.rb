@@ -7,7 +7,7 @@ require_relative '../../../utils/sli_utils.rb'
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
   idpLogin(usr, pass)
-  assert(@sessionId != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |fmt|

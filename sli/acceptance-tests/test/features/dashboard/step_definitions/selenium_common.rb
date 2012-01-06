@@ -56,6 +56,12 @@ def assertMissingField(field, by)
   assert(!flag, "Page does not contain a field with id:" + field)
 end
 
+# Asserts a piece of text exists in the body's page
+def assertText(text)
+  body = @driver.find_element(:tag_name, "body")
+  assert(body.text.include?(text), "Text is missing from page: " + text )
+end
+
 def putTextToField(text, field, by)
   flag = true
   if (by == "id") and (@driver.find_element(:id, field) != nil)

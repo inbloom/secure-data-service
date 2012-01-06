@@ -16,11 +16,12 @@ end
 
 Given /^I am authenticated on "([^"]*)"$/ do |arg1|
   idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 When /^I make a REST API call$/ do
-  restHttpGet("/system/session/debug", "application/json")
+  student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
+  restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

@@ -44,7 +44,7 @@ public interface EntityRepository {
     public Iterable<Entity> findAll(String entityType);
     
     /**
-     * @param collection 
+     * @param collection
      *            the collection the entity is in
      * @param entity
      *            the entity that will be updated
@@ -53,7 +53,7 @@ public interface EntityRepository {
     
     /**
      * Create an entry with the collection set to the type name
-     *
+     * 
      * @param type
      *            the type of entity to be persisted
      * @param body
@@ -115,4 +115,18 @@ public interface EntityRepository {
      */
     Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
     
+    /**
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
+     *            core entity or association entity
+     * @param queryString
+     *            the query string to filter returned collection results
+     * @param skip
+     *            the beginning index of the entity that will be returned
+     * @param max
+     *            the max number of entities that will be returned
+     * @return the collection of entities
+     */
+    Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max);
+
 }

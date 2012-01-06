@@ -43,7 +43,7 @@ end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
   idpLogin(arg1, arg2)
-  assert(@sessionId != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^I create a blank json object$/ do

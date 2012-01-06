@@ -31,7 +31,7 @@ end
 
 Given /^I have access to all teachers$/ do
   idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |arg1|

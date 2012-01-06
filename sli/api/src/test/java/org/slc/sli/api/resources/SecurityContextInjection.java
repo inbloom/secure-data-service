@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.roles.DefaultRoleMapperImpl;
+import org.slc.sli.api.security.enums.DefaultRoles;
+import org.slc.sli.api.security.resolve.impl.DefaultClientRoleResolver;
+import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +33,16 @@ public class SecurityContextInjection {
         
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
-        roles.add("IT Administrator");
+        roles.add(DefaultRoles.ADMINISTRATOR.getRoleName());
         
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
         principal.setName(fullName);
-        principal.setTheirRoles(roles);
+        principal.setRoles(roles);
         
         LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = new PreAuthenticatedAuthenticationToken(principal,
-                token, new DefaultRoleMapperImpl(principal.getTheirRoles()).buildMappedRoles());
+                token, getRightsResolver().resolveRoles(roles));
         
         LOG.debug("updating security context for principal (IT Administrator)");
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -54,18 +56,24 @@ public class SecurityContextInjection {
         
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
-        roles.add("Educator");
+        roles.add(DefaultRoles.EDUCATOR.getRoleName());
         
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
         principal.setName(fullName);
-        principal.setTheirRoles(roles);
+        principal.setRoles(roles);
         
         LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = new PreAuthenticatedAuthenticationToken(principal,
-                token, new DefaultRoleMapperImpl(principal.getTheirRoles()).buildMappedRoles());
+                token, getRightsResolver().resolveRoles(roles));
         
         LOG.debug("updating security context for principal (Educator)");
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
+
+    public static DefaultRolesToRightsResolver getRightsResolver() {
+        DefaultRolesToRightsResolver resolver = new DefaultRolesToRightsResolver();
+        resolver.setRoleMapper(new DefaultClientRoleResolver());
+        return resolver;
     }
 }
