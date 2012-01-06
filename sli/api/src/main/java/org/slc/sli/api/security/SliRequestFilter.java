@@ -1,6 +1,15 @@
 package org.slc.sli.api.security;
 
-import java.io.IOException;
+import org.slc.sli.api.security.roles.AnonymousPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -9,14 +18,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
+import java.io.IOException;
 
 /**
  * A security filter responsible for checking SLI session
@@ -35,7 +37,10 @@ public class SliRequestFilter extends GenericFilterBean {
     
     @Value("${sli.security.noSession.landing.url}")
     private String                realmSelectionUrl;
-
+    
+    @Autowired
+    private AnonymousPrincipal    anonymousPrincipal;
+    
     /**
      * Intercepter method called by spring
      * Checks cookies to see if SLI session id exists
@@ -48,7 +53,11 @@ public class SliRequestFilter extends GenericFilterBean {
         
         Authentication auth = resolver.resolve(sessionId);
         
-        if (auth != null || (((HttpServletRequest) request).getRequestURL().toString().contains("system/session/check")) || (((HttpServletRequest) request).getRequestURL().toString().contains("rest/pub/realms/"))) {
+        if (auth == null && isPublicResource((HttpServletRequest) request)) {
+            auth = new PreAuthenticatedAuthenticationToken(anonymousPrincipal, null);
+        }
+        
+        if (auth != null) {
             SecurityContextHolder.getContext().setAuthentication(auth);
             chain.doFilter(request, response);
         } else {
@@ -57,6 +66,10 @@ public class SliRequestFilter extends GenericFilterBean {
             ((HttpServletResponse) response).setHeader("WWW-Authenticate", this.realmSelectionUrl);
             return;
         }
+    }
+    
+    private boolean isPublicResource(HttpServletRequest request) {
+        return request.getRequestURI().startsWith("/api/rest/system/session/check") || request.getRequestURI().startsWith("/api/rest/pub/");
     }
     
     private String getSessionIdFromRequest(HttpServletRequest req) {
@@ -83,5 +96,5 @@ public class SliRequestFilter extends GenericFilterBean {
     public void setRealmSelectionUrl(String realmSelectionUrl) {
         this.realmSelectionUrl = realmSelectionUrl;
     }
-
+    
 }
