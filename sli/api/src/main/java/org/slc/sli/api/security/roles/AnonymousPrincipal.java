@@ -4,6 +4,12 @@ import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 
+/**
+ * TODO document
+ * 
+ * @author mlane
+ *
+ */
 @Component
 public class AnonymousPrincipal implements Principal {
     @Override

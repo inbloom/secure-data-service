@@ -22,25 +22,25 @@ import java.io.IOException;
 
 /**
  * A security filter responsible for checking SLI session
- *
+ * 
  * @author dkornishev
  */
 @Component
 public class SliRequestFilter extends GenericFilterBean {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SliRequestFilter.class);
-    private static final String PARAM_SESSION = "sessionId";
-    private static final String HEADER_SESSION_NAME = "sessionId";
-
+    
+    private static final Logger   LOG                 = LoggerFactory.getLogger(SliRequestFilter.class);
+    private static final String   PARAM_SESSION       = "sessionId";
+    private static final String   HEADER_SESSION_NAME = "sessionId";
+    
     @Resource(name = "openamRestTokenResolver")
     private SecurityTokenResolver resolver;
-
+    
     @Value("${sli.security.noSession.landing.url}")
-    private String realmSelectionUrl;
-
+    private String                realmSelectionUrl;
+    
     @Autowired
-    private AnonymousPrincipal anonymousPrincipal;
-
+    private AnonymousPrincipal    anonymousPrincipal;
+    
     /**
      * Intercepter method called by spring
      * Checks cookies to see if SLI session id exists
@@ -48,15 +48,15 @@ public class SliRequestFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+        
         String sessionId = getSessionIdFromRequest((HttpServletRequest) request);
-
+        
         Authentication auth = resolver.resolve(sessionId);
-
+        
         if (auth == null && isPublicResource((HttpServletRequest) request)) {
             auth = new PreAuthenticatedAuthenticationToken(anonymousPrincipal, null);
         }
-
+        
         if (auth != null) {
             SecurityContextHolder.getContext().setAuthentication(auth);
             chain.doFilter(request, response);
@@ -67,35 +67,34 @@ public class SliRequestFilter extends GenericFilterBean {
             return;
         }
     }
-
+    
     private boolean isPublicResource(HttpServletRequest request) {
-        return request.getRequestURI().startsWith("/api/rest/system/session/check") ||
-                request.getRequestURI().startsWith("/api/rest/pub/");
+        return request.getRequestURI().startsWith("/api/rest/system/session/check") || request.getRequestURI().startsWith("/api/rest/pub/");
     }
-
+    
     private String getSessionIdFromRequest(HttpServletRequest req) {
-
+        
         String sessionId = "";
-
+        
         if (requestContainsSessionParam(req)) {
             sessionId = req.getParameter(PARAM_SESSION);
         } else {
             sessionId = req.getHeader(HEADER_SESSION_NAME);
         }
-
+        
         return sessionId;
     }
-
+    
     private boolean requestContainsSessionParam(HttpServletRequest req) {
         return req.getParameter(PARAM_SESSION) != null;
     }
-
+    
     public void setResolver(SecurityTokenResolver resolver) {
         this.resolver = resolver;
     }
-
+    
     public void setRealmSelectionUrl(String realmSelectionUrl) {
         this.realmSelectionUrl = realmSelectionUrl;
     }
-
+    
 }
