@@ -8,7 +8,7 @@ import java.util.List;
 public interface IRoleRightAccess {
 
     /**
-     * Returns a role that was found with the name speicfied.
+     * Returns a role that was found with the name specified.
      * @param name the name of the role you'd like to find (eg: Educator)
      * @return the role that is stored or null
      */

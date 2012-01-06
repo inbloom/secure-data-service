@@ -78,4 +78,14 @@ public final class RoleBuilder {
            addRight(right);
         }
     }
+
+    public static RoleBuilder makeRole(EntityBody entityBody) {
+        return new RoleBuilder((String) entityBody.get("name")).addRights(entityBody.get("rights"));
+ 
+    }
+
+    public RoleBuilder addId(String id) {
+        role.setId(id);
+        return this;
+    }
 }
