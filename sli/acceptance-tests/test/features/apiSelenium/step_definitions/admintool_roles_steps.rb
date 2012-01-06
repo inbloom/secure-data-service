@@ -24,6 +24,8 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
+  #TODO get rid of debug below
+  puts @driver.title
   assert(@driver.title.index("SLI Default Roles") != nil, "Failed to navigate to the Admintools Role page")
 end
 

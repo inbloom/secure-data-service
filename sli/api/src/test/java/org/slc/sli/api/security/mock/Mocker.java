@@ -12,8 +12,10 @@ import org.springframework.web.client.RestTemplate;
 import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.DefaultClientRoleResolver;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
+import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 
 /**
  * Generates mocked objects for unit tests
@@ -56,10 +58,16 @@ public class Mocker {
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
         resolver.setResolver(getResolver());
+        resolver.setLocator(getLocator());
         
         return resolver;
     }
     
+    private static UserLocator getLocator() {
+        UserLocator locator = new MongoUserLocator();
+        return locator;
+    }
+
     private static RolesToRightsResolver getResolver() {
         DefaultRolesToRightsResolver resolver = new DefaultRolesToRightsResolver();
         resolver.setRoleMapper(new DefaultClientRoleResolver());
