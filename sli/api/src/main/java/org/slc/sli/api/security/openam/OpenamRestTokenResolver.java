@@ -31,12 +31,12 @@ import java.util.regex.Pattern;
 @Component
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
-    private static final Logger   LOG  = LoggerFactory.getLogger(SliEntryPoint.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SliEntryPoint.class);
     
-    private RestTemplate          rest = new RestTemplate();
+    private RestTemplate rest = new RestTemplate();
     
     @Value("${sli.security.tokenService.url}")
-    private String                tokenServiceUrl;
+    private String tokenServiceUrl;
     
     @Autowired
     private RolesToRightsResolver resolver;
@@ -44,7 +44,8 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     /**
      * Populates Authentication object by calling openAM with given token id
      * 
-     * @param token sessionId to use in lookups
+     * @param token
+     *            sessionId to use in lookups
      * @return populated Authentication or null if sessionId isn't valid
      */
     @Override
@@ -59,12 +60,14 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
                 String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
                 
                 // Validate Session
-                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
+                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class,
+                        Collections.<String, Object> emptyMap());
                 
                 if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                     
                     // Get session attributes
-                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object>emptyMap());
+                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token,
+                            String.class, Collections.<String, Object> emptyMap());
                     LOG.debug("-------------------------------------");
                     LOG.debug(entity.getBody());
                     LOG.debug("-------------------------------------");
@@ -84,8 +87,10 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setId(extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
+        principal.setRealm(extractRealm(payload));
         
-        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getRoles()));
+        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal
+                .getRoles()));
         
     }
     
@@ -100,10 +105,32 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         return roles;
     }
     
+    /**
+     * Extracts the realm that the user belongs to. Current implementation of the SLIPrincipal
+     * allows for exactly one realm per user. This function will change if users are allowed to
+     * belong to multiple realms.
+     * 
+     * @param payload
+     *            OpenAM user attributes.
+     * @return String containing realm information.
+     */
+    private String extractRealm(String payload) {
+        String myRealm = "";
+        Pattern p = Pattern.compile("userdetails\\.role=id=\\w+,ou=\\w+,(.+)");
+        Matcher m = p.matcher(payload);
+        
+        if (m.find()) {
+            myRealm = m.group(1);
+        }
+        
+        return myRealm;
+    }
+    
     private String extractValue(String valueName, String payload) {
         String result = "";
         
-        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName
+                + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
         
         if (m.find()) {
