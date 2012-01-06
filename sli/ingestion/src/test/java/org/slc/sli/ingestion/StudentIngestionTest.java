@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class StudentIngestionTest {
 
     private static String studentEntityType = "student";
 
+    @Ignore// TODO integration tests will be moved out of this module soons
     @Test
     public void testStudentIngestionPersistence() throws IOException, SAXException {
 
@@ -71,6 +73,7 @@ public class StudentIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soons
     @Test
     public void testStudentInterchangeXmlParsing() throws IOException, SAXException {
 
@@ -98,6 +101,7 @@ public class StudentIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soons
     @Test
     public void testStudentInterchangeCsvParsing() throws IOException, SAXException {
 
@@ -125,6 +129,7 @@ public class StudentIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testStudentInterchangeCsvFileParsing() throws IOException, SAXException {
 
