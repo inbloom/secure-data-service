@@ -67,7 +67,10 @@ public class EntityServiceAspect {
         Signature entitySignature = pjp.getSignature();
         String entityFunctionName = entitySignature.getName();
 
-        if (isWhiteListed(pjp)) {
+        EntityService service = (EntityService) pjp.getTarget();
+        String entityDefinitionType = service.getEntityDefinition().getType();
+
+        if (isWhiteListed(entityDefinitionType, entityFunctionName)) {
             LOG.debug("granting access to user for entity");
             hasAccess = true;
         } else {
@@ -98,13 +101,8 @@ public class EntityServiceAspect {
         }
     }
 
-    private boolean isWhiteListed(ProceedingJoinPoint pjp) {
-        Signature entitySignature = pjp.getSignature();
-        String entityFunctionName = entitySignature.getName();
+    private boolean isWhiteListed(String entityDefinitionType, String entityFunctionName ) {
 
-
-        EntityService service = (EntityService) pjp.getTarget();
-        String entityDefinitionType = service.getEntityDefinition().getType();
         return entitiesAlwaysAllow.contains(entityDefinitionType) || methodsAlwaysAllow.contains(entityFunctionName);
     }
 
@@ -113,7 +111,7 @@ public class EntityServiceAspect {
         LOG.debug("[ASPECT] filtering read");
         Entity entity = (Entity) pjp.proceed();
 
-        if (entity != null && !isWhiteListed(pjp)) {
+        if (entity != null && !isWhiteListed(entity.getType(), pjp.getSignature().getName())) {
             Set<Right> grantedRights = getGrantedRights();
             LOG.debug("Rights {}", grantedRights);
 
