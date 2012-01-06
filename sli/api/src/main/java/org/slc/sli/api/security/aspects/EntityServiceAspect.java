@@ -1,24 +1,23 @@
 package org.slc.sli.api.security.aspects;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.security.roles.AnonymousPrincipal;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntitySchemaRegistry;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 // add this import if we move to CoreEntityService paradigm
@@ -107,7 +106,7 @@ public class EntityServiceAspect {
     
     private boolean isPublicContext() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getPrincipal().getClass().equals(AnonymousPrincipal.class);
+        return auth instanceof AnonymousAuthenticationToken;
     }
     
     private void removeReadGeneralAttributes(Entity entity) {
