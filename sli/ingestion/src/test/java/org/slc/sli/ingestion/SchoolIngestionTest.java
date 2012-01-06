@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -53,6 +54,7 @@ public class SchoolIngestionTest {
 
     private static String schoolEntityType = "school";
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolIngestionPersistence() throws IOException, SAXException {
 
@@ -71,6 +73,7 @@ public class SchoolIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolInterchangeXmlParsing() throws IOException, SAXException {
 
@@ -97,6 +100,7 @@ public class SchoolIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolInterchangeCsvParsing() throws IOException, SAXException {
 
@@ -124,6 +128,7 @@ public class SchoolIngestionTest {
 
     }
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolInterchangeCsvFileParsing() throws IOException, SAXException {
 
