@@ -4,7 +4,6 @@ import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
@@ -28,9 +27,9 @@ import java.util.Iterator;
 
 @Aspect
 public class EntityServiceAspect {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
-
+    
     @Autowired
     private EntitySchemaRegistry mySchemaRegistry;
 
