@@ -1,6 +1,5 @@
 package org.slc.sli.api.service;
 
-
 /**
  * Extension of EntityService for associations.
  */
@@ -14,8 +13,11 @@ public interface AssociationService extends EntityService {
      *            the index of the first entity in the data store to return
      * @param numResults
      *            the number of results to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return the ids of association entities
      */
+
     public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString);
     
     /**
@@ -27,6 +29,8 @@ public interface AssociationService extends EntityService {
      *            the index of the first entity in the data store to return
      * @param numResults
      *            the number of results to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return the ids of associations associated to the given entity
      */
     public Iterable<String> getAssociationsTo(String id, int start, int numResults, String queryString);
@@ -40,6 +44,8 @@ public interface AssociationService extends EntityService {
      *            the index of the first entity in the data store to return
      * @param numResults
      *            the number of results to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return the ids of associated entities
      */
     public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, String queryString);
@@ -53,6 +59,8 @@ public interface AssociationService extends EntityService {
      *            the index of the first entity in the data store to return
      * @param numResults
      *            the number of results to return
+     * @param queryString
+     *            the query string to filter returned collection results
      * @return the ids of entities associated to the given entity
      */
     public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, String queryString);
