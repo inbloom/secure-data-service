@@ -116,8 +116,9 @@ class PropLoader
   private
   
   def self.updateHash()
-    @@yml['api_server_url'] = ENV['api_server_url'] if ENV['api_server_url']
-    @@yml['admintools_server_url'] = ENV['admintools_server_url'] if ENV['admintools_server_url']
+    @@yml.each do |key, value|
+      @@yml[key] = ENV[key] if ENV[key]
+    end
     @@modified=true
   end
 end
