@@ -1,12 +1,16 @@
 package org.slc.sli.api.security.openam;
 
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityTokenResolver;
-import org.slc.sli.api.security.SliEntryPoint;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,12 +19,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityTokenResolver;
+import org.slc.sli.api.security.SliEntryPoint;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.slc.sli.api.security.resolve.UserLocator;
 
 /**
  * Creates Spring Authentication object by calling openAM restful API
@@ -29,17 +32,21 @@ import java.util.regex.Pattern;
  * @author dkornishev
  */
 @Component
+@Primary
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
-    private static final Logger LOG = LoggerFactory.getLogger(SliEntryPoint.class);
+    private static final Logger   LOG  = LoggerFactory.getLogger(SliEntryPoint.class);
     
-    private RestTemplate rest = new RestTemplate();
+    private RestTemplate          rest = new RestTemplate();
     
     @Value("${sli.security.tokenService.url}")
-    private String tokenServiceUrl;
+    private String                tokenServiceUrl;
     
     @Autowired
     private RolesToRightsResolver resolver;
+    
+    @Autowired
+    private UserLocator           locator;
     
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -60,14 +67,12 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
                 String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
                 
                 // Validate Session
-                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class,
-                        Collections.<String, Object> emptyMap());
+                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
                 
                 if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                     
                     // Get session attributes
-                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token,
-                            String.class, Collections.<String, Object> emptyMap());
+                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object>emptyMap());
                     LOG.debug("-------------------------------------");
                     LOG.debug(entity.getBody());
                     LOG.debug("-------------------------------------");
@@ -83,14 +88,13 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     }
     
     private Authentication buildAuthentication(String token, String payload) {
-        SLIPrincipal principal = new SLIPrincipal();
-        principal.setId(extractValue("uid", payload));
+        String externalUserId = extractValue("uid", payload);
+        SLIPrincipal principal = this.locator.locate(extractRealm(payload), externalUserId);
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));
         
-        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal
-                .getRoles()));
+        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getRoles()));
         
     }
     
@@ -129,8 +133,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     private String extractValue(String valueName, String payload) {
         String result = "";
         
-        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName
-                + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
         
         if (m.find()) {
@@ -151,4 +154,9 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     public void setResolver(RolesToRightsResolver resolver) {
         this.resolver = resolver;
     }
+    
+    public void setLocator(UserLocator locator) {
+        this.locator = locator;
+    }
+    
 }

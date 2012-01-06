@@ -6,17 +6,33 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.web.util.WebUtils;
+
+import org.slc.sli.util.URLBuilder;
+import org.slc.sli.util.URLHelper;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -29,31 +45,18 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
     
-    private String   authUrl, loginPageUrl, callBackPageUrlPrefix, dashboardLandingPage;
+    private static final String SESSION_ID_KEY = "sliSessionId";
+    private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
     
-   
-    public String getCallBackPageUrlPrefix() {
-        return callBackPageUrlPrefix;
+    
+    private RESTClient restClient;
+    
+    public RESTClient getRestClient() {
+        return restClient;
     }
 
-    public void setCallBackPageUrlPrefix(String callBackPageUrlPrefix) {
-        this.callBackPageUrlPrefix = callBackPageUrlPrefix;
-    }
-
-    public String getDashboardLandingPage() {
-        return dashboardLandingPage;
-    }
-
-    public void setDashboardLandingPage(String dashboardLandingPage) {
-        this.dashboardLandingPage = dashboardLandingPage;
-    }
-
-    public String getLoginPageUrl() {
-        return loginPageUrl;
-    }
-
-    public void setLoginPageUrl(String loginPageUrl) {
-        this.loginPageUrl = loginPageUrl;
+    public void setRestClient(RESTClient restClient) {
+        this.restClient = restClient;
     }
 
     /**
@@ -61,36 +64,47 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        
-        String urlProtocol =  "http";
-        String serverAddress = "testapi1.slidev.org";
-        int serverPort = 8080;
-        String callBackPageUrlPrefix =  "?RelayState=";
-        String apiCallPrefix =  "/api";        
 
-        URL url = new URL(urlProtocol, serverAddress, serverPort, apiCallPrefix + "/rest/system/session/check");
-        URLConnection connection = url.openConnection();
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
         
-        String inputLine;
-        StringBuffer responseString = new StringBuffer();
+        if (sessionId == null) {
+            Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
+            if (openAmCookie != null) {
+                sessionId = openAmCookie.getValue();
 
-        while ((inputLine = in.readLine()) != null) {
-            responseString.append(inputLine);
+            } else {
+                JsonObject jsonSession = this.restClient.sessionCheck(null);
+                if (!jsonSession.get("authenticated").getAsBoolean()) {
+                    String baseUrl = jsonSession.get("redirect_user").getAsString();
+                    String requestedURL = URLHelper.getUrl(request);
+                    LOG.debug("Using return URL of: " + requestedURL);
+                    URLBuilder url = new URLBuilder(baseUrl);
+                    url.addQueryParam("RelayState", requestedURL);
+                    response.sendRedirect(url.toString());
+                }
+            }
         }
-        in.close();
-        
-        Gson gson = new Gson();
-        System.out.println(responseString);
-        SecurityResponse resp = gson.fromJson(responseString.toString(), SecurityResponse.class);
-        String redirectUrl = resp.getRedirect_user();
-        
-        String realmUrl = redirectUrl + callBackPageUrlPrefix + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
-        response.sendRedirect(realmUrl);
 
+        addAuthentication((String) sessionId);
+        response.sendRedirect(request.getRequestURI());
     }
     
-    public void setAuthUrl(String authUrl) {
-        this.authUrl = authUrl;
-    }    
+    private void addAuthentication(String token) {
+        JsonObject json = this.restClient.sessionCheck(token);
+        LOG.debug(json.toString());
+        SLIPrincipal principal = new SLIPrincipal();
+        JsonElement nameElement = json.get("full_name");
+        principal.setName(nameElement.getAsString());
+        JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
+        Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
+        LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
+        while (authIterator.hasNext()) {
+            JsonElement nextElement = authIterator.next();
+            authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
+        }
+
+        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
+    }
+    
 }
+

@@ -10,7 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.view.TimedLogic;
+import org.slc.sli.view.AssessmentMetaDataResolver;
 
 /**
  * Unit tests for the StudentManager class.
@@ -22,6 +24,7 @@ public class TimedLogicTest {
 
     // test parameters: Some fake assessment result objects
     List<Assessment> assessments;
+    AssessmentMetaDataResolver assessmentMetaDataResolver;
 
     @Before
     public void setup() {
@@ -32,6 +35,8 @@ public class TimedLogicTest {
         Assessment a2 = createAssessment(1, 2009, "MostRecent");
         Assessment a3 = createAssessment(50, 2007, "Dummy");
         assessments = Arrays.asList(a1, a2, a3);
+        
+        assessmentMetaDataResolver = new AssessmentMetaDataResolver(Arrays.asList(createAssessmentMetaData("Mock Assessment", "01/01")));
     }
     
     @Test
@@ -48,7 +53,7 @@ public class TimedLogicTest {
     
     @Test
     public void testGetMostRecentAssessmentWindow() {
-        Assessment a = TimedLogic.getMostRecentAssessmentWindow(assessments);
+        Assessment a = TimedLogic.getMostRecentAssessmentWindow(assessments, assessmentMetaDataResolver, "Mock Assessment");
         assertNull(a);
     }
 
@@ -58,6 +63,13 @@ public class TimedLogicTest {
         retVal.setStudentId(studentID);
         retVal.setYear(year);
         retVal.setScaleScore(score);
+        return retVal;
+    }
+
+    private AssessmentMetaData createAssessmentMetaData(String name, String windowEndDate) {
+        AssessmentMetaData retVal = new AssessmentMetaData();
+        retVal.setName(name);
+        retVal.setWindowEnd(windowEndDate);
         return retVal;
     }
 }

@@ -9,8 +9,6 @@ import org.junit.Test;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.DataSet;
-import org.slc.sli.config.DataPoint;
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 
@@ -31,9 +29,6 @@ public class ConfigUtilTest {
         String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                          + "<viewConfigSet>\n"
                          + "    <viewConfig name=\"listOfStudents\">\n"
-                         + "        <dataSet type=\"studentInfo\">\n"
-                         + "            <dataPoint id=\"name\"/>\n"
-                         + "        </dataSet>\n"
                          + "        <displaySet displayName=\"\">\n"
                          + "            <field value=\"stud.studentInfo.name\" format=\"firstLast\" displayName=\"Student\"/>\n"
                          + "        </displaySet>\n"
@@ -47,8 +42,6 @@ public class ConfigUtilTest {
             System.out.println(e);
         }
         ViewConfig config = configs.getViewConfig().get(0);
-        assertEquals(1, config.getDataSet().size());
-        assertEquals(1, config.getDataSet().get(0).getDataPoint().size());
         assertEquals(1, config.getDisplaySet().size());
         assertEquals(1, config.getDisplaySet().get(0).getField().size());
     }
@@ -60,14 +53,6 @@ public class ConfigUtilTest {
         ViewConfig view = new ViewConfig();
         view.setName("listOfStudents");
         configs.getViewConfig().add(view);
-        
-        DataSet dataSet = new DataSet();
-        dataSet.setType("studentInfo");
-        view.getDataSet().add(dataSet);
-       
-        DataPoint dataPoint = new DataPoint();
-        dataPoint.setId("name");
-        dataSet.getDataPoint().add(dataPoint);
         
         DisplaySet displaySet = new DisplaySet();
         displaySet.setDisplayName("");
@@ -88,9 +73,6 @@ public class ConfigUtilTest {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                    + "<viewConfigSet>\n"
                    + "    <viewConfig name=\"listOfStudents\">\n"
-                   + "        <dataSet type=\"studentInfo\">\n"
-                   + "            <dataPoint id=\"name\"/>\n"
-                   + "        </dataSet>\n"
                    + "        <displaySet displayName=\"\">\n"
                    + "            <field value=\"stud.studentInfo.name\" format=\"firstLast\" displayName=\"Student\"/>\n"
                    + "        </displaySet>\n"

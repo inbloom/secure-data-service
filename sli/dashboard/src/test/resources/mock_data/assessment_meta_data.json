@@ -6,37 +6,43 @@
                 "name": "1",
                 "code": "W",
                 "shortName": "1 / W",
-                "longName": "Level 1: Academic Warning (W)"
+                "longName": "Level 1: Academic Warning (W)",
+                "isReal": true
             },
             {
                 "name": "2",
                 "code": "B",
                 "shortName": "2 / B",
-                "longName": "Level 2: Below Standards (B)"
+                "longName": "Level 2: Below Standards (B)",
+                "isReal": true
             },
             {
                 "name": "3",
                 "code": "M",
                 "shortName": "3 / M",
-                "longName": "Level 3: Meets Standards (S)"
+                "longName": "Level 3: Meets Standards (S)",
+                "isReal": true
             },
             {
                 "name": "4",
                 "code": "E",
                 "shortName": "4 / E",
-                "longName": "Level 4: Exceeds Standards (E)"
+                "longName": "Level 4: Exceeds Standards (E)",
+                "isReal": true
             },
             {
                 "name": "I",
                 "code": "!",
                 "shortName": "Inv.",
-                "longName": "Invalid Score or Data Error"
+                "longName": "Invalid Score or Data Error",
+                "isReal": false
             },
             {
                 "name": "N",
                 "code": "-",
                 "shortName": "N/A",
-                "longName": "Score not available (N/A)"
+                "longName": "Score not available (N/A)",
+                "isReal": false
             }
         ],
         "windowStart": "03/05",
@@ -166,37 +172,43 @@
                 "name": "1",
                 "code": "W",
                 "shortName": "1 / W",
-                "longName": "Level 1: Academic Warning (W)"
+                "longName": "Level 1: Academic Warning (W)",
+                "isReal": true
             },
             {
                 "name": "2",
                 "code": "B",
                 "shortName": "2 / B",
-                "longName": "Level 2: Below Standards (B)"
+                "longName": "Level 2: Below Standards (B)",
+                "isReal": true
             },
             {
                 "name": "3",
                 "code": "M",
                 "shortName": "3 / M",
-                "longName": "Level 3: Meets Standards (S)"
+                "longName": "Level 3: Meets Standards (S)",
+                "isReal": true
             },
             {
                 "name": "4",
                 "code": "E",
                 "shortName": "4 / E",
-                "longName": "Level 4: Exceeds Standards (E)"
+                "longName": "Level 4: Exceeds Standards (E)",
+                "isReal": true
             },
             {
                 "name": "I",
                 "code": "!",
                 "shortName": "Inv.",
-                "longName": "Invalid Score or Data Error"
+                "longName": "Invalid Score or Data Error",
+                "isReal": false
             },
             {
                 "name": "N",
                 "code": "-",
                 "shortName": "N/A",
-                "longName": "Score not available (N/A)"
+                "longName": "Score not available (N/A)",
+                "isReal": false
             }
         ],
         "children": [

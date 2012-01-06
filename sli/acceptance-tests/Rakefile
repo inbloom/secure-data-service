@@ -149,7 +149,13 @@ end
 ############################################################
 desc "Run API Selenium Tests"
 task :apiSeleniumTests do
-  runTests("test/features/apiSelenium")  
+  runTests("test/features/apiSelenium")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 ############################################################
 # API Selenium tests end
@@ -175,12 +181,6 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests] do
-  # securityHash = Hash[
-    # "school" => "school_fixture.json",
-    # "student" => "student_fixture.json"
-    # ]
-  # setMultipleFixtureFiles(securityHash)
-  # runTests("test/features/dashboard")  
   puts "Completed Dashboard tests"
 end
 

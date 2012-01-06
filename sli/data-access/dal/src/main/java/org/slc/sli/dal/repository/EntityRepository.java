@@ -80,14 +80,14 @@ public interface EntityRepository {
      * @param id
      *            the global unique id of the entity
      */
-    void delete(String entityType, String id);
+    public void delete(String entityType, String id);
     
     /**
      * @param entityType
      *            the entity type need to be deleted, can be entity type for
      *            core entity or association entity
      */
-    void deleteAll(String entityType);
+    public void deleteAll(String entityType);
     
     /**
      * @param entityType
@@ -102,7 +102,7 @@ public interface EntityRepository {
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max);
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max);
     
     /**
      * @param entityType
@@ -113,7 +113,7 @@ public interface EntityRepository {
      *            criteria for example: new HashMap().put("firstName","Jane")
      * @return the collection of entities
      */
-    Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
     
     /**
      * @param entityType
@@ -127,6 +127,8 @@ public interface EntityRepository {
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max);
+    public Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max);
+    
+    public boolean matchQuery(String entityType, String id, String queryString);
 
 }

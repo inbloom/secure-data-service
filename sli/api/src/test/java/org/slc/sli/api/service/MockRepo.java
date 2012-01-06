@@ -35,6 +35,7 @@ public class MockRepo implements EntityRepository {
         repo.put("studentassessmentassociation", new LinkedHashMap<String, Entity>());
         repo.put("studentsectionassociation", new LinkedHashMap<String, Entity>());
         repo.put("teacherschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("staff", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -228,5 +229,11 @@ public class MockRepo implements EntityRepository {
             }
         }
         return match;
+    }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, String queryString) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }
