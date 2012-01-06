@@ -3,6 +3,7 @@ package org.slc.sli.api.security.openam;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.SliEntryPoint;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,10 +44,14 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     @Autowired
     private RolesToRightsResolver resolver;
     
+    @Autowired
+    private UserLocator           locator;
+    
     /**
      * Populates Authentication object by calling openAM with given token id
      * 
-     * @param token sessionId to use in lookups
+     * @param token
+     *            sessionId to use in lookups
      * @return populated Authentication or null if sessionId isn't valid
      */
     @Override
@@ -80,10 +87,11 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     }
     
     private Authentication buildAuthentication(String token, String payload) {
-        SLIPrincipal principal = new SLIPrincipal();
-        principal.setId(extractValue("uid", payload));
+        String externalUserId = extractValue("uid", payload);
+        SLIPrincipal principal = this.locator.locate(extractRealm(payload), externalUserId);
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
+        principal.setRealm(extractRealm(payload));
         
         return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getRoles()));
         
@@ -98,6 +106,27 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
             roles.add(m.group(1));
         }
         return roles;
+    }
+    
+    /**
+     * Extracts the realm that the user belongs to. Current implementation of the SLIPrincipal
+     * allows for exactly one realm per user. This function will change if users are allowed to
+     * belong to multiple realms.
+     * 
+     * @param payload
+     *            OpenAM user attributes.
+     * @return String containing realm information.
+     */
+    private String extractRealm(String payload) {
+        String myRealm = "";
+        Pattern p = Pattern.compile("userdetails\\.role=id=\\w+,ou=\\w+,(.+)");
+        Matcher m = p.matcher(payload);
+        
+        if (m.find()) {
+            myRealm = m.group(1);
+        }
+        
+        return myRealm;
     }
     
     private String extractValue(String valueName, String payload) {
@@ -124,4 +153,9 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     public void setResolver(RolesToRightsResolver resolver) {
         this.resolver = resolver;
     }
+    
+    public void setLocator(UserLocator locator) {
+        this.locator = locator;
+    }
+    
 }
