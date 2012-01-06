@@ -30,24 +30,6 @@ public interface IRoleRightAccess {
     public abstract List<Role> fetchAllRoles();
 
     /**
-     * Returns a right object based on the name.
-     *
-     * Won't be implemeneted for a long time (YANGNI)
-     * @param name the name of the right to find (eg: READ_GENERAL)
-     * @return the right object that represents the right
-     */
-    public abstract Right getRightByName(String name);
-
-    /**
-     * Returns a list of all known rights
-     *
-     * This is an expensive operation, it must go through all roles first then get their rights out.
-     *
-     * @return A list of all right objects that were kept in the db
-     */
-    public abstract List<Right> fetchAllRights();
-
-    /**
      * Adds a new role to the database.
      * @param role The role object to add.
      * @return a boolean to indicate success or failure.

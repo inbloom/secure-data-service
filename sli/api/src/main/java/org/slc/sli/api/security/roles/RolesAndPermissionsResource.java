@@ -75,7 +75,7 @@ public class RolesAndPermissionsResource {
      */
     @POST
     @Path("/")
-    public void createRoleWithPermission(String name, Object rights) {
+    public void createRoleWithPermission(String name, List<String> rights) {
         //Make sure we aren't creating a duplicate of a default role
         if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName())
                 || name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName())

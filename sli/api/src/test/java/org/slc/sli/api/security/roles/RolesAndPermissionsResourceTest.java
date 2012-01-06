@@ -72,7 +72,7 @@ public class RolesAndPermissionsResourceTest {
         assertNotNull(api);
         assertNotNull(role.get("name"));
         assertNotNull(role.get("rights"));
-        api.createRoleWithPermission((String) role.get("name"), role.get("rights"));
+        api.createRoleWithPermission((String) role.get("name"), (List<String>)role.get("rights"));
         
         //Fetch it back out.
         List<Map<String, Object>> result = api.getRolesAndPermissions();

@@ -65,15 +65,6 @@ public final class RoleBuilder {
         return role;
     }
 
-    public RoleBuilder addRights(Object rights) {
-        if (rights.getClass().isArray()) {
-            for (int i = 0; i < Array.getLength(rights); ++i) {
-                addRight(Array.get(rights, i));
-            }
-        }
-        return this;
-    }
-
     public void addRight(Object right) {
         if(right instanceof String) {
            addRight(right);
@@ -81,7 +72,7 @@ public final class RoleBuilder {
     }
 
     public static RoleBuilder makeRole(EntityBody entityBody) {
-        return new RoleBuilder((String) entityBody.get("name")).addRights(entityBody.get("rights"));
+        return new RoleBuilder((String) entityBody.get("name")).addRights((List<String>)entityBody.get("rights"));
  
     }
 
