@@ -60,7 +60,7 @@ public final class RoleBuilder {
         return role.getRoleAsEntityBody();
     }
 
-    public Role buildRole() {
+    public Role build() {
         return role;
     }
 

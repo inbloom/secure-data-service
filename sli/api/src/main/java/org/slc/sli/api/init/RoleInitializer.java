@@ -1,7 +1,8 @@
 package org.slc.sli.api.init;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.enums.Right;
+
+import org.slc.sli.api.security.roles.Right;
+import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
@@ -28,9 +29,16 @@ public class RoleInitializer {
     public static final String LEADER = "Leader";
     private static final Logger LOG = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String ROLES = "roles";
+    private static final String AGGREGATE_READ = "AGGREGATE_READ";
+    private static final String AGGREGATE_WRITE = "AGGREGATE_WRITE";
+    private static final String READ_GENERAL = "READ_GENERAL";
+    private static final String READ_RESTRICTED = "READ_RESTRICTED";
+    private static final String WRITE_GENERAL = "WRITE_GENERAL";
+    private static final String WRITE_RESTRICTED = "WRITE_RESTRICTED";
 
     @Autowired
     private EntityRepository repository;
+
 
     private void init() {
         buildRoles();
@@ -38,7 +46,7 @@ public class RoleInitializer {
 
     public int buildRoles() {
         Iterable<Entity> subset = repository.findAll(ROLES);
-        Set<EntityBody> createdRoles = new HashSet<EntityBody>();
+        Set<Role> createdRoles = new HashSet<Role>();
 
         boolean hasEducator = false;
         boolean hasLeader = false;
@@ -69,32 +77,32 @@ public class RoleInitializer {
         if (!hasEducator)
             createdRoles.add(buildEducator());
 
-        for (EntityBody body : createdRoles) {
-            repository.create(ROLES, body);
+        for (Role role : createdRoles) {
+            repository.create(ROLES, role.getRoleAsEntityBody());
         }
         return createdRoles.size();
 
 
     }
 
-    private EntityBody buildAggregate() {
+    private Role buildAggregate() {
         LOG.info("Building Aggregate Viewer default role.");
-        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[]{Right.AGGREGATE_READ}).build();
+        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[]{new Right(AGGREGATE_READ)}).build();
     }
 
-    private EntityBody buildEducator() {
+    private Role buildEducator() {
         LOG.info("Building Educator default role.");
-        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL}).build();
+        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[]{new Right(AGGREGATE_READ), new Right(READ_GENERAL)}).build();
     }
 
-    private EntityBody buildLeader() {
+    private Role buildLeader() {
         LOG.info("Building Leader default role.");
-        return RoleBuilder.makeRole(LEADER).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED}).build();
+        return RoleBuilder.makeRole(LEADER).addRights(new Right[]{new Right(AGGREGATE_READ), new Right(READ_GENERAL), new Right(READ_RESTRICTED)}).build();
     }
 
-    private EntityBody buildIT() {
+    private Role buildIT() {
         LOG.info("Building IT Administrator default role.");
-        return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED}).build();
+        return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[]{new Right(AGGREGATE_READ), new Right(READ_GENERAL), new Right(READ_RESTRICTED), new Right(WRITE_GENERAL), new Right(WRITE_RESTRICTED)}).build();
     }
     
     public void setRepository(EntityRepository repo) {
