@@ -1,5 +1,14 @@
 package org.slc.sli.api.security;
 
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-
-import javax.annotation.Resource;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * A security filter responsible for checking SLI session
@@ -30,7 +30,7 @@ public class SliRequestFilter extends GenericFilterBean {
     private static final String   PARAM_SESSION       = "sessionId";
     private static final String   HEADER_SESSION_NAME = "sessionId";
     
-    @Resource(name = "openamRestTokenResolver")
+    @Autowired
     private SecurityTokenResolver resolver;
     
     @Value("${sli.security.noSession.landing.url}")
