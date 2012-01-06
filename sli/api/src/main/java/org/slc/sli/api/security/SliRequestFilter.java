@@ -1,13 +1,11 @@
 package org.slc.sli.api.security;
 
-import org.slc.sli.api.security.roles.AnonymousPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -38,9 +36,6 @@ public class SliRequestFilter extends GenericFilterBean {
     @Value("${sli.security.noSession.landing.url}")
     private String                realmSelectionUrl;
     
-    @Autowired
-    private AnonymousPrincipal    anonymousPrincipal;
-    
     /**
      * Intercepter method called by spring
      * Checks cookies to see if SLI session id exists
@@ -52,13 +47,9 @@ public class SliRequestFilter extends GenericFilterBean {
         String sessionId = getSessionIdFromRequest((HttpServletRequest) request);
         
         Authentication auth = resolver.resolve(sessionId);
-        
-        if (auth == null && isPublicResource((HttpServletRequest) request)) {
-            auth = new PreAuthenticatedAuthenticationToken(anonymousPrincipal, null);
-        }
-        
-        if (auth != null) {
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        if (auth != null || isPublicResource((HttpServletRequest) request)) {
             chain.doFilter(request, response);
         } else {
             LOG.warn("Unauthorized access");
