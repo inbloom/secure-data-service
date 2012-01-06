@@ -29,8 +29,8 @@ import java.util.List;
  *  This is meant to be a read-only operation, but contains a convenience post
  *  method to create new roles.
  *
- *  @see org.slc.sli.api.security.enums.Right
- *  @see DefaultRoles
+ *  @see org.slc.sli.api.security.roles.Right
+ *  @see org.slc.sli.api.security.roles.Role
  */
 @Path("/admin/roles")
 @Component
@@ -57,12 +57,6 @@ public class RolesAndPermissionsResource {
     public List<Map<String, Object>> getRolesAndPermissions() {
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
         EntityService service = getEntityService();
-        
-        //Add default roles
-        roleList.add(getDefaultRole(DefaultRoles.EDUCATOR));
-        roleList.add(getDefaultRole(DefaultRoles.LEADER));
-        roleList.add(getDefaultRole(DefaultRoles.AGGREGATOR));
-        roleList.add(getDefaultRole(DefaultRoles.ADMINISTRATOR));
 
         //TODO get some way to findAll.
         Iterable<String> names = service.list(0, NUM_RESULTS);
@@ -71,10 +65,6 @@ public class RolesAndPermissionsResource {
             roleList.add(body);
         }
         return roleList;
-    }
-    
-    private Map<String, Object> getDefaultRole(DefaultRoles role) {
-        return RoleBuilder.makeRole(role.getRoleName()).addRights(role.getRights()).build();
     }
 
     /**
@@ -94,7 +84,7 @@ public class RolesAndPermissionsResource {
             return;
         }
         EntityService service = getEntityService();
-        service.create(RoleBuilder.makeRole(name).addRights(rights).build());
+        service.create(RoleBuilder.makeRole(name).addRights(rights).buildEntityBody());
     }
 
     private EntityService getEntityService() {
