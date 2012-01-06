@@ -19,7 +19,7 @@
 
     <!-- Integration (ETL) Framework Versions -->
     <smooks.version>1.4.2</smooks.version>
-    
+
     <camel.version>2.8.1</camel.version>
 
   </properties>
@@ -89,6 +89,13 @@
       <version>${camel.version}</version>
       <type>war</type>
       <scope>runtime</scope>
+    </dependency>
+
+    <!-- Apache Hadoop Core -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-core</artifactId>
+      <version>0.20.2</version>
     </dependency>
 
     <!-- Apache Commons IO dependency -->
