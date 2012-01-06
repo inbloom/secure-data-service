@@ -1,7 +1,7 @@
 package org.slc.sli.api.init;
 
 
-import org.slc.sli.api.security.roles.Right;
+import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.dal.repository.EntityRepository;
@@ -87,22 +87,22 @@ public class RoleInitializer {
 
     private Role buildAggregate() {
         LOG.info("Building Aggregate Viewer default role.");
-        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[]{new Right(AGGREGATE_READ)}).build();
+        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[]{Right.AGGREGATE_READ}).build();
     }
 
     private Role buildEducator() {
         LOG.info("Building Educator default role.");
-        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[]{new Right(AGGREGATE_READ), new Right(READ_GENERAL)}).build();
+        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL}).build();
     }
 
     private Role buildLeader() {
         LOG.info("Building Leader default role.");
-        return RoleBuilder.makeRole(LEADER).addRights(new Right[]{new Right(AGGREGATE_READ), new Right(READ_GENERAL), new Right(READ_RESTRICTED)}).build();
+        return RoleBuilder.makeRole(LEADER).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED}).build();
     }
 
     private Role buildIT() {
         LOG.info("Building IT Administrator default role.");
-        return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[]{new Right(AGGREGATE_READ), new Right(READ_GENERAL), new Right(READ_RESTRICTED), new Right(WRITE_GENERAL), new Right(WRITE_RESTRICTED)}).build();
+        return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED}).build();
     }
     
     public void setRepository(EntityRepository repo) {
