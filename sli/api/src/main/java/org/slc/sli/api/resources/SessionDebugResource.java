@@ -36,7 +36,7 @@ public class SessionDebugResource {
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
-     *
+     * 
      * @return SecurityContext that will be send back as a response of type "application/json".
      */
     @GET
@@ -54,12 +54,13 @@ public class SessionDebugResource {
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
             sessionDetails.put("granted_authorities", principal.getRoles());
-
+            sessionDetails.put("realm", principal.getRealm());
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", getLoginUrl(uriInfo));
@@ -71,7 +72,9 @@ public class SessionDebugResource {
     }
     
     private boolean isAuthenticated(SecurityContext securityContext) {
-        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
+        return !(securityContext == null || securityContext.getAuthentication() == null
+                || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication()
+                .getCredentials().equals(""));
     }
     
     private String getLoginUrl(UriInfo uriInfo) {
