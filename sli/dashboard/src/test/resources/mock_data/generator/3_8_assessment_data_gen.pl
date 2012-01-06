@@ -114,7 +114,7 @@ while ($line = <INPUT_STUDENT>)
 	# debug
         # print $random_number . " " . $grade . " " . $score . " " . $scale . " " . $percentile . "\n";
 	# put into result array
-	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile, $lexile);
+	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale + 1, $score, $percentile, $lexile);
 	push (@results, \@thisAssessment);
     }
 }
@@ -128,13 +128,13 @@ for(my $i = 0; $i <= $#results; $i++)
     print "{\n";
     print "        \"studentId\": \"" . $assessment[0] . "\",\n";
     print "        \"assessmentFamilyName\": \"" . $assessmentCode . "\",\n";
-    print "        \"assessmentName\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\",\n";
     print "        \"grade\": \"" . $assessment[1] . "\",\n";
     print "        \"year\": \"" . $assessment[2] . "\",\n";
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
     if (!($omit_percentile_rank eq 'y') ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
-    print "        \"lexileScore\": \"" . $assessment[6] . "\"\n";
+    print "        \"lexileScore\": \"" . $assessment[6] . "\",\n";
+    print "        \"assessmentName\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\"\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }
 print "]\n";

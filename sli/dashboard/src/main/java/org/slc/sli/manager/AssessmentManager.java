@@ -57,13 +57,18 @@ public class AssessmentManager {
         
         // get list of assmt names
         Set<String> assmtNames = getAssmtNames(dataFields);
+        assmtNames = getAssmtNames(dataFields);
         
         // filter out unwanted assmts
         List<Assessment> filteredAssmts = new ArrayList<Assessment>();
+        filteredAssmts.addAll(assmts);
+        /* To do this right, we'll need all the assessments under the assmt family's name, and 
+         * we'll require assessment metadata for it 
         for (Assessment assmt : assmts) {
             if (assmtNames.contains(assmt.getAssessmentName()))
                 filteredAssmts.add(assmt);
         }
+        */
         
         // return the results
         return filteredAssmts;
@@ -74,12 +79,12 @@ public class AssessmentManager {
      */
     private Set<String> getAssmtNames(List<Field> dataFields) {
     
-    	Set<String> assmtNames = new HashSet<String>();
-    	for(Field field : dataFields) {
-    		String fieldValue = field.getValue();
-    		assmtNames.add(fieldValue.substring(0, fieldValue.indexOf('.')));
-    	}
-    	return assmtNames;
+        Set<String> assmtNames = new HashSet<String>();
+        for (Field field : dataFields) {
+            String fieldValue = field.getValue();
+            assmtNames.add(fieldValue.substring(0, fieldValue.indexOf('.')));
+        }
+        return assmtNames;
     }
     
     public List<AssessmentMetaData> getAssessmentMetaData(String username) {

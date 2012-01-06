@@ -65,7 +65,7 @@ public class AssessmentResolver {
         String assessmentName = extractAssessmentName(field.getValue());
         List<Assessment> studentAssessmentFiltered = new ArrayList();
         for (Assessment a : studentFiltered) {
-            if (a.getAssessmentName().equals(assessmentName)) {
+            if (metaDataResolver.isAncestor(assessmentName, a.getAssessmentName())) {
                 studentAssessmentFiltered.add(a);
             }
         }
@@ -94,7 +94,7 @@ public class AssessmentResolver {
         if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { return chosenAssessment.getPerfLevelAsString(); }
         if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }
         if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getPercentileAsString(); }
-        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScoreAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScore(); }
 
         return ""; 
     }
