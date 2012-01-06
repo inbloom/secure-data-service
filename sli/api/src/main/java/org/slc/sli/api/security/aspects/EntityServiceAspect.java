@@ -23,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+
 // add this import if we move to CoreEntityService paradigm
 // import org.slc.sli.api.service.CoreEntityService;
 
@@ -40,7 +43,6 @@ public class EntityServiceAspect {
     @Autowired
     private EntitySchemaRegistry mySchemaRegistry;
 
-    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
     private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
     private static Map<String, Right> neededRights = new HashMap<String, Right>();
 
@@ -101,9 +103,10 @@ public class EntityServiceAspect {
         }
     }
 
-    private boolean isWhiteListed(String entityDefinitionType, String entityFunctionName ) {
+    private boolean isWhiteListed(String entityDefinitionType, String entityFunctionName) {
+        boolean isPub = SecurityContextHolder.getContext().getAuthentication() == null;
 
-        return entitiesAlwaysAllow.contains(entityDefinitionType) || methodsAlwaysAllow.contains(entityFunctionName);
+        return isPub || methodsAlwaysAllow.contains(entityFunctionName);
     }
 
     @Around("call(* org.slc.sli.api.service.CoreEntityService.get(..))")

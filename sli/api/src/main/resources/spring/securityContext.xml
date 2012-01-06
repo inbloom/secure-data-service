@@ -14,10 +14,11 @@
     <!-- Configure security -->
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-   <security:http auto-config="true" entry-point-ref="sliEntryPoint">
-      <security:request-cache ref="nullCache" />
-      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter" />
-   </security:http>
+    <security:http auto-config="true" entry-point-ref="sliEntryPoint">
+        <security:request-cache ref="nullCache"/>
+        <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter"/>
+        <security:intercept-url pattern="/rest/pub/**" filters="none"/>
+    </security:http>
 
     <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
         <constructor-arg index="0" value="/rest/system/session/check"/>
@@ -43,8 +44,9 @@
 
     <bean id="securityContextLogoutHandler"
           class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
-    
-    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect" factory-method="aspectOf">
+
+    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect"
+          factory-method="aspectOf">
         <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
     </bean>
 
