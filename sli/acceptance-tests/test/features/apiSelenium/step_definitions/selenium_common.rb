@@ -3,6 +3,6 @@ Given /^I have an open web browser$/ do
 end
 
 After do |scenario| 
-  puts "Running the After hook"
+  puts "Running the After hook for Scenario: #{scenario}"
   @driver.quit if @driver
 end
