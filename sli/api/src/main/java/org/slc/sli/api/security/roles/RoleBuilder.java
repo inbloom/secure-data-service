@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.roles;
 
 
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.roles.Right;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public final class RoleBuilder {
         return this;
     }
 
-    public Map<String, Object> buildEntityBody() {
+    public EntityBody buildEntityBody() {
         return role.getRoleAsEntityBody();
     }
     

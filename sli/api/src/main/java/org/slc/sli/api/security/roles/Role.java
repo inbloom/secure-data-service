@@ -1,8 +1,8 @@
 package org.slc.sli.api.security.roles;
 
-import java.util.HashMap;
+import org.slc.sli.api.representation.EntityBody;
+
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -36,8 +36,8 @@ public class Role {
         return "ROLE_" + name;
     }
     
-    public Map<String, Object> getRoleAsEntityBody() {
-        Map<String, Object> body = new HashMap<String, Object>();
+    public EntityBody getRoleAsEntityBody() {
+        EntityBody body = new EntityBody();
         body.put("name", getName());
         body.put("rights", rights);
         return body;
