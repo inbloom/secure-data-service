@@ -4,6 +4,7 @@ import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.enums.Right;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -81,7 +82,7 @@ public class SLIPrincipal implements Principal {
         }
     }
 
-    public Set<Right> getRights() {
+    public Collection<Right> getRights() {
         return rights;
     }
 }
