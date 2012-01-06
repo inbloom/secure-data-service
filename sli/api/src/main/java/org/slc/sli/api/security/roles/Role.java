@@ -11,6 +11,15 @@ import java.util.Set;
 public class Role {
     private String name;
     private Set<Right> rights = new HashSet<Right>();
+    private String id = "";
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Role(String name) {
         this.name = name;
@@ -33,7 +42,7 @@ public class Role {
     }
 
     public String getSpringRoleName() {
-        return "ROLE_" + name;
+        return "ROLE_" + getName().toUpperCase().replace(' ', '_');
     }
     
     public EntityBody getRoleAsEntityBody() {
