@@ -152,6 +152,7 @@ public class MongoEntityRepository implements EntityRepository {
     // TODO may need to add type converter later
     private Query stringToQuery(String queryString) {
         Query mongoQuery = new Query();
+        if(queryString==null)queryString="";
         String[] queryStrings = queryString.split("&");
         for (String query : queryStrings) {
             if (!isReservedQueryKey(query)) {
