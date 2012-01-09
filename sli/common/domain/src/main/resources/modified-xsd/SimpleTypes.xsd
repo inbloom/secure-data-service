@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- no namespace defined here : this file is intended to be included into higher level XSD files -->
+<!-- no namespace defined here - this file is intended to be included into higher level XSD files -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
 	<xs:simpleType name="IdentificationCode">
