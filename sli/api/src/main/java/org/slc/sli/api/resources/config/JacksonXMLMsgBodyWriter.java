@@ -2,10 +2,9 @@ package org.slc.sli.api.resources.config;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.io.OutputStreamWriter;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Custom JAXB Context Resolver that will generate XML
- *
+ * 
  * */
 @SuppressWarnings("rawtypes")
 @Provider
@@ -40,7 +39,7 @@ public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
     
     @Override
     public void writeTo(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
-                        MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+            MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
         xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
@@ -48,4 +47,3 @@ public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
     }
     
 }
-

@@ -1,5 +1,7 @@
 package org.slc.sli.api.resources;
 
+import java.util.Map;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,16 +25,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Map;
-
 /**
  * Unit tests for Aspect on EntityService.
- *
+ * 
  * @author shalka
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityServiceAspectTest {
 
     private static final String ENTITY_TYPE_STUDENT = "student";
@@ -65,8 +65,7 @@ public class EntityServiceAspectTest {
     public void testGetRealmCallAsEducator() throws Throwable {
         SecurityContextInjection.setEducatorContext();
         Entity mockRealm = new MongoEntity("realm", null);
-        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockRealm,
-                ROLE_SPRING_NAME_EDUCATOR);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockRealm, ROLE_SPRING_NAME_EDUCATOR);
 
         try {
             Object resp = myAspect.filterEntityRead(pjp);
@@ -95,8 +94,7 @@ public class EntityServiceAspectTest {
     public void testGetStudentCallAsEducator() throws Throwable {
         SecurityContextInjection.setEducatorContext();
         Entity mockStudent = new MongoEntity("student", null);
-        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockStudent,
-                ROLE_SPRING_NAME_EDUCATOR);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockStudent, ROLE_SPRING_NAME_EDUCATOR);
 
         try {
             Object resp = myAspect.filterEntityRead(pjp);
@@ -128,8 +126,7 @@ public class EntityServiceAspectTest {
 
         Map<String, Object> map = new ObjectMapper().readValue(studentBody, Map.class);
         Entity mockedStudent = new MongoEntity("student", map);
-        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent,
-                ROLE_SPRING_NAME_EDUCATOR);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent, ROLE_SPRING_NAME_EDUCATOR);
         Entity returnEntity = myAspect.filterEntityRead(pjp);
 
         Assert.assertEquals("Restricted field should have been filtered.", false,
