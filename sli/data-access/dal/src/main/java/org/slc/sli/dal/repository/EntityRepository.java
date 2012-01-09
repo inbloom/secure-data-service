@@ -3,6 +3,7 @@ package org.slc.sli.dal.repository;
 import java.util.Map;
 
 import org.slc.sli.domain.Entity;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Define the entity repository interface that provides basic CRUD and field
@@ -129,6 +130,21 @@ public interface EntityRepository {
      */
     public Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max);
     
+    /**
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
+     *            core entity or association entity
+     * @param query
+     *            the query to filter returned collection results
+     * @param skip
+     *            the beginning index of the entity that will be returned
+     * @param max
+     *            the max number of entities that will be returned
+     * 
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max);
+
     public boolean matchQuery(String entityType, String id, String queryString);
 
 }
