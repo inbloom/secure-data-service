@@ -327,5 +327,180 @@
                 ]
             }
         ]
-  }
+    },
+
+    {
+        "name": "DIBELS_NEXT",
+        "perfLevels": [
+            {
+                "name": "1",
+                "longName": "At or Above Benchmark",
+                "isReal": true
+            },
+            {
+                "name": "2",
+                "longName": "Below Benchmark",
+                "isReal": true
+            },
+            {
+                "name": "3",
+                "longName": "Well Below Benchmark",
+                "isReal": true
+            }
+        ],
+        "children": [
+            { 
+              "name": "DIBELS_NEXT_GRADE_K", 
+              "children": [
+                  {
+                    "name": "DIBELS_NEXT_GRADE_K_BOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 13] },
+                        { "name": "2", 
+                          "range": [13, 26] },
+                        { "name": "3", 
+                          "range": [26, 104] }
+                     ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_K_MOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [3, 85] },
+                        { "name": "2", 
+                          "range": [85, 122] },
+                        { "name": "3", 
+                          "range": [122,277] }
+                     ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_K_EOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [16, 89] },
+                        { "name": "2", 
+                          "range": [89, 119] },
+                        { "name": "3", 
+                          "range": [119, 280] }
+                     ]
+                  }
+              ]
+            },
+            { 
+              "name": "DIBELS_NEXT_GRADE_1", 
+              "children": [
+                  {
+                    "name": "DIBELS_NEXT_GRADE_1_BOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [8, 97] },
+                        { "name": "2", 
+                          "range": [97, 113] },
+                        { "name": "3", 
+                          "range": [113, 257] }
+                    ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_1_MOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [10, 100] },
+                        { "name": "2", 
+                          "range": [100, 130] },
+                        { "name": "3", 
+                          "range": [130, 424] }
+                    ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_1_EOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [1, 111] },
+                        { "name": "2", 
+                          "range": [111, 155] },
+                        { "name": "3", 
+                          "range": [155, 354] }
+                    ]
+		  }
+              ]
+            },
+            { 
+              "name": "DIBELS_NEXT_GRADE_2", 
+              "children": [ 
+                  {
+                    "name": "DIBELS_NEXT_GRADE_2_BOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [3, 109] },
+                        { "name": "2", 
+                          "range": [109, 141] },
+                        { "name": "3", 
+                          "range": [141, 359] }
+                    ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_2_MOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [11, 109] },
+                        { "name": "2", 
+                          "range": [109, 190] },
+                        { "name": "3", 
+                          "range": [190, 429] }
+                    ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_2_EOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [19, 180] },
+                        { "name": "2", 
+                          "range": [180, 238] },
+                        { "name": "3", 
+                          "range": [238, 460] }
+                    ]
+                  }
+              ]
+            },
+            { 
+              "name": "DIBELS_NEXT_GRADE_3", 
+              "children": [
+                  {
+                    "name": "DIBELS_NEXT_GRADE_3_BOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [16, 180] },
+                        { "name": "2", 
+                          "range": [180, 220] },
+                        { "name": "3", 
+                          "range": [220, 526] }
+                    ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_3_MOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [43, 235] },
+                        { "name": "2", 
+                          "range": [235, 285] },
+                        { "name": "3", 
+                          "range": [285, 552] }
+                    ]
+                  },
+                  {
+                    "name": "DIBELS_NEXT_GRADE_3_EOY",
+                    "cutpoints": [
+                        { "name": "1",
+                          "range": [39, 280] },
+                        { "name": "2", 
+                          "range": [280, 330] },
+                        { "name": "3", 
+                          "range": [330, 636] }
+                     ]
+                  }
+              ]
+            }
+        ]
+    }
 ]
