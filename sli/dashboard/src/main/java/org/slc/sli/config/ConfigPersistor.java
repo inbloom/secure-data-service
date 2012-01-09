@@ -18,8 +18,6 @@ public class ConfigPersistor {
      */
     public static ViewConfigSet getConfigSet(String entityId) throws Exception {
     
-        // TODO: implement mock/real switch
-    
         // make API call with entity id
         MockAPIClient mockClient = new MockAPIClient();
         CustomData[] customData = mockClient.getCustomData(entityId, VIEW_CONFIG);

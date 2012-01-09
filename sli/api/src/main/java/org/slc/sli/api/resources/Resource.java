@@ -20,6 +20,8 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.Entities;
+import org.slc.sli.api.representation.Associations;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
@@ -40,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE })
 public class Resource {
     
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
@@ -108,6 +110,7 @@ public class Resource {
      */
     @GET
     @Path("{id}")
+    @Produces({ Resource.JSON_MEDIA_TYPE })
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
@@ -128,6 +131,8 @@ public class Resource {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
                     }
+
+                    // TODO: refactor common code for both GET methods
                     if (associationIds != null && associationIds.iterator().hasNext()) {
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
@@ -135,6 +140,63 @@ public class Resource {
                             collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
                         }
                         return Response.ok(collection).build();
+                    }
+                }
+                return Response.status(Status.NOT_FOUND).build();
+            }
+        });
+    }
+
+    /**
+     * Get a single entity or association unless the URI represents an association and the id
+     * represents a
+     * source entity for that association.
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @return A single entity or association, unless the type references an association and the id
+     *         represents the source entity. In that case a collection of associations.
+     */
+    @GET
+    @Path("{id}")
+    @Produces({ Resource.XML_MEDIA_TYPE })
+    public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
+            @QueryParam("start-index") @DefaultValue("0") final int skip,
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+        return handle(typePath, new ResourceLogic() {
+            @Override
+            public Response run(EntityDefinition entityDef) {
+                if (entityDef.isOfType(id)) {
+                    EntityBody entityBody = entityDef.getService().get(id);
+                    entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
+                    Entities entities = new Entities (entityBody, entityDef.getStoredCollectionName());
+                    return Response.ok (entities).build();
+                } else if (entityDef instanceof AssociationDefinition) {
+                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                    Iterable<String> associationIds = null;
+                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
+                                uriInfo.getRequestUri().getQuery());
+                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
+                                uriInfo.getRequestUri().getQuery());
+                    }
+
+                    // TODO: refactor common code for both Get methods
+                    if (associationIds != null) {
+                        CollectionResponse collection = new CollectionResponse();
+                        for (String id : associationIds) {
+                            String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                            collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
+                        }
+                        Associations associations = new Associations (collection);
+                        return Response.ok(associations).build();
                     }
                 }
                 return Response.status(Status.NOT_FOUND).build();

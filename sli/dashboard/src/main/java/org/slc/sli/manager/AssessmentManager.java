@@ -27,8 +27,7 @@ public class AssessmentManager {
     private MockAPIClient apiClient;
     
     protected AssessmentManager() {        
-        // call the api
-        // TODO: mock/real api switch
+
         apiClient = new MockAPIClient();
     
     }
