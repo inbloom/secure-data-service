@@ -6,6 +6,7 @@ import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 
 
 /**
@@ -38,5 +39,10 @@ public class LiveAPIClient implements APIClient {
     @Override
     public void saveCustomData(CustomData[] src, String token, String key) {
         System.err.println("Not implemented");
+    }
+    @Override
+    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
+        System.err.println("Not implemented");
+        return null;
     }
 }

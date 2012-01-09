@@ -48,25 +48,23 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition.addGlobalTreatment(new IdTreatment());
-        EntityDefinition section = EntityDefinition.makeEntity("section", validator).exposeAs("sections").build();
-        addDefinition(section);
-        EntityDefinition student = EntityDefinition.makeEntity("student", validator).exposeAs("students").build();
-        addDefinition(student);
-        EntityDefinition school = EntityDefinition.makeEntity("school", validator).exposeAs("schools").build();
-        addDefinition(school);
-        EntityDefinition assessment = EntityDefinition.makeEntity("assessment", validator).exposeAs("assessments")
-                .build();
-        addDefinition(assessment);
         
+        //adding the entity definitions
+        EntityDefinition aggregation = this.makeExposeAndAddEntityDefinition("aggregation");
+        EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
+        EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
+        EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
+        EntityDefinition staff = this.makeExposeAndAddEntityDefinition("staff", "staff");
+        EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
+        EntityDefinition teacher = this.makeExposeAndAddEntityDefinition("teacher");
+        
+        //adding the association definitions
         AssociationDefinition studentSchoolAssociation = AssociationDefinition
                 .makeAssoc("studentSchoolAssociation", validator).exposeAs("student-school-associations")
-                .storeAs("studentschoolassociation").from(student, "getStudent", "getStudentsEnrolled")
-                .to(school, "getSchool", "getSchoolsAttended").calledFromSource("getStudentEnrollments")
+                .storeAs("studentschoolassociation").from(student, "getStudent", "getStudents")
+                .to(school, "getSchool", "getSchools").calledFromSource("getStudentEnrollments")
                 .calledFromTarget("getSchoolEnrollments").build();
         addAssocDefinition(studentSchoolAssociation);
-        
-        EntityDefinition teacher = EntityDefinition.makeEntity("teacher", validator).exposeAs("teachers").build();
-        addDefinition(teacher);
         
         AssociationDefinition teacherSectionAssociation = AssociationDefinition
                 .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
@@ -102,9 +100,37 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(roles);
         addDefinition(EntityDefinition.makeEntity("realm", validator).build());
     }
+
+    /**
+     * Creates an entity definition for the supplied entity name, exposes it to the API,
+     *  adds it to the list of known entities, and then returns it to the method caller.
+     * 
+     * @param entityName name of entity (collection)
+     * @return newly created entity definition for the supplied entity name
+     */
+    private EntityDefinition makeExposeAndAddEntityDefinition(String entityName) {
+    	return this.makeExposeAndAddEntityDefinition(entityName,entityName+"s");
+    }
+
+    /**
+     * Creates an entity definition for the supplied entity name, exposes it to the API,
+     *  adds it to the list of known entities, and then returns it to the method caller.
+     * 
+     * @param entityName name of entity (collection)
+     * @param exposeName text in URI where entity will be exposed 
+     * @return newly created entity definition for the supplied entity name
+     */
+    private EntityDefinition makeExposeAndAddEntityDefinition(String entityName, String exposeName) {
+    	//create the entity definition and expose it under the pluralized name ("teacher" exposed as "teachers")
+    	EntityDefinition definition = EntityDefinition.makeEntity(entityName, this.validator).exposeAs(exposeName).build();
+        //add the new definition to the map of known definitions
+    	this.addDefinition(definition);
+        //return newly created definition
+        return definition;
+    }
     
     private void add(EntityDefinition defn) {
-        mapping.put(defn.getResourceName(), defn);
+        this.mapping.put(defn.getResourceName(), defn);
     }
     
     private void addDefinition(EntityDefinition defn) {

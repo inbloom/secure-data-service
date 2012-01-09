@@ -9,9 +9,9 @@
 <http auto-config="true" use-expressions="true">
     <intercept-url pattern="/login" access="permitAll"/>
     <intercept-url pattern="/static/**" filters="none"/>
-    <intercept-url pattern="/studentlist" access="hasRole('ROLE_USER')"/>
-    <intercept-url pattern="/studentlistcontent" access="hasRole('ROLE_USER')"/>
-    <intercept-url pattern="/appselector" access="hasRole('ROLE_USER')"/>
+    <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
+    <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
+    <intercept-url pattern="/appselector" access="hasRole('Educator')"/>
     <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
     <intercept-url pattern="/**" access="denyAll" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
@@ -22,10 +22,10 @@
 <authentication-manager alias="authenticationManager">
     <authentication-provider>
     <user-service>
-        <user name="demo" password ="demo" authorities="ROLE_USER"/>
-        <user name="DemoUser" password="demo" authorities="ROLE_USER"/>
-        <user name="lkim" password="lkim" authorities="ROLE_USER" /> 
-        <user name="cgray" password="cgray" authorities="ROLE_USER" /> 
+        <user name="demo" password ="demo" authorities="Educator"/>
+        <user name="DemoUser" password="demo" authorities="Educator"/>
+        <user name="lkim" password="lkim" authorities="Educator" /> 
+        <user name="cgray" password="cgray" authorities="Educator" /> 
     </user-service>
     </authentication-provider>
 </authentication-manager>

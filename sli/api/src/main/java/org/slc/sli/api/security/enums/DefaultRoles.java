@@ -10,13 +10,11 @@ import java.util.List;
  * Also has a few utility functions to see if a role contains a right.
  */
 public enum DefaultRoles {
-    EDUCATOR("Educator", new Rights[]{Rights.READ_AGGREGATE, Rights.READ_GENERAL}),
-    LEADER("Leader", new Rights[]{Rights.READ_AGGREGATE, Rights.READ_GENERAL, Rights.READ_RESTRICTED}),
-    AGGREGATOR("Aggregate Viewer", new Rights[]{Rights.READ_AGGREGATE}),
-    ADMINISTRATOR("IT Administrator", new Rights[]{Rights.READ_AGGREGATE, Rights.READ_GENERAL, Rights.READ_RESTRICTED,
-            Rights.WRITE_GENERAL, Rights.WRITE_RESTRICTED});
+    EDUCATOR("Educator", new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL}), LEADER("Leader", new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED}), AGGREGATOR("Aggregate Viewer",
+            new Right[]{Right.AGGREGATE_READ}), ADMINISTRATOR("IT Administrator", new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED}), NONE("None",
+            new Right[]{});
     private final String name;
-    private final Rights[] rights;
+    private final Right[] rights;
 
     public String getRoleName() {
         return name;
@@ -26,12 +24,12 @@ public enum DefaultRoles {
         return "ROLE_" + name.toUpperCase().replace(' ', '_');
     }
 
-    public List<Rights> getRights() {
+    public List<Right> getRights() {
         return Arrays.asList(rights);
     }
 
-    public boolean hasRight(Rights right) {
-        for (Rights checkedRight : rights) {
+    public boolean hasRight(Right right) {
+        for (Right checkedRight : rights) {
             if (checkedRight == right) {
                 return true;
             }
@@ -39,7 +37,7 @@ public enum DefaultRoles {
         return false;
     }
 
-    private DefaultRoles(String role, Rights[] rights) {
+    private DefaultRoles(String role, Right[] rights) {
         name = role;
         this.rights = rights;
     }
@@ -54,11 +52,18 @@ public enum DefaultRoles {
 
     public static DefaultRoles find(String roleName) {
         for (DefaultRoles role : DefaultRoles.values()) {
-            if (role.getSpringRoleName().equals(roleName)) {
+            if (role.getRoleName().equals(roleName)) {
                 return role;
             }
         }
-        return null;
+        return DefaultRoles.NONE;
     }
 
+    public static DefaultRoles getDefaultRoleByName(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getRoleName().equalsIgnoreCase(roleName))
+                return role;
+        }
+        return DefaultRoles.NONE;
+    }
 }

@@ -1,9 +1,10 @@
 use POSIX;
+use List::Util qw[min max];
 
 # Generates assessment json for a given list of students.
 # 
 # Arguments: 
-#  student_file assement_metadata_file assessment_code current_year omit_percentile_rank
+#  student_file assement_metadata_file assessment_code current_year omit_percentile_rank skip_probability
 # 
 # All files are csv. 
 # 
@@ -20,10 +21,12 @@ use POSIX;
 # 
 # omit_percentile_rank: 
 #   [y|n]
-#
+# 
+# skip_probability: 
+#   a number between 1 and 100
 
-if ($#ARGV != 4) { 
-    die "Usage: student_file assement_metadata_file assessment_code current_year omit_percentile_rank "; 
+if ($#ARGV != 5) { 
+    die "Usage: student_file assement_metadata_file assessment_code current_year omit_percentile_rank skip_probability"; 
 }
 
 my $studentFile = $ARGV[0];
@@ -31,6 +34,7 @@ my $metaDataFile = $ARGV[1];
 my $assessmentCode = $ARGV[2];
 my $current_year = $ARGV[3];
 my $omit_percentile_rank = $ARGV[4];
+my $skip_probability = $ARGV[5];
 
 my %scoreRange = ();
 my %probDistrib = ();
@@ -66,7 +70,7 @@ close INPUT_METADATA;
 #}
 
 # for each student, insert all historical data, governed by the probability 
-# he'll be in a particular scale. 
+# he'll be in a particular scale.
 # Store all results into the result array. The elements are <studentId, grade, year, scale, scale score, percentile> tuple. 
 my @results = ();
 open (INPUT_STUDENT, $studentFile);
@@ -75,9 +79,12 @@ while ($line = <INPUT_STUDENT>)
     if ($line =~ /^\#/) { next; }
     chomp($line);
     ($studentUid, $current_grade) = split (/,/, $line);
-    # there is an assessment instance for each grade from 3 till the current grade, 
-    # and the student is never retained. 
-    for(my $grade = 3; $grade <= $current_grade; $grade++) {
+    # Enter two years' worth of student data, the student is never retained. 
+    for(my $grade = max($current_grade-1, 3); $grade <= $current_grade; $grade++) {
+        # determine if this window would be skipped
+	my $skip_rand = rand();
+        if ($skip_rand * 100 < $skip_probability) { next; }
+
 	# determine the scale
 	my @probDistrib = @{$probDistrib{$grade}};
 	my $random_number = rand();
@@ -100,10 +107,14 @@ while ($line = <INPUT_STUDENT>)
 	$percentile = $percentile + $percentileLow;
 	$percentile = floor ($percentile * 10000) / 100;
 
+        # deternube the lexile
+        my $lexile = $percentile * 12 + 100; # this should give me a number between 100 and 1300
+        $lexile = floor($lexile) . "L";
+
 	# debug
         # print $random_number . " " . $grade . " " . $score . " " . $scale . " " . $percentile . "\n";
 	# put into result array
-	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile);
+	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale + 1, $score, $percentile, $lexile);
 	push (@results, \@thisAssessment);
     }
 }
@@ -116,13 +127,14 @@ for(my $i = 0; $i <= $#results; $i++)
     @assessment = @{$results[$i]};
     print "{\n";
     print "        \"studentId\": \"" . $assessment[0] . "\",\n";
-    print "        \"assessmentName\": \"" . $assessmentCode . "\",\n";
+    print "        \"assessmentFamilyName\": \"" . $assessmentCode . "\",\n";
     print "        \"grade\": \"" . $assessment[1] . "\",\n";
     print "        \"year\": \"" . $assessment[2] . "\",\n";
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
     if (!($omit_percentile_rank eq 'y') ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
-    print "        \"lexileScore\": \"" . $assessment[4] . "\"\n";
+    print "        \"lexileScore\": \"" . $assessment[6] . "\",\n";
+    print "        \"assessmentName\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\"\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }
 print "]\n";

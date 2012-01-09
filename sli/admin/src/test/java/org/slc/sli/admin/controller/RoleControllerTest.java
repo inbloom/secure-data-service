@@ -9,15 +9,15 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.Assert;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.admin.client.RESTClient;
+import org.slc.sli.admin.test.bootstrap.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,8 +25,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.admin.client.RESTClient;
-import org.slc.sli.admin.test.bootstrap.WebContextTestExecutionListener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 
 /**
  * 
@@ -38,18 +38,19 @@ import org.slc.sli.admin.test.bootstrap.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class RoleControllerTest {
-    
-    private static final String RAW_JSON = "[{\"name\":\"Educator\",\"rights\":[\"AGGREGATE_READ\",\"READ_GENERAL\"]},{\"name\":\"Leader\",\"rights\":[\"AGGREGATE_READ\",\"READ_GENERAL\",\"READ_RESTRICTED\"]},{\"name\":\"Aggregate Viewer\",\"rights\":[\"AGGREGATE_READ\"]},{\"name\":\"IT Administrator\",\"rights\":[\"AGGREGATE_READ\",\"READ_GENERAL\",\"READ_RESTRICTED\",\"WRITE_GENERAL\",\"WRITE_RESTRICTED\"]}]";
-    
+      
     private RESTClient rest;
     private RoleController controller;
+    
+    @Value("${roles.json}")
+    private String rolesJSON;
     
     @Before
     public void init() {
         this.rest = Mockito.mock(RESTClient.class);
         
         JsonParser parser = new JsonParser();
-        JsonArray jsonArray = parser.parse(RAW_JSON).getAsJsonArray();
+        JsonArray jsonArray = parser.parse(rolesJSON).getAsJsonArray();
         Mockito.when(this.rest.getRoles(null)).thenReturn(jsonArray);
         controller = new RoleController();
         controller.setRESTClient(rest);

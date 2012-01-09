@@ -14,20 +14,9 @@
     <!-- Configure security -->
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-    <security:http entry-point-ref="sliEntryPoint">
-        <security:form-login/>
-        <security:http-basic/>
-        <security:intercept-url pattern="/rest/pub/**" filters="none"/>
-        <security:intercept-url pattern="/rest/system/session/check**"
-                                access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
-        <security:intercept-url pattern="/**"
-                                access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER"/>
+    <security:http auto-config="true" entry-point-ref="sliEntryPoint">
         <security:request-cache ref="nullCache"/>
-
-        <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter"/>
-        <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
-
-        <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS"/>
+        <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter"/>
     </security:http>
 
     <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
@@ -54,10 +43,13 @@
 
     <bean id="securityContextLogoutHandler"
           class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
-    
-    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect" factory-method="aspectOf">
+
+    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect"
+          factory-method="aspectOf">
         <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
     </bean>
 
+    <!-- Default role initializer -->
+    <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
 
 </beans>

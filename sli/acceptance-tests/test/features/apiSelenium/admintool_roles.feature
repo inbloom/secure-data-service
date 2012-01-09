@@ -33,6 +33,8 @@ And I enter "demo1234" in the password text field
 And I click the Go button
 Then I am now authenticated to SLI IDP
 And I should be redirected to the SLI Default Roles Admin Page
+#When I click Logout
+#Then I should successfully be logged out
  
  @wip
 Scenario: Invalid SLI IDP user login to SLI Default Roles Admin Page

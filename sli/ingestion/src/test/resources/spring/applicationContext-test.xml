@@ -19,11 +19,24 @@
         <value>classpath:ingestion.properties</value>
         <!-- create this file with custom settings for your dev environment -->
         <value>classpath:ingestion-dev.properties</value>
+
+
+        <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
+
+        <!--  override specific properties for testing -->
+        <value>classpath:/data-access/dal/config/${sli.env}/test.properties</value>
       </list>
     </property>
   </bean>
 
   <import resource="smooks-context.xml" />
+  <import resource="classpath:/spring/db.xml"/>
+
+<!--   <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest">
+    <property name="slienv" value="${sli.env}" />
+	<property name="testprop" value="${sli.test.prop}" />
+  </bean>
+   -->
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />

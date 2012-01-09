@@ -15,6 +15,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 
@@ -43,7 +44,17 @@ public class AssessmentManagerTest {
         when(mockClient.getFilename("mock_data/lkim/custom_view_config.json")).thenReturn("src/test/resources/mock_data/lkim/custom_view_config.json");
         aManager.setApiClient(mockClient);
         List<Assessment> assmts = aManager.getAssessments("lkim", studentIds, config);
-        assertEquals(340, assmts.size()); // mock assmt data has 6 assmt results/student/assmt type for students in the 8th grade class (25 students), and 5 assmt results/student/assmt for the 7th grade class (4 students)
+        assertEquals(109, assmts.size()); 
     }
     
+
+    @Test
+    public void testGetAssessmentMetaData() throws Exception {
+        AssessmentManager aManager = AssessmentManager.getInstance(); 
+        MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
+        when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
+        aManager.setApiClient(mockClient);
+        List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
+        assertEquals(2, metaData.size()); // mock data has now 2 families: ISAT Reading and ISAT Writing
+    }
 }
