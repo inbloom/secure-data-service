@@ -23,7 +23,12 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
     private EntityDefinitionStore store;
 
     private EntityService service;
-    
+
+    public static final String EDUCATOR = "Educator";
+    public static final String LEADER = "Leader";
+    public static final String AGGREGATOR = "Aggregate Viewer";
+    public static final String IT_ADMINISTRATOR = "IT Administrator";
+
     private void init() {
         EntityDefinition def = store.lookupByResourceName("roles");
         setService(def.getService());
@@ -31,13 +36,12 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
 
     @Override
     public Role findRoleByName(String name) {
-        Role temp;
         //TODO find a way to "findAll" from entity service
         Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body = service.get(id);
             if (body.get("name").equals(name)) {
-                return RoleBuilder.makeRole(body).addId(id).build();
+                return getRoleWithBodyAndID(id, body);
             }
         }
         return null;
@@ -48,11 +52,15 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
         Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body = service.get(id);
-            Role tempRole = RoleBuilder.makeRole(body).addId(id).build();
+            Role tempRole = getRoleWithBodyAndID(id, body);
             if(tempRole.getSpringRoleName().equals(springName))
                 return tempRole;
         }
         return null;
+    }
+
+    private Role getRoleWithBodyAndID(String id, EntityBody body) {
+        return RoleBuilder.makeRole(body).addId(id).build();
     }
 
     @Override
@@ -61,7 +69,7 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
         Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body = service.get(id);
-                roles.add(RoleBuilder.makeRole(body).addId(id).build());
+                roles.add(getRoleWithBodyAndID(id, body));
         }
         return roles;
     }
@@ -101,6 +109,10 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
     //Injection method.
     public void setService(EntityService service) {
         this.service = service;
+    }
+    
+    public Role getDefaultRole(String name) {
+        return findRoleByName(name);
     }
 
 }

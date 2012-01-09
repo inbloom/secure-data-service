@@ -150,4 +150,13 @@ public class BasicRoleRightAccessImplTest {
         assertFalse(access.updateRole(tempRole));
 
     }
+
+    @Test
+    public void testGetDefaultRole() throws Exception {
+        when(mockService.get("EducatorID")).thenReturn(getEntityBody());
+        //Valid default role.
+        assertTrue(access.getDefaultRole(BasicRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
+        //Invalid default role.
+        assertNull(access.getDefaultRole("Monkeys"));
+    }
 }
