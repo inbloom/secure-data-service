@@ -1417,6 +1417,19 @@ Cognitive and perceptual skills test
 			<xs:enumeration value="State English proficiency test"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AssessmentIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to an assessment.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="State"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Other Federal"/>
+			<xs:enumeration value="Test Contractor"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
 	</xs:simpleType><xs:simpleType name="AssessmentItemResultType">
 		<xs:annotation>
 			<xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
