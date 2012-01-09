@@ -16,7 +16,7 @@
 	<bean id="adminProperties"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
-			<value>classpath:/admin-local.properties</value>
+			<value>classpath:/${sli.env}.properties</value>
 		</property>
 	</bean>
 
