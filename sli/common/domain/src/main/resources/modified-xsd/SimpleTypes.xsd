@@ -1350,6 +1350,10 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:maxLength value="80"/>
 		</xs:restriction>
 	</xs:simpleType>	
+	
+	
+	
+	
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
@@ -1360,4 +1364,26 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>	
+	
+	<xs:simpleType name="ClassPeriodNameType">
+		<xs:annotation>
+			<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	
+	<xs:simpleType name="ClassroomIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code assigned to a room by a school, school system, state, or other agency or entity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+		
 </xs:schema>
