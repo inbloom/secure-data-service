@@ -20,10 +20,10 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.Associations;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
@@ -175,8 +175,8 @@ public class Resource {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
                     entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
-                    Entities entities = new Entities (entityBody, entityDef.getStoredCollectionName());
-                    return Response.ok (entities).build();
+                    Entities entities = new Entities(entityBody, entityDef.getStoredCollectionName());
+                    return Response.ok(entities).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
@@ -195,7 +195,7 @@ public class Resource {
                             String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
                             collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
                         }
-                        Associations associations = new Associations (collection);
+                        Associations associations = new Associations(collection);
                         return Response.ok(associations).build();
                     }
                 }

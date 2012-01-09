@@ -148,6 +148,7 @@ public class MockRepo implements EntityRepository {
                         toReturn.add(entity);
                     }
                 } catch (Exception e) {
+                    System.out.println("error processing query!");
                 }
             }
         }
@@ -254,6 +255,7 @@ public class MockRepo implements EntityRepository {
                         toReturn.add(entity);
                     }
                 } catch (Exception e) {
+                    System.out.println("error processing query!");
                 }
             }
         }
@@ -268,5 +270,11 @@ public class MockRepo implements EntityRepository {
     public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max) {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, Query query) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

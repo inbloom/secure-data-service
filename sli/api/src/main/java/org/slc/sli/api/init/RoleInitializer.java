@@ -1,5 +1,9 @@
 package org.slc.sli.api.init;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.roles.RoleBuilder;
@@ -10,14 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
- *
+ * 
  * @author rlatta
  */
 @Component
@@ -77,39 +76,41 @@ public class RoleInitializer {
         }
         return createdRoles.size();
 
-
     }
 
     private EntityBody buildAggregate() {
         LOG.info("Building Aggregate Viewer default role.");
-        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[]{Right.AGGREGATE_READ}).build();
+        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[] { Right.AGGREGATE_READ }).build();
     }
 
     private EntityBody buildEducator() {
         LOG.info("Building Educator default role.");
-        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL}).build();
+        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL })
+                .build();
     }
 
     private EntityBody buildLeader() {
         LOG.info("Building Leader default role.");
-        return RoleBuilder.makeRole(LEADER).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED}).build();
+        return RoleBuilder.makeRole(LEADER)
+                .addRights(new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }).build();
     }
 
     private EntityBody buildIT() {
         LOG.info("Building IT Administrator default role.");
-        return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED}).build();
+        return RoleBuilder
+                .makeRole(IT_ADMINISTRATOR)
+                .addRights(
+                        new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED,
+                                Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
     }
     
     private EntityBody buildSLIAdmin() {
         LOG.info("Building SLI Administrator default role.");
-        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] {Right.READ_ROLES}).build();
+        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.READ_ROLES }).build();
     }
     
     public void setRepository(EntityRepository repo) {
         repository = repo;
     }
-           
-           
-
     
 }

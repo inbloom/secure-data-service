@@ -49,7 +49,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition.addGlobalTreatment(new IdTreatment());
         
-        //adding the entity definitions
+        // adding the entity definitions
         EntityDefinition aggregation = this.makeExposeAndAddEntityDefinition("aggregation");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
@@ -58,7 +58,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
         EntityDefinition teacher = this.makeExposeAndAddEntityDefinition("teacher");
         
-        //adding the association definitions
+        // adding the association definitions
         AssociationDefinition studentSchoolAssociation = AssociationDefinition
                 .makeAssoc("studentSchoolAssociation", validator).exposeAs("student-school-associations")
                 .storeAs("studentschoolassociation").from(student, "getStudent", "getStudents")
@@ -68,9 +68,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         AssociationDefinition teacherSectionAssociation = AssociationDefinition
                 .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
-                .storeAs("teachersectionassociation")
-                .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
-                .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
+                .storeAs("teachersectionassociation").from(teacher, "getTeacher", "getSectionsAssigned")
+                .to(section, "getSection", "getTeachersAssigned").calledFromSource("getSectionsAssigned")
+                .calledFromTarget("getTeachersAssigned").build();
         addAssocDefinition(teacherSectionAssociation);
 
         AssociationDefinition studentAssessmentAssociation = AssociationDefinition
@@ -103,9 +103,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     /**
      * Creates an entity definition for the supplied entity name, exposes it to the API,
-     *  adds it to the list of known entities, and then returns it to the method caller.
+     * adds it to the list of known entities, and then returns it to the method caller.
      * 
-     * @param entityName name of entity (collection)
+     * @param entityName
+     *            name of entity (collection)
      * @return newly created entity definition for the supplied entity name
      */
     private EntityDefinition makeExposeAndAddEntityDefinition(String entityName) {
@@ -114,10 +115,12 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     /**
      * Creates an entity definition for the supplied entity name, exposes it to the API,
-     *  adds it to the list of known entities, and then returns it to the method caller.
+     * adds it to the list of known entities, and then returns it to the method caller.
      * 
-     * @param entityName name of entity (collection)
-     * @param exposeName text in URI where entity will be exposed 
+     * @param entityName
+     *            name of entity (collection)
+     * @param exposeName
+     *            text in URI where entity will be exposed
      * @return newly created entity definition for the supplied entity name
      */
     private EntityDefinition makeExposeAndAddEntityDefinition(String entityName, String exposeName) {

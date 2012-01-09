@@ -93,6 +93,12 @@ public class EntityRepositoryTest {
         query = null;
         searchResults = repository.findByFields("student", query, 0, 20);
         assertTrue(searchResults.iterator().hasNext());
+        
+        // test match by query object
+        Query query2 = new Query(Criteria.where("body.firstName").is("Jane"));
+        assertTrue(repository.matchQuery("student", id, query2));
+        query2 = null;
+        assertTrue(!repository.matchQuery("student", id, query2));
 
         // test update
         found.getBody().put("firstName", "Mandy");
