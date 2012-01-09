@@ -26,6 +26,8 @@ public class RoleInitializer {
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
     public static final String LEADER = "Leader";
+    public static final String SLI_ADMINISTRATOR = "SLI Administrator";
+    
     private static final Logger LOG = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String ROLES = "roles";
 
@@ -44,20 +46,20 @@ public class RoleInitializer {
         boolean hasLeader = false;
         boolean hasIT = false;
         boolean hasAggregate = false;
+        boolean hasSLIAdmin = false;
 
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
             if (body.get("name").equals(EDUCATOR)) {
                 hasEducator = true;
-            }
-            if (body.get("name").equals(AGGREGATE_VIEWER)) {
+            } else if (body.get("name").equals(AGGREGATE_VIEWER)) {
                 hasAggregate = true;
-            }
-            if (body.get("name").equals(IT_ADMINISTRATOR)) {
+            } else if (body.get("name").equals(IT_ADMINISTRATOR)) {
                 hasIT = true;
-            }
-            if (body.get("name").equals(LEADER)) {
+            } else if (body.get("name").equals(LEADER)) {
                 hasLeader = true;
+            } else if (body.get("name").equals(SLI_ADMINISTRATOR)) {
+                hasSLIAdmin = true;
             }
         }
         if (!hasAggregate)
@@ -68,7 +70,8 @@ public class RoleInitializer {
             createdRoles.add(buildIT());
         if (!hasEducator)
             createdRoles.add(buildEducator());
-
+        if (!hasSLIAdmin)
+            createdRoles.add(buildSLIAdmin());
         for (EntityBody body : createdRoles) {
             repository.create(ROLES, body);
         }
@@ -95,6 +98,11 @@ public class RoleInitializer {
     private EntityBody buildIT() {
         LOG.info("Building IT Administrator default role.");
         return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED}).build();
+    }
+    
+    private EntityBody buildSLIAdmin() {
+        LOG.info("Building SLI Administrator default role.");
+        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] {Right.READ_ROLES}).build();
     }
     
     public void setRepository(EntityRepository repo) {

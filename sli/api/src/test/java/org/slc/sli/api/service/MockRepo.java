@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -261,5 +262,11 @@ public class MockRepo implements EntityRepository {
                 match = true;
         }
         return match;
+    }
+    
+    @Override
+    public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
