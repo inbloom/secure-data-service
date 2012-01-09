@@ -748,4 +748,23 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:enumeration value="Charter"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="StreetNumberName">
+		<xs:annotation>
+			<xs:documentation>The street number and street name or post office box number of an address.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="150"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:complexType name="ComplexObjectType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="id" type="xs:ID">
+			<xs:annotation>
+				<xs:documentation>The XML ID associated with the complex object.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>	
 </xs:schema>

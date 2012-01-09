@@ -6,7 +6,7 @@
     elementFormDefault="qualified"
     attributeFormDefault="unqualified">
 
-    <xsd:include schemaLocation="SimpleTypes.xsd"/>
+    <xs:include schemaLocation="SimpleTypes.xsd"/>
 
 	<xs:complexType name="EducationOrganizationCategoriesType">
 		<xs:annotation>
