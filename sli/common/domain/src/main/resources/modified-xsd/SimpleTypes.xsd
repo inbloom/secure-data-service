@@ -748,6 +748,45 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:enumeration value="Charter"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="TermType">
+		<xs:annotation>
+			<xs:documentation>The type of the session during the school year (e.g., Fall Semester).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Fall Semester"/>
+			<xs:enumeration value="Spring Semester"/>
+			<xs:enumeration value="Summer Semester"/>
+			<xs:enumeration value="First Trimester"/>
+			<xs:enumeration value="Second Trimester"/>
+			<xs:enumeration value="Third Trimester"/>
+			<xs:enumeration value="Year Round"/>
+			<xs:enumeration value="MiniTerm"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MeetingDayItemType">
+		<xs:annotation>
+			<xs:documentation>The enumeration items for the day(s) of the week (e.g., Monday, Wednesday) that the class meets or an indication that a class meets "out-of-school" or "self-paced".</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Monday"/>
+			<xs:enumeration value="Tuesday"/>
+			<xs:enumeration value="Wednesday"/>
+			<xs:enumeration value="Thursday"/>
+			<xs:enumeration value="Friday"/>
+			<xs:enumeration value="Saturday"/>
+			<xs:enumeration value="Sunday"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="UniqueSectionCode">
+		<xs:annotation>
+			<xs:documentation>A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="StreetNumberName">
 		<xs:annotation>
 			<xs:documentation>The street number and street name or post office box number of an address.</xs:documentation>
@@ -805,22 +844,114 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="1"/>
 			<xs:maxLength value="60"/>
 		</xs:restriction>
-	</xs:simpleType>	
-	<xs:simpleType name="AssessmentIdentificationSystemType">
+	</xs:simpleType>
+		<xs:simpleType name="EducationalEnvironmentType">
 		<xs:annotation>
-			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to an assessment.</xs:documentation>
+			<xs:documentation>The setting in which a child receives education and related services.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="School"/>
-			<xs:enumeration value="District"/>
-			<xs:enumeration value="State"/>
-			<xs:enumeration value="Federal"/>
-			<xs:enumeration value="Other Federal"/>
-			<xs:enumeration value="Test Contractor"/>
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="Homebound"/>
+			<xs:enumeration value="Hospital class"/>
+			<xs:enumeration value="In-school suspension"/>
+			<xs:enumeration value="Laboratory"/>
+			<xs:enumeration value="Mainstream (Special Education) "/>
+			<xs:enumeration value="Off-school center"/>
+			<xs:enumeration value="Pull-out class"/>
+			<xs:enumeration value="Resource room"/>
+			<xs:enumeration value="Self-contained (Special Education) "/>
+			<xs:enumeration value="Self-study"/>
+			<xs:enumeration value="Shop"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="MediumOfInstructionType">
+		<xs:annotation>
+			<xs:documentation>The media through which teachers provide instruction to students and students and teachers communicate about instructional matters.  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Televised"/>
+			<xs:enumeration value="Telepresence/video conference"/>
+			<xs:enumeration value="Videotaped/prerecorded video"/>
+			<xs:enumeration value="Other technology-based instruction"/>
+			<xs:enumeration value="Technology-based instruction in classroom"/>
+			<xs:enumeration value="Correspondence instruction"/>
+			<xs:enumeration value="Face-to-face instruction"/>
+			<xs:enumeration value="Virtual/On-line Distance learning"/>
+			<xs:enumeration value="Center-based instruction"/>
+			<xs:enumeration value="Independent study"/>
+			<xs:enumeration value="Internship"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="AttendanceEventReason">
+		<xs:simpleType name="PopulationServedType">
+		<xs:annotation>
+			<xs:documentation>The type of students the course was designed for.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Regular Students"/>
+			<xs:enumeration value="Bilingual Students"/>
+			<xs:enumeration value="Compensatory/Remedial Education Students"/>
+			<xs:enumeration value="Gifted and Talented Students"/>
+			<xs:enumeration value="Career and Technical Education Students"/>
+			<xs:enumeration value="Special Education Students"/>
+			<xs:enumeration value="ESL Students"/>
+			<xs:enumeration value="Adult Basic Education Students"/>
+			<xs:enumeration value="Honors Students"/>
+			<xs:enumeration value="Migrant Students"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Credits">
+		<xs:annotation>
+			<xs:documentation>Credits or units of value awarded for the completion of a course</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Credit">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded for the completion of a course</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="0"/>
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="CreditType" type="CreditType" use="optional">
+			<xs:annotation>
+				<xs:documentation>The type of credits or units of value awarded for the completion of a course</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreditConversion" type="xs:decimal" use="optional">
+			<xs:annotation>
+				<xs:documentation>Conversion factor that when multiplied by the number of credits is equivalent to Carnegie units.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="CreditType">
+		<xs:annotation>
+			<xs:documentation>The type of credits or units of value awarded for the completion of a course.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Carnegie unit"/>
+			<xs:enumeration value="Semester hour credit"/>
+			<xs:enumeration value="Trimester hour credit"/>
+			<xs:enumeration value="Quarter hour credit"/>
+			<xs:enumeration value="Nine month year hour credit"/>
+			<xs:enumeration value="Twelve month year hour credit"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ClassroomIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code assigned to a room by a school, school system, state, or other agency or entity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+    <xs:simpleType name="AttendanceEventReason">
 		<xs:annotation>
 			<xs:documentation>The reason for the absence or tardy.</xs:documentation>
 		</xs:annotation>
@@ -853,15 +984,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="1"/>
 			<xs:maxLength value="30"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="ClassroomIdentificationCode">
-		<xs:annotation>
-			<xs:documentation>A unique number or alphanumeric code assigned to a room by a school, school system, state, or other agency or entity.</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="20"/>
-		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="CIPCode">
+	</xs:simpleType>
+    <xs:simpleType name="CIPCode">
 		<xs:annotation>
 			<xs:documentation>Number and description of the CIP Code associated with the student’s CTE program.</xs:documentation>
 		</xs:annotation>
@@ -1201,16 +1325,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="9"/>
 			<xs:maxLength value="9"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="UniqueSectionCode">
-		<xs:annotation>
-			<xs:documentation>A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.
-</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="30"/>
-		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="UniqueStateIdentifier">
+	</xs:simpleType>
+	<xs:simpleType name="UniqueStateIdentifier">
 		<xs:annotation>
 			<xs:documentation>A unique numeric code assigned to a person by a state education agency.
 </xs:documentation>
@@ -1643,4 +1759,7 @@ Withdrawn
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>	
+	
+
+		
 </xs:schema>
