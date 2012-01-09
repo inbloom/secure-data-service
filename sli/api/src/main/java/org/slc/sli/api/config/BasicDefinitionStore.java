@@ -57,6 +57,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition staff = this.makeExposeAndAddEntityDefinition("staff", "staff");
         EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
         EntityDefinition teacher = this.makeExposeAndAddEntityDefinition("teacher");
+        EntityDefinition educationOrganization = this.makeExposeAndAddEntityDefinition("educationOrganization");
         
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = AssociationDefinition
@@ -124,13 +125,11 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
      * @return newly created entity definition for the supplied entity name
      */
     private EntityDefinition makeExposeAndAddEntityDefinition(String entityName, String exposeName) {
-        // create the entity definition and expose it under the pluralized name ("teacher" exposed
-        // as "teachers")
-        EntityDefinition definition = EntityDefinition.makeEntity(entityName, this.validator).exposeAs(exposeName)
-                .build();
-        // add the new definition to the map of known definitions
+        //create the entity definition and expose it under the pluralized name ("teacher" exposed as "teachers")
+        EntityDefinition definition = EntityDefinition.makeEntity(entityName, this.validator).exposeAs(exposeName).build();
+        //add the new definition to the map of known definitions
         this.addDefinition(definition);
-        // return newly created definition
+        //return newly created definition
         return definition;
     }
     
