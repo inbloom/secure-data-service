@@ -1219,24 +1219,6 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:maxLength value="80"/>
 		</xs:restriction>
 	</xs:simpleType>	
-		<xs:simpleType name="ShortDescription">
-		<xs:annotation>
-			<xs:documentation>A shortened description for reference.</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="50"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="CodeValue">
-		<xs:annotation>
-			<xs:documentation>A code or abbreviation for an element.</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="20"/>
-		</xs:restriction>
-	</xs:simpleType>
 	
 	
 	
