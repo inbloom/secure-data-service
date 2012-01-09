@@ -14,6 +14,7 @@
     </bean>
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
       <property name="apiClient" ref="APIClientBean"/>
+      <property name="liveClient" ref="liveClient" />
     </bean>
 
     <!-- Redirect view --> 
@@ -45,5 +46,10 @@
     </bean>
     
     <bean id="APIClientBean" class="${apiclientclass}" />
+
+
+<bean id= "liveClient" class="org.slc.sli.client.LiveAPIClient">
+    <property name="restClient" ref="restClient" />
+</bean>
      
 </beans>

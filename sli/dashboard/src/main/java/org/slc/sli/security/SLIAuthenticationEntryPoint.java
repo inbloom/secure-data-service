@@ -84,7 +84,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 }
             }
         }
-
+       
         addAuthentication((String) sessionId);
         response.sendRedirect(request.getRequestURI());
     }
@@ -95,6 +95,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         SLIPrincipal principal = new SLIPrincipal();
         JsonElement nameElement = json.get("full_name");
         principal.setName(nameElement.getAsString());
+        principal.setId(token);
         JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
         Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
         LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();

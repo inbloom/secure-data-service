@@ -39,7 +39,7 @@ public class MockAPIClient implements APIClient {
         Vector<Student> filtered = new Vector<Student>();
         if (studentIds != null)
             for (Student student : students) { 
-                if (studentIds.contains(student.getUid())) { 
+                if (studentIds.contains(student.getId())) { 
                     filtered.add(student);
                 }
             }

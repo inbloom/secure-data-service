@@ -2,11 +2,14 @@ package org.slc.sli.client;
 
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.security.RESTClient;
 
 
 /**
@@ -16,6 +19,14 @@ import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
  */
 public class LiveAPIClient implements APIClient {
 
+    private RESTClient restClient;
+    
+    public RESTClient getRestClient() {
+        return restClient;
+    }
+    public void setRestClient(RESTClient restClient) {
+        this.restClient = restClient;
+    }
     @Override
     public School[] getSchools(String token) {
         System.err.println("Not implemented");
@@ -23,9 +34,17 @@ public class LiveAPIClient implements APIClient {
     }
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-        System.err.println("Not implemented");
-        return null;
+        Gson gson = new Gson();
+        Student[] students = new Student[studentIds.size()];
+        
+        int i = 0;
+        for (String id: studentIds) {
+            students[i++] = gson.fromJson(restClient.getStudent(id, token), Student.class);
+        }
+        
+        return students;
     }
+        
     @Override
     public Assessment[] getAssessments(final String token, List<String> studentIds) {
         System.err.println("Not implemented");

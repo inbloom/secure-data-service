@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.entity.Assessment;
@@ -17,8 +18,10 @@ import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.StudentManager;
 
+import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.config.ViewConfig;
 
+import org.slc.sli.security.SLIPrincipal;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -36,6 +39,16 @@ public class StudentListContentController extends DashboardController {
     public static final String ASSESSMENTS = "assessments"; 
     public static final String STUDENTS = "students"; 
     public static final String WIDGET_FACTORY = "widgetFactory";
+    
+    private LiveAPIClient liveClient;
+
+    public LiveAPIClient getLiveClient() {
+        return liveClient;
+    }
+
+    public void setLiveClient(LiveAPIClient liveClient) {
+        this.liveClient = liveClient;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView studentListContent(String username, 
@@ -52,8 +65,13 @@ public class StudentListContentController extends DashboardController {
         List<String> uids = null;
         if (population != null)
             uids = Arrays.asList(population.split(","));
-        List<Student> students = StudentManager.getInstance().getStudentInfo(user.getUsername(), uids, viewConfig);
-        model.addAttribute(STUDENTS, new StudentResolver(students));
+
+        SLIPrincipal userDetails = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Student[] studs = liveClient.getStudents(userDetails.getId(), uids);
+        //List<Student> students = StudentManager.getInstance().getStudentInfo(user.getUsername(), uids, viewConfig);
+        
+        model.addAttribute(STUDENTS, new StudentResolver(Arrays.asList(studs)));
+
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);

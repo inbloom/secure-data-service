@@ -55,7 +55,7 @@ public class AssessmentResolver {
         // A) filter out students first
         List<Assessment> studentFiltered = new ArrayList();
         for (Assessment a : assessments) {
-            if (a.getStudentId().equals(student.getUid())) {
+            if (a.getStudentId().equals(student.getId())) {
                 studentFiltered.add(a);
             }
         }

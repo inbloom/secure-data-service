@@ -39,7 +39,9 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonArray getRoles(String token) {
-        return makeJsonRequest("admin/roles", token).getAsJsonArray();
+        String jsonText = makeJsonRequest("admin/roles", token);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonText).getAsJsonObject().getAsJsonArray(); 
     }
     
     public String getApiServerUri() {
@@ -59,7 +61,9 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-        return makeJsonRequest("system/session/check", token).getAsJsonObject();
+        String jsonText = makeJsonRequest("system/session/check", token);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonText).getAsJsonObject();
     }
     
     /**
@@ -73,7 +77,7 @@ public class RESTClient {
      *         null.
      * @throws NoSessionException
      */
-    private JsonElement makeJsonRequest(String path, String token) {
+    private String makeJsonRequest(String path, String token) {
         RestTemplate template = new RestTemplate();
         URLBuilder url = new URLBuilder(apiServerUri);
         url.addPath(path);
@@ -83,9 +87,12 @@ public class RESTClient {
         logger.debug("Accessing API at: " + url.toString());
         String jsonText = template.getForObject(url.toString(), String.class);
         logger.debug("JSON response for roles: " + jsonText);
-        JsonParser parser = new JsonParser();
-        return parser.parse(jsonText);
-        
+        return jsonText;
     }
+    
+    public String getStudent(String id, String token) {
+        return makeJsonRequest("students/" + id, token);
+    }
+    
     
 }
