@@ -6,7 +6,7 @@
     elementFormDefault="qualified"
     attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="SimpleTypes.xsd"/>
+    <xs:include schemaLocation="SimpleTypes.xsd"></xs:include>
 
 	<xs:complexType name="EducationOrganizationCategoriesType">
 		<xs:annotation>
@@ -86,12 +86,12 @@
 					<xs:documentation>The geographic longitude of the physical address.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
+			<xs:element name="OpenDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The first date the address is valid.  For physical addresses, the date the person moved to that address.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+			<xs:element name="CloseDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The last date the address is valid.  For physical addresses, this would be the date the person moved from that address.</xs:documentation>
 				</xs:annotation>
@@ -122,11 +122,6 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			<xs:element name="RatingDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date the rating was awarded.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SchoolYear" type="SchoolYearType">
-				<xs:annotation>
-					<xs:documentation>The school year for which the accountability rating is assessed.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="RatingOrganization" type="RatingOrganization" minOccurs="0">
@@ -299,6 +294,95 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:complexType name="ClassPeriodReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for class periods during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="ClassPeriodIdentity" type="ClassPeriodIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing class period record in the receiving system.  </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ClassPeriodIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClassPeriodName" type="ClassPeriodNameType">
+				<xs:annotation>
+					<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Optional only if education organization context is obtained elsewhere in the interchange.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="StateOrganizationId" type="IdentificationCode">
+					<xs:annotation>
+						<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
+</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<xs:complexType name="LocationIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of location.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClassroomIdentificationCode" type="ClassroomIdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to a room by a school, school system, state, or other agency or entity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="StateOrganizationId" type="IdentificationCode">
+					<xs:annotation>
+						<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
+</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<xs:complexType name="LocationReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for location during interchange. Use XML IDREF to reference a location record that is included in the interchange</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="LocationIdentity" type="LocationIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing location record in the receiving system.  </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
 
 	<xs:complexType name="EducationOrganization" abstract="true">
 		<xs:annotation>
@@ -462,12 +546,12 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 							<xs:documentation>LEA of which the School is an organizational component.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ClassPeriodReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ClassPeriodReference" type="ClassPeriodReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The class periods defined for the school.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocationReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="LocationReference" type="LocationReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The available class locations defined for the school.</xs:documentation>
 						</xs:annotation>
@@ -508,5 +592,6 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
 
 </xs:schema>
