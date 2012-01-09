@@ -12,7 +12,7 @@
     <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
     <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
     <intercept-url pattern="/appselector" access="hasRole('Educator')"/>
-    <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
+    <intercept-url pattern="/" access="hasRole('Educator')"/>
     <intercept-url pattern="/**" access="denyAll" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
     <form-login/>
@@ -25,6 +25,7 @@
         <user name="demo" password ="demo" authorities="Educator"/>
         <user name="DemoUser" password="demo" authorities="Educator"/>
         <user name="lkim" password="lkim" authorities="Educator" /> 
+        <user name="rbraverman" password="rbraverman" authorities="Educator" /> 
         <user name="cgray" password="cgray" authorities="Educator" /> 
     </user-service>
     </authentication-provider>
