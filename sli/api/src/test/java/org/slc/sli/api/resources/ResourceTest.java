@@ -195,6 +195,9 @@ public class ResourceTest {
         // test staff entity
         assertEntityResponse("staff", info, ids);
         
+        // test educationOrganization entity
+        assertEntityResponse("educationOrganizations", info, ids);
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);

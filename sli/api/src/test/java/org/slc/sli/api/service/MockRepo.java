@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.mongodb.DBObject;
+
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -37,6 +39,7 @@ public class MockRepo implements EntityRepository {
         repo.put("studentsectionassociation", new LinkedHashMap<String, Entity>());
         repo.put("teacherschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("staff", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganization", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -169,6 +172,10 @@ public class MockRepo implements EntityRepository {
                         String[] keyAndValue = getKeyAndValue(query, "<=");
                         if (keyAndValue != null)
                             queryMap.put(keyAndValue, "<=");
+                    } else if (query.contains("<>")) {
+                        String[] keyAndValue = getKeyAndValue(query, "<>");
+                        if (keyAndValue != null)
+                            queryMap.put(keyAndValue, "<>");
                     } else if (query.contains("=")) {
                         String[] keyAndValue = getKeyAndValue(query, "=");
                         if (keyAndValue != null)
@@ -228,6 +235,9 @@ public class MockRepo implements EntityRepository {
             } else if (operator.equals(">")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0)))
                     match = false;
+            } else if (operator.equals("<>")) {
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0)))
+                    match = false;
             }
         }
         return match;
@@ -268,13 +278,70 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max) {
-        // TODO Auto-generated method stub
-        return null;
+        String queryString = queryToString(query);
+        return findByFields(entityType, queryString, skip, max);
     }
     
     @Override
     public boolean matchQuery(String entityType, String id, Query query) {
-        // TODO Auto-generated method stub
-        return false;
+        String queryString = queryToString(query);
+        return matchQuery(entityType, id, queryString);
+    }
+    
+    private String queryToString(Query query) {
+        String queryString = "";
+        if (query != null) {
+            DBObject queryObject = query.getQueryObject();
+            for (String key : queryObject.keySet()) {
+                if (queryObject.get(key) instanceof String) {
+                    if (queryString.equals("")) {
+                        queryString = key.replaceFirst("body.", "") + "=" + (String) queryObject.get(key);
+                    } else {
+                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
+                                + (String) queryObject.get(key);
+                    }
+                } else if (queryObject.get(key) instanceof DBObject) {
+                    queryString = addQueryToString(queryString, (DBObject) queryObject.get(key), key);
+                }
+            }
+            
+        }
+        return queryString;
+    }
+    
+    private String addQueryToString(String queryString, DBObject dbObject, String key) {
+        if (dbObject.containsField("$gt")) {
+            if (queryString.equals(""))
+                queryString = key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
+            else
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
+            
+        } else if (dbObject.containsField("$lt")) {
+            
+            if (queryString.equals(""))
+                queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
+            else
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
+
+        } else if (dbObject.containsField("$gte")) {
+            if (queryString.equals(""))
+                queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
+            else
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
+            
+        } else if (dbObject.containsField("lte")) {
+            if (queryString.equals(""))
+                queryString = key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
+            else
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
+            
+        } else if (dbObject.containsField("$ne")) {
+            if (queryString.equals(""))
+                queryString = key.replaceFirst("body.", "") + "<>" + dbObject.get("$ne");
+            else
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<>" + dbObject.get("$ne");
+            
+        }
+        return queryString;
     }
 }
