@@ -9,6 +9,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class StudentIngestionCamelTest {
 
     private static String studentEntityType = "student";
 
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testDirectRoute() throws Exception {
 

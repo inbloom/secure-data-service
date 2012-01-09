@@ -33,7 +33,7 @@ public final class RoleBuilder {
     }
 
     public RoleBuilder addRight(Right right) {
-        rights.add(right.getRight());
+        rights.add(right.toString());
         return this;
     }
 

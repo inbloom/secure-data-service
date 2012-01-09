@@ -53,7 +53,7 @@ public class SmooksFileHandlerTest {
     public void incorrectColumnNameCsv() throws IOException, SAXException {
 
         // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidCSV/incorrectColumnName/student.csv");
+        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidCSV/IncorrectColumnName/student.csv");
 
         // Create Ingestion File Entry
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT,

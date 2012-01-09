@@ -35,6 +35,7 @@ public class MockRepo implements EntityRepository {
         repo.put("studentassessmentassociation", new LinkedHashMap<String, Entity>());
         repo.put("studentsectionassociation", new LinkedHashMap<String, Entity>());
         repo.put("teacherschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("staff", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -141,8 +142,11 @@ public class MockRepo implements EntityRepository {
         if (repo.containsKey(entityType)) {
             List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
             for (Entity entity : all) {
-                if (matchQueries(entity, queryMap)) {
-                    toReturn.add(entity);
+                try {
+                    if (matchQueries(entity, queryMap)) {
+                        toReturn.add(entity);
+                    }
+                } catch (Exception e) {
                 }
             }
         }
@@ -151,31 +155,33 @@ public class MockRepo implements EntityRepository {
     
     private Map<String[], String> stringToQuery(String queryString) {
         Map<String[], String> queryMap = new HashMap<String[], String>();
-        String[] queryStrings = queryString.split("&");
-        for (String query : queryStrings) {
-            if (!isReservedQueryKey(query)) {
-                if (query.contains(">=")) {
-                    String[] keyAndValue = getKeyAndValue(query, ">=");
-                    if (keyAndValue != null)
-                        queryMap.put(keyAndValue, ">=");
-                } else if (query.contains("<=")) {
-                    String[] keyAndValue = getKeyAndValue(query, "<=");
-                    if (keyAndValue != null)
-                        queryMap.put(keyAndValue, "<=");
-                } else if (query.contains("=")) {
-                    String[] keyAndValue = getKeyAndValue(query, "=");
-                    if (keyAndValue != null)
-                        queryMap.put(keyAndValue, "=");
-                    
-                } else if (query.contains("<")) {
-                    String[] keyAndValue = getKeyAndValue(query, "<");
-                    if (keyAndValue != null)
-                        queryMap.put(keyAndValue, "<");
-                    
-                } else if (query.contains(">")) {
-                    String[] keyAndValue = getKeyAndValue(query, ">");
-                    if (keyAndValue != null)
-                        queryMap.put(keyAndValue, ">");
+        if (queryString != null) {
+            String[] queryStrings = queryString.split("&");
+            for (String query : queryStrings) {
+                if (!isReservedQueryKey(query)) {
+                    if (query.contains(">=")) {
+                        String[] keyAndValue = getKeyAndValue(query, ">=");
+                        if (keyAndValue != null)
+                            queryMap.put(keyAndValue, ">=");
+                    } else if (query.contains("<=")) {
+                        String[] keyAndValue = getKeyAndValue(query, "<=");
+                        if (keyAndValue != null)
+                            queryMap.put(keyAndValue, "<=");
+                    } else if (query.contains("=")) {
+                        String[] keyAndValue = getKeyAndValue(query, "=");
+                        if (keyAndValue != null)
+                            queryMap.put(keyAndValue, "=");
+                        
+                    } else if (query.contains("<")) {
+                        String[] keyAndValue = getKeyAndValue(query, "<");
+                        if (keyAndValue != null)
+                            queryMap.put(keyAndValue, "<");
+                        
+                    } else if (query.contains(">")) {
+                        String[] keyAndValue = getKeyAndValue(query, ">");
+                        if (keyAndValue != null)
+                            queryMap.put(keyAndValue, ">");
+                    }
                 }
             }
         }
@@ -199,33 +205,60 @@ public class MockRepo implements EntityRepository {
             return keyAndValue;
     }
     
-    private boolean matchQueries(Entity entity, Map<String[], String> queryMap) {
+    private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
         boolean match = true;
         for (String[] keyAndValue : queryMap.keySet()) {
             String key = keyAndValue[0];
             String value = keyAndValue[1];
             String operator = queryMap.get(keyAndValue);
             if (operator.equals(">=")) {
-                if ((!entity.getBody().containsKey(key))
-                        || (!(((String) (entity.getBody().get(key))).compareTo(value) >= 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0)))
                     match = false;
             } else if (operator.equals("<=")) {
-                if ((!entity.getBody().containsKey(key))
-                        || (!(((String) (entity.getBody().get(key))).compareTo(value) <= 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0)))
                     match = false;
             } else if (operator.equals("=")) {
-                if ((!entity.getBody().containsKey(key))
-                        || (!(((String) (entity.getBody().get(key))).compareTo(value) == 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0)))
                     match = false;
             } else if (operator.equals("<")) {
-                if ((!entity.getBody().containsKey(key))
-                        || (!(((String) (entity.getBody().get(key))).compareTo(value) < 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) < 0)))
                     match = false;
             } else if (operator.equals(">")) {
-                if ((!entity.getBody().containsKey(key))
-                        || (!(((String) (entity.getBody().get(key))).compareTo(value) > 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0)))
                     match = false;
             }
+        }
+        return match;
+    }
+    
+    private int compareToValue(Object entityValue, String value) throws Exception {
+        int compare = 0;
+        if (entityValue instanceof String) {
+            compare = ((String) entityValue).compareTo(value);
+        } else if (entityValue instanceof Integer)
+            compare = (Integer) entityValue - Integer.parseInt(value);
+        return compare;
+    }
+
+    @Override
+    public boolean matchQuery(String entityType, String id, String queryString) {
+        boolean match = false;
+        List<Entity> toReturn = new ArrayList<Entity>();
+        Map<String[], String> queryMap = stringToQuery(queryString);
+        if (repo.containsKey(entityType)) {
+            List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
+            for (Entity entity : all) {
+                try {
+                    if (matchQueries(entity, queryMap)) {
+                        toReturn.add(entity);
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }
+        for (Entity entity : toReturn) {
+            if (entity.getEntityId().equals(id))
+                match = true;
         }
         return match;
     }

@@ -106,10 +106,19 @@ end
 
 class PropLoader
   @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
+  @@modified=false
+  
   def self.getProps
-    if ENV['api_server_url']
-      @@yml['api_server_url'] = ENV['api_server_url']
-    end
+    self.updateHash() unless @@modified
     return @@yml
+  end
+  
+  private
+  
+  def self.updateHash()
+    @@yml.each do |key, value|
+      @@yml[key] = ENV[key] if ENV[key]
+    end
+    @@modified=true
   end
 end

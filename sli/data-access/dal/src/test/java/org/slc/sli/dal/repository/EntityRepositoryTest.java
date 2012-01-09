@@ -74,6 +74,9 @@ public class EntityRepositoryTest {
         assertTrue(searchResults.iterator().hasNext());
         searchResults = repository.findByFields("student", "birthDate>2011-10-01", 0, 20);
         assertTrue(!searchResults.iterator().hasNext());
+        
+        // test match query string
+        assertTrue(repository.matchQuery("student", id, "firstName=Jane"));
 
         // test update
         found.getBody().put("firstName", "Mandy");

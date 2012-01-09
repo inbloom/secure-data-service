@@ -1,141 +1,125 @@
 package org.slc.sli.api.security.aspects;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Collection;
+import java.util.Iterator;
+
 
 // add this import if we move to CoreEntityService paradigm
 // import org.slc.sli.api.service.CoreEntityService;
 
 /**
  * Aspect for handling Entity Service operations.
- *
+ * 
  * @author shalka
  */
 
 @Aspect
 public class EntityServiceAspect {
-
-    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
-
+    
+    private static final Logger  LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
+    
     @Autowired
     private EntitySchemaRegistry mySchemaRegistry;
-
-    private static List<String> entitiesAlwaysAllow = Arrays.asList("realm");
-    private static List<String> methodsAlwaysAllow = Arrays.asList("getEntityDefinition");
-    private static Map<String, Right> neededRights = new HashMap<String, Right>();
-
-    static {
-        neededRights.put("get", Right.READ_GENERAL);
-        neededRights.put("list", Right.READ_GENERAL);
-        neededRights.put("exists", Right.READ_GENERAL);
-        neededRights.put("create", Right.WRITE_GENERAL);
-        neededRights.put("update", Right.WRITE_GENERAL);
-        neededRights.put("delete", Right.WRITE_GENERAL);
-    }
-
+    
     /**
      * Controls access to functions in the EntityService class.
-     *
+     * 
      * @param pjp Method invoked if principal has required rights.
      * @return Entity returned from invoked method (if method is entered).
      * @throws Throwable AccessDeniedException (HTTP 403).
      */
-    @Around("call(* EntityService.*(..)) && !within(EntityServiceAspect) && !call(* EntityService.getEntityDefinition(..))")
-    public Object controlAccess(ProceedingJoinPoint pjp) throws Throwable {
-        boolean hasAccess = false;
-        Right neededRight = null;
-        Signature entitySignature = pjp.getSignature();
-        String entityFunctionName = entitySignature.getName();
-
-        EntityService service = (EntityService) pjp.getTarget();
-        String entityDefinitionType = service.getEntityDefinition().getType();
-
-        if (isWhiteListed(entityDefinitionType, entityFunctionName)) {
-            LOG.debug("granting access to user for entity");
-            hasAccess = true;
-        } else {
-            neededRight = neededRights.get(entityFunctionName);
-
-            LOG.debug("attempted access of {} function", entitySignature.toString());
-
-            Set<Right> myRights = getGrantedRights();
-            LOG.debug("user rights: {}", myRights.toString());
-
-            for (Right currentRight : myRights) {
-                if (currentRight.equals(neededRight)) {
-                    LOG.debug("granting access to user for entity");
-                    hasAccess = true;
-                    break;
-                }
-            }
+    @Around("call(* org.slc.sli.api.service.CoreEntityService.create(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.update(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.delete(..))")
+    public Object authorizeWrite(ProceedingJoinPoint pjp) throws Throwable {
+        if (!isPublicContext() && !getGrantedRights().contains(Right.WRITE_GENERAL)) {
+            throwAccessDeniedException();
         }
-
-        if (hasAccess) {
-            LOG.debug("entering {} function [using Around]", entitySignature.toString());
-            Object entityReturned = pjp.proceed();
-            LOG.debug("exiting {} function [using Around]", entitySignature.toString());
-            return entityReturned;
-        } else {
-            LOG.debug("user was denied access due to insufficient permissions.");
-            throw new AccessDeniedException("User does not have authority to access entity.");
-        }
+        
+        return pjp.proceed();
     }
-
-    private boolean isWhiteListed(String entityDefinitionType, String entityFunctionName ) {
-
-        return entitiesAlwaysAllow.contains(entityDefinitionType) || methodsAlwaysAllow.contains(entityFunctionName);
-    }
-
+    
+    /**
+     * Controls access to functions in the EntityService class.
+     * 
+     * @param pjp Method invoked if principal has required rights.
+     * @return Entity returned from invoked method (if method is entered).
+     * @throws Throwable AccessDeniedException (HTTP 403).
+     */
     @Around("call(* org.slc.sli.api.service.CoreEntityService.get(..))")
     public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
-        LOG.debug("[ASPECT] filtering read");
+        if (!isPublicContext() && !getGrantedRights().contains(Right.READ_GENERAL)) {
+            throwAccessDeniedException();
+        }
         Entity entity = (Entity) pjp.proceed();
-
-        if (entity != null && !isWhiteListed(entity.getType(), pjp.getSignature().getName())) {
-            Set<Right> grantedRights = getGrantedRights();
+        
+        if (entity != null && !isPublicContext()) {
+            Collection<GrantedAuthority> grantedRights = getGrantedRights();
             LOG.debug("Rights {}", grantedRights);
-
+            
             if (!grantedRights.contains(Right.READ_RESTRICTED)) {
                 LOG.debug("Filtering restricted on {}", entity.getEntityId());
-                filterReadRestricted(entity);
+                removeReadRestrictedAttributes(entity);
             }
             if (!grantedRights.contains(Right.READ_GENERAL)) {
                 LOG.debug("Filtering general on {}", entity.getEntityId());
-                filterReadGeneral(entity);
+                removeReadGeneralAttributes(entity);
             }
         }
-
+        
         return entity;
     }
-
-    private void filterReadGeneral(Entity entity) {
+    
+    /**
+     * Controls access to functions in the EntityService class.
+     * 
+     * @param pjp Method invoked if principal has required rights.
+     * @return Entity returned from invoked method (if method is entered).
+     * @throws Throwable AccessDeniedException (HTTP 403).
+     */
+    @Around("call(* org.slc.sli.api.service.EntityService.list(..)) || " + "call(* org.slc.sli.api.service.EntityService.exists(..))")
+    public Object authorizeExists(ProceedingJoinPoint pjp) throws Throwable {
+        if (!isPublicContext() && !getGrantedRights().contains(Right.READ_GENERAL)) {
+            throwAccessDeniedException();
+        }
+        return pjp.proceed();
+    }
+    
+    private void throwAccessDeniedException() throws Throwable {
+        LOG.debug("user was denied access due to insufficient permissions.");
+        throw new AccessDeniedException("User does not have authority to access entity.");
+    }
+    
+    private boolean isPublicContext() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth instanceof AnonymousAuthenticationToken;
+    }
+    
+    private void removeReadGeneralAttributes(Entity entity) {
+        if (entity.getBody() == null)
+            return;
+        
         Schema schema = mySchemaRegistry.findSchemaForType(entity);
         LOG.debug("schema fields {}", schema.getFields());
         Iterator<String> keyIter = entity.getBody().keySet().iterator();
-
+        
         while (keyIter.hasNext()) {
             String fieldName = keyIter.next();
-
+            
             Schema.Field field = schema.getField(fieldName);
             LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
             if (isReadGeneral(field)) {
@@ -143,23 +127,26 @@ public class EntityServiceAspect {
             }
         }
     }
-
+    
     private boolean isReadGeneral(Schema.Field field) {
         if (field == null) {
             return false;
         }
-
+        
         String readProp = field.getProp("read_enforcement");
         return (readProp != null && !readProp.matches("restricted") && !readProp.matches("aggregate"));
     }
-
-    private void filterReadRestricted(Entity entity) {
+    
+    private void removeReadRestrictedAttributes(Entity entity) {
+        if (entity.getBody() == null)
+            return;
+        
         Schema schema = mySchemaRegistry.findSchemaForType(entity);
         Iterator<String> keyIter = entity.getBody().keySet().iterator();
-
+        
         while (keyIter.hasNext()) {
             String fieldName = keyIter.next();
-
+            
             Schema.Field field = schema.getField(fieldName);
             LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
             if (isRestrictedField(field)) {
@@ -167,10 +154,10 @@ public class EntityServiceAspect {
             }
         }
     }
-
+    
     /**
      * Returns true if the Field is marked "restricted" under "read_enforcement".
-     *
+     * 
      * @param field Field to be checked for a 'restricted' read enforcement flag.
      * @return Boolean indicating whether or not the Field requires READ_RESTRICTED right to be
      *         read.
@@ -179,16 +166,15 @@ public class EntityServiceAspect {
         if (field == null) {
             return false;
         }
-
+        
         String readProp = field.getProp("read_enforcement");
         return (readProp != null && readProp.equals("restricted"));
     }
-
-    private Set<Right> getGrantedRights() {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.getRights();
+    
+    private Collection<GrantedAuthority> getGrantedRights() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
-
+    
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
         this.mySchemaRegistry = schemaRegistry;
     }

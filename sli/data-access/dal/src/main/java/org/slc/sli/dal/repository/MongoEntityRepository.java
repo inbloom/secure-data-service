@@ -152,6 +152,7 @@ public class MongoEntityRepository implements EntityRepository {
     // TODO may need to add type converter later
     private Query stringToQuery(String queryString) {
         Query mongoQuery = new Query();
+        if(queryString==null)queryString="";
         String[] queryStrings = queryString.split("&");
         for (String query : queryStrings) {
             if (!isReservedQueryKey(query)) {
@@ -203,5 +204,17 @@ public class MongoEntityRepository implements EntityRepository {
             return null;
         else
             return keyAndValue;
+    }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, String queryString) {
+        boolean match = false;
+        Query query = stringToQuery(queryString);
+        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+        for (MongoEntity entity : results) {
+            if (entity.getEntityId().equals(id))
+                match = true;
+        }
+        return match;
     }
 }

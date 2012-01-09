@@ -31,11 +31,18 @@ public class ColorByPerf {
         String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
         String perfDataPointId = assmtName + ".perfLevel";
         
+        // create temporary Field to get perfLevel - TODO: there should be a better way to do this
+        Field perfField = new Field();
+        perfField.setType(field.getType());
+        perfField.setValue(perfDataPointId);
+        perfField.setTimeSlot(field.getTimeSlot());
+        
         // get number of levels and assmt result level
-        int numLevels = 4; // TODO: base on assmt meta data
+        Integer numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
+        if (numLevels == null) { numLevels = 0; }  
         int level = 0;
         try {
-            level = Integer.parseInt(assmts.get(perfDataPointId, student));
+            level = Integer.parseInt(assmts.get(perfField, student));
         } catch (Exception e) {
             System.out.println("Could not find performance level");
             return 0;
@@ -93,8 +100,7 @@ public class ColorByPerf {
      */
     public String getText() {
         
-        String dataPointId = field.getValue();
-        return assmts.get(dataPointId, student);
+        return assmts.get(field, student);
     }
     
 }

@@ -6,5 +6,12 @@
 
 
    <context:component-scan base-package="org.slc" />
-
+   <context:annotation-config />
+   
+	<bean id="adminProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:/test-admin-local.properties</value>
+		</property>
+	</bean>
 </beans>

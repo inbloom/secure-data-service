@@ -135,7 +135,7 @@
         <artifactId>aspectj-maven-plugin</artifactId>
         <version>1.4</version>
         <configuration>
-            <XnoInline>true</XnoInline>
+          <XnoInline>true</XnoInline>
           <showWeaveInfo>true</showWeaveInfo>
           <complianceLevel>1.6</complianceLevel>
         </configuration>
