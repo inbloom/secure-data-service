@@ -21,6 +21,7 @@ public class IngestionFileEntry implements ErrorReportSupport {
     private String fileName;
     private File file;
     private File neutralRecordFile;
+    private File deltaNeutralRecordFile;
     private String checksum;
     private FaultsReport faultsReport;
 
@@ -136,6 +137,14 @@ public class IngestionFileEntry implements ErrorReportSupport {
 
     public void setNeutralRecordFile(File neutralRecordFile) {
         this.neutralRecordFile = neutralRecordFile;
+    }
+
+    public File getDeltaNeutralRecordFile() {
+        return deltaNeutralRecordFile;
+    }
+
+    public void setDeltaNeutralRecordFile(File deltaNeutralRecordFile) {
+        this.deltaNeutralRecordFile = deltaNeutralRecordFile;
     }
 
     public FaultsReport getFaultsReport() {

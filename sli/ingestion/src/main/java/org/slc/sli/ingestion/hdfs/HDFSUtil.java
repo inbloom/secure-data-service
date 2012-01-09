@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.hdfs;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,7 @@ public class HDFSUtil {
 
     static final int BUFFER = 2048;
 
-    public void addFile(String srcFile, String destPath) throws IOException {
+    public static void addFile(File srcFile, String destPath) throws IOException {
         Configuration config = new Configuration();
 
         // Read the configurations from XML file
@@ -33,8 +34,7 @@ public class HDFSUtil {
             fileSystem.mkdirs(new Path(destPath));
 
         // Create the destination path including the filename.
-        String fileName = srcFile.substring(srcFile.lastIndexOf('/') + 1, srcFile.length());
-        String destFile = destPath + "/" + fileName;
+        String destFile = destPath + "/" + srcFile.getName();
 
         // Check if the file already exists
         Path dest = new Path(destFile);
