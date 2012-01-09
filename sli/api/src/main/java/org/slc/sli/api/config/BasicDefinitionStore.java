@@ -57,6 +57,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition staff = this.makeExposeAndAddEntityDefinition("staff", "staff");
         EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
         EntityDefinition teacher = this.makeExposeAndAddEntityDefinition("teacher");
+        EntityDefinition educationOrganization = this.makeExposeAndAddEntityDefinition("educationOrganization");
         
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = AssociationDefinition
