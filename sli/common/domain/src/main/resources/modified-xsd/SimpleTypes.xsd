@@ -757,6 +757,28 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:maxLength value="150"/>
 		</xs:restriction>
 	</xs:simpleType>	
+		<xs:simpleType name="ShortDescription">
+		<xs:annotation>
+			<xs:documentation>A shortened description for reference.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodeValue">
+		<xs:annotation>
+			<xs:documentation>A code or abbreviation for an element.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+	
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
@@ -767,4 +789,24 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>	
+	
+	
+	<xs:complexType name="EntityReference">
+		<xs:annotation>
+			<xs:documentation>References an entity in a way that's saner then the Ed-Fi reference types</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type">
+					<xs:simpleType>
+						<xs:restriction base="xs:token">
+							<xs:enumeration value="Student" />
+							<xs:enumeration value="School" />
+							<xs:enumeration value="DisciplineIncident" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 </xs:schema>
