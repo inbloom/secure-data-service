@@ -24,8 +24,6 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  #TODO get rid of debug below
-  puts @driver.title
   assert(@driver.title.index("SLI Default Roles") != nil, "Failed to navigate to the Admintools Role page")
 end
 
@@ -76,15 +74,17 @@ Then /^I am now authenticated to SLI IDP$/ do
 end
 
 Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  #No code needed for this step
 end
 
-Then /^I am informed that "([^"]*)" does not exists$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I am informed that authentication has failed$/ do
+  errorBox = @driver.find_element(:name, "Login.AlertImage")
+  assert(errorBox != nil, "Could not find error message box")
 end
 
-Then /^I am redirected to the SLI\-IDP Login Page$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I do not have access to the SLI Default Roles Admin Page$/ do
+  @driver.get PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  assert(@driver.title.index("SLI Default Roles") == nil, "Navigated to the Admintools Role page with no credentials")
 end
 
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
