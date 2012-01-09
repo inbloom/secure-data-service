@@ -271,4 +271,10 @@ public class MockRepo implements EntityRepository {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, Query query) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
