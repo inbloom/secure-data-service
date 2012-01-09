@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- no namespace defined here -- this file is intended to be included into higher level XSD files -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:simpleType name="IdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EducationOrgIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by education organizations, social services, or other agencies to refer to an education organization.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="ACT"/>
+			<xs:enumeration value="LEA"/>
+			<xs:enumeration value="SEA"/>
+			<xs:enumeration value="NCES"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="DUNS"/>
+			<xs:enumeration value="Other Federal"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NameOfInstitution">
+		<xs:annotation>
+			<xs:documentation>The full, legally accepted name of the institution.
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+    <xs:simpleType name="EducationOrganizationCategoryType">
+		<xs:annotation>
+			<xs:documentation>The classification of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="State Education Agency"/>
+			<xs:enumeration value="Education Service Center"/>
+			<xs:enumeration value="Local Education Agency"/>
+			<xs:enumeration value="School"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ApartmentRoomSuiteNumber">
+		<xs:annotation>
+			<xs:documentation>The apartment, room, or suite number of an address. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BuildingSiteNumber">
+		<xs:annotation>
+			<xs:documentation>The number of the building on the site, if more than one building shares the same address.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="City">
+		<xs:annotation>
+			<xs:documentation>The name of the city in which an address is located. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StateAbbreviationType">
+		<xs:annotation>
+			<xs:documentation>The abbreviation for the state (within the United States) or outlying area in which an address is located. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="AL"/>
+			<xs:enumeration value="AK"/>
+			<xs:enumeration value="AZ"/>
+			<xs:enumeration value="AR"/>
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CO"/>
+			<xs:enumeration value="CT"/>
+			<xs:enumeration value="DC"/>
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="FL"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="GU"/>
+			<xs:enumeration value="HI"/>
+			<xs:enumeration value="ID"/>
+			<xs:enumeration value="IL"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="IA"/>
+			<xs:enumeration value="KS"/>
+			<xs:enumeration value="KY"/>
+			<xs:enumeration value="LA"/>
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="MA"/>
+			<xs:enumeration value="MI"/>
+			<xs:enumeration value="MN"/>
+			<xs:enumeration value="MS"/>
+			<xs:enumeration value="MO"/>
+			<xs:enumeration value="MT"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="NV"/>
+			<xs:enumeration value="NH"/>
+			<xs:enumeration value="NJ"/>
+			<xs:enumeration value="NM"/>
+			<xs:enumeration value="NY"/>
+			<xs:enumeration value="NC"/>
+			<xs:enumeration value="ND"/>
+			<xs:enumeration value="OH"/>
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="OR"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="PR"/>
+			<xs:enumeration value="RI"/>
+			<xs:enumeration value="SC"/>
+			<xs:enumeration value="SD"/>
+			<xs:enumeration value="TN"/>
+			<xs:enumeration value="TX"/>
+			<xs:enumeration value="UT"/>
+			<xs:enumeration value="VT"/>
+			<xs:enumeration value="VA"/>
+			<xs:enumeration value="WA"/>
+			<xs:enumeration value="WV"/>
+			<xs:enumeration value="WI"/>
+			<xs:enumeration value="WY"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PostalCode">
+		<xs:annotation>
+			<xs:documentation>The five or nine digit zip code or overseas postal code portion of an address.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NameOfCounty">
+		<xs:annotation>
+			<xs:documentation>The name of the county, parish, borough, or comparable unit (within a state) in which an address is located.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountyFIPSCode">
+		<xs:annotation>
+			<xs:documentation>Definition
+The Federal Information Processing Standards (FIPS) numeric code for the county issued by the National Institute of Standards and Technology (NIST). Counties are considered to be the "first-order subdivisions" of each State and statistically equivalent entity, regardless of their local designations (county, parish, borough, etc.). Counties in different States will have the same code. A unique county number is created when combined with the 2-digit FIPS State Code. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountryCodeType">
+		<xs:annotation>
+			<xs:documentation>The names of countries. (Note: A list of countries and codes is currently maintained and updated by the ISO as ISO 3166 on its website: http://www.iso.org/iso/country_codes.htm)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="AF"/>
+			<xs:enumeration value="AX"/>
+			<xs:enumeration value="AL"/>
+			<xs:enumeration value="DZ"/>
+			<xs:enumeration value="AS"/>
+			<xs:enumeration value="AD"/>
+			<xs:enumeration value="AO"/>
+			<xs:enumeration value="AI"/>
+			<xs:enumeration value="AQ"/>
+			<xs:enumeration value="AG"/>
+			<xs:enumeration value="AR"/>
+			<xs:enumeration value="AM"/>
+			<xs:enumeration value="AW"/>
+			<xs:enumeration value="AU"/>
+			<xs:enumeration value="AT"/>
+			<xs:enumeration value="AZ"/>
+			<xs:enumeration value="BS"/>
+			<xs:enumeration value="BH"/>
+			<xs:enumeration value="BD"/>
+			<xs:enumeration value="BB"/>
+			<xs:enumeration value="BY"/>
+			<xs:enumeration value="BE"/>
+			<xs:enumeration value="BZ"/>
+			<xs:enumeration value="BJ"/>
+			<xs:enumeration value="BM"/>
+			<xs:enumeration value="BT"/>
+			<xs:enumeration value="BO"/>
+			<xs:enumeration value="BQ"/>
+			<xs:enumeration value="BA"/>
+			<xs:enumeration value="BW"/>
+			<xs:enumeration value="BV"/>
+			<xs:enumeration value="BR"/>
+			<xs:enumeration value="IO"/>
+			<xs:enumeration value="BN"/>
+			<xs:enumeration value="BG"/>
+			<xs:enumeration value="BF"/>
+			<xs:enumeration value="BI"/>
+			<xs:enumeration value="KH"/>
+			<xs:enumeration value="CM"/>
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CV"/>
+			<xs:enumeration value="KY"/>
+			<xs:enumeration value="CF"/>
+			<xs:enumeration value="TD"/>
+			<xs:enumeration value="CL"/>
+			<xs:enumeration value="CN"/>
+			<xs:enumeration value="CX"/>
+			<xs:enumeration value="CC"/>
+			<xs:enumeration value="CO"/>
+			<xs:enumeration value="KM"/>
+			<xs:enumeration value="CG"/>
+			<xs:enumeration value="CD"/>
+			<xs:enumeration value="CK"/>
+			<xs:enumeration value="CR"/>
+			<xs:enumeration value="CI"/>
+			<xs:enumeration value="HR"/>
+			<xs:enumeration value="CU"/>
+			<xs:enumeration value="CW"/>
+			<xs:enumeration value="CY"/>
+			<xs:enumeration value="CZ"/>
+			<xs:enumeration value="DK"/>
+			<xs:enumeration value="DJ"/>
+			<xs:enumeration value="DM"/>
+			<xs:enumeration value="DO"/>
+			<xs:enumeration value="EC"/>
+			<xs:enumeration value="EG"/>
+			<xs:enumeration value="SV"/>
+			<xs:enumeration value="GQ"/>
+			<xs:enumeration value="ER"/>
+			<xs:enumeration value="EE"/>
+			<xs:enumeration value="ET"/>
+			<xs:enumeration value="FK"/>
+			<xs:enumeration value="FO"/>
+			<xs:enumeration value="FJ"/>
+			<xs:enumeration value="FI"/>
+			<xs:enumeration value="FR"/>
+			<xs:enumeration value="GF"/>
+			<xs:enumeration value="PF"/>
+			<xs:enumeration value="TF"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="GM"/>
+			<xs:enumeration value="GE"/>
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="GH"/>
+			<xs:enumeration value="GI"/>
+			<xs:enumeration value="GR"/>
+			<xs:enumeration value="GL"/>
+			<xs:enumeration value="GD"/>
+			<xs:enumeration value="GP"/>
+			<xs:enumeration value="GU"/>
+			<xs:enumeration value="GT"/>
+			<xs:enumeration value="GG"/>
+			<xs:enumeration value="GN"/>
+			<xs:enumeration value="GW"/>
+			<xs:enumeration value="GY"/>
+			<xs:enumeration value="HT"/>
+			<xs:enumeration value="HM"/>
+			<xs:enumeration value="VA"/>
+			<xs:enumeration value="HN"/>
+			<xs:enumeration value="HK"/>
+			<xs:enumeration value="HU"/>
+			<xs:enumeration value="IS"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="ID"/>
+			<xs:enumeration value="IR"/>
+			<xs:enumeration value="IQ"/>
+			<xs:enumeration value="IE"/>
+			<xs:enumeration value="IM"/>
+			<xs:enumeration value="IL"/>
+			<xs:enumeration value="IT"/>
+			<xs:enumeration value="JM"/>
+			<xs:enumeration value="JP"/>
+			<xs:enumeration value="JE"/>
+			<xs:enumeration value="JO"/>
+			<xs:enumeration value="KZ"/>
+			<xs:enumeration value="KE"/>
+			<xs:enumeration value="KI"/>
+			<xs:enumeration value="KP"/>
+			<xs:enumeration value="KR"/>
+			<xs:enumeration value="KW"/>
+			<xs:enumeration value="KG"/>
+			<xs:enumeration value="LA"/>
+			<xs:enumeration value="LV"/>
+			<xs:enumeration value="LB"/>
+			<xs:enumeration value="LS"/>
+			<xs:enumeration value="LR"/>
+			<xs:enumeration value="LY"/>
+			<xs:enumeration value="LI"/>
+			<xs:enumeration value="LT"/>
+			<xs:enumeration value="LU"/>
+			<xs:enumeration value="MO"/>
+			<xs:enumeration value="MK"/>
+			<xs:enumeration value="MG"/>
+			<xs:enumeration value="MW"/>
+			<xs:enumeration value="MY"/>
+			<xs:enumeration value="MV"/>
+			<xs:enumeration value="ML"/>
+			<xs:enumeration value="MT"/>
+			<xs:enumeration value="MH"/>
+			<xs:enumeration value="MQ"/>
+			<xs:enumeration value="MR"/>
+			<xs:enumeration value="MU"/>
+			<xs:enumeration value="YT"/>
+			<xs:enumeration value="MX"/>
+			<xs:enumeration value="FM"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="MC"/>
+			<xs:enumeration value="MN"/>
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="MS"/>
+			<xs:enumeration value="MA"/>
+			<xs:enumeration value="MZ"/>
+			<xs:enumeration value="MM"/>
+			<xs:enumeration value="NA"/>
+			<xs:enumeration value="NR"/>
+			<xs:enumeration value="NP"/>
+			<xs:enumeration value="NL"/>
+			<xs:enumeration value="NC"/>
+			<xs:enumeration value="NZ"/>
+			<xs:enumeration value="NI"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="NG"/>
+			<xs:enumeration value="NU"/>
+			<xs:enumeration value="NF"/>
+			<xs:enumeration value="MP"/>
+			<xs:enumeration value="NO"/>
+			<xs:enumeration value="OM"/>
+			<xs:enumeration value="PK"/>
+			<xs:enumeration value="PW"/>
+			<xs:enumeration value="PS"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="PG"/>
+			<xs:enumeration value="PY"/>
+			<xs:enumeration value="PE"/>
+			<xs:enumeration value="PH"/>
+			<xs:enumeration value="PN"/>
+			<xs:enumeration value="PL"/>
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="PR"/>
+			<xs:enumeration value="QA"/>
+			<xs:enumeration value="RE"/>
+			<xs:enumeration value="RO"/>
+			<xs:enumeration value="RU"/>
+			<xs:enumeration value="RW"/>
+			<xs:enumeration value="BL"/>
+			<xs:enumeration value="SH"/>
+			<xs:enumeration value="KN"/>
+			<xs:enumeration value="LC"/>
+			<xs:enumeration value="MF"/>
+			<xs:enumeration value="PM"/>
+			<xs:enumeration value="VC"/>
+			<xs:enumeration value="WS"/>
+			<xs:enumeration value="SM"/>
+			<xs:enumeration value="ST"/>
+			<xs:enumeration value="SA"/>
+			<xs:enumeration value="SN"/>
+			<xs:enumeration value="RS"/>
+			<xs:enumeration value="SC"/>
+			<xs:enumeration value="SL"/>
+			<xs:enumeration value="SG"/>
+			<xs:enumeration value="SX"/>
+			<xs:enumeration value="SK"/>
+			<xs:enumeration value="SI"/>
+			<xs:enumeration value="SB"/>
+			<xs:enumeration value="SO"/>
+			<xs:enumeration value="ZA"/>
+			<xs:enumeration value="GS"/>
+			<xs:enumeration value="ES"/>
+			<xs:enumeration value="LK"/>
+			<xs:enumeration value="SD"/>
+			<xs:enumeration value="SR"/>
+			<xs:enumeration value="SJ"/>
+			<xs:enumeration value="SZ"/>
+			<xs:enumeration value="SE"/>
+			<xs:enumeration value="CH"/>
+			<xs:enumeration value="SY"/>
+			<xs:enumeration value="TW"/>
+			<xs:enumeration value="TJ"/>
+			<xs:enumeration value="TZ"/>
+			<xs:enumeration value="TH"/>
+			<xs:enumeration value="TL"/>
+			<xs:enumeration value="TG"/>
+			<xs:enumeration value="TK"/>
+			<xs:enumeration value="TO"/>
+			<xs:enumeration value="TT"/>
+			<xs:enumeration value="TN"/>
+			<xs:enumeration value="TR"/>
+			<xs:enumeration value="TM"/>
+			<xs:enumeration value="TC"/>
+			<xs:enumeration value="TV"/>
+			<xs:enumeration value="UG"/>
+			<xs:enumeration value="UA"/>
+			<xs:enumeration value="AE"/>
+			<xs:enumeration value="GB"/>
+			<xs:enumeration value="US"/>
+			<xs:enumeration value="UM"/>
+			<xs:enumeration value="UY"/>
+			<xs:enumeration value="UZ"/>
+			<xs:enumeration value="VU"/>
+			<xs:enumeration value="VE"/>
+			<xs:enumeration value="VN"/>
+			<xs:enumeration value="VG"/>
+			<xs:enumeration value="VI"/>
+			<xs:enumeration value="WF"/>
+			<xs:enumeration value="EH"/>
+			<xs:enumeration value="YE"/>
+			<xs:enumeration value="ZM"/>
+			<xs:enumeration value="ZW"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Coordinate">
+		<xs:annotation>
+			<xs:documentation>The data type to specify latitude or longitude.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressType">
+		<xs:annotation>
+			<xs:documentation>The type of address listed for an individual or organization.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Home"/>
+			<xs:enumeration value="Physical"/>
+			<xs:enumeration value="Billing"/>
+			<xs:enumeration value="Mailing"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Temporary"/>
+			<xs:enumeration value="Work"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="WebSite">
+		<xs:annotation>
+			<xs:documentation>The public web site address (URL) for the educational organization.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="5"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OperationalStatusType">
+		<xs:annotation>
+			<xs:documentation>The current operational status of the education organization (e.g., active, inactive).  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Active"/>
+			<xs:enumeration value="Added"/>
+			<xs:enumeration value="Changed Agency"/>
+			<xs:enumeration value="Closed"/>
+			<xs:enumeration value="Continuing"/>
+			<xs:enumeration value="Future"/>
+			<xs:enumeration value="Inactive"/>
+			<xs:enumeration value="New"/>
+			<xs:enumeration value="Reopened"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RatingTitleType">
+		<xs:annotation>
+			<xs:documentation>The title of the rating (e.g., School Rating, Safety Score, etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rating">
+		<xs:annotation>
+			<xs:documentation>An accountability rating level, designation, or assessment.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchoolYearType">
+		<xs:annotation>
+			<xs:documentation>Identifier for a school year</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="1996-1997"/>
+			<xs:enumeration value="1997-1998"/>
+			<xs:enumeration value="1998-1999"/>
+			<xs:enumeration value="1999-2000"/>
+			<xs:enumeration value="2000-2001"/>
+			<xs:enumeration value="2001-2002"/>
+			<xs:enumeration value="2002-2003"/>
+			<xs:enumeration value="2003-2004"/>
+			<xs:enumeration value="2004-2005"/>
+			<xs:enumeration value="2005-2006"/>
+			<xs:enumeration value="2006-2007"/>
+			<xs:enumeration value="2007-2008"/>
+			<xs:enumeration value="2008-2009"/>
+			<xs:enumeration value="2009-2010"/>
+			<xs:enumeration value="2010-2011"/>
+			<xs:enumeration value="2011-2012"/>
+			<xs:enumeration value="2012-2013"/>
+			<xs:enumeration value="2013-2014"/>
+			<xs:enumeration value="2014-2015"/>
+			<xs:enumeration value="2015-2016"/>
+			<xs:enumeration value="2016-2017"/>
+			<xs:enumeration value="2017-2018"/>
+			<xs:enumeration value="2018-2019"/>
+			<xs:enumeration value="2019-2020"/>
+			<xs:enumeration value="2021-2022"/>
+			<xs:enumeration value="2022-2023"/>
+			<xs:enumeration value="2023-2024"/>
+			<xs:enumeration value="2024-2025"/>
+			<xs:enumeration value="2025-2026"/>
+			<xs:enumeration value="2026-2027"/>
+			<xs:enumeration value="2027-2028"/>
+			<xs:enumeration value="2028-2029"/>
+			<xs:enumeration value="2029-2030"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RatingOrganization">
+		<xs:annotation>
+			<xs:documentation>The organization assigning the accountability rating.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RatingProgramType">
+		<xs:annotation>
+			<xs:documentation>The rating program (e.g., NCLB)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProgramId">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProgramType">
+		<xs:annotation>
+			<xs:documentation>The formal name of the program of instruction, training, services or benefits available through federal, state, or local agencies.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Adult/Continuing Education"/>
+			<xs:enumeration value="Alternative Education"/>
+			<xs:enumeration value="Athletics"/>
+			<xs:enumeration value="Bilingual"/>
+			<xs:enumeration value="Career and Technical Education"/>
+			<xs:enumeration value="Cocurricular Programs"/>
+			<xs:enumeration value="College Preparatory"/>
+			<xs:enumeration value="Community Service Program"/>
+			<xs:enumeration value="Community/Junior College Education Program"/>
+			<xs:enumeration value="Compensatory Services for Disadvantaged Students"/>
+			<xs:enumeration value="Counseling Services"/>
+			<xs:enumeration value="English as a Second Language (ESL)"/>
+			<xs:enumeration value="Even Start"/>
+			<xs:enumeration value="Extended Day/Child Care Services"/>
+			<xs:enumeration value="Gifted and Talented"/>
+			<xs:enumeration value="Head Start"/>
+			<xs:enumeration value="Health Services Program"/>
+			<xs:enumeration value="High School Equivalency Program (HSEP)"/>
+			<xs:enumeration value="IDEA"/>
+			<xs:enumeration value="Immigrant Education"/>
+			<xs:enumeration value="Indian Education"/>
+			<xs:enumeration value="International Baccalaureate"/>
+			<xs:enumeration value="Library/Media Services Program"/>
+			<xs:enumeration value="Magnet/Special Program Emphasis"/>
+			<xs:enumeration value="Migrant Education"/>
+			<xs:enumeration value="Neglected and Delinquent Program"/>
+			<xs:enumeration value="Optional Flexible School Day Program (OFSDP)"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Regular Education"/>
+			<xs:enumeration value="Remedial Education"/>
+			<xs:enumeration value="Section 504 Placement"/>
+			<xs:enumeration value="Service Learning"/>
+			<xs:enumeration value="Special Education"/>
+			<xs:enumeration value="Student Retention/Dropout Prevention"/>
+			<xs:enumeration value="Substance Abuse Education/Prevention"/>
+			<xs:enumeration value="Teacher Professional Development/Mentoring"/>
+			<xs:enumeration value="Technical Preparatory"/>
+			<xs:enumeration value="Title I Part A"/>
+			<xs:enumeration value="Vocational Education"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TelephoneNumber">
+		<xs:annotation>
+			<xs:documentation>The telephone number including the area code, and extension, if applicable.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="24"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InstitutionTelephoneNumberType">
+		<xs:annotation>
+			<xs:documentation>The type of communication number listed for an organization.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Main"/>
+			<xs:enumeration value="Administrative"/>
+			<xs:enumeration value="HealthClinic"/>
+			<xs:enumeration value="Attendance"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Fax"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GradeLevelType">
+		<xs:annotation>
+			<xs:documentation>The enumeration items for the set of grade levels.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Adult Education"/>
+			<xs:enumeration value="Early Education"/>
+			<xs:enumeration value="Eighth grade"/>
+			<xs:enumeration value="Eleventh grade"/>
+			<xs:enumeration value="Fifth grade"/>
+			<xs:enumeration value="First grade"/>
+			<xs:enumeration value="Fourth grade"/>
+			<xs:enumeration value="Grade 13"/>
+			<xs:enumeration value="Infant/toddler"/>
+			<xs:enumeration value="Kindergarten"/>
+			<xs:enumeration value="Ninth grade"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Postsecondary"/>
+			<xs:enumeration value="Preschool/Prekindergarten"/>
+			<xs:enumeration value="Second grade"/>
+			<xs:enumeration value="Seventh grade"/>
+			<xs:enumeration value="Sixth grade"/>
+			<xs:enumeration value="Tenth grade"/>
+			<xs:enumeration value="Third grade"/>
+			<xs:enumeration value="Transitional Kindergarten"/>
+			<xs:enumeration value="Twelfth grade"/>
+			<xs:enumeration value="Ungraded"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchoolCategoryItemType">
+		<xs:annotation>
+			<xs:documentation>The category of school. For example: High School, Middle School, Elementary School</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Elementary School"/>
+			<xs:enumeration value="High School"/>
+			<xs:enumeration value="Middle School"/>
+			<xs:enumeration value="Junior High School"/>
+			<xs:enumeration value="Elementary School"/>
+			<xs:enumeration value="SecondarySchool"/>
+			<xs:enumeration value="Ungraded"/>
+			<xs:enumeration value="Adult School"/>
+			<xs:enumeration value="Infant/toddler School"/>
+			<xs:enumeration value="Preschool/early childhood"/>
+			<xs:enumeration value="Primary School"/>
+			<xs:enumeration value="Intermediate School"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchoolType">
+		<xs:annotation>
+			<xs:documentation>The type of education institution as classified by its primary focus. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Alternative"/>
+			<xs:enumeration value="Regular"/>
+			<xs:enumeration value="Special Education"/>
+			<xs:enumeration value="Vocational"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CharterStatusType">
+		<xs:annotation>
+			<xs:documentation>The category of charter school. For example: School Charter, Open Enrollment Charter</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="School Charter"/>
+			<xs:enumeration value="College/University Charter"/>
+			<xs:enumeration value="Open Enrollment"/>
+			<xs:enumeration value="Not a Charter School"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TitleIPartASchoolDesignationType">
+		<xs:annotation>
+			<xs:documentation>Denotes the Title I Part A designation for the school.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Not designated as a Title I Part A school"/>
+			<xs:enumeration value="Title I Part A Schoolwide Assistance Program School"/>
+			<xs:enumeration value="Title I Part A Targeted Assistance School"/>
+			<xs:enumeration value="Title I targeted eligible school - no program"/>
+			<xs:enumeration value="Title I targeted school"/>
+			<xs:enumeration value="Title I school wide eligible - Title I targeted program"/>
+			<xs:enumeration value="Title I school wide eligible school - no program"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MagnetSpecialProgramEmphasisSchoolType">
+		<xs:annotation>
+			<xs:documentation>A school that has been designed: 1) to attract students of different racial/ethnic backgrounds for the purpose of reducing, preventing, or eliminating racial isolation; and/or 2)to provide an academic or social focus on a particular theme (e.g., science/math, performing arts, gifted/talented, or foreign language).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="All students participate"/>
+			<xs:enumeration value="No students participate"/>
+			<xs:enumeration value="Some, but not all, students participate"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AdministrativeFundingControlType">
+		<xs:annotation>
+			<xs:documentation>The type of education institution as classified by its funding source.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Public School"/>
+			<xs:enumeration value="Private School"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Description">
+		<xs:annotation>
+			<xs:documentation>A detailed description of the entity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LEACategoryType">
+		<xs:annotation>
+			<xs:documentation>The category of LEA/district. For example: Independent or Charter</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Independent"/>
+			<xs:enumeration value="Charter"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CharterStatusType">
+		<xs:annotation>
+			<xs:documentation>The category of charter school. For example: School Charter, Open Enrollment Charter</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="School Charter"/>
+			<xs:enumeration value="College/University Charter"/>
+			<xs:enumeration value="Open Enrollment"/>
+			<xs:enumeration value="Not a Charter School"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
