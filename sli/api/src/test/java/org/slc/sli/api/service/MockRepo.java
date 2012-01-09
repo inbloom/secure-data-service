@@ -148,6 +148,7 @@ public class MockRepo implements EntityRepository {
                         toReturn.add(entity);
                     }
                 } catch (Exception e) {
+                    System.out.println("error processing query!");
                 }
             }
         }
@@ -254,6 +255,7 @@ public class MockRepo implements EntityRepository {
                         toReturn.add(entity);
                     }
                 } catch (Exception e) {
+                    System.out.println("error processing query!");
                 }
             }
         }
