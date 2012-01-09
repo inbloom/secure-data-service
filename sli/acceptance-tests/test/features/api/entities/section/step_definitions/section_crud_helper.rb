@@ -1,6 +1,15 @@
 # lazy initialization of parsed_results so we don't reparse for every "Then.."
 def parsed_results
-  @parsed_results ||= JSON.parse(@res.body)
+  if @format == "application/vnd.slc+xml" or @format == "application/xml"
+    @parsed_results = REXML::Document.new(@res.body)
+    @prefix = "Entities/section/"
+    puts ("prefix = ")
+    puts (@prefix)
+  elsif @format == "application/vnd.slc+json" or @format == "application/json"
+    @parsed_results ||= JSON.parse(@res.body)
+  else
+    assert(false, "Unsupported MIME type: #{@format}")
+  end
 end
 
 # Function data_builder
@@ -34,3 +43,16 @@ def data_builder
   end
   data
 end
+
+def getKeyValue(key)
+  value = -1
+  if @format == "application/vnd.slc+json" or @format == "application/json"
+    value = @parsed_results[key]
+  elsif @format == "application/vnd.slc+xml" or @format == "application/xml"
+    @parsed_results.elements.each (@prefix + key) { |element| value = element.text }
+  else
+    assert(false, "Unsupported MIME type: #{@format}")
+  end
+  return value
+end
+
