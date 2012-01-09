@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- no namespace defined here -- this file is intended to be included into higher level XSD files -->
+<!-- no namespace defined here : this file is intended to be included into higher level XSD files -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
 	<xs:simpleType name="IdentificationCode">
@@ -35,7 +35,7 @@
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
-			<xs:maxLength value="60"/>
+			<xs:maxLength value="75"/>
 		</xs:restriction>
 	</xs:simpleType>
     <xs:simpleType name="EducationOrganizationCategoryType">
@@ -81,7 +81,7 @@
 		<xs:annotation>
 			<xs:documentation>The abbreviation for the state (within the United States) or outlying area in which an address is located. </xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:token">
+			<xs:restriction base="xs:token">
 			<xs:enumeration value="AL"/>
 			<xs:enumeration value="AK"/>
 			<xs:enumeration value="AZ"/>
@@ -563,6 +563,7 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:enumeration value="Alternative Education"/>
 			<xs:enumeration value="Athletics"/>
 			<xs:enumeration value="Bilingual"/>
+			<xs:enumeration value="Bilingual Summer"/>
 			<xs:enumeration value="Career and Technical Education"/>
 			<xs:enumeration value="Cocurricular Programs"/>
 			<xs:enumeration value="College Preparatory"/>
@@ -656,6 +657,7 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:documentation>The category of school. For example: High School, Middle School, Elementary School</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
+			<xs:enumeration value="Elementary/Secondary School"/>
 			<xs:enumeration value="Elementary School"/>
 			<xs:enumeration value="High School"/>
 			<xs:enumeration value="Middle School"/>
@@ -679,6 +681,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:enumeration value="Regular"/>
 			<xs:enumeration value="Special Education"/>
 			<xs:enumeration value="Vocational"/>
+			<xs:enumeration value="JJAEP"/>
+			<xs:enumeration value="DAEP"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="CharterStatusType">
@@ -744,16 +748,4 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:enumeration value="Charter"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="CharterStatusType">
-		<xs:annotation>
-			<xs:documentation>The category of charter school. For example: School Charter, Open Enrollment Charter</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="School Charter"/>
-			<xs:enumeration value="College/University Charter"/>
-			<xs:enumeration value="Open Enrollment"/>
-			<xs:enumeration value="Not a Charter School"/>
-		</xs:restriction>
-	</xs:simpleType>
-
 </xs:schema>

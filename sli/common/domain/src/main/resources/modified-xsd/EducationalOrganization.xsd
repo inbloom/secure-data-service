@@ -14,7 +14,11 @@
 </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="OrganizationCategory" type="EducationOrganizationCategoryType" maxOccurs="unbounded"/>
+			<xs:element name="OrganizationCategory" type="EducationOrganizationCategoryType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Address">
@@ -79,7 +83,7 @@
 			</xs:element>
 			<xs:element name="Longitude" type="Coordinate" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The geographic longitude of the physical aaddress.</xs:documentation>
+					<xs:documentation>The geographic longitude of the physical address.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
@@ -132,7 +136,7 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			</xs:element>
 			<xs:element name="RatingProgram" type="RatingProgramType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The program associated with the accountabilityrating (e.g., NCLB, AEIS)</xs:documentation>
+					<xs:documentation>The program associated with the accountability rating (e.g., NCLB, AEIS)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -142,38 +146,50 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of programs.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ProgramId" type="ProgramId" minOccurs="0">
+			<xs:choice>
+				<xs:element name="ProgramId" type="ProgramId">
+					<xs:annotation>
+						<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ProgramType" type="ProgramType">
+					<xs:annotation>
+						<xs:documentation>The formal name of the program of instruction, training, services or benefits available through federal, state, or local agencies.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
+					<xs:documentation>Optional only if education organization context is obtained elsewhere in the interchange.</xs:documentation>
 				</xs:annotation>
-			</xs:element>
-			<xs:element name="ProgramType" type="ProgramType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The formal name of the program of instruction, training, services or benefits available through federal, state, or local agencies.
-- Bilingual education program
-- ESL Program
-- Bilingual/ESL Summer School
-- IDEA/Special Education
-- Title I Part A
-- Pregnancy, Education, and Parenting (PEP)
-- Gifted and Talented
-- Career and Technical Education (CTE)
-- Compensatory Education Home Instruction (CEHI)
-- Optional Extended Year Program (OYEP)
-- Optional Flexible School Day Program (OFSDP)
-- High School Equivalency Program (HSEP)
-- OFSDP Credit/Promotion Recovery Program
+				<xs:element name="StateOrganizationId" type="IdentificationCode">
+					<xs:annotation>
+						<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
 </xs:documentation>
-				</xs:annotation>
-			</xs:element>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ReferenceType">
 		<xs:annotation>
 			<xs:documentation>This is the base type for association references.</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="id" type="xs:ID"/>
-		<xs:attribute name="ref" type="xs:IDREF"/>
+		<xs:attribute name="id" type="xs:ID">
+			<xs:annotation>
+				<xs:documentation>The XML ID associated with this complex object object.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ref" type="xs:IDREF">
+			<xs:annotation>
+				<xs:documentation>The XML IDREF that references the object associated with this object. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="ProgramReferenceType">
 		<xs:annotation>
@@ -196,27 +212,35 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			<xs:documentation>A unique number or alphanumeric code that is assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ID" type="IdentificationCode"/>
+			<xs:element name="ID" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code that is assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="IdentificationSystem" type="EducationOrgIdentificationSystemType" use="required"/>
+		<xs:attribute name="IdentificationSystem" type="EducationOrgIdentificationSystemType" use="required">
+			<xs:annotation>
+				<xs:documentation>The school system, state, or agency assigning the identification code.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="EducationalOrgIdentityType">
 		<xs:annotation>
-			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational orgnizations, specially ESCs, LEAs (districts), and schooles.</xs:documentation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StateOrganizationId" type="IdentificationCode" minOccurs="0">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="StateOrganizationId" type="IdentificationCode">
 				<xs:annotation>
 					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
 </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-		</xs:sequence>
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="EducationalOrgReferenceType">
 		<xs:annotation>
@@ -256,7 +280,11 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			<xs:documentation>The enumerated collection for specifying one or more grade levels.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="GradeLevel" type="GradeLevelType" maxOccurs="unbounded"/>
+			<xs:element name="GradeLevel" type="GradeLevelType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The specification of the grade level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SchoolCategoriesType">
@@ -264,17 +292,12 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			<xs:documentation>The one or more categories of school. For example: High School, Middle School, and/or Elementary School.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="SchoolCategory" type="SchoolCategoryItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SchoolCategory" type="SchoolCategoryItemType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The one or more categories of school. For example: High School, Middle School, and/or Elementary School.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="EducationOrgIdentificationCode">
-		<xs:annotation>
-			<xs:documentation>A unique number or alphanumeric code that is assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="ID" type="IdentificationCode"/>
-		</xs:sequence>
-		<xs:attribute name="IdentificationSystem" type="EducationOrgIdentificationSystemType" use="required"/>
 	</xs:complexType>
 
 	<xs:complexType name="EducationOrganization" abstract="true">
@@ -286,7 +309,7 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 				<xs:sequence>
 					<xs:element name="StateOrganizationId" type="IdentificationCode">
 						<xs:annotation>
-							<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
+							<xs:documentation>The identifier assigned to an education organization by the State Education Agency (SEA).
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -319,7 +342,8 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 					</xs:element>
 					<xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>The 10-digit telephone number, including the area code, for the education entity.</xs:documentation>
+							<xs:documentation>The 10-digit telephone number, including the area code, for the education entity.
+</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="WebSite" type="WebSite" minOccurs="0">
@@ -370,6 +394,11 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 							<xs:documentation>A school or agency providing free public elementary or secondary education to eligible students under a specific charter granted by the state legislature or other appropriate authority and designated by such authority to be a charter school.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>For subdistricts, the LEA the subdistrict is a component of.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="EducationServiceCenterReference" type="EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The ESC of which the LEA is an organizational component.</xs:documentation>
@@ -386,14 +415,16 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 	</xs:complexType>
 	<xs:complexType name="School">
 		<xs:annotation>
-			<xs:documentation>This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.</xs:documentation>
+			<xs:documentation>This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.
+</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="EducationOrganization">
 				<xs:sequence>
 					<xs:element name="GradesOffered" type="GradeLevelsType">
 						<xs:annotation>
-							<xs:documentation>The grade levels served at the school.</xs:documentation>
+							<xs:documentation>The grade levels served at the school.
+</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SchoolCategories" type="SchoolCategoriesType">
@@ -426,7 +457,7 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 							<xs:documentation>The type of education institution as classified by its funding source, for example public or private.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType">
+					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>LEA of which the School is an organizational component.</xs:documentation>
 						</xs:annotation>
@@ -460,9 +491,9 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 					<xs:documentation>Reference to the receiving school.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
+			<xs:element name="BeginDate" type="xs:date">
 				<xs:annotation>
-					<xs:documentation>The month, day, and year of the first dat of the feeder school association.</xs:documentation>
+					<xs:documentation>The month, day, and year of the first day of the feeder school association.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EndDate" type="xs:date" minOccurs="0">
