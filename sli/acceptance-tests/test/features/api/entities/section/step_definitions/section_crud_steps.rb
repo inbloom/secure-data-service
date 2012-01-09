@@ -87,22 +87,22 @@ end
 
 Then /^I should see the sequence of course is (\d+)$/ do |course_seq|
   parsed_results.should_not be_nil
-  parsed_results['sequenceOfCourse'].should == course_seq.to_i
+  getKeyValue('sequenceOfCourse').to_i.should == course_seq.to_i
 end
 
 Then /^I should see the educational environment is "([^"]*)"$/ do |edu_env|
   parsed_results.should_not be_nil
-  parsed_results['educationalEnvironment'].should == edu_env
+  getKeyValue('educationalEnvironment').should == edu_env
 end
 
 Then /^I should see the medium of instruction is "([^"]*)"$/ do |medium|
   parsed_results.should_not be_nil
-  parsed_results['mediumOfInstruction'].should == medium
+  getKeyValue('mediumOfInstruction').should == medium
 end
 
 Then /^I should see the population served is "([^"]*)"$/ do |pop|
   parsed_results.should_not be_nil
-  parsed_results['populationServed'].should == pop
+  getKeyValue('populationServed').should == pop
 end
 
 Given /^the sequence of course is (\d+)$/ do |course_seq|
