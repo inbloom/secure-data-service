@@ -805,7 +805,22 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="1"/>
 			<xs:maxLength value="60"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="AttendanceEventReason">
+	</xs:simpleType>	
+	<xs:simpleType name="AssessmentIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to an assessment.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="State"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Other Federal"/>
+			<xs:enumeration value="Test Contractor"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AttendanceEventReason">
 		<xs:annotation>
 			<xs:documentation>The reason for the absence or tardy.</xs:documentation>
 		</xs:annotation>
@@ -1218,7 +1233,406 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="5"/>
 			<xs:maxLength value="80"/>
 		</xs:restriction>
-	</xs:simpleType>	
+	</xs:simpleType>
+	<xs:simpleType name="AdditionalCreditType">
+		<xs:annotation>
+			<xs:documentation>The type of additional credits or units of value awarded for the completion of a course.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="AP"/>
+			<xs:enumeration value="Dual credit"/>
+			<xs:enumeration value="IB"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Vocational"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AdministrationEnvironmentType">
+		<xs:annotation>
+			<xs:documentation>The environment in which the test was administered.  For example:
+			Electronic
+Classroom
+Testing Center
+...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="Testing Center"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AssessmentCategoryType">
+		<xs:annotation>
+			<xs:documentation>The category of an assessment based on format and content. For example:
+			Achievement test
+Advanced placement test
+Alternate assessment/grade-level standards
+Attitudinal test
+Cognitive and perceptual skills test
+...
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Achievement test"/>
+			<xs:enumeration value="Advanced Placement"/>
+			<xs:enumeration value="International Baccalaureate"/>
+			<xs:enumeration value="Aptitude test"/>
+			<xs:enumeration value="Attitudinal test"/>
+			<xs:enumeration value="Benchmark test"/>
+			<xs:enumeration value="Class test"/>
+			<xs:enumeration value="class quiz"/>
+			<xs:enumeration value="College entrance exam"/>
+			<xs:enumeration value="Cognitive and perceptual skills test"/>
+			<xs:enumeration value="Developmental observation"/>
+			<xs:enumeration value="English proficiency screening test"/>
+			<xs:enumeration value="Foreign language proficiency test"/>
+			<xs:enumeration value="Interest inventory"/>
+			<xs:enumeration value="Manual dexterity test"/>
+			<xs:enumeration value="Mental ability (intelligence) test"/>
+			<xs:enumeration value="Performance assessment"/>
+			<xs:enumeration value="Personality test"/>
+			<xs:enumeration value="Portfolio assessment"/>
+			<xs:enumeration value="Psychological test"/>
+			<xs:enumeration value="Psychomotor test"/>
+			<xs:enumeration value="Reading readiness test"/>
+			<xs:enumeration value="State summative assessment 3-8 general"/>
+			<xs:enumeration value="State high school subject assessment"/>
+			<xs:enumeration value="State high school course assessment"/>
+			<xs:enumeration value="State alternative assessment/grade-level standards"/>
+			<xs:enumeration value="State alternative assessment/modified standards"/>
+			<xs:enumeration value="State alternate assessment/ELL"/>
+			<xs:enumeration value="State English proficiency test"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AssessmentItemResultType">
+		<xs:annotation>
+			<xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
+Correct
+Incorrect
+Met standard
+...
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Correct"/>
+			<xs:enumeration value="Incorrect"/>
+			<xs:enumeration value="Met standard"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AssessmentReportingMethodType">
+		<xs:annotation>
+			<xs:documentation>The method that the instructor of the class uses to report the performance and achievement of all students. It may be a qualitative method such as individualized teacher comments or a quantitative method such as a letter or a numerical grade. In some cases, more than one type of reporting method may be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Achievement/proficiency level"/>
+			<xs:enumeration value="ACT score"/>
+			<xs:enumeration value="Adaptive scale score"/>
+			<xs:enumeration value="Age score"/>
+			<xs:enumeration value="C-scaled scores"/>
+			<xs:enumeration value="College Board examination scores"/>
+			<xs:enumeration value="Composite Score"/>
+			<xs:enumeration value="Composite Rating"/>
+			<xs:enumeration value="Composition Score"/>
+			<xs:enumeration value="Grade equivalent or grade-level indicator"/>
+			<xs:enumeration value="Grade equivalent or grade-level indicator"/>
+			<xs:enumeration value="Graduation score"/>
+			<xs:enumeration value="Growth/value-added/indexing"/>
+			<xs:enumeration value="International Baccalaureate score"/>
+			<xs:enumeration value="Letter grade/mark"/>
+			<xs:enumeration value="Mastery level"/>
+			<xs:enumeration value="Normal curve equivalent"/>
+			<xs:enumeration value="Normalized standard score"/>
+			<xs:enumeration value="Number score"/>
+			<xs:enumeration value="Pass-fail"/>
+			<xs:enumeration value="Percentile"/>
+			<xs:enumeration value="Percentile rank"/>
+			<xs:enumeration value="Proficiency level"/>
+			<xs:enumeration value="Promotion score"/>
+			<xs:enumeration value="Ranking"/>
+			<xs:enumeration value="Ratio IQ's"/>
+			<xs:enumeration value="Raw score"/>
+			<xs:enumeration value="Scale score"/>
+			<xs:enumeration value="Standard age score"/>
+			<xs:enumeration value="Standard error measurement"/>
+			<xs:enumeration value="Stanine score"/>
+			<xs:enumeration value="Sten score"/>
+			<xs:enumeration value="Theta"/>
+			<xs:enumeration value="T-score"/>
+			<xs:enumeration value="Vertical score"/>
+			<xs:enumeration value="Workplace readiness score"/>
+			<xs:enumeration value="Z-score"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Not applicable"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AttendanceEventCategoryType">
+		<xs:annotation>
+			<xs:documentation>A code categorizing the attendance event (e.g., excused absence, unexcused absence)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="In Attendance"/>
+			<xs:enumeration value="Excused Absence"/>
+			<xs:enumeration value="Unexcused Absence"/>
+			<xs:enumeration value="Tardy"/>
+			<xs:enumeration value="Early departure"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AttendanceEventType">
+		<xs:annotation>
+			<xs:documentation>A code describing the type of the attendance event (e.g., daily attendance, section attendance, etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Daily Attendance"/>
+			<xs:enumeration value="Section Attendance"/>
+			<xs:enumeration value="Program Attendance"/>
+			<xs:enumeration value="Extracurricular Attendance"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="BehaviorCategoryType">
+		<xs:annotation>
+			<xs:documentation>Enumeration items defining the categories of behavior coded for use in describing an incident.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="State Law Crime"/>
+			<xs:enumeration value="State Offense"/>
+			<xs:enumeration value="School Violation"/>
+			<xs:enumeration value="School Code of Conduct"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CalendarEventType">
+		<xs:annotation>
+			<xs:documentation>The type of scheduled or unscheduled event for the day.  For example:
+Instructional day
+Teacher only day
+Holiday
+Make-up day
+Weather day
+Student late arrival/early dismissal
+...
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Instructional day"/>
+			<xs:enumeration value="Teacher only day"/>
+			<xs:enumeration value="Holiday"/>
+			<xs:enumeration value="Make-up day"/>
+			<xs:enumeration value="Weather day"/>
+			<xs:enumeration value="Student late arrival/early dismissal"/>
+			<xs:enumeration value="Emergency day"/>
+			<xs:enumeration value="Strike"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CareerPathwayType">
+		<xs:annotation>
+			<xs:documentation>The career cluster or pathway representing the career path of the Vocational/Career Tech concentrator.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Agriculture, Food and Natural Resources"/>
+			<xs:enumeration value="Architecture and Construction"/>
+			<xs:enumeration value="Arts, A/V Technology and Communications"/>
+			<xs:enumeration value="Business, Management and Administration"/>
+			<xs:enumeration value="Education and Training"/>
+			<xs:enumeration value="Finance"/>
+			<xs:enumeration value="Government and Public Administration"/>
+			<xs:enumeration value="Health Science"/>
+			<xs:enumeration value="Hospitality and Tourism"/>
+			<xs:enumeration value="Human Services"/>
+			<xs:enumeration value="Information Technology"/>
+			<xs:enumeration value="Law, Public Safety, Corrections and Security"/>
+			<xs:enumeration value="Manufacturing"/>
+			<xs:enumeration value="Marketing, Sales and Service"/>
+			<xs:enumeration value="Science, Technology, Engineering and Mathematics"/>
+			<xs:enumeration value="Transportation, Distribution and Logistics"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ClassroomPositionType">
+		<xs:annotation>
+			<xs:documentation>The type of position the staff member holds in the specific class/section.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Teacher of Record"/>
+			<xs:enumeration value="Assistant Teacher"/>
+			<xs:enumeration value="Support Teacher"/>
+			<xs:enumeration value="Substitute Teacher"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CohortScopeType">
+		<xs:annotation>
+			<xs:documentation>The scope of cohort (e.g., school, district, classroom, etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="Teacher"/>
+			<xs:enumeration value="Principal"/>
+			<xs:enumeration value="Counselor"/>
+			<xs:enumeration value="Statewide"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CohortType">
+		<xs:annotation>
+			<xs:documentation>The type of the cohort (e.g., academic intervention, classroom breakout, etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Academic Intervention"/>
+			<xs:enumeration value="Attendance Intervention"/>
+			<xs:enumeration value="Discipline Intervention"/>
+			<xs:enumeration value="Classroom Pullout"/>
+			<xs:enumeration value="Extracurricular Activity"/>
+			<xs:enumeration value="Field Trip"/>
+			<xs:enumeration value="Principal Watch List"/>
+			<xs:enumeration value="Counselor List"/>
+			<xs:enumeration value="In-school Suspension"/>
+			<xs:enumeration value="Study Hall"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CohortYearType">
+		<xs:annotation>
+			<xs:documentation>The enumeration items for the set of cohort years.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Eighth grade"/>
+			<xs:enumeration value="Eleventh grade"/>
+			<xs:enumeration value="Fifth grade"/>
+			<xs:enumeration value="First grade"/>
+			<xs:enumeration value="Fourth grade"/>
+			<xs:enumeration value="Ninth grade"/>
+			<xs:enumeration value="Second grade"/>
+			<xs:enumeration value="Seventh grade"/>
+			<xs:enumeration value="Sixth grade"/>
+			<xs:enumeration value="Tenth grade"/>
+			<xs:enumeration value="Third grade"/>
+			<xs:enumeration value="Twelfth grade"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ContentStandardType">
+		<xs:annotation>
+			<xs:documentation>An indication as to whether an assessment conforms to a standard. For example:
+			Local standard
+Statewide standard
+Regional standard
+Association standard
+School standard
+...
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="National Standard"/>
+			<xs:enumeration value="State Standard"/>
+			<xs:enumeration value="College Entrance Standard"/>
+			<xs:enumeration value="LEA Standard"/>
+			<xs:enumeration value="Texas Essential Knowledge and Skills"/>
+			<xs:enumeration value="SAT"/>
+			<xs:enumeration value="PSAT"/>
+			<xs:enumeration value="ACT"/>
+			<xs:enumeration value="Advanced Placement"/>
+			<xs:enumeration value="International Baccalaureate"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CourseAttemptResultType">
+		<xs:annotation>
+			<xs:documentation>The result from the student's attempt to take the course, for example:
+Pass
+Fail
+Incomplete
+Withdrawn
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Pass"/>
+			<xs:enumeration value="Fail"/>
+			<xs:enumeration value="Incomplete"/>
+			<xs:enumeration value="Withdrawn"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CourseCodeSystemType">
+		<xs:annotation>
+			<xs:documentation>A system that is used to identify the organization of subject matter and related learning experiences provided for the instruction of students. In addition to identifying courses using the appropriate state codes, it is encouraged that courses are also cross referenced against one of the national course codes.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="CSSC course code"/>
+			<xs:enumeration value="Intermediate agency course code"/>
+			<xs:enumeration value="LEA course code"/>
+			<xs:enumeration value="NCES Pilot SNCCS course code"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="SCED course code"/>
+			<xs:enumeration value="School course code"/>
+			<xs:enumeration value="State course code"/>
+			<xs:enumeration value="University course code"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CourseDefinedByType">
+		<xs:annotation>
+			<xs:documentation> Specifies whether the course was defined by the SEA, LEA, School, or national organization.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="LEA"/>
+			<xs:enumeration value="National Organization"/>
+			<xs:enumeration value="SEA"/>
+			<xs:enumeration value="School"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="CourseGPAApplicabilityType">
+		<xs:annotation>
+			<xs:documentation>An indicator of whether or not this course being described is included in the computation of the student’s Grade Point Average, and if so, if it weighted differently from regular courses.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Applicable"/>
+			<xs:enumeration value="Not Applicable"/>
+			<xs:enumeration value="Weighted"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AcademicHonorsType">
+		<xs:annotation>
+			<xs:documentation>A designation of the type of academic distinctions earned by or awarded to the student.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Honor roll"/>
+			<xs:enumeration value="Honor society"/>
+			<xs:enumeration value="Honorable mention"/>
+			<xs:enumeration value="Honors program"/>
+			<xs:enumeration value="Prize awards"/>
+			<xs:enumeration value="Scholarships"/>
+			<xs:enumeration value="Awarding of units of value"/>
+			<xs:enumeration value="Citizenship award/recognition"/>
+			<xs:enumeration value="Completion of requirement, but no units of value awarded"/>
+			<xs:enumeration value="Attendance award"/>
+			<xs:enumeration value="Certificate"/>
+			<xs:enumeration value="Honor award"/>
+			<xs:enumeration value="Letter of student commendation"/>
+			<xs:enumeration value="Medals"/>
+			<xs:enumeration value="National Merit scholar"/>
+			<xs:enumeration value="Points"/>
+			<xs:enumeration value="Promotion or advancement"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="AcademicSubjectType">
+		<xs:annotation>
+			<xs:documentation>The description of the content or subject area (e.g., arts, mathematics, reading, stenography, or a foreign language) of an assessment.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="English Language and Literature"/>
+			<xs:enumeration value="English"/>
+			<xs:enumeration value="ELA"/>
+			<xs:enumeration value="Reading"/>
+			<xs:enumeration value="Mathematics"/>
+			<xs:enumeration value="Life and Physical Sciences"/>
+			<xs:enumeration value="Social Sciences and History"/>
+			<xs:enumeration value="Social Studies"/>
+			<xs:enumeration value="Science"/>
+			<xs:enumeration value="Fine and Performing Arts"/>
+			<xs:enumeration value="Foreign Language and Literature"/>
+			<xs:enumeration value="Religious Education and Theology"/>
+			<xs:enumeration value="Physical, Health, and Safety Education"/>
+			<xs:enumeration value="Military Science"/>
+			<xs:enumeration value="Computer and Information Sciences"/>
+			<xs:enumeration value="Communication and Audio/Visual Technology"/>
+			<xs:enumeration value="Composite"/>
+			<xs:enumeration value="Critical Reading"/>
+			<xs:enumeration value="Business and Marketing"/>
+			<xs:enumeration value="Manufacturing"/>
+			<xs:enumeration value="Health Care Sciences"/>
+			<xs:enumeration value="Public, Protective, and Government Service"/>
+			<xs:enumeration value="Hospitality and Tourism"/>
+			<xs:enumeration value="Architecture and Construction"/>
+			<xs:enumeration value="Agriculture, Food, and Natural Resources"/>
+			<xs:enumeration value="Human Services"/>
+			<xs:enumeration value="Transportation, Distribution and Logistics"/>
+			<xs:enumeration value="Engineering and Technology"/>
+			<xs:enumeration value="Writing"/>
+			<xs:enumeration value="Miscellaneous"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>

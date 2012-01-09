@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    xmlns="http://slc-sli/ed-org/0.1"
+    targetNamespace="http://slc-sli/ed-org/0.1"
+    attributeFormDefault="unqualified">
+    
+    <xs:complexType name="ReferenceType">
+        <xs:annotation>
+            <xs:documentation>This is the base type for association references.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:ID">
+            <xs:annotation>
+                <xs:documentation>The XML ID associated with this complex object object.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref" type="xs:IDREF">
+            <xs:annotation>
+                <xs:documentation>The XML IDREF that references the object associated with this object. </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+   
+    <xs:complexType name="SectionReferenceType">
+        <xs:annotation>
+            <xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>
