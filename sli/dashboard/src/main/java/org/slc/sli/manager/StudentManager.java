@@ -35,7 +35,6 @@ public class StudentManager {
         List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
         
         // call the api
-        // TODO: mock/real api switch
         // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
         if (dataFields.size() > 0) {

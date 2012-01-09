@@ -3,8 +3,6 @@ def parsed_results
   if @format == "application/vnd.slc+xml" or @format == "application/xml"
     @parsed_results = REXML::Document.new(@res.body)
     @prefix = "Entities/section/"
-    puts ("prefix = ")
-    puts (@prefix)
   elsif @format == "application/vnd.slc+json" or @format == "application/json"
     @parsed_results ||= JSON.parse(@res.body)
   else

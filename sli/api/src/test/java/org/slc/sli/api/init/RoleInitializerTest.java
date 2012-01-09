@@ -33,7 +33,7 @@ public class RoleInitializerTest {
     public void testAllRolesCreated() throws Exception {
         when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
         
-        assertTrue(roleInitializer.buildRoles() == 4);
+        assertTrue(roleInitializer.buildRoles() == 5);
 
     }
 
@@ -51,6 +51,9 @@ public class RoleInitializerTest {
         entities.add(new MongoEntity("roles", body));
         body = new HashMap<String, Object>();
         body.put("name", RoleInitializer.AGGREGATE_VIEWER);
+        entities.add(new MongoEntity("roles", body));
+        body = new HashMap<String, Object>();
+        body.put("name", RoleInitializer.SLI_ADMINISTRATOR);
         entities.add(new MongoEntity("roles", body));
         when(mockRepo.findAll("roles")).thenReturn(entities);
         assertTrue(roleInitializer.buildRoles() == 0);
@@ -71,7 +74,7 @@ public class RoleInitializerTest {
                 return entities.iterator();
             }
         });
-        assertTrue(roleInitializer.buildRoles() == 2);
+        assertTrue(roleInitializer.buildRoles() == 3);
 
     }
 }
