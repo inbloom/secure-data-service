@@ -3,6 +3,8 @@ use List::Util qw[min max];
 
 # Generates assessment json for a given list of students.
 # 
+# Generates data for the current year and the preceeding year. 
+# 
 # Arguments: 
 #  student_file assement_metadata_file assessment_code current_year omit_percentile_rank skip_probability
 # 
@@ -79,7 +81,7 @@ while ($line = <INPUT_STUDENT>)
     if ($line =~ /^\#/) { next; }
     chomp($line);
     ($studentUid, $current_grade) = split (/,/, $line);
-    # Enter two years' worth of student data, the student is never retained. 
+    # Generate two years' worth of student data, the student is never retained. 
     for(my $grade = max($current_grade-1, 3); $grade <= $current_grade; $grade++) {
         # determine if this window would be skipped
 	my $skip_rand = rand();
@@ -114,7 +116,7 @@ while ($line = <INPUT_STUDENT>)
 	# debug
         # print $random_number . " " . $grade . " " . $score . " " . $scale . " " . $percentile . "\n";
 	# put into result array
-	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale, $score, $percentile, $lexile);
+	my @thisAssessment = ($studentUid, $grade, $grade - $current_grade + $current_year, $scale + 1, $score, $percentile, $lexile);
 	push (@results, \@thisAssessment);
     }
 }
@@ -127,14 +129,14 @@ for(my $i = 0; $i <= $#results; $i++)
     @assessment = @{$results[$i]};
     print "{\n";
     print "        \"studentId\": \"" . $assessment[0] . "\",\n";
-    print "        \"assessmentName\": \"" . $assessmentCode . "\",\n";
-    print "        \"assessmentCode\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\",\n";
+    print "        \"assessmentFamilyName\": \"" . $assessmentCode . "\",\n";
     print "        \"grade\": \"" . $assessment[1] . "\",\n";
     print "        \"year\": \"" . $assessment[2] . "\",\n";
     print "        \"perfLevel\": \"" . $assessment[3] . "\",\n";
     print "        \"scaleScore\": \"" . $assessment[4] . "\",\n";
     if (!($omit_percentile_rank eq 'y') ) { print "        \"percentile\": \"" . $assessment[5] . "\",\n"; }
-    print "        \"lexileScore\": \"" . $assessment[6] . "\"\n";
+    print "        \"lexileScore\": \"" . $assessment[6] . "\",\n";
+    print "        \"assessmentName\": \"" . $assessmentCode . "_GRADE_" . $assessment[1] . "_" . $assessment[2] . "\"\n";
     print "}" . ($i == $#results ? "" : ",") . "\n";
 }
 print "]\n";

@@ -1,9 +1,6 @@
 package org.slc.sli.api.resources;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -16,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -24,8 +20,10 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.Associations;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
@@ -44,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE })
 public class Resource {
     
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
@@ -112,10 +110,10 @@ public class Resource {
      */
     @GET
     @Path("{id}")
+    @Produces({ Resource.JSON_MEDIA_TYPE })
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        final Map<String, String> queryFields = getQueryFields(uriInfo);
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -128,11 +126,13 @@ public class Resource {
                     Iterable<String> associationIds = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
                         associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                     }
+
+                    // TODO: refactor common code for both GET methods
                     if (associationIds != null && associationIds.iterator().hasNext()) {
                         CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
@@ -146,13 +146,69 @@ public class Resource {
             }
         });
     }
+
+    /**
+     * Get a single entity or association unless the URI represents an association and the id
+     * represents a
+     * source entity for that association.
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @return A single entity or association, unless the type references an association and the id
+     *         represents the source entity. In that case a collection of associations.
+     */
+    @GET
+    @Path("{id}")
+    @Produces({ Resource.XML_MEDIA_TYPE })
+    public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
+            @QueryParam("start-index") @DefaultValue("0") final int skip,
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+        return handle(typePath, new ResourceLogic() {
+            @Override
+            public Response run(EntityDefinition entityDef) {
+                if (entityDef.isOfType(id)) {
+                    EntityBody entityBody = entityDef.getService().get(id);
+                    entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
+                    Entities entities = new Entities(entityBody, entityDef.getStoredCollectionName());
+                    return Response.ok(entities).build();
+                } else if (entityDef instanceof AssociationDefinition) {
+                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                    Iterable<String> associationIds = null;
+                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
+                                uriInfo.getRequestUri().getQuery());
+                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
+                                uriInfo.getRequestUri().getQuery());
+                    }
+
+                    // TODO: refactor common code for both Get methods
+                    if (associationIds != null) {
+                        CollectionResponse collection = new CollectionResponse();
+                        for (String id : associationIds) {
+                            String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                            collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
+                        }
+                        Associations associations = new Associations(collection);
+                        return Response.ok(associations).build();
+                    }
+                }
+                return Response.status(Status.NOT_FOUND).build();
+            }
+        });
+    }
     
     @GET
     @Path("{id}/targets")
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        final Map<String, String> queryFields = getQueryFields(uriInfo);
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -162,21 +218,25 @@ public class Resource {
                     EntityDefinition relative = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max,
-                                queryFields);
+                                uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getSourceEntity();
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
-                    CollectionResponse collection = new CollectionResponse();
-                    for (String id : relatives) {
-                        String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
-                        collection.add(id, ResourceUtil.SELF, relative.getType(), href);
+                    if (relatives != null && relatives.iterator().hasNext()) {
+                        CollectionResponse collection = new CollectionResponse();
+                        for (String id : relatives) {
+                            String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
+                            collection.add(id, ResourceUtil.SELF, relative.getType(), href);
+                        }
+                        return Response.ok(collection).build();
+                    } else {
+                        return Response.status(Status.NOT_FOUND).build();
                     }
-                    return Response.ok(collection).build();
                 } else {
                     return Response.status(Status.NOT_FOUND).build();
                 }
@@ -276,18 +336,5 @@ public class Resource {
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
         }
         return links;
-    }
-    
-    private Map<String, String> getQueryFields(UriInfo uriInfo) {
-        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-        Map<String, String> fields = new HashMap<String, String>();
-        if (queryParams != null) {
-            for (String key : queryParams.keySet()) {
-                if ((!Arrays.asList(reservedQueryKeys).contains(key)) && queryParams.get(key) != null) {
-                    fields.put(key, queryParams.getFirst(key));
-                }
-            }
-        }
-        return fields;
     }
 }

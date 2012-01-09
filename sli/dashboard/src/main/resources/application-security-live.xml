@@ -10,10 +10,9 @@
 
     <intercept-url pattern="/login" access="permitAll"/>
     <intercept-url pattern="/static/**" filters="none"/>    
-    <intercept-url pattern="/studentlist" access="hasRole('ROLE_USER')"/>
-    <intercept-url pattern="/studentlistcontent" access="hasRole('ROLE_USER')"/>
+    <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
+    <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
     <intercept-url pattern="/**" access="denyAll" />
-    <custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
     <logout/>
 </http>

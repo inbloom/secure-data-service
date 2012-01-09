@@ -14,7 +14,7 @@ import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
-import org.slc.sli.entity.assessmentmetadata.AssessmentFamilyMetaData;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 
 import java.util.List;
 import java.util.Vector;
@@ -81,8 +81,8 @@ public class MockAPIClient implements APIClient {
     }
     
     @Override
-    public AssessmentFamilyMetaData[] getAssessmentMetaData(final String token) {
-        return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentFamilyMetaData[].class);
+    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
+        return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentMetaData[].class);
     }
 
     // Helper function to translate a .json file into object. 
