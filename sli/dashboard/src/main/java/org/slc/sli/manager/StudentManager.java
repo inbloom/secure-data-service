@@ -4,7 +4,6 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ConfigUtil;
-import org.slc.sli.client.MockAPIClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,14 +19,6 @@ import java.util.ArrayList;
  */
 public class StudentManager extends Manager {
     
-    private static StudentManager instance = new StudentManager();
-    
-    protected StudentManager() {        
-    }
-    
-    public static StudentManager getInstance() {
-        return instance;
-    }
     
     public List<Student> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         

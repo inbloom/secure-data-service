@@ -50,7 +50,8 @@ public class StudentListControllerTest {
         School[] schools = mockClient.getSchools("common");
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());
-        PowerMockito.doReturn(schools).when(SchoolManager.getInstance(), "retrieveSchools", "demo");
+        SchoolManager schoolManager = new SchoolManager();
+        PowerMockito.doReturn(schools).when(schoolManager, "retrieveSchools", "demo");
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(partiallyMocked, "getPrincipal");
         
@@ -71,7 +72,8 @@ public class StudentListControllerTest {
     public void testStudentListNullReturn() throws Exception {
 
         StudentListController mocked = PowerMockito.spy(new StudentListController());
-        PowerMockito.doReturn(null).when(SchoolManager.getInstance(), "retrieveSchools", "demo");
+        SchoolManager schoolManager = new SchoolManager();
+        PowerMockito.doReturn(null).when(schoolManager, "retrieveSchools", "demo");
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(mocked, "getPrincipal");
         ModelMap model = new ModelMap();

@@ -7,15 +7,4 @@ import org.slc.sli.client.APIClient;
  */
 public abstract class DashboardController {
 
-    /*
-    protected APIClient apiClient;
-    
-    public APIClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(APIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-    */
 }
