@@ -207,11 +207,6 @@
                             <xs:documentation>Reflects the specific nomenclature used for Assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>The section(s) which the assessment is associated with</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -317,12 +312,12 @@
                             <xs:documentation>The performance level(s) achieved for the assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="StudentReference" type="StudentReferenceType">
+                    <xs:element name="StudentReference" type="StudentSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the student associated with the assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="AssessmentReference" type="AssessmentReferenceType">
+                    <xs:element name="AssessmentReference" type="AssessmentSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the assessment taken by the student.</xs:documentation>
                         </xs:annotation>
@@ -339,12 +334,12 @@
         <xs:complexContent>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
-                    <xs:element name="SectionReference" type="SectionReferenceType">
+                    <xs:element name="SectionReference" type="SectionSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the section associated with the assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="AssessmentReference" type="AssessmentReferenceType">
+                    <xs:element name="AssessmentReference" type="AssessmentSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the assessment taken by the section.</xs:documentation>
                         </xs:annotation>
