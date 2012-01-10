@@ -18,9 +18,11 @@ Scenario: Create a new teacher in JSON format
       And the "teacherUniqueStateID" is "<'Teacher Home State' ID>"
       And the "highlyQualifiedTeacher" status is "true"
       And the "levelOfEducation" is "Masters"
-   When I navigate to POST "/teachers/<'Rafe' ID>"
+   When I navigate to POST "/teachers/"
    Then I should receive a return code of 201
       And I should receive an ID for the newly created teacher
+   When I navigate to GET "/teachers/<'newly created student' ID>"
+   Then the "name" should be "Rafe" "Hairfire" "Esquith"
       And the "birthDate" should be "1954-08-31"
       And the "sex" should be "Male"
       And the "yearsOfPriorTeachingExperience" should be "32"
