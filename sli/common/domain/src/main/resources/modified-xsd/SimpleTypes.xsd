@@ -1762,6 +1762,751 @@ Withdrawn
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="LanguageItemType">
+		<xs:annotation>
+			<xs:documentation>The item(s) denoting language(s) spoken or written.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Spanish"/>
+			<xs:enumeration value="Vietnamese"/>
+			<xs:enumeration value="Laotian (Lao)"/>
+			<xs:enumeration value="Cambodian (Khmer)"/>
+			<xs:enumeration value="Korean"/>
+			<xs:enumeration value="Japanese"/>
+			<xs:enumeration value="French"/>
+			<xs:enumeration value="German"/>
+			<xs:enumeration value="English"/>
+			<xs:enumeration value="Other languages"/>
+			<xs:enumeration value="Afrikaans (Taal)"/>
+			<xs:enumeration value="Akan (Fante, Asante)"/>
+			<xs:enumeration value="Albanian, Gheg (Kossovo/Macedonia)"/>
+			<xs:enumeration value="Albanian, Tosk (Albania)"/>
+			<xs:enumeration value="Algonquin"/>
+			<xs:enumeration value="Amharic"/>
+			<xs:enumeration value="Apache"/>
+			<xs:enumeration value="Arabic"/>
+			<xs:enumeration value="Armenian"/>
+			<xs:enumeration value="Assyrian (Syriac, Aramaic)"/>
+			<xs:enumeration value="Balinese"/>
+			<xs:enumeration value="Bengali"/>
+			<xs:enumeration value="Bosnian"/>
+			<xs:enumeration value="Bulgarian"/>
+			<xs:enumeration value="Burmese"/>
+			<xs:enumeration value="Cantonese (Chinese)"/>
+			<xs:enumeration value="Cebuano (Visayan)"/>
+			<xs:enumeration value="Chamorro"/>
+			<xs:enumeration value="Chaochow/Teochiu (Chinese)"/>
+			<xs:enumeration value="Cherokee"/>
+			<xs:enumeration value="Chippewa/Ojibawa/Ottawa"/>
+			<xs:enumeration value="Choctaw"/>
+			<xs:enumeration value="Comanche"/>
+			<xs:enumeration value="Coushatta"/>
+			<xs:enumeration value="Creek"/>
+			<xs:enumeration value="Croatian"/>
+			<xs:enumeration value="Crow"/>
+			<xs:enumeration value="Czech"/>
+			<xs:enumeration value="Danish"/>
+			<xs:enumeration value="Dard"/>
+			<xs:enumeration value="Dutch/Flemish"/>
+			<xs:enumeration value="Efik"/>
+			<xs:enumeration value="Eskimo"/>
+			<xs:enumeration value="Estonian"/>
+			<xs:enumeration value="Ethiopic"/>
+			<xs:enumeration value="Ewe"/>
+			<xs:enumeration value="Farsi (Persian)"/>
+			<xs:enumeration value="Finnish"/>
+			<xs:enumeration value="Fukien/Hokkien (Chinese)"/>
+			<xs:enumeration value="Gaelic (Irish)"/>
+			<xs:enumeration value="Gaelic (Scottish)"/>
+			<xs:enumeration value="Greek"/>
+			<xs:enumeration value="Gujarati"/>
+			<xs:enumeration value="Guyanese"/>
+			<xs:enumeration value="Hainanese (Chinese)"/>
+			<xs:enumeration value="Haitian-Creole"/>
+			<xs:enumeration value="Hakka (Chinese)"/>
+			<xs:enumeration value="Hausa"/>
+			<xs:enumeration value="Hebrew"/>
+			<xs:enumeration value="Hindi"/>
+			<xs:enumeration value="Hmong"/>
+			<xs:enumeration value="Hopi"/>
+			<xs:enumeration value="Hungarian"/>
+			<xs:enumeration value="Ibo/Igbo"/>
+			<xs:enumeration value="Icelandic"/>
+			<xs:enumeration value="Ilonggo (Hiligaynon)"/>
+			<xs:enumeration value="Indonesian"/>
+			<xs:enumeration value="Italian"/>
+			<xs:enumeration value="Kache (Kaje, Jju)"/>
+			<xs:enumeration value="Kannada (Kanarese)"/>
+			<xs:enumeration value="Kanuri"/>
+			<xs:enumeration value="Kashmiri"/>
+			<xs:enumeration value="Kickapoo"/>
+			<xs:enumeration value="Konkani"/>
+			<xs:enumeration value="Kpelle"/>
+			<xs:enumeration value="Krio"/>
+			<xs:enumeration value="Kurdish"/>
+			<xs:enumeration value="Kwa"/>
+			<xs:enumeration value="Latvian"/>
+			<xs:enumeration value="Lingala"/>
+			<xs:enumeration value="Lithuanian"/>
+			<xs:enumeration value="Luganda"/>
+			<xs:enumeration value="Lunda"/>
+			<xs:enumeration value="Luyia (Luhya)"/>
+			<xs:enumeration value="Macedonian"/>
+			<xs:enumeration value="Malay"/>
+			<xs:enumeration value="Malayalam"/>
+			<xs:enumeration value="Maltese"/>
+			<xs:enumeration value="Mandarin (Chinese)"/>
+			<xs:enumeration value="Mande"/>
+			<xs:enumeration value="Marathi"/>
+			<xs:enumeration value="Menominee"/>
+			<xs:enumeration value="Mien (Yao)"/>
+			<xs:enumeration value="Navajo"/>
+			<xs:enumeration value="Nepali"/>
+			<xs:enumeration value="Norwegian"/>
+			<xs:enumeration value="Okinawan"/>
+			<xs:enumeration value="Oneida"/>
+			<xs:enumeration value="Oriya"/>
+			<xs:enumeration value="Orri (Oring)"/>
+			<xs:enumeration value="Pampangan"/>
+			<xs:enumeration value="Panjabi (Punjabi)"/>
+			<xs:enumeration value="Pashto (Pushto)"/>
+			<xs:enumeration value="Pilipino (Tagalog)"/>
+			<xs:enumeration value="Pima"/>
+			<xs:enumeration value="Polish"/>
+			<xs:enumeration value="Portuguese"/>
+			<xs:enumeration value="Pueblo"/>
+			<xs:enumeration value="Romanian"/>
+			<xs:enumeration value="Romany (Gypsy)"/>
+			<xs:enumeration value="Russian"/>
+			<xs:enumeration value="Samoan"/>
+			<xs:enumeration value="Serbian"/>
+			<xs:enumeration value="Shanghai (Chinese)"/>
+			<xs:enumeration value="Shona"/>
+			<xs:enumeration value="Sikkimese"/>
+			<xs:enumeration value="Sindhi"/>
+			<xs:enumeration value="Sinhalese (Sri Lanka)"/>
+			<xs:enumeration value="Sioux (Dakota)"/>
+			<xs:enumeration value="Slavic"/>
+			<xs:enumeration value="Slovenian (Slovene)"/>
+			<xs:enumeration value="Somali"/>
+			<xs:enumeration value="Sotho"/>
+			<xs:enumeration value="Swahili"/>
+			<xs:enumeration value="Swedish"/>
+			<xs:enumeration value="Taiwanese/Formosan/Min Nan (Chinese)"/>
+			<xs:enumeration value="Tamil"/>
+			<xs:enumeration value="Telugu (Telegu)"/>
+			<xs:enumeration value="Thai"/>
+			<xs:enumeration value="Tibetan"/>
+			<xs:enumeration value="Tigrinya"/>
+			<xs:enumeration value="Tiwa"/>
+			<xs:enumeration value="Tuluau"/>
+			<xs:enumeration value="Turkish"/>
+			<xs:enumeration value="Ukrainian"/>
+			<xs:enumeration value="Urdu"/>
+			<xs:enumeration value="Welsh"/>
+			<xs:enumeration value="Winnebago"/>
+			<xs:enumeration value="Yiddish"/>
+			<xs:enumeration value="Yombe"/>
+			<xs:enumeration value="Yoruba"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="LeaveEventCategoryType">
+		<xs:annotation>
+			<xs:documentation>A code describing the type of the leave event.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Vacation"/>
+			<xs:enumeration value="Jury"/>
+			<xs:enumeration value="Training"/>
+			<xs:enumeration value="Flex Time"/>
+			<xs:enumeration value="Work Compensation"/>
+			<xs:enumeration value="Administrative"/>
+			<xs:enumeration value="Annual leave"/>
+			<xs:enumeration value="Bereavement"/>
+			<xs:enumeration value="Compensatory leave time"/>
+			<xs:enumeration value="Family and medical leave"/>
+			<xs:enumeration value="Government-requested"/>
+			<xs:enumeration value="Military leave"/>
+			<xs:enumeration value="Personal"/>
+			<xs:enumeration value="Release time"/>
+			<xs:enumeration value="Sabbatical leave"/>
+			<xs:enumeration value="Sick leave"/>
+			<xs:enumeration value="Suspension"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="LevelOfEducationType">
+		<xs:annotation>
+			<xs:documentation>The enumeration of the different levels of education achievable.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="No Degree"/>
+			<xs:enumeration value="Bachelor's"/>
+			<xs:enumeration value="Master's"/>
+			<xs:enumeration value="Doctorate"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="LevelType">
+		<xs:annotation>
+			<xs:documentation>The grade level(s) certified for teaching.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="All Level (Grade Level PK-12)"/>
+			<xs:enumeration value="All-Level (Grade Level EC-12)"/>
+			<xs:enumeration value="Early Childhood (PK-K)"/>
+			<xs:enumeration value="Elementary (Grade Level 1-6)"/>
+			<xs:enumeration value="Elementary (Grade Level 1-8)"/>
+			<xs:enumeration value="Elementary (Grade Level 4-8)"/>
+			<xs:enumeration value="Elementary (Grade Level EC-4)"/>
+			<xs:enumeration value="Elementary (Grade Level EC-6)"/>
+			<xs:enumeration value="Elementary (Grade Level PK-5)"/>
+			<xs:enumeration value="Elementary (Grade Level PK-6)"/>
+			<xs:enumeration value="Grade Level NA"/>
+			<xs:enumeration value="Junior High (Grade Level 6-8)"/>
+			<xs:enumeration value="Secondary (Grade Level 6-12)"/>
+			<xs:enumeration value="Secondary (Grade Level 8-12)"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="LimitedEnglishProficiencyType">
+		<xs:annotation>
+			<xs:documentation>An indication that the student has been identified as limited English proficient by the Language Proficiency Assessment Committee (LPAC), or English proficient.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="NotLimited"/>
+			<xs:enumeration value="Limited"/>
+			<xs:enumeration value="Limited Monitored 1"/>
+			<xs:enumeration value="Limited Monitored 2"/>
+		</xs:restriction>
+	</xs:simpleType>
+<xs:simpleType name="SpecialAccommodationItemType">
+		<xs:annotation>
+			<xs:documentation>The item(s) to specifiy the special variation used in how an examination is presented, how it is administered, or how the test taker is allowed to respond. For example:
+			For example:
+Braille
+Enlarged monitor view
+Extra time
+Large Print
+Setting
+Oral Administration
+...
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Presentation"/>
+			<xs:enumeration value="Response"/>
+			<xs:enumeration value="Setting"/>
+			<xs:enumeration value="Timing and Scheduling"/>
+			<xs:enumeration value="Large Print"/>
+			<xs:enumeration value="Dyslexia Bundled"/>
+			<xs:enumeration value="Oral Administration"/>
+			<xs:enumeration value="Adjustable swivel arm"/>
+			<xs:enumeration value="Adjustable table height"/>
+			<xs:enumeration value="Braille"/>
+			<xs:enumeration value="Enlarged monitor view"/>
+			<xs:enumeration value="Extra time"/>
+			<xs:enumeration value="Large print booklet"/>
+			<xs:enumeration value="Multi-day administration"/>
+			<xs:enumeration value="Recorder or amanuensis"/>
+			<xs:enumeration value="Separate room"/>
+			<xs:enumeration value="Signer/sign language interpreter"/>
+			<xs:enumeration value="Special furniture"/>
+			<xs:enumeration value="Special lighting"/>
+			<xs:enumeration value="Track ball"/>
+			<xs:enumeration value="Untimed"/>
+			<xs:enumeration value="Enlarged keyboard"/>
+			<xs:enumeration value="Additional example items/tasks"/>
+			<xs:enumeration value="Administration in several sessions"/>
+			<xs:enumeration value="Answers written directly in test booklet"/>
+			<xs:enumeration value="Assessment in native language"/>
+			<xs:enumeration value="Arithmetic table (math or science)"/>
+			<xs:enumeration value="Assistive device that does not interfere with independent work of the student"/>
+			<xs:enumeration value="Assistive device that does interfere with independent work of the student"/>
+			<xs:enumeration value="Audiotape or CD"/>
+			<xs:enumeration value="Audio cassette player"/>
+			<xs:enumeration value="Braille writer, no thesaurus, spell- or grammar-checker"/>
+			<xs:enumeration value="Breaks during testing"/>
+			<xs:enumeration value="Calculator (math or science)"/>
+			<xs:enumeration value="Clarify directions"/>
+			<xs:enumeration value="Colored lenses"/>
+			<xs:enumeration value="Computer administration"/>
+			<xs:enumeration value="Cranmer abacus"/>
+			<xs:enumeration value="Cueing"/>
+			<xs:enumeration value="Dictionary in English"/>
+			<xs:enumeration value="Dictionary in native language"/>
+			<xs:enumeration value="Dictated oral repsonse (to a proctor)"/>
+			<xs:enumeration value="Directions read aloud or explained"/>
+			<xs:enumeration value="Examiner familiarity"/>
+			<xs:enumeration value="Font enlarged beyond print version requirements"/>
+			<xs:enumeration value="Foreign language interpreter"/>
+			<xs:enumeration value="Foreign language interpreter for instructions, ask questions"/>
+			<xs:enumeration value="Format"/>
+			<xs:enumeration value="Hospital/home testing"/>
+			<xs:enumeration value="Linguistic modification of test directions"/>
+			<xs:enumeration value="Magnification device"/>
+			<xs:enumeration value="Manually coded English or American Sign Language to present test questions"/>
+			<xs:enumeration value="Math manipulatives (math or science)"/>
+			<xs:enumeration value="Modification of linguistic complexity"/>
+			<xs:enumeration value="Multiple test sessions"/>
+			<xs:enumeration value="Oral directions in the native language"/>
+			<xs:enumeration value="Paraphrasing"/>
+			<xs:enumeration value="Physical supports"/>
+			<xs:enumeration value="Response dictated in American Sign Language"/>
+			<xs:enumeration value="Response in native language"/>
+			<xs:enumeration value="Scheduled extended time"/>
+			<xs:enumeration value="Separate room with other English Learners under supervision of district employee"/>
+			<xs:enumeration value="Signer/sign language for instructions, ask questions"/>
+			<xs:enumeration value="Simplified language"/>
+			<xs:enumeration value="Small-group or individual administration"/>
+			<xs:enumeration value="Speech recognition system"/>
+			<xs:enumeration value="Spell-checker"/>
+			<xs:enumeration value="Specialized setting"/>
+			<xs:enumeration value="Student read aloud"/>
+			<xs:enumeration value="Student-requested extended time"/>
+			<xs:enumeration value="Supervised test breaks"/>
+			<xs:enumeration value="Technological aid"/>
+			<xs:enumeration value="Test administrator marked / wrote test at student's direction"/>
+			<xs:enumeration value="Test adminstrator read questions aloud"/>
+			<xs:enumeration value="Test administered at best time of day for student handwriting issues"/>
+			<xs:enumeration value="Text changes in vocabulary"/>
+			<xs:enumeration value="Translation dictionary"/>
+			<xs:enumeration value="Verbalized problem-solving"/>
+			<xs:enumeration value="Video cassette"/>
+			<xs:enumeration value="Visual cues"/>
+			<xs:enumeration value="Word processor"/>
+			<xs:enumeration value="Word processor / typewriter / computer with thesaurus / spell-checker / grammar-checker turned off"/>
+			<xs:enumeration value="Word processor / typewriter / computer with thesaurus/ spell-checker/ grammar-checker enabled on essay response portion of test"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="StaffClassificationType">
+		<xs:annotation>
+			<xs:documentation>An individual's title of employment, official status or rank.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Art Therapist"/>
+			<xs:enumeration value="Athletic Trainer"/>
+			<xs:enumeration value="Assistant Principal"/>
+			<xs:enumeration value="Assistant Superintendent"/>
+			<xs:enumeration value="Certified Interpreter"/>
+			<xs:enumeration value="Counselor"/>
+			<xs:enumeration value="High School Counselor"/>
+			<xs:enumeration value="Instructional Coordinator"/>
+			<xs:enumeration value="Instructional Aide"/>
+			<xs:enumeration value="Librarians/Media Specialists"/>
+			<xs:enumeration value="LEA Administrator"/>
+			<xs:enumeration value="LEA Specialist"/>
+			<xs:enumeration value="LEA System Administrator"/>
+			<xs:enumeration value="LEA Administrative Support Staff"/>
+			<xs:enumeration value="Librarian"/>
+			<xs:enumeration value="Principal"/>
+			<xs:enumeration value="Physical Therapist"/>
+			<xs:enumeration value="Teacher"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Superintendent"/>
+			<xs:enumeration value="School Nurse"/>
+			<xs:enumeration value="Specialist/Consultant"/>
+			<xs:enumeration value="School Administrator"/>
+			<xs:enumeration value="School Administrative Support Staff"/>
+			<xs:enumeration value="Student Support Services Staff"/>
+			<xs:enumeration value="School Leader"/>
+			<xs:enumeration value="School Specialist"/>
+			<xs:enumeration value="Substitute Teacher"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="StaffIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Drivers License"/>
+			<xs:enumeration value="Health Record"/>
+			<xs:enumeration value="Medicaid"/>
+			<xs:enumeration value="Professional Certificate"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="State"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Other Federal"/>
+			<xs:enumeration value="Selective Service"/>
+			<xs:enumeration value="SSN"/>
+			<xs:enumeration value="US Visa"/>
+			<xs:enumeration value="PIN"/>
+			<xs:enumeration value="Canadian SIN"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="StudentCharacteristicType">
+		<xs:annotation>
+			<xs:documentation>Enumeration items for the important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Displaced Homemaker"/>
+			<xs:enumeration value="Foster Care"/>
+			<xs:enumeration value="Homeless"/>
+			<xs:enumeration value="Immigrant"/>
+			<xs:enumeration value="Migratory"/>
+			<xs:enumeration value="Parent in Military"/>
+			<xs:enumeration value="Pregnant"/>
+			<xs:enumeration value="Single Parent"/>
+			<xs:enumeration value="Unaccompanied Youth"/>
+			<xs:enumeration value="Unschooled Asylee"/>
+			<xs:enumeration value="Unschooled Refugee"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="StudentIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>Definition: A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Canadian SIN"/>
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="Family"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Local"/>
+			<xs:enumeration value="National Migrant"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="SSN"/>
+			<xs:enumeration value="State"/>
+			<xs:enumeration value="State Migrant"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="StudentParticipationCodeType">
+		<xs:annotation>
+			<xs:documentation>The role or type of participation of a student in a discipline incident; for example: Victim, Perpetrator, Witness, Reporter</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Victim"/>
+			<xs:enumeration value="Perpetrator"/>
+			<xs:enumeration value="Witness"/>
+			<xs:enumeration value="Reporter"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="TeachingCredentialBasisType">
+		<xs:annotation>
+			<xs:documentation>An indication of the pre-determined criteria for granting the teaching credential that an individual holds.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="4-year bachelor's degree"/>
+			<xs:enumeration value="5-year bachelor's degree"/>
+			<xs:enumeration value="Master's degree"/>
+			<xs:enumeration value="Doctoral degree"/>
+			<xs:enumeration value="Met state testing requirement"/>
+			<xs:enumeration value="Special/alternative program completion"/>
+			<xs:enumeration value=" Relevant experience"/>
+			<xs:enumeration value="Credentials based on reciprocation with another state"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="TeachingCredentialType">
+		<xs:annotation>
+			<xs:documentation>An indication of the category of a legal document giving authorization to perform teaching assignment services.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Emergency"/>
+			<xs:enumeration value="Emergency Certified"/>
+			<xs:enumeration value="Emergency Non-Certified"/>
+			<xs:enumeration value="Emergency Teaching"/>
+			<xs:enumeration value="Intern"/>
+			<xs:enumeration value="Master"/>
+			<xs:enumeration value="Nonrenewable"/>
+			<xs:enumeration value="One Year"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Paraprofessional"/>
+			<xs:enumeration value="Professional"/>
+			<xs:enumeration value="Probationary"/>
+			<xs:enumeration value="Provisional"/>
+			<xs:enumeration value="Regular"/>
+			<xs:enumeration value="Retired"/>
+			<xs:enumeration value="Specialist"/>
+			<xs:enumeration value="Substitute"/>
+			<xs:enumeration value="TeacherAssistant"/>
+			<xs:enumeration value="Temporary"/>
+			<xs:enumeration value="Special Assignment"/>
+			<xs:enumeration value="Standard"/>
+			<xs:enumeration value="Standard Professional"/>
+			<xs:enumeration value="Temporary Classroom"/>
+			<xs:enumeration value="Temporary Exemption"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Unknown Permit"/>
+			<xs:enumeration value="Vocational"/>
+			<xs:enumeration value="Standard Paraprofessional"/>
+			<xs:enumeration value="Probationary Extension"/>
+			<xs:enumeration value="Probationary Second Extension"/>
+			<xs:enumeration value="Visiting International Teacher"/>
+			<xs:enumeration value="District Local"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="TelephoneNumberType">
+		<xs:annotation>
+			<xs:documentation>The type of communication number listed for an individual.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Fax"/>
+			<xs:enumeration value="Emergency 1"/>
+			<xs:enumeration value="Emergency 2"/>
+			<xs:enumeration value="Home"/>
+			<xs:enumeration value="Mobile"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Unlisted"/>
+			<xs:enumeration value="Work"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="TitleIPartAParticipantType">
+		<xs:annotation>
+			<xs:documentation>An indication of the type of Title I program, if any, in which the student is participating and served.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Public Targeted Assistance Program"/>
+			<xs:enumeration value="Public Schoolwide Program"/>
+			<xs:enumeration value="Private school students participating"/>
+			<xs:enumeration value="Local Neglected Program"/>
+			<xs:enumeration value=" Was not served"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LinguisticAccommodationItemType">
+		<xs:annotation>
+			<xs:documentation>The item(s) denoting the linguistic accommodations used with the student for the test. For example:
+				Bilingual dictionary
+				English dictonary
+				Reading Aloud - Word or Phrase
+				Reading Aloud - Entire Test Item
+				Oral Translation - Word or phrase
+				Clarification - Word or phrase
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Bilingual Dictionary"/>
+			<xs:enumeration value="English Dictionary"/>
+			<xs:enumeration value="Reading Aloud - Word or Phrase"/>
+			<xs:enumeration value="Reading Aloud - Entire Test Item"/>
+			<xs:enumeration value="Oral Translation - Word or Phrase"/>
+			<xs:enumeration value="Clarification - Word or Phrase"/>
+			<xs:enumeration value="Linguistic Accommodations allowed but not used"/>
+			<xs:enumeration value="Linguistic Simplification"/>
+			<xs:enumeration value="Reading Assistance"/>
+			<xs:enumeration value="Bilingual Glossary"/>
+			<xs:enumeration value="English and Spanish tests side-by-side"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RestraintEventReasonItemType">
+		<xs:annotation>
+			<xs:documentation>The items of categorization of the circumstances or reason for the restraint.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Imminent Serious Physical Harm To Themselves"/>
+			<xs:enumeration value="Imminent Serious Physical Harm To Others"/>
+			<xs:enumeration value="Imminent Serious Property Destruction"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="RetestIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicator if the test was retaken.  For example:
+				Primary administration
+				First retest
+				Second retest
+				...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Primary Administration"/>
+			<xs:enumeration value="1st Retest"/>
+			<xs:enumeration value="2nd Retest"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RaceItemType">
+		<xs:annotation>
+			<xs:documentation>The enumeration items defining the racial categories which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="American Indian - Alaskan Native"/>
+			<xs:enumeration value="Asian"/>
+			<xs:enumeration value="Black - African American"/>
+			<xs:enumeration value="Native Hawaiian - Pacific Islander"/>
+			<xs:enumeration value="White"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="RecognitionType">
+		<xs:annotation>
+			<xs:documentation>The nature of recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Athletic awards"/>
+			<xs:enumeration value="Awarding of units of value"/>
+			<xs:enumeration value="Citizenship award/recognition"/>
+			<xs:enumeration value="Completion of requirement, but no units of value awarded"/>
+			<xs:enumeration value="Certificate"/>
+			<xs:enumeration value="Honor award"/>
+			<xs:enumeration value="Letter of commendation"/>
+			<xs:enumeration value="Medals"/>
+			<xs:enumeration value="Monogram/letter"/>
+			<xs:enumeration value="Points"/>
+			<xs:enumeration value="Promotion or advancement"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="RelationType">
+		<xs:annotation>
+			<xs:documentation>The nature of an individual's relationship to a student.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Adopted daughter"/>
+			<xs:enumeration value="Adopted son"/>
+			<xs:enumeration value="Adoptive parents"/>
+			<xs:enumeration value="Advisor"/>
+			<xs:enumeration value="Agency representative"/>
+			<xs:enumeration value="Aunt"/>
+			<xs:enumeration value="Brother, half"/>
+			<xs:enumeration value="Brother, natural/adoptive"/>
+			<xs:enumeration value="Brother, step"/>
+			<xs:enumeration value="Brother-in-law"/>
+			<xs:enumeration value="Case Worker, CPS"/>
+			<xs:enumeration value="Court appointed guardian"/>
+			<xs:enumeration value="Cousin"/>
+			<xs:enumeration value="Daughter"/>
+			<xs:enumeration value="Daughter-in-law"/>
+			<xs:enumeration value="Dependent"/>
+			<xs:enumeration value="Doctor"/>
+			<xs:enumeration value="Employer"/>
+			<xs:enumeration value="Emergency Contact"/>
+			<xs:enumeration value="Family member"/>
+			<xs:enumeration value="Father's significant other"/>
+			<xs:enumeration value="Father, foster"/>
+			<xs:enumeration value="Father"/>
+			<xs:enumeration value="Father, step"/>
+			<xs:enumeration value="Father-in-law"/>
+			<xs:enumeration value="Fiance"/>
+			<xs:enumeration value="Fiancee"/>
+			<xs:enumeration value="Former husband"/>
+			<xs:enumeration value="Former wife"/>
+			<xs:enumeration value="Foster daughter"/>
+			<xs:enumeration value="Foster parent"/>
+			<xs:enumeration value="Foster son"/>
+			<xs:enumeration value="Friend"/>
+			<xs:enumeration value="Granddaughter"/>
+			<xs:enumeration value="Grandparent"/>
+			<xs:enumeration value="Great Grandparent"/>
+			<xs:enumeration value="Grandson"/>
+			<xs:enumeration value="Great aunt"/>
+			<xs:enumeration value="Great uncle"/>
+			<xs:enumeration value="Guardian"/>
+			<xs:enumeration value="Husband"/>
+			<xs:enumeration value="Life partner"/>
+			<xs:enumeration value="Life partner of parent"/>
+			<xs:enumeration value="Minister or priest"/>
+			<xs:enumeration value="Mother's significant other"/>
+			<xs:enumeration value="Mother, foster"/>
+			<xs:enumeration value="Mother"/>
+			<xs:enumeration value="Mother, step"/>
+			<xs:enumeration value="Mother-in-law"/>
+			<xs:enumeration value="Nephew"/>
+			<xs:enumeration value="Niece"/>
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Parent"/>
+			<xs:enumeration value="Partner"/>
+			<xs:enumeration value="Partner of parent"/>
+			<xs:enumeration value="Probation officer"/>
+			<xs:enumeration value="Sibling"/>
+			<xs:enumeration value="Sister, half"/>
+			<xs:enumeration value="Sister, natural/adoptive"/>
+			<xs:enumeration value="Sister, step"/>
+			<xs:enumeration value="Sister-in-law"/>
+			<xs:enumeration value="Son"/>
+			<xs:enumeration value="Son-in-law"/>
+			<xs:enumeration value="Spouse"/>
+			<xs:enumeration value="Stepdaughter"/>
+			<xs:enumeration value="Stepson"/>
+			<xs:enumeration value="Stepsibling"/>
+			<xs:enumeration value="Uncle"/>
+			<xs:enumeration value="Ward"/>
+			<xs:enumeration value="Wife"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ReasonExitedType">
+		<xs:annotation>
+			<xs:documentation>The reason the child left the program within a school or district.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Transfer to regular education"/>
+			<xs:enumeration value="Received a certificate"/>
+			<xs:enumeration value="Reached maximum age"/>
+			<xs:enumeration value="Died"/>
+			<xs:enumeration value="Died or is permanently incapacitated"/>
+			<xs:enumeration value="Discontinued schooling"/>
+			<xs:enumeration value="Graduated with a high school diploma"/>
+			<xs:enumeration value="Received certificate of completion, modified diploma, or finished IEP requirements"/>
+			<xs:enumeration value="Program completion"/>
+			<xs:enumeration value="Reached maximum age"/>
+			<xs:enumeration value="No longer receiving special education"/>
+			<xs:enumeration value="Refused services"/>
+			<xs:enumeration value="Transferred to another district or school, known to be continuing in program/service"/>
+			<xs:enumeration value="Transferred to another district or school, not known to be continuing in program/service"/>
+			<xs:enumeration value="Transferred to another district or school, known not to be continuing in program/service"/>
+			<xs:enumeration value="Suspended from school"/>
+			<xs:enumeration value="Discontinued schooling, special education only"/>
+			<xs:enumeration value="Discontinued schooling, not special education"/>
+			<xs:enumeration value="Expulsion"/>
+			<xs:enumeration value="Program discontinued"/>
+			<xs:enumeration value="Completion of IFSP prior to reaching maximum age for Part C"/>
+			<xs:enumeration value="Eligible for IDEA, Part B"/>
+			<xs:enumeration value="Not eligible for Part B, exit with referrals to other programs"/>
+			<xs:enumeration value="Part B eligibility not determined"/>
+			<xs:enumeration value="Moved out of state"/>
+			<xs:enumeration value="Withdrawal by a parent (or guardian)"/>
+			<xs:enumeration value="Unknown reason"/>
+			<xs:enumeration value="Not eligible for Part B, exit with no referrals"/>
+			<xs:enumeration value="Attempts to contact the parent and/or child were unsuccessful"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ReasonNotTestedType">
+		<xs:annotation>
+			<xs:documentation>The primary reason student is not tested. For example:
+				Absent
+				Refusal by parent
+				Refusal by student
+				Medical waiver
+				Illness
+				Disruptive behavior
+				LEP Exempt
+				...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Absent"/>
+			<xs:enumeration value="LEP exempt"/>
+			<xs:enumeration value="LEP postponement"/>
+			<xs:enumeration value="Not appropriate (ARD decision)"/>
+			<xs:enumeration value="Not tested (ARD decision)"/>
+			<xs:enumeration value="Alternate assessment administered"/>
+			<xs:enumeration value="Parental waiver"/>
+			<xs:enumeration value="Foreign exchange student waiver"/>
+			<xs:enumeration value="Refusal by parent"/>
+			<xs:enumeration value="Refusal by student"/>
+			<xs:enumeration value="Medical waiver"/>
+			<xs:enumeration value="Disruptive behavior"/>
+			<xs:enumeration value="Previously passed the examination"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="RepeatIdentifierType">
+		<xs:annotation>
+			<xs:documentation>An indication as to whether a student has previously taken a given course.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Repeated, counted in grade point average"/>
+			<xs:enumeration value="Repeated, not counted in grade point average"/>
+			<xs:enumeration value="Not repeated"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ReporterDescriptionType">
+		<xs:annotation>
+			<xs:documentation>Information on the type of individual who reported the incident. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Parent"/>
+			<xs:enumeration value="Staff"/>
+			<xs:enumeration value="Student"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ResponseIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicator of the response.  For example:
+				Nonscorable response
+				Ineffective response
+				Effective response
+				Partial response
+				...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Nonscorable response"/>
+			<xs:enumeration value="Ineffective response"/>
+			<xs:enumeration value="Effective response"/>
+			<xs:enumeration value="Partial response"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>

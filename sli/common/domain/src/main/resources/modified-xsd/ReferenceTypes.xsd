@@ -29,4 +29,22 @@
         </xs:complexContent>
     </xs:complexType>
     
+    <xs:complexType name="StudentReferenceType">
+        <xs:annotation>
+            <xs:documentation>Provides alternative references for Student reference during interchange. Use XML IDREF to reference a student record that is included in the interchange</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="AssessmentReferenceType">
+        <xs:annotation>
+            <xs:documentation>Provides alternative references for assessments during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType" />
+        </xs:complexContent>
+    </xs:complexType>
+    
 </xs:schema>
