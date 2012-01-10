@@ -199,15 +199,15 @@
 		</xs:simpleContent>
 	</xs:complexType>
     
-	<xs:complexType name="CourseReference">
+	<xs:complexType name="CourseOfferingReference">
 		<xs:annotation>
 			<xs:documentation>A reference to a course offering with a type attribute set
-				to "CourseReference".
+				to "CourseOfferingReference".
 			</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
-				<xs:attribute name="type" fixed="CourseReference"/>
+				<xs:attribute name="type" fixed="CourseOfferingReference"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

@@ -87,7 +87,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GradeLevel">
+				<xs:element name="GradeLevels">
 					<xs:annotation>
 						<xs:documentation>
 							The grade levels the particular bell schedule applies to.

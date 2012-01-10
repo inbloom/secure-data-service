@@ -48,11 +48,6 @@
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="CalendarDateReference" type="ReferenceType" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Days associated with the grading period.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
