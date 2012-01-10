@@ -28,8 +28,8 @@ public class StudentListController extends DashboardController {
     public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
-        UserDetails user = SecurityUtil.getPrincipal();
-        School[] schoolList = SchoolManager.getInstance().retrieveSchools(user.getUsername());
+        UserDetails user = getPrincipal();
+        School[] schoolList = retrieveSchools(user.getUsername());
         model.addAttribute("schoolList", gson.toJson(schoolList));
         model.addAttribute("message", "Hello " + user.getUsername());
         model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
@@ -38,6 +38,13 @@ public class StudentListController extends DashboardController {
         return new ModelAndView("studentList");
     }
     
-
+    
+    private School[] retrieveSchools(String username) throws IOException {
+        return SchoolManager.getInstance().retrieveSchools(username);
+    }
+    
+    private UserDetails getPrincipal() {
+        return SecurityUtil.getPrincipal();
+    }
     
 }
