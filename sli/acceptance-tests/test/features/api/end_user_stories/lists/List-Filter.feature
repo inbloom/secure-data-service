@@ -1,4 +1,3 @@
-@wip
 Feature: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
 
 This is the data I am assuming for these tests
@@ -7,14 +6,16 @@ ClassPeriod = 3
 Teacher = Ms. Jones
 Assume that Teacher, Student, Section, Assessment entity and associations are available
 
-Background: Nothing yet
-
+Background: Logged in as a teacher and using the small data set
+	Given I am logged in using "demo" "demo1234"
+	Given I have access to all students  assessments and sections 
+@wip
 Scenario: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
 Given format "application/json"
 When I navigate to GET /teachers/<'Ms. Jones' ID>
 Then I should see a link named "getTeacherSectionAssociations" with URI  /teacher-section-associations/<'Ms. Jones' ID>
 	And I should see  a link named "getSections" with URI  /teacher-section-associations/<'Ms. Jones' ID>/targets
-	And I should see a link named "self" with URI /teachers/<'Ms Jones' ID>
+	And I should see a link named "self" with URI /teachers/<'Ms. Jones' ID>
 
 When I navigate to "getSections"
 Then I should receive a collection of 3 section links that resolve to
