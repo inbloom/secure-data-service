@@ -7,7 +7,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.impl.DefaultClientRoleResolver;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
-import org.slc.sli.api.security.roles.BasicRoleRightAccessImpl;
+import org.slc.sli.api.security.roles.DefaultRoleRightAccessImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class SecurityContextInjector {
         
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
-        roles.add(BasicRoleRightAccessImpl.IT_ADMINISTRATOR);
+        roles.add(DefaultRoleRightAccessImpl.IT_ADMINISTRATOR);
         
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);
@@ -58,7 +58,7 @@ public class SecurityContextInjector {
         
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
-        roles.add(BasicRoleRightAccessImpl.EDUCATOR);
+        roles.add(DefaultRoleRightAccessImpl.EDUCATOR);
 
         SLIPrincipal principal = new SLIPrincipal();
         principal.setId(user);

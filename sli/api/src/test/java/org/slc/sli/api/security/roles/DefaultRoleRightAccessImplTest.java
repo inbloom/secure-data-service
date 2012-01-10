@@ -33,10 +33,10 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class BasicRoleRightAccessImplTest {
+public class DefaultRoleRightAccessImplTest {
 
     @Autowired
-    private BasicRoleRightAccessImpl access;
+    private DefaultRoleRightAccessImpl access;
 
     @Autowired
     private SecurityContextInjector securityContextInjector;
@@ -158,7 +158,7 @@ public class BasicRoleRightAccessImplTest {
     public void testGetDefaultRole() throws Exception {
         when(mockService.get("EducatorID")).thenReturn(getEntityBody());
         //Valid default role.
-        assertTrue(access.getDefaultRole(BasicRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
+        assertTrue(access.getDefaultRole(DefaultRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
         //Invalid default role.
         assertNull(access.getDefaultRole("Monkeys"));
     }
