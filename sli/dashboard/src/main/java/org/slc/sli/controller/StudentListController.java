@@ -22,6 +22,8 @@ public class StudentListController extends DashboardController {
     public static final String USER_NAME = "username"; 
     public static final String SCHOOL_LIST = "schoolList"; 
 
+    private SchoolManager schoolManager;
+
     public StudentListController() { }
     
     @RequestMapping(method = RequestMethod.GET)
@@ -29,7 +31,7 @@ public class StudentListController extends DashboardController {
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
         UserDetails user = SecurityUtil.getPrincipal();
-        School[] schoolList = SchoolManager.getInstance().retrieveSchools(user.getUsername());
+        School[] schoolList = schoolManager.retrieveSchools(user.getUsername());
         model.addAttribute("schoolList", gson.toJson(schoolList));
         model.addAttribute("message", "Hello " + user.getUsername());
         model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
@@ -38,6 +40,14 @@ public class StudentListController extends DashboardController {
         return new ModelAndView("studentList");
     }
     
+    /*
+     * Getters and setters
+     */
+    public SchoolManager getSchoolManager() {
+        return schoolManager;
+    }
 
-    
+    public void setSchoolManager(SchoolManager schoolManager) {
+        this.schoolManager = schoolManager;
+    }
 }

@@ -2,6 +2,7 @@ package org.slc.sli.manager;
 
 import java.util.List;
 
+import org.slc.sli.client.APIClient;
 import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
@@ -16,13 +17,15 @@ import org.slc.sli.config.ViewConfigSet;
  */
 public class ConfigManager extends Manager {
     
-    private static ConfigManager instance = new ConfigManager();
+    ConfigPersistor persistor;
     
-    protected ConfigManager() {        
+    public ConfigManager() {
+        persistor = new ConfigPersistor();
     }
     
-    public static ConfigManager getInstance() {
-        return instance;
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
+        persistor.setApiClient(apiClient);
     }
     
     /**
@@ -37,7 +40,7 @@ public class ConfigManager extends Manager {
         // TODO: call ConfigPersistor with entity ids, not user id
         ViewConfigSet userViewConfigSet = null;
         try {
-            userViewConfigSet = ConfigPersistor.getConfigSet(userId);
+            userViewConfigSet = persistor.getConfigSet(userId);
         } catch (Exception e) {
             return null;
         }
@@ -116,7 +119,7 @@ public class ConfigManager extends Manager {
      */
     public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     
-        ConfigPersistor.saveConfigSet(entityId, configSet);
+        persistor.saveConfigSet(entityId, configSet);
     
     }
     

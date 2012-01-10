@@ -8,10 +8,27 @@
 
     <!-- the application context definition for the DispatcherServlet -->
     
-    <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController"/>
-    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController"/>
-    <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController"/>
-
+    <!-- controllers -->
+    <bean name="/studentlist"        class="org.slc.sli.controller.StudentListController">
+        <property name="schoolManager" ref="schoolManager"/>
+    </bean>
+    <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
+        <property name="configManager"     ref="configManager"/>
+        <property name="studentManager"    ref="studentManager"/>
+        <property name="assessmentManager" ref="assessmentManager"/>
+    </bean>
+    
+    <!-- managers -->
+    <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
+        <property name="apiClient" ref="APIClientBean"/>
+    </bean>
+    <bean id="assessmentManager" class="org.slc.sli.manager.AssessmentManager" parent="manager"/>
+    <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager"/>
+    <bean id="schoolManager"     class="org.slc.sli.manager.SchoolManager"     parent="manager"/>
+    <bean id="studentManager"    class="org.slc.sli.manager.StudentManager"    parent="manager"/>
+    
+    
+    
     <!-- Redirect view --> 
     <bean name="/" class="org.slc.sli.controller.LandingPageController">
       <property name="url" value="studentlist" />
@@ -40,6 +57,7 @@
     <property name="name" value="${my.name}" />
     </bean>
     
-    <bean id="APIClientBean" class="${apiclientclass}" />
+    <!-- api client -->
+    <bean id="APIClientBean" class="org.slc.sli.client.${apiclient}APIClient" />
      
 </beans>
