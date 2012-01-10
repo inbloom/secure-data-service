@@ -73,6 +73,7 @@ public class ResourceTest {
     private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
+    private static final String EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI = "educationOrganization-school-associations";
     @Autowired
     Resource api;
     
@@ -111,6 +112,13 @@ public class ResourceTest {
     public Map<String, Object> createTestTeacherSchoolAssociation(String teacherId, String schoolId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("teacherId", teacherId);
+        entity.put("schoolId", schoolId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestEducationOrganizationSchoolAssociation(String educationOrganizationId, String schoolId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("educationOrganizationId", educationOrganizationId);
         entity.put("schoolId", schoolId);
         return entity;
     }
@@ -196,7 +204,15 @@ public class ResourceTest {
         assertEntityResponse("staff", info, ids);
         
         // test educationOrganization entity
-        assertEntityResponse("educationOrganizations", info, ids);
+        Response createEdOrgResponse = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), info);
+        assertNotNull(createEdOrgResponse);
+        String educationOrganizationId = parseIdFromLocation(createEdOrgResponse);
+        ids.put(new TypeIdPair("educationOrganizations", educationOrganizationId), (String) createEdOrgResponse.getMetadata().get("Location").get(0));
+        
+        Response createResponseEOSA = api.createEntity(EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestEducationOrganizationSchoolAssociation(educationOrganizationId, schoolId)), info);
+        assertNotNull(createResponseEOSA);
+        String educationOrganizationSchoolAssocId = parseIdFromLocation(createResponseEOSA);
         
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
