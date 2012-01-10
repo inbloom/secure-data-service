@@ -55,6 +55,6 @@ public class AssessmentManagerTest {
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
         aManager.setApiClient(mockClient);
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
-        assertEquals(3, metaData.size()); // mock data has now 3 families: ISAT Reading, ISAT Writing, and DIBELS Next
+        assertEquals(4, metaData.size()); // mock data has now 3 families: ISAT Reading, ISAT Writing, DIBELS Next, and TRC
     }
 }
