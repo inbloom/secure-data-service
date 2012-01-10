@@ -21,7 +21,7 @@ Scenario: Create a new teacher in JSON format
    When I navigate to POST "/teachers/"
    Then I should receive a return code of 201
       And I should receive an ID for the newly created teacher
-   When I navigate to GET "/teachers/<'newly created student' ID>"
+   When I navigate to GET "/teachers/<'newly created teacher' ID>"
    Then the "name" should be "Rafe" "Hairfire" "Esquith"
       And the "birthDate" should be "1954-08-31"
       And the "sex" should be "Male"
