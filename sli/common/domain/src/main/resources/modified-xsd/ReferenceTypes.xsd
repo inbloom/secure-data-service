@@ -137,4 +137,95 @@
 		</xs:simpleContent>
 	</xs:complexType>
     
+	<xs:complexType name="AcademicWeekReference">
+		<xs:annotation>
+			<xs:documentation>A reference to an academic week with a type attribute set
+				to "AcademicWeek".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="AcademicWeek"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="SessionReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a session with a type attribute set
+				to "Session".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Session"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="LocationReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a location with a type attribute set
+				to "Location".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Location"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="BellScheduleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a bell schedule with a type attribute set
+				to "BellSchedule".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="BellSchedule"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="MiscellaneousEventReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a miscellaneous event with a type attribute set
+				to "MiscellaneousEvent".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="MiscellaneousEvent"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="CourseReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a course offering with a type attribute set
+				to "CourseReference".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="CourseReference"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="ProgramReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a program with a type attribute set
+				to "ProgramReference".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="ProgramReference"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
 </xs:schema>
