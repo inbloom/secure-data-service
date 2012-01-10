@@ -2,7 +2,6 @@ package org.slc.sli.manager;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.Field;
@@ -21,29 +20,7 @@ import java.util.HashSet;
  * @author dwu
  *
  */
-public class AssessmentManager {
-    
-    private static AssessmentManager instance = new AssessmentManager();
-    private MockAPIClient apiClient;
-    
-    protected AssessmentManager() {        
-        // call the api
-        // TODO: mock/real api switch
-        apiClient = new MockAPIClient();
-    
-    }
-    
-    public MockAPIClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(MockAPIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public static AssessmentManager getInstance() {
-        return instance;
-    }
+public class AssessmentManager extends Manager {
 
     public List<Assessment> getAssessments(String username, List<String> studentIds, ViewConfig config) {
         

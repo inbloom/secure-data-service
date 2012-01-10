@@ -10,8 +10,9 @@ public class AssessmentMetaData {
     private AssessmentMetaData[] children;
     private PerfLevel[] perfLevels;
     private Cutpoint[] cutpoints;
-    private String windowStart;
-    private String windowEnd;
+
+    private Period[] periods;
+    private String period;
 
     public String getName() {
         return name;
@@ -37,16 +38,16 @@ public class AssessmentMetaData {
     public Cutpoint[] getCutpoints() {
         return cutpoints;
     }
-    public String getWindowStart() {
-        return windowStart;
+    public String getPeriod() {
+        return period;
     }
-    public void setWindowStart(String s) {
-        this.windowStart = s;
+    public void setPeriod(String s) {
+        this.period = s;
     }
-    public String getWindowEnd() {
-        return windowEnd;
+    public Period[] getPeriods() {
+        return periods;
     }
-    public void setWindowEnd(String s) {
-        this.windowEnd = s;
+    public void setPeriods(Period[] p) {
+        this.periods = p;
     }
 }

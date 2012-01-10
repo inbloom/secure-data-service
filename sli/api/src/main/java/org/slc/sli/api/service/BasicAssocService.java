@@ -6,6 +6,7 @@ import java.util.List;
 import org.slc.sli.api.config.AssociationDefinition.EntityInfo;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.util.QueryUtil;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
@@ -13,6 +14,8 @@ import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Implementation of AssociationService.
@@ -113,8 +116,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, null);
         for (Entity entity : entityObjects) {
             Object other = entity.getBody().get(otherEntityKey);
-            if (other != null && other instanceof String
-                    && getRepo().matchQuery(otherEntityDefn.getStoredCollectionName(), (String) other, queryString)) {
+            if (other != null
+                    && other instanceof String
+                    && getRepo().matchQuery(otherEntityDefn.getStoredCollectionName(), (String) other,
+                            QueryUtil.stringToQuery(queryString))) {
                 results.add((String) other);
             } else {
                 LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
@@ -146,13 +151,13 @@ public class BasicAssocService extends BasicService implements AssociationServic
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);
         }
-        
-        if (queryString != null && !queryString.equals(""))
-            queryString = queryString + "&" + key + "=" + id;
+        Query query = QueryUtil.stringToQuery(queryString);
+        if (query == null)
+            query = new Query(Criteria.where("body." + key).is(id));
         else
-            queryString = key + "=" + id;
+            query.addCriteria(Criteria.where("body." + key).is(id));
         
-        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), queryString, start, numResults);
+        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), query, start, numResults);
         return entityObjects;
     }
     

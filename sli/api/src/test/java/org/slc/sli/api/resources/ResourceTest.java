@@ -73,6 +73,8 @@ public class ResourceTest {
     private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
+    private static final String EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI = "educationOrganization-school-associations";
+    private static final String SECTION_ASSESSMENT_ASSOCIATION_URI = "section-assessment-associations";
     @Autowired
     Resource api;
     
@@ -112,6 +114,20 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("teacherId", teacherId);
         entity.put("schoolId", schoolId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestEducationOrganizationSchoolAssociation(String educationOrganizationId, String schoolId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("educationOrganizationId", educationOrganizationId);
+        entity.put("schoolId", schoolId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestSectionAssessmentAssociation(String sectionId, String assessmentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sectionId", sectionId);
+        entity.put("assessmentId", assessmentId);
         return entity;
     }
     
@@ -195,6 +211,22 @@ public class ResourceTest {
         // test staff entity
         assertEntityResponse("staff", info, ids);
         
+        // test educationOrganization entity
+        Response createEdOrgResponse = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), info);
+        assertNotNull(createEdOrgResponse);
+        String educationOrganizationId = parseIdFromLocation(createEdOrgResponse);
+        ids.put(new TypeIdPair("educationOrganizations", educationOrganizationId), (String) createEdOrgResponse.getMetadata().get("Location").get(0));
+        
+        Response createResponseEOSA = api.createEntity(EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestEducationOrganizationSchoolAssociation(educationOrganizationId, schoolId)), info);
+        assertNotNull(createResponseEOSA);
+        String educationOrganizationSchoolAssocId = parseIdFromLocation(createResponseEOSA);
+        
+        Response createResponseSAA = api.createEntity(SECTION_ASSESSMENT_ASSOCIATION_URI, new EntityBody(
+                createTestSectionAssessmentAssociation(sectionId1, assessmentId1)), info);
+        assertNotNull(createResponseSAA);
+        String sectionAssessmentAssocId = parseIdFromLocation(createResponseSAA);
+
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);
@@ -326,7 +358,7 @@ public class ResourceTest {
         if (typeId.type.equals("students")) {
             List<?> links = (List<?>) body.get("links");
             assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
-            assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "studentSchoolAssociation",
+            assertTrue(links.contains(new EmbeddedLink("getStudentSchoolAssociations", "studentSchoolAssociation",
                     "base/student-school-associations/" + typeId.id)));
             assertTrue(links.contains(new EmbeddedLink("getSchools", "school", "base/student-school-associations/"
                     + typeId.id + "/targets")));

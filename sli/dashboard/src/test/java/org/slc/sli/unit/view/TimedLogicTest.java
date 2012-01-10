@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.assessmentmetadata.Period;
 import org.slc.sli.view.TimedLogic;
 import org.slc.sli.view.AssessmentMetaDataResolver;
 
@@ -69,7 +70,13 @@ public class TimedLogicTest {
     private AssessmentMetaData createAssessmentMetaData(String name, String windowEndDate) {
         AssessmentMetaData retVal = new AssessmentMetaData();
         retVal.setName(name);
-        retVal.setWindowEnd(windowEndDate);
+        Period p = new Period();
+        p.setWindowEnd(windowEndDate);
+        p.setName("Annual");
+        retVal.setPeriod("Annual");
+        Period[] ps = new Period[1];
+        ps[0] = p;
+        retVal.setPeriods(ps);
         return retVal;
     }
 }

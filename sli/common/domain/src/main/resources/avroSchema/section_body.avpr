@@ -11,7 +11,21 @@
       "max-length" : "30",
       "min-length" : "1"
     }
+  },  {
+    "name" : "sectionName",
+    "type" :[ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
   }, {
+    "name" : "classPeriod",
+    "type" :[ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  },{
     "name" : "sequenceOfCourse",
     "type" : {
       "type" : "int",

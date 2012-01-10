@@ -11,38 +11,40 @@ import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 
 /**
  * 
- * TODO: Write Javadoc
+ * API Client class used by the Dashboard to make calls to the API service.
  *
  */
 public class LiveAPIClient implements APIClient {
 
+    // For now, the live client will use the mock client for api calls not yet implemented
+    private MockAPIClient mockClient;
+    
+    public LiveAPIClient() {
+        mockClient = new MockAPIClient();
+    }
+    
     @Override
     public School[] getSchools(String token) {
-        System.err.println("Not implemented");
-        return null;
+        return mockClient.getSchools(token);
     }
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-        System.err.println("Not implemented");
-        return null;
+        return mockClient.getStudents(token, studentIds);
     }
     @Override
     public Assessment[] getAssessments(final String token, List<String> studentIds) {
-        System.err.println("Not implemented");
-        return null;
+        return mockClient.getAssessments(token, studentIds);
     }
     @Override
     public CustomData[] getCustomData(final String token, String key) {
-        System.err.println("Not implemented");
-        return null;
+        return mockClient.getCustomData(token, key);
     }
     @Override
     public void saveCustomData(CustomData[] src, String token, String key) {
-        System.err.println("Not implemented");
+        mockClient.saveCustomData(src, token, key);
     }
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        System.err.println("Not implemented");
-        return null;
+        return mockClient.getAssessmentMetaData(token);
     }
 }

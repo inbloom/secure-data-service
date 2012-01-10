@@ -1,6 +1,6 @@
 package org.slc.sli.config;
 
-import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.CustomData;
 
 /**
@@ -13,16 +13,15 @@ public class ConfigPersistor {
 
     private static final String VIEW_CONFIG = "view_config";
     
+    private APIClient apiClient;
+    
     /*
      *  Get the view configuration for an entity
      */
-    public static ViewConfigSet getConfigSet(String entityId) throws Exception {
-    
-        // TODO: implement mock/real switch
+    public ViewConfigSet getConfigSet(String entityId) throws Exception {
     
         // make API call with entity id
-        MockAPIClient mockClient = new MockAPIClient();
-        CustomData[] customData = mockClient.getCustomData(entityId, VIEW_CONFIG);
+        CustomData[] customData = apiClient.getCustomData(entityId, VIEW_CONFIG);
         
         // extract data block from custom data field
         if (customData == null || customData.length == 0) {
@@ -36,11 +35,11 @@ public class ConfigPersistor {
         
         return configSet;
     }
-    
+
     /*
      *  Save the view configurations for an entity
      */
-    public static void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
+    public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     
         // convert POJO to serialized format
         String configStr = ConfigUtil.toXMLString(configSet);
@@ -52,8 +51,18 @@ public class ConfigPersistor {
         // make API call
         CustomData[] customDataSet = new CustomData[1];
         customDataSet[0] = customData;
-        MockAPIClient mockClient = new MockAPIClient();
-        mockClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG);
+        apiClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG);
     }
     
+    
+    /*
+     * Getters and setters
+     */
+    public APIClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
+    }
 }

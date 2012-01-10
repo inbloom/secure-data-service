@@ -119,9 +119,10 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
      * @return String containing realm information.
      */
     private String extractRealm(String payload) {
+        String value = extractValue("dn", payload);
         String myRealm = "";
-        Pattern p = Pattern.compile("userdetails\\.role=id=\\w+,ou=\\w+,(.+)");
-        Matcher m = p.matcher(payload);
+        Pattern p = Pattern.compile("ou=\\w+,(.+)");
+        Matcher m = p.matcher(value);
         
         if (m.find()) {
             myRealm = m.group(1);
