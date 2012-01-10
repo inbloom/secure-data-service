@@ -20,22 +20,25 @@ Scenario: Create a student-assessment-association
 Given format "application/json"
 	And "assessmentID" is <'Mathematics Achievement  Assessment Test' ID>
 	And "studentID" is <'Jane Doe' ID>
-	And administrationDate is "2011-12-01"
-	And scoreResults is "85"
-	And performanceLevel is "3"
+	And "administrationDate" is "2011-12-01"
+	And "scoreResults" is "85"
+	And "performanceLevel" is "3"
 When I navigate to POST "/student-assessment-associations"
 Then I should receive a return code of 201
 	And I should receive a ID for the newly created student-assessment-association
+    And the "administrationDate" should be "2011-12-01"
+	And "scoreResults" should be "85"
+	And "performanceLevel" should be "3"
 
 
 Scenario: Read a student-assessment-association
 Given format "application/json"
-When I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
+When I navigate to GET "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>"
 Then I should receive a return code of 200
 	And I should receive 1 student-assessment-associations
-    And I should receive a link named "self" with URI /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
-	And I should receive a link named "getStudents" with URI /students/<'Jane Doe' ID>
-	And I should receive a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
+    And I should receive a link named "self" with URI "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>"
+	And I should receive a link named "getStudents" with URI "/students/<'Jane Doe' ID>"
+	And I should receive a link named "getAssessment" with URI "/assessments/<'Writing Achievement Assessment Test' ID>"
 	And the "administrationDate" should be "2011-09-15"
 	And the "administrationEndDate" should be "2011-12-15"
 	And the "retestIndicator" should be "1"
@@ -45,57 +48,57 @@ Then I should receive a return code of 200
 	
 Scenario: Reading a student-assessment-association for a student
 Given format "application/json"
-When I navigate to GET /student-assessment-associations/<'Jane Doe' ID>
+When I navigate to GET "/student-assessment-associations/<'Jane Doe' ID>"
 Then I should receive a return code of 200
 	And I should receive a collection of 2 student-assessment-associations that resolve to
-	And I should get a link named "getStudent" with URI /students/<'Jane Doe' ID>
-	And I should get a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
-	And I should get a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
+	And I should get a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
+	And I should get a link named "getAssessment" with URI "/assessments/<'Mathematics Achievement Assessment Test' ID>"
+	And I should get a link named "getAssessment" with URI "/assessments/<'Writing Achievement Assessment Test' ID>"
 
 Scenario: Reading a student-assessment-association for a assessment
 Given  format "application/json"
-When I navigate to GET /student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>
+When I navigate to GET "/student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>"
 Then I should receive a return code of 200
 	And I should receive a collection of 3 student-assessment-associations that resolve to
-	And I should get a link named "getStudent" with URI /students/<'Jane Doe' ID>
-	And I should get a link named "getStudent" with URI /students/<'Albert Wright' ID>
-	And I should get a link named "getStudent" with URI /students/<'Kevin Smith' ID>
-	And I should get a link named "getAssessment" with URI /assessments/<'Mathematics Achievement Assessment Test' ID>
+	And I should get a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
+	And I should get a link named "getStudent" with URI "/students/<'Albert Wright' ID>"
+	And I should get a link named "getStudent" with URI "/students/<'Kevin Smith' ID>"
+	And I should get a link named "getAssessment" with URI "/assessments/<'Mathematics Achievement Assessment Test' ID>"
 
 Scenario: Update a student-assessment-association 
 Given  format "application/json"
-When I navigate to GET /student-assessment-associations/<'Student "Jane Doe" and AssessmentTitle "Mathematics Achievement  Assessment Test"' ID>
+When I navigate to GET "/student-assessment-associations/<'Student "Jane Doe" and AssessmentTitle "Mathematics Achievement  Assessment Test"' ID>"
 	Then  the "scoreResults" should be "85"
 When I set the ScoreResult to "95" 
 	And I set the PerformanceLevel to"4"
-	And I navigate to PUT /student-assessment-associations/<the previous association ID>
+	And I navigate to PUT "/student-assessment-associations/<'Student "Jane Doe" and AssessmentTitle "Mathematics Achievement  Assessment Test"' ID>"
 Then I should receive a return code of 204
-When I navigate to GET /student-assessment-associations/<the previous association ID>
+When I navigate to GET "/student-assessment-associations/<'Student "Jane Doe" and AssessmentTitle "Mathematics Achievement  Assessment Test"' ID>"
 	Then the "scoreResults" should be "95"
 	And the "performanceLevel" should be "4"
 
 
 Scenario: Delete a student-assessment-association
 Given format "application/json"
-And I navigate to DELETE /student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id>
+And I navigate to DELETE "/student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' ID>"
 Then I should receive a return code of 204
-	And I navigate to GET /student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id>
+	And I navigate to GET "/student-assessment-associations/<AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' ID>"
 	And I should receive a return code of 404
 
 ### Error Handling
 
 Scenario: Attempt to read a non-existing student assessment association
 	Given format "application/json"
-	When I navigate to GET /student-assessment-associations/<NonExistence Id>
+	When I navigate to GET "/student-assessment-associations/<'NonExistence' ID>"
 	Then I should receive a return code of 404
 	
 Scenario: Attempt to update a non-existing student assessment association
 	Given format "application/json"
-	When I navigate to PUT /student-assessment-associations/<NonExistence Id>
+	When I navigate to PUT "/student-assessment-associations/<'NonExistence' ID>"
 	Then I should receive a return code of 404
 	
 Scenario: Delete a nonexistent student-assessment-association
 Given format "application/json"
-And I navigate to DELETE /student-assessment-associations/<NonExistence Id>
+And I navigate to DELETE "/student-assessment-associations/<'NonExistence' ID>"
 Then I should receive a return code of 404
 

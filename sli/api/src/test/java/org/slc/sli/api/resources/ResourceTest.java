@@ -74,6 +74,7 @@ public class ResourceTest {
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
     private static final String EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI = "educationOrganization-school-associations";
+    private static final String SECTION_ASSESSMENT_ASSOCIATION_URI = "section-assessment-associations";
     @Autowired
     Resource api;
     
@@ -120,6 +121,13 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("educationOrganizationId", educationOrganizationId);
         entity.put("schoolId", schoolId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestSectionAssessmentAssociation(String sectionId, String assessmentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sectionId", sectionId);
+        entity.put("assessmentId", assessmentId);
         return entity;
     }
     
@@ -214,6 +222,11 @@ public class ResourceTest {
         assertNotNull(createResponseEOSA);
         String educationOrganizationSchoolAssocId = parseIdFromLocation(createResponseEOSA);
         
+        Response createResponseSAA = api.createEntity(SECTION_ASSESSMENT_ASSOCIATION_URI, new EntityBody(
+                createTestSectionAssessmentAssociation(sectionId1, assessmentId1)), info);
+        assertNotNull(createResponseSAA);
+        String sectionAssessmentAssocId = parseIdFromLocation(createResponseSAA);
+
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);
