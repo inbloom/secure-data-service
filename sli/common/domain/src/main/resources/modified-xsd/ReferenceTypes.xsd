@@ -3,7 +3,7 @@
     xmlns="http://slc-sli/ed-org/0.1"
     targetNamespace="http://slc-sli/ed-org/0.1"
     attributeFormDefault="unqualified">
-    
+
     <xs:complexType name="ReferenceType">
         <xs:annotation>
             <xs:documentation>This is the base type for association references.</xs:documentation>
@@ -19,7 +19,7 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-   
+
     <xs:complexType name="SectionSimpleReference">
     	<xs:annotation>
     		<xs:documentation>A reference to a section with a type attribute set
@@ -31,7 +31,7 @@
     		</xs:extension>
     	</xs:simpleContent>
     </xs:complexType>
-    
+
     <xs:complexType name="AssessmentSimpleReference">
     	<xs:annotation>
     		<xs:documentation>A reference to a assessment with a type attribute set
@@ -43,8 +43,8 @@
     		</xs:extension>
     	</xs:simpleContent>
     </xs:complexType>
-    
-    
+
+
     <xs:complexType name="StudentSimpleReference">
 		<xs:annotation>
 			<xs:documentation>A reference to a stduent with a type attribute set
@@ -81,7 +81,7 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="EducationalOrgSimpleReference">
 		<xs:annotation>
 			<xs:documentation>A reference to a educational organization with a type attribute set
@@ -94,7 +94,7 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="DisciplineIncidentSimpleReference">
 		<xs:annotation>
 			<xs:documentation>A reference to a discipline incident with a type attribute set
@@ -107,7 +107,7 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="BehaviorDescriptorSimpleReference">
 		<xs:annotation>
 			<xs:documentation>A reference to a behavior with a type attribute set
@@ -120,5 +120,135 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-    
+
+	<xs:complexType name="GradingPeriodSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a grading period with a type attribute set
+				to "GradingPeriod".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="GradingPeriod"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="AcademicWeekSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to an academic week with a type attribute set
+				to "AcademicWeek".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="AcademicWeek"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="SessionSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a session with a type attribute set
+				to "Session".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Session"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="LocationSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a location with a type attribute set
+				to "Location".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Location"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="BellScheduleSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a bell schedule with a type attribute set
+				to "BellSchedule".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="BellSchedule"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="MiscellaneousEventSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a miscellaneous event with a type attribute set
+				to "MiscellaneousEvent".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="MiscellaneousEvent"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="CourseSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a course offering with a type attribute set
+				to "CourseReference".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="CourseReference"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="ClassPeriodSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a course offering with a type attribute set
+				to "ClassPeriod".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="ClassPeriod"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="ProgramSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a program with a type attribute set
+				to "ProgramReference".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="ProgramReference"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceDescriptorSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a service descriptor with a type attribute set
+				to "ServiceDescriptor".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="ServiceDescriptor"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
 </xs:schema>

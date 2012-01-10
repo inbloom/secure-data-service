@@ -4,6 +4,7 @@
 	attributeFormDefault="unqualified">
 
 	<xs:include schemaLocation="SimpleTypes.xsd" />
+	<xs:include schemaLocation="ReferenceTypes.xsd" />
 
 	<xs:element name="Session">
 		<xs:annotation>
@@ -52,7 +53,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="xs:IDREF">
+			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
 				<xs:annotation>
 					<xs:documentation>The id of the Education Organization that defines
 						the curriculum and courses offered - often the LEA. This is an
@@ -60,20 +61,18 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GradingPeriodReference">
+			<xs:element name="GradingPeriodReference" type="GradingPeriodSimpleReference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Ids of grading periods associated with the
-						calendar. 
+						calendar.
 					</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType><xs:list itemType="xs:IDREF"></xs:list></xs:simpleType>
 			</xs:element>
-			<xs:element name="AcademicWeekReference">
+			<xs:element name="AcademicWeekReference" type="AcademicWeekSimpleReference" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The ids of academic weeks associated with the school year. 
+					<xs:documentation>The ids of academic weeks associated with the school year.
 					</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType><xs:list itemType="xs:IDREF"></xs:list></xs:simpleType>
 			</xs:element>
 		</xs:sequence></xs:complexType>
 	</xs:element>
@@ -84,67 +83,47 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-		<xs:sequence>
-			<xs:element name="BellScheduleName" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>
-						Name or title of the bell schedule.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="GradeLevel">
-				<xs:annotation>
-					<xs:documentation>
-						The grade levels the particular bell schedule applies to.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:list itemType="GradeLevelType">
-					</xs:list>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="WeeksInCycle">
-				<xs:annotation>
-					<xs:documentation>
-						The number of weeks in which the meeting time schedules repeat.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:int">
-						<xs:minInclusive value="1" />
-						<xs:maxInclusive value="52" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SessionsOffered">
-				<xs:annotation>
-					<xs:documentation>
-						The sessions associated with the session.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType><xs:list itemType="xs:IDREF"></xs:list></xs:simpleType>
-			</xs:element>
-			<xs:element name="SectionMeetingTimes">
-				<xs:annotation>
-					<xs:documentation>
-						The meeting times for class periods associated
-						with the bell schedule. These are ids to
-						SectionBellScheduleAssociations.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType><xs:list itemType="xs:IDREF"></xs:list></xs:simpleType>
-			</xs:element>
-			<xs:element name="EventMeetingTimes">
-				<xs:annotation>
-					<xs:documentation>
-						The meeting times for non-class events associated
-						with the bell schedule. These are ids to
-						EventBellScheduleAssociations.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType><xs:list itemType="xs:IDREF"></xs:list></xs:simpleType>
-			</xs:element>
-		</xs:sequence></xs:complexType>
+			<xs:sequence>
+				<xs:element name="BellScheduleName" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Name or title of the bell schedule.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GradeLevel">
+					<xs:annotation>
+						<xs:documentation>
+							The grade levels the particular bell schedule applies to.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:list itemType="GradeLevelType">
+						</xs:list>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="WeeksInCycle">
+					<xs:annotation>
+						<xs:documentation>
+							The number of weeks in which the meeting time schedules repeat.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" />
+							<xs:maxInclusive value="52" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SessionsOffered" type="SessionSimpleReference" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							The sessions associated with the session.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
 	</xs:element>
 
 	<xs:complexType name="MeetingTime">
@@ -202,7 +181,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Location" type="xs:IDREF">
+			<xs:element name="Location" type="LocationSimpleReference">
 				<xs:annotation>
 					<xs:documentation>Where the meeting occurs</xs:documentation>
 				</xs:annotation>
@@ -220,14 +199,14 @@
 		<xs:complexContent>
 			<xs:extension base="MeetingTime">
 				<xs:sequence>
-					<xs:element name="BellSchedule" type="xs:IDREF">
+					<xs:element name="BellSchedule" type="BellScheduleSimpleReference">
 						<xs:annotation>
 							<xs:documentation>
 								The bell schedule the section is scheduled in
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Section" type="xs:IDREF">
+					<xs:element name="Section" type="SectionSimpleReference">
 						<xs:annotation>
 							<xs:documentation>
 								The section being offered
@@ -250,14 +229,14 @@
 			<xs:complexContent>
 				<xs:extension base="MeetingTime">
 					<xs:sequence>
-						<xs:element name="BellSchedule" type="xs:IDREF">
+						<xs:element name="BellSchedule" type="BellScheduleSimpleReference">
 							<xs:annotation>
 								<xs:documentation>
 									The bell schedule the event is scheduled in
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="Event" type="xs:IDREF">
+						<xs:element name="MiscellaneousEvent" type="MiscellaneousEventSimpleReference">
 							<xs:annotation>
 								<xs:documentation>
 									The section being offered
@@ -375,19 +354,19 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CourseOfferingReference" type="xs:IDREF">
+			<xs:element name="CourseOfferingReference" type="CourseSimpleReference">
 				<xs:annotation>
 					<xs:documentation>The course offering taught in the section.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SchoolReference" type="xs:IDREF">
+			<xs:element name="SchoolReference" type="SchoolSimpleReference">
 				<xs:annotation>
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SessionReference" type="xs:IDREF"
+			<xs:element name="SessionReference" type="SessionSimpleReference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The session associated with the session. This
@@ -396,7 +375,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="LocationReference" type="xs:IDREF"
+			<xs:element name="LocationReference" type="LocationSimpleReference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The location, typically a classroom, where the
@@ -404,7 +383,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ProgramReference" type="xs:IDREF"
+			<xs:element name="ProgramReference" type="ProgramSimpleReference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Optional reference to program (e.g., CTE, etc.)
@@ -414,19 +393,19 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType></xs:element>
-	
-	
+
+
 	<xs:element name="Location">
 		<xs:annotation>
-			<xs:documentation>This entity represents the physical space where students gather for 
-				a particular class/section.  The location may be an indoor or outdoor area 
+			<xs:documentation>This entity represents the physical space where students gather for
+				a particular class/section.  The location may be an indoor or outdoor area
 				designated for the purpose of meeting the educational needs of students.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 				<xs:sequence>
 					<xs:element name="ClassroomIdentificationCode" type="ClassroomIdentificationCode">
 						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to 
+							<xs:documentation>A unique number or alphanumeric code assigned to
 								a room by a school, school system, state, or other agency or entity.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
