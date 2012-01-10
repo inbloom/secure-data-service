@@ -108,7 +108,7 @@ Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
 
-When /^I attempt to update "([^"]*)"$/ do |arg1|
+When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
       "studentUniqueStateId" => "",
