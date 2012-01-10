@@ -20,31 +20,28 @@
         </xs:attribute>
     </xs:complexType>
    
-    <xs:complexType name="SectionReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType" />
-        </xs:complexContent>
+    <xs:complexType name="SectionSimpleReference">
+    	<xs:annotation>
+    		<xs:documentation>A reference to a section with a type attribute set
+    			to "Section"</xs:documentation>
+    	</xs:annotation>
+    	<xs:simpleContent>
+    		<xs:extension base="xs:IDREF">
+    			<xs:attribute name="type" fixed="Section" />
+    		</xs:extension>
+    	</xs:simpleContent>
     </xs:complexType>
     
-    <xs:complexType name="StudentReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for Student reference during interchange. Use XML IDREF to reference a student record that is included in the interchange</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType" />
-        </xs:complexContent>
-    </xs:complexType>
-    
-    <xs:complexType name="AssessmentReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for assessments during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType" />
-        </xs:complexContent>
+    <xs:complexType name="AssessmentSimpleReference">
+    	<xs:annotation>
+    		<xs:documentation>A reference to a assessment with a type attribute set
+    			to "Assessment"</xs:documentation>
+    	</xs:annotation>
+    	<xs:simpleContent>
+    		<xs:extension base="xs:IDREF">
+    			<xs:attribute name="type" fixed="Assessment" />
+    		</xs:extension>
+    	</xs:simpleContent>
     </xs:complexType>
     
     

@@ -206,7 +206,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Section" type="SectionReferenceType">
+					<xs:element name="Section" type="SectionSimpleReference">
 						<xs:annotation>
 							<xs:documentation>
 								The section being offered

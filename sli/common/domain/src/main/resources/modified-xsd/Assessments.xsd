@@ -207,16 +207,81 @@
                             <xs:documentation>Reflects the specific nomenclature used for Assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" maxOccurs="unbounded">
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="StudentObjectiveAssessment">
+        <xs:annotation>
+            <xs:documentation>This entity holds the score and or performance levels earned for an objective assessment by a student.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded">
                         <xs:annotation>
-                            <xs:documentation>The section(s) which the assessment is associated with</xs:documentation>
+                            <xs:documentation>A meaningful score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="PerformanceLevels" type="Description" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StudentTestAssessmentReference" type="ReferenceType">
+                        <xs:annotation>
+                            <xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
+    
+    <xs:complexType name="StudentAssessmentItem">
+        <xs:annotation>
+            <xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard. 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="AssessmentResponse" type="AssessmentResponse" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A student's response to a stimulus on a test.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicator of the response.  For example:
+                                Nonscorable response
+                                Ineffective response
+                                Effective response
+                                Partial response
+                                ...</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="AssessmentItemResult" type="AssessmentItemResultType">
+                        <xs:annotation>
+                            <xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
+                                Correct
+                                Incorrect
+                                Met standard
+                                ...</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="RawScoreResult" type="xs:int" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A meaningful raw score of the performance of an individual on an assessment item.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
     <xs:complexType name="StudentAssessment">
         <xs:annotation>
             <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</xs:documentation>
@@ -317,12 +382,22 @@
                             <xs:documentation>The performance level(s) achieved for the assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="StudentReference" type="StudentReferenceType">
+                    <xs:element name="StudentObjectiveAssessments" type="StudentObjectiveAssessment" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The score and or performance level(s) earned for each objective assessment by the student.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StudentAssessmentItems" type="StudentAssessmentItem" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>This entity represents the student's responses to assessment items.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StudentReference" type="StudentSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the student associated with the assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="AssessmentReference" type="AssessmentReferenceType">
+                    <xs:element name="AssessmentReference" type="AssessmentSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the assessment taken by the student.</xs:documentation>
                         </xs:annotation>
@@ -339,12 +414,12 @@
         <xs:complexContent>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
-                    <xs:element name="SectionReference" type="SectionReferenceType">
+                    <xs:element name="SectionReference" type="SectionSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the section associated with the assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="AssessmentReference" type="AssessmentReferenceType">
+                    <xs:element name="AssessmentReference" type="AssessmentSimpleReference">
                         <xs:annotation>
                             <xs:documentation>Reference to the assessment taken by the section.</xs:documentation>
                         </xs:annotation>
