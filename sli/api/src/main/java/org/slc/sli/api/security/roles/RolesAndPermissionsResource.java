@@ -5,17 +5,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.slc.sli.api.security.enums.DefaultRoles;
-import org.slc.sli.api.service.EntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -41,7 +35,7 @@ public class RolesAndPermissionsResource {
 
     public static final int NUM_RESULTS = 100;
     @Autowired
-    private IRoleRightAccess roleAccessor;
+    private RoleRightAccess roleAccessor;
 
     private static final Logger LOG = LoggerFactory.getLogger(RolesAndPermissionsResource.class);
 
@@ -77,7 +71,7 @@ public class RolesAndPermissionsResource {
     }
 
     //Injection method
-    public void setRoleAccessor(IRoleRightAccess roleRights) {
+    public void setRoleAccessor(RoleRightAccess roleRights) {
         this.roleAccessor = roleRights;
     }
 

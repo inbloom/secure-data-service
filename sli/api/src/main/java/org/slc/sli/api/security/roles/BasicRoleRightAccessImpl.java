@@ -7,17 +7,17 @@ import org.slc.sli.api.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A basic implementation of IRoleRightAccess
+ * A basic implementation of RoleRightAccess
  *
  * @author rlatta
  */
 @Component
-public class BasicRoleRightAccessImpl implements IRoleRightAccess {
-
+public class BasicRoleRightAccessImpl implements RoleRightAccess {
 
     @Autowired
     private EntityDefinitionStore store;
@@ -29,6 +29,7 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
     public static final String AGGREGATOR = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
 
+    @PostConstruct
     private void init() {
         EntityDefinition def = store.lookupByResourceName("roles");
         setService(def.getService());
@@ -104,6 +105,11 @@ public class BasicRoleRightAccessImpl implements IRoleRightAccess {
             }
         }
         return false;
+    }
+
+    //Injection method.
+    public void setStore(EntityDefinitionStore store) {
+        this.store = store;
     }
 
     //Injection method.

@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -34,7 +33,7 @@ public class RolesToRightsTest {
     @Test
     public void testMappedRoles() throws Exception {
         
-        Set<GrantedAuthority> rights = resolver.resolveRoles(Arrays.asList(DefaultRoles.EDUCATOR.getRoleName(), DefaultRoles.AGGREGATOR.getRoleName()));
+        Set<GrantedAuthority> rights = resolver.resolveRoles(Arrays.asList(BasicRoleRightAccessImpl.EDUCATOR, BasicRoleRightAccessImpl.AGGREGATOR));
         Assert.assertTrue(rights.size() > 0);
     }
     
@@ -46,7 +45,7 @@ public class RolesToRightsTest {
     
     @Test
     public void testMixedRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(Arrays.asList(DefaultRoles.EDUCATOR.getRoleName(), DefaultRoles.AGGREGATOR.getRoleName(), "bad", "doggie"));
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(Arrays.asList(BasicRoleRightAccessImpl.EDUCATOR, BasicRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
         Assert.assertTrue(authorities.size() > 0);
     }
 }

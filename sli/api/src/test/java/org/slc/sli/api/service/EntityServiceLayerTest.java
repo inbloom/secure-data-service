@@ -23,7 +23,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjection;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +49,14 @@ public class EntityServiceLayerTest {
     private AssociationService studentSchoolAssociationService;
     @Autowired
     private EntityRepository repo;
+
+    @Autowired
+    private SecurityContextInjector securityContextInjector;
     
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
-        SecurityContextInjection.setAdminContext();
+        securityContextInjector.setAdminContext();
         
         defs.init();
         repo.deleteAll("student");

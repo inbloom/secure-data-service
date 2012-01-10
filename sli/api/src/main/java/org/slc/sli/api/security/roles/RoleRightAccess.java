@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * An interface to for creating a layer to access and manipulate role and right data.
  */
-public interface IRoleRightAccess {
+public interface RoleRightAccess {
 
     /**
      * Returns a role that was found with the name specified.
@@ -15,6 +15,13 @@ public interface IRoleRightAccess {
      * @return the role that is stored or null
      */
     public abstract Role findRoleByName(String name);
+
+    /**
+     * Tries to return a default role based on the name.
+     * @param name the name of the role (eg: Educator)
+     * @return the Role representing the default or null.
+     */
+    public abstract Role getDefaultRole(String name);
 
     /**
      * Returns a role that was found by the specified Spring name.

@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjection;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -37,13 +37,16 @@ public class BasicRoleRightAccessImplTest {
 
     @Autowired
     private BasicRoleRightAccessImpl access;
+
+    @Autowired
+    private SecurityContextInjector securityContextInjector;
     
     private EntityService mockService;
 
     @Before
     public void setUp() throws Exception {
 
-        SecurityContextInjection.setAdminContext();
+        securityContextInjector.setAdminContext();
         List<String> ids = new ArrayList<String>();
         mockService = mock(EntityService.class);
         access.setService(mockService);

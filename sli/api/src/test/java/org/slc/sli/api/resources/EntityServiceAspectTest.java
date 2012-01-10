@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.security.aspects.EntityServiceAspect;
-import org.slc.sli.api.security.enums.DefaultRoles;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -37,8 +36,8 @@ public class EntityServiceAspectTest {
 
     private static final String ENTITY_TYPE_STUDENT = "student";
     private static final String ENTITY_TYPE_REALM = "realm";
-    private static final String ROLE_SPRING_NAME_EDUCATOR = DefaultRoles.EDUCATOR.getSpringRoleName();
-    private static final String ROLE_SPRING_NAME_ADMINISTRATOR = DefaultRoles.ADMINISTRATOR.getSpringRoleName();
+    private static final String ROLE_SPRING_NAME_EDUCATOR = "ROLE_EDUCATOR";
+    private static final String ROLE_SPRING_NAME_ADMINISTRATOR = "ROLE_ADMINISTRATOR";
     private static final String ASPECT_FUNCTION_GET = "get";
     private static final String ASPECT_FUNCTION_CREATE = "create";
     private static final String ASPECT_FUNCTION_GETDEFN = "getEntityDefinition";
@@ -48,6 +47,9 @@ public class EntityServiceAspectTest {
 
     @Autowired
     private EntitySchemaRegistry schemaRegistry;
+
+    @Autowired
+    private SecurityContextInjector injector;
 
     @Before
     public void init() {
@@ -63,7 +65,7 @@ public class EntityServiceAspectTest {
 
     @Test
     public void testGetRealmCallAsEducator() throws Throwable {
-        SecurityContextInjection.setEducatorContext();
+        injector.setEducatorContext();
         Entity mockRealm = new MongoEntity("realm", null);
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockRealm,
                 ROLE_SPRING_NAME_EDUCATOR);
@@ -78,7 +80,7 @@ public class EntityServiceAspectTest {
 
     @Test
     public void testGetEntityDefnStudentCallAsEducator() throws Throwable {
-        SecurityContextInjection.setEducatorContext();
+        injector.setEducatorContext();
         Entity mockStudent = new MongoEntity("student", null);
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GETDEFN, mockStudent,
                 ROLE_SPRING_NAME_EDUCATOR);
@@ -93,7 +95,7 @@ public class EntityServiceAspectTest {
 
     @Test
     public void testGetStudentCallAsEducator() throws Throwable {
-        SecurityContextInjection.setEducatorContext();
+        injector.setEducatorContext();
         Entity mockStudent = new MongoEntity("student", null);
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockStudent,
                 ROLE_SPRING_NAME_EDUCATOR);
@@ -108,7 +110,7 @@ public class EntityServiceAspectTest {
 
     @Test(expected = AccessDeniedException.class)
     public void testCreateStudentCallAsEducator() throws Throwable {
-        SecurityContextInjection.setEducatorContext();
+        injector.setEducatorContext();
         Entity mockStudent = new MongoEntity("student", null);
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_CREATE, mockStudent,
                 ROLE_SPRING_NAME_EDUCATOR);
@@ -120,7 +122,7 @@ public class EntityServiceAspectTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testFieldViewForEducator() throws Throwable {
-        SecurityContextInjection.setEducatorContext();
+        injector.setEducatorContext();
 
         String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
                 + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
@@ -141,7 +143,7 @@ public class EntityServiceAspectTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testFieldViewForAdministrator() throws Throwable {
-        SecurityContextInjection.setAdminContext();
+        injector.setAdminContext();
 
         String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
                 + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"

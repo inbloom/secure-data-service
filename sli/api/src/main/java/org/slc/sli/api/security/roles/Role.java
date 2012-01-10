@@ -39,6 +39,10 @@ public class Role {
     public boolean hasRight(Right right) {
         return rights.contains(right);
     }
+    
+    public Set<Right> getRights() {
+        return rights;
+    }
 
     public void addRight(Right right) {
         rights.add(right);

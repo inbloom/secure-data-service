@@ -54,6 +54,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
+
+    @Autowired
+    private SecurityContextInjector injector;
     // post some data
     // Map of <type, id> pair to entity location.
     /**
@@ -118,7 +121,7 @@ public class ResourceTest {
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
-        SecurityContextInjection.setAdminContext();
+        injector.setAdminContext();
     }
     
     @After

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjection;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +38,11 @@ public class RolesAndPermissionsResourceTest {
 
     @Autowired
     private RolesAndPermissionsResource api;
-    IRoleRightAccess mockRoles;
-    
+    RoleRightAccess mockRoles;
+
+    @Autowired
+    private SecurityContextInjector securityContextInjector;
+
 
     private EntityBody createTestRole() {
         EntityBody role = new EntityBody();
@@ -55,8 +57,8 @@ public class RolesAndPermissionsResourceTest {
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
-        SecurityContextInjection.setAdminContext();
-        mockRoles = mock(IRoleRightAccess.class);
+        securityContextInjector.setAdminContext();
+        mockRoles = mock(RoleRightAccess.class);
         api.setRoleAccessor(mockRoles);
     }
     

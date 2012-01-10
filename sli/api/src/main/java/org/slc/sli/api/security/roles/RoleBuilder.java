@@ -3,6 +3,8 @@ package org.slc.sli.api.security.roles;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.enums.Right;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +34,13 @@ public final class RoleBuilder {
     }
 
     public RoleBuilder addRight(Right right) {
-        rights.add(right.toString());
+        role.addRight(right);
         return this;
     }
 
     public RoleBuilder addRights(Right[] rights) {
         for (Right right : rights) {
-            addRight(right);
+            role.addRight(right);    
         }
         return this;
     }
@@ -50,7 +52,7 @@ public final class RoleBuilder {
 
     public RoleBuilder addRights(List<String> rights) {
         for (String right : rights) {
-            addRight(Right.valueOf(right));
+            role.addRight(Right.valueOf(right));
         }
         return this;
     }
@@ -65,7 +67,7 @@ public final class RoleBuilder {
 
     public void addRight(Object right) {
         if(right instanceof String) {
-           addRight(right);
+           addRight(Right.valueOf((String) right));
         }
     }
 
