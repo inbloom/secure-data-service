@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.hdfs.HDFSUtil;
@@ -21,6 +23,9 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
 
     private static final Logger LOG = LoggerFactory.getLogger(MatchDiffHandler.class);
 
+    @Autowired
+    LocalFileSystemLandingZone lz;
+
     @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         try {
@@ -31,7 +36,8 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
             computeDelta(fileEntry, errorReport);
 
         } catch (IOException e) {
-            errorReport.fatal("Failed to load files to HDFS. ", MatchDiffHandler.class);
+            LOG.error("Failed to load files to HDFS.");
+            errorReport.fatal("Failed to load files to HDFS.", MatchDiffHandler.class);
         }
 
         return fileEntry;
@@ -41,11 +47,18 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
 
         // load new files from user
         File newRecordFile = fileEntry.getNeutralRecordFile();
-        HDFSUtil.addFile(newRecordFile, "/");
+        // TODO: switch to HDFS as follows:
+        // HDFSUtil.addFile(newRecordFile, "/");
+        // temporarily using local landing zone
+        lz.loadFile(newRecordFile);
 
         // load current state files
         File currentRecordFile = getCurrentRecordFile(fileEntry, errorReport);
-        HDFSUtil.addFile(currentRecordFile, "/");
+        // TODO: switch to HDFS as follows:
+        // HDFSUtil.addFile(currentRecordFile, "/");
+        // temporarily using local landing zone
+        lz.loadFile(currentRecordFile);
+
     }
 
     void computeDelta(IngestionFileEntry fileEntry, ErrorReport errorReport) {
@@ -58,10 +71,12 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
 
     }
 
-    File getCurrentRecordFile(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+    File getCurrentRecordFile(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
 
         // TODO: fetch current state records
-        File file = null;
+        // temporarily return empty file
+        File file = File.createTempFile("currentRecord_", ".tmp");
+        file.deleteOnExit();
         return file;
     }
 }
