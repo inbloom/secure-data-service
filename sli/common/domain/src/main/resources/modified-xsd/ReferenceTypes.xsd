@@ -225,4 +225,17 @@
 		</xs:simpleContent>
 	</xs:complexType>
     
+	<xs:complexType name="ServiceDescriptorReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a service descriptor with a type attribute set
+				to "ServiceDescriptor".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="ServiceDescriptor"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
 </xs:schema>

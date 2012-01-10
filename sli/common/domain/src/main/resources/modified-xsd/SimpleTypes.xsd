@@ -2548,5 +2548,21 @@ Oral Administration
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
+	
+	<xs:simpleType name="ProgramSponsorType">
+		<xs:annotation>
+			<xs:documentation>Ultimate and intermediate providers of funds for a particular educational or service 
+			program or activity or for an individual's participation in the program or activity; e.g., Federal, State, 
+			ESC, District, School, Private Org, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="State Education Agency"/>
+			<xs:enumeration value="Education Service Center"/>
+			<xs:enumeration value="Local Education Agency"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="Private Organization"/>
+		</xs:restriction>
+	</xs:simpleType>
 		
 </xs:schema>
