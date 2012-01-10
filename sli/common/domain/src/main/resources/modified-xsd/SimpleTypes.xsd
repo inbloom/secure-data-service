@@ -2564,5 +2564,31 @@ Oral Administration
 			<xs:enumeration value="Private Organization"/>
 		</xs:restriction>
 	</xs:simpleType>
-		
+	<xs:simpleType name="GradingPeriodType">
+		<xs:annotation>
+			<xs:documentation>The name of the period for which grades are reported.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="First Six Weeks"/>
+			<xs:enumeration value="Second Six Weeks"/>
+			<xs:enumeration value="Third Six Weeks"/>
+			<xs:enumeration value="Fourth Six Weeks"/>
+			<xs:enumeration value="Fifth Six Weeks"/>
+			<xs:enumeration value="Sixth Six Weeks"/>
+			<xs:enumeration value="First Semester"/>
+			<xs:enumeration value="Second Semester"/>
+			<xs:enumeration value="First Summer Session"/>
+			<xs:enumeration value="Second Summer Session"/>
+			<xs:enumeration value="Third Summer Session"/>
+			<xs:enumeration value="Summer Semester"/>
+			<xs:enumeration value="First Nine Weeks"/>
+			<xs:enumeration value="Second Nine Weeks"/>
+			<xs:enumeration value="Third Nine Weeks"/>
+			<xs:enumeration value="Fourth Nine Weeks"/>
+			<xs:enumeration value="First Trimester"/>
+			<xs:enumeration value="Second Trimester"/>
+			<xs:enumeration value="Third Trimester"/>
+			<xs:enumeration value="End of Year"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>
