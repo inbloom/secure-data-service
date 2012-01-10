@@ -14,7 +14,7 @@ import org.slc.sli.config.ViewConfigSet;
  * 
  * @author dwu
  */
-public class ConfigManager {
+public class ConfigManager extends Manager {
     
     private static ConfigManager instance = new ConfigManager();
     
