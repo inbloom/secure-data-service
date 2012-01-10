@@ -408,5 +408,365 @@
         "percentile": "95.54",
         "assessmentFamilyName": "DIBELS_NEXT",
         "assessmentName": "DIBELS_NEXT_GRADE_K_BOY"
+},
+{
+        "studentId": "530425896",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "3",
+        "scaleScore": "211",
+        "lexileScore": "K",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "530425896",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "206",
+        "lexileScore": "F",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "429526969",
+        "grade": "1",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "202",
+        "lexileScore": "B",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_MOY"
+},
+{
+        "studentId": "429526969",
+        "grade": "1",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "203",
+        "lexileScore": "C",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_BOY"
+},
+{
+        "studentId": "178828452",
+        "grade": "1",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_MOY"
+},
+{
+        "studentId": "178828452",
+        "grade": "1",
+        "year": "2011",
+        "perfLevel": "4",
+        "scaleScore": "204",
+        "lexileScore": "D",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_BOY"
+},
+{
+        "studentId": "525878920",
+        "grade": "1",
+        "year": "2012",
+        "perfLevel": "3",
+        "scaleScore": "207",
+        "lexileScore": "G",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_MOY"
+},
+{
+        "studentId": "525878920",
+        "grade": "1",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "202",
+        "lexileScore": "B",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_BOY"
+},
+{
+        "studentId": "510152105",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "4",
+        "scaleScore": "220",
+        "lexileScore": "T",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "510152105",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "209",
+        "lexileScore": "I",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "802709591",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "802709591",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "437680177",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "4",
+        "scaleScore": "224",
+        "lexileScore": "X",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "437680177",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "208",
+        "lexileScore": "H",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "170011136",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "206",
+        "lexileScore": "F",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "170011136",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "202",
+        "lexileScore": "B",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "547028299",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "3",
+        "scaleScore": "211",
+        "lexileScore": "K",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "547028299",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "207",
+        "lexileScore": "G",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "258392050",
+        "grade": "1",
+        "year": "2012",
+        "perfLevel": "3",
+        "scaleScore": "207",
+        "lexileScore": "G",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_MOY"
+},
+{
+        "studentId": "258392050",
+        "grade": "1",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_BOY"
+},
+{
+        "studentId": "178875887",
+        "grade": "1",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_MOY"
+},
+{
+        "studentId": "178875887",
+        "grade": "1",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_BOY"
+},
+{
+        "studentId": "100644447",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "2",
+        "scaleScore": "210",
+        "lexileScore": "J",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "100644447",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "209",
+        "lexileScore": "I",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "376191021",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "2",
+        "lexileScore": "PC",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "376191021",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "208",
+        "lexileScore": "H",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "336344132",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "201",
+        "lexileScore": "A",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "336344132",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "204",
+        "lexileScore": "D",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "711411586",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "2",
+        "scaleScore": "210",
+        "lexileScore": "J",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "711411586",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "1",
+        "scaleScore": "203",
+        "lexileScore": "C",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "131758477",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "1",
+        "scaleScore": "202",
+        "lexileScore": "B",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "131758477",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "3",
+        "scaleScore": "209",
+        "lexileScore": "I",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "670703438",
+        "grade": "2",
+        "year": "2012",
+        "perfLevel": "3",
+        "scaleScore": "212",
+        "lexileScore": "L",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_MOY"
+},
+{
+        "studentId": "670703438",
+        "grade": "2",
+        "year": "2011",
+        "perfLevel": "2",
+        "scaleScore": "207",
+        "lexileScore": "G",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_2_BOY"
+},
+{
+        "studentId": "851123275",
+        "grade": "1",
+        "year": "2012",
+        "perfLevel": "4",
+        "scaleScore": "217",
+        "lexileScore": "Q",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_MOY"
+},
+{
+        "studentId": "851123275",
+        "grade": "1",
+        "year": "2011",
+        "perfLevel": "4",
+        "scaleScore": "219",
+        "lexileScore": "S",
+        "assessmentFamilyName": "TRC",
+        "assessmentName": "TRC_GRADE_1_BOY"
 }
 ]
