@@ -7,6 +7,7 @@
     attributeFormDefault="unqualified">
 
     <xs:include schemaLocation="SimpleTypes.xsd"/>
+    <xs:include schemaLocation="ReferenceTypes.xsd" />
 
 <!-- CORE ENTITIES FOR DISCIPLINE -->
 
