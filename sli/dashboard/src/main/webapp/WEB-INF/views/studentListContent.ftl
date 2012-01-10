@@ -9,12 +9,12 @@
 <table id="studentList"> 
 
 <#-- draw header -->
-<tr>
+<tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <th colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
 </#list>
 </tr>
-<tr>
+<tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <th>${field.getDisplayName()}</th>
@@ -25,16 +25,25 @@
 <#-- draw body --> 
 <#list students.list() as student>
 
-<tr>
+<tr class="listRow">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
-    <td>
+    <td class="${field.getValue()}">
       <#-- try out each resolver to see if this data point can be resolved using it -->
       <#assign dataPointId = field.getValue()>
+      
+      <#-- assessment results -->
       <#if assessments.canResolve(dataPointId)>
-        ${assessments.get(dataPointId, student)}
+        <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+          <#include "widget/" + field.getVisual() + ".ftl">
+        <#else>
+          ${assessments.get(dataPointId, student)}
+        </#if>
+        
+      <#-- student info -->
       <#elseif students.canResolve(dataPointId)>
         ${students.get(dataPointId, student)}
+        
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

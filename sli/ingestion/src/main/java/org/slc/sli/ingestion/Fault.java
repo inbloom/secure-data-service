@@ -1,24 +1,27 @@
 package org.slc.sli.ingestion;
 
+/**
+ * Fault that represents a warning or error in the system.
+ *
+ * @author okrook
+ *
+ */
 public class Fault {
 
-    protected static final int TYPE_WARNING = 1;
-    protected static final int TYPE_ERROR = 2;
-
     protected String message;
-    protected int type;
+    protected FaultType type;
 
-    protected Fault(int type, String message) {
+    protected Fault(FaultType type, String message) {
         this.type = type;
         this.message = message;
     }
 
     public static Fault createWarning(String message) {
-        return new Fault(TYPE_WARNING, message);
+        return new Fault(FaultType.TYPE_WARNING, message);
     }
 
     public static Fault createError(String message) {
-        return new Fault(TYPE_ERROR, message);
+        return new Fault(FaultType.TYPE_ERROR, message);
     }
 
     public String getMessage() {
@@ -26,16 +29,15 @@ public class Fault {
     }
 
     public boolean isWarning() {
-        return this.type == TYPE_WARNING;
+        return this.type == FaultType.TYPE_WARNING;
     }
 
     public boolean isError() {
-        return this.type == TYPE_ERROR;
+        return this.type == FaultType.TYPE_ERROR;
     }
 
     @Override
     public String toString() {
-        String typeString = (isWarning() ? "WARNING" : "ERROR");
-        return typeString + ": " + getMessage();
+        return type.getName() + ": " + getMessage();
     }
 }

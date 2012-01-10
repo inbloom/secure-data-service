@@ -12,12 +12,15 @@ import java.util.List;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.Student;
+import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
 
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.StudentResolver;
+import org.slc.sli.view.widget.WidgetFactory;
 
 /**
  * Controller for showing the list of studentview.  
@@ -31,6 +34,7 @@ public class StudentListContentController extends DashboardController {
     public static final String VIEW_CONFIG = "viewConfig"; 
     public static final String ASSESSMENTS = "assessments"; 
     public static final String STUDENTS = "students"; 
+    public static final String WIDGET_FACTORY = "widgetFactory";
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView studentListContent(String username, 
@@ -45,15 +49,18 @@ public class StudentListContentController extends DashboardController {
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
         List<String> uids = null;
-        if(population != null)
+        if (population != null)
             uids = Arrays.asList(population.split(","));
-        List<Student> students = Arrays.asList(apiClient.getStudents(user.getUsername(), uids));
+        List<Student> students = StudentManager.getInstance().getStudentInfo(user.getUsername(), uids, viewConfig);
         model.addAttribute(STUDENTS, new StudentResolver(students, viewConfig));
 
         // insert the assessments object into the modelmap
-        List<Assessment> assessments = Arrays.asList(apiClient.getAssessments(user.getUsername(), uids));
+        List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, viewConfig));
 
+        // insert a widget factory into the modelmap
+        model.addAttribute(WIDGET_FACTORY, new WidgetFactory());
+        
         return new ModelAndView("studentListContent");
     }
 

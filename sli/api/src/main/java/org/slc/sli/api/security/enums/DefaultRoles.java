@@ -1,42 +1,69 @@
 package org.slc.sli.api.security.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A simple enum that describes the default roles in terms of their rights.
- *
+ * 
  * Also has a few utility functions to see if a role contains a right.
  */
 public enum DefaultRoles {
-    EDUCATOR("Educator", new Rights[]{Rights.AGGREGATE_READ, Rights.READ_GENERAL}), 
-    LEADER("Leader", new Rights[] {Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED}),
-    AGGREGATOR("Aggregate Viewer", new Rights[] {Rights.AGGREGATE_READ}),
-    ADMINISTRATOR("IT Administrator", new Rights[]{Rights.AGGREGATE_READ, Rights.READ_GENERAL, Rights.READ_RESTRICTED,
-    Rights.WRITE_GENERAL, Rights.WRITE_RESTRICTED});
-    private final String name;
-    private final Rights[] rights;
-
+    EDUCATOR("Educator", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL }), LEADER("Leader", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }), AGGREGATOR("Aggregate Viewer",
+            new Right[] { Right.AGGREGATE_READ }), ADMINISTRATOR("IT Administrator", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }), NONE("None",
+            new Right[] {});
+    private final String   name;
+    private final Right[] rights;
+    
     public String getRoleName() {
         return name;
     }
-    
+
     public String getSpringRoleName() {
         return "ROLE_" + name.toUpperCase().replace(' ', '_');
     }
-    
-    public Rights[] getRights() {
-        return rights;
+
+    public List<Right> getRights() {
+        return Arrays.asList(rights);
     }
-    
-    public boolean hasRight(Rights right) {
-        for (Rights checkedRight : rights) {
+
+    public boolean hasRight(Right right) {
+        for (Right checkedRight : rights) {
             if (checkedRight == right) {
                 return true;
             }
         }
         return false;
     }
-    
-    private DefaultRoles(String role, Rights[] rights) {
+
+    private DefaultRoles(String role, Right[] rights) {
         name = role;
         this.rights = rights;
+    }
+
+    public static List<String> getDefaultRoleNames() {
+        List<String> names = new ArrayList<String>();
+        for (DefaultRoles role : DefaultRoles.values()) {
+            names.add(role.getRoleName());
+        }
+        return names;
+    }
+
+    public static DefaultRoles find(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getSpringRoleName().equals(roleName)) {
+                return role;
+            }
+        }
+        return DefaultRoles.NONE;
+    }
+
+    public static DefaultRoles getDefaultRoleByName(String roleName) {
+        for (DefaultRoles role : DefaultRoles.values()) {
+            if (role.getRoleName().equalsIgnoreCase(roleName))
+                return role;
+        }
+        return DefaultRoles.NONE;
     }
 }

@@ -31,7 +31,7 @@ end
 
 Given /^I have access to all teachers$/ do
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |arg1|
@@ -65,8 +65,8 @@ Given /^(?:his|her) \"Years of Prior Teaching Experience\" is "(\d+)"$/ do |arg1
 end
 
 Given /^(?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
-  @teacherUniqueStateId = Integer(arg1)
-  @teacherUniqueStateId.should_not == nil
+  @staffUniqueStateId = Integer(arg1)
+  @staffUniqueStateId.should_not == nil
 end
 
 Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
@@ -81,9 +81,8 @@ Given /^(?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
 end
 
 Given /^(?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
-  ["Bachelor's", "Master's", "Doctorate", "No Degree"].should include(arg1)
-  @levelOfEducation = eduHash[arg1]
+  ["Bachelors", "Masters", "Doctorate", "No_Degree"].should include(arg1)
+  @levelOfEducation = arg1
   @levelOfEducation.should_not == nil
 end
 
@@ -101,7 +100,7 @@ When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
       "sex" => @sex,
       "yearsOfPriorTeachingExperience" => @teachingExperience,
       "highestLevelOfEducationCompleted" => @levelOfEducation,
-      "teacherUniqueStateId" => @teacherUniqueStateId,
+      "staffUniqueStateId" => @staffUniqueStateId,
       "highlyQualifiedTeacher" => @highlyQualifiedTeacher
       ]
     data = dataH.to_json
@@ -109,7 +108,7 @@ When /^I navigate to POST (teacher "[^"]*)"$/ do |arg1|
   elsif @format == "application/xml"
     builder = Builder::XmlMarkup.new(:indent=>2)
     data = builder.teacher { |b| 
-      b.teacherUniqueStateId(@teacherUniqueStateId)
+      b.staffUniqueStateId(@staffUniqueStateId)
       b.name(@name) 
       b.sex(@sex)
       b.birthDate(@bdate)}
@@ -207,7 +206,7 @@ end
 Then /^I should see that (?:his|her) \"Teacher Unique State ID\" is "(\d+)"$/ do |arg1|
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["teacherUniqueStateId"] == arg1.to_i, "Expected teacher state id not found in response")
+  assert(result["staffUniqueStateId"] == arg1.to_i, "Expected teacher state id not found in response")
 end
 
 Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\w+)"$/ do |arg1|
@@ -219,16 +218,15 @@ Then /^I should see that (?:his|her) \"Highly Qualified Teacher\" status is "(\w
 end
 
 Then /^I should see that (?:his|her) \"Level of Education\" is "([^"]*)"$/ do |arg1|
-  eduHash = Hash["Master's" => "MASTER_S", "Bachelor's" => "BACHELOR_S"]
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["highestLevelOfEducationCompleted"] == eduHash[arg1], "Expected teacher level of education not found in response")  
+  assert(result["highestLevelOfEducationCompleted"] == arg1, "Expected teacher level of education not found in response")  
 end
 
 When /^I attempt to update a non\-existing teacher "([^"]*)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
-      "teacherUniqueStateId" => "",
+      "staffUniqueStateId" => "",
       "name" => Hash[ "firstName" => "Should", "middleName" => "Not", "lastSurname" => "Exist" ],
       "sex" => "Male",
       "birthDate" => "765432000000"]
@@ -253,6 +251,6 @@ end
 
 Then /^GET using that ID should return a code of (\d+)$/ do |arg1|
   url = "http://"+PropLoader.getProps['api_server_url']+"/api/rest/teachers/" + @newTeacherID
-  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @cookie}}){|response, request, result| response }
+  @res = RestClient.get(url,{:accept => @format, :cookies => {:iPlanetDirectoryPro => @sessionId}}){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
 end

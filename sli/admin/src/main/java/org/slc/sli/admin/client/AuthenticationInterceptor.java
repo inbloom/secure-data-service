@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.slf4j.Logger;
@@ -27,11 +28,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     
     private static final String SESSION_ID_KEY = "ADMIN_SESSION_ID";
     private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
+    private static final String USER_NAME_KEY = "USER_NAME";
     
     private static Logger logger = LoggerFactory.getLogger(AuthenticationInterceptor.class);
     
     @Autowired
     private RESTClient restClient;
+    
+    public void setRESTClient(RESTClient rest) {
+        this.restClient = rest;
+    }
     
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object controller,
@@ -50,7 +56,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (sessionId == null) {
             Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
             if (openAmCookie != null) {
-                request.getSession().setAttribute(SESSION_ID_KEY, openAmCookie.getValue());
+                sessionId = openAmCookie.getValue();
+                request.getSession().setAttribute(SESSION_ID_KEY, sessionId);
+                request.getSession().setAttribute(USER_NAME_KEY, loadUserName((String) sessionId));
             } else {
                 JsonObject jsonSession = this.restClient.sessionCheck(null);
                 if (!jsonSession.get("authenticated").getAsBoolean()) {
@@ -65,5 +73,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
         }
         return true;
+    }
+    
+    private String loadUserName(String token) {
+        JsonObject json = this.restClient.sessionCheck(token);
+        JsonElement nameElement = json.get("full_name");
+        if (nameElement != null) {
+            return nameElement.getAsString();
+        }
+        return "";
     }
 }

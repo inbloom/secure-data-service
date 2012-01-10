@@ -16,19 +16,16 @@
     <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>domain</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>dal</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>mock-dal</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- Spring Context dependency -->
@@ -60,13 +57,13 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
     </dependency>
-    
+
     <!-- Spring/Jersey dependency -->
     <dependency>
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-spring</artifactId>
     </dependency>
-    
+
     <!-- Spring Test dependency -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -91,7 +88,7 @@
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-jaxrs</artifactId>
     </dependency>
-    
+
     <!-- Apache Commons Lang dependency -->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -106,7 +103,7 @@
 
   <build>
     <finalName>api</finalName>
-    
+
     <plugins>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
@@ -131,13 +128,14 @@
           </connectors>
 	    </configuration>
       </plugin>
-      
+
       <!-- Plugin for AspectJ integration -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>aspectj-maven-plugin</artifactId>
         <version>1.4</version>
         <configuration>
+            <XnoInline>true</XnoInline>
           <showWeaveInfo>true</showWeaveInfo>
           <complianceLevel>1.6</complianceLevel>
         </configuration>
@@ -150,7 +148,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
     </plugins>
   </build>
 

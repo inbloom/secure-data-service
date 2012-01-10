@@ -30,7 +30,9 @@
     } ]
   }, {
     "name" : "sex",
-    "type" : "org.slc.sli.domain.enum.SexType"
+    "type" : "org.slc.sli.domain.enum.SexType",
+    "read_enforcement" : "restricted"
+	
   }, {
     "name" : "birthData",
     "type" : "org.slc.sli.domain.BirthData"
@@ -68,13 +70,15 @@
     "type" : [ "null", "org.slc.sli.domain.enum.OldEthnicityType" ]
   }, {
     "name" : "race",
+    "comment" : "Changed from generated:  Removed intermediary record type",
     "type" : [ "null", {
       "type" : "array",
       "items" : "org.slc.sli.domain.enum.RaceItemType"
      } ]
   }, {
     "name" : "economicDisadvantaged",
-    "type" : [ "null", "boolean" ]
+    "type" : [ "null", "boolean" ],
+    "read_enforcement" : "restricted"
   }, {
     "name" : "schoolFoodServicesEligibility",
     "type" : [ "null", "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ]
@@ -89,10 +93,18 @@
     "type" : [ "null", "org.slc.sli.domain.enum.LimitedEnglishProficiencyType" ]
   }, {
     "name" : "languages",
-    "type" : [ "null", "org.slc.sli.domain.LanguagesType" ]
+    "comment" : "Changed from generated:  Removed intermediary record type",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.LanguageItemType"
+    } ]
   }, {
     "name" : "homeLanguages",
-    "type" : [ "null", "org.slc.sli.domain.LanguagesType" ]
+    "comment" : "Changed from generated:  Removed intermediary record type",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.LanguageItemType"
+    } ]
   }, {
     "name" : "disabilities",
     "type" : [ "null", {

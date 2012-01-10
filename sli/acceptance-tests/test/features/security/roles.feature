@@ -39,7 +39,6 @@ And I am authenticated on "SEA/LEA IDP"
 When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
 
-@wip
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user "administrator" with password "administrator1234" 
@@ -49,7 +48,6 @@ And "IT Administrator" is allowed to change Student address
 When I make an API call to change the Student address to "1234 Somewhere"
 Then the Student address is changed
  
- @wip
 Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>  
@@ -63,7 +61,6 @@ Examples:
 | "educator" | "educator1234" | "Educator" |
 | "leader"   | "leader1234"   | "Leader"   |
 
-@wip
 Scenario: Unauthorized SLI Default Role trying to view Student object
 
 Given  I am valid SEA/LEA end user "aggregator" with password "aggregator1234" 

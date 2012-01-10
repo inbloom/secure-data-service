@@ -15,10 +15,11 @@
          <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
          <property name="locations">
              <list>
-                 <value>classpath*:data-access/dal/config/${sli.env}/project.properties</value>
-                 
+                 <value>classpath*:/config/${sli.env}/data-access/db.properties</value>
+                 <value>classpath*:/config/${sli.env}/api/security/security.properties</value>
+
                  <!--  override specific properties for testing -->
-                 <value>classpath*:data-access/dal/config/${sli.env}/test.properties</value>
+                 <value>classpath*:/config/${sli.env}/data-access/test.properties</value>
              </list>
          </property>
      </bean>
@@ -33,8 +34,15 @@
 			expression=".*CustomImpl" />
 			<context:exclude-filter type="regex"
 			expression=".*MongoEntityRepository" />
+			<context:exclude-filter type="regex"
+			expression=".*AvroEntityValidator" />
 	</context:component-scan>
 
 
 	<context:annotation-config />
+
+    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect" factory-method="aspectOf">
+        <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
+    </bean>
 </beans>
+

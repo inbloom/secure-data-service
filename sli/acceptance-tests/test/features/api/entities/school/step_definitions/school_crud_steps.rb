@@ -26,7 +26,7 @@ end
 
 Given /^I have access to all schools$/ do
   idpLogin(@user,@passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^"]*)"$/ do |arg1|
@@ -67,6 +67,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
       "nameOfInstitution" => @fullName,
       "shortNameOfInstitution" => @shortName,
       "stateOrganizationId" => "123456778",
+      "gradesOffered" => [ "First_grade", "Second_grade" ],
       "webSite" => @websiteName]
     data = dataH.to_json
   elsif @format == "application/xml"

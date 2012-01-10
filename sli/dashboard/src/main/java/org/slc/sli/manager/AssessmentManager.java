@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class AssessmentManager {
     
-    private static AssessmentManager instance = null;
+    private static AssessmentManager instance = new AssessmentManager();
     private MockAPIClient apiClient;
     
     protected AssessmentManager() {        
@@ -39,9 +39,6 @@ public class AssessmentManager {
     }
 
     public static AssessmentManager getInstance() {
-        if (instance == null) {
-            instance = new AssessmentManager();
-        }
         return instance;
     }
 

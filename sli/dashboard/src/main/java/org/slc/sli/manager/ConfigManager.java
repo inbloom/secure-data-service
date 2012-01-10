@@ -16,15 +16,12 @@ import org.slc.sli.config.ViewConfigSet;
  */
 public class ConfigManager {
     
-    private static ConfigManager instance = null;
+    private static ConfigManager instance = new ConfigManager();
     
     protected ConfigManager() {        
     }
     
     public static ConfigManager getInstance() {
-        if (instance == null) {
-            instance = new ConfigManager();
-        }
         return instance;
     }
     
@@ -42,7 +39,6 @@ public class ConfigManager {
         try {
             userViewConfigSet = ConfigPersistor.getConfigSet(userId);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
                 
@@ -63,13 +59,15 @@ public class ConfigManager {
         
         ViewConfigSet config = getConfigSet(userId);
         
-        if (config == null)
+        if (config == null) {
             return null;
+        }
         
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
-            if (view.getName().equals(viewName))
+            if (view.getName().equals(viewName)) {
                 return view;
+            }
         }
         return null;
     }
@@ -78,23 +76,28 @@ public class ConfigManager {
      * Get the configuration for one particular view, for a user
      * 
      * @param userId
-     * @param viewName
+     * @param type - e.g. studentList, studentProfile, etc.
      * @return ViewConfig
      */
-    public ViewConfig getConfigWithType(String userId, String typeName) {
+    public ViewConfig getConfigWithType(String userId, String type) {
         
         ViewConfigSet config = getConfigSet(userId);
         
+        if (config == null) {
+            return null;
+        }
+        
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
-            if (view.getType().equals(typeName))
+            if (view.getType().equals(type)) {
                 return view;
+            }
         }
         return null;
     }
     
     /**
-     * Merges a hierarchy of config sets into one set
+     * Merges a hierarchy of configuration sets into one set
      * 
      * @param configSets
      * @return ViewConfigSet

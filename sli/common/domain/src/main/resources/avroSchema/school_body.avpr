@@ -2,395 +2,106 @@
   "type" : "record",
   "name" : "School",
   "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.",
   "fields" : [ {
-    "name" : "schoolType",
+    "name" : "id",
     "type" : [ "null", {
-      "type" : "enum",
-      "name" : "SchoolType",
-      "symbols" : [ "ALTERNATIVE", "REGULAR", "SPECIAL_EDUCATION", "VOCATIONAL" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "charterStatus",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "CharterStatusType",
-      "symbols" : [ "SCHOOL_CHARTER", "COLLEGE_UNIVERSITY_CHARTER", "OPEN_ENROLLMENT", "NOT_A_CHARTER_SCHOOL" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "titleIPartASchoolDesignation",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "TitleIPartASchoolDesignationType",
-      "symbols" : [ "NOT_DESIGNATED_AS_A_TITLE_I_PART_A_SCHOOL", "TITLE_I_PART_A_SCHOOLWIDE_ASSISTANCE_PROGRAM_SCHOOL", "TITLE_I_PART_A_TARGETED_ASSISTANCE_SCHOOL", "TITLE_I_TARGETED_ELIGIBLE_SCHOOL_NO_PROGRAM", "TITLE_I_TARGETED_SCHOOL", "TITLE_I_SCHOOL_WIDE_ELIGIBLE_TITLE_I_TARGETED_PROGRAM", "TITLE_I_SCHOOL_WIDE_ELIGIBLE_SCHOOL_NO_PROGRAM" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "magnetSpecialProgramEmphasisSchool",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "MagnetSpecialProgramEmphasisSchoolType",
-      "symbols" : [ "ALL_STUDENTS_PARTICIPATE", "NO_STUDENTS_PARTICIPATE", "SOME_BUT_NOT_ALL_STUDENTS_PARTICIPATE" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "administrativeFundingControl",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "AdministrativeFundingControlType",
-      "symbols" : [ "PUBLIC_SCHOOL", "PRIVATE_SCHOOL", "OTHER" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "localEducationAgencyReference",
-    "type" : [ "null", {
-      "type" : "record",
-      "name" : "EducationalOrgReferenceType",
-      "fields" : [ {
-        "name" : "educationalOrgIdentity",
-        "type" : [ "null", {
-          "type" : "record",
-          "name" : "EducationalOrgIdentityType",
-          "fields" : [ {
-            "name" : "stateOrganizationId",
-            "type" : [ "null", "string" ],
-            "default" : null
-          }, {
-            "name" : "educationOrgIdentificationCode",
-            "type" : [ "null", {
-              "type" : "array",
-              "items" : {
-                "type" : "record",
-                "name" : "EducationOrgIdentificationCode",
-                "fields" : [ {
-                  "name" : "id",
-                  "type" : [ "null", "string" ],
-                  "default" : null
-                }, {
-                  "name" : "identificationSystem",
-                  "type" : [ "null", {
-                    "type" : "enum",
-                    "name" : "EducationOrgIdentificationSystemType",
-                    "symbols" : [ "SCHOOL", "ACT", "LEA", "SEA", "NCES", "FEDERAL", "DUNS", "OTHER_FEDERAL", "OTHER" ]
-                  } ],
-                  "default" : null
-                } ]
-              },
-              "java-class" : "java.util.List"
-            } ],
-            "default" : null
-          } ]
-        } ],
-        "default" : null
-      }, {
-        "name" : "id",
-        "type" : [ "null", "string" ],
-        "default" : null
-      }, {
-        "name" : "ref",
-        "type" : [ "null", {
-          "type" : "record",
-          "name" : "Object",
-          "namespace" : "java.lang",
-          "fields" : [ ]
-        } ],
-        "default" : null
-      } ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "classPeriodReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "ReferenceType",
-        "fields" : [ {
-          "name" : "id",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "ref",
-          "type" : [ "null", "java.lang.Object" ],
-          "default" : null
-        } ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "locationReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "ReferenceType",
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "gradesOffered",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "enum",
-        "name" : "GradeLevelType",
-        "symbols" : [ "ADULT_EDUCATION", "EARLY_EDUCATION", "EIGHTH_GRADE", "ELEVENTH_GRADE", "FIFTH_GRADE", "FIRST_GRADE", "FOURTH_GRADE", "GRADE_13", "INFANT_TODDLER", "KINDERGARTEN", "NINTH_GRADE", "OTHER", "POSTSECONDARY", "PRESCHOOL_PREKINDERGARTEN", "SECOND_GRADE", "SEVENTH_GRADE", "SIXTH_GRADE", "TENTH_GRADE", "THIRD_GRADE", "TRANSITIONAL_KINDERGARTEN", "TWELFTH_GRADE", "UNGRADED" ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "schoolCategories",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "enum",
-        "name" : "SchoolCategoryItemType",
-        "symbols" : [ "ELEMENTARY_SCHOOL", "HIGH_SCHOOL", "MIDDLE_SCHOOL", "JUNIOR_HIGH_SCHOOL", "SECONDARY_SCHOOL", "UNGRADED", "ADULT_SCHOOL", "INFANT_TODDLER_SCHOOL", "PRESCHOOL_EARLY_CHILDHOOD", "PRIMARY_SCHOOL", "INTERMEDIATE_SCHOOL" ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
   }, {
     "name" : "stateOrganizationId",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
   }, {
     "name" : "educationOrgIdentificationCode",
     "type" : [ "null", {
       "type" : "array",
-      "items" : "EducationOrgIdentificationCode",
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
+      "items" : "org.slc.sli.domain.EducationOrgIdentificationCode"
+    } ]
   }, {
     "name" : "nameOfInstitution",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "doc" : "The full, legally accepted name of the institution.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
   }, {
     "name" : "shortNameOfInstitution",
-    "type" : [ "null", "string" ],
-    "default" : null
-  }, {
-    "name" : "address",
+    "doc" : "The full, legally accepted name of the institution.",
     "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "Address",
-        "fields" : [ {
-          "name" : "streetNumberName",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "apartmentRoomSuiteNumber",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "buildingSiteNumber",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "city",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "stateAbbreviation",
-          "type" : [ "null", {
-            "type" : "enum",
-            "name" : "StateAbbreviationType",
-            "symbols" : [ "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
-          } ],
-          "default" : null
-        }, {
-          "name" : "postalCode",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "nameOfCounty",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "countyFIPSCode",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "countryCode",
-          "type" : [ "null", {
-            "type" : "enum",
-            "name" : "CountryCodeType",
-            "symbols" : [ "AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "ES", "LK", "SD", "SR", "SJ", "SZ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW" ]
-          } ],
-          "default" : null
-        }, {
-          "name" : "latitude",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "longitude",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "beginDate",
-          "type" : [ "null", {
-            "type" : "record",
-            "name" : "Calendar",
-            "namespace" : "java.util",
-            "fields" : [ ]
-          } ],
-          "default" : null
-        }, {
-          "name" : "endDate",
-          "type" : [ "null", "java.util.Calendar" ],
-          "default" : null
-        }, {
-          "name" : "addressType",
-          "type" : [ "null", {
-            "type" : "enum",
-            "name" : "AddressType",
-            "symbols" : [ "HOME", "PHYSICAL", "BILLING", "MAILING", "OTHER", "TEMPORARY", "WORK" ]
-          } ],
-          "default" : null
-        } ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "telephone",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "InstitutionTelephone",
-        "fields" : [ {
-          "name" : "telephoneNumber",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "institutionTelephoneNumberType",
-          "type" : [ "null", {
-            "type" : "enum",
-            "name" : "InstitutionTelephoneNumberType",
-            "symbols" : [ "MAIN", "ADMINISTRATIVE", "HEALTH_CLINIC", "ATTENDANCE", "OTHER", "FAX" ]
-          } ],
-          "default" : null
-        } ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "webSite",
-    "type" : [ "null", "string" ],
-    "default" : null
-  }, {
-    "name" : "operationalStatus",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "OperationalStatusType",
-      "symbols" : [ "ACTIVE", "ADDED", "CHANGED_AGENCY", "CLOSED", "CONTINUING", "FUTURE", "INACTIVE", "NEW", "REOPENED" ]
-    } ],
-    "default" : null
-  }, {
-    "name" : "accountabilityRatings",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "AccountabilityRating",
-        "fields" : [ {
-          "name" : "ratingTitle",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "rating",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "ratingDate",
-          "type" : [ "null", "java.util.Calendar" ],
-          "default" : null
-        }, {
-          "name" : "schoolYear",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "ratingOrganization",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "ratingProgram",
-          "type" : [ "null", "string" ],
-          "default" : null
-        } ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "programReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "ProgramReferenceType",
-        "fields" : [ {
-          "name" : "programIdentity",
-          "type" : [ "null", {
-            "type" : "record",
-            "name" : "ProgramIdentityType",
-            "fields" : [ {
-              "name" : "programId",
-              "type" : [ "null", "string" ],
-              "default" : null
-            }, {
-              "name" : "programType",
-              "type" : [ "null", {
-                "type" : "enum",
-                "name" : "ProgramType",
-                "symbols" : [ "ADULT_CONTINUING_EDUCATION", "ALTERNATIVE_EDUCATION", "ATHLETICS", "BILINGUAL", "CAREER_AND_TECHNICAL_EDUCATION", "COCURRICULAR_PROGRAMS", "COLLEGE_PREPARATORY", "COMMUNITY_SERVICE_PROGRAM", "COMMUNITY_JUNIOR_COLLEGE_EDUCATION_PROGRAM", "COMPENSATORY_SERVICES_FOR_DISADVANTAGED_STUDENTS", "COUNSELING_SERVICES", "ENGLISH_AS_A_SECOND_LANGUAGE_ESL", "EVEN_START", "EXTENDED_DAY_CHILD_CARE_SERVICES", "GIFTED_AND_TALENTED", "HEAD_START", "HEALTH_SERVICES_PROGRAM", "HIGH_SCHOOL_EQUIVALENCY_PROGRAM_HSEP", "IDEA", "IMMIGRANT_EDUCATION", "INDIAN_EDUCATION", "INTERNATIONAL_BACCALAUREATE", "LIBRARY_MEDIA_SERVICES_PROGRAM", "MAGNET_SPECIAL_PROGRAM_EMPHASIS", "MIGRANT_EDUCATION", "NEGLECTED_AND_DELINQUENT_PROGRAM", "OPTIONAL_FLEXIBLE_SCHOOL_DAY_PROGRAM_OFSDP", "OTHER", "REGULAR_EDUCATION", "REMEDIAL_EDUCATION", "SECTION_504_PLACEMENT", "SERVICE_LEARNING", "SPECIAL_EDUCATION", "STUDENT_RETENTION_DROPOUT_PREVENTION", "SUBSTANCE_ABUSE_EDUCATION_PREVENTION", "TEACHER_PROFESSIONAL_DEVELOPMENT_MENTORING", "TECHNICAL_PREPARATORY", "TITLE_I_PART_A", "VOCATIONAL_EDUCATION" ]
-              } ],
-              "default" : null
-            } ]
-          } ],
-          "default" : null
-        }, {
-          "name" : "id",
-          "type" : [ "null", "string" ],
-          "default" : null
-        }, {
-          "name" : "ref",
-          "type" : [ "null", "java.lang.Object" ],
-          "default" : null
-        } ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
-  }, {
-    "name" : "educationOrganizationPeerReference",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "EducationalOrgReferenceType",
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
   }, {
     "name" : "organizationCategories",
     "type" : [ "null", {
       "type" : "array",
-      "items" : {
-        "type" : "enum",
-        "name" : "EducationOrganizationCategoryType",
-        "symbols" : [ "STATE_EDUCATION_AGENCY", "EDUCATION_SERVICE_CENTER", "LOCAL_EDUCATION_AGENCY", "SCHOOL" ]
-      },
-      "java-class" : "java.util.List"
-    } ],
-    "default" : null
+      "items" : "org.slc.sli.domain.enum.EducationOrganizationCategoryType"
+    } ]
   }, {
-    "name" : "id",
-    "type" : [ "null", "string" ],
-    "default" : null
+    "name" : "address",
+    "type" : [ "null" , {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.Address"
+    } ]
+  }, {
+    "name" : "telephone",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.InstitutionTelephone"
+    } ]
+  }, {
+    "name" : "webSite",
+    "doc" : "The public web site address (URL) for the educational organization.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "80",
+      "min-length" : "5"
+    } ]
+  }, {
+    "name" : "operationalStatus",
+    "type" : [ "null", "org.slc.sli.domain.enum.OperationalStatusType" ]
+  }, {
+    "name" : "accountabilityRatings",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.AccountabilityRating"
+    } ]
+  }, {
+    "name" : "gradesOffered",
+    "doc" : "The enumerated collection for specifying one or more grade levels.",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.GradeLevelType"
+    }
+  }, {
+    "name" : "schoolCategories",
+    "doc" : "The one or more categories of school. For example: High School, Middle School, and/or Elementary School.",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.SchoolCategoryItemType"
+    } ]
+  }, {
+    "name" : "schoolType",
+    "type" : [ "null", "org.slc.sli.domain.enum.SchoolType" ]
+  }, {
+    "name" : "charterStatus",
+    "type" : [ "null", "org.slc.sli.domain.enum.CharterStatusType" ]
+  }, {
+    "name" : "titleIPartASchoolDesignation",
+    "type" : [ "null", "org.slc.sli.domain.enum.TitleIPartASchoolDesignationType" ]
+  }, {
+    "name" : "magnetSpecialProgramEmphasisSchool",
+    "type" : [ "null", "org.slc.sli.domain.enum.MagnetSpecialProgramEmphasisSchoolType" ]
+  }, {
+    "name" : "administrativeFundingControl",
+    "type" : [ "null", "org.slc.sli.domain.enum.AdministrativeFundingControlType" ]
   } ]
 }

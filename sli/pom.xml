@@ -74,24 +74,24 @@
 
   </properties>
 
-  <!-- 
-       Environment profiles.  
-       
+  <!--
+       Environment profiles.
+
        A profile encapsulates a set of properties and filters for a particular build configuration.
-       
+
        Per profile properties and filters can be set at an individual project basis to specify
-       variables used within that environment.  For example, specifying different database 
-       connection strings for 'local' and 'ci' builds.  
-       
-       From the command line, add the -P and specify the profile name you want to use.  
-       
-       If no profile is specified, the 'sli.env' value specified in the above properties section 
-       is used by default. 
-       
-       Note that this POM only defines what the profile name is and the 'sli.env' value for that profile.  
-       It is up to individual projects to identify resources required per profile. 
+       variables used within that environment.  For example, specifying different database
+       connection strings for 'local' and 'ci' builds.
+
+       From the command line, add the -P and specify the profile name you want to use.
+
+       If no profile is specified, the 'sli.env' value specified in the above properties section
+       is used by default.
+
+       Note that this POM only defines what the profile name is and the 'sli.env' value for that profile.
+       It is up to individual projects to identify resources required per profile.
   -->
-  <profiles>  
+  <profiles>
       <!-- A local dev profile -->
       <profile>
           <id>local</id>
@@ -111,7 +111,7 @@
              <sli.env>dev</sli.env>
           </properties>
      </profile>
-      
+
       <!-- Profile to use during continuous integration -->
       <profile>
           <id>ci</id>
@@ -121,7 +121,7 @@
       </profile>
 
       <!-- Add additional profiles here. For example: integration, production, multishard, ... -->
-  </profiles>    
+  </profiles>
 
   <modules>
     <module>sli-configuration</module>
@@ -132,6 +132,7 @@
     <module>dashboard</module>
     <module>admin</module>
     <module>disco</module>
+	<module>acceptance-tests</module>
   </modules>
 
   <dependencyManagement>
@@ -143,7 +144,7 @@
       	<artifactId>sli-configuration</artifactId>
       	<version>${project.version}</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.slc.sli.common</groupId>
         <artifactId>common</artifactId>
@@ -199,7 +200,7 @@
         <artifactId>ingestion</artifactId>
         <version>${project.version}</version>
       </dependency>
-            
+
       <dependency>
         <groupId>org.slc.sli.admin</groupId>
         <artifactId>admin</artifactId>
@@ -714,7 +715,7 @@
 
     <pluginManagement>
       <plugins>
-      
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -792,6 +793,11 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0-beta-3</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -901,7 +907,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 	  <xmlOutput>true</xmlOutput>
 	</configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -913,7 +919,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           </dependency>
         </dependencies>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -922,10 +928,10 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           <systemPropertyVariables>
             <emma.rt.control>false</emma.rt.control>
             <sli.env>${sli.env}</sli.env>
-          </systemPropertyVariables>          
+          </systemPropertyVariables>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
 	<artifactId>maven-jetty-plugin</artifactId>
@@ -936,8 +942,46 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
           </systemPropertyVariables>
         </configuration>
       </plugin>
+
+      <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-site-plugin</artifactId>
+	      <configuration>
+	        <reportPlugins>
+	          <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-project-info-reports-plugin</artifactId>
+		        <version>2.4</version>
+	            <reports>
+	              <report>dependencies</report>
+	              <report>dependency-management</report>
+	              <report>dependency-convergence</report>
+	              <report>project-team</report>
+	              <report>mailing-list</report>
+	              <report>cim</report>
+	              <report>issue-tracking</report>
+	              <report>license</report>
+	              <report>index</report>
+	              <report>summary</report>
+	              <report>plugins</report>
+	              <report>plugin-management</report>
+	            </reports>
+	          </plugin>
+	        </reportPlugins>
+	      </configuration>
+	      <!-- uncomment this execution block if you want to generate the site reports in conjunction with the regular build -->
+		  <!--executions>
+		    <execution>
+		      <id>site</id>
+		      <phase>compile</phase>
+		      <goals>
+		        <goal>stage</goal>
+		      </goals>
+		    </execution>
+		  </executions-->
+      </plugin>
     </plugins>
-    
+
   </build>
 
   <repositories>
@@ -970,6 +1014,10 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
       <name>SLI Repository</name>
       <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
     </snapshotRepository>
+    <site>
+    	<id>site</id>
+    	<name>SLI Site</name>
+    	<url>stage</url>
+    </site>
   </distributionManagement>
-
 </project>

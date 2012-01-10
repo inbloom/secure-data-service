@@ -1,7 +1,5 @@
 package org.slc.sli.api.security.roles;
 
-
-
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -10,11 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.security.enums.Rights;
+import org.slc.sli.api.resources.SecurityContextInjection;
+import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,11 +40,22 @@ public class RolesAndPermissionsResourceTest {
     private Map<String, Object> createTestRole() {
         Map<String, Object> role = new HashMap<String, Object>();
         List<String> permissions = new ArrayList<String>();
-        permissions.add(Rights.READ_RESTRICTED.getRight());
-        permissions.add(Rights.WRITE_RESTRICTED.getRight());
+        permissions.add(Right.READ_RESTRICTED.getRight());
+        permissions.add(Right.WRITE_RESTRICTED.getRight());
         role.put("name", "Role1");
         role.put("rights", permissions);
         return role;
+    }
+    
+    @Before
+    public void setUp() {
+        // inject administrator security context for unit testing
+        SecurityContextInjection.setAdminContext();
+    }
+    
+    @After
+    public void tearDown() {
+        SecurityContextHolder.clearContext();
     }
 
     @Test

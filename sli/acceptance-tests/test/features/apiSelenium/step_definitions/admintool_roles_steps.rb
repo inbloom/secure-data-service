@@ -7,9 +7,8 @@ Given /^I am not authenticated to SLI IDP$/ do
 end
 
 When /^I navigate to the SLI Default Roles Admin Page$/ do
-  url = "http://"+PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
   @driver.get url
-  assert(@driver.current_url == url, "Failed to navigate to "+url)
 end
 
 Then /^I should be redirected to the Realm page$/ do
@@ -25,12 +24,12 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  assert(@driver.current_url.index("/admin/roles") != nil, "Failed to navigate to the Admintools Role page")
+  assert(@driver.title.index("SLI Default Roles") != nil, "Failed to navigate to the Admintools Role page")
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do
+  url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
   @driver.get url
-  assert(@driver.current_url == url, "Failed to navigate to "+url)
 end
 
 Given /^I was redirected to the Realm page$/ do
@@ -38,7 +37,11 @@ Given /^I was redirected to the Realm page$/ do
 end
 
 Given /^I choose my realm$/ do
-  @driver.find_element(:id, "3").click
+  dropdownbox = @driver.find_element(:name, "realmId")
+  dropdownbox.click
+  dropdownbox.find_elements(:tag_name => "option").find do |option|
+    option.text == "Shared Learning Initiative"
+  end.click
   @driver.find_element(:id, "go").click
 end
 
@@ -66,8 +69,8 @@ When /^I click the Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
 end
 
-Then /^I am authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I am now authenticated to SLI IDP$/ do
+  #No code needed, this is tested implicitly by accessing the admin roles page
 end
 
 Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
@@ -90,7 +93,7 @@ When /^I click on the Logout link$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I am not authenticated to SLI IDP$/ do
+Then /^I am no longer authenticated to SLI IDP$/ do
   pending # express the regexp above with the code you wish you had
 end
 
@@ -98,8 +101,7 @@ When /^I click on the Default SLI Roles and Permissions URL$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^the browser opens the confluence Default SLI Roles and Permissions page i
-n a new browser window$/ do
+Then /^the browser opens the confluence Default SLI Roles and Permissions page in a new browser window$/ do
   pending # express the regexp above with the code you wish you had
 end
 

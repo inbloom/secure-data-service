@@ -3,6 +3,10 @@ Given /^I have an open web browser$/ do
   @driver = Selenium::WebDriver.for :firefox
 end
 
+When /^I wait for "([^"]*)" seconds$/ do |secs|
+  sleep(Integer(secs))
+end
+
 After do |scenario|
   @driver.quit if @driver
 end
@@ -23,7 +27,7 @@ def localLogin (username, password)
   end
   baseUrl = "http://"+PropLoader.getProps['dashboard_server_address']+ 
           PropLoader.getProps['dashboard_app_prefix'] 
-  url = baseUrl + PropLoader.getProps['dashboard_login_page']
+  url = baseUrl + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
@@ -38,7 +42,7 @@ def localLogin (username, password)
   putTextToField(username, "j_username", "name")
   putTextToField(password, "j_password", "name")
   clickButton("submit", "name")
-  url = baseUrl + "/appselector"
+  # url = baseUrl + "/appselector"
   assert(@driver.current_url.start_with?(url),  "Failed to navigate to "+url)
 end
 
@@ -80,4 +84,32 @@ def selectOption(selectFieldId, optionToSelect)
     end
   end  
   assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
+end
+
+# TODO: add this paramteres (tableRef, by), also may want to add TR class
+def countTableRows()
+  tableRows = @driver.find_elements(:css, "tr.listRow")
+  puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
+  return tableRows.length
+end
+
+def listContains(desiredContent)
+  result = false
+
+  desiredContentArray = desiredContent.split(";")
+  # Find all student names based on their class attribute
+  studentNames = @driver.find_elements(:xpath, "//td[@class='studentInfo.name']")
+  puts "num of studs = "+ studentNames.length.to_s
+  
+  nonFoundItems = desiredContentArray.length
+  
+  desiredContentArray.each do |searchValue|
+    studentNames.each do |student|
+      if student.attribute("innerHTML").to_s.include?(searchValue)
+        puts "Found desired item '" + searchValue + "'"
+        nonFoundItems -= 1
+      end
+    end
+  end
+  return nonFoundItems == 0
 end

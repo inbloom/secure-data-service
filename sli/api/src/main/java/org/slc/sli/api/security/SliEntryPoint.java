@@ -27,7 +27,7 @@ public class SliEntryPoint implements AuthenticationEntryPoint {
     private static final Logger LOG = LoggerFactory.getLogger(SliEntryPoint.class);
     
     @Autowired
-    @Value("${security.noSession.landing.url}")
+    @Value("${sli.security.noSession.landing.url}")
     private String realmSelectionUrl;
     
     /**

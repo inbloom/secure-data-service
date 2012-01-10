@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     @Autowired
     private EntityRepository defaultRepo;
     
+    @Autowired
+    private EntityValidator validator;
+    
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
         return mapping.get(resourceName);
@@ -44,41 +48,59 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         EntityDefinition.setDefaultRepo(defaultRepo);
         EntityDefinition.addGlobalTreatment(new IdTreatment());
-        EntityDefinition section = EntityDefinition.makeEntity("section").exposeAs("sections").build();
+        EntityDefinition section = EntityDefinition.makeEntity("section", validator).exposeAs("sections").build();
         addDefinition(section);
-        EntityDefinition student = EntityDefinition.makeEntity("student").exposeAs("students").build();
+        EntityDefinition student = EntityDefinition.makeEntity("student", validator).exposeAs("students").build();
         addDefinition(student);
-        EntityDefinition school = EntityDefinition.makeEntity("school").exposeAs("schools").build();
+        EntityDefinition school = EntityDefinition.makeEntity("school", validator).exposeAs("schools").build();
         addDefinition(school);
-        EntityDefinition assessment = EntityDefinition.makeEntity("assessment").exposeAs("assessments").build();
+        EntityDefinition assessment = EntityDefinition.makeEntity("assessment", validator).exposeAs("assessments")
+                .build();
         addDefinition(assessment);
-
-        AssociationDefinition studentSchoolAssociation = AssociationDefinition.makeAssoc("studentSchoolAssociation")
-                .exposeAs("student-school-associations").storeAs("studentschoolassociation")
-                .from(student, "getStudent", "getStudentsEnrolled").to(school, "getSchool", "getSchoolsAttended")
-                .calledFromSource("getStudentEnrollments").calledFromTarget("getSchoolEnrollments").build();
+        
+        AssociationDefinition studentSchoolAssociation = AssociationDefinition
+                .makeAssoc("studentSchoolAssociation", validator).exposeAs("student-school-associations")
+                .storeAs("studentschoolassociation").from(student, "getStudent", "getStudentsEnrolled")
+                .to(school, "getSchool", "getSchoolsAttended").calledFromSource("getStudentEnrollments")
+                .calledFromTarget("getSchoolEnrollments").build();
         addAssocDefinition(studentSchoolAssociation);
         
-        EntityDefinition teacher = EntityDefinition.makeEntity("teacher").exposeAs("teachers").build();
+        EntityDefinition teacher = EntityDefinition.makeEntity("teacher", validator).exposeAs("teachers").build();
         addDefinition(teacher);
         
-        AssociationDefinition teacherSchoolAssociation = AssociationDefinition.makeAssoc("teacherSectionAssociation")
-                .exposeAs("teacher-section-associations").storeAs("teachersectionassociation")
+        AssociationDefinition teacherSectionAssociation = AssociationDefinition
+                .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
+                .storeAs("teachersectionassociation")
                 .from(teacher, "getTeacher", "getSectionsAssigned").to(section, "getSection", "getTeachersAssigned")
                 .calledFromSource("getSectionsAssigned").calledFromTarget("getTeachersAssigned").build();
+        addAssocDefinition(teacherSectionAssociation);
+
+        AssociationDefinition studentAssessmentAssociation = AssociationDefinition
+                .makeAssoc("studentAssessmentAssociation", validator).exposeAs("student-assessment-associations")
+                .storeAs("studentassessmentassociation").from(student, "getStudent", "getAssessmentsAssigned")
+                .to(assessment, "getAssessment", "getStudentsAssigned")
+                .calledFromSource("getStudentAssessmentAssociations")
+                .calledFromTarget("getStudentAssessmentAssociations").build();
+        addAssocDefinition(studentAssessmentAssociation);
+        
+        AssociationDefinition studentSectionAssociation = AssociationDefinition
+                .makeAssoc("studentSectionAssociation", validator).exposeAs("student-section-associations")
+                .storeAs("studentsectionassociation").from(student, "getStudent", "getSectionsAssigned")
+                .to(section, "getSection", "getStudentsAssigned").calledFromSource("getSectionsAssigned")
+                .calledFromTarget("getStudentsAssigned").build();
+        addAssocDefinition(studentSectionAssociation);
+        
+        AssociationDefinition teacherSchoolAssociation = AssociationDefinition
+                .makeAssoc("teacherSchoolAssociation", validator).exposeAs("teacher-school-associations")
+                .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getSchoolsAssigned")
+                .to(school, "getSchool", "getTeachersAssigned").calledFromSource("getSchoolsAssigned")
+                .calledFromTarget("getTeachersAssigned").build();
         addAssocDefinition(teacherSchoolAssociation);
         
-        AssociationDefinition studentAssessmentAssociation = AssociationDefinition
-                .makeAssoc("studentAssessmentAssociation").exposeAs("student-assessment-associations")
-                .storeAs("studentassessmentassociation").from(student, "getStudent", "getAssessmentsAssigned")
-                .to(assessment, "getAssessment", "getStudnetsAssigned").calledFromSource("getAssessmentsAssigned")
-                .calledFromTarget("getStudentsAssigned").build();
-        addAssocDefinition(studentAssessmentAssociation);
-
         // Adding the security collection
-        EntityDefinition roles = EntityDefinition.makeEntity("roles").storeAs("roles").build();
+        EntityDefinition roles = EntityDefinition.makeEntity("roles", validator).storeAs("roles").build();
         addDefinition(roles);
-        addDefinition(EntityDefinition.makeEntity("realm").build());
+        addDefinition(EntityDefinition.makeEntity("realm", validator).build());
     }
     
     private void add(EntityDefinition defn) {

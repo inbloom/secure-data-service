@@ -3,13 +3,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Admin - Roles</title>
+<title>SLI Default Roles - Admin Page</title>
 </head>
 <body>
+	<div style="float:right">
+		Welcome ${USER_NAME} | <a href="/logout">Logout</a>
+	</div>
 	
+	<h1>SLI Admin Tool - Default Roles and Permissions</h1>
 	<table border="1">
       <tr>
-      	<th>Name</th>
+      	<th>SLI Role</th>
       	<th>Aggregate</th>
       	<th>Individual Record Data</th>
       	<th>General Student Data</th>
@@ -32,5 +36,6 @@
         </tr>
       </c:forEach>
     </table>
+    <p>More info on <a href="https://thesli.onconfluence.com/display/sli/SLI+User+Role+and+Permission+Management">Default SLI Roles and Permissions</a></p>
 </body>
 </html>

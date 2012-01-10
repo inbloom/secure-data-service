@@ -25,7 +25,7 @@ public class TimedLogic {
         Collections.sort(a, new Comparator<Assessment>() {
             // this should probably get more precise if we actually have an actual timestamp!
             public int compare(Assessment o1, Assessment o2) {
-                return o1.getYear() - o2.getYear();  
+                return o2.getYear() - o1.getYear();  
             }
         });
         return a.get(0);
@@ -37,7 +37,7 @@ public class TimedLogic {
     public static Assessment getHighestEverAssessment(List<Assessment> a) {
         Collections.sort(a, new Comparator<Assessment>() {
             public int compare(Assessment o1, Assessment o2) {
-                return o1.getScaleScore() - o2.getScaleScore();
+                return o2.getScaleScore() - o1.getScaleScore();
             }
         });
         return a.get(0);

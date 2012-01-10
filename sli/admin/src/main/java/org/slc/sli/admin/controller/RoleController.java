@@ -45,7 +45,8 @@ public class RoleController extends AdminController {
             Map<String, Object> roleData = new HashMap<String, Object>();
             
             // Name
-            roleData.put("name", jsonRole.get("name").getAsString());
+            String role = jsonRole.get("name").getAsString();
+            roleData.put("name", role);
             
             // Aggregate
             @SuppressWarnings("unchecked")
@@ -54,7 +55,7 @@ public class RoleController extends AdminController {
             roleData.put("aggregate", rights.contains("AGGREGATE_READ"));
             
             // Individual
-            roleData.put("individual", "");   // TODO: Not currently set in data
+            roleData.put("individual", getIndividual(role));
             
             // General student data
             String generalRight = null;
@@ -64,6 +65,8 @@ public class RoleController extends AdminController {
                 generalRight = "R";
             else if (rights.contains("WRITE_GENERAL"))
                 generalRight = "W"; // This possible?
+            else
+                generalRight = "None";
             roleData.put("general", generalRight);
             
             // Restricted student data
@@ -74,6 +77,8 @@ public class RoleController extends AdminController {
                 restrictedRight = "R";
             else if (rights.contains("WRITE_RESTRICTED"))
                 restrictedRight = "W"; // This possible?
+            else 
+                restrictedRight = "None";
             roleData.put("restricted", restrictedRight);
             
             roleList.add(roleData);
@@ -81,6 +86,19 @@ public class RoleController extends AdminController {
         
         view.addObject("roleJsonData", roleList);
         return view;
+    }
+    
+    private String getIndividual(String role) {
+        if (role.equalsIgnoreCase("Educator")) {
+            return "student enrolled in my sections";
+        } else if (role.equalsIgnoreCase("Leader")) {
+            return "student enrolled in my district(s) or school(s)";
+        } else if (role.equalsIgnoreCase("Aggregate Viewer")) {
+            return "None";
+        } else {
+            return "student enrolled in my district(s) or school(s)";
+        }
+        
     }
     
 }

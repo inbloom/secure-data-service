@@ -23,13 +23,21 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-test</artifactId>
+         <scope>test</scope>
+      </dependency>
 		<!-- Spring Web MVC dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-jaxrs</artifactId>
+    </dependency>	
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

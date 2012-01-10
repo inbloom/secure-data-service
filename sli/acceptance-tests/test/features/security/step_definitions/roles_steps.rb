@@ -16,7 +16,7 @@ end
 
 Given /^I am authenticated on "([^"]*)"$/ do |arg1|
   idpLogin(@user, @passwd)
-  assert(@cookie != nil, "Cookie retrieved was nil")
+  assert(@sessionId != nil, "Session returned was nil")
 end
 
 When /^I make a REST API call$/ do
@@ -50,8 +50,10 @@ When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
   
   dataH = JSON.parse(@res.body)
   assert(dataH != nil, "Result of JSON parsing is nil")
-  dataH['address'] = [Hash["streetNumberName" => arg1]]
-  dataH['address' => [Hash["streetNumberName" => arg1]]]
+  dataH['address'] = [Hash["streetNumberName" => arg1,
+                           "city" => "Urbania",
+                           "stateAbbreviation" => "NC",
+                           "postalCode" => "12345"]]
   data = dataH.to_json
 
   restHttpPut(student_uri, data, "application/json")
@@ -108,7 +110,11 @@ end
 
 Then /^the Student restricted fields are visible in the response$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  pending # express the regexp above with the code you wish you had
+
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['economicDisadvantaged'] != nil, "Expected restricted student fields were nil in response")
+  assert(result['economicDisadvantaged'] != "", "Expected restricted student fields were blank in response")
 end
 
 Given /^"([^"]*)" is not allowed to view restricted Student fields$/ do |arg1|
@@ -117,5 +123,8 @@ end
 
 Then /^the Student restricted fields are not visible in the response$/ do
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  pending # express the regexp above with the code you wish you had
+
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['economicDisadvantaged'] == nil, "Expected no restriced student fields, but saw them in response")
 end
