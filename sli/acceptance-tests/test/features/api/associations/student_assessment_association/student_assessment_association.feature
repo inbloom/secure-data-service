@@ -33,6 +33,7 @@ Given format "application/json"
 When I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
 Then I should receive a return code of 200
 	And I should receive 1 student-assessment-associations
+    And I should receive a link named "self" with URI /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
 	And I should receive a link named "getStudents" with URI /students/<'Jane Doe' ID>
 	And I should receive a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
 	And the "administrationDate" should be "2011-09-15"

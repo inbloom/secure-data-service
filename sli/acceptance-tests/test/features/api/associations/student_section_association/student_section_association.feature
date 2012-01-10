@@ -35,7 +35,7 @@ Scenario Outline: Read a student-section-association
 		And I should receive 1 student-section-associations
 		And I should receive a link named "getStudent" with URI /students/<'Albert Wright' ID>
 		And I should receive a link named "getSection" with URI /sections/<'Foreign Language - A' ID>
-        And I should receive a link named "self" with URI /student-section-association/<'self' ID>
+        And I should receive a link named "self" with URI /student-section-associations/<'self' ID>
 		And the "beginDate" should be "2011-09-15"
 		And the "endDate" should be "2011-12-15"
 		And the "repeatIdentifier" should be "Repeated_counted_in_grade_point_average"
