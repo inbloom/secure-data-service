@@ -3,6 +3,7 @@ package org.slc.sli.dal.repository;
 import java.util.Map;
 
 import org.slc.sli.domain.Entity;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Define the entity repository interface that provides basic CRUD and field
@@ -44,7 +45,7 @@ public interface EntityRepository {
     public Iterable<Entity> findAll(String entityType);
     
     /**
-     * @param collection 
+     * @param collection
      *            the collection the entity is in
      * @param entity
      *            the entity that will be updated
@@ -53,7 +54,7 @@ public interface EntityRepository {
     
     /**
      * Create an entry with the collection set to the type name
-     *
+     * 
      * @param type
      *            the type of entity to be persisted
      * @param body
@@ -80,14 +81,14 @@ public interface EntityRepository {
      * @param id
      *            the global unique id of the entity
      */
-    void delete(String entityType, String id);
+    public void delete(String entityType, String id);
     
     /**
      * @param entityType
      *            the entity type need to be deleted, can be entity type for
      *            core entity or association entity
      */
-    void deleteAll(String entityType);
+    public void deleteAll(String entityType);
     
     /**
      * @param entityType
@@ -102,7 +103,7 @@ public interface EntityRepository {
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max);
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max);
     
     /**
      * @param entityType
@@ -113,6 +114,39 @@ public interface EntityRepository {
      *            criteria for example: new HashMap().put("firstName","Jane")
      * @return the collection of entities
      */
-    Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
+    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
     
+    /**
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
+     *            core entity or association entity
+     * @param queryString
+     *            the query string to filter returned collection results
+     * @param skip
+     *            the beginning index of the entity that will be returned
+     * @param max
+     *            the max number of entities that will be returned
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max);
+    
+    /**
+     * @param entityType
+     *            the entity type need to be retrieved, can be entity type for
+     *            core entity or association entity
+     * @param query
+     *            the query to filter returned collection results
+     * @param skip
+     *            the beginning index of the entity that will be returned
+     * @param max
+     *            the max number of entities that will be returned
+     * 
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max);
+
+    public boolean matchQuery(String entityType, String id, String queryString);
+    
+    public boolean matchQuery(String entityType, String id, Query query);
+
 }

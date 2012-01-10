@@ -2,7 +2,7 @@ package org.slc.sli.manager;
 
 import org.slc.sli.entity.Student;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.DataSet;
+import org.slc.sli.config.Field;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.client.MockAPIClient;
 
@@ -31,14 +31,13 @@ public class StudentManager {
     
     public List<Student> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
-        // extract the studentInfo data set configs
-        List<DataSet> dataSets = ConfigUtil.getDataSets(config, "studentInfo");
+        // extract the studentInfo data fields
+        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
         
         // call the api
-        // TODO: mock/real api switch
-        // TODO: do we need more logic to grab the correct data sets and fields? right now, not using info in DataSet.
+        // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
-        if (dataSets.size() > 0) {
+        if (dataFields.size() > 0) {
             MockAPIClient apiClient = new MockAPIClient();
             studentInfo.addAll(Arrays.asList(apiClient.getStudents(username, studentIds)));
         }

@@ -6,16 +6,16 @@ import java.util.List;
 
 /**
  * A simple enum that describes the default roles in terms of their rights.
- * 
+ * <p/>
  * Also has a few utility functions to see if a role contains a right.
  */
 public enum DefaultRoles {
-    EDUCATOR("Educator", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL }), LEADER("Leader", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }), AGGREGATOR("Aggregate Viewer",
-            new Right[] { Right.AGGREGATE_READ }), ADMINISTRATOR("IT Administrator", new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }), NONE("None",
-            new Right[] {});
-    private final String   name;
+    EDUCATOR("Educator", new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL}), LEADER("Leader", new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED}), AGGREGATOR("Aggregate Viewer",
+            new Right[]{Right.AGGREGATE_READ}), ADMINISTRATOR("IT Administrator", new Right[]{Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED}), NONE("None",
+            new Right[]{});
+    private final String name;
     private final Right[] rights;
-    
+
     public String getRoleName() {
         return name;
     }
@@ -52,7 +52,7 @@ public enum DefaultRoles {
 
     public static DefaultRoles find(String roleName) {
         for (DefaultRoles role : DefaultRoles.values()) {
-            if (role.getSpringRoleName().equals(roleName)) {
+            if (role.getRoleName().equals(roleName)) {
                 return role;
             }
         }

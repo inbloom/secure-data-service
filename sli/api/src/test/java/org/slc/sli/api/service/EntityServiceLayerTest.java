@@ -243,19 +243,33 @@ public class EntityServiceLayerTest {
         assertEquals(retrievedAssoc4.get("startDate"), assoc4.get("startDate"));
         assertEquals(Arrays.asList(retrievedAssoc1, retrievedAssoc2, retrievedAssoc3, retrievedAssoc4),
                 studentSchoolAssociationService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociatedWith(id1, 0, 4, null));
-        assertEquals(Arrays.asList(assocId2), studentSchoolAssociationService.getAssociatedWith(id2, 0, 4, null));
-        assertEquals(Arrays.asList(assocId3), studentSchoolAssociationService.getAssociatedWith(id3, 0, 4, null));
-        assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociatedWith(id4, 0, 4, null));
+        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, null));
+        assertEquals(Arrays.asList(assocId2), studentSchoolAssociationService.getAssociationsWith(id2, 0, 4, null));
+        assertEquals(Arrays.asList(assocId3), studentSchoolAssociationService.getAssociationsWith(id3, 0, 4, null));
+        assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociationsWith(id4, 0, 4, null));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
-                studentSchoolAssociationService.getAssociatedTo(schoolId, 0, 4, null));
+                studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null));
 
         // test query fields
-        Map<String, String> queryFields = new HashMap<String, String>();
-        queryFields.put("entryGradeLevel", "First grade");
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociatedWith(id1, 0, 4, queryFields));
-        queryFields.put("entryGradeLevel", "Second grade");
-        assertFalse(studentSchoolAssociationService.getAssociatedWith(id1, 0, 4, queryFields).iterator().hasNext());
+        assertEquals(Arrays.asList(assocId1),
+                studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=First grade"));
+        assertFalse(studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=Second grade")
+                .iterator().hasNext());
+        
+        assertEquals(Arrays.asList(assocId1),
+                studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=First grade"));
+        assertFalse(studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=Fifth grade")
+                .iterator().hasNext());
+        
+        assertEquals(Arrays.asList(schoolId),
+                studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4, "name=Battle School"));
+        assertFalse(studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4, "name=new Battle School")
+                .iterator().hasNext());
+        
+        assertEquals(Arrays.asList(id1),
+                studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "firstName=Bonzo"));
+        assertFalse(studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "firstname=non exist")
+                .iterator().hasNext());
 
         studentService.delete(id1);
         studentService.delete(id2);

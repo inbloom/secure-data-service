@@ -1,17 +1,18 @@
 package org.slc.sli.admin.client;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import org.slc.sli.admin.util.UrlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import org.slc.sli.admin.util.UrlBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * 
@@ -19,6 +20,8 @@ import org.slc.sli.admin.util.UrlBuilder;
  */
 @Component("RESTClient")
 public class RESTClient {
+    
+    protected RestOperations template = new RestTemplate();
     
     /** Request parameter key used to pass sessionId to API **/
     private static final String API_SESSION_KEY = "sessionId";
@@ -34,11 +37,14 @@ public class RESTClient {
      * 
      * @param token
      *            the sessionId
-     * @return JsonArray object as described by API documentation
+     * @return JsonArray object as described by API documentation, or null if the response is bad
      * @throws NoSessionException
      */
     public JsonArray getRoles(String token) {
-        return makeJsonRequest("admin/roles", token).getAsJsonArray();
+        JsonElement json = makeJsonRequest("admin/roles", token);
+        if (json != null)
+            return json.getAsJsonArray();
+        return null;
     }
     
     /**
@@ -65,7 +71,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     private JsonElement makeJsonRequest(String path, String token) {
-        RestTemplate template = new RestTemplate();
+        
         UrlBuilder url = new UrlBuilder(apiServerUri);
         url.addPath(path);
         if (token != null) {
@@ -75,7 +81,12 @@ public class RESTClient {
         String jsonText = template.getForObject(url.toString(), String.class);
         logger.debug("JSON response for roles: " + jsonText);
         JsonParser parser = new JsonParser();
-        return parser.parse(jsonText);
+        try {
+            return parser.parse(jsonText);
+        } catch (JsonSyntaxException ex) {
+            logger.warn("Couldn't parse JSON.  Returning null.");
+            return null;
+        }
         
     }
     

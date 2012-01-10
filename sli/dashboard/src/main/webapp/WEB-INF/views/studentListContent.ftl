@@ -29,20 +29,18 @@
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
-      <#-- try out each resolver to see if this data point can be resolved using it -->
-      <#assign dataPointId = field.getValue()>
       
       <#-- assessment results -->
-      <#if assessments.canResolve(dataPointId)>
+      <#if field.getType() = "assessment">
         <#if field.getVisual()?? && (field.getVisual()?length > 0)>
           <#include "widget/" + field.getVisual() + ".ftl">
         <#else>
-          ${assessments.get(dataPointId, student)}
+          ${assessments.get(field, student)}
         </#if>
         
       <#-- student info -->
-      <#elseif students.canResolve(dataPointId)>
-        ${students.get(dataPointId, student)}
+      <#elseif field.getType() = "studentInfo">
+        ${students.get(field, student)}
         
       <#else>
         <#-- No resolver found. Report an error. -->

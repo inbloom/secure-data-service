@@ -6,18 +6,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.domain.Entity;
 
 /**
  * JUnits for DAL
@@ -67,6 +66,40 @@ public class EntityRepositoryTest {
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
         
+        // test find by query string
+        searchResults = repository.findByFields("student", "firstName=Jane", 0, 20);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
+        searchResults = repository.findByFields("student", "firstName=Kevin", 0, 20);
+        assertTrue(!searchResults.iterator().hasNext());
+        searchResults = repository.findByFields("student", "birthDate<2011-10-01", 0, 20);
+        assertTrue(searchResults.iterator().hasNext());
+        searchResults = repository.findByFields("student", "birthDate>2011-10-01", 0, 20);
+        assertTrue(!searchResults.iterator().hasNext());
+        
+        // test match query string
+        assertTrue(repository.matchQuery("student", id, "firstName=Jane"));
+        
+        // test find by query
+        Query query = new Query();
+        query.addCriteria(Criteria.where("body.firstName").is("Jane"));
+        searchResults = repository.findByFields("student", query, 0, 20);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
+        Query query1 = new Query();
+        query1.addCriteria(Criteria.where("body.birthDate").lt("2011-10-01"));
+        searchResults = repository.findByFields("student", query1, 0, 20);
+        assertTrue(searchResults.iterator().hasNext());
+        query = null;
+        searchResults = repository.findByFields("student", query, 0, 20);
+        assertTrue(searchResults.iterator().hasNext());
+        
+        // test match by query object
+        Query query2 = new Query(Criteria.where("body.firstName").is("Jane"));
+        assertTrue(repository.matchQuery("student", id, query2));
+        query2 = null;
+        assertTrue(!repository.matchQuery("student", id, query2));
+
         // test update
         found.getBody().put("firstName", "Mandy");
         repository.update("student", found);
@@ -123,11 +156,11 @@ public class EntityRepositoryTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("firstName", "Jane");
         body.put("lastName", "Doe");
-        Date birthDate = new Timestamp(23234000);
-        body.put("birthDate", birthDate);
+        // Date birthDate = new Timestamp(23234000);
+        body.put("birthDate", "2000-01-01");
         body.put("cityOfBirth", "Chicago");
         body.put("CountyOfBirth", "US");
-        body.put("dateEnteredUs", birthDate);
+        body.put("dateEnteredUs", "2011-01-01");
         body.put("displacementStatus", "some");
         body.put("economicDisadvantaged", true);
         body.put("generationCodeSuffix", "Z");
