@@ -56,6 +56,10 @@ public class TimedLogic {
         // if the window has already passed in the current year, then the latest window is in this year. 
         // Otherwise it's the last year. 
         String windowEndDate = metaDataResolver.findWindowEndDateForFamily(assmtName);
+        if (windowEndDate == null) { 
+            // window dates are not defined for the assessment family; 
+            return null;
+        }
         int windowEndMonth = Integer.parseInt(windowEndDate.split("/")[0]);
         int windowEndDay = Integer.parseInt(windowEndDate.split("/")[1]);
         Calendar thisYearWindowEndDate = new GregorianCalendar(currentYear, windowEndMonth, windowEndDay);

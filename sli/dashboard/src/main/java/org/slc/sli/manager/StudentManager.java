@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * @author dwu
  *
  */
-public class StudentManager {
+public class StudentManager extends Manager {
     
     private static StudentManager instance = new StudentManager();
     
@@ -35,11 +35,9 @@ public class StudentManager {
         List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
         
         // call the api
-        // TODO: mock/real api switch
         // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
         if (dataFields.size() > 0) {
-            MockAPIClient apiClient = new MockAPIClient();
             studentInfo.addAll(Arrays.asList(apiClient.getStudents(username, studentIds)));
         }
         

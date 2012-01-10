@@ -195,6 +195,9 @@ public class ResourceTest {
         // test staff entity
         assertEntityResponse("staff", info, ids);
         
+        // test educationOrganization entity
+        assertEntityResponse("educationOrganizations", info, ids);
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);
@@ -326,7 +329,7 @@ public class ResourceTest {
         if (typeId.type.equals("students")) {
             List<?> links = (List<?>) body.get("links");
             assertTrue(links.contains(new EmbeddedLink("self", "student", "base/students/" + typeId.id)));
-            assertTrue(links.contains(new EmbeddedLink("getStudentEnrollments", "studentSchoolAssociation",
+            assertTrue(links.contains(new EmbeddedLink("getStudentSchoolAssociations", "studentSchoolAssociation",
                     "base/student-school-associations/" + typeId.id)));
             assertTrue(links.contains(new EmbeddedLink("getSchools", "school", "base/student-school-associations/"
                     + typeId.id + "/targets")));

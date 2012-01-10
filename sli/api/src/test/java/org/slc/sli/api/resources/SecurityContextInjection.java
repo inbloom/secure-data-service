@@ -35,8 +35,7 @@ public class SecurityContextInjection {
         List<String> roles = new ArrayList<String>();
         roles.add(DefaultRoles.ADMINISTRATOR.getRoleName());
         
-        SLIPrincipal principal = new SLIPrincipal();
-        principal.setId(user);
+        SLIPrincipal principal = new SLIPrincipal(user);
         principal.setName(fullName);
         principal.setRoles(roles);
         
@@ -58,8 +57,7 @@ public class SecurityContextInjection {
         List<String> roles = new ArrayList<String>();
         roles.add(DefaultRoles.EDUCATOR.getRoleName());
         
-        SLIPrincipal principal = new SLIPrincipal();
-        principal.setId(user);
+        SLIPrincipal principal = new SLIPrincipal(user);
         principal.setName(fullName);
         principal.setRoles(roles);
         

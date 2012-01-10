@@ -7,6 +7,7 @@ import org.slc.sli.client.APIClient;
  */
 public abstract class DashboardController {
 
+    /*
     protected APIClient apiClient;
     
     public APIClient getApiClient() {
@@ -16,5 +17,5 @@ public abstract class DashboardController {
     public void setApiClient(APIClient apiClient) {
         this.apiClient = apiClient;
     }
-
+    */
 }

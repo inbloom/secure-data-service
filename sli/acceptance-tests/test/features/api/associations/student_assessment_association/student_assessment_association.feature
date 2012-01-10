@@ -18,11 +18,11 @@ Background: Logged in as a super-user and using the small data set
 
 Scenario: Create a student-assessment-association
 Given format "application/json"
-	And Assessment ID is <'Mathematics Achievement  Assessment Test' ID>
-	And Student ID is <'Jane Doe' ID>
-	And AdministrationDate is "2011-12-01"
-	And ScoreResults is "85"
-	And PerformanceLevel is "3"
+	And "assessmentID" is <'Mathematics Achievement  Assessment Test' ID>
+	And "studentID" is <'Jane Doe' ID>
+	And administrationDate is "2011-12-01"
+	And scoreResults is "85"
+	And performanceLevel is "3"
 When I navigate to POST "/student-assessment-associations"
 Then I should receive a return code of 201
 	And I should receive a ID for the newly created student-assessment-association
@@ -32,8 +32,9 @@ Scenario: Read a student-assessment-association
 Given format "application/json"
 When I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
 Then I should receive a return code of 200
-	And I should receive 1 student-assessment-assoications
-	And I should receive a link named "getStudent" with URI /students/<'Jane Doe' ID>
+	And I should receive 1 student-assessment-associations
+    And I should receive a link named "self" with URI /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>
+	And I should receive a link named "getStudents" with URI /students/<'Jane Doe' ID>
 	And I should receive a link named "getAssessment" with URI /assessments/<'Writing Achievement Assessment Test' ID>
 	And the "administrationDate" should be "2011-09-15"
 	And the "administrationEndDate" should be "2011-12-15"
@@ -63,7 +64,7 @@ Then I should receive a return code of 200
 
 Scenario: Update a student-assessment-association 
 Given  format "application/json"
-When I navigate to GET /student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>
+When I navigate to GET /student-assessment-associations/<'Student "Jane Doe" and AssessmentTitle "Mathematics Achievement  Assessment Test"' ID>
 	Then  the "scoreResults" should be "85"
 When I set the ScoreResult to "95" 
 	And I set the PerformanceLevel to"4"

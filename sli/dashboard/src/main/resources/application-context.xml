@@ -9,12 +9,9 @@
     <!-- the application context definition for the DispatcherServlet -->
     
     <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController"/>
-    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController">
-      <property name="apiClient" ref="APIClientBean"/>
-    </bean>
+    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController"/>
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
-      <property name="apiClient" ref="APIClientBean"/>
-      <property name="liveClient" ref="liveClient" />
+        <property name="liveClient" ref="liveClient" />
     </bean>
 
     <!-- Redirect view --> 
@@ -42,10 +39,11 @@
     </bean>
     
     <bean id="SpringPropertiesHandlingBean" class="org.slc.sli.entity.SpringPropertiesTest">
-    <property name="name" value="${my.name}" />
+    <property name="name" value="" />
     </bean>
     
     <bean id="APIClientBean" class="${apiclientclass}" />
+    
 
 
 <bean id= "liveClient" class="org.slc.sli.client.LiveAPIClient">
