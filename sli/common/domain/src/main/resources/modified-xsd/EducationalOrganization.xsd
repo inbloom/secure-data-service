@@ -6,7 +6,8 @@
     elementFormDefault="qualified"
     attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="SimpleTypes.xsd"></xs:include>
+    <xs:include schemaLocation="SimpleTypes.xsd"/>
+    <xs:include schemaLocation="ReferenceTypes.xsd"/>
 
 	<xs:complexType name="EducationOrganizationCategoriesType">
 		<xs:annotation>
@@ -171,37 +172,6 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ReferenceType">
-		<xs:annotation>
-			<xs:documentation>This is the base type for association references.</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="id" type="xs:ID">
-			<xs:annotation>
-				<xs:documentation>The XML ID associated with this complex object object.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="ref" type="xs:IDREF">
-			<xs:annotation>
-				<xs:documentation>The XML IDREF that references the object associated with this object. </xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="ProgramReferenceType">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for programs. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="ProgramIdentity" type="ProgramIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing program record in the receiving system</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 	<xs:complexType name="EducationOrgIdentificationCode">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code that is assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
@@ -236,22 +206,6 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
-	</xs:complexType>
-	<xs:complexType name="EducationalOrgReferenceType">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for Educational Organization (ESC, LEA, school) reference during interchange. Use XML IDREF to reference an educational organization record that is included in the interchange</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="EducationalOrgIdentity" type="EducationalOrgIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing educational organization record in the receiving system</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="InstitutionTelephone">
 		<xs:annotation>
@@ -294,23 +248,6 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
-	<xs:complexType name="ClassPeriodReferenceType">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for class periods during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="ClassPeriodIdentity" type="ClassPeriodIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing class period record in the receiving system.  </xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 	<xs:complexType name="ClassPeriodIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
@@ -318,7 +255,7 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 		<xs:sequence>
 			<xs:element name="ClassPeriodName" type="ClassPeriodNameType">
 				<xs:annotation>
-					<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+					<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).
 </xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -339,8 +276,8 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 				</xs:element>
 			</xs:choice>
 		</xs:sequence>
-	</xs:complexType>	
-	
+	</xs:complexType>
+
 	<xs:complexType name="LocationIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of location.</xs:documentation>
@@ -365,24 +302,7 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 				</xs:element>
 			</xs:choice>
 		</xs:sequence>
-	</xs:complexType>	
-	
-	<xs:complexType name="LocationReferenceType">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for location during interchange. Use XML IDREF to reference a location record that is included in the interchange</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="LocationIdentity" type="LocationIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing location record in the receiving system.  </xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>	
+	</xs:complexType>
 
 	<xs:complexType name="EducationOrganization" abstract="true">
 		<xs:annotation>
@@ -445,12 +365,12 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 							<xs:documentation>The accountability ratings assessed for the education organization.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ProgramReference" type="ProgramReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ProgramReference" type="ProgramSimpleReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The programs offered at the education organization.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationPeerReference" type="EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="EducationOrganizationPeerReference" type="EducationalOrgSimpleReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The associated peer organization(s) for the EducationOrganization.</xs:documentation>
 						</xs:annotation>
@@ -478,17 +398,17 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 							<xs:documentation>A school or agency providing free public elementary or secondary education to eligible students under a specific charter granted by the state legislature or other appropriate authority and designated by such authority to be a charter school.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgSimpleReference" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>For subdistricts, the LEA the subdistrict is a component of.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationServiceCenterReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="EducationServiceCenterReference" type="EducationalOrgSimpleReference" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The ESC of which the LEA is an organizational component.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StateEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="StateEducationAgencyReference" type="EducationalOrgSimpleReference" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The SEA of which the LEA is an organizational component.</xs:documentation>
 						</xs:annotation>
@@ -541,17 +461,17 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 							<xs:documentation>The type of education institution as classified by its funding source, for example public or private.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgSimpleReference" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>LEA of which the School is an organizational component.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ClassPeriodReference" type="ClassPeriodReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ClassPeriodReference" type="ClassPeriodSimpleReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The class periods defined for the school.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocationReference" type="LocationReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="LocationReference" type="LocationSimpleReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The available class locations defined for the school.</xs:documentation>
 						</xs:annotation>
@@ -565,12 +485,12 @@ For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documen
 			<xs:documentation>The association from feeder school to the receiving school.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="FeederSchoolReference" type="EducationalOrgReferenceType">
+			<xs:element name="FeederSchoolReference" type="EducationalOrgSimpleReference">
 				<xs:annotation>
 					<xs:documentation>Reference to the Feeder school.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ReceivingSchoolReference" type="EducationalOrgReferenceType">
+			<xs:element name="ReceivingSchoolReference" type="EducationalOrgSimpleReference">
 				<xs:annotation>
 					<xs:documentation>Reference to the receiving school.</xs:documentation>
 				</xs:annotation>

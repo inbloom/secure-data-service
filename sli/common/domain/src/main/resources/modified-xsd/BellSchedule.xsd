@@ -61,16 +61,16 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GradingPeriodReference" type="GradingPeriodReference" maxOccurs="unbounded">
+			<xs:element name="GradingPeriodReference" type="GradingPeriodSimpleReference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Ids of grading periods associated with the
-						calendar. 
+						calendar.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AcademicWeekReference" type="AcademicWeekReference" maxOccurs="unbounded">
+			<xs:element name="AcademicWeekReference" type="AcademicWeekSimpleReference" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The ids of academic weeks associated with the school year. 
+					<xs:documentation>The ids of academic weeks associated with the school year.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -115,7 +115,7 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="SessionsOffered" type="SessionReference" maxOccurs="unbounded">
+				<xs:element name="SessionsOffered" type="SessionSimpleReference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							The sessions associated with the session.
@@ -181,7 +181,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Location" type="LocationReference">
+			<xs:element name="Location" type="LocationSimpleReference">
 				<xs:annotation>
 					<xs:documentation>Where the meeting occurs</xs:documentation>
 				</xs:annotation>
@@ -199,7 +199,7 @@
 		<xs:complexContent>
 			<xs:extension base="MeetingTime">
 				<xs:sequence>
-					<xs:element name="BellSchedule" type="BellScheduleReference">
+					<xs:element name="BellSchedule" type="BellScheduleSimpleReference">
 						<xs:annotation>
 							<xs:documentation>
 								The bell schedule the section is scheduled in
@@ -229,14 +229,14 @@
 			<xs:complexContent>
 				<xs:extension base="MeetingTime">
 					<xs:sequence>
-						<xs:element name="BellSchedule" type="BellScheduleReference">
+						<xs:element name="BellSchedule" type="BellScheduleSimpleReference">
 							<xs:annotation>
 								<xs:documentation>
 									The bell schedule the event is scheduled in
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="MiscellaneousEvent" type="MiscellaneousEventReference">
+						<xs:element name="MiscellaneousEvent" type="MiscellaneousEventSimpleReference">
 							<xs:annotation>
 								<xs:documentation>
 									The section being offered
@@ -354,7 +354,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CourseOfferingReference" type="CourseReference">
+			<xs:element name="CourseOfferingReference" type="CourseSimpleReference">
 				<xs:annotation>
 					<xs:documentation>The course offering taught in the section.
 					</xs:documentation>
@@ -366,7 +366,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SessionReference" type="SessionReference"
+			<xs:element name="SessionReference" type="SessionSimpleReference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The session associated with the session. This
@@ -375,7 +375,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="LocationReference" type="LocationReference"
+			<xs:element name="LocationReference" type="LocationSimpleReference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The location, typically a classroom, where the
@@ -383,7 +383,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ProgramReference" type="ProgramReference"
+			<xs:element name="ProgramReference" type="ProgramSimpleReference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Optional reference to program (e.g., CTE, etc.)
@@ -393,19 +393,19 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType></xs:element>
-	
-	
+
+
 	<xs:element name="Location">
 		<xs:annotation>
-			<xs:documentation>This entity represents the physical space where students gather for 
-				a particular class/section.  The location may be an indoor or outdoor area 
+			<xs:documentation>This entity represents the physical space where students gather for
+				a particular class/section.  The location may be an indoor or outdoor area
 				designated for the purpose of meeting the educational needs of students.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 				<xs:sequence>
 					<xs:element name="ClassroomIdentificationCode" type="ClassroomIdentificationCode">
 						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to 
+							<xs:documentation>A unique number or alphanumeric code assigned to
 								a room by a school, school system, state, or other agency or entity.</xs:documentation>
 						</xs:annotation>
 					</xs:element>

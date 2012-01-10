@@ -9,8 +9,8 @@
     <xs:element name="Program">
 		<xs:annotation>
 			<xs:documentation>
-				This entity represents any program designed to work in conjunction with or to supplement the main 
-				academic program.  Programs may provide instruction, training, services or benefits through federal, 
+				This entity represents any program designed to work in conjunction with or to supplement the main
+				academic program.  Programs may provide instruction, training, services or benefits through federal,
 				state, or local agencies.  Programs may also include organized extracurricular activities for students.
 			</xs:documentation>
 		</xs:annotation>
@@ -19,7 +19,7 @@
 				<xs:element name="ProgramId" type="ProgramId" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
-							A unique number or alphanumeric code assigned to a program by a school, school system, a 
+							A unique number or alphanumeric code assigned to a program by a school, school system, a
 							state, or other agency or entity.
 						</xs:documentation>
 					</xs:annotation>
@@ -27,7 +27,7 @@
 				<xs:element name="ProgramType" type="ProgramType">
 					<xs:annotation>
 						<xs:documentation>
-							The formal name of the program of instruction, training, services or benefits available 
+							The formal name of the program of instruction, training, services or benefits available
 							through federal, state, or local agencies.
 						</xs:documentation>
 					</xs:annotation>
@@ -35,13 +35,13 @@
 				<xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
-							Ultimate and intermediate providers of funds for a particular educational or service 
+							Ultimate and intermediate providers of funds for a particular educational or service
 							program or activity or for an individual's participation in the program or activity; e.g.,
 							Federal, State, ESC, District, School, Private Org, etc.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Services" type="ServiceDescriptorReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Services" type="ServiceDescriptorSimpleReference" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Defines the services provided by this program to students.</xs:documentation>
 					</xs:annotation>
@@ -52,7 +52,7 @@
 	<xs:element name="ServiceDescriptor">
 		<xs:annotation>
 			<xs:documentation>
-				This descriptor defines the services provided an education organization to populations of students 
+				This descriptor defines the services provided an education organization to populations of students
 				associated with a program.
 			</xs:documentation>
 		</xs:annotation>
@@ -96,12 +96,12 @@
 						<xs:documentation>The student associated with the program.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramReference" type="ProgramReference">
+				<xs:element name="ProgramReference" type="ProgramSimpleReference">
 					<xs:annotation>
 						<xs:documentation>The program associated with the student.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Services" type="ServiceDescriptorReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Services" type="ServiceDescriptorSimpleReference" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							Indicates the services being provided to the student by the program.
@@ -117,7 +117,7 @@
 				<xs:element name="EndDate" type="xs:date" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
-							The month, day, and year on which the student exited the program or stopped receiving 
+							The month, day, and year on which the student exited the program or stopped receiving
 							services.
 						</xs:documentation>
 					</xs:annotation>
@@ -132,7 +132,7 @@
 				<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
 					<xs:annotation>
 						<xs:documentation>
-							The education organization where the student is participating in or receiving the program 
+							The education organization where the student is participating in or receiving the program
 							services.
 						</xs:documentation>
 					</xs:annotation>
@@ -151,7 +151,7 @@
 						<xs:documentation>The staff associated with the program.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramReference" type="ProgramReference">
+				<xs:element name="ProgramReference" type="ProgramSimpleReference">
 					<xs:annotation>
 						<xs:documentation>The program associated to the staff.</xs:documentation>
 					</xs:annotation>
@@ -169,7 +169,7 @@
 				<xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
-						Indicator of whether the staff has access to the student records of the program per district 
+						Indicator of whether the staff has access to the student records of the program per district
 						interpretation of FERPA and other privacy laws, regulations and policies.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
