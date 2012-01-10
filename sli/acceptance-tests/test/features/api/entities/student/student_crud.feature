@@ -28,11 +28,11 @@ Scenario: Read a student by id
         And the "name" is "Alfonso" "Ora" "Steele"
         And the "sex" is "Male"
         And the "birthDate" is "1999-07-12"
-        And I should receive a link named “getStudentSectionAssociations” with URI /student-section-associations/<Alfonso' ID>
-        And I should receive a link named “getSections” with URI /student-section-associations/<Alfonso' ID>/targets
-        And I should receive a link named “getStudentSchoolAssociations” with URI /student-school-associations/<Alfonso' ID>
-        And I should receive a link named “getSchools” with URI /student-school-associations/<Alfonso' ID>/targets
-        And I should receive a link named "self" with URI /students/<Alfonso' ID>
+        And I should receive a link named “getStudentSectionAssociations” with URI /student-section-associations/<'Alfonso' ID>
+        And I should receive a link named “getSections” with URI /student-section-associations/<'Alfonso' ID>/targets
+        And I should receive a link named “getStudentSchoolAssociations” with URI /student-school-associations/<'Alfonso' ID>
+        And I should receive a link named “getSchools” with URI /student-school-associations/<'Alfonso' ID>/targets
+        And I should receive a link named "self" with URI /students/<'Alfonso' ID>
 
 Scenario: Update an existing student
     Given format "application/json"

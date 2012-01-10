@@ -1,6 +1,7 @@
 package org.slc.sli.config;
 
-import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.client.APIClient;
+import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.entity.CustomData;
 
 /**
@@ -19,8 +20,8 @@ public class ConfigPersistor {
     public static ViewConfigSet getConfigSet(String entityId) throws Exception {
     
         // make API call with entity id
-        MockAPIClient mockClient = new MockAPIClient();
-        CustomData[] customData = mockClient.getCustomData(entityId, VIEW_CONFIG);
+        APIClient apiClient = new LiveAPIClient();
+        CustomData[] customData = apiClient.getCustomData(entityId, VIEW_CONFIG);
         
         // extract data block from custom data field
         if (customData == null || customData.length == 0) {
@@ -50,8 +51,8 @@ public class ConfigPersistor {
         // make API call
         CustomData[] customDataSet = new CustomData[1];
         customDataSet[0] = customData;
-        MockAPIClient mockClient = new MockAPIClient();
-        mockClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG);
+        APIClient apiClient = new LiveAPIClient();
+        apiClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG);
     }
     
 }

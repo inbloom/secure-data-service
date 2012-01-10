@@ -76,6 +76,7 @@ public class StudentListControllerTest {
 
     }
  
+    /*
     @Test
     public void testApiClient() {
         Assert.assertNull(studentListController.getApiClient());
@@ -85,5 +86,5 @@ public class StudentListControllerTest {
         
         
     }
-    
+    */
 }

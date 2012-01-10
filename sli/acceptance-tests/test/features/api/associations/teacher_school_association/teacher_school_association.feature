@@ -40,6 +40,7 @@ Scenario: Reading a teacher-school-association
     When I navigate to GET /teacher-school-associations/<'Teacher Mr. Smith and School Biology High' ID>
     Then I should receive a return code of 200
      And I should receive a teacher-school-associations
+     And I should receive a link named "self" with URI /teacher-school-associations/<'Teacher Mr. Smith and School Biology High' ID>
      And I should receive a link named "getTeacher" with URI /teachers/<'Mr. Smith' ID>
      And I should receive a link named "getSchool" with URI /schools/<'Biology High' ID>
 
