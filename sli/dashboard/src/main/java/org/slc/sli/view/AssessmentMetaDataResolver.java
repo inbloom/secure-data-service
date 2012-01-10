@@ -1,12 +1,14 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.assessmentmetadata.Period;
 import org.slc.sli.entity.assessmentmetadata.PerfLevel;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A utility class for views in SLI dashboard. As a wrapper around assessment meta data passed onto
@@ -74,15 +76,41 @@ public class AssessmentMetaDataResolver {
         return null;
     }
     
-    public String findWindowEndDateForFamily(String name) {
+    public List<Period> findPeriodsForFamily(String name) {
         AssessmentMetaData metaData = allMetaData.get(name);
         if (metaData == null) return null; 
+        // find the possible periods for the assessment family
         while (metaData != null) {
-            if (metaData.getWindowEnd() != null) {
-                return metaData.getWindowEnd();
+            if (metaData.getPeriods() != null) {
+                return new ArrayList<Period>(Arrays.asList(metaData.getPeriods()));
             }
             metaData = parent.get(metaData);
         }
+        return null; 
+    }
+
+    public Period findPeriodForFamily(String name) {
+        List<Period> familyPeriods = findPeriodsForFamily(name);
+        if (familyPeriods == null || familyPeriods.isEmpty()) {
+            throw new RuntimeException("Malformed assessment meta data: Assessment family " + name + " has no periods data ");
+        }
+        AssessmentMetaData metaData = allMetaData.get(name);
+        if (metaData == null) return null; 
+        // find the possible periods for the assessment family
+        while (metaData != null) {
+            if (metaData.getPeriod() != null) {
+                for (Period p : familyPeriods) {
+                    if (metaData.getPeriod().equals(p.getName())) {
+                        return p;
+                    }
+                }
+                // if we reached here, the assessment meta data contains a period whose name we don't recognise
+                throw new RuntimeException("Malformed assessment meta data: period " + metaData.getPeriod() + " is not recognised for assessment family " + name);
+            }
+            metaData = parent.get(metaData);
+        }
+        // if we reached here, the assessment meta data does not contains a period 
+        // throw new RuntimeException("Malformed assessment meta data: Assessment family " + name + " has no period data associated.");
         return null;
     }
 
