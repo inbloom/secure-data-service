@@ -53,11 +53,11 @@
 			<xs:documentation>A reference to a stduent with a type attribute set
 				to "Student"</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
+		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
 				<xs:attribute name="type" fixed="Student" />
 			</xs:extension>
-		</xs:complexContent>
+		</xs:simpleContent>
 	</xs:complexType>
 
 	<xs:complexType name="StaffSimpleReference">
@@ -65,11 +65,11 @@
 			<xs:documentation>A reference to a staff member with a type attribute
 				set to "Staff".</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
+		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
 				<xs:attribute name="type" fixed="Staff" />
 			</xs:extension>
-		</xs:complexContent>
+		</xs:simpleContent>
 	</xs:complexType>
 
 	<xs:complexType name="SchoolSimpleReference">
@@ -78,11 +78,11 @@
 				to "School".
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
+		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
 				<xs:attribute name="type" fixed="School" />
 			</xs:extension>
-		</xs:complexContent>
+		</xs:simpleContent>
 	</xs:complexType>
 	
 	<xs:complexType name="EducationalOrgSimpleReference">
@@ -91,11 +91,11 @@
 				to "EducationalOrg".
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
+		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
 				<xs:attribute name="type" fixed="EducationalOrg" />
 			</xs:extension>
-		</xs:complexContent>
+		</xs:simpleContent>
 	</xs:complexType>
 	
 	<xs:complexType name="DisciplineIncidentSimpleReference">
@@ -104,11 +104,11 @@
 				to "DisciplineIncident".
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
+		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
 				<xs:attribute name="type" fixed="DisciplineIncident" />
 			</xs:extension>
-		</xs:complexContent>
+		</xs:simpleContent>
 	</xs:complexType>
 	
 	<xs:complexType name="BehaviorDescriptorSimpleReference">
@@ -117,11 +117,24 @@
 				to "Behavior".
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
+		<xs:simpleContent>
 			<xs:extension base="xs:IDREF">
 				<xs:attribute name="type" fixed="BehaviorDescriptor" />
 			</xs:extension>
-		</xs:complexContent>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="GradingPeriodReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a grading period with a type attribute set
+				to "GradingPeriod".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="GradingPeriod"/>
+			</xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
     
 </xs:schema>
