@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -31,6 +32,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class SLIProcessingFilterTest {
     
+    @Autowired
     private SliRequestFilter        filter;
     
     private MockHttpServletRequest  request;
@@ -39,7 +41,6 @@ public class SLIProcessingFilterTest {
     
     @Before
     public void init() {
-        filter = new SliRequestFilter();
         filter.setResolver(Mocker.getMockedOpenamResolver());
         filter.setRealmSelectionUrl("Valhala");
         

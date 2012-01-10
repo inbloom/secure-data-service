@@ -9,12 +9,8 @@
     <!-- the application context definition for the DispatcherServlet -->
     
     <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController"/>
-    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController">
-      <property name="apiClient" ref="APIClientBean"/>
-    </bean>
-    <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
-      <property name="apiClient" ref="APIClientBean"/>
-    </bean>
+    <bean name="/studentlist" class="org.slc.sli.controller.StudentListController"/>
+    <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController"/>
 
     <!-- Redirect view --> 
     <bean name="/" class="org.slc.sli.controller.LandingPageController">
