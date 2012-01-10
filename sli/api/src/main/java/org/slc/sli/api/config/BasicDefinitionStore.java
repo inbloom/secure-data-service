@@ -63,37 +63,37 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition studentSchoolAssociation = AssociationDefinition
                 .makeAssoc("studentSchoolAssociation", validator).exposeAs("student-school-associations")
                 .storeAs("studentschoolassociation").from(student, "getStudent", "getStudents")
-                .to(school, "getSchool", "getSchools").calledFromSource("getStudentEnrollments")
-                .calledFromTarget("getSchoolEnrollments").build();
+                .to(school, "getSchool", "getSchools").calledFromSource("getStudentSchoolAssociations")
+                .calledFromTarget("getStudentSchoolAssociations").build();
         addAssocDefinition(studentSchoolAssociation);
         
         AssociationDefinition teacherSectionAssociation = AssociationDefinition
                 .makeAssoc("teacherSectionAssociation", validator).exposeAs("teacher-section-associations")
-                .storeAs("teachersectionassociation").from(teacher, "getTeacher", "getSectionsAssigned")
-                .to(section, "getSection", "getTeachersAssigned").calledFromSource("getSectionsAssigned")
-                .calledFromTarget("getTeachersAssigned").build();
+                .storeAs("teachersectionassociation").from(teacher, "getTeacher", "getTeachers")
+                .to(section, "getSection", "getSections").calledFromSource("getTeacherSectionAssociations")
+                .calledFromTarget("getTeacherSectionAssociations").build();
         addAssocDefinition(teacherSectionAssociation);
 
         AssociationDefinition studentAssessmentAssociation = AssociationDefinition
                 .makeAssoc("studentAssessmentAssociation", validator).exposeAs("student-assessment-associations")
-                .storeAs("studentassessmentassociation").from(student, "getStudent", "getAssessmentsAssigned")
-                .to(assessment, "getAssessment", "getStudentsAssigned")
+                .storeAs("studentassessmentassociation").from(student, "getStudent", "getStudents")
+                .to(assessment, "getAssessment", "getAssessments")
                 .calledFromSource("getStudentAssessmentAssociations")
                 .calledFromTarget("getStudentAssessmentAssociations").build();
         addAssocDefinition(studentAssessmentAssociation);
         
         AssociationDefinition studentSectionAssociation = AssociationDefinition
                 .makeAssoc("studentSectionAssociation", validator).exposeAs("student-section-associations")
-                .storeAs("studentsectionassociation").from(student, "getStudent", "getSectionsAssigned")
-                .to(section, "getSection", "getStudentsAssigned").calledFromSource("getSectionsAssigned")
-                .calledFromTarget("getStudentsAssigned").build();
+                .storeAs("studentsectionassociation").from(student, "getStudent", "getStudents")
+                .to(section, "getSection", "getSections").calledFromSource("getStudentSectionAssociations")
+                .calledFromTarget("getStudentSectionAssociations").build();
         addAssocDefinition(studentSectionAssociation);
         
         AssociationDefinition teacherSchoolAssociation = AssociationDefinition
                 .makeAssoc("teacherSchoolAssociation", validator).exposeAs("teacher-school-associations")
-                .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getSchoolsAssigned")
-                .to(school, "getSchool", "getTeachersAssigned").calledFromSource("getSchoolsAssigned")
-                .calledFromTarget("getTeachersAssigned").build();
+                .storeAs("teacherschoolassociation").from(teacher, "getTeacher", "getTeachers")
+                .to(school, "getSchool", "getSchools").calledFromSource("getTeacherSchoolAssociations")
+                .calledFromTarget("getTeacherSchoolAssociations").build();
         addAssocDefinition(teacherSchoolAssociation);
         
         // Adding the security collection

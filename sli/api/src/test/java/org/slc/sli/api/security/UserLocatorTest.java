@@ -1,21 +1,25 @@
 package org.slc.sli.api.security;
 
-import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.mock.Mockery;
-import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.security.mock.Mocker;
+import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * 
@@ -27,25 +31,36 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class UserLocatorTest {
     
-    @Resource(name = "mockUserLocator")
-    private UserLocator         locator;
+    @Autowired
+    private MongoUserLocator locator;
     
+    @Autowired
+    private EntityRepository repo;
+    
+    @Before
+    public void init() {
+        // TODO need to put stateId in the record at top level?
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("staffUniqueStateId", Mocker.VALID_USER_ID);
+        repo.create("teacher", body);
+    }
+    
+    // Cannot be properly done until mockrepo implements find by query
+    @Ignore
     @Test
     public void testUserFound() {
-        SLIPrincipal principal = this.locator.locate(Mockery.VALID_REALM, Mockery.VALID_USER_ID);
+        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_USER_ID);
         
         Assert.assertNotNull(principal);
     }
     
-    @Ignore
     @Test
     public void testuserNotFound() {
-        SLIPrincipal principal = this.locator.locate(Mockery.VALID_REALM, Mockery.VALID_USER_ID);
+        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.INVALID_USER_ID);
         
         Assert.assertNull(principal);
     }
     
-    @Ignore
     @Test
     public void testGarbageInput() {
         SLIPrincipal principal = this.locator.locate(null, null);
