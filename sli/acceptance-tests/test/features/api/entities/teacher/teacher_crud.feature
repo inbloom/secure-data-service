@@ -38,7 +38,7 @@ Scenario: Read a teacher by ID in JSON format
       And the "yearsOfPriorTeachingExperience" should be "22"
       And the "teacherUniqueStateID" should be "<'Teacher Home State' ID>"
       And the "highlyQualifiedTeacher" status should be "false"
-      And the "levelOfEducation" is "Bachelors"
+      And the "levelOfEducation" should be "Bachelors"
       And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Macy' ID>"
       And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Macy' ID>/targets"
       And I should receive a link named "getTeacherSchoolAssociations" with URI "/teacher-school-associations/<'Macy' ID>"
@@ -50,7 +50,7 @@ Scenario: Update an existing teacher in JSON format
    Given format "application/json"
    When I navigate to GET "/teachers/<'Belle' ID>"
    Then I should receive a return code of 200   
-     And the "highlyQualifiedTeacher" status is "false"
+     And the "highlyQualifiedTeacher" status should be "false"
   When I set the "highlyQualifiedTeacher" status to "true"
    And I navigate to PUT "/teachers/<'Belle' ID>"
    Then I should receive a return code of 204
@@ -97,7 +97,7 @@ Scenario: Update an existing teacher in XML format
    Given format "application/xml"
     When I navigate to GET "/teachers/<'Betty' ID>"
    Then I should receive a return code of 200
-     And the "highlyQualifiedTeacher" status is "false"
+     And the "highlyQualifiedTeacher" status should be "false"
   When I set the "highlyQualifiedTeacher" status to "true"
    And I navigate to PUT "/teachers/<'Belle' ID>"
    Then I should receive a return code of 204
