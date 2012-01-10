@@ -1,6 +1,5 @@
 package org.slc.sli.controller;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
 
+import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -42,7 +42,7 @@ public class StudentListContentController extends DashboardController {
                                            String population, // don't know what this could be yet... For now, a list of student uids
                                            ModelMap model) throws Exception {
 
-        UserDetails user = getPrincipal();
+        UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
         ViewConfig viewConfig = ConfigManager.getInstance().getConfigWithType(user.getUsername(), "listOfStudents");
         model.addAttribute(VIEW_CONFIG, viewConfig);  
@@ -65,8 +65,4 @@ public class StudentListContentController extends DashboardController {
         
         return new ModelAndView("studentListContent");
     }
-
-    private UserDetails getPrincipal() {
-        return  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }    
 }
