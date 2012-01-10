@@ -2538,6 +2538,379 @@ Oral Administration
 		</xs:restriction>
 	</xs:simpleType>
 	
+	<xs:simpleType name="MethodCreditEarnedType">
+		<xs:annotation>
+			<xs:documentation>The method the credits were earned, for example:  Classroom, Examination, Transfer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Adult education credit"/>
+			<xs:enumeration value="Classroom credit"/>
+			<xs:enumeration value="Converted occupational experience credit"/>
+			<xs:enumeration value="Correspondence credit"/>
+			<xs:enumeration value="Credit by examination"/>
+			<xs:enumeration value="Credit recovery"/>
+			<xs:enumeration value="Online credit"/>
+			<xs:enumeration value="Transfer credit "/>
+			<xs:enumeration value="Vocational credit"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="OldEthnicityType">
+		<xs:annotation>
+			<xs:documentation>Previous definition of Ethnicity combining Hispanic/Latino and Race.  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="American Indian Or Alaskan Native"/>
+			<xs:enumeration value="Asian Or Pacific Islander"/>
+			<xs:enumeration value="Black, Not Of Hispanic Origin"/>
+			<xs:enumeration value="Hispanic"/>
+			<xs:enumeration value="White, Not Of Hispanic Origin"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="OtherNameType">
+		<xs:annotation>
+			<xs:documentation>The types of alternate names for a person.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Alias"/>
+			<xs:enumeration value="Nickname"/>
+			<xs:enumeration value="Other Name"/>
+			<xs:enumeration value="Previous Legal Name"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="PerformanceBaseType">
+		<xs:annotation>
+			<xs:documentation>Defines standard  levels of competency or performance that can be used for dashboard visualizations: advanced, proficient, basic, below basic.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Advanced"/>
+			<xs:enumeration value="Proficient"/>
+			<xs:enumeration value="Basic"/>
+			<xs:enumeration value="Below Basic"/>
+			<xs:enumeration value="Well Below Basic"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="PersonalInformationVerificationType">
+		<xs:annotation>
+			<xs:documentation>The evidence presented to verify one's personal identity; for example: drivers license, passport, birth certificate, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Baptismal or church certificate"/>
+			<xs:enumeration value="Birth certificate"/>
+			<xs:enumeration value="Drivers license"/>
+			<xs:enumeration value="Entry in family Bible"/>
+			<xs:enumeration value="Hospital certificate"/>
+			<xs:enumeration value="Immigration document/visa"/>
+			<xs:enumeration value="Life insurance policy"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Other non-official document"/>
+			<xs:enumeration value="Other official document"/>
+			<xs:enumeration value="Parents affidavit"/>
+			<xs:enumeration value="Passport"/>
+			<xs:enumeration value="Physicians certificate"/>
+			<xs:enumeration value="Previously verified school records"/>
+			<xs:enumeration value="State-issued ID"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="PersonalTitlePrefixType">
+		<xs:annotation>
+			<xs:documentation>A prefix used to denote the title, degree, position or seniority of the person.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Colonel"/>
+			<xs:enumeration value="Dr"/>
+			<xs:enumeration value="Mr"/>
+			<xs:enumeration value="Mrs"/>
+			<xs:enumeration value="Ms"/>
+			<xs:enumeration value="Reverend"/>
+			<xs:enumeration value="Sr"/>
+			<xs:enumeration value="Sister"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="PostingResultType">
+		<xs:annotation>
+			<xs:documentation>Indication of whether the position was filled or retired without filling.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Position Filled"/>
+			<xs:enumeration value="Posting Cancelled"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="PostSecondaryEventCategoryType">
+		<xs:annotation>
+			<xs:documentation>A code describing the type of postsecondary event (e.g., college application or acceptance)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="College Application"/>
+			<xs:enumeration value="College Acceptance"/>
+			<xs:enumeration value="College Enrollment"/>
+			<xs:enumeration value="FAFSA Application"/>
+			<xs:enumeration value="Vocation Certification"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ProgramAssignmentType">
+		<xs:annotation>
+			<xs:documentation>The name of the education program for which a teacher is assigned to a school.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Regular Education"/>
+			<xs:enumeration value="Title I-Academic"/>
+			<xs:enumeration value="Title I-Non-Academic"/>
+			<xs:enumeration value="Special Education"/>
+			<xs:enumeration value="Bilingual/English as a Second Language"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ProgramSponsorType">
+		<xs:annotation>
+			<xs:documentation>Ultimate and intermediate providers of funds for a particular educational or service program or activity or for an individual's participation in the program or activity; e.g., Federal, State, ESC, District, School, Private Org, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="State Education Agency"/>
+			<xs:enumeration value="Education Service Center"/>
+			<xs:enumeration value="Local Education Agency"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="Private Organization"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EducationalPlanItemType">
+		<xs:annotation>
+			<xs:documentation>The type of education plan(s) the student is following, if appropriate.  For example:
+				Special education
+				Vocational
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="504 Plan"/>
+			<xs:enumeration value="Career Pathways"/>
+			<xs:enumeration value="Career Suggestions"/>
+			<xs:enumeration value="Completion and Reach Age 22"/>
+			<xs:enumeration value="Full Time Employment"/>
+			<xs:enumeration value="Employability Skills"/>
+			<xs:enumeration value="High School Education Plan"/>
+			<xs:enumeration value="IDEA IEP"/>
+			<xs:enumeration value="Outside Service Access"/>
+			<xs:enumeration value="Personal Graduation Plan"/>
+			<xs:enumeration value="Student Success Plan"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ElectronicMailAddressType">
+		<xs:annotation>
+			<xs:documentation>The type of email listed for an individual or organization.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Home/Personal"/>
+			<xs:enumeration value="Organization"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Work"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="EmploymentStatusType">
+		<xs:annotation>
+			<xs:documentation>Reflects the type of employment or contract.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Probationary"/>
+			<xs:enumeration value="Contractual"/>
+			<xs:enumeration value="Substitute/temporary"/>
+			<xs:enumeration value="Tenured or permanent"/>
+			<xs:enumeration value="Volunteer/no contract"/>
+			<xs:enumeration value="Employed or affiliated with outside organization"/>
+			<xs:enumeration value="Contingent upon funding"/>
+			<xs:enumeration value="Non-contractual"/>
+			<xs:enumeration value="Self-employed part-time"/>
+			<xs:enumeration value="Employed or affiliated with outside agency part-time"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="EntryType">
+		<xs:annotation>
+			<xs:documentation>The process by which a student enters a school during a given academic session.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Transfer from a public school in the same local education agency"/>
+			<xs:enumeration value="Transfer from a public school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transfer from a public school in a different state"/>
+			<xs:enumeration value="Transfer from a private, non-religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transfer from a private, non-religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transfer from a private, religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transfer from a private, religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transfer from a private, religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transfer from a school outside of the country"/>
+			<xs:enumeration value="Transfer from an institution"/>
+			<xs:enumeration value="Transfer from a charter school"/>
+			<xs:enumeration value="Transfer from home schooling"/>
+			<xs:enumeration value="Re-entry from the same school with no interruption of schooling"/>
+			<xs:enumeration value="Re-entry after a voluntary withdrawal"/>
+			<xs:enumeration value="Re-entry after an involuntary withdrawal"/>
+			<xs:enumeration value="Original entry into a United States school"/>
+			<xs:enumeration value="Original entry into a United States school from a foreign country with no interruption in schooling"/>
+			<xs:enumeration value="Original entry into a United States school from a foreign country with an interruption in schooling"/>
+			<xs:enumeration value="Next year school"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="ExitWithdrawType">
+		<xs:annotation>
+			<xs:documentation>The circumstances under which the student exited from membership in an educational institution.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Student is in a different public school in the same local education agency"/>
+			<xs:enumeration value="Transferred to a public school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transferred to a public school in a different state"/>
+			<xs:enumeration value="Transferred to a private, non-religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transferred to a private, non-religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transferred to a private, non-religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transferred to a private, religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transferred to a private, religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transferred to a private, religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transferred to a school outside of the country"/>
+			<xs:enumeration value="Transferred to an institution"/>
+			<xs:enumeration value="Transferred to home schooling"/>
+			<xs:enumeration value="Transferred to a charter school"/>
+			<xs:enumeration value="Graduated with regular, advanced, International Baccalaureate, or other type of diploma"/>
+			<xs:enumeration value="Completed school with other credentials"/>
+			<xs:enumeration value="Died or is permanently incapacitated"/>
+			<xs:enumeration value="Withdrawn due to illness"/>
+			<xs:enumeration value="Expelled or involuntarily withdrawn"/>
+			<xs:enumeration value="Reached maximum age for services"/>
+			<xs:enumeration value="Discontinued schooling"/>
+			<xs:enumeration value="Completed grade 12, but did not meet all graduation requirements"/>
+			<xs:enumeration value="Enrolled in a postsecondary early admission program, eligible to return"/>
+			<xs:enumeration value="Not enrolled, unknown status"/>
+			<xs:enumeration value="Student is in the same local education agency and receiving education services, but is not assigned to a particular school"/>
+			<xs:enumeration value="Enrolled in an adult education or training program"/>
+			<xs:enumeration value="Completed a state-recognized vocational education program"/>
+			<xs:enumeration value="Not enrolled, eligible to return"/>
+			<xs:enumeration value="Enrolled in a foreign exchange program, eligible to return"/>
+			<xs:enumeration value="Withdrawn from school, under the age for compulsory attendance; eligible to return"/>
+			<xs:enumeration value="Exited"/>
+			<xs:enumeration value="Student is in a charter school managed by the same local education agency"/>
+			<xs:enumeration value="Completed with a state-recognized equivalency certificate"/>
+			<xs:enumeration value="Removed by Child Protective Services"/>
+			<xs:enumeration value="Transferred to a private school in the state"/>
+			<xs:enumeration value="Graduated outside of state prior to enrollment"/>
+			<xs:enumeration value="Completed equivalency certificate outside of state"/>
+			<xs:enumeration value="Enrolled in University High School Diploma Program"/>
+			<xs:enumeration value="Court ordered to a GED program, has not earned a GED"/>
+			<xs:enumeration value="Incarcerated in a state jail or federal penitentiary as an adult"/>
+			<xs:enumeration value="Graduated from another state under Interstate Compact on Educational Opportunity for Military Children"/>
+			<xs:enumeration value="Dropout"/>
+			<xs:enumeration value="End of school year"/>
+			<xs:enumeration value="Invalid enrollment"/>
+			<xs:enumeration value="No show"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="GenerationCodeSuffixType">
+		<xs:annotation>
+			<xs:documentation>An appendage, if any, used to denote an individual's generation in his family (e.g., Jr., Sr., III).  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Jr"/>
+			<xs:enumeration value="Sr"/>
+			<xs:enumeration value="II"/>
+			<xs:enumeration value="III"/>
+			<xs:enumeration value="IV"/>
+			<xs:enumeration value="V"/>
+			<xs:enumeration value="VI"/>
+			<xs:enumeration value="VII"/>
+			<xs:enumeration value="VIII"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="GPAWeightedType">
+		<xs:annotation>
+			<xs:documentation>An indication of whether the reported GPA is weighted or unweighted.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Unweighted"/>
+			<xs:enumeration value="Weighted"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Section504DisabilityItemType">
+		<xs:annotation>
+			<xs:documentation>Enumeration items for Section 504 disabilities.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Attention Deficit Hyperactivity Disorder (ADHD)"/>
+			<xs:enumeration value="Medical Condition"/>
+			<xs:enumeration value="Motor Impairment"/>
+			<xs:enumeration value="Sensory Impairment"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="SeparationReasonType">
+		<xs:annotation>
+			<xs:documentation>Reason for terminating the employment; for example:  Employment in education, Employment outside of education, Retirement, Family/personal relocation, Change of assignment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Employment in education"/>
+			<xs:enumeration value="Employment outside of education"/>
+			<xs:enumeration value="Retirement"/>
+			<xs:enumeration value="Family/personal relocation"/>
+			<xs:enumeration value="Change of assignment"/>
+			<xs:enumeration value="Formal study or research"/>
+			<xs:enumeration value="Illness/disability"/>
+			<xs:enumeration value="Homemaking/caring for a family member"/>
+			<xs:enumeration value="Layoff due to budgetary reduction"/>
+			<xs:enumeration value="Layoff due to organizational restructuring"/>
+			<xs:enumeration value="Layoff due to decreased workload"/>
+			<xs:enumeration value="Discharge due to unsuitability"/>
+			<xs:enumeration value="Discharge due to misconduct"/>
+			<xs:enumeration value="Discharge due to continued absence or tardiness"/>
+			<xs:enumeration value="Discharge due to a falsified application form"/>
+			<xs:enumeration value="Discharge due to credential revoked or suspended"/>
+			<xs:enumeration value="Discharge due to unsatisfactory work performance"/>
+			<xs:enumeration value="Death"/>
+			<xs:enumeration value="Personal reason"/>
+			<xs:enumeration value="Lay off due to lack of funding"/>
+			<xs:enumeration value="Lost credential"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="SeparationType">
+		<xs:annotation>
+			<xs:documentation>Type of employment separation; for example:  Voluntary separation, Involuntary separation, Mutual agreement. Other, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Voluntary separation"/>
+			<xs:enumeration value="Involuntary separation"/>
+			<xs:enumeration value="Mutual agreement"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType><xs:simpleType name="SexType">
+		<xs:annotation>
+			<xs:documentation>A person's gender.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Female"/>
+			<xs:enumeration value="Male"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchoolFoodServicesEligibilityType">
+		<xs:annotation>
+			<xs:documentation>An indication of a student's level of eligibility for breakfast, lunch, snack, supper, and milk programs.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Free"/>
+			<xs:enumeration value="Full price"/>
+			<xs:enumeration value="Reduced price"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DisabilityType">
+		<xs:annotation>
+			<xs:documentation>A disability condition that describes a child's impairment.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Autistic/Autism"/>
+			<xs:enumeration value="Deaf-Blindness"/>
+			<xs:enumeration value="Deafness"/>
+			<xs:enumeration value="Developmental Delay"/>
+			<xs:enumeration value="Emotional Disturbance"/>
+			<xs:enumeration value="Hearing/Auditory Impairment"/>
+			<xs:enumeration value="Infants and Toddlers with Disabilities"/>
+			<xs:enumeration value="Mental Retardation"/>
+			<xs:enumeration value="Multiple Disabilities"/>
+			<xs:enumeration value="Orthopedic Impairment"/>
+			<xs:enumeration value="Other Health Impairment"/>
+			<xs:enumeration value="Speech or Language Impairment"/>
+			<xs:enumeration value="Specific Learning Disability"/>
+			<xs:enumeration value="Traumatic Brain Delay"/>
+			<xs:enumeration value="Visual Impairment"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="percent">
+		<xs:annotation>
+			<xs:documentation>A proportion in relation to the whole (as measured in parts per one hundred).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int"/>
+	</xs:simpleType>
+	
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
