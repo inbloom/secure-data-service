@@ -2507,6 +2507,37 @@ Oral Administration
 			<xs:enumeration value="Partial response"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="IncidentLocationType">
+		<xs:annotation>
+			<xs:documentation>Identifies where the incident occurred and whether or not it occurred on school.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="On School"/>
+			<xs:enumeration value="Administrative offices area"/>
+			<xs:enumeration value="Cafeteria area"/>
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="Hallway or stairs"/>
+			<xs:enumeration value="Locker room or gym areas"/>
+			<xs:enumeration value="Restroom"/>
+			<xs:enumeration value="Library/media center"/>
+			<xs:enumeration value="Computer lab"/>
+			<xs:enumeration value="Auditorium"/>
+			<xs:enumeration value="On-School other inside area"/>
+			<xs:enumeration value="Athletic field or playground"/>
+			<xs:enumeration value="Stadium"/>
+			<xs:enumeration value="Parking lot"/>
+			<xs:enumeration value="On-School other outside area"/>
+			<xs:enumeration value="Off School"/>
+			<xs:enumeration value="Bus stop"/>
+			<xs:enumeration value="School bus"/>
+			<xs:enumeration value="Walking to or from school"/>
+			<xs:enumeration value="Off-School at other school"/>
+			<xs:enumeration value="Off-School at other school district facility"/>
+			<xs:enumeration value="Online"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
@@ -2516,8 +2547,82 @@ Oral Administration
 				<xs:documentation>The XML ID associated with the complex object.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-	</xs:complexType>	
-	
+	</xs:complexType>
 
+	<xs:complexType name="StudentSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a stduent with a type attribute set
+				to "Student"</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Student" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="StaffSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a staff member with a type attribute
+				set to "Staff".</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Staff" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SchoolSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a school with a type attribute set
+				to "School".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="School" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="EducationalOrgSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a educational organization with a type attribute set
+				to "EducationalOrg".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="EducationalOrg" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="DisciplineIncidentSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a discipline incident with a type attribute set
+				to "DisciplineIncident".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="DisciplineIncident" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="BehaviorDescriptorSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a behavior with a type attribute set
+				to "Behavior".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="BehaviorDescriptor" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 		
 </xs:schema>
