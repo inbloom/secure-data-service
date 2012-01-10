@@ -238,4 +238,30 @@
 		</xs:simpleContent>
 	</xs:complexType>
     
+	<xs:complexType name="ReportCardReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a report card with a type attribute set
+				to "ReportCardReference".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="ReportCardReference"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
+	<xs:complexType name="DiplomaReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a diploma with a type attribute set
+				to "DiplomaReference".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="DiplomaReference"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    
 </xs:schema>

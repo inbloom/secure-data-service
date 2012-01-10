@@ -2591,4 +2591,59 @@ Oral Administration
 			<xs:enumeration value="End of Year"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="PostSecondaryEventCategoryType">
+		<xs:annotation>
+			<xs:documentation>
+				A code describing the type of postsecondary event (e.g., college application or acceptance)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="College Application"/>
+			<xs:enumeration value="College Acceptance"/>
+			<xs:enumeration value="College Enrollment"/>
+			<xs:enumeration value="FAFSA Application"/>
+			<xs:enumeration value="Vocation Certification"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DiplomaLevelType">
+		<xs:annotation>
+			<xs:documentation>
+				The level of diploma/credential that is awarded to a student in recognition of his/her completion of 
+				the curricular requirements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Minimum"/>
+			<xs:enumeration value="Recommended"/>
+			<xs:enumeration value="Distinguished"/>
+			<xs:enumeration value="Cum laude"/>
+			<xs:enumeration value="Magna cum laude"/>
+			<xs:enumeration value="Summa cum laude"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DiplomaType">
+		<xs:annotation>
+			<xs:documentation>
+				The type of diploma/credential that is awarded to a student in recognition of his/her completion of 
+				the curricular requirements..
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Regular diploma"/>
+			<xs:enumeration value="Endorsed/advanced diploma"/>
+			<xs:enumeration value="Regents diploma"/>
+			<xs:enumeration value="International Baccalaureate"/>
+			<xs:enumeration value="Modified diploma"/>
+			<xs:enumeration value="Other diploma"/>
+			<xs:enumeration value="Alternative credential"/>
+			<xs:enumeration value="Certificate of attendance"/>
+			<xs:enumeration value="Certificate of completion"/>
+			<xs:enumeration value="High school equivalency credential, other than GED"/>
+			<xs:enumeration value="General Educational Development (GED) credential"/>
+			<xs:enumeration value="Post graduate certificate (grade 13)"/>
+			<xs:enumeration value="Vocational certificate"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 </xs:schema>

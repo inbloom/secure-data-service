@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
+	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:include schemaLocation="SimpleTypes.xsd" />
+	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:element name="StudentAcademicRecord">
+		<xs:annotation>
+			<xs:documentation>
+				This educational entity represents the cumulative record of academic achievement for a student.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ComplexObjectType">
+					<xs:sequence>
+						<xs:element name="CumulativeCreditsEarned" type="Credits" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The cumulative number of credits an individual earns by completing courses or 
+									examinations during his or her enrollment in the current school as well as those 
+									credits transferred from schools in which the individual had been previously 
+									enrolled.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CumulativeCreditsAttempted" type="Credits" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The cumulative number of credits an individual attempts to earn by taking courses 
+									during his or her enrollment in the current school as well as those credits 
+									transferred from schools in which the individual had been previously enrolled.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CumulativeGradePointsEarned" type="xs:decimal" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The cumulative number of grade points an individual earns by successfully 
+									completing courses or examinations during his or her enrollment in the current 
+									school as well as those transferred from schools in which the individual had been 
+									previously enrolled.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CumulativeGradePointAverage" type="xs:decimal" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									A measure of average performance in all courses taken by an individual during his 
+									or her school career as determined for record-keeping purposes. This is obtained by
+									dividing the total grade points received by the total number of credits attempted. 
+									This usually includes grade points received and credits attempted in his or her 
+									current school as well as those transferred from schools in which the individual 
+									was previously enrolled.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="GradeValueQualifier" type="GradeValueQualifier" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The scale of equivalents, if applicable, for grades awarded as indicators of 
+									performance in schoolwork. For example, numerical equivalents for letter grades 
+									used in determining a student's Grade Point Average (A=4, B=3, C=2, D=1 in a 
+									four-point system) or letter equivalents for percentage grades (90-100%=A, 
+									80-90%=B, etc.).
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ClassRanking" type="ClassRanking" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The academic rank information of a student in relation to his or her graduating 
+									class.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AcademicHonors" type="AcademicHonor" minOccurs="0" 
+							maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>
+									Academic distinctions earned by or awarded to the student.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Recognitions" type="Recognition" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>
+									Recognitions given to the student for accomplishments in a co-curricular, or 
+									extra-curricular activity.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProjectedGraduationDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The month and year the student is projected to graduate.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="StudentReference" type="StudentSimpleReference">
+							<xs:annotation>
+								<xs:documentation>
+									Identifies the student that is associated wth the Student Academic Record.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SessionReference" type="SessionReference">
+							<xs:annotation>
+								<xs:documentation>The session associated with the session.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ReportCardReference" type="ReportCardReference" minOccurs="0"
+							maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Report cards for the student.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DiplomaReference" type="DiplomaReference" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Diploma(s) earned by the student.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PostSecondaryEvent">
+		<xs:annotation>
+			<xs:documentation>
+				This entity captures significant postsecondary events during a student's high school tenure (e.g., 
+				FASFSA application, or college application, acceptance, and enrollment).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ComplexObjectType">
+					<xs:sequence>
+						<xs:element name="EventDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The date the event occurred or was recorded.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PostSecondaryEventCategory" type="PostSecondaryEventCategoryType">
+							<xs:annotation>
+								<xs:documentation>
+									The postsecondary event that is logged (e.g., FAFSA application, college 
+									application, college acceptance).
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="NameOfInstitution" type="NameOfInstitution" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The postsecondary institution associated with the event.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InstitutionId" type="InstitutionId" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The ID of the postsecondary institution.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="StudentReference" type="StudentSimpleReference">
+							<xs:annotation>
+								<xs:documentation>
+									The student associated with the postsecondary event.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="Diploma">
+		<xs:annotation>
+			<xs:documentation>
+				This educational entity represents the conferring or certification by an educational organization that 
+				the student has successfully completed a particular course of study.  It represents the electronic 
+				version of its physical document counterpart.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ComplexObjectType">
+					<xs:sequence>
+						<xs:element name="DiplomaAwardDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>
+									The month, day, and year on which the student met graduation requirements and was 
+									awarded a diploma.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DiplomaLevel" type="DiplomaLevelType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									The level of diploma/credential that is awarded to a student in recognition of 
+									his/her completion of the curricular requirements.
+										Minimum high school program
+										Recommended high school program
+										Distinguished Achievement Program
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DiplomaType" type="DiplomaType">
+							<xs:annotation>
+								<xs:documentation>
+									The type of diploma/credential that is awarded to a student in recognition of 
+									his/her completion of the curricular requirements.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CTECompleter" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+									Indicated a student who reached a state–defined threshold of vocational education 
+									and who attained a high school diploma or its recognized state equivalent or GED.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AcademicHonors" type="AcademicHonor" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>
+									Academic distinctions earned by or awarded to the student.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Recognitions" type="Recognition" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>
+									Recognitions given to the student for accomplishments in a co-curricular, or 
+									extra-curricular activity.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SchoolReference" type="EducationalOrgSimpleReference">
+							<xs:annotation>
+								<xs:documentation>The school that offers the diploma.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="ClassRanking">
+		<xs:annotation>
+			<xs:documentation>
+				The academic rank information of a student in relation to his or her graduating class 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClassRank" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+						The academic rank of a student in relation to his or her graduating class 
+						(e.g., 1st, 2nd, 3rd).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TotalNumberInClass" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+						The total number of students in the student's graduating class.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PercentageRanking" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The academic percentage rank of a student in relation to his or her graduating class 
+						(e.g., 95%, 80%, 50%).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClassRankingDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date class ranking was determined.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Recognition">
+		<xs:annotation>
+			<xs:documentation>
+				Recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecognitionType" type="RecognitionType">
+				<xs:annotation>
+					<xs:documentation>
+						The nature of recognition given to the student for accomplishments in a co-curricular, or 
+						extra-curricular activity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RecognitionDescription" type="RecognitionDescription" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						A description of the type of academic distinctions earned by or awarded to the individual.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RecognitionAwardDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the recognition was awarded or earned.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+		<xs:complexType name="AcademicHonor">
+		<xs:annotation>
+			<xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AcademicHonorsType" type="AcademicHonorsType">
+				<xs:annotation>
+					<xs:documentation>A designation of the type of academic distinctions earned by or awarded to the student.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HonorsDescription" type="HonorsDescription" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A description of the type of academic distinctions earned by or awarded to the individual.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HonorAwardDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the honor was awarded or earned.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>
