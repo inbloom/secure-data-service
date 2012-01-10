@@ -29,6 +29,10 @@ import org.slc.sli.view.widget.WidgetFactory;
  */
 public class StudentListContentController extends DashboardController {
 
+    private ConfigManager configManager;
+    private StudentManager studentManager;
+    private AssessmentManager assessmentManager;
+    
     public StudentListContentController() { }
     
     // model map keys required by the view for the student list view
@@ -44,7 +48,7 @@ public class StudentListContentController extends DashboardController {
 
         UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
-        ViewConfig viewConfig = ConfigManager.getInstance().getConfigWithType(user.getUsername(), "listOfStudents");
+        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), "listOfStudents");
         model.addAttribute(VIEW_CONFIG, viewConfig);  
 
         //TODO: Get student uids from target view.
@@ -52,17 +56,45 @@ public class StudentListContentController extends DashboardController {
         List<String> uids = null;
         if (population != null)
             uids = Arrays.asList(population.split(","));
-        List<Student> students = StudentManager.getInstance().getStudentInfo(user.getUsername(), uids, viewConfig);
+        List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
         model.addAttribute(STUDENTS, new StudentResolver(students));
 
         // insert the assessments object into the modelmap
-        List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);
-        List<AssessmentMetaData> assessmentsMetaData = AssessmentManager.getInstance().getAssessmentMetaData(user.getUsername());
+        List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
+        List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
 
         // insert a widget factory into the modelmap
         model.addAttribute(WIDGET_FACTORY, new WidgetFactory());
         
         return new ModelAndView("studentListContent");
+    }
+
+    
+    /*
+     * Getters and setters
+     */
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public void setConfigManager(ConfigManager configManager) {
+        this.configManager = configManager;
+    }
+
+    public StudentManager getStudentManager() {
+        return studentManager;
+    }
+
+    public void setStudentManager(StudentManager studentManager) {
+        this.studentManager = studentManager;
+    }
+
+    public AssessmentManager getAssessmentManager() {
+        return assessmentManager;
+    }
+
+    public void setAssessmentManager(AssessmentManager assessmentManager) {
+        this.assessmentManager = assessmentManager;
     }
 }

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
@@ -28,7 +29,9 @@ public class ConfigPersistorTest {
      
         ViewConfigSet configSet = null;
         try {
-            configSet = ConfigPersistor.getConfigSet("lkim");
+            ConfigPersistor persistor = new ConfigPersistor();
+            persistor.setApiClient(new MockAPIClient());
+            configSet = persistor.getConfigSet("lkim");
         } catch (Exception e) {
             e.printStackTrace();
         }
