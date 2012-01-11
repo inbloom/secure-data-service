@@ -5,10 +5,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-//import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,13 +23,15 @@ import java.util.ArrayList;
  */
 public class ConfigUtil {
 
+    private static Logger logger = LoggerFactory.getLogger(ConfigUtil.class);
+
     private static JAXBContext jc;
     
     static {
         try {
-            jc = JAXBContext.newInstance((new ViewConfigSet()).getClass().getPackage().getName());
+            jc = JAXBContext.newInstance((ViewConfigSet.class.getPackage().getName()));
         } catch (JAXBException e) {
-            System.out.println("ERROR creating JAXBContext");
+            logger.error("Could not create JAXBContext");
         }
     }
     
@@ -63,7 +67,7 @@ public class ConfigUtil {
     }
     
     /**
-     * Given a list of display sets, returns a list of all fields of a certain type
+     * Given a view config, returns a list of all fields of a certain type
      * 
      * @param config
      * @param fieldType (i.e. "studentInfo", "assessment", etc)
