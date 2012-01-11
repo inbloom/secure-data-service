@@ -73,6 +73,9 @@ public class ResourceTest {
     private static final String STUDENT_SECTION_ASSOCIATION_URI = "student-section-associations";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI = "student-assessment-associations";
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
+    private static final String EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI = "educationOrganization-school-associations";
+    private static final String SECTION_ASSESSMENT_ASSOCIATION_URI = "section-assessment-associations";
+    private static final String SECTION_SCHOOL_ASSOCIATION_URI = "section-school-associations";
     @Autowired
     Resource api;
     
@@ -114,7 +117,28 @@ public class ResourceTest {
         entity.put("schoolId", schoolId);
         return entity;
     }
+
+    public Map<String, Object> createTestEducationOrganizationSchoolAssociation(String educationOrganizationId, String schoolId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("educationOrganizationId", educationOrganizationId);
+        entity.put("schoolId", schoolId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestSectionAssessmentAssociation(String sectionId, String assessmentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sectionId", sectionId);
+        entity.put("assessmentId", assessmentId);
+        return entity;
+    }
     
+    public Map<String, Object> createTestSectionSchoolAssociation(String sectionId, String schoolId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sectionId", sectionId);
+        entity.put("schoolId", schoolId);
+        return entity;
+    }
+
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
@@ -196,8 +220,26 @@ public class ResourceTest {
         assertEntityResponse("staff", info, ids);
         
         // test educationOrganization entity
-        assertEntityResponse("educationOrganizations", info, ids);
+        Response createEdOrgResponse = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), info);
+        assertNotNull(createEdOrgResponse);
+        String educationOrganizationId = parseIdFromLocation(createEdOrgResponse);
+        ids.put(new TypeIdPair("educationOrganizations", educationOrganizationId), (String) createEdOrgResponse.getMetadata().get("Location").get(0));
         
+        Response createResponseEOSA = api.createEntity(EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestEducationOrganizationSchoolAssociation(educationOrganizationId, schoolId)), info);
+        assertNotNull(createResponseEOSA);
+        String educationOrganizationSchoolAssocId = parseIdFromLocation(createResponseEOSA);
+        
+        Response createResponseSAA = api.createEntity(SECTION_ASSESSMENT_ASSOCIATION_URI, new EntityBody(
+                createTestSectionAssessmentAssociation(sectionId1, assessmentId1)), info);
+        assertNotNull(createResponseSAA);
+        String sectionAssessmentAssocId = parseIdFromLocation(createResponseSAA);
+
+        Response createResponseSSchA = api.createEntity(SECTION_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestSectionSchoolAssociation(sectionId1, schoolId)), info);
+        assertNotNull(createResponseSSchA);
+        String sectionSchoolAssocId = parseIdFromLocation(createResponseSSchA);
+
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);

@@ -33,6 +33,10 @@ import org.slc.sli.view.widget.WidgetFactory;
  */
 public class StudentListContentController extends DashboardController {
 
+    private ConfigManager configManager;
+    private StudentManager studentManager;
+    private AssessmentManager assessmentManager;
+    
     public StudentListContentController() { }
     
     // model map keys required by the view for the student list view
@@ -51,6 +55,15 @@ public class StudentListContentController extends DashboardController {
         this.liveClient = liveClient;
     }
 
+    /**
+     * Retrieves information for the student list and sends back an html table to be displayed
+     * 
+     * @param username
+     * @param population
+     * @param model
+     * @return a ModelAndView object
+     * @throws Exception
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView studentListContent(String username, 
                                            String population, // don't know what this could be yet... For now, a list of student uids
@@ -58,7 +71,7 @@ public class StudentListContentController extends DashboardController {
 
         UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
-        ViewConfig viewConfig = ConfigManager.getInstance().getConfigWithType(user.getUsername(), "listOfStudents");
+        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), "listOfStudents");
         model.addAttribute(VIEW_CONFIG, viewConfig);  
 
         //TODO: Get student uids from target view.
@@ -67,21 +80,46 @@ public class StudentListContentController extends DashboardController {
         if (population != null)
             uids = Arrays.asList(population.split(","));
 
-        SLIPrincipal userDetails = (SLIPrincipal) SecurityUtil.getPrincipal();
-        Student[] studs = liveClient.getStudents(userDetails.getId(), uids);
-        //List<Student> students = StudentManager.getInstance().getStudentInfo(user.getUsername(), uids, viewConfig);
-        
-        model.addAttribute(STUDENTS, new StudentResolver(Arrays.asList(studs)));
+        List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+        model.addAttribute(STUDENTS, new StudentResolver(students));
 
 
         // insert the assessments object into the modelmap
-        List<Assessment> assessments = AssessmentManager.getInstance().getAssessments(user.getUsername(), uids, viewConfig);
-        List<AssessmentMetaData> assessmentsMetaData = AssessmentManager.getInstance().getAssessmentMetaData(user.getUsername());
+        List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
+        List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
         model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
 
         // insert a widget factory into the modelmap
         model.addAttribute(WIDGET_FACTORY, new WidgetFactory());
         
         return new ModelAndView("studentListContent");
+    }
+
+    
+    /*
+     * Getters and setters
+     */
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public void setConfigManager(ConfigManager configManager) {
+        this.configManager = configManager;
+    }
+
+    public StudentManager getStudentManager() {
+        return studentManager;
+    }
+
+    public void setStudentManager(StudentManager studentManager) {
+        this.studentManager = studentManager;
+    }
+
+    public AssessmentManager getAssessmentManager() {
+        return assessmentManager;
+    }
+
+    public void setAssessmentManager(AssessmentManager assessmentManager) {
+        this.assessmentManager = assessmentManager;
     }
 }

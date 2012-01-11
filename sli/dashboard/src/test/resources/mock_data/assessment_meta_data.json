@@ -45,8 +45,14 @@
                 "isReal": false
             }
         ],
-        "windowStart": "03/05",
-        "windowEnd": "03/15",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "03/05",
+	           "windowEnd": "03/15"
+		}
+	],
+        "period" : "Annual",
         "children": [
             {
                 "name": "ISAT_READING_GRADE_3",
@@ -211,6 +217,14 @@
                 "isReal": false
             }
         ],
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "03/05",
+	           "windowEnd": "03/15"
+		}
+	],
+        "period" : "Annual",
         "children": [
             {
                 "name": "ISAT_WRITING_GRADE_3",
@@ -348,14 +362,30 @@
                 "isReal": true
             }
         ],
+        "periods" : [
+		{ 
+	           "name": "BOY",
+	           "windowStart": "09/05",
+	           "windowEnd": "09/15"
+		},
+		{ 
+	           "name": "MOY",
+	           "windowStart": "01/05",
+	           "windowEnd": "01/15"
+		},
+		{ 
+	           "name": "EOY",
+	           "windowStart": "05/05",
+	           "windowEnd": "05/15"
+		}
+	],
         "children": [
             { 
               "name": "DIBELS_NEXT_GRADE_K", 
               "children": [
                   {
                     "name": "DIBELS_NEXT_GRADE_K_BOY",
-	            "windowStart": "09/01",
-	            "windowEnd": "09/15",
+		    "period": "BOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [0, 13] },
@@ -367,8 +397,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_K_MOY",
-	            "windowStart": "01/01",
-	            "windowEnd": "01/15",
+		    "period": "MOY", 
                     "cutpoints": [
                         { "name": "1",
                           "range": [3, 85] },
@@ -380,8 +409,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_K_EOY",
-	            "windowStart": "05/01",
-	            "windowEnd": "05/15",
+	            "period": "EOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [16, 89] },
@@ -398,8 +426,7 @@
               "children": [
                   {
                     "name": "DIBELS_NEXT_GRADE_1_BOY",
-	            "windowStart": "09/01",
-	            "windowEnd": "09/15",
+		    "period": "BOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [8, 97] },
@@ -411,8 +438,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_1_MOY",
-	            "windowStart": "01/01",
-	            "windowEnd": "01/15",
+		    "period": "MOY", 
                     "cutpoints": [
                         { "name": "1",
                           "range": [10, 100] },
@@ -424,8 +450,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_1_EOY",
-	            "windowStart": "05/01",
-	            "windowEnd": "05/15",
+	            "period": "EOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [1, 111] },
@@ -442,8 +467,7 @@
               "children": [ 
                   {
                     "name": "DIBELS_NEXT_GRADE_2_BOY",
-	            "windowStart": "09/01",
-	            "windowEnd": "09/15",
+		    "period": "BOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [3, 109] },
@@ -455,8 +479,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_2_MOY",
-	            "windowStart": "01/01",
-	            "windowEnd": "01/15",
+		    "period": "MOY", 
                     "cutpoints": [
                         { "name": "1",
                           "range": [11, 109] },
@@ -468,8 +491,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_2_EOY",
-	            "windowStart": "05/01",
-	            "windowEnd": "05/15",
+	            "period": "EOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [19, 180] },
@@ -486,8 +508,7 @@
               "children": [
                   {
                     "name": "DIBELS_NEXT_GRADE_3_BOY",
-	            "windowStart": "09/01",
-	            "windowEnd": "09/15",
+		    "period": "BOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [16, 180] },
@@ -499,8 +520,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_3_MOY",
-	            "windowStart": "01/01",
-	            "windowEnd": "01/15",
+		    "period": "MOY", 
                     "cutpoints": [
                         { "name": "1",
                           "range": [43, 235] },
@@ -512,8 +532,7 @@
                   },
                   {
                     "name": "DIBELS_NEXT_GRADE_3_EOY",
-	            "windowStart": "05/01",
-	            "windowEnd": "05/15",
+	            "period": "EOY",
                     "cutpoints": [
                         { "name": "1",
                           "range": [39, 280] },
@@ -526,5 +545,182 @@
               ]
             }
         ]
+    }, 
+
+    {
+        "name": "TRC",
+        "perfLevels": [
+            {
+		"name": "1",
+		"longName": "Far below proficient",
+		"isReal": true
+            },
+            {
+		"name": "2",
+		"longName": "Below proficient",
+		"isReal": true
+            },
+            {
+		"name": "3",
+		"longName": "Proficient",
+		"isReal": true
+            },
+            {
+		"name": "4",
+		"longName": "Above proficient",
+		"isReal": true
+            }
+        ], 
+        "periods" : [
+		{ 
+	           "name": "BOY",
+	           "windowStart": "09/05",
+	           "windowEnd": "09/15"
+		},
+		{ 
+	           "name": "MOY",
+	           "windowStart": "01/05",
+	           "windowEnd": "01/15"
+		},
+		{ 
+	           "name": "EOY",
+	           "windowStart": "05/05",
+	           "windowEnd": "05/15"
+		}
+	],
+        "children": [
+            { 
+                "name": "TRC_GRADE_1_BOY",
+	        "period": "BOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 2] },
+                        { "name": "2",
+                          "range": [2, 202] },
+                        { "name": "3",
+                          "range": [202, 203] },
+                        { "name": "4",
+                          "range": [203, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_1_MOY",
+	        "period": "MOY",
+                "cutpoints": [
+
+                        { "name": "1",
+                          "range": [0, 203] },
+                        { "name": "2",
+                          "range": [203, 205] },
+                        { "name": "3",
+                          "range": [205, 208] },
+                        { "name": "4",
+                          "range": [208, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_1_EOY",
+	        "period": "EOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 206] },
+                        { "name": "2",
+                          "range": [206, 209] },
+                        { "name": "3",
+                          "range": [209, 211] },
+                        { "name": "4",
+                          "range": [211, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_2_BOY",
+	        "period": "BOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 206] },
+                        { "name": "2",
+                          "range": [206, 209] },
+                        { "name": "3",
+                          "range": [209, 211] },
+                        { "name": "4",
+                          "range": [211, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_2_MOY",
+	        "period": "MOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 209] },
+                        { "name": "2",
+                          "range": [209, 211] },
+                        { "name": "3",
+                          "range": [211, 213] },
+                        { "name": "4",
+                          "range": [213, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_2_EOY",
+	        "period": "EOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 211] },
+                        { "name": "2",
+                          "range": [211, 212] },
+                        { "name": "3",
+                          "range": [212, 213] },
+                        { "name": "4",
+                          "range": [213, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_3_BOY",
+	        "period": "BOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 211] },
+                        { "name": "2",
+                          "range": [211, 214] },
+                        { "name": "3",
+                          "range": [214, 215] },
+                        { "name": "4",
+                          "range": [215, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_3_MOY",
+	        "period": "MOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 212] },
+                        { "name": "2",
+                          "range": [212, 215] },
+                        { "name": "3",
+                          "range": [215, 216] },
+                        { "name": "4",
+                          "range": [216, 226] }
+			     ]
+	    }, 
+            { 
+                "name": "TRC_GRADE_3_EOY",
+	        "period": "EOY",
+                "cutpoints": [
+                        { "name": "1",
+                          "range": [0, 213] },
+                        { "name": "2",
+                          "range": [213, 216] },
+                        { "name": "3",
+                          "range": [216, 216] },
+                        { "name": "4",
+                          "range": [216, 226] }
+			     ]
+	    }
+	]
     }
+
 ]
+
+
+
+

@@ -96,6 +96,30 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getTeacherSchoolAssociations").build();
         addAssocDefinition(teacherSchoolAssociation);
         
+        AssociationDefinition educationOrganizationSchoolAssociation = AssociationDefinition
+                .makeAssoc("educationOrganizationSchoolAssociation", validator)
+                .exposeAs("educationOrganization-school-associations")
+                .storeAs("educationOrganizationschoolassociation")
+                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
+                .to(school, "getSchool", "getSchools")
+                .calledFromSource("getSchoolsAssigned")
+                .calledFromTarget("getEducationOrganizationsAssigned").build();
+        addAssocDefinition(educationOrganizationSchoolAssociation);
+        
+        AssociationDefinition sectionAssessmentAssociation = AssociationDefinition
+                .makeAssoc("sectionAssessmentAssociation", validator).exposeAs("section-assessment-associations")
+                .storeAs("sectionassessmentassociation").from(section, "getSection", "getSections")
+                .to(assessment, "getAssessment", "getAssessments").calledFromSource("getSectionAssessmentAssociations")
+                .calledFromTarget("getSectionAssessmentAssociations").build();
+        addAssocDefinition(sectionAssessmentAssociation);
+        
+        AssociationDefinition sectionSchoolAssociation = AssociationDefinition
+                .makeAssoc("sectionSchoolAssociation", validator).exposeAs("section-school-associations")
+                .storeAs("sectionschoolassociation").from(section, "getSection", "getSections")
+                .to(school, "getSchool", "getSchools").calledFromSource("getSectionSchoolAssociations")
+                .calledFromTarget("getSectionSchoolAssociations").build();
+        addAssocDefinition(sectionSchoolAssociation);
+        
         // Adding the security collection
         EntityDefinition roles = EntityDefinition.makeEntity("roles", validator).storeAs("roles").build();
         addDefinition(roles);

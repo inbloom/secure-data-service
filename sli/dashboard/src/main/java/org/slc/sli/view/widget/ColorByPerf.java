@@ -11,10 +11,19 @@ import org.slc.sli.view.AssessmentResolver;
  */
 public class ColorByPerf {
     
-    Field field;
-    Student student;
-    AssessmentResolver assmts;
+    private Field field;
+    private Student student;
+    private AssessmentResolver assmts;
     
+    private static final int MAX_LEVELS = 5;
+    
+    // mapping of performance level to color index
+    private static int[][] perfToColor = {{0, 0, 0, 0, 0}, // 1 level
+                                          {1, 5, 0, 0, 0}, // 2 levels
+                                          {1, 2, 5, 0, 0}, // 3 levels
+                                          {1, 2, 4, 5, 0}, // 4 levels
+                                          {1, 2, 3, 4, 5}};  // 5 levels
+                                         
     public ColorByPerf(Field field, Student student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
@@ -56,43 +65,12 @@ public class ColorByPerf {
      */
     public int getColorIndex(int level, int numLevels) {
         
-        int colorIndex = 0;
-        
         // range check
-        if (level <= 0 || level > numLevels) {
+        if (level <= 0 || level > numLevels || numLevels > MAX_LEVELS) {
             return 0;
         }
         
-        if (numLevels == 5) {
-            colorIndex = level;
-        }
-        
-        if (numLevels == 4) {
-            if (level <= 2) {
-                colorIndex = level;
-            } else {
-                colorIndex = level + 1;
-            }
-        }
-        
-        if (numLevels == 3) {
-            if (level <= 2) {
-                colorIndex = level;
-            } else {
-                colorIndex = 5;
-            }
-        }
-        
-        if (numLevels == 2) {
-            if (level == 1) {
-                colorIndex = 1;
-            } else {
-                colorIndex = 5;
-            }
-        }
-        
-        return colorIndex;
-
+        return perfToColor[numLevels - 1][level - 1];
     }
     
     /*
