@@ -54,31 +54,31 @@
 							<xs:documentation>Indicates the reason for the difference, if any, between the official and actual lengths of a student’s disciplinary assignment.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					
+
 					<xs:element name="StudentReference" type="StudentSimpleReference" maxOccurs="unbounded">
 						<xs:annotation>
 								<xs:documentation>The student(s) disciplined by the discipline action.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					
+
 					<xs:element name="DisciplineIncidentReference" type="DisciplineIncident" maxOccurs="unbounded">
 						<xs:annotation>
 								<xs:documentation>Reference to the DisciplineIncident(s) associated with the DisciplineAction.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					
+
 					<xs:element name="StaffReference" type="StaffSimpleReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 								<xs:documentation>The staff responsible for enforcing the discipline action.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					
+
 					<xs:element name="ResponsibilitySchoolReference" type="SchoolSimpleReference">
 						<xs:annotation>
 								<xs:documentation>School responsible for student's discipline.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					
+
 					<xs:element name="AssignmentSchoolReference" type="SchoolSimpleReference" minOccurs="0">
 						<xs:annotation>
 								<xs:documentation>School responsible for student's discipline.</xs:documentation>
@@ -88,7 +88,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="DisciplineIncident">
 		<xs:annotation>
 			<xs:documentation>This event entity represents an occurrence of an infraction ranging from a minor problem behavior that disrupts the orderly functioning of a school or classroom (such as tardiness) to a criminal act that results in the involvement of a law enforcement official (such as robbery). A single event (e.g., a fight) is one incident regardless of how many perpetrators or victims are involved.  Discipline incidents are events classified as warranting discipline action.
@@ -180,7 +180,7 @@ Representative of visiting school
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="StudentDisciplineIncidentAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates those students who were victims, perpetrators, witnesses, and/or reporters for a discipline incident.</xs:documentation>
@@ -191,7 +191,7 @@ Representative of visiting school
 					<xs:documentation>The student associated with the discipline incident.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DisciplineIncidentReference" type="DisciplineIncidentSimpleReference">
+			<xs:element name="DisciplineIncidentReference" type="DisciplineIncident">
 				<xs:annotation>
 					<xs:documentation>Reference to the discipline incident associated with the student.</xs:documentation>
 				</xs:annotation>
@@ -220,7 +220,7 @@ Reporter</xs:documentation>
 	</xs:complexType>
 
 <!-- COMPLEX TYPES -->
-	
+
 	<xs:complexType name="BehaviorDescriptor">
 		<xs:annotation>
 			<xs:documentation>This descriptor holds the categories of behavior describing a discipline incident.</xs:documentation>
@@ -257,7 +257,7 @@ Reporter</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="SecondaryBehavior">
 		<xs:annotation>
 			<xs:documentation>Definition of the behavior coded for use in describing an incident.</xs:documentation>
@@ -288,22 +288,10 @@ Reporter</xs:documentation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
+
 <!-- SIMPLE TYPES -->
 
 
-
-	<xs:simpleType name="DisciplineActionIdentifier">
-		<xs:annotation>
-			<xs:documentation>Identifier assigned by the education organization to the discipline action.
-</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="20"/>
-		</xs:restriction>
-	</xs:simpleType>
-	
 	<xs:simpleType name="DisciplineActionLengthDifferenceReasonType">
 		<xs:annotation>
 			<xs:documentation>Indicates the reason for the difference, if any, between the official and actual lengths of a student’s disciplinary assignment.</xs:documentation>
@@ -323,7 +311,7 @@ Reporter</xs:documentation>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="WeaponItemType">
 		<xs:annotation>
 			<xs:documentation>The enumeration items for the types of weapon used during an incident. </xs:documentation>
@@ -342,5 +330,5 @@ Reporter</xs:documentation>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 </xs:schema>
