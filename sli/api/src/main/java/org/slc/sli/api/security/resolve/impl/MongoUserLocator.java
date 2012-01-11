@@ -24,40 +24,27 @@ import org.slc.sli.domain.Entity;
 @Component
 public class MongoUserLocator implements UserLocator {
     
-    public static final Logger        LOG          = LoggerFactory.getLogger(MongoUserLocator.class);
+    public static final Logger        LOG               = LoggerFactory.getLogger(MongoUserLocator.class);
     
-    private static final List<String> ENTITY_NAMES = Arrays.asList("teacher", "staff");
+    private static final List<String> ENTITY_NAMES      = Arrays.asList("teacher", "staff");
     
     @Autowired
     private EntityRepository          repo;
     
     @Override
     public SLIPrincipal locate(String realm, String externalUserId) {
-        LOG.info("Locating user {}/{}", realm, externalUserId);
-        SLIPrincipal user = null;
+        LOG.info("Locating user {}@{}", externalUserId, realm);
+        SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + realm);
         
+        Query query = new Query(Criteria.where("stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
         for (String entityName : ENTITY_NAMES) {
-            user = query(realm, externalUserId, entityName);
+            Iterable<Entity> staff = repo.findByFields(entityName, query, 0, 1);
             
-            if (user != null) {
-                break;
-            }
-        }
-        
-        return user;
-    }
-    
-    private SLIPrincipal query(String realm, String externalUserId, String entityType) {
-        SLIPrincipal user = null;
-        Query query = new Query();
-        query.addCriteria(Criteria.where("stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
-        Iterable<Entity> staff = repo.findByFields(entityType, query, 0, 1);
-        
-        if (staff != null) {
-            for (Entity e : staff) {
-                LOG.info("Found user: {}", e.getEntityId());
-                user = new SLIPrincipal(e.getEntityId());
-                user.setEntity(e);
+            if (staff != null) {
+                for (Entity e : staff) {
+                    LOG.info("Matched user: {}@{} -> {}", new Object[] { externalUserId, realm, e.getEntityId() });
+                    user.setEntity(e);
+                }
             }
         }
         
