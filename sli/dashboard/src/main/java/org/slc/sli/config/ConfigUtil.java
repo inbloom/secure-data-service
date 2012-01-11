@@ -63,7 +63,7 @@ public class ConfigUtil {
     }
     
     /**
-     * Given a list of display sets, returns a list of all fields of a certain type
+     * Given a view config, returns a list of all fields of a certain type
      * 
      * @param config
      * @param fieldType (i.e. "studentInfo", "assessment", etc)

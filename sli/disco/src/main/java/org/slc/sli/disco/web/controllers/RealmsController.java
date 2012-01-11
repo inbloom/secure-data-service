@@ -52,7 +52,7 @@ public class RealmsController {
      * @return name of the template to use
      * @throws IOException
      */
-    @RequestMapping(value = "list.do", method = RequestMethod.GET)
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
         
         ResponseEntity<String> resp = rest.getForEntity(this.listUrl, String.class);
@@ -88,7 +88,7 @@ public class RealmsController {
      * @return directive to redirect to sso init page
      * @throws IOException
      */
-    @RequestMapping(value = "sso.do", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
     public String ssoInit(@RequestParam(value = "realmId", required = false) String realmId, @RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
         try {
             ResponseEntity<String> redirect = rest.getForEntity(this.ssoInitUrl, String.class, realmId);
