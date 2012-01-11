@@ -2923,6 +2923,18 @@ Oral Administration
 		</xs:restriction>
 	</xs:simpleType>
 	
+	<xs:simpleType name="CourseLevelType">
+		<xs:annotation>
+			<xs:documentation>The secondary course's level of rigor.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Basic or remedial"/>
+			<xs:enumeration value="Enriched or advanced"/>
+			<xs:enumeration value="General or regular"/>
+			<xs:enumeration value="Honors"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
