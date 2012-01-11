@@ -28,8 +28,6 @@ import org.springframework.util.Assert;
 public class MongoEntityRepository implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
     
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
-
     @Autowired
     private MongoTemplate template;
     
@@ -136,87 +134,6 @@ public class MongoEntityRepository implements EntityRepository {
             LOG.info("find entities in collection {} with total numbers is {}",
                     new Object[] { entityType, results.size() });
         
-    }
-    
-    @Override
-    public Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max) {
-        Query query = stringToQuery(queryString);
-        if (query == null)
-            query = new Query();
-        query.skip(skip).limit(max);
-        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
-        logResults(entityType, results);
-        return new LinkedList<Entity>(results);
-    }
-    
-    // TODO may need to add type converter later
-    private Query stringToQuery(String queryString) {
-        Query mongoQuery = new Query();
-        if (queryString == null)
-            queryString = "";
-        String[] queryStrings = queryString.split("&");
-        for (String query : queryStrings) {
-            if (!isReservedQueryKey(query)) {
-                Criteria criteria = null;
-                if (query.contains(">=")) {
-                    String[] keyAndValue = getKeyAndValue(query, ">=");
-                    if (keyAndValue != null)
-                        criteria = Criteria.where("body." + keyAndValue[0]).gte(keyAndValue[1]);
-                } else if (query.contains("<=")) {
-                    String[] keyAndValue = getKeyAndValue(query, "<=");
-                    if (keyAndValue != null)
-                        criteria = Criteria.where("body." + keyAndValue[0]).lte(keyAndValue[1]);
-                    
-                } else if (query.contains("=")) {
-                    String[] keyAndValue = getKeyAndValue(query, "=");
-                    if (keyAndValue != null)
-                        criteria = Criteria.where("body." + keyAndValue[0]).is(keyAndValue[1]);
-                    
-                } else if (query.contains("<")) {
-                    String[] keyAndValue = getKeyAndValue(query, "<");
-                    if (keyAndValue != null)
-                        criteria = Criteria.where("body." + keyAndValue[0]).lt(keyAndValue[1]);
-                    
-                } else if (query.contains(">")) {
-                    String[] keyAndValue = getKeyAndValue(query, ">");
-                    if (keyAndValue != null)
-                        criteria = Criteria.where("body." + keyAndValue[0]).gt(keyAndValue[1]);
-                }
-                if (criteria != null)
-                    mongoQuery.addCriteria(criteria);
-            }
-        }
-        return mongoQuery;
-    }
-    
-    private boolean isReservedQueryKey(String queryString) {
-        boolean found = false;
-        for (String key : reservedQueryKeys) {
-            if (queryString.indexOf(key) >= 0)
-                found = true;
-        }
-        return found;
-    }
-    
-    // TODO may need to add error handling for wrong formatted query
-    private String[] getKeyAndValue(String queryString, String operator) {
-        String[] keyAndValue = queryString.split(operator);
-        if (keyAndValue.length != 2)
-            return null;
-        else
-            return keyAndValue;
-    }
-    
-    @Override
-    public boolean matchQuery(String entityType, String id, String queryString) {
-        boolean match = false;
-        Query query = stringToQuery(queryString);
-        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
-        for (MongoEntity entity : results) {
-            if (entity.getEntityId().equals(id))
-                match = true;
-        }
-        return match;
     }
     
     @Override
