@@ -2,7 +2,7 @@
 # DIBELS meta data
 #
 # Format: 
-# Grade/Period
+# Grade-Period
 # percentile array
 # top score array
 # cutpoint array
@@ -11,7 +11,7 @@
 # Grade K is '0'
 #
 0-BOY
-0,3,0,24,40,49,60,75,90,99
+0,3,10,24,40,49,60,75,90,99
 0,0,2,11,21,27,35,48,66,104
 13,26,104
 0-MOY

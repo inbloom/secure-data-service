@@ -21,16 +21,6 @@ import java.util.HashSet;
  *
  */
 public class AssessmentManager extends Manager {
-    
-    private static AssessmentManager instance = new AssessmentManager();
-    
-    protected AssessmentManager() {        
-    
-    }
-
-    public static AssessmentManager getInstance() {
-        return instance;
-    }
 
     public List<Assessment> getAssessments(String username, List<String> studentIds, ViewConfig config) {
         
