@@ -977,7 +977,7 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 		</xs:restriction>
 	</xs:simpleType><xs:simpleType name="ClassPeriodNameType">
 		<xs:annotation>
-			<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules). 
+			<xs:documentation>An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).
 </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -1100,7 +1100,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="7"/>
 			<xs:maxLength value="128"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="FirstName">
+	</xs:simpleType>
+	<xs:simpleType name="SimpleName">
 		<xs:annotation>
 			<xs:documentation>A name given to an individual at birth, baptism, or during another naming ceremony, or through legal change.
 </xs:documentation>
@@ -1109,7 +1110,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="1"/>
 			<xs:maxLength value="75"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="GradebookEntryType">
+	</xs:simpleType>
+	<xs:simpleType name="GradebookEntryType">
 		<xs:annotation>
 			<xs:documentation>The type of the gradebook entry; for example, homework, assignment, quiz, unit test, oral presentation, etc.
 </xs:documentation>
@@ -1177,16 +1179,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="1"/>
 			<xs:maxLength value="30"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="LastSurname">
-		<xs:annotation>
-			<xs:documentation>The name borne in common by members of a family.
-</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="75"/>
-		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="LeaveEventReason">
+	</xs:simpleType>
+	<xs:simpleType name="LeaveEventReason">
 		<xs:annotation>
 			<xs:documentation>Expanded reason for the staff leave.</xs:documentation>
 		</xs:annotation>
@@ -1202,24 +1196,8 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:minLength value="1"/>
 			<xs:maxLength value="30"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="MiddleName">
-		<xs:annotation>
-			<xs:documentation>A secondary name given to an individual at birth, baptism, or during another naming ceremony.
-</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="75"/>
-		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="NameType">
-		<xs:annotation>
-			<xs:documentation>An alternate name for a person</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="35"/>
-		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="Nomenclature">
+	</xs:simpleType>
+	<xs:simpleType name="Nomenclature">
 		<xs:annotation>
 			<xs:documentation>Reflects the common nomenclature for an element.</xs:documentation>
 		</xs:annotation>
@@ -2075,7 +2053,9 @@ Oral Administration
 			<xs:enumeration value="Unknown"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="StaffClassificationType">
+	</xs:simpleType>
+
+	<xs:simpleType name="StaffClassificationType">
 		<xs:annotation>
 			<xs:documentation>An individual's title of employment, official status or rank.</xs:documentation>
 		</xs:annotation>
@@ -2109,7 +2089,9 @@ Oral Administration
 			<xs:enumeration value="School Specialist"/>
 			<xs:enumeration value="Substitute Teacher"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="StaffIdentificationSystemType">
+	</xs:simpleType>
+
+	<xs:simpleType name="StaffIdentificationSystemType">
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.</xs:documentation>
 		</xs:annotation>
@@ -2130,7 +2112,9 @@ Oral Administration
 			<xs:enumeration value="Canadian SIN"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="StudentCharacteristicType">
+	</xs:simpleType>
+
+	<xs:simpleType name="StudentCharacteristicType">
 		<xs:annotation>
 			<xs:documentation>Enumeration items for the important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth</xs:documentation>
 		</xs:annotation>
@@ -2147,7 +2131,9 @@ Oral Administration
 			<xs:enumeration value="Unschooled Asylee"/>
 			<xs:enumeration value="Unschooled Refugee"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="StudentIdentificationSystemType">
+	</xs:simpleType>
+
+	<xs:simpleType name="StudentIdentificationSystemType">
 		<xs:annotation>
 			<xs:documentation>Definition: A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
 		</xs:annotation>
@@ -2164,7 +2150,9 @@ Oral Administration
 			<xs:enumeration value="State"/>
 			<xs:enumeration value="State Migrant"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="StudentParticipationCodeType">
+	</xs:simpleType>
+
+	<xs:simpleType name="StudentParticipationCodeType">
 		<xs:annotation>
 			<xs:documentation>The role or type of participation of a student in a discipline incident; for example: Victim, Perpetrator, Witness, Reporter</xs:documentation>
 		</xs:annotation>
@@ -2174,7 +2162,9 @@ Oral Administration
 			<xs:enumeration value="Witness"/>
 			<xs:enumeration value="Reporter"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="TeachingCredentialBasisType">
+	</xs:simpleType>
+
+	<xs:simpleType name="TeachingCredentialBasisType">
 		<xs:annotation>
 			<xs:documentation>An indication of the pre-determined criteria for granting the teaching credential that an individual holds.</xs:documentation>
 		</xs:annotation>
@@ -2188,7 +2178,9 @@ Oral Administration
 			<xs:enumeration value=" Relevant experience"/>
 			<xs:enumeration value="Credentials based on reciprocation with another state"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="TeachingCredentialType">
+	</xs:simpleType>
+
+	<xs:simpleType name="TeachingCredentialType">
 		<xs:annotation>
 			<xs:documentation>An indication of the category of a legal document giving authorization to perform teaching assignment services.</xs:documentation>
 		</xs:annotation>
@@ -2226,7 +2218,9 @@ Oral Administration
 			<xs:enumeration value="Visiting International Teacher"/>
 			<xs:enumeration value="District Local"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="TelephoneNumberType">
+	</xs:simpleType>
+
+	<xs:simpleType name="TelephoneNumberType">
 		<xs:annotation>
 			<xs:documentation>The type of communication number listed for an individual.</xs:documentation>
 		</xs:annotation>
@@ -2240,7 +2234,9 @@ Oral Administration
 			<xs:enumeration value="Unlisted"/>
 			<xs:enumeration value="Work"/>
 		</xs:restriction>
-	</xs:simpleType><xs:simpleType name="TitleIPartAParticipantType">
+	</xs:simpleType>
+
+	<xs:simpleType name="TitleIPartAParticipantType">
 		<xs:annotation>
 			<xs:documentation>An indication of the type of Title I program, if any, in which the student is participating and served.</xs:documentation>
 		</xs:annotation>
@@ -2537,7 +2533,7 @@ Oral Administration
 			<xs:enumeration value="Unknown"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:complexType name="ComplexObjectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This is the base type from which all entity elements are extended.</xs:documentation>
@@ -2548,11 +2544,24 @@ Oral Administration
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
-	
+
+	<xs:simpleType name="ProgramAssignmentType">
+		<xs:annotation>
+			<xs:documentation>The name of the education program for which a teacher is assigned to a school.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Regular Education"/>
+			<xs:enumeration value="Title I-Academic"/>
+			<xs:enumeration value="Title I-Non-Academic"/>
+			<xs:enumeration value="Special Education"/>
+			<xs:enumeration value="Bilingual/English as a Second Language"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="ProgramSponsorType">
 		<xs:annotation>
-			<xs:documentation>Ultimate and intermediate providers of funds for a particular educational or service 
-			program or activity or for an individual's participation in the program or activity; e.g., Federal, State, 
+			<xs:documentation>Ultimate and intermediate providers of funds for a particular educational or service
+			program or activity or for an individual's participation in the program or activity; e.g., Federal, State,
 			ESC, District, School, Private Org, etc.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
@@ -2564,5 +2573,200 @@ Oral Administration
 			<xs:enumeration value="Private Organization"/>
 		</xs:restriction>
 	</xs:simpleType>
-		
+
+	<xs:simpleType name="EmploymentStatusType">
+		<xs:annotation>
+			<xs:documentation>Reflects the type of employment or contract.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Probationary"/>
+			<xs:enumeration value="Contractual"/>
+			<xs:enumeration value="Substitute/temporary"/>
+			<xs:enumeration value="Tenured or permanent"/>
+			<xs:enumeration value="Volunteer/no contract"/>
+			<xs:enumeration value="Employed or affiliated with outside organization"/>
+			<xs:enumeration value="Contingent upon funding"/>
+			<xs:enumeration value="Non-contractual"/>
+			<xs:enumeration value="Self-employed part-time"/>
+			<xs:enumeration value="Employed or affiliated with outside agency part-time"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PostingResultType">
+		<xs:annotation>
+			<xs:documentation>Indication of whether the position was filled or retired without filling.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Position Filled"/>
+			<xs:enumeration value="Posting Cancelled"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SexType">
+		<xs:annotation>
+			<xs:documentation>A person's gender.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Female"/>
+			<xs:enumeration value="Male"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="OldEthnicityType">
+		<xs:annotation>
+			<xs:documentation>Previous definition of Ethnicity combining Hispanic/Latino and Race.  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="American Indian Or Alaskan Native"/>
+			<xs:enumeration value="Asian Or Pacific Islander"/>
+			<xs:enumeration value="Black, Not Of Hispanic Origin"/>
+			<xs:enumeration value="Hispanic"/>
+			<xs:enumeration value="White, Not Of Hispanic Origin"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ElectronicMailAddressType">
+		<xs:annotation>
+			<xs:documentation>The type of email listed for an individual or organization.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Home/Personal"/>
+			<xs:enumeration value="Organization"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Work"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PersonalTitlePrefixType">
+		<xs:annotation>
+			<xs:documentation>A prefix used to denote the title, degree, position or seniority of the person.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Colonel"/>
+			<xs:enumeration value="Dr"/>
+			<xs:enumeration value="Mr"/>
+			<xs:enumeration value="Mrs"/>
+			<xs:enumeration value="Ms"/>
+			<xs:enumeration value="Reverend"/>
+			<xs:enumeration value="Sr"/>
+			<xs:enumeration value="Sister"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="GenerationCodeSuffixType">
+		<xs:annotation>
+			<xs:documentation>An appendage, if any, used to denote an individual's generation in his family (e.g., Jr., Sr., III).  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Jr"/>
+			<xs:enumeration value="Sr"/>
+			<xs:enumeration value="II"/>
+			<xs:enumeration value="III"/>
+			<xs:enumeration value="IV"/>
+			<xs:enumeration value="V"/>
+			<xs:enumeration value="VI"/>
+			<xs:enumeration value="VII"/>
+			<xs:enumeration value="VIII"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PersonalInformationVerificationType">
+		<xs:annotation>
+			<xs:documentation>The evidence presented to verify one's personal identity; for example: drivers license, passport, birth certificate, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Baptismal or church certificate"/>
+			<xs:enumeration value="Birth certificate"/>
+			<xs:enumeration value="Drivers license"/>
+			<xs:enumeration value="Entry in family Bible"/>
+			<xs:enumeration value="Hospital certificate"/>
+			<xs:enumeration value="Immigration document/visa"/>
+			<xs:enumeration value="Life insurance policy"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Other non-official document"/>
+			<xs:enumeration value="Other official document"/>
+			<xs:enumeration value="Parents affidavit"/>
+			<xs:enumeration value="Passport"/>
+			<xs:enumeration value="Physicians certificate"/>
+			<xs:enumeration value="Previously verified school records"/>
+			<xs:enumeration value="State-issued ID"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="OtherNameType">
+		<xs:annotation>
+			<xs:documentation>The types of alternate names for a person.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Alias"/>
+			<xs:enumeration value="Nickname"/>
+			<xs:enumeration value="Other Name"/>
+			<xs:enumeration value="Previous Legal Name"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SeparationType">
+		<xs:annotation>
+			<xs:documentation>Type of employment separation; for example:  Voluntary separation, Involuntary separation, Mutual agreement. Other, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Voluntary separation"/>
+			<xs:enumeration value="Involuntary separation"/>
+			<xs:enumeration value="Mutual agreement"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SeparationReasonType">
+		<xs:annotation>
+			<xs:documentation>Reason for terminating the employment; for example:  Employment in education, Employment outside of education, Retirement, Family/personal relocation, Change of assignment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Employment in education"/>
+			<xs:enumeration value="Employment outside of education"/>
+			<xs:enumeration value="Retirement"/>
+			<xs:enumeration value="Family/personal relocation"/>
+			<xs:enumeration value="Change of assignment"/>
+			<xs:enumeration value="Formal study or research"/>
+			<xs:enumeration value="Illness/disability"/>
+			<xs:enumeration value="Homemaking/caring for a family member"/>
+			<xs:enumeration value="Layoff due to budgetary reduction"/>
+			<xs:enumeration value="Layoff due to organizational restructuring"/>
+			<xs:enumeration value="Layoff due to decreased workload"/>
+			<xs:enumeration value="Discharge due to unsuitability"/>
+			<xs:enumeration value="Discharge due to misconduct"/>
+			<xs:enumeration value="Discharge due to continued absence or tardiness"/>
+			<xs:enumeration value="Discharge due to a falsified application form"/>
+			<xs:enumeration value="Discharge due to credential revoked or suspended"/>
+			<xs:enumeration value="Discharge due to unsatisfactory work performance"/>
+			<xs:enumeration value="Death"/>
+			<xs:enumeration value="Personal reason"/>
+			<xs:enumeration value="Lay off due to lack of funding"/>
+			<xs:enumeration value="Lost credential"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Percent">
+		<xs:annotation>
+			<xs:documentation>A proportion in relation to the whole (as measured in parts per one hundred).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="CredentialType">
+		<xs:annotation>
+			<xs:documentation>An indication of the category of credential an individual holds.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Certification"/>
+			<xs:enumeration value="Endorsement"/>
+			<xs:enumeration value="Licensure"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Registration"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 </xs:schema>

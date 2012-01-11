@@ -69,6 +69,18 @@
 		</xs:simpleContent>
 	</xs:complexType>
 
+	<xs:complexType name="TeacherSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a staff member with a type attribute
+				set to "Teacher".</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="Teacher" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
 	<xs:complexType name="SchoolSimpleReference">
 		<xs:annotation>
 			<xs:documentation>A reference to a school with a type attribute set
