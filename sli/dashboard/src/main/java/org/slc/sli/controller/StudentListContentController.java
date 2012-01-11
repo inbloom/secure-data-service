@@ -41,6 +41,15 @@ public class StudentListContentController extends DashboardController {
     public static final String STUDENTS = "students"; 
     public static final String WIDGET_FACTORY = "widgetFactory";
 
+    /**
+     * Retrieves information for the student list and sends back an html table to be displayed
+     * 
+     * @param username
+     * @param population
+     * @param model
+     * @return a ModelAndView object
+     * @throws Exception
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView studentListContent(String username, 
                                            String population, // don't know what this could be yet... For now, a list of student uids

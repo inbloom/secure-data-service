@@ -15,8 +15,12 @@ public class ConfigPersistor {
     
     private APIClient apiClient;
     
-    /*
-     *  Get the view configuration for an entity
+    /**
+     * Get the view configuration for an entity
+     * 
+     * @param entityId
+     * @return ViewConfigSet
+     * @throws Exception
      */
     public ViewConfigSet getConfigSet(String entityId) throws Exception {
     
@@ -36,8 +40,12 @@ public class ConfigPersistor {
         return configSet;
     }
 
-    /*
-     *  Save the view configurations for an entity
+    /**
+     * Save the view configurations for an entity
+     * 
+     * @param entityId
+     * @param configSet
+     * @throws Exception
      */
     public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     

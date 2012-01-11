@@ -13,7 +13,7 @@ import org.slc.sli.util.SecurityUtil;
 
 /**
  * 
- * TODO: Write Javadoc
+ * Handles a request to display a student list
  *
  */
 public class StudentListController extends DashboardController {
@@ -26,6 +26,14 @@ public class StudentListController extends DashboardController {
 
     public StudentListController() { }
     
+    /**
+     * Retrieves the school, section, and student information and calls the view to display
+     * 
+     * @param username
+     * @param model
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {
         Gson gson = new Gson();
