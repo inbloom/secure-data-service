@@ -9,33 +9,30 @@ require_relative '../../../../utils/sli_utils.rb'
 
 Transform /^<([^>]*)>$/ do |step_arg|
   id = "17a8658c-6fcb-4ece-99d1-b2dea1afd987" if step_arg == "'ImportantSection' ID"
+  id = "2899a720-4186-4598-9874-edde0e2541db" if step_arg == "'John Doe' ID"
+  id = "9e6d1d73-a408-41a1-877a-718b897a17c5" if step_arg == "'Sean Deer' ID"
+  id = "54c6546e-7998-4c6b-ad5c-b8d72496bf78" if step_arg == "'Suzy Queue' ID"
+  id = "a63ee073-cd6c-4aa4-a124-fa6a1b4dfc7c" if step_arg == "'Mary Line' ID"
+  id = "51db306f-4fa5-405b-b587-5fac7605e4b3" if step_arg == "'Dong Steve' ID"
+  id
+end
+
+Transform /^\/student-section-associations\/<([^>]*)>$/ do |step_arg|
+  s = "/student-section-associations/"
+  id = s+"17a8658c-6fcb-4ece-99d1-b2dea1afd987" if step_arg == "'ImportantSection' ID"
   id
 end
 
 Transform /^\/student-assessment-associations\/<([^>]*)>$/ do |step_arg|
   s = "/student-assessment-associations/"
-  id = s+"1e0ddefb-6b61-4f7d-b8c3-33bb5676115a" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID"
-  id = s+"7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
-  id = s+"a22532c4-6455-41da-b24d-4f93224f526d" if step_arg == "'Mathematics Achievement Assessment Test' ID"
-  id = s+"c8672d3b-0953-4ad7-a1b5-d5395bc0150a" if step_arg == "Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID"
-  id = "oldId" if step_arg =="the previous association ID"
-  id = s+"11111111-1111-1111-1111-111111111111" if step_arg == "NonExistence Id"
-  id = s+"68fbec8e-2041-4536-aad7-1105ab042c77" if step_arg == "AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' Id"
-  id = s                                        if step_arg == "No GUID"
+  id = s+"54c6546e-7998-4c6b-ad5c-b8d72496bf78" if step_arg == "'Suzy Queue' ID"
+  id = s+"7b2e6133-4224-4890-ac02-73962eb09645" if step_arg == "'ISAT MATH' ID"
   id
 end
 
 Transform /^\/teacher-section-associations\/<([^>]*)>$/ do |step_arg|
   s = "/teacher-section-associations/"
   id = s+"a936f73f-7751-412d-922f-87ad78fd6bd1" if step_arg == "'Ms. Jones' ID"
-  id
-end
-
-Transform /^ID is <([^>]*)>$/ do |step_arg|
-  id = "a22532c4-6455-41da-b24d-4f93224f526d" if step_arg == "'Mathematics Achievement  Assessment Test' ID"
-  id = "7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
-  id = "11111111-1111-1111-1111-111111111111" if step_arg == "Invalid ID"
-  id = ""                                      if step_arg == "No GUID"
   id
 end
 
@@ -47,16 +44,7 @@ end
 
 Transform /^\/students\/<([^>]*)>$/ do |step_arg|
   s = "/students/"
-  id = s+"7afddec3-89ec-402c-8fe6-cced79ae3ef5" if step_arg == "'Jane Doe' ID"
-  id = s+"034e6e7f-9da2-454a-b67c-b95bd9f36433" if step_arg == "'Albert Wright' ID"
-  id = s+"bda1a4df-c155-4897-85c2-953926a3ebd8" if step_arg == "'Kevin Smith' ID"
-  id
-end
-
-Transform /^\/assessments\/<([^>]*)>$/ do |step_arg|
-  s = "/assessments/"
-  id = s+"6a53f63e-deb8-443d-8138-fc5a7368239c" if step_arg == "'Writing Achievement Assessment Test' ID"
-  id = s+"a22532c4-6455-41da-b24d-4f93224f526d" if step_arg =="'Mathematics Achievement Assessment Test' ID"
+  id = s+"54c6546e-7998-4c6b-ad5c-b8d72496bf78" if step_arg == "'Suzy Queue' ID"
   id
 end
 
@@ -75,35 +63,65 @@ Given /^format "([^"]*)"$/ do |fmt|
 #puts @format
 end
 
-When /^I navigate to GET (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
-  if uri =="oldId"
-  uri=@oldId
-  end
-  #puts uri
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  @oldId=uri
-end
 
-When /^I navigate to GET (\/teachers\/<[^>]*>)$/ do |uri|
+When /^I navigate to GET (\/teachers\/<[^>]*>|\/students\/<[^>]*>)$/ do |uri|
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to "([^"]*)" with URI  (\/teacher\-section\-associations\/<'[^>]*>)\/targets$/ do |rel,href|
+When /^I navigate to "([^"]*)" with URI  (\/teacher\-section\-associations\/<[^>]*>)\/targets$/ do |rel,href|
   uri = href+"/targets"
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to "([^"]*)" with URI  (\/teacher\-section\-associations\/<'[^>]*>)\/targets and filter by sectionName is "([^"]*)" and classPeriod is "([^"]*)"$/ do |rel, href, sectionName,classPeriod|
+When /^I navigate to "([^"]*)" with URI  (\/teacher\-section\-associations\/<[^>]*>)\/targets and filter by sectionName is "([^"]*)" and classPeriod is "([^"]*)"$/ do |rel, href, sectionName,classPeriod|
   queryParams = "sectionName="+sectionName+"&classPeriod="+classPeriod
   uri = href+"/targets?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I should see a link named "([^"]*)" with URI  (\/teacher\-section\-associations\/<[^>]*>)$/ do |rel,href|
+When /^I navigate to "([^"]*)" with URI (\/student\-section\-associations\/<[^>]*>)\/targets$/ do |rel,href|
+  uri = href+"/targets"
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I navigate to "([^"]*)" with URI (\/student\-assessment\-associations\/<[^>]*>)\/targets and filter by assessmentTitle is "([^"]*)"$/ do |rel, href,assessmentTitle|
+  queryParams = "assessmentTitle="+assessmentTitle
+  uri = href+"/targets?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  puts @res
+end
+
+When /^I navigate to  "([^"]*)" with URI (\/student\-assessment\-associations\/<[^>]*>)$/ do |rel,href|
+  @uriWithQuery = href+"?"
+end
+
+When /^filter by administrationDate is between "([^"]*)" and "([^"]*)"$/ do |date1,date2|
+  queryParams = "administrationDate>"+date1+"&administrationDate<"+date2
+  @uriWithQuery = @uriWithQuery + URI.escape(queryParams)
+end
+
+When /^filter by studentId is (<[^>]*>)$/ do |studentId|
+  queryParams = "&studentId="+studentId
+  @uriWithQuery = @uriWithQuery + URI.escape(queryParams)
+  restHttpGet(@uriWithQuery)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    uri = "/student-assessment-associations/"+dataH[0]["id"]
+    restHttpGet(uri)
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+end
+
+Then /^I should see a link named "([^"]*)" with URI (\/teacher\-section\-associations\/<[^>]*>|\/student\-assessment\-associations\/<[^>]*>)$/ do |rel,href|
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
     found = false
@@ -120,12 +138,12 @@ Then /^I should see a link named "([^"]*)" with URI  (\/teacher\-section\-associ
   end
 end
 
-Then /^I should see  a link named "([^"]*)" with URI  (\/teacher\-section\-associations\/<[^>]*>)\/targets$/ do |rel,href|
+Then /^I should see a link named "([^"]*)" with URI (\/teacher\-section\-associations\/<[^>]*>|\/student\-assessment\-associations\/<[^>]*>)\/targets$/ do |rel,href|
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
     found = false
     dataH["links"].each do|link|
-      if link["rel"]==rel and link["href"].include? href
+      if link["rel"]==rel and link["href"].include? href+"/targets"
       found =true
       end
     end
@@ -173,9 +191,37 @@ Then /^I should receive a collection of (\d+) section links that resolve to$/ do
   end
 end
 
+Then /^I should receive a collection of (\d+) student links that resolve to$/ do |arg1|
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    counter=0
+    @ids = Array.new
+    dataH.each do|link|
+      if link["link"]["rel"]=="self" and link["link"]["href"].include? "/students/"
+      counter=counter+1
+      @ids.push(link["id"])
+      end
+    end
+    assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+end
+
+Then /^I should find Student with (<[^>]*>)$/ do |studentId|
+  found =false
+  @ids.each do |id|
+    if id==studentId
+      found = true
+    end
+  end
+  assert(found, "didnt find student with ID #{studentId}")
+end
+
 Then /^I should receive (\d+) section link that resolve to$/ do |arg1|
   if @format == "application/json" or @format == "application/vnd.slc+json"
-    puts @res
     dataH=JSON.parse(@res.body)
     counter=0
     @ids = Array.new
@@ -233,12 +279,38 @@ Then /^I should find section with sectionName is "([^"]*)" and classPeriod is "(
   assert(found, "didnt find section with sectionName #{sectionName} and classPeriod #{classPeriod} with #{id}")
 end
 
-Then /^I should receive (\d+) student\-assessment\-assoications$/ do |arg1|
+Then /^I should see a link named "([^"]*)" with URI (\/student\-section\-associations\/<[^>]*>)\/targets$/ do |rel,href|
+  found =false
+  @ids.each do |id|
+    uri = "/sections/"+id
+    restHttpGet(uri)
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @format == "application/json" or @format == "application/vnd.slc+json"
+      dataH=JSON.parse(@res.body)
+      dataH["links"].each do |link|
+        if link["rel"]==rel and link["href"].include? href
+        found =true
+      end
+      end
+    elsif @format == "application/xml"
+      assert(false, "application/xml is not supported")
+    else
+      assert(false, "Unsupported MIME type")
+    end
+  end
+  assert(found, "didnt find link named #{rel} with URI #{href}/targets")
+  end
+  
+
+
+
+
+Then /^I should receive (\d+) assessment$/ do |arg1|
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
     counter=0
-    dataH["links"].each do|link|
-      if link["rel"]=="self"
+    dataH.each do|link|
+      if link["link"]["rel"]=="self" and link["link"]["href"].include? "/assessments/"
       counter=counter+1
       end
     end
@@ -250,18 +322,16 @@ Then /^I should receive (\d+) student\-assessment\-assoications$/ do |arg1|
   end
 end
 
-Then /^I should receive a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ do |rel,href|
+Then /^I should find a ScoreResult is (\d+)$/ do |scoreResult|
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
     found = false
-    dataH["links"].each do|link|
-      if link["rel"]==rel and link["href"].include? href
-      found =true
+    dataH["scoreResults"].each do |result|
+      if result["result"]==scoreResult
+        found = true
       end
     end
-    if found == false
-      assert(found, "didnt receive link named #{rel} with URI #{href}")
-    end
+    assert(found, "did not find scoreResult #{scoreResult}")
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
   else
@@ -269,102 +339,15 @@ Then /^I should receive a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ 
   end
 end
 
-Then /^I should receive a link named "([^"]*)" with URI (\/assessments\/<[^>]*>)$/ do |rel,href|
+Then /^I should find a PerformanceLevel is (\d+)$/ do |performanceLevel|
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
-    found = false
-    dataH["links"].each do|link|
-      if link["rel"]==rel and link["href"].include? href
-      found =true
-      end
-    end
-    if found == false
-      assert(found, "didnt receive link named #{ref} with URI #{href}")
-    end
+    level = dataH["performanceLevel"]
+    assert(level==performanceLevel, "Expected performanceLevel is #{performanceLevel}, received #{level}")
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
   else
     assert(false, "Unsupported MIME type")
   end
-end
-
-Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    if key == "scoreResults"
-      assert(dataH["scoreResults"][0]["result"]==value,"Expected #{key} not found in response")
-    elsif
-    assert(dataH[key]==value,"Expected #{key} not found in response")
-    end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-end
-
-Then /^I should receive a collection of (\d+) student\-assessment\-associations that resolve to$/ do |arg1|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    @collectionLinks = []
-    counter=0
-    @ids = Array.new
-    dataH.each do|link|
-      if link["link"]["rel"]=="self"
-        counter=counter+1
-        @ids.push(link["id"])
-      # puts @ids
-      end
-    end
-    assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-end
-
-Then /^I should get a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ do |rel,href|
-  found =false
-  @ids.each do |id|
-    uri = "/student-assessment-associations/"+id
-    restHttpGet(uri)
-    assert(@res != nil, "Response from rest-client GET is nil")
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      dataH=JSON.parse(@res.body)
-      dataH["links"].each do|link|
-        if link["rel"]==rel and link["href"].include? href
-        found =true
-        end
-      end
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-  end
-  assert(found, "didnt receive link named #{rel} with URI #{href}")
-end
-
-Then /^I should get a link named "([^"]*)" with URI (\/assessments\/<[^>]*>)$/ do |rel,href|
-  found =false
-  @ids.each do |id|
-    uri = "/student-assessment-associations/"+id
-    restHttpGet(uri)
-    assert(@res != nil, "Response from rest-client GET is nil")
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      dataH=JSON.parse(@res.body)
-      dataH["links"].each do|link|
-        if link["rel"]==rel and link["href"].include? href
-        found =true
-        end
-      end
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-  end
-  assert(found, "didnt receive link named #{rel} with URI #{href}")
 end
 
