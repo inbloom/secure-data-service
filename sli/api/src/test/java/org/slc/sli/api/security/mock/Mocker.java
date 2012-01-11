@@ -84,7 +84,7 @@ public class Mocker {
         return resolver;
     }
     
-    private static UserLocator getLocator() {
+    public static UserLocator getLocator() {
         MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
         Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
         Mockito.when(locator.locate("dc=slidev,dc=net", "demo")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));

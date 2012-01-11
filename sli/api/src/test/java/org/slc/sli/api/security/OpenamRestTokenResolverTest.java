@@ -7,9 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -48,7 +46,7 @@ public class OpenamRestTokenResolverTest {
         resolver = new OpenamRestTokenResolver();
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
-        resolver.setLocator(new MongoUserLocator());
+        resolver.setLocator(Mocker.getLocator());
         rightsResolver = mock(RolesToRightsResolver.class);
         resolver.setResolver(rightsResolver);
 

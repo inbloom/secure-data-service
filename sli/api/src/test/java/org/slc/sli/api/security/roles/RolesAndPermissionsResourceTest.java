@@ -38,7 +38,7 @@ public class RolesAndPermissionsResourceTest {
 
     @Autowired
     private RolesAndPermissionsResource api;
-    RoleRightAccess mockRoles;
+    private RoleRightAccess mockRoles;
 
     @Autowired
     private SecurityContextInjector securityContextInjector;

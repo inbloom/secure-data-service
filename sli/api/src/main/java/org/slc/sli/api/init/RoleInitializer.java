@@ -80,8 +80,8 @@ public class RoleInitializer {
 
         if (!hasSLIAdmin)
             createdRoles.add(buildSLIAdmin());
-        for (EntityBody body : createdRoles) {
-            repository.create(ROLES, body);
+        for (Role body : createdRoles) {
+            repository.create(ROLES, body.getRoleAsEntityBody());
         }
         return createdRoles.size();
 
@@ -113,7 +113,7 @@ public class RoleInitializer {
                                 Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
     }
     
-    private EntityBody buildSLIAdmin() {
+    private Role buildSLIAdmin() {
         LOG.info("Building SLI Administrator default role.");
         return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.READ_ROLES }).build();
     }

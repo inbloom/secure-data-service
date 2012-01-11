@@ -8,8 +8,6 @@ import java.util.Set;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.impl.DefaultClientRoleResolver;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.security.roles.DefaultRoleRightAccessImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +39,17 @@ public class SecurityContextInjector {
 
     }
 
+    public void setResolver(RolesToRightsResolver resolver) {
+        this.resolver = resolver;
+    }
+
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
         Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRoles());
         SecurityContextHolder.clearContext();
-        return new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
+
+        PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
+        return preAuthenticatedAuthenticationToken;
     }
 
     public void setEducatorContext() {
@@ -78,9 +82,4 @@ public class SecurityContextInjector {
         return principal;
     }
 
-    private DefaultRolesToRightsResolver getRightsResolver() {
-        DefaultRolesToRightsResolver resolver = new DefaultRolesToRightsResolver();
-        resolver.setRoleMapper(new DefaultClientRoleResolver());
-        return resolver;
-    }
 }
