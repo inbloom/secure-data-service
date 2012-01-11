@@ -25,7 +25,7 @@ public class AggregateURLCreator extends URLCreator {
 		List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
 		        
 		//TODO - testing only
-		Map<String, String> p = new java.util.HashMap<String, String>();
+		/*Map<String, String> p = new java.util.HashMap<String, String>();
 		p.put("sex", "Male");
 		
         //get the aggregations that match the query params
@@ -34,17 +34,17 @@ public class AggregateURLCreator extends URLCreator {
         //iterate through the aggregations and build the embedded links list
         for(Entity e : aggregations) {
         	results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo, "students", e.getEntityId()).toString()));        			
-        }
+        }*/
         
-        /*
+        
         //get the aggregations that match the query params
-        Iterable<Entity> aggregations = repo.findByFields(ENTITY_TYPE_AGGREGATION, p);
+        Iterable<Entity> aggregations = repo.findByFields(ENTITY_TYPE_AGGREGATION, params);
       		
         //iterate through the aggregations and build the embedded links list
         for(Entity e : aggregations) {
         	results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo, ENTITY_EXPOSE_TYPE_AGGREGATIONS, e.getEntityId()).toString()));        			
         }
-        */
+
         
 		return results;
 	}
