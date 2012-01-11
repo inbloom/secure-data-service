@@ -48,8 +48,8 @@ Scenario Outline: Read a student-section-association
 Scenario Outline: Update a student-section-association 
 	Given format <format>
 	When I navigate to GET "/student-section-associations/<'Section "Foreign Language - A" and Student "Albert Wright"' ID>"
-    And
-	When "repeatIdentifier" is updated to "Not_repeated"
+      Then  the "repeatIdentifier" should be "Repeated"
+	When I set the "repeatIdentifier" to "Not_repeated"
 		And I navigate to PUT "/student-section-associations/<'Section "Foreign Language - A" and Student "Albert Wright"' ID>"
 	Then I should receive a return code of 204
 	When I navigate to GET "/student-section-associations/<'Section "Foreign Language - A" and Student "Albert Wright"' ID>"
