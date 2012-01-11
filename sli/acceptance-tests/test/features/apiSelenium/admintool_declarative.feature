@@ -1,32 +1,36 @@
+@wip
 Feature: Admin Tool Declarative Administrative Permissions
+
+As a SLI Operator/Administrator, I want to login to the SLI Default Roles Admin Page,
+so I could get an information about the default roles in SLI and their permissions.
 
 As a SLI Operator/Administrator, I want the SLI Default Roles Admin Page to be
 protected so only I can get information about the default roles in SLI and their permissions.
  
 Scenario: Go to SLI Default Roles Admin Page, with a SLI IT Administrator role when authenticated to SLI IDP
 Given I have an open web browser
-And I am authenticated to SLI IDP
+And I am authenticated to SLI IDP as user "administrator" with pass "administrator1234"
 And I have a Role attribute equal to "SLI IT Administrator"
 When I navigate to the SLI Default Roles Admin Page
 Then I should be redirected to the SLI Default Roles Admin Page
  
 Scenario: Go to SLI Default Roles Admin Page, with a role other than SLI IT Administrator when authenticated to SLI IDP
 Given I have an open web browser
-And I am authenticated to SLI IDP
+And I am authenticated to SLI IDP as user "leader" with pass "leader1234"
 And I have a Role attribute equal to "Leader"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
  
 Scenario: Go to SLI Default Roles Admin Page, with a SLI IT Administrator role when authenticated to SEA/LEA IDP
 Given I have an open web browser
-And I am authenticated to SEA/LEA IDP
+And I am authenticated to SLI IDP as user "administrator" with pass "administrator1234"
 And I have a Role attribute equal to "SLI IT Administrator"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
  
 Scenario: Go to SLI Default Roles Admin Page, with a role other than SLI IT Administrator when authenticated to SEA/LEA IDP
 Given I have an open web browser
-And I am authenticated to SEA/LEA IDP
+And I am authenticated to SLI IDP as user "leader" with pass "leader1234"
 And I have a Role attribute equal to "Leader"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
