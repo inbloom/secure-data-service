@@ -18,12 +18,6 @@
    <dependencies>
 
       <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>sli-configuration</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
          <groupId>jstl</groupId>
          <artifactId>jstl</artifactId>
          <version>1.2</version>

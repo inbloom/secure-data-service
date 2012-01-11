@@ -4,32 +4,20 @@
 
    <display-name>SLI Realm Chooser</display-name>
 
-   <listener>
-      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-   </listener>
-   <listener>
-      <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-   </listener>
-
-   <context-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:spring/commonCtx.xml classpath:spring/applicationContext.xml</param-value>
-   </context-param>
-
    <!-- SERVLET -->
    <servlet>
       <servlet-name>appServlet</servlet-name>
       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
       <init-param>
          <param-name>contextConfigLocation</param-name>
-         <param-value>classpath:spring/commonCtx.xml classpath:spring/applicationContext.xml</param-value>
+         <param-value>classpath:spring/applicationContext.xml</param-value>
       </init-param>
       <load-on-startup>1</load-on-startup>
    </servlet>
 
    <servlet-mapping>
       <servlet-name>appServlet</servlet-name>
-      <url-pattern>*.do</url-pattern>
+      <url-pattern>/</url-pattern>
    </servlet-mapping>
 
 
