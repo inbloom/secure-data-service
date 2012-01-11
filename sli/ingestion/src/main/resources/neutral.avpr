@@ -7,7 +7,7 @@
         {"name": "localId", "type": ["string", "null"]},
         {"name": "localParentIds", "type": [{"type": "map", "values": "string"},"null"]},
         {"name": "recordType", "type": ["string", "null"]},
-        {"name": "attributes", "type": [{"type": "map", "values": "string"},"null"]},
+        {"name": "attributes", "type": ["string","null"]},
         {"name": "atrributesCrc", "type": ["string", "null"]}
     ]
 }

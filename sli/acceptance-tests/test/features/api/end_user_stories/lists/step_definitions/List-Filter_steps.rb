@@ -93,7 +93,6 @@ When /^I navigate to "([^"]*)" with URI (\/student\-assessment\-associations\/<[
   uri = href+"/targets?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
-  puts @res
 end
 
 When /^I navigate to  "([^"]*)" with URI (\/student\-assessment\-associations\/<[^>]*>)$/ do |rel,href|

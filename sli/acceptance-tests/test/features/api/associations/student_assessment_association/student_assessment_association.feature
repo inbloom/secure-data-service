@@ -35,7 +35,6 @@ Scenario: Read a student-assessment-association
 Given format "application/json"
 When I navigate to GET "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>"
 Then I should receive a return code of 200
-	And I should receive 1 student-assessment-associations
     And I should receive a link named "self" with URI "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID>"
 	And I should receive a link named "getStudents" with URI "/students/<'Jane Doe' ID>"
 	And I should receive a link named "getAssessment" with URI "/assessments/<'Writing Achievement Assessment Test' ID>"
@@ -50,20 +49,20 @@ Scenario: Reading a student-assessment-association for a student
 Given format "application/json"
 When I navigate to GET "/student-assessment-associations/<'Jane Doe' ID>"
 Then I should receive a return code of 200
-	And I should receive a collection of 2 student-assessment-associations that resolve to
-	And I should get a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
-	And I should get a link named "getAssessment" with URI "/assessments/<'Mathematics Achievement Assessment Test' ID>"
-	And I should get a link named "getAssessment" with URI "/assessments/<'Writing Achievement Assessment Test' ID>"
+	And I should receive a collection of 2 student-assessment-association links
+	And after resolution, I should get a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
+	And after resolution, I should get a link named "getAssessment" with URI "/assessments/<'Mathematics Achievement Assessment Test' ID>"
+	And after resolution, I should get a link named "getAssessment" with URI "/assessments/<'Writing Achievement Assessment Test' ID>"
 
 Scenario: Reading a student-assessment-association for a assessment
 Given  format "application/json"
 When I navigate to GET "/student-assessment-associations/<'Mathematics Achievement Assessment Test' ID>"
 Then I should receive a return code of 200
-	And I should receive a collection of 3 student-assessment-associations that resolve to
-	And I should get a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
-	And I should get a link named "getStudent" with URI "/students/<'Albert Wright' ID>"
-	And I should get a link named "getStudent" with URI "/students/<'Kevin Smith' ID>"
-	And I should get a link named "getAssessment" with URI "/assessments/<'Mathematics Achievement Assessment Test' ID>"
+	And I should receive a collection of 3 student-assessment-association links
+	And after resolution, I should get a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
+	And after resolution, I should get a link named "getStudent" with URI "/students/<'Albert Wright' ID>"
+	And after resolution, I should get a link named "getStudent" with URI "/students/<'Kevin Smith' ID>"
+	And after resolution, I should get a link named "getAssessment" with URI "/assessments/<'Mathematics Achievement Assessment Test' ID>"
 
 Scenario: Update a student-assessment-association 
 Given  format "application/json"

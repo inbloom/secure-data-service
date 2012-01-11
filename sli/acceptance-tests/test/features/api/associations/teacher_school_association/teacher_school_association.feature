@@ -24,34 +24,35 @@ Scenario: Create a teacher-school-association
      And the "schoolID" should be "<'Algebra Alternative' ID>"
      And the "programAssignmentType" should be "REGULAR_EDUCATION"
      And the "instructionalGradeLevel" should be "10th"
-
-Scenario: Read a teacher-school-association for a teacher
-   Given format "application/json"
-    When I navigate to GET "/teacher-school-associations/<'Ms. Jones' ID>"
-    Then I should receive a return code of 200
-     And I should receive a collection of 3 teacher-school-associations that resolve to
-     And I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
-     And I should receive a link named "getSchool" with URI "/schools/<'Algebra Alternative' ID>"
-     And I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
-     And I should receive a link named "getSchool" with URI "/schools/<'Chemistry Elementary' ID>"
-
+     
 Scenario: Reading a teacher-school-association
    Given format "application/json"
     When I navigate to GET "/teacher-school-associations/<'Teacher Mr. Smith and School Biology High' ID>"
     Then I should receive a return code of 200
-     And I should receive a teacher-school-associations
+     And "teacherId" should be "<'Mr. Smith' ID>"
+     And "schoolId" should be "<'Biology High' ID>"
      And I should receive a link named "self" with URI "/teacher-school-associations/<'Teacher Mr. Smith and School Biology High' ID>"
      And I should receive a link named "getTeacher" with URI "/teachers/<'Mr. Smith' ID>"
      And I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
+     
+Scenario: Read a teacher-school-association for a teacher
+   Given format "application/json"
+    When I navigate to GET "/teacher-school-associations/<'Ms. Jones' ID>"
+    Then I should receive a return code of 200
+     And I should receive a collection of 3 teacher-school-association links
+     And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
+     And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Algebra Alternative' ID>"
+     And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
+     And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Chemistry Elementary' ID>"
 
 Scenario: Reading a teacher-school-association for a school
    Given format "application/json"
     When I navigate to GET "/teacher-school-associations/<'Biology High' ID>"
     Then I should receive a return code of 200
-     And I should receive a collection of 2 teacher-school-associations that resolve to
-     And I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
-     And I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
-     And I should receive a link named "getTeacher" with URI "/teachers/<'Mr. Smith ID>"
+     And I should receive a collection of 2 teacher-school-association links
+     And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
+     And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
+     And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Mr. Smith ID>"
 
 Scenario: Update a teacher-school-association
    Given format "application/json"
