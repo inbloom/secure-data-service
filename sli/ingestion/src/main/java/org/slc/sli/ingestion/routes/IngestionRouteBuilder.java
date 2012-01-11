@@ -148,6 +148,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             jobLogger.info("Job ready for processing");
                         }
 
+                        jobLogger.info("Ingested " + exchange.getIn().getHeader("records.processed") + " records.");
+                        
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
                     }
