@@ -74,7 +74,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: zipFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.zip$&move="
+                "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
                         + "/.error")
                 .routeId("zipFilePoller")
@@ -148,7 +148,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             jobLogger.info("Job ready for processing");
                         }
 
-                        jobLogger.info("Ingested " + exchange.getIn().getHeader("records.processed") + " records.");
+                        jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
                         
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
