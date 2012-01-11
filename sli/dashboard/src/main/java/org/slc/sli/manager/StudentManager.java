@@ -4,7 +4,6 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ConfigUtil;
-import org.slc.sli.client.MockAPIClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,16 +17,8 @@ import java.util.ArrayList;
  * @author dwu
  *
  */
-public class StudentManager {
+public class StudentManager extends Manager {
     
-    private static StudentManager instance = new StudentManager();
-    
-    protected StudentManager() {        
-    }
-    
-    public static StudentManager getInstance() {
-        return instance;
-    }
     
     public List<Student> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
@@ -35,11 +26,9 @@ public class StudentManager {
         List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
         
         // call the api
-        // TODO: mock/real api switch
         // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
         if (dataFields.size() > 0) {
-            MockAPIClient apiClient = new MockAPIClient();
             studentInfo.addAll(Arrays.asList(apiClient.getStudents(username, studentIds)));
         }
         

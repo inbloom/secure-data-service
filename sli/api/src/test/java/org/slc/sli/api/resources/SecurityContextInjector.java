@@ -36,7 +36,9 @@ public class SecurityContextInjector {
     public void setAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";
+
         setPrincipalAndSecurityContext(user, fullName, DefaultRoleRightAccessImpl.IT_ADMINISTRATOR);
+
     }
 
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
@@ -69,7 +71,7 @@ public class SecurityContextInjector {
     }
 
     private SLIPrincipal buildPrincipal(String user, String fullName, List<String> roles) {
-        SLIPrincipal principal = new SLIPrincipal();
+        SLIPrincipal principal = new SLIPrincipal(user);
         principal.setId(user);
         principal.setName(fullName);
         principal.setRoles(roles);

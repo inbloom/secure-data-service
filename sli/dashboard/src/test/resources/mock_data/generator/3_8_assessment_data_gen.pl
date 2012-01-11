@@ -3,6 +3,8 @@ use List::Util qw[min max];
 
 # Generates assessment json for a given list of students.
 # 
+# Generates data for the current year and the preceeding year. 
+# 
 # Arguments: 
 #  student_file assement_metadata_file assessment_code current_year omit_percentile_rank skip_probability
 # 
@@ -79,7 +81,7 @@ while ($line = <INPUT_STUDENT>)
     if ($line =~ /^\#/) { next; }
     chomp($line);
     ($studentUid, $current_grade) = split (/,/, $line);
-    # Enter two years' worth of student data, the student is never retained. 
+    # Generate two years' worth of student data, the student is never retained. 
     for(my $grade = max($current_grade-1, 3); $grade <= $current_grade; $grade++) {
         # determine if this window would be skipped
 	my $skip_rand = rand();

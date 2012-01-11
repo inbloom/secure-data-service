@@ -12,7 +12,7 @@ When /^I navigate to the SLI Default Roles Admin Page$/ do
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  assert(@driver.current_url.index("/disco/realms/") != nil, "Failed to be redirected to Realmchooser")
+  assert(@driver.current_url.index("/disco/realms/") != nil, webdriverDebugMessage(@driver,"Failed to be redirected to Realmchooser"))
 end
 
 Given /^I am authenticated to SLI IDP$/ do
@@ -24,9 +24,7 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  #TODO get rid of debug below
-  puts @driver.title
-  assert(@driver.title.index("SLI Default Roles") != nil, "Failed to navigate to the Admintools Role page")
+  assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do
@@ -35,7 +33,7 @@ Given /^I have tried to access the SLI Default Roles Admin Page$/ do
 end
 
 Given /^I was redirected to the Realm page$/ do
-  assert(@driver.current_url.index("/disco/realms/") != nil, "Failed to be redirected to Realmchooser")
+  assert(@driver.current_url.index("/disco/realms/") != nil, webdriverDebugMessage(@driver,"Failed to be redirected to Realmchooser"))
 end
 
 Given /^I choose my realm$/ do
@@ -48,7 +46,7 @@ Given /^I choose my realm$/ do
 end
 
 Given /^I was redirected to the SLI IDP Login page$/ do
-  assert(@driver.current_url.index("/idp") != nil, "Failed to navigate to IDP login page")
+  assert(@driver.current_url.index("/idp") != nil, webdriverDebugMessage(@driver,"Failed to navigate to IDP login page"))
 end
 
 Given /^I am user "([^"]*)"$/ do |arg1|
@@ -76,14 +74,28 @@ Then /^I am now authenticated to SLI IDP$/ do
 end
 
 Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
+  #No code needed for this step
+end
+
+Then /^I am informed that authentication has failed$/ do
+  errorBox = @driver.find_element(:name, "Login.AlertImage")
+  assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message box with name=Login.AlertImage"))
+end
+
+Then /^I do not have access to the SLI Default Roles Admin Page$/ do
+  @driver.get PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  assert(@driver.title.index("SLI Default Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
+end
+
+Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
+  #No code needed, this is done durring the IDP configuration
+end
+
+Then /^I should get a message that I am not authorized$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I am informed that "([^"]*)" does not exists$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I am redirected to the SLI\-IDP Login Page$/ do
+Given /^I am authenticated to SEA\/LEA IDP$/ do
   pending # express the regexp above with the code you wish you had
 end
 

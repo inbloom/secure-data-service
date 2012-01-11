@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.security.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -38,6 +39,7 @@ import static org.mockito.Mockito.when;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class SLIProcessingFilterTest {
     
+    @Autowired
     private SliRequestFilter        filter;
     
     private MockHttpServletRequest  request;

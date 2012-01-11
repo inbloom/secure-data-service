@@ -254,8 +254,10 @@ public class EntityServiceLayerTest {
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null));
 
         // test query fields
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=First grade"));
-        assertFalse(studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=Second grade").iterator().hasNext());
+        assertEquals(Arrays.asList(assocId1),
+                studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=First grade"));
+        assertFalse(studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=Second grade")
+                .iterator().hasNext());
         
         assertEquals(Arrays.asList(assocId1),
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=First grade"));
