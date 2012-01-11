@@ -15,9 +15,9 @@ Scenario: Create a new teacher in JSON format
       And the "birthDate" is "1954-08-31"
       And the "sex" is "Male"
       And the "yearsOfPriorTeachingExperience" is "32"
-      And the "teacherUniqueStateID" is "<'Teacher Home State' ID>"
+      And the "staffUniqueStateId" is "<'Teacher Home State' ID>"
       And the "highlyQualifiedTeacher" status is "true"
-      And the "levelOfEducation" is "Masters"
+      And the "highestLevelOfEducationCompleted" is "Masters"
    When I navigate to POST "/teachers/"
    Then I should receive a return code of 201
       And I should receive an ID for the newly created teacher
@@ -26,9 +26,9 @@ Scenario: Create a new teacher in JSON format
       And the "birthDate" should be "1954-08-31"
       And the "sex" should be "Male"
       And the "yearsOfPriorTeachingExperience" should be "32"
-      And the "teacherUniqueStateID" should be "<'Teacher Home State' ID>"
+      And the "staffUniqueStateId" should be "<'Teacher Home State' ID>"
       And the "highlyQualifiedTeacher" status should be "true"
-      And the "levelOfEducation" should be "Masters"
+      And the "highestLevelOfEducationCompleted" should be "Masters"
               
 Scenario: Read a teacher by ID in JSON format
    Given format "application/json"
@@ -38,9 +38,9 @@ Scenario: Read a teacher by ID in JSON format
       And the "sex" should be "Female"
       And the "birthDate" should be "1956-08-14"
       And the "yearsOfPriorTeachingExperience" should be "22"
-      And the "teacherUniqueStateID" should be "<'Teacher Home State' ID>"
+      And the "staffUniqueStateId" should be "<'Teacher Home State' ID>"
       And the "highlyQualifiedTeacher" status should be "false"
-      And the "levelOfEducation" should be "Bachelors"
+      And the "highestLevelOfEducationCompleted" should be "Bachelors"
       And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Macy' ID>"
       And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Macy' ID>/targets"
       And I should receive a link named "getTeacherSchoolAssociations" with URI "/teacher-school-associations/<'Macy' ID>"
@@ -76,7 +76,7 @@ Scenario: Create a new teacher in XML format
       And the "birthDate" is "1954-08-31"
       And the "sex" is "Male"
       And the "yearsOfPriorTeachingExperience" is "32"
-      And the "teacherUniqueStateID" is "567"
+      And the "staffUniqueStateId" is "567"
       And the "highlyQualifiedTeacher" status is "1"
    When I navigate to POST "/teachers/<'Rafe' ID>"
    Then I should receive a return code of 201
@@ -91,7 +91,7 @@ Scenario: Read a teacher by ID in XML format
       And the "sex" should be "Male"
       And the "birthDate" should be "1954-08-31"
       And the "yearsOfPriorTeachingExperience" should be "32"
-      And the "teacherUniqueStateID" should be "567"
+      And the "staffUniqueStateId" should be "567"
       And the "highlyQualifiedTeacher" status should be "1"
   
 @wip 
