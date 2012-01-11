@@ -140,8 +140,8 @@ public class ResourceUtil {
         // map.put("userType", "teachers");
         // map.put("id", "fa45033c-5517-b14b-1d39-c9442ba95782");
         
-        map.put("userType", "students");
-        map.put("id", "714c1304-8a04-4e23-b043-4ad80eb60992");        
+        map.put("userType", "staff");
+        map.put("id", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");        
         map.put("roleType", "superident"); //this would change
         
         return map;
