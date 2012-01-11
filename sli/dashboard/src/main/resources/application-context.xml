@@ -21,7 +21,7 @@
     
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
-        <property name="apiClient" ref="APIClientBean"/>
+        <property name="apiClient" ref="${apiclient}Client"/>
     </bean>
     <bean id="assessmentManager" class="org.slc.sli.manager.AssessmentManager" parent="manager"/>
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager"/>
@@ -53,18 +53,11 @@
 		    </list>
 	    </property>
     </bean>
-    
-    <bean id="SpringPropertiesHandlingBean" class="org.slc.sli.entity.SpringPropertiesTest">
-    <property name="name" value="" />
-    </bean>
-    
 
-	<bean id= "liveClient" class="org.slc.sli.client.LiveAPIClient">
+	<bean id= "LiveClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />
 	</bean>
 
-    <!-- api client -->
-    <bean id="APIClientBean" class="org.slc.sli.client.${apiclient}APIClient" />
-
-     
+    <bean id= "MockClient" class="org.slc.sli.client.MockAPIClient" />
+    
 </beans>
