@@ -1,10 +1,16 @@
 require 'rest-client'
+require 'uri'
 require 'json'
 require 'builder'
 require 'rexml/document'
 
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
+
+Transform /^<([^>]*)>$/ do |step_arg|
+  id = "17a8658c-6fcb-4ece-99d1-b2dea1afd987" if step_arg == "'ImportantSection' ID"
+  id
+end
 
 Transform /^\/student-assessment-associations\/<([^>]*)>$/ do |step_arg|
   s = "/student-assessment-associations/"
@@ -69,52 +75,6 @@ Given /^format "([^"]*)"$/ do |fmt|
 #puts @format
 end
 
-Given /^Assessment (ID is <[^>]*>)$/ do |arg1|
-  @assessmentId = arg1
-  @assessmentId.should_not == nil
-#puts @assessmentId
-
-end
-
-Given /^Student (ID is <[^>]*>)$/ do |arg1|
-  @studentId = arg1
-  @studentId.should_not == nil
-#puts @studentId
-end
-
-Given /^AdministrationDate is "([^"]*)"$/ do |arg1|
-  @administrationDate = arg1
-  @administrationDate.should_not == nil
-end
-
-Given /^ScoreResults is "([^"]*)"$/ do |arg1|
-  @scoreResults = arg1
-  @scoreResults.should_not == nil
-end
-
-Given /^PerformanceLevel is "([^"]*)"$/ do |arg1|
-  @performanceLevel = arg1
-  @performanceLevel.should_not == nil
-end
-
-When /^I navigate to POST "([^"]*)"$/ do |uri|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH = Hash["studentId"=> @studentId,
-    "assessmentId" => @assessmentId,
-    "administrationDate" => @administrationDate,
-    "scoreResults"=>[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@scoreResults]],
-    "performanceLevel"=> @performanceLevel]
-  data=dataH.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(uri, data)
-  assert(@res != nil, "Response from rest-client POST is nil")
-  @oldId =uri
-end
-
 When /^I navigate to GET (\/student\-assessment\-associations\/<[^>]*>)$/ do |uri|
   if uri =="oldId"
   uri=@oldId
@@ -130,9 +90,20 @@ When /^I navigate to GET (\/teachers\/<[^>]*>)$/ do |uri|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
+When /^I navigate to "([^"]*)" with URI  (\/teacher\-section\-associations\/<'[^>]*>)\/targets$/ do |rel,href|
+  uri = href+"/targets"
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I navigate to "([^"]*)" with URI  (\/teacher\-section\-associations\/<'[^>]*>)\/targets and filter by sectionName is "([^"]*)" and classPeriod is "([^"]*)"$/ do |rel, href, sectionName,classPeriod|
+  queryParams = "sectionName="+sectionName+"&classPeriod="+classPeriod
+  uri = href+"/targets?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
 Then /^I should see a link named "([^"]*)" with URI  (\/teacher\-section\-associations\/<[^>]*>)$/ do |rel,href|
- puts rel;
- puts href;
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
     found = false
@@ -183,18 +154,83 @@ Then /^I should see a link named "([^"]*)" with URI (\/teachers\/<[^>]*>)$/ do |
   end
 end
 
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code.to_s} but expected #{arg1}")
+Then /^I should receive a collection of (\d+) section links that resolve to$/ do |arg1|
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    counter=0
+    @ids = Array.new
+    dataH.each do|link|
+      if link["link"]["rel"]=="self" and link["link"]["href"].include? "/sections/"
+      counter=counter+1
+      @ids.push(link["id"])
+      end
+    end
+    assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
 end
 
-Then /^I should receive a ID for the newly created student\-assessment\-association$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Result contained no headers")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  newId = "/student-assessment-associations/"+s[s.rindex('/')+1..-1]
-  assert(newId != nil, "Student-Assessment-Association ID is nil")
-#puts newId
+Then /^I should receive (\d+) section link that resolve to$/ do |arg1|
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    puts @res
+    dataH=JSON.parse(@res.body)
+    counter=0
+    @ids = Array.new
+    dataH.each do|link|
+      if link["link"]["rel"]=="self" and link["link"]["href"].include? "/sections/"
+      counter=counter+1
+      @ids.push(link["id"])
+      end
+    end
+    assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+end
+
+Then /^I should find section with sectionName is "([^"]*)" and classPeriod is "([^"]*)"$/ do |sectionName, classPeriod|
+  found =false
+  @ids.each do |id|
+    uri = "/sections/"+id
+    restHttpGet(uri)
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @format == "application/json" or @format == "application/vnd.slc+json"
+      dataH=JSON.parse(@res.body)
+        if dataH["sectionName"]==sectionName and dataH["classPeriod"]==classPeriod
+        found =true
+      end
+    elsif @format == "application/xml"
+      assert(false, "application/xml is not supported")
+    else
+      assert(false, "Unsupported MIME type")
+    end
+  end
+  assert(found, "didnt find section with sectionName #{sectionName} and classPeriod #{classPeriod}")
+end
+
+Then /^I should find section with sectionName is "([^"]*)" and classPeriod is "([^"]*)"  with (<[^>]*>)$/ do |sectionName, classPeriod,id|
+  found =false
+  @ids.each do |id|
+    uri = "/sections/"+id
+    restHttpGet(uri)
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @format == "application/json" or @format == "application/vnd.slc+json"
+      dataH=JSON.parse(@res.body)
+        if dataH["sectionName"]==sectionName and dataH["classPeriod"]==classPeriod and dataH["id"]==id
+        found =true
+      end
+    elsif @format == "application/xml"
+      assert(false, "application/xml is not supported")
+    else
+      assert(false, "Unsupported MIME type")
+    end
+  end
+  assert(found, "didnt find section with sectionName #{sectionName} and classPeriod #{classPeriod} with #{id}")
 end
 
 Then /^I should receive (\d+) student\-assessment\-assoications$/ do |arg1|
