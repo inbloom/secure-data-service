@@ -119,7 +119,8 @@ public class PersistenceProcessor implements Processor {
         String status = "processed " + ingestionCounter + " records.";
 
         if (exchange != null) {
-        	exchange.getIn().getHeader("records.processed", ingestionCounter);
+        	log.info("Setting records.processed value on exchange header");
+        	exchange.setProperty("records.processed", ingestionCounter);
         }
         
         BufferedOutputStream outputStream = null;
