@@ -16,6 +16,12 @@
                     {
                         "section": "Reading Group - Green",
                         "studentUIDs": []
+                    },
+                    {
+                        "section": "Reading Group - Grey",
+                        "studentUIDs": [
+                                     "111111111"
+				     ]
                     }
                 ]
             },

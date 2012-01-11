@@ -25,14 +25,18 @@ public class ConfigUtil {
     
     static {
         try {
-            jc = JAXBContext.newInstance("org.slc.sli.config");
+            jc = JAXBContext.newInstance((new ViewConfigSet()).getClass().getPackage().getName());
         } catch (JAXBException e) {
             System.out.println("ERROR creating JAXBContext");
         }
     }
     
-    /*
+    /**
      * Transforms a view config set into its XML representation
+     * 
+     * @param configSet
+     * @return an XML string
+     * @throws Exception
      */
     public static String toXMLString(ViewConfigSet configSet) throws Exception {
         
@@ -43,8 +47,12 @@ public class ConfigUtil {
         return os.toString("UTF-8");
     }
 
-    /*
+    /**
      * Transforms view config XML into its Java object representation
+     * 
+     * @param configStr - the configuration in XML format
+     * @return ViewConfigSet
+     * @throws Exception
      */
     public static ViewConfigSet fromXMLString(String configStr) throws Exception {
         
@@ -54,32 +62,24 @@ public class ConfigUtil {
         return configSet;
     }
     
-    /*
-     * Given a view config, returns a list of all data set elements
-     */
-    /*
-    public static List<DataSet> getDataSets(ViewConfig config, String dataSetType) {
-        List<DataSet> dataSets = new ArrayList<DataSet>();
-        for (DataSet dataSet : config.getDataSet()) {
-            if (dataSet.getType().equals(dataSetType)) {
-                dataSets.add(dataSet);
-            }
-        }
-        return dataSets;
-    }
-    */
-    
-    
-    /*
-     * Given a list of display sets, returns a list of all fields of a certain type
+    /**
+     * Given a view config, returns a list of all fields of a certain type
+     * 
+     * @param config
+     * @param fieldType (i.e. "studentInfo", "assessment", etc)
+     * @return a list of Field objects
      */
     public static List<Field> getDataFields(ViewConfig config, String fieldType) {
     
         return getDataFields(config.getDisplaySet(), fieldType);
     }
     
-    /*
+    /**
      * Given a list of display sets, returns a list of all fields of a certain type
+     * 
+     * @param displaySets - a list of DisplaySets, taken from a ViewConfig
+     * @param fieldType
+     * @return a list of Field objects
      */
     public static List<Field> getDataFields(List<DisplaySet> displaySets, String fieldType) {
         

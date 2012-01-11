@@ -8,14 +8,14 @@ When /^I navigate to the Realm page URL$/ do
 end
 
 Then /^I should be directed to the Realm page$/ do
-  assert(@driver.current_url == @url, "Failed to navigate to "+@url)
+  assert(@driver.current_url == @url, webdriverDebugMessage(@driver,"Failed to navigate to "+@url))
 end
 
 Given /^I see the Realm page$/ do
   @driver = Selenium::WebDriver.for :firefox
   url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
   @driver.get url
-  assert(@driver.current_url == url, "Failed to navigate to "+url)
+  assert(@driver.current_url == url, webdriverDebugMessage(@driver,"Failed to navigate to "+url))
 end
 
 When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
@@ -31,7 +31,7 @@ When /^I click on the page Go button$/ do
 end
 
 Then /^I should be redirected to "([^"]*)" Realm Login page$/ do |arg1|
-  assert(@driver.current_url.index("http://devdanil.slidev.org:8080/idp/SSORedirect/metaAlias/idp") != nil, "Failed to navigate to IDP login page")
+  assert(@driver.current_url.index("http://devdanil.slidev.org:8080/idp/SSORedirect/metaAlias/idp") != nil, webdriverDebugMessage(@driver,"Failed to navigate to IDP login page"))
 end
 
 Given /^a realm in the drop\-down list is not \(pre\)selected$/ do
@@ -39,7 +39,7 @@ Given /^a realm in the drop\-down list is not \(pre\)selected$/ do
 end
 
 Then /^I should be notified that I must choose a realm$/ do
-  assert(@driver.current_url.index("/disco/realms/") != nil, "Navigated off the page when we should have stayed")
+  assert(@driver.current_url.index("/disco/realms/") != nil, webdriverDebugMessage(@driver,"Navigated off the page when we should have stayed"))
 end
 
 When /^I choose NC in the realm drop\-down list$/ do
