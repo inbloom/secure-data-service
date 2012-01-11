@@ -6,11 +6,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.security.enums.Right;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,6 +21,11 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+
+import java.util.Arrays;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests functioning of the Authentication filter used to authenticate users
@@ -40,7 +47,11 @@ public class SLIProcessingFilterTest {
     @Before
     public void init() {
         filter = new SliRequestFilter();
-        filter.setResolver(Mocker.getMockedOpenamResolver());
+        SecurityTokenResolver resolver = mock(SecurityTokenResolver.class);
+        
+        when(resolver.resolve(Mocker.VALID_TOKEN)).thenReturn(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
+        
+        filter.setResolver(resolver);
         filter.setRealmSelectionUrl("Valhala");
         
         this.request = new MockHttpServletRequest();

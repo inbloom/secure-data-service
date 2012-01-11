@@ -5,8 +5,10 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.security.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +19,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests default role to rights resolution pipeline
@@ -30,6 +35,24 @@ public class RolesToRightsTest {
     @Autowired
     private DefaultRolesToRightsResolver resolver;
     
+    private RoleRightAccess mockAccess;
+
+    @Before
+    public void setUp() throws Exception {
+        mockAccess = mock(RoleRightAccess.class);
+        resolver.setRoleRightAccess(mockAccess);
+        when(mockAccess.getDefaultRole(DefaultRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
+        when(mockAccess.getDefaultRole(DefaultRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
+        when(mockAccess.getDefaultRole("bad")).thenReturn(null);
+        when(mockAccess.getDefaultRole("doggie")).thenReturn(null);
+        when(mockAccess.getDefaultRole("Pink")).thenReturn(null);
+        when(mockAccess.getDefaultRole("Goo")).thenReturn(null);
+    }
+
+    private Role buildRole() {
+        return RoleBuilder.makeRole(DefaultRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
+    }
+
     @Test
     public void testMappedRoles() throws Exception {
         

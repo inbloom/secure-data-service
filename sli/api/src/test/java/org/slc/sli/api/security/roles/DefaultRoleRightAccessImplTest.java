@@ -55,11 +55,13 @@ public class DefaultRoleRightAccessImplTest {
         ids.add("LeaderID");
         ids.add("AggregatorID");
         ids.add("BadID");
+        ids.add("ITID");
 
         when(mockService.get("EducatorID")).thenReturn(getEntityBody());
         when(mockService.get("LeaderID")).thenReturn(getEntityBody());
         when(mockService.get("AggregatorID")).thenReturn(getEntityBody());
         when(mockService.get("BadID")).thenReturn(getEntityBody());
+        when(mockService.get("ITID")).thenReturn(getITEntityBody());
 
         when(mockService.list(0, 100)).thenReturn(ids);
     }
@@ -76,6 +78,16 @@ public class DefaultRoleRightAccessImplTest {
         rights.add(Right.READ_RESTRICTED.toString());
         roleBody = new EntityBody();
         roleBody.put("name", "Educator");
+        roleBody.put("rights", rights);
+        return roleBody;
+    }
+    private EntityBody getITEntityBody() {
+        EntityBody roleBody;
+        List<String> rights = new ArrayList<String>();
+        rights.add(Right.READ_GENERAL.toString());
+        rights.add(Right.READ_RESTRICTED.toString());
+        roleBody = new EntityBody();
+        roleBody.put("name", "IT Administrator");
         roleBody.put("rights", rights);
         return roleBody;
     }
@@ -97,7 +109,6 @@ public class DefaultRoleRightAccessImplTest {
     public void testFindRoleBySpringName() throws Exception {
         Role testRole = null;
         //Find a role that does exist
-        when(mockService.get("EducatorID")).thenReturn(getEntityBody());
         testRole = access.findRoleBySpringName("ROLE_EDUCATOR");
         assertNotNull(testRole);
 
@@ -112,7 +123,7 @@ public class DefaultRoleRightAccessImplTest {
 
         List<Role> roles = access.fetchAllRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 4);
+        assertTrue(roles.size() == 5);
     }
 
     @Test
@@ -156,7 +167,6 @@ public class DefaultRoleRightAccessImplTest {
 
     @Test
     public void testGetDefaultRole() throws Exception {
-        when(mockService.get("EducatorID")).thenReturn(getEntityBody());
         //Valid default role.
         assertTrue(access.getDefaultRole(DefaultRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
         //Invalid default role.

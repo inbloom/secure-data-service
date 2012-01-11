@@ -34,7 +34,9 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             List<String> sliRoleNames = roleMapper.resolveRoles(roleNames);
             
             for (String sliRoleName : sliRoleNames) {
-                auths.addAll(findRole(sliRoleName).getRights());
+                Role role = findRole(sliRoleName);
+                if (role != null)
+                    auths.addAll(role.getRights());
             }
         }
         return auths;
