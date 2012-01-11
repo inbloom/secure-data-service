@@ -11,6 +11,10 @@ def assert(bool, message = 'assertion failure')
   raise message unless bool
 end
 
+def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
+  return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\n\n"+message
+end
+
 # Function idpLogin
 # Inputs: (String) user = Username to login to the IDP with
 # Inputs: (String) passwd = Password associated with the username
