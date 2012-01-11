@@ -10,3 +10,10 @@ After do |scenario|
   #puts "Running the After hook for Scenario: #{scenario}"
   @driver.quit if @driver
 end
+
+AfterStep('@pause') do
+  # Debug function only:
+  # To enable, tag your feature/scenario/step with @pause and hit enter to step through the selenium test
+  print "Press Return to continue..." 
+  STDIN.getc  
+end 

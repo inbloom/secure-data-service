@@ -4,12 +4,6 @@
   "namespace" : "org.slc.sli.domain",
   "doc" : "This entity represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level.",
   "fields" : [ {
-    "name" : "id",
-    "type" : [ "null", {
-      "type" : "string",
-      "xsd-type" : "ID"
-    } ]
-  }, {
     "name" : "stateOrganizationId",
     "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
     "type" : {

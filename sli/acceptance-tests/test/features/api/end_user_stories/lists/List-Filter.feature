@@ -9,12 +9,12 @@ Assume that Teacher, Student, Section, Assessment entity and associations are av
 Background: Logged in as a teacher and using the small data set
 	Given I am logged in using "demo" "demo1234"
 	Given I have access to all students  assessments and sections 
-@wip
+
 Scenario: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
 Given format "application/json"
 When I navigate to GET /teachers/<'Ms. Jones' ID>
-Then I should see a link named "getTeacherSectionAssociations" with URI  /teacher-section-associations/<'Ms. Jones' ID>
-	And I should see  a link named "getSections" with URI  /teacher-section-associations/<'Ms. Jones' ID>/targets
+Then I should see a link named "getTeacherSectionAssociations" with URI /teacher-section-associations/<'Ms. Jones' ID>
+	And I should see a link named "getSections" with URI /teacher-section-associations/<'Ms. Jones' ID>/targets
 	And I should see a link named "self" with URI /teachers/<'Ms. Jones' ID>
 
 When I navigate to "getSections" with URI  /teacher-section-associations/<'Ms. Jones' ID>/targets
@@ -36,14 +36,14 @@ Then I should receive a collection of 5 student links that resolve to
  	And I should find Student with <'Dong Steve' ID>
 
 When I navigate to GET /students/<'Suzy Queue' ID>
-Then I should see a link named "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'Suzy Queue' ID>
+Then I should see a link named "getStudentAssessmentAssociations" with URI /student-assessment-associations/<'Suzy Queue' ID>
 	And I should see a link named "getAssessments" with URI /student-assessment-associations/<'Suzy Queue' ID>/targets
 
-When I navigate to "getAssessments" with URI /student-assessment-associations/<'Suzy Queue' ID>/targets and filter by "assessmentTitle" = "ISAT MATH"
+When I navigate to "getAssessments" with URI /student-assessment-associations/<'Suzy Queue' ID>/targets and filter by assessmentTitle is "ISAT MATH"
     Then I should receive 1 assessment
     When I navigate to  "getStudentAssessmentAssociations" with URI /student-assessment-associations/<'ISAT MATH' ID>
-	And filter by "administrationDate" is between "2011-01-01" and "2011-12-31"
-     And filter by "studentID" is <'Suzy Queue' ID>
+	And filter by administrationDate is between "2011-01-01" and "2011-12-31"
+     And filter by studentId is <'Suzy Queue' ID>
     Then I should find a ScoreResult is 89
 	  And I should find a PerformanceLevel is 3
 
