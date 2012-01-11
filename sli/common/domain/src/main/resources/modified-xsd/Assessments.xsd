@@ -407,7 +407,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="SectionAssessment">
+    <xs:complexType name="SectionAssessmentAssociation">
         <xs:annotation>
             <xs:documentation>This entity represents the association of a section with an administered assessment.</xs:documentation>
         </xs:annotation>

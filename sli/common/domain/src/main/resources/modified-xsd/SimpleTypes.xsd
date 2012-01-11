@@ -3665,4 +3665,74 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="CourseLevelCharacteristicItemType">
+		<xs:annotation>
+			<xs:documentation>The item for indication of the nature and difficulty of instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Advanced"/>
+			<xs:enumeration value="Advanced Placement"/>
+			<xs:enumeration value="Core Subject"/>
+			<xs:enumeration value="Correspondence"/>
+			<xs:enumeration value="CTE"/>
+			<xs:enumeration value="Distance Learning"/>
+			<xs:enumeration value="Dual Credit"/>
+			<xs:enumeration value="Graduation Credit"/>
+			<xs:enumeration value="Honors"/>
+			<xs:enumeration value="IB Course"/>
+			<xs:enumeration value="Magnet"/>
+			<xs:enumeration value="Pre-AP"/>
+			<xs:enumeration value="Pre-IB"/>
+			<xs:enumeration value="Remedial"/>
+			<xs:enumeration value="Students with disabilities"/>
+			<xs:enumeration value="Basic"/>
+			<xs:enumeration value="General"/>
+			<xs:enumeration value="Gifted and Talented"/>
+			<xs:enumeration value="College level"/>
+			<xs:enumeration value="English Language Learner"/>
+			<xs:enumeration value="Untracked"/>
+			<xs:enumeration value="Accepted as high school equivalent"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="CourseRepeatCodeType">
+		<xs:annotation>
+			<xs:documentation>Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="RepeatCounted"/>
+			<xs:enumeration value="RepeatNotCounted"/>
+			<xs:enumeration value="ReplacementCounted"/>
+			<xs:enumeration value="ReplacedNotCounted"/>
+			<xs:enumeration value="RepeatOtherInstitution"/>
+			<xs:enumeration value="NotCountedOther"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="GradeType">
+		<xs:annotation>
+			<xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Conduct"/>
+			<xs:enumeration value="Exam"/>
+			<xs:enumeration value="Final"/>
+			<xs:enumeration value="Grading Period"/>
+			<xs:enumeration value="Mid-Term Grade"/>
+			<xs:enumeration value="Progress Report"/>
+			<xs:enumeration value="Semester"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="text">
+		<xs:annotation>
+			<xs:documentation>Long string for annotations or descriptions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 </xs:schema>
