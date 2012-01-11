@@ -21,52 +21,54 @@ Scenario: Create an assessment
 	Given format "application/json"
 		And "assessmentTitle" is "Mathematics Achievement Assessment Test"
 		And "assessmentIdentificationCode" is "01234B"
-		And "academicSubject is" "MATHEMATICS"
+		And "academicSubject" is "MATHEMATICS"
 		And "assessmentCategory" is "ACHIEVEMENT_TEST"
 		And "gradeLevelAssessed" is "ADULT_EDUCATION"
 		And "contentStandard" is "LEA_STANDARD"
-		And "Version" is "1.2"
+		And "version" is "1.2"
 	When I navigate to POST "/assessments/"
 	Then I should receive a return code of 201
 		And I should receive an ID for a newly created assessment
     When I navigate to GET "/assessments/<'newly created assessment' ID>"
-    Then the "assessmentIdentificationCode" should be "01234B"
+    Then "assessmentIdentificationCode" should be "01234B"
         And "academicSubject" should be "MATHEMATICS"
         And "assessmentCategory" should be "ACHIEVEMENT_TEST"
         And "gradeLevelAssessed" should be "ADULT_EDUCATION"
         And "contentStandard" should be "LEA_STANDARD"
-        And "Version" should be "1.2"
+        And "version" should be "1.2"
 
 Scenario: Read an assessment by ID
 	Given format "application/json"
-	When I navigate to GET "/assessments/<'Writing Assessment 1' ID>"
+	When I navigate to GET "/assessments/<'Writing Advanced Placement Test' ID>"
 	Then I should receive a return code of 200
-		And the "assessmentTitle" should be "Writing Advanced Placement Test"
-		And the "academicSubject" should be "ENGLISH_LANGUAGE_AND_LITERATURE"
-		And the "assessmentCategory" should be "ADVANCED_PLACEMENT_TEST"
+		And "assessmentTitle" should be "Writing Advanced Placement Test"
+		And "academicSubject" should be "ENGLISH_LANGUAGE_AND_LITERATURE"
+		And "assessmentCategory" should be "ADVANCED_PLACEMENT_TEST"
         And I should receive a link named "self" with URI "/assessments/<'Writing Advanced Placement Test' ID>"
         And I should receive a link named "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'Writing Advanced Placement Test' ID>"
-       	And I should receive a link named "getStudentAssessments" with URI "/student-assessment-associations/<'Writing Advanced Placement Test' ID>/targets"
-     	And I should receive a link named "getAssessmentFamily" with URI "/assessment-family-associations/<'Writing Advanced Placement Test' ID>"
+       	And I should receive a link named "getStudents" with URI "/student-assessment-associations/<'Writing Advanced Placement Test' ID>/targets"
+       	And I should receive a link named "getSectionAssessmentAssociations" with URI "/section-assessment-associations/<'Writing Advanced Placement Test' ID>"
+       	And I should receive a link named "getSections" with URI "/section-assessment-associations/<'Writing Advanced Placement Test' ID>/targets"
+     	#And I should receive a link named "getAssessmentFamily" with URI "/assessment-family-associations/<'Writing Advanced Placement Test' ID>"
 
 
 Scenario: Update an assessment by ID
 	Given format "application/json"
 		When I navigate to GET "/assessments/<'Writing Assessment II' ID>"
 		Then I should receive a return code of 200
-		And the "assessmentTitle" should be "Writing Assessment II"
+		And "assessmentTitle" should be "Writing Advanced Placement Test"
 	When I set the "assessmentTitle" to "Advanced Placement Test - Subject: Writing"
 		And I navigate to PUT "/assessments/<'Writing Assessment II' ID>"
 	Then I should receive a return code of 204
 	When I navigate to GET "/assessments/<'Writing Assessment II' ID>"
 	Then I should receive a return code of 200
-	And the "assessmentTitle" should be "Advanced Placement Test - Subject: Writing"
+	And "assessmentTitle" should be "Advanced Placement Test - Subject: Writing"
 
 Scenario: Delete an assessment by ID
 	Given format "application/json"
-	When I navigate to DELETE "/assessments/<'Writing Assessment 2' ID>"
+	When I navigate to DELETE "/assessments/<'Mathematics Assessment 2' ID>"
 	Then I should receive a return code of 204
-	When I navigate to GET "/assessments/<'Writing Assessment 2' ID>"
+	When I navigate to GET "/assessments/<'Mathematics Assessment 2' ID>"
 	Then I should receive a return code of 404
 
 ## ERROR HANDLING
@@ -77,13 +79,18 @@ Scenario: Attempt to read a non-existent assessment
 
 Scenario: Attempt to update a non-existent assessment
    Given format "application/json"
-   When I navigate to PUT "/assessments/<'NonExistentAssessment' ID>"
+   When I attempt to update "/assessments/<'NonExistentAssessment' ID>"
    Then I should receive a return code of 404
 
 Scenario: Attempt to delete a non-existent assessment
    Given format "application/json"
    When I navigate to DELETE "/assessments/<'NonExistentAssessment' ID>"
    Then I should receive a return code of 404
+   
+Scenario: Attempt to read the base student resource with no GUID
+	Given format "application/json"
+	When I navigate to GET "/assessments/<'NoGUID' ID>"
+	Then I should receive a return code of 405
    
    
    
