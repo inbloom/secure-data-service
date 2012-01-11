@@ -5,250 +5,343 @@
 
     <xs:include schemaLocation="SimpleTypes.xsd" />
 
-	<xs:complexType name="Name">
-		<xs:annotation>
-			<xs:documentation>The set of elements that comprise a person's legal name.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="PersonalTitlePrefix" type="PersonalTitlePrefixType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A prefix used to denote the title, degree, position or seniority of the person.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="FirstName" type="SimpleName">
-				<xs:annotation>
-					<xs:documentation>A name given to an individual at birth, baptism, or during another naming ceremony, or through legal change.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="MiddleName" type="SimpleName" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A secondary name given to an individual at birth, baptism, or during another naming ceremony.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="LastSurname" type="SimpleName">
-				<xs:annotation>
-					<xs:documentation>The name borne in common by members of a family.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="GenerationCodeSuffix" type="GenerationCodeSuffixType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An appendage, if any, used to denote an individual's generation in his family (e.g., Jr., Sr., III).
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="MaidenName" type="SimpleName" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The person's maiden name.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="Verification" type="PersonalInformationVerificationType" use="optional">
-			<xs:annotation>
-				<xs:documentation>The evidence presented to verify one's personal identity; for example: drivers license, passport, birth certificate, etc.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="OtherName">
-		<xs:annotation>
-			<xs:documentation>Other names (e.g., alias, nickname, previous legal name) associated with a person.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="PersonalTitlePrefix" type="PersonalTitlePrefixType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A prefix used to denote the title, degree, position or seniority of the person.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="FirstName" type="SimpleName">
-				<xs:annotation>
-					<xs:documentation>A name given to an individual at birth, baptism, or during another naming ceremony, or through legal change.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="MiddleName" type="SimpleName" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A secondary name given to an individual at birth, baptism, or during another naming ceremony.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="LastSurname" type="SimpleName">
-				<xs:annotation>
-					<xs:documentation>The name borne in common by members of a family.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="GenerationCodeSuffix" type="GenerationCodeSuffixType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An appendage, if any, used to denote an individual's generation in his family (e.g., Jr., Sr., III).
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="OtherNameType" type="OtherNameType" use="required">
-			<xs:annotation>
-				<xs:documentation>The types of alternate names for a person.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="Telephone">
-		<xs:annotation>
-			<xs:documentation>The 10-digit telephone number, including the area code, for the person.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="TelephoneNumber" type="TelephoneNumber">
-				<xs:annotation>
-					<xs:documentation>The telephone number including the area code, and extension, if applicable.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="TelephoneNumberType" type="TelephoneNumberType" use="optional">
-			<xs:annotation>
-				<xs:documentation>The type of communication number listed for an individual or organization.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="PrimaryTelephoneNumberIndicator" type="xs:boolean" use="optional">
-			<xs:annotation>
-				<xs:documentation>An indication that the telephone number should be used as the principal number for an individual or organization.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="ElectronicMail">
-		<xs:annotation>
-			<xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="EmailAddress" type="ElectronicMailAddress">
-				<xs:annotation>
-					<xs:documentation>The electronic mail (e-mail) address listed for an individual or organization.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="EmailAddressType" type="ElectronicMailAddressType" use="optional">
-			<xs:annotation>
-				<xs:documentation>The type of email listed for an individual or organization.  For example: Home/Personal, Work, etc.)</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="RaceType">
-		<xs:annotation>
-			<xs:documentation>The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies. </xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="RacialCategory" type="RaceItemType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Zero or more racial categories associated with the student or staff.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Address">
-		<xs:annotation>
-			<xs:documentation>The set of elements that describes an address, including the street address, city, state, and ZIP code.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StreetNumberName">
-				<xs:annotation>
-					<xs:documentation>The street number and street name or post office box number of an address.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="StreetNumberName">
-						<xs:maxLength value="40"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="ApartmentRoomSuiteNumber" type="ApartmentRoomSuiteNumber" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The apartment, room, or suite number of an address. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BuildingSiteNumber" type="BuildingSiteNumber" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The number of the building on the site, if more than one building shares the same address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="City" type="City">
-				<xs:annotation>
-					<xs:documentation>The name of the city in which an address is located. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="StateAbbreviation" type="StateAbbreviationType">
-				<xs:annotation>
-					<xs:documentation>The abbreviation for the state (within the United States) or outlying area in which an address is located. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="PostalCode" type="PostalCode">
-				<xs:annotation>
-					<xs:documentation>The five or nine digit zip code or overseas postal code portion of an address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="NameOfCounty" type="NameOfCounty" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The name of the county, parish, borough, or comparable unit (within a state) in which an address is located.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CountyFIPSCode" type="CountyFIPSCode" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The Federal Information Processing Standards (FIPS) numeric code for the county issued by the National Institute of Standards and Technology (NIST). Counties are considered to be the "first-order subdivisions" of each State and statistically equivalent entity, regardless of their local designations (county, parish, borough, etc.). Counties in different States will have the same code. A unique county number is created when combined with the 2-digit FIPS State Code</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CountryCode" type="CountryCodeType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The unique two character International Organization for Standardization (ISO) code for the country in which an address is located.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Latitude" type="Coordinate" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The geographic latitude of the physical address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Longitude" type="Coordinate" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The geographic longitude of the physical address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="OpenDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The first date the address is valid.  For physical addresses, the date the person moved to that address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CloseDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The last date the address is valid.  For physical addresses, this would be the date the person moved from that address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="AddressType" type="AddressType" use="optional">
-			<xs:annotation>
-				<xs:documentation>The type of address listed for an individual or organization.
-For example:  Physical Address, Mailing Address, Home Address, etc.)</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="GradeLevelsType">
-		<xs:annotation>
-			<xs:documentation>The enumerated collection for specifying one or more grade levels.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="GradeLevel" type="GradeLevelType" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The specification of the grade level.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="AcademicSubjectsType">
-		<xs:annotation>
-			<xs:documentation>The teaching field(s) taught by an individual, for example English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The description of the content or subject area (e.g., arts, mathematics, reading, stenography, or a foreign language) of an assessment.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="Name">
+        <xs:annotation>
+            <xs:documentation>The set of elements that comprise a person's legal name.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="PersonalTitlePrefix" type="PersonalTitlePrefixType"
+                minOccurs="0"
+            >
+                <xs:annotation>
+                    <xs:documentation>A prefix used to denote the title, degree, position or
+                        seniority of the person.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" type="SimpleName">
+                <xs:annotation>
+                    <xs:documentation>A name given to an individual at birth, baptism, or during
+                        another naming ceremony, or through legal change.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" type="SimpleName" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>A secondary name given to an individual at birth, baptism, or
+                        during another naming ceremony.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastSurname" type="SimpleName">
+                <xs:annotation>
+                    <xs:documentation>The name borne in common by members of a family.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GenerationCodeSuffix" type="GenerationCodeSuffixType"
+                minOccurs="0"
+            >
+                <xs:annotation>
+                    <xs:documentation>An appendage, if any, used to denote an individual's
+                        generation in his family (e.g., Jr., Sr., III).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MaidenName" type="SimpleName" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The person's maiden name.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Verification" type="PersonalInformationVerificationType"
+            use="optional"
+        >
+            <xs:annotation>
+                <xs:documentation>The evidence presented to verify one's personal identity; for
+                    example: drivers license, passport, birth certificate, etc.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="OtherName">
+        <xs:annotation>
+            <xs:documentation>Other names (e.g., alias, nickname, previous legal name) associated
+                with a person.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="PersonalTitlePrefix" type="PersonalTitlePrefixType"
+                minOccurs="0"
+            >
+                <xs:annotation>
+                    <xs:documentation>A prefix used to denote the title, degree, position or
+                        seniority of the person.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" type="SimpleName">
+                <xs:annotation>
+                    <xs:documentation>A name given to an individual at birth, baptism, or during
+                        another naming ceremony, or through legal change.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" type="SimpleName" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>A secondary name given to an individual at birth, baptism, or
+                        during another naming ceremony.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastSurname" type="SimpleName">
+                <xs:annotation>
+                    <xs:documentation>The name borne in common by members of a family.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GenerationCodeSuffix" type="GenerationCodeSuffixType"
+                minOccurs="0"
+            >
+                <xs:annotation>
+                    <xs:documentation>An appendage, if any, used to denote an individual's
+                        generation in his family (e.g., Jr., Sr., III).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="OtherNameType" type="OtherNameType" use="required">
+            <xs:annotation>
+                <xs:documentation>The types of alternate names for a person.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="Telephone">
+        <xs:annotation>
+            <xs:documentation>The 10-digit telephone number, including the area code, for the
+                person.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TelephoneNumber" type="TelephoneNumber">
+                <xs:annotation>
+                    <xs:documentation>The telephone number including the area code, and extension,
+                        if applicable.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="TelephoneNumberType" type="TelephoneNumberType" use="optional">
+            <xs:annotation>
+                <xs:documentation>The type of communication number listed for an individual or
+                    organization.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="PrimaryTelephoneNumberIndicator" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>An indication that the telephone number should be used as the
+                    principal number for an individual or organization.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ElectronicMail">
+        <xs:annotation>
+            <xs:documentation>The numbers, letters, and symbols used to identify an electronic mail
+                (e-mail) user within the network to which the individual or organization belongs.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="EmailAddress" type="ElectronicMailAddress">
+                <xs:annotation>
+                    <xs:documentation>The electronic mail (e-mail) address listed for an individual
+                        or organization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="EmailAddressType" type="ElectronicMailAddressType" use="optional">
+            <xs:annotation>
+                <xs:documentation>The type of email listed for an individual or organization. For
+                    example: Home/Personal, Work, etc.)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="RaceType">
+        <xs:annotation>
+            <xs:documentation>The general racial category which most clearly reflects the
+                individual's recognition of his or her community or with which the individual most
+                identifies.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="RacialCategory" type="RaceItemType" minOccurs="0"
+                maxOccurs="unbounded"
+            >
+                <xs:annotation>
+                    <xs:documentation>Zero or more racial categories associated with the student or
+                        staff.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Address">
+        <xs:annotation>
+            <xs:documentation>The set of elements that describes an address, including the street
+                address, city, state, and ZIP code.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="StreetNumberName">
+                <xs:annotation>
+                    <xs:documentation>The street number and street name or post office box number of
+                        an address.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="StreetNumberName">
+                        <xs:maxLength value="40" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="ApartmentRoomSuiteNumber" type="ApartmentRoomSuiteNumber"
+                minOccurs="0"
+            >
+                <xs:annotation>
+                    <xs:documentation>The apartment, room, or suite number of an address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BuildingSiteNumber" type="BuildingSiteNumber" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The number of the building on the site, if more than one
+                        building shares the same address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="City" type="City">
+                <xs:annotation>
+                    <xs:documentation>The name of the city in which an address is located.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StateAbbreviation" type="StateAbbreviationType">
+                <xs:annotation>
+                    <xs:documentation>The abbreviation for the state (within the United States) or
+                        outlying area in which an address is located.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PostalCode" type="PostalCode">
+                <xs:annotation>
+                    <xs:documentation>The five or nine digit zip code or overseas postal code
+                        portion of an address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="NameOfCounty" type="NameOfCounty" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The name of the county, parish, borough, or comparable unit
+                        (within a state) in which an address is located.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountyFIPSCode" type="CountyFIPSCode" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The Federal Information Processing Standards (FIPS) numeric
+                        code for the county issued by the National Institute of Standards and
+                        Technology (NIST). Counties are considered to be the "first-order
+                        subdivisions" of each State and statistically equivalent entity, regardless
+                        of their local designations (county, parish, borough, etc.). Counties in
+                        different States will have the same code. A unique county number is created
+                        when combined with the 2-digit FIPS State Code
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryCode" type="CountryCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The unique two character International Organization for
+                        Standardization (ISO) code for the country in which an address is located.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Latitude" type="Coordinate" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The geographic latitude of the physical address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Longitude" type="Coordinate" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The geographic longitude of the physical address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OpenDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The first date the address is valid. For physical addresses,
+                        the date the person moved to that address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CloseDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The last date the address is valid. For physical addresses,
+                        this would be the date the person moved from that address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="AddressType" type="AddressType" use="optional">
+            <xs:annotation>
+                <xs:documentation>The type of address listed for an individual or organization.
+                    For
+                    example: Physical Address, Mailing Address, Home Address, etc.)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="GradeLevelsType">
+        <xs:annotation>
+            <xs:documentation>The enumerated collection for specifying one or more grade levels.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="GradeLevel" type="GradeLevelType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The specification of the grade level.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AcademicSubjectsType">
+        <xs:annotation>
+            <xs:documentation>The teaching field(s) taught by an individual, for example
+                English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"
+                maxOccurs="unbounded"
+            >
+                <xs:annotation>
+                    <xs:documentation>The description of the content or subject area (e.g., arts,
+                        mathematics, reading, stenography, or a foreign language) of an assessment.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>

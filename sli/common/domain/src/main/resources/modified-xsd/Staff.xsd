@@ -1,524 +1,681 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
-	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-	attributeFormDefault="unqualified">
+    targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="unqualified"
+>
 
-	<xs:include schemaLocation="ComplexTypes.xsd" />
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+    <xs:include schemaLocation="ComplexTypes.xsd" />
+    <xs:include schemaLocation="ReferenceTypes.xsd" />
 
-	<xs:complexType name="StaffIdentificationCode">
-		<xs:annotation>
-			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to staff member.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="ID" type="IdentificationCode">
-				<xs:annotation>
-					<xs:documentation>A unique number or alphanumeric code assigned to a staff member by a school, school system, a state, or other agency or entity.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="IdentificationSystem" type="StaffIdentificationSystemType" use="required">
-			<xs:annotation>
-				<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
-			<xs:annotation>
-				<xs:documentation>The organization code or name assigning the staff Identification Code.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="EmploymentPeriod">
-		<xs:annotation>
-			<xs:documentation>The set of elements defining and characterizing a person's period of employment including start and end dates and the type and reason for separation.
-</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="HireDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which an individual was hired for a position.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which a contract between an individual and a governing authority ends or is terminated under the provisions of the contract (or the date on which the agreement is made invalid).
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Separation" type="SeparationType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Type of employment separation; for example:
-Voluntary separation
-Involuntary separation
-Mutual agreement
-Other</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SeparationReason" type="SeparationReasonType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Reason for terminating the employment; for example:
-Employment in education
-Employment outside of education
-Retirement
-Family/personal relocation
-Change of assignment</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="CredentialFieldDescriptor">
-		<xs:annotation>
-			<xs:documentation>This descriptor defines the fields of certification that the SEA offers to teachers.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="CodeValue" type="CodeValue" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A code or abbreviation that is used to refer to the certification field.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Description" type="Description">
-						<xs:annotation>
-							<xs:documentation>The description of the service.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A classification of the certification fields to academic subjects.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-						<xs:annotation>
-							<xs:documentation>The Education Organization associated with the credential field definition.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="Credential">
-		<xs:annotation>
-			<xs:documentation>The legal document or authorization giving authorization to perform teaching assignment services.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="CredentialType" type="CredentialType">
-				<xs:annotation>
-					<xs:documentation>An indication of the category of credential an individual holds.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CredentialField" type="CredentialFieldDescriptor">
-				<xs:annotation>
-					<xs:documentation>The field of certification for the certificate (e.g., Mathematics, Music)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Level" type="LevelType">
-				<xs:annotation>
-					<xs:documentation>The grade level(s) certified for teaching.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TeachingCredentialType" type="TeachingCredentialType">
-				<xs:annotation>
-					<xs:documentation>An indication of the category of a legal document giving authorization to perform teaching assignment services.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CredentialIssuanceDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which an active credential was issued to an individual.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CredentialExpirationDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which an active credential held by an individual will expire.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TeachingCredentialBasis" type="TeachingCredentialBasisType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An indication of the pre-determined criteria for granting the teaching credential that an individual holds.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="StaffIdentificationCode">
+        <xs:annotation>
+            <xs:documentation>A coding scheme that is used for identification and record-keeping
+                purposes by schools, social services, or other agencies to refer to staff member.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ID" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>A unique number or alphanumeric code assigned to a staff
+                        member by a school, school system, a state, or other agency or entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="IdentificationSystem" type="StaffIdentificationSystemType"
+            use="required"
+        >
+            <xs:annotation>
+                <xs:documentation>A coding scheme that is used for identification and record-keeping
+                    purposes by schools, social services, or other agencies to refer to a staff
+                    member.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
+            <xs:annotation>
+                <xs:documentation>The organization code or name assigning the staff Identification
+                    Code.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+ 
+    <xs:complexType name="EmploymentPeriod">
+        <xs:annotation>
+            <xs:documentation>The set of elements defining and characterizing a person's period of
+                employment including start and end dates and the type and reason for separation.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="HireDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which an individual was hired for
+                        a position.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which a contract between an
+                        individual and a governing authority ends or is terminated under the
+                        provisions of the contract (or the date on which the agreement is made
+                        invalid).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Separation" type="SeparationType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Type of employment separation; for example:
+                        Voluntary separation
+                        Involuntary separation
+                        Mutual agreement
+                        Other
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SeparationReason" type="SeparationReasonType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Reason for terminating the employment; for example:
+                        Employment in education
+                        Employment outside of education
+                        Retirement
+                        Family/personal relocation
+                        Change of assignment
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+ 
+    <xs:complexType name="CredentialFieldDescriptor">
+        <xs:annotation>
+            <xs:documentation>This descriptor defines the fields of certification that the SEA
+                offers to teachers.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="CodeValue" type="CodeValue" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A code or abbreviation that is used to refer to the
+                                certification field.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Description" type="Description">
+                        <xs:annotation>
+                            <xs:documentation>The description of the service.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="AcademicSubject" type="AcademicSubjectType"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>A classification of the certification fields to
+                                academic subjects.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+                        <xs:annotation>
+                            <xs:documentation>The Education Organization associated with the
+                                credential field definition.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+ 
+    <xs:complexType name="Credential">
+        <xs:annotation>
+            <xs:documentation>The legal document or authorization giving authorization to perform
+                teaching assignment services.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="CredentialType" type="CredentialType">
+                <xs:annotation>
+                    <xs:documentation>An indication of the category of credential an individual
+                        holds.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CredentialField" type="CredentialFieldDescriptor">
+                <xs:annotation>
+                    <xs:documentation>The field of certification for the certificate (e.g.,
+                        Mathematics, Music)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Level" type="LevelType">
+                <xs:annotation>
+                    <xs:documentation>The grade level(s) certified for teaching.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TeachingCredentialType" type="TeachingCredentialType">
+                <xs:annotation>
+                    <xs:documentation>An indication of the category of a legal document giving
+                        authorization to perform teaching assignment services.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CredentialIssuanceDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which an active credential was
+                        issued to an individual.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CredentialExpirationDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which an active credential held by
+                        an individual will expire.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TeachingCredentialBasis" type="TeachingCredentialBasisType"
+                minOccurs="0"
+            >
+                <xs:annotation>
+                    <xs:documentation>An indication of the pre-determined criteria for granting the
+                        teaching credential that an individual holds.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
-	<xs:complexType name="Staff">
-		<xs:annotation>
-			<xs:documentation>This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion. For example, this includes:
-1) an "employee" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings;
-2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a management service contracted to work on site;
-3) a "volunteer" who performs services on a voluntary and uncompensated basis;
-4) an in kind service provider; or
-5) an independent contractor or businessperson working at a school site.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="StaffUniqueStateId" type="UniqueStateIdentifier">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to a staff by a state education agency.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="StaffIdentificationCode" type="StaffIdentificationCode" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to a staff member by a school, school system, a state, or other agency or entity.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Name" type="Name">
-						<xs:annotation>
-							<xs:documentation>Full legal name of the person.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Other names (e.g., alias, nickname, previous legal name) associated with a person.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Sex" type="SexType">
-						<xs:annotation>
-							<xs:documentation>A person's gender.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="BirthDate" type="xs:date" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The month, day, and year on which an individual was born.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The set of elements that describes an address, including the street address, city, state, and ZIP code.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The 10-digit telephone number, including the area code, for the person.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="HispanicLatinoEthnicity" type="xs:boolean" nillable="true">
-						<xs:annotation>
-							<xs:documentation>An indication that the individual traces his or her origin or descent to Mexico, Puerto Rico, Cuba, Central and South America, and other Spanish cultures, regardless of race. The term, "Spanish origin," can be used in addition to "Hispanic or Latino."
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="OldEthnicity" type="OldEthnicityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Previous definition of Ethnicity combining Hispanic/Latino and race:
-1 - American Indian or Alaskan Native
-2 - Asian or Pacific Islander
-3 - Black, not of Hispanic origin
-4 - Hispanic
-5 - White, not of Hispanic origin</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Race" type="RaceType">
-						<xs:annotation>
-							<xs:documentation>The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies. The way this data element is listed, it must allow for multiple entries so that each individual can specify all appropriate races.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="HighestLevelOfEducationCompleted" type="LevelOfEducationType">
-						<xs:annotation>
-							<xs:documentation>The extent of formal instruction an individual has received (e.g., the highest grade in school completed or its equivalent or the highest degree received).
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="YearsOfPriorProfessionalExperience" type="xs:int" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The total number of years that an individual has previously held a similar professional position in one or more education institutions.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="YearsOfPriorTeachingExperience" type="xs:int" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The total number of years that an individual has previously held a teaching position in one or more education institutions.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Credentials" type="Credential" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The legal document or authorization giving authorization to perform teaching assignment services.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The login ID for the user; used for security access control interface.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="Teacher">
-		<xs:annotation>
-			<xs:documentation>This entity represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="Staff">
-				<xs:sequence>
-					<xs:element name="TeacherUniqueStateId" type="UniqueStateIdentifier" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>An ID number maintained by the state that uniquely identifies this teacher.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="HighlyQualifiedTeacher" type="xs:boolean" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>An indication of whether a teacher is classified as highly qualified for his/her assignment according to state definition.  This attribute indicates the teacher is highly qualified for ALL sections being taught.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="LeaveEvent">
-		<xs:annotation>
-			<xs:documentation>This event entity represents the recording of the dates of staff leave (e.g., sick leave, personal time, vacation, etc.).</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="EventDate" type="xs:date">
-						<xs:annotation>
-							<xs:documentation>Date for this leave event.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="LeaveEventCategory" type="LeaveEventCategoryType">
-						<xs:annotation>
-							<xs:documentation>The code describing the type of leave taken, for example:
-Sick
-Personal
-Vacation</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="LeaveEventReason" type="LeaveEventReason" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Expanded reason for the staff leave.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="HoursOnLeave" type="xs:decimal" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The hours the staff was absent, if not the entire working day.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="SubstituteAssigned" type="xs:boolean" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicator of whether a substitute was assigned during the period of staff leave.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="StaffReference" type="StaffSimpleReference">
-						<xs:annotation>
-							<xs:documentation>The staff associated with this leave event.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="OpenStaffPosition">
-		<xs:annotation>
-			<xs:documentation>This entity represents an open staff position that is seeking to be filled by an education organization.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="EmploymentStatus" type="EmploymentStatusType">
-						<xs:annotation>
-							<xs:documentation>Reflects the type of employment or contract desired for the position; for example:
-Probationary
-Contractual
-Substitute/temporary
-Tenured or permanent
-Volunteer/no contract
-...</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="StaffClassification" type="StaffClassificationType">
-						<xs:annotation>
-							<xs:documentation>The titles of employment, official status, or rank of education staff.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="PositionTitle" type="PositionTitle" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The descriptive name of an individual's position.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="RequisitionNumber" type="RequisitionNumber">
-						<xs:annotation>
-							<xs:documentation>The number or identifier assigned to an open staff position, typically a requisition number assigned by Human Resources.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="ProgramAssignment" type="ProgramAssignmentType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The name of the program for which the position will be assigned; for example:
-Regular education
-Title I-Academic
-Title I-Non-Academic
-Special Education
-Bilingual/English as a Second Language</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="InstructionalGradeLevels" type="GradeLevelsType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The set of grade levels for which the position's assignment is responsible.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="AcademicSubjects" type="AcademicSubjectsType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The teaching field required for the position, for example English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="DatePosted" type="xs:date">
-						<xs:annotation>
-							<xs:documentation>Date the open position was posted.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="DatePostingRemoved" type="xs:date" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The date the posting was removed or filled.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="PostingResult" type="PostingResultType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indication of whether the position was filled or retired without filling.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-						<xs:annotation>
-							<xs:documentation>The Education Organization with the open staff position.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+    <xs:complexType name="Staff">
+        <xs:annotation>
+            <xs:documentation>This entity represents an individual who performs specified activities
+                for any public or private education institution or agency that provides
+                instructional and/or support services to students or staff at the early childhood
+                level through high school completion. For example, this includes:
+                1) an "employee" who performs services under the direction of the employing institution or agency,
+                is compensated for such services by the employer, and is eligible for employee
+                benefits and wage or salary tax withholdings;
+                2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of
+                a management service contracted to work on site;
+                3) a "volunteer" who performs services on a voluntary and uncompensated basis;
+                4) an in kind service provider; or
+                5) an independent contractor or businessperson working at a school site.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="StaffUniqueStateId" type="UniqueStateIdentifier">
+                        <xs:annotation>
+                            <xs:documentation>A unique number or alphanumeric code assigned to a
+                                staff by a state education agency.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StaffIdentificationCode" type="StaffIdentificationCode"
+                        minOccurs="0" maxOccurs="unbounded"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>A unique number or alphanumeric code assigned to a
+                                staff member by a school, school system, a state, or other agency or
+                                entity.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Name" type="Name">
+                        <xs:annotation>
+                            <xs:documentation>Full legal name of the person.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="OtherName" type="OtherName" minOccurs="0"
+                        maxOccurs="unbounded"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>Other names (e.g., alias, nickname, previous legal
+                                name) associated with a person.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Sex" type="SexType">
+                        <xs:annotation>
+                            <xs:documentation>A person's gender.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="BirthDate" type="xs:date" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The month, day, and year on which an individual was
+                                born.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The set of elements that describes an address,
+                                including the street address, city, state, and ZIP code.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Telephone" type="Telephone" minOccurs="0"
+                        maxOccurs="unbounded"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The 10-digit telephone number, including the area
+                                code, for the person.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0"
+                        maxOccurs="unbounded"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The numbers, letters, and symbols used to identify an
+                                electronic mail (e-mail) user within the network to which the
+                                individual or organization belongs.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="HispanicLatinoEthnicity" type="xs:boolean"
+                        nillable="true"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>An indication that the individual traces his or her
+                                origin or descent to Mexico, Puerto Rico, Cuba, Central and South
+                                America, and other Spanish cultures, regardless of race. The term,
+                                "Spanish origin," can be used in addition to "Hispanic or Latino."
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="OldEthnicity" type="OldEthnicityType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Previous definition of Ethnicity combining
+                                Hispanic/Latino and race:
+                                1 - American Indian or Alaskan Native
+                                2 - Asian or Pacific Islander
+                                3 - Black, not of Hispanic origin
+                                4 - Hispanic
+                                5 - White, not of Hispanic origin
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Race" type="RaceType">
+                        <xs:annotation>
+                            <xs:documentation>The general racial category which most clearly
+                                reflects the individual's recognition of his or her community or
+                                with which the individual most identifies. The way this data element
+                                is listed, it must allow for multiple entries so that each
+                                individual can specify all appropriate races.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="HighestLevelOfEducationCompleted" type="LevelOfEducationType">
+                        <xs:annotation>
+                            <xs:documentation>The extent of formal instruction an individual has
+                                received (e.g., the highest grade in school completed or its
+                                equivalent or the highest degree received).
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="YearsOfPriorProfessionalExperience" type="xs:int"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The total number of years that an individual has
+                                previously held a similar professional position in one or more
+                                education institutions.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="YearsOfPriorTeachingExperience" type="xs:int"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The total number of years that an individual has
+                                previously held a teaching position in one or more education
+                                institutions.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Credentials" type="Credential" minOccurs="0"
+                        maxOccurs="unbounded"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The legal document or authorization giving
+                                authorization to perform teaching assignment services.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="LoginId" type="IdentificationCode" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The login ID for the user; used for security access
+                                control interface.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+ 
+    <xs:complexType name="Teacher">
+        <xs:annotation>
+            <xs:documentation>This entity represents a person that is employed by an LEA or other
+                educational unit engaged in student instruction. These persons are
+                instructional-type staff members. In the data model, a teacher entity is a staff
+                member with additional properties.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Staff">
+                <xs:sequence>
+                    <xs:element name="TeacherUniqueStateId" type="UniqueStateIdentifier"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>An ID number maintained by the state that uniquely
+                                identifies this teacher.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="HighlyQualifiedTeacher" type="xs:boolean"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>An indication of whether a teacher is classified as
+                                highly qualified for his/her assignment according to state
+                                definition. This attribute indicates the teacher is highly qualified
+                                for ALL sections being taught.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+ 
+    <xs:complexType name="LeaveEvent">
+        <xs:annotation>
+            <xs:documentation>This event entity represents the recording of the dates of staff leave
+                (e.g., sick leave, personal time, vacation, etc.).</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="EventDate" type="xs:date">
+                        <xs:annotation>
+                            <xs:documentation>Date for this leave event.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="LeaveEventCategory" type="LeaveEventCategoryType">
+                        <xs:annotation>
+                            <xs:documentation>The code describing the type of leave taken, for
+                                example:
+                                Sick
+                                Personal
+                                Vacation
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="LeaveEventReason" type="LeaveEventReason"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>Expanded reason for the staff leave.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="HoursOnLeave" type="xs:decimal" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The hours the staff was absent, if not the entire
+                                working day.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SubstituteAssigned" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicator of whether a substitute was assigned during
+                                the period of staff leave.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StaffReference" type="StaffSimpleReference">
+                        <xs:annotation>
+                            <xs:documentation>The staff associated with this leave event.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+ 
+    <xs:complexType name="OpenStaffPosition">
+        <xs:annotation>
+            <xs:documentation>This entity represents an open staff position that is seeking to be
+                filled by an education organization.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="EmploymentStatus" type="EmploymentStatusType">
+                        <xs:annotation>
+                            <xs:documentation>Reflects the type of employment or contract desired
+                                for the position; for example:
+                                Probationary
+                                Contractual
+                                Substitute/temporary
+                                Tenured or permanent
+                                Volunteer/no contract
+                                ...
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StaffClassification" type="StaffClassificationType">
+                        <xs:annotation>
+                            <xs:documentation>The titles of employment, official status, or rank of
+                                education staff.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="PositionTitle" type="PositionTitle" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The descriptive name of an individual's position.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="RequisitionNumber" type="RequisitionNumber">
+                        <xs:annotation>
+                            <xs:documentation>The number or identifier assigned to an open staff
+                                position, typically a requisition number assigned by Human
+                                Resources.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ProgramAssignment" type="ProgramAssignmentType"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The name of the program for which the position will be
+                                assigned; for example:
+                                Regular education
+                                Title I-Academic
+                                Title I-Non-Academic
+                                Special Education
+                                Bilingual/English as a Second Language
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="InstructionalGradeLevels" type="GradeLevelsType"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The set of grade levels for which the position's
+                                assignment is responsible.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="AcademicSubjects" type="AcademicSubjectsType"
+                        minOccurs="0"
+                    >
+                        <xs:annotation>
+                            <xs:documentation>The teaching field required for the position, for
+                                example English/Language Arts, Reading, Mathematics, Science, Social
+                                Sciences, etc.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="DatePosted" type="xs:date">
+                        <xs:annotation>
+                            <xs:documentation>Date the open position was posted.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="DatePostingRemoved" type="xs:date" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The date the posting was removed or filled.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="PostingResult" type="PostingResultType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indication of whether the position was filled or
+                                retired without filling.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+                        <xs:annotation>
+                            <xs:documentation>The Education Organization with the open staff
+                                position.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
-	<xs:complexType name="StaffEducationOrgEmploymentAssociation">
-		<xs:annotation>
-			<xs:documentation>This association indicates the education organization an employee, contractor, volunteer or other service provider is formally associated with, typically indicated by which organization the staff member has a services contract with or receives their compensation.   </xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffSimpleReference">
-				<xs:annotation>
-					<xs:documentation>The staff employed by the education organization.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-				<xs:annotation>
-					<xs:documentation>The Education Organization with which the staff is employed.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EmploymentStatus" type="EmploymentStatusType">
-				<xs:annotation>
-					<xs:documentation>Reflects the type of employment or contract; for example:
-Probationary
-Contractual
-Substitute/temporary
-Tenured or permanent
-Volunteer/no contract
-...
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EmploymentPeriod" type="EmploymentPeriod">
-				<xs:annotation>
-					<xs:documentation>The set of elements defining and characterizing a person's period of employment including start and end dates and the type and reason for separation.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Department" type="Department" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The department or suborganization the employee/contractor is associated with in the Education Organization.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="FullTimeEquivalency" type="Percent" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The ratio between the hours of work expected in a position and the hours of work normally expected in a full-time position in the same setting.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="StaffEducationOrgAssignmentAssociation">
-		<xs:annotation>
-			<xs:documentation>This association indicates the education organization to which a staff member provides services.  Also known as school of service.
-</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffSimpleReference">
-				<xs:annotation>
-					<xs:documentation>The staff assigned to the education organization.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-				<xs:annotation>
-					<xs:documentation>The educational organization to which the staff memeber provides services</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="StaffClassification" type="StaffClassificationType">
-				<xs:annotation>
-					<xs:documentation>The titles of employment, official status, or rank of education staff.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="PositionTitle" type="PositionTitle" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The descriptive name of an individual's position.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BeginDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the start or effective date of a staff member's employment, contract or relationship with the LEA.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the end or termination date of a staff member's employment, contract or relationship with the LEA.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="TeacherSchoolAssociation">
-		<xs:annotation>
-			<xs:documentation>This association indicates the school(s) to which a teacher provides instructional services to.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="TeacherReference" type="TeacherSimpleReference">
-				<xs:annotation>
-					<xs:documentation>The teacher providing services to the school.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SchoolReference" type="SchoolSimpleReference" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The school where the teacher provides services.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ProgramAssignment" type="ProgramAssignmentType">
-				<xs:annotation>
-					<xs:documentation>The name of the program for which the individual is assigned; for example:
-Regular education
-Title I-Academic
-Title I-Non-Academic
-Special Education
-Bilingual/English as a Second Language
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="InstructionalGradeLevels" type="GradeLevelsType">
-				<xs:annotation>
-					<xs:documentation>The set of grade levels for which the individual's assignment is responsible.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AcademicSubjects" type="AcademicSubjectsType">
-				<xs:annotation>
-					<xs:documentation>The teaching field taught by an individual, for example English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="StaffEducationOrgEmploymentAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the education organization an employee,
+                contractor, volunteer or other service provider is formally associated with,
+                typically indicated by which organization the staff member has a services contract
+                with or receives their compensation.   </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="StaffReference" type="StaffSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>The staff employed by the education organization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>The Education Organization with which the staff is employed.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmploymentStatus" type="EmploymentStatusType">
+                <xs:annotation>
+                    <xs:documentation>Reflects the type of employment or contract; for example:
+                        Probationary
+                        Contractual
+                        Substitute/temporary
+                        Tenured or permanent
+                        Volunteer/no contract
+                        ...
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmploymentPeriod" type="EmploymentPeriod">
+                <xs:annotation>
+                    <xs:documentation>The set of elements defining and characterizing a person's
+                        period of employment including start and end dates and the type and reason
+                        for separation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Department" type="Department" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The department or suborganization the employee/contractor is
+                        associated with in the Education Organization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FullTimeEquivalency" type="Percent" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The ratio between the hours of work expected in a position and
+                        the hours of work normally expected in a full-time position in the same
+                        setting.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+ 
+    <xs:complexType name="StaffEducationOrgAssignmentAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the education organization to which a staff
+                member provides services. Also known as school of service.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="StaffReference" type="StaffSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>The staff assigned to the education organization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>The educational organization to which the staff memeber
+                        provides services</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StaffClassification" type="StaffClassificationType">
+                <xs:annotation>
+                    <xs:documentation>The titles of employment, official status, or rank of
+                        education staff.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PositionTitle" type="PositionTitle" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The descriptive name of an individual's position.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Month, day and year of the start or effective date of a staff
+                        member's employment, contract or relationship with the LEA.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Month, day and year of the end or termination date of a staff
+                        member's employment, contract or relationship with the LEA.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+ 
+    <xs:complexType name="TeacherSchoolAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the school(s) to which a teacher provides
+                instructional services to.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TeacherReference" type="TeacherSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>The teacher providing services to the school.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SchoolReference" type="SchoolSimpleReference" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The school where the teacher provides services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ProgramAssignment" type="ProgramAssignmentType">
+                <xs:annotation>
+                    <xs:documentation>The name of the program for which the individual is assigned;
+                        for example:
+                        Regular education
+                        Title I-Academic
+                        Title I-Non-Academic
+                        Special Education
+                        Bilingual/English as a Second Language
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="InstructionalGradeLevels" type="GradeLevelsType">
+                <xs:annotation>
+                    <xs:documentation>The set of grade levels for which the individual's assignment
+                        is responsible.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AcademicSubjects" type="AcademicSubjectsType">
+                <xs:annotation>
+                    <xs:documentation>The teaching field taught by an individual, for example
+                        English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>
