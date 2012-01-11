@@ -43,8 +43,7 @@ public class SecurityContextInjector {
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
         Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRoles());
         SecurityContextHolder.clearContext();
-        return new PreAuthenticatedAuthenticationToken(principal,
-                token, grantedAuthorities);
+        return new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
     }
 
     public void setEducatorContext() {
