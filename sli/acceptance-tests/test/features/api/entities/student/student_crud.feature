@@ -33,6 +33,8 @@ Scenario: Read a student by id
         And I should receive a link named "getSections" with URI "/student-section-associations/<'Alfonso' ID>/targets"
         And I should receive a link named "getStudentSchoolAssociations" with URI "/student-school-associations/<'Alfonso' ID>"
         And I should receive a link named "getSchools" with URI "/student-school-associations/<'Alfonso' ID>/targets"
+        And I should receive a link named "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'Alfonso' ID>"
+        And I should receive a link named "getAssessments" with URI "/student-assessment-associations/<'Alfonso' ID>/targets"
         And I should receive a link named "self" with URI "/students/<'Alfonso' ID>"
 
 Scenario: Update an existing student
