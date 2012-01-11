@@ -86,6 +86,16 @@ Scenario: Attempt to delete a non-existent assessment
    Given format "application/json"
    When I navigate to DELETE "/assessments/<'NonExistentAssessment' ID>"
    Then I should receive a return code of 404
+ 
+Scenario: Fail when asking for an unsupported format "text/plain"
+    Given format "text/plain"
+    When I navigate to GET "/assessments/<'Mathematics Assessment 3' ID>"
+    Then I should receive a return code of 406
+    
+Scenario: Fail if going to the wrong URI
+    Given format "application/json"
+    When I navigate to GET "/assessment/<'WrongURI' ID>"
+    Then I should receive a return code of 404
    
 Scenario: Attempt to read the base student resource with no GUID
 	Given format "application/json"

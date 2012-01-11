@@ -12,9 +12,9 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"542b0b38-ea57-4d81-aa9c-b55a629a3bd6" if arg2 == "'Mathematics Assessment 3' ID"
   id = arg1+"6c572483-fe75-421c-9588-d82f1f5f3af5" if arg2 == "'Writing Advanced Placement Test' ID"
   id = arg1+"df897f7a-7ac4-42e4-bcbc-8cc6fd88b91a" if arg2 == "'Writing Assessment II' ID"
-  id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "'NonExistentAssessment' ID"
+  id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "'NonExistentAssessment' ID" or arg2 == "'WrongURI' ID"
   id = arg1+@newId                                 if arg2 == "'newly created assessment' ID"
-  id = arg1                                        if arg2 == "'NoGUID' ID" or arg2 == nil
+  id = arg1                                        if arg2 == "'NoGUID' ID" 
   id
 end
 
