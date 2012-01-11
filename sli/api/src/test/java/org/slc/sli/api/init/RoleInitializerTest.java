@@ -1,17 +1,21 @@
 package org.slc.sli.api.init;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-
-import java.util.*;
-
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * Simple test for RoleInitializer

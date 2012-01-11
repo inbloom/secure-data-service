@@ -53,7 +53,7 @@ public class AssessmentResolver {
         // thrown away. 
 
         // A) filter out students first
-        List<Assessment> studentFiltered = new ArrayList();
+        List<Assessment> studentFiltered = new ArrayList<Assessment>();
         for (Assessment a : assessments) {
             if (a.getStudentId().equals(student.getUid())) {
                 studentFiltered.add(a);
@@ -63,7 +63,7 @@ public class AssessmentResolver {
 
         // B) filter out assessments based on dataset path
         String assessmentName = extractAssessmentName(field.getValue());
-        List<Assessment> studentAssessmentFiltered = new ArrayList();
+        List<Assessment> studentAssessmentFiltered = new ArrayList<Assessment>();
         for (Assessment a : studentFiltered) {
             if (metaDataResolver.isAncestor(assessmentName, a.getAssessmentName())) {
                 studentAssessmentFiltered.add(a);

@@ -146,5 +146,7 @@ public interface EntityRepository {
     public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max);
 
     public boolean matchQuery(String entityType, String id, String queryString);
+    
+    public boolean matchQuery(String entityType, String id, Query query);
 
 }

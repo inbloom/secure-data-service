@@ -1,22 +1,13 @@
 package org.slc.sli.security;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -67,13 +58,18 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
         
+        // Check if incoming request has a sessionId
         if (sessionId == null) {
             Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
+            
+            // Check if cookie from idp exists
             if (openAmCookie != null) {
                 sessionId = openAmCookie.getValue();
 
             } else {
                 JsonObject jsonSession = this.restClient.sessionCheck(null);
+
+                //Redirect to idp, if user is not authenticated
                 if (!jsonSession.get("authenticated").getAsBoolean()) {
                     String baseUrl = jsonSession.get("redirect_user").getAsString();
                     String requestedURL = URLHelper.getUrl(request);
@@ -92,18 +88,25 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private void addAuthentication(String token) {
         JsonObject json = this.restClient.sessionCheck(token);
         LOG.debug(json.toString());
-        SLIPrincipal principal = new SLIPrincipal();
-        JsonElement nameElement = json.get("full_name");
-        principal.setName(nameElement.getAsString());
-        JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
-        Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
-        LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-        while (authIterator.hasNext()) {
-            JsonElement nextElement = authIterator.next();
-            authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
+        
+        // If the user is authenticated, create an SLI principal, and authenticate
+        if (json.get("authenticated").getAsBoolean()) {
+            SLIPrincipal principal = new SLIPrincipal();
+            JsonElement nameElement = json.get("full_name");
+            principal.setName(nameElement.getAsString());
+            principal.setId(token);
+            JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
+            Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
+            LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
+            
+            // Add authorities to user principal
+            while (authIterator.hasNext()) {
+                JsonElement nextElement = authIterator.next();
+                authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
+            }
+    
+            SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
         }
-
-        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
     }
     
 }

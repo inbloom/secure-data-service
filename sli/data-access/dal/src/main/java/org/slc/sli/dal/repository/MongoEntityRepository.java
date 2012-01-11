@@ -228,4 +228,17 @@ public class MongoEntityRepository implements EntityRepository {
         logResults(entityType, results);
         return new LinkedList<Entity>(results);
     }
+    
+    @Override
+    public boolean matchQuery(String entityType, String id, Query query) {
+        boolean match = false;
+        if (query != null) {
+            List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+            for (MongoEntity entity : results) {
+                if (entity.getEntityId().equals(id))
+                    match = true;
+            }
+        }
+        return match;
+    }
 }
