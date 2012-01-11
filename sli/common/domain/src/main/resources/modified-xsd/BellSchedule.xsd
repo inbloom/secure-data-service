@@ -15,66 +15,62 @@
 				by one or more vacations.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexType><xs:sequence>
-			<xs:element name="SessionName" type="IdentificationCode">
-				<xs:annotation>
-					<xs:documentation>The identifier for the calendar for the academic
-						session (e.g., 2010/11, 2011 Summer).
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SchoolYear" type="SchoolYearType">
-				<xs:annotation>
-					<xs:documentation>The identifier for the school year.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Term" type="TermType">
-				<xs:annotation>
-					<xs:documentation>The term for the session during the school year.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BeginDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the first day of the session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EndDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the last day of the session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalInstructionalDays" type="xs:int">
-				<xs:annotation>
-					<xs:documentation>The total number of instructional days in the school calendar.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-				<xs:annotation>
-					<xs:documentation>The id of the Education Organization that defines
-						the curriculum and courses offered - often the LEA. This is an
-						id to the education organization
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="GradingPeriodReference" type="GradingPeriodSimpleReference" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Ids of grading periods associated with the
-						calendar.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AcademicWeekReference" type="AcademicWeekSimpleReference" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The ids of academic weeks associated with the school year.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence></xs:complexType>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SessionName" type="IdentificationCode">
+					<xs:annotation>
+						<xs:documentation>The identifier for the calendar for the academic
+							session (e.g., 2010/11, 2011 Summer).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SchoolYear" type="SchoolYearType">
+					<xs:annotation>
+						<xs:documentation>The identifier for the school year.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Term" type="TermType">
+					<xs:annotation>
+						<xs:documentation>The term for the session during the school year.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="BeginDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Month, day and year of the first day of the session.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EndDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Month, day and year of the last day of the session.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TotalInstructionalDays" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The total number of instructional days in the school calendar.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+					<xs:annotation>
+						<xs:documentation>The id of the Education Organization that defines
+							the curriculum and courses offered - often the LEA. This is an
+							id to the education organization
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GradingPeriodReference" type="GradingPeriodReference" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Ids of grading periods associated with the
+							calendar. 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="BellSchedule">
@@ -91,7 +87,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GradeLevel">
+				<xs:element name="GradeLevels">
 					<xs:annotation>
 						<xs:documentation>
 							The grade levels the particular bell schedule applies to.
