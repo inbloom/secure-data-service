@@ -87,6 +87,18 @@ Then /^I do not have access to the SLI Default Roles Admin Page$/ do
   assert(@driver.title.index("SLI Default Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
 end
 
+Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
+  #No code needed, this is done durring the IDP configuration
+end
+
+Then /^I should get a message that I am not authorized$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Given /^I am authenticated to SEA\/LEA IDP$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end

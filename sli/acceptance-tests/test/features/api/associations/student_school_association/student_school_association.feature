@@ -42,7 +42,7 @@ Scenario: Read a student-school-association for a school
 	Given format "application/json"
 	When I navigate to GET "/student-school-associations/<'Apple Alternative Elementary School' ID>"
 	Then I should receive a return code of 200
-      And I should receive a collection of 3 student-school-associations 
+      And I should receive a collection of 3 student-school-association links
       And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Gil' ID>"
@@ -52,7 +52,7 @@ Scenario: Read a student-school-association for a student
 	Given format "application/json"
 	When I navigate to GET "/student-school-associations/<'Alfonso' ID>"
 	Then I should receive a return code of 200
-        And I should receive a collection of 2 student-school-associations
+        And I should receive a collection of 2 student-school-association links
         And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso Elia' ID>"
         And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
         And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Cornerstone Elementary School' ID>"

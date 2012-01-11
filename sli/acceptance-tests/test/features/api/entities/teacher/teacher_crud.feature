@@ -15,37 +15,37 @@ Scenario: Create a new teacher in JSON format
       And the "birthDate" is "1954-08-31"
       And the "sex" is "Male"
       And the "yearsOfPriorTeachingExperience" is "32"
-      And the "teacherUniqueStateID" is "<'Teacher Home State' ID>"
+      And the "staffUniqueStateId" is "12345678"
       And the "highlyQualifiedTeacher" status is "true"
-      And the "levelOfEducation" is "Masters"
+      And the "highestLevelOfEducationCompleted" is "Masters"
    When I navigate to POST "/teachers/"
    Then I should receive a return code of 201
       And I should receive an ID for the newly created teacher
-   When I navigate to GET "/teachers/<'newly created student' ID>"
+   When I navigate to GET "/teachers/<'newly created teacher' ID>"
    Then the "name" should be "Rafe" "Hairfire" "Esquith"
       And the "birthDate" should be "1954-08-31"
       And the "sex" should be "Male"
       And the "yearsOfPriorTeachingExperience" should be "32"
-      And the "teacherUniqueStateID" should be "<'Teacher Home State' ID>"
+      And the "staffUniqueStateId" should be "12345678"
       And the "highlyQualifiedTeacher" status should be "true"
-      And the "levelOfEducation" should be "Masters"
+      And the "highestLevelOfEducationCompleted" should be "Masters"
               
 Scenario: Read a teacher by ID in JSON format
    Given format "application/json"
-   When I navigate to GET "/teachers/<'Macy' ID>"
+   When I navigate to GET "/teachers/<'Macey' ID>"
    Then I should receive a return code of 200
-      And the "name" should be "Macy" "" "Finch"
+      And the "name" should be "Macey" "" "Finch"
       And the "sex" should be "Female"
       And the "birthDate" should be "1956-08-14"
       And the "yearsOfPriorTeachingExperience" should be "22"
-      And the "teacherUniqueStateID" should be "<'Teacher Home State' ID>"
+      And the "staffUniqueStateId" should be "<'Macey Home State' ID>"
       And the "highlyQualifiedTeacher" status should be "false"
-      And the "levelOfEducation" should be "Bachelors"
-      And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Macy' ID>"
-      And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Macy' ID>/targets"
-      And I should receive a link named "getTeacherSchoolAssociations" with URI "/teacher-school-associations/<'Macy' ID>"
-      And I should receive a link named "getSchools" with URI "/teacher-school-associations/<'Macy' ID>/targets"
-      And I should receive a link named "self" with URI "/teachers/<'Macy' ID>"
+      And the "highestLevelOfEducationCompleted" should be "Bachelors"
+      And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Macey' ID>"
+      And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Macey' ID>/targets"
+      And I should receive a link named "getTeacherSchoolAssociations" with URI "/teacher-school-associations/<'Macey' ID>"
+      And I should receive a link named "getSchools" with URI "/teacher-school-associations/<'Macey' ID>/targets"
+      And I should receive a link named "self" with URI "/teachers/<'Macey' ID>"
 
 
 Scenario: Update an existing teacher in JSON format
@@ -76,22 +76,22 @@ Scenario: Create a new teacher in XML format
       And the "birthDate" is "1954-08-31"
       And the "sex" is "Male"
       And the "yearsOfPriorTeachingExperience" is "32"
-      And the "teacherUniqueStateID" is "567"
+      And the "staffUniqueStateId" is "567"
       And the "highlyQualifiedTeacher" status is "1"
    When I navigate to POST "/teachers/<'Rafe' ID>"
    Then I should receive a return code of 201
       And I should receive an ID for the newly created teacher
          
-@wip     
+@wip
 Scenario: Read a teacher by ID in XML format
    Given format "application/xml"
-   When I navigate to GET "/teachers/<'Esquith' ID>"
+   When I navigate to GET "/teachers/<'Illiana' ID>"
    Then I should receive a return code of 200
       And the "name" should be "Rafe" "Hairfire" "Esquith"
       And the "sex" should be "Male"
       And the "birthDate" should be "1954-08-31"
       And the "yearsOfPriorTeachingExperience" should be "32"
-      And the "teacherUniqueStateID" should be "567"
+      And the "staffUniqueStateId" should be "567"
       And the "highlyQualifiedTeacher" status should be "1"
   
 @wip 
@@ -139,23 +139,23 @@ Scenario: Attempt to delete a non-existent teacher
    When I navigate to DELETE "/teachers/<Unknown>"
    Then I should receive a return code of 404
 
-Scenario: Attempt to update a non-existent student
+Scenario: Attempt to update a non-existent teacher
    Given format "application/json"
    When I navigate to DELETE "/teachers/<Unknown>"
    Then I should receive a return code of 404
    
 Scenario: Attempt to read the base teacher resource with no GUID
   Given format "application/json"
-  When I navigate to GET "/teachers/<NoGUID>"
+  When I navigate to GET "/teachers"
   Then I should receive a return code of 405
   
 Scenario: Fail when asking for an unsupported format "text/plain"
   Given format "text/plain"
-  When I navigate to GET "/teachers/<'Simone' ID>"
+  When I navigate to GET "/teachers/<'Macey' ID>"
   Then I should receive a return code of 406
   
 Scenario: Fail if going to the wrong URI
     Given format "application/json"
-    When I navigate to GET "/teachers/<'WrongURI' ID>"
+    When I navigate to GET "/teacher/<'Macey' ID>"
     Then I should receive a return code of 404
  
