@@ -177,11 +177,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Location" type="LocationSimpleReference">
-				<xs:annotation>
-					<xs:documentation>Where the meeting occurs</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
