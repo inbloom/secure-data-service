@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import ch.qos.logback.classic.Logger;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slc.sli.ingestion.BatchJob;
@@ -62,6 +63,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
                 .routeId("ctlFilePoller")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Processing file ${file:name}")
                 .process(new ControlFilePreProcessor(lz))
                 .to("seda:CtrlFilePreProcessor");
 
@@ -180,6 +182,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("stop")
                 .wireTap("direct:jobReporting")
                 .log("end of job: " + header("jobId").toString())
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "File ${file:name} processed")
                 .stop();
     }
 
