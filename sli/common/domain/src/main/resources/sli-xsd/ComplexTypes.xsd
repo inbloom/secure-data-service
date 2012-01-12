@@ -5,6 +5,15 @@
 
     <xs:include schemaLocation="SimpleTypes.xsd" />
 
+    <xs:complexType name="ComplexObjectType" abstract="true">
+        <xs:attribute name="id" type="xs:ID">
+            <xs:annotation>
+                <xs:documentation>The XML ID associated with the complex object.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="Name">
         <xs:annotation>
             <xs:documentation>The set of elements that comprise a person's legal name.
@@ -343,5 +352,113 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:complexType name="Credits">
+        <xs:annotation>
+            <xs:documentation>Credits or units of value awarded for the
+                completion of a course
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Credit">
+                <xs:annotation>
+                    <xs:documentation>The value of credits or units of value awarded
+                        for the completion of a course
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:decimal">
+                        <xs:minInclusive value="0" />
+                        <xs:fractionDigits value="2" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="CreditType" type="CreditType" use="optional">
+            <xs:annotation>
+                <xs:documentation>The type of credits or units of value awarded for
+                    the completion of a course
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="CreditConversion" type="xs:decimal" use="optional">
+            <xs:annotation>
+                <xs:documentation>Conversion factor that when multiplied by the
+                    number of credits is equivalent to Carnegie units.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+	<xs:complexType name="LearningObjectiveIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Objectives.</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="LearningObjectiveId" type="LearningStandardId">
+				<xs:annotation>
+					<xs:documentation>The Identifier for the specific learning objective in the context of a standard (e.g., 111.15.3.1.A)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Objective" type="Objective">
+				<xs:annotation>
+					<xs:documentation>The designated title of the learning objective.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="LearningStandardIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Standards.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LearningStandardId" type="LearningStandardId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Provide user information to lookup and link to an existing learning standard record in the receiving system</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LearningStandardId">
+		<xs:annotation>
+			<xs:documentation>The identifier for the learning standard.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IdentificationCode" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to a learning Standard.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ContentStandardName" type="ContentStandardName" use="optional">
+			<xs:annotation>
+				<xs:documentation>The name of the content standard from which the learning standard was derived.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="CompetencyLevelDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="CodeValue" type="CodeValue">
+						<xs:annotation>
+							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="Description">
+						<xs:annotation>
+							<xs:documentation>The description of the competency level.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 </xs:schema>

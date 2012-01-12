@@ -3,7 +3,6 @@
     xmlns="http://slc-sli/ed-org/0.1" targetNamespace="http://slc-sli/ed-org/0.1"
     attributeFormDefault="unqualified"
 >
-    <xs:include schemaLocation="ComplexTypes.xsd" />
     <xs:include schemaLocation="ReferenceTypes.xsd" />
 
     <xs:complexType name="StudentIdentificationCode">
