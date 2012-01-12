@@ -50,6 +50,9 @@ public class AggregateResource {
     private URLCreator aggregateURLCreator;
     
     @Autowired
+    private URLCreator associationURLCreator;
+    
+    @Autowired
     AggregateResource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
@@ -61,12 +64,11 @@ public class AggregateResource {
      */
     @GET
     public Response getUpperMostAssociationsForUser(@Context final UriInfo uriInfo) {
-    	
-    	// create a final map of links to relevant links
-        Map<String, Object> linksMap = new HashMap<String, Object>();
-        
+    	//build the param map
+    	Map<String, String> params = new HashMap<String, String>();
+    	        
         // return as browser response
-        return Response.ok(linksMap).build();
+    	return getLinksResponse(associationURLCreator, uriInfo, params);
     }
         
     /**
@@ -87,10 +89,9 @@ public class AggregateResource {
     											@Context final UriInfo uriInfo) {
 
     	//build the param map
-    	Map<String, String> params = ResourceUtil.converToMap(uriInfo.getQueryParameters());
-    	params.put(PATH_PARAM_DISTRICT, districtId);
+    	Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
     	
-    	return getAggregateLinksResponse(uriInfo, params);
+    	return getLinksResponse(aggregateURLCreator, uriInfo, params);
     }
     
     /**
@@ -110,12 +111,26 @@ public class AggregateResource {
     											@QueryParam(QUERY_PARAM_TYPE) String typeId,
     											@Context final UriInfo uriInfo) {
 
-    	//build the param map
-    	Map<String, String> params = ResourceUtil.converToMap(uriInfo.getQueryParameters());
-    	params.put(PATH_PARAM_SCHOOL, schoolId);
+    	Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
     	
-    	return getAggregateLinksResponse(uriInfo, params);
+    	return getLinksResponse(aggregateURLCreator, uriInfo, params);
     }
+
+    /**
+     * Combines the query params and the path params to create one map
+     * @param pathParams The path params from the request
+     * @param queryParams The query params from the request
+     * @return
+     */
+	protected Map<String, String> combineParameters(Map<String, List<String>> pathParams,
+			Map<String, List<String>> queryParams) {
+		//build the param map
+    	Map<String, String> params = ResourceUtil.convertToMap(pathParams);
+    	
+    	params.putAll(ResourceUtil.convertToMap(queryParams));
+    	
+		return params;
+	}
 
     /**
      * Returns a response object with aggregate links filtered by the given params
@@ -123,9 +138,9 @@ public class AggregateResource {
      * @param params
      * @return
      */
-	private Response getAggregateLinksResponse(final UriInfo uriInfo, Map<String, String> params) {
+	private Response getLinksResponse(URLCreator creator, final UriInfo uriInfo, Map<String, String> params) {
 		//get the aggregate URLs
-    	List<EmbeddedLink> links = aggregateURLCreator.getUrls(uriInfo, params);
+    	List<EmbeddedLink> links = creator.getUrls(uriInfo, params);
     	
     	// create a final map of links to relevant links
         Map<String, Object> linksMap = new HashMap<String, Object>();
@@ -137,5 +152,9 @@ public class AggregateResource {
 
 	public void setAggregateURLCreator(URLCreator aggregateURLCreator) {
 		this.aggregateURLCreator = aggregateURLCreator;
+	}
+
+	public void setAssociationURLCreator(URLCreator associationURLCreator) {
+		this.associationURLCreator = associationURLCreator;
 	}
 }

@@ -12,14 +12,11 @@
 		<property name="studentService" ref="studentTorqueService" />
 	</bean>
  -->
- 
-<!--   
-	<bean id="aggregateResource" class="org.slc.sli.api.resources.AggregateResource" scope="request">
-	</bean>
--->
-	
+ 	
 	<bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
 	</bean>
   
+  	<bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
+	</bean>
  
 </beans>

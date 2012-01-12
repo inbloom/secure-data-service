@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.security.core.Authentication;
@@ -22,6 +21,7 @@ import org.slc.sli.api.representation.EmbeddedLink;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
+import static org.slc.sli.api.resources.util.ResourceConstants.ROLE_TYPE_SUPERINTENDENT;
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -134,15 +134,15 @@ public class ResourceUtil {
         Authentication authentication = context.getAuthentication();
         
         // TODO: extract userType and ID (in some way) from authentication value
-        //map.put("userType", "students");
-        //map.put("id", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        map.put("userType", "students");
+        map.put("id", "714c1304-8a04-4e23-b043-4ad80eb60992");
         
         // map.put("userType", "teachers");
         // map.put("id", "fa45033c-5517-b14b-1d39-c9442ba95782");
         
-        map.put("userType", "staff");
-        map.put("id", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");        
-        map.put("roleType", "superident"); //this would change
+        //map.put("userType", "staff");
+        //map.put("id", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");        
+        map.put("roleType", ROLE_TYPE_SUPERINTENDENT); //this would change
         
         return map;
     }
@@ -152,11 +152,13 @@ public class ResourceUtil {
      * @param map
      * @return
      */
-    public static Map<String, String> converToMap(MultivaluedMap<String, String> map) {
+    public static Map<String, String> convertToMap(Map<String, List<String>> map) {
     	Map<String, String> results = new HashMap<String, String>();
     	
-    	for(Map.Entry<String, List<String>> e: map.entrySet()) {
-    		results.put(e.getKey(), e.getValue().get(0));
+    	if(map != null) {
+    		for(Map.Entry<String, List<String>> e: map.entrySet()) {
+    			results.put(e.getKey(), e.getValue().get(0));
+    		}
     	}
     	
     	return results;
