@@ -38,6 +38,7 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
   @driver.find_element(:id, "IDToken2").send_keys arg2
   @driver.find_element(:name, "Login.Submit").click
 end
+
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
   assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
 end
