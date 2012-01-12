@@ -1,6 +1,5 @@
 package org.slc.sli.api.security.roles;
 
-import org.slc.sli.api.security.enums.Right;
 
 import java.util.List;
 

@@ -32,7 +32,9 @@ public class SLIPrincipal implements Principal {
         this.id = id;
     }
 
-    public SLIPrincipal() {}
+    public SLIPrincipal() {
+
+    }
 
     @Override
     public String getName() {
