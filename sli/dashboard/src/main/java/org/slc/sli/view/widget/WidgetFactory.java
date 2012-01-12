@@ -13,8 +13,11 @@ import org.slc.sli.view.AssessmentResolver;
  */
 public class WidgetFactory {
     
-    public ColorByPerf createColorByPerf(Field field, Student student, AssessmentResolver assmts) {
+    public static ColorByPerf createColorByPerf(Field field, Student student, AssessmentResolver assmts) {
         return new ColorByPerf(field, student, assmts);
+    }
+    public static FuelGaugeByScore createFuelGaugeByScore(Field field, Student student, AssessmentResolver assmts) {
+        return new FuelGaugeByScore(field, student, assmts);
     }
     
 }

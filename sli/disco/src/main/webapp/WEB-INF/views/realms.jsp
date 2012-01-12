@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div style="color: red;width: 35%;">${errorMsg}</div>
-	<form:form action="/disco/realms/sso.do" method="GET" commandName="dummy">
+	<form:form action="/disco/realms/sso" method="GET" commandName="dummy">
 		<input type="hidden" name="RelayState" value="${relayState}" />
 		Please choose your State/District:
 		<form:select path="" name="realmId" items="${realms}" />

@@ -48,8 +48,8 @@ Scenario Outline: Read a student-section-association
 Scenario Outline: Update a student-section-association 
 	Given format <format>
 	When I navigate to GET "/student-section-associations/<'Section "Foreign Language - A" and Student "Albert Wright"' ID>"
-    And
-	When "repeatIdentifier" is updated to "Not_repeated"
+      Then  the "repeatIdentifier" should be "Repeated"
+	When I set the "repeatIdentifier" to "Not_repeated"
 		And I navigate to PUT "/student-section-associations/<'Section "Foreign Language - A" and Student "Albert Wright"' ID>"
 	Then I should receive a return code of 204
 	When I navigate to GET "/student-section-associations/<'Section "Foreign Language - A" and Student "Albert Wright"' ID>"
@@ -76,22 +76,22 @@ Scenario: Reading a student-section-association for a student
 	Given format "application/json"
 	When I navigate to GET "/student-section-associations/<'Jane Doe' ID>"
 	Then I should receive a return code of 200
-		And I should receive a collection of 4 student-section-association links that resolve to
-		And I should receive a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
-		And I should receive a link named "getSection" with URI "/sections/<'Foreign Language - A' ID>"
-		And I should receive a link named "getSection" with URI "/sections/<'Biology II - C' ID>"
-		And I should receive a link named "getSection" with URI "/sections/<'Physics I - B' ID>"
-		And I should receive a link named "getSection" with URI "/sections/<'Chemistry I - A' ID>"
+		And I should receive a collection of 4 student-section-association links
+		And after resolution, I should receive a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
+		And after resolution, I should receive a link named "getSection" with URI "/sections/<'Foreign Language - A' ID>"
+		And after resolution, I should receive a link named "getSection" with URI "/sections/<'Biology II - C' ID>"
+		And after resolution, I should receive a link named "getSection" with URI "/sections/<'Physics I - B' ID>"
+		And after resolution, I should receive a link named "getSection" with URI "/sections/<'Chemistry I - A' ID>"
 
 Scenario: Reading a student-section-association for a section
 	Given format "application/json"
 	When I navigate to GET "/student-section-associations/<'Chemistry I - A' ID>"
 	Then I should receive a return code of 200
-	And I should receive a collection of 3 student-section-association links that resolve to
-    And I should receive a link named "getSection" with URI "/sections/<'Chemistry I - A' ID>"
-	And I should receive a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
-	And I should receive a link named "getStudent" with URI "/students/<'Albert Wright' ID>"
-	And I should receive a link named "getStudent" with URI "/students/<'Kevin Smith' ID>"
+	And I should receive a collection of 3 student-section-association links
+    And after resolution, I should receive a link named "getSection" with URI "/sections/<'Chemistry I - A' ID>"
+	And after resolution, I should receive a link named "getStudent" with URI "/students/<'Jane Doe' ID>"
+	And after resolution, I should receive a link named "getStudent" with URI "/students/<'Albert Wright' ID>"
+	And after resolution, I should receive a link named "getStudent" with URI "/students/<'Kevin Smith' ID>"
 	
 ### Error Handling
 Scenario: Attempt to read a non-existing student section association

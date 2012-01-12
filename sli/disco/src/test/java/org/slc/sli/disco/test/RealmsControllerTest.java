@@ -32,7 +32,7 @@ import org.springframework.web.client.RestTemplate;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/commonCtx.xml" })
+@ContextConfiguration(locations = { "/testContext.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class RealmsControllerTest {
     

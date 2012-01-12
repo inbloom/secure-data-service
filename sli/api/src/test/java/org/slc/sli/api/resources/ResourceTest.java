@@ -75,6 +75,7 @@ public class ResourceTest {
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
     private static final String EDUCATIONORGANIZATION_SCHOOL_ASSOCIATION_URI = "educationOrganization-school-associations";
     private static final String SECTION_ASSESSMENT_ASSOCIATION_URI = "section-assessment-associations";
+    private static final String SECTION_SCHOOL_ASSOCIATION_URI = "section-school-associations";
     @Autowired
     Resource api;
     
@@ -131,6 +132,13 @@ public class ResourceTest {
         return entity;
     }
     
+    public Map<String, Object> createTestSectionSchoolAssociation(String sectionId, String schoolId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sectionId", sectionId);
+        entity.put("schoolId", schoolId);
+        return entity;
+    }
+
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
@@ -226,6 +234,11 @@ public class ResourceTest {
                 createTestSectionAssessmentAssociation(sectionId1, assessmentId1)), info);
         assertNotNull(createResponseSAA);
         String sectionAssessmentAssocId = parseIdFromLocation(createResponseSAA);
+
+        Response createResponseSSchA = api.createEntity(SECTION_SCHOOL_ASSOCIATION_URI, new EntityBody(
+                createTestSectionSchoolAssociation(sectionId1, schoolId)), info);
+        assertNotNull(createResponseSSchA);
+        String sectionSchoolAssocId = parseIdFromLocation(createResponseSSchA);
 
         // test get
         for (TypeIdPair typeId : ids.keySet()) {

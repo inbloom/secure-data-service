@@ -42,6 +42,7 @@ public class MockRepo implements EntityRepository {
         repo.put("educationOrganization", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganizationschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionassessmentassociation", new LinkedHashMap<String, Entity>());
+        repo.put("sectionschoolassociation", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -141,8 +142,7 @@ public class MockRepo implements EntityRepository {
         return toReturn;
     }
     
-    @Override
-    public Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max) {
+    private Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
         Map<String[], String> queryMap = stringToQuery(queryString);
         if (repo.containsKey(entityType)) {
@@ -254,8 +254,7 @@ public class MockRepo implements EntityRepository {
         return compare;
     }
 
-    @Override
-    public boolean matchQuery(String entityType, String id, String queryString) {
+    private boolean matchQuery(String entityType, String id, String queryString) {
         boolean match = false;
         List<Entity> toReturn = new ArrayList<Entity>();
         Map<String[], String> queryMap = stringToQuery(queryString);

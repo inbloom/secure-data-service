@@ -122,7 +122,7 @@ task :validationTests do
 end
 
 desc "Run List-Filter Tests"
-task :listFilterTests do
+task :listFilterTests => [:importSandboxData] do
   runTests("test/features/api/end_user_stories/lists")
 end
 
