@@ -111,12 +111,11 @@ public class ResourceUtil {
      * @return A list of links pointing to the base Url for aggregations
      */
     public static List<EmbeddedLink> getAggregateLink(final UriInfo uriInfo) {
-    	List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
-    	
-    	links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, 
-    			uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).build().toString()));
-    	
-    	return links;
+        List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
+        
+        links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).build().toString()));
+        
+        return links;
     }
     
     /**
@@ -153,15 +152,15 @@ public class ResourceUtil {
      * @return
      */
     public static Map<String, String> convertToMap(Map<String, List<String>> map) {
-    	Map<String, String> results = new HashMap<String, String>();
-    	
-    	if (map != null) {
-    		for (Map.Entry<String, List<String>> e : map.entrySet()) {
-    			results.put(e.getKey(), e.getValue().get(0));
-    		}
-    	}
-    	
-    	return results;
+        Map<String, String> results = new HashMap<String, String>();
+        
+        if (map != null) {
+            for (Map.Entry<String, List<String>> e : map.entrySet()) {
+                results.put(e.getKey(), e.getValue().get(0));
+            }
+        }
+        
+        return results;
     }
     
     /**

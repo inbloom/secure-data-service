@@ -13,29 +13,31 @@ import org.slc.sli.dal.repository.EntityRepository;
 
 /**
  * Handles creating different types of URL sets.
+ * 
  * @author srupasinghe
- *
+ * 
  */
-public abstract class URLCreator {	
-	@Autowired
+public abstract class URLCreator {
+    @Autowired
     protected EntityDefinitionStore store;
-	
-	@Autowired
-	protected EntityRepository repo;
-	
-	/**
-	 * Returns a list of embedded Urls that matches the given parameters
-	 * @param uriInfo
-	 * @param params
-	 * @return
-	 */
-	public abstract List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params);
-
-	public void setStore(EntityDefinitionStore store) {
-		this.store = store;
-	}
-
-	public void setRepo(EntityRepository repo) {
-		this.repo = repo;
-	}
+    
+    @Autowired
+    protected EntityRepository repo;
+    
+    /**
+     * Returns a list of embedded Urls that matches the given parameters
+     * 
+     * @param uriInfo
+     * @param params
+     * @return
+     */
+    public abstract List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params);
+    
+    public void setStore(EntityDefinitionStore store) {
+        this.store = store;
+    }
+    
+    public void setRepo(EntityRepository repo) {
+        this.repo = repo;
+    }
 }
