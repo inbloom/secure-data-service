@@ -35,8 +35,8 @@ public class BatchJobTest {
 
     @Test
     public void testCreateId() {
-        String id1 = BatchJob.createId();
-        String id2 = BatchJob.createId();
+        String id1 = BatchJob.createId(null);
+        String id2 = BatchJob.createId(null);
         assertEquals(id1.length(), 36);
         assertEquals(id2.length(), 36);
         assertFalse(id1.equals(id2));

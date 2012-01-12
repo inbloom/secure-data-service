@@ -118,7 +118,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // add output as lines
                         jobLogger.info("jobId: " + job.getId());
-
+                        
                         for (IngestionFileEntry fileEntry : job.getFiles()) {
                             jobLogger.info("[file] " + fileEntry.getFileName()
                                     + " (" + fileEntry.getFileFormat() + "/"
