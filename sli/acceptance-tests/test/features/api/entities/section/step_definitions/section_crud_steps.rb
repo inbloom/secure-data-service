@@ -4,142 +4,163 @@ require 'builder'
 require 'rexml/document'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
-require_relative './section_crud_helper'
 
-Transform /^section "([^"]*)"$/ do |step_arg|
-  id = "/sections/1e1cdb04-2094-46b7-8140-e3e481013480"  if step_arg == "chemistryF11"
-  id = "/sections/5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431"  if step_arg == "physicsS08"
-  id = "/sections/11111111-1111-1111-1111-111111111111"  if step_arg == "Invalid"
-  id = "/sections/58c9ef19-c172-4798-8e6e-c73e68ffb5a3"  if step_arg == "algebraIIS10"
-  id = "/sections/" + @newSectionId                     if step_arg == "SpanishB09"
-  if step_arg == "biologyF09"
+# transform <Place Holder Id>
+Transform /^<.+>$/ do |template|
+  id = template
+  id = @newId.to_s if template == "<'newly created section' ID>"
+  id = "1e1cdb04-2094-46b7-8140-e3e481013480" if template == "<'chemistryF11' ID>"
+  if template == "<'biologyF09' ID>"
     if @format == "application/json" or @format == "application/vnd.slc+json"
-      id = "/sections/2934f72d-f9e3-48fd-afdd-56b94e2a3454" # biologyF09J
+      id = "2934f72d-f9e3-48fd-afdd-56b94e2a3454" # biologyF09J
     elsif @format == "application/xml" or @format == "application/vnd.slc+xml"
-      id = "/sections/c2efa2b3-f0c6-472a-b0d3-2e7495554acc" # biologyF09X
+      id = "c2efa2b3-f0c6-472a-b0d3-2e7495554acc" # biologyF09X
     end
   end
-  id = "/section/11111111-1111-1111-1111-111111111111"   if step_arg == "WrongURI"
-  id = "/sections"                                       if step_arg == "NoGUID"
+  id = "11111111-1111-1111-1111-111111111111" if template == "<'Invalid' ID>"
+  id = "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431" if template == "<'physicsS08' ID>"
   id
 end
 
-Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/vnd.slc+json", "application/xml", "text/plain"].should include(arg1)
-  @format = arg1
+# transform /path/<Place Holder Id>
+Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
+  uri + Transform(template)
 end
 
-Given /^the SLI_SMALL dataset is loaded$/ do
-  # the assumption is now that the import script will be run
-  # prior to running cucumber feature tests
+# transform /path/<Place Holder Id>/targets
+Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
+  Transform(uri + template) + "/targets"
 end
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |usr, pass|
-  idpLogin(usr, pass)
+
+### GIVEN ###
+
+Given /^I am logged in using "([^\"]*)" "([^\"]*)"$/ do |user, pass|
+  @user = user
+  @passwd = pass
 end
 
-Given /^I have access to all students$/ do
+Given /^I have access to all sections$/ do
+  idpLogin(@user, @passwd)
   assert(@sessionId != nil, "Session returned was nil")
 end
 
-Given /^the unique section code is "([^"]*)"$/ do |section_code|
-  section_code.should_not be_nil
-  @section_code = section_code
+Given /^format "([^\"]*)"$/ do |fmt|
+  ["application/json", "application/xml", "text/plain"].should include(fmt)
+  @format = fmt
 end
 
-Given /^the educational environment is "([^"]*)"$/ do |edu_env|
-  edu_env.should_not be_nil
-  @edu_env = edu_env
+Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
+  if !defined? @data
+    @data = {}
+  end
+  value = convert(value)
+  @data[key] = value
 end
 
-Given /^the medium of instruction is "([^"]*)"$/ do |medium|
-  medium.should_not be_nil
-  @medium = medium
+### WHEN ###
+
+When /^I navigate to POST "([^\"]+)"$/ do |url|
+  data = prepareData(@format, @data)
+  restHttpPost(url, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-Given /^the population served is "([^"]*)"$/ do |pop|
-  pop.should_not be_nil
-  @pop = pop
-end
-
-When /^I navigate to POST "([^"]*)"$/ do |section_uri|
-    data = data_builder
-    restHttpPost(section_uri, data)
-    @res.should_not be_nil
-end
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code} but expected #{arg1}")
-end
-
-Then /^I should receive a ID for the newly created section$/ do
-  headers = @res.raw_headers
-  headers.should_not be_nil
-  headers['location'].should_not be_nil
-  s = headers['location'][0]
-  @newSectionId = s[s.rindex('/')+1..-1]
-  @newSectionId.should_not be_nil
-end
-
-When /^I navigate to GET (section "[^"]*")$/ do |section_uri|
-  restHttpGet(section_uri)
-end
-
-Then /^I should see the sequence of course is (\d+)$/ do |course_seq|
-  parsed_results.should_not be_nil
-  getKeyValue('sequenceOfCourse').to_i.should == course_seq.to_i
-end
-
-Then /^I should see the educational environment is "([^"]*)"$/ do |edu_env|
-  parsed_results.should_not be_nil
-  getKeyValue('educationalEnvironment').should == edu_env
-end
-
-Then /^I should see the medium of instruction is "([^"]*)"$/ do |medium|
-  parsed_results.should_not be_nil
-  getKeyValue('mediumOfInstruction').should == medium
-end
-
-Then /^I should see the population served is "([^"]*)"$/ do |pop|
-  parsed_results.should_not be_nil
-  getKeyValue('populationServed').should == pop
-end
-
-Given /^the sequence of course is (\d+)$/ do |course_seq|
-  course_seq.should_not be_nil
-  @course_seq = course_seq.to_i
-end
-
-When /^I navigate to DELETE (section "[^"]*")$/ do |section_uri|
-  section_uri.should_not be_nil
-  restHttpDelete(section_uri)
-end
-
-When /^I navigate to PUT (section "[^"]*")$/ do |section_uri|
-
-  restHttpGet(section_uri)
+When /^I navigate to GET "([^\"]+)"$/ do |url|
+  restHttpGet(url)
   assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  assert(@res.body != nil, "Response body is nil")
+  contentType = contentType(@res)
+  if /application\/json/.match contentType
+    @result = JSON.parse(@res.body)
+  elsif /application\/xml/.match contentType
+    doc = Document.new @res.body
+    @result = doc.root
+    puts @result
+  else
+    @result = {}
+  end
+end
 
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH = JSON.parse(@res.body)
-    dataH['sequenceOfCourse'].should_not == @course_seq
-    dataH['sequenceOfCourse'] = @course_seq
-    data = dataH.to_json
-  elsif @format == "application/xml"
-    doc = Document.new(@res.body)  
-    data = doc
+When /^I navigate to PUT "([^\"]*)"$/ do |url|
+  if !defined? @data
+    @data = {}
+  end
+  data = prepareData(@format, @data)
+  restHttpPut(url, data)
+end
+
+When /^I navigate to DELETE "([^\"]*)"$/ do |url|
+  restHttpDelete(url)
+  assert(@res != nil, "Response from rest-client DELETE is nil")
+end
+
+When /^I set the "([^\"]*)" to "([^\"]*)"$/ do |key, value|
+  step "the \"#{key}\" is \"#{value}\""
+end
+
+### THEN ###
+
+Then /^I should receive a return code of (\d+)$/ do |status|
+  @res.code.should == Integer(status)
+end
+
+Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
+  s = headers['location'][0]
+  @newId = s[s.rindex('/')+1..-1]
+  assert(@newId != nil, "#{entity} ID is nil")
+end
+
+Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |key, value|
+  value = convert(value)
+  @result[key].should_not == nil
+  @result[key].should == value
+end
+
+Then /^I should receive a link named "([^\"]*)" with URI "([^\"]*)"$/ do |rel, href|
+  @result["links"].should_not == nil
+  found = false
+  @result["links"].each do |link|;
+    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+      found = true
+      break
+    end
+  end
+  assert(found, "Did not find a link rel=#{rel} href=#{href}")
+end
+
+### Util methods ###
+
+def convert(value)
+  if /^true$/.match value
+    true;
+  elsif /^false$/.match value
+    false;
+  elsif /^\d+\.\d+$/.match value
+    Float(value)
+  elsif /^\d+$/.match value
+    Integer(value)
+  else
+    value
+  end
+end
+
+def prepareData(format, hash)
+  if format == "application/json"
+    hash.to_json
+  elsif format == "application/xml"
+    raise "XML not implemented"
   else
     assert(false, "Unsupported MIME type")
   end
-  restHttpPut(section_uri, data)
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  
 end
 
-When /^I attempt to update a non\-existing (section "[^"]*")$/ do |section_uri|
-  section_uri.should_not be_nil
-  data = data_builder
-  restHttpPut(section_uri, data)
+def contentType(response) 
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['content-type'] != nil, "There is no content-type set in the response")
+  headers['content-type'][0]
 end
-
