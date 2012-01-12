@@ -24,14 +24,16 @@ public abstract class URLCreator {
 	@Autowired
 	protected EntityRepository repo;
 	
+	/**
+	 * Returns a list of embedded Urls that matches the given parameters
+	 * @param uriInfo
+	 * @param params
+	 * @return
+	 */
 	abstract public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params);
 
 	public void setStore(EntityDefinitionStore store) {
 		this.store = store;
-	}
-
-	public EntityRepository getRepo() {
-		return repo;
 	}
 
 	public void setRepo(EntityRepository repo) {

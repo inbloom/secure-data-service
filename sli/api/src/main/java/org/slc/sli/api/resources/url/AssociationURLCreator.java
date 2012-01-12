@@ -23,6 +23,9 @@ import org.slc.sli.domain.Entity;
 public class AssociationURLCreator extends URLCreator {
 
 	@Override
+	/**
+	 * Returns a list association links for the logged in user
+	 */
 	public List<EmbeddedLink> getUrls(final UriInfo uriInfo,
 			Map<String, String> params) {
 		List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
@@ -50,6 +53,12 @@ public class AssociationURLCreator extends URLCreator {
         return results;
 	}
 	
+	/**
+	 * Returns the staff-educationorganization association links for the logged in user
+	 * @param uriInfo
+	 * @param params
+	 * @return
+	 */
 	protected List<EmbeddedLink> getStaffEducationOrganizationAssociationLinks(final UriInfo uriInfo, Map<String, String> params) {
 		List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
          
@@ -68,6 +77,12 @@ public class AssociationURLCreator extends URLCreator {
 		return results;
 	}
 	
+	/**
+	 * Returns the staff-school association links for the logged in user
+	 * @param uriInfo
+	 * @param params
+	 * @return
+	 */
 	protected List<EmbeddedLink> getStaffSchoolAssociationLinks(final UriInfo uriInfo, Map<String, String> params) {
 		List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
         

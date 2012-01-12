@@ -59,6 +59,7 @@ public class AggregateResource {
     
     /**
      * Returns the uppermost associations for the logged in user
+     * i.e For a staff(superintendent) it'll return a list of associated educationalOrganizations
      * @param uriInfo
      * @return
      */

@@ -1,5 +1,10 @@
 package org.slc.sli.api.resources.util;
 
+/**
+ * Common class for constants for the resources
+ * @author srupasinghe
+ *
+ */
 public class ResourceConstants {
 	public static final String QUERY_PARAM_GRADE = "grade";
 	public static final String QUERY_PARAM_SUBJECT = "subject";

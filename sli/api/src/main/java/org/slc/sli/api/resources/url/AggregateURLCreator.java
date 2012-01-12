@@ -20,6 +20,9 @@ import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGRE
  */
 public class AggregateURLCreator extends URLCreator {
 
+	/**
+	 * Returns a list of aggregate links that matches the parameters passed in 
+	 */
 	@Override
 	public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
 		List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
