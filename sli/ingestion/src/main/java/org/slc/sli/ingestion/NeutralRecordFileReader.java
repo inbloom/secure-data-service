@@ -2,6 +2,7 @@ package org.slc.sli.ingestion;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,11 +13,18 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.util.Utf8;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class NeutralRecordFileReader implements Iterator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
 
     protected File file;
 
@@ -24,15 +32,17 @@ public class NeutralRecordFileReader implements Iterator {
     protected DataFileReader reader;
     protected GenericData.Record avroRecord;
 
+    protected ObjectMapper jsonObjectMapper;
+
     public NeutralRecordFileReader(File file) throws IOException {
         this.datum = new GenericDatumReader();
         this.reader = new DataFileReader(file, datum);
-        this.avroRecord = new GenericData.Record(
-                reader.getSchema());
+        this.avroRecord = new GenericData.Record(reader.getSchema());
+
+        this.jsonObjectMapper = new ObjectMapper();
     }
 
-    protected static String getStringNullable(GenericData.Record avroRecord,
-            String field) {
+    protected static String getStringNullable(GenericData.Record avroRecord, String field) {
         if (avroRecord.get(field) != null) {
             return avroRecord.get(field).toString();
         } else {
@@ -44,10 +54,14 @@ public class NeutralRecordFileReader implements Iterator {
      * Extract the content of an avro-serialized NeutralRecord into a
      * fully-inflated instance.
      *
-     * @param avroRecord - the avroRecord, parsed against the defined schema.
+     * @param avroRecord
+     *            - the avroRecord, parsed against the defined schema.
      * @return
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonParseException
      */
-    protected NeutralRecord getNeutralRecord(GenericData.Record avroRecord) {
+    protected NeutralRecord getNeutralRecord(GenericData.Record avroRecord) throws IOException {
         NeutralRecord nr = new NeutralRecord();
         nr.setJobId(getStringNullable(avroRecord, "jobId"));
         nr.setSourceId(getStringNullable(avroRecord, "sourceId"));
@@ -55,18 +69,23 @@ public class NeutralRecordFileReader implements Iterator {
         nr.setRecordType(getStringNullable(avroRecord, "recordType"));
 
         if (avroRecord.get("attributes") != null) {
-            nr.setAttributes(
-                    unencodeMap((Map<Utf8, Utf8>) avroRecord.get("attributes")));
+
+            // decode JSON back into map
+            nr.setAttributes(jsonToMap(avroRecord.get("attributes")));
         }
 
         if (avroRecord.get("localParentIds") != null) {
-            nr.setLocalParentIds(
-                    unencodeMap((Map<Utf8, Utf8>) avroRecord.get("localParentIds")));
+            nr.setLocalParentIds(unencodeMap((Map<Utf8, Utf8>) avroRecord.get("localParentIds")));
         }
 
-        nr.setAttributesCrc(
-                getStringNullable(avroRecord, "attributesCrc"));
+        nr.setAttributesCrc(getStringNullable(avroRecord, "attributesCrc"));
         return nr;
+    }
+
+    private Map<String, Object> jsonToMap(Object object) throws JsonParseException, JsonMappingException, IOException {
+        Map<String, Object> attributesMap = jsonObjectMapper.readValue(object.toString(), Map.class);
+        LOG.debug("decoded json to map: " + attributesMap);
+        return attributesMap;
     }
 
     protected HashMap<String, Object> unencodeMap(Map<Utf8, Utf8> map) {
@@ -86,12 +105,17 @@ public class NeutralRecordFileReader implements Iterator {
     }
 
     public NeutralRecord next() {
-        return getNeutralRecord((Record) this.reader.next());
+        NeutralRecord neutralRecord = null;
+        try {
+            neutralRecord = getNeutralRecord((Record) this.reader.next());
+        } catch (IOException e) {
+            LOG.error("Could not decode NeutralRecord {}", Arrays.asList(e.getStackTrace()));
+        }
+        return neutralRecord;
     }
 
     public void remove() {
-        throw new UnsupportedOperationException(
-                "remove() operation is unsupported");
+        throw new UnsupportedOperationException("remove() operation is unsupported");
     }
 
     public void close() throws IOException {

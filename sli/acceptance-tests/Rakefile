@@ -31,7 +31,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} --expand --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -87,7 +87,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests] do
   displayFailureReport()
 end
 
@@ -119,6 +119,11 @@ end
 desc "Run Validation Tests"
 task :validationTests do
   runTests("test/features/api/validation")
+end
+
+desc "Run List-Filter Tests"
+task :listFilterTests => [:importSandboxData] do
+  runTests("test/features/api/end_user_stories/lists")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated
@@ -167,7 +172,8 @@ end
 desc "Run Security Tests"
 task :securityTests do
   securityHash = Hash[
-    "student" => "student_fixture.json"
+    "student" => "student_fixture.json",
+    "realm" => "realm_fixture.json"
     ]
   setMultipleFixtureFiles(securityHash)
   runTests("test/features/security")  
@@ -210,7 +216,8 @@ task :importSandboxData do
     "teachersectionassociation" => "teacher_section_fixture.json",
     "studentassessmentassociation"=> "studentassessmentassociation_fixture.json",
     "studentsectionassociation" => "student_section_association_fixture.json",
-    "teacherschoolassociation" => "teacher_school_fixture.json"
+    "teacherschoolassociation" => "teacher_school_fixture.json",
+    "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

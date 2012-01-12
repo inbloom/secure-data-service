@@ -1,6 +1,19 @@
 [
     {
         "nameSuffix": "",
+        "stateId": "111111111",
+        "uid": "111111111",
+        "sex": "Female",
+        "birthDate": "2005-01-01",
+        "firstName": "Student",
+        "nameVerification": "",
+        "hispanicLatinoEthnicity": "",
+        "middleName": "Mock",
+        "racialCategory": "",
+        "lastName": "Fake"
+    },
+    {
+        "nameSuffix": "",
         "stateId": "530425896",
         "uid": "530425896",
         "sex": "Female",
