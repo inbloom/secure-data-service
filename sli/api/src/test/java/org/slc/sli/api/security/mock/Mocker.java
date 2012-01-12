@@ -3,11 +3,17 @@ package org.slc.sli.api.security.mock;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.slc.sli.api.security.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.SLIPrincipal;
@@ -15,8 +21,6 @@ import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.api.security.resolve.impl.DefaultClientRoleResolver;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.dal.repository.EntityRepository;
@@ -27,6 +31,12 @@ import org.slc.sli.dal.repository.EntityRepository;
  * @author dkornishev
  */
 public class Mocker {
+
+    @Autowired
+    private static RolesToRightsResolver rolesToRightsResolver;
+
+    @Autowired
+    private static SecurityTokenResolver openamRestTokenResolver;
     public static final String MOCK_URL            = "mock";
     public static final String VALID_TOKEN         = "valid_token";
     public static final String INVALID_TOKEN       = "invalid_token";
@@ -49,6 +59,7 @@ public class Mocker {
     public static final String VALID_INTERNAL_ID   = "id->internal->valid";
     public static final String INVALID_INTERNAL_ID = "~id->internal->invalid";
     
+
     public static RestTemplate mockRest() {
         RestTemplate rest = mock(RestTemplate.class);
         
@@ -64,16 +75,16 @@ public class Mocker {
     }
     
     public static SecurityTokenResolver getMockedOpenamResolver() {
-        OpenamRestTokenResolver resolver = new OpenamRestTokenResolver();
+        OpenamRestTokenResolver resolver =  (OpenamRestTokenResolver) openamRestTokenResolver;
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
-        resolver.setResolver(getResolver());
+        resolver.setResolver(getRolesToRightsResolver());
         resolver.setLocator(getLocator());
         
         return resolver;
     }
     
-    private static UserLocator getLocator() {
+    public static UserLocator getLocator() {
         MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
         Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
         Mockito.when(locator.locate("dc=slidev,dc=net", "demo")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
@@ -85,10 +96,22 @@ public class Mocker {
         return new MockRepo();
     }
 
-    private static RolesToRightsResolver getResolver() {
-        DefaultRolesToRightsResolver resolver = new DefaultRolesToRightsResolver();
-        resolver.setRoleMapper(new DefaultClientRoleResolver());
+    public static void setRolesToRightsResolver(RolesToRightsResolver rolesToRightsResolver) {
         
-        return resolver;
+        Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
+        
+    }
+
+    public static void setOpenamRestTokenResolver(SecurityTokenResolver openamRestTokenResolver) {
+        Mocker.openamRestTokenResolver = openamRestTokenResolver;
+    }
+
+
+    private static RolesToRightsResolver getRolesToRightsResolver() {
+        Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
+        Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+        rights.add(Right.READ_GENERAL);
+        when(rolesToRightsResolver.resolveRoles(Arrays.asList(new String[]{"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        return rolesToRightsResolver;
     }
 }

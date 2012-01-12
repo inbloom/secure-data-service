@@ -42,7 +42,7 @@ Scenario: Read a student-school-association for a school
 	Given format "application/json"
 	When I navigate to GET "/student-school-associations/<'Apple Alternative Elementary School' ID>"
 	Then I should receive a return code of 200
-      And I should receive a collection of 3 student-school-associations 
+      And I should receive a collection of 3 student-school-association links
       And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Gil' ID>"
@@ -52,26 +52,26 @@ Scenario: Read a student-school-association for a student
 	Given format "application/json"
 	When I navigate to GET "/student-school-associations/<'Alfonso' ID>"
 	Then I should receive a return code of 200
-        And I should receive a collection of 2 student-school-associations
-        And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso Elia' ID>"
+        And I should receive a collection of 2 student-school-association links
+        And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso' ID>"
         And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
-        And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Cornerstone Elementary School' ID>"
+        And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Yellow Middle School' ID>"
 
 Scenario: Update an existing student-school-association
 	Given format "application/json"
-    When I navigate to GET "/student-school-associations/<'Student Darren Boyton and School Apple Alternative Elementary School' ID>"
-      Then the "entryGradeLevel" should be "FIRST_GRADE"
-    When I set "entryGradeLevel" to "SECOND_GRADE"
-	  And I navigate to PUT "/student-school-associations/<'Student Darren Boyton and School Apple Alternative Elementary School' ID>"
+    When I navigate to GET "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
+      Then "entryGradeLevel" should be "First_grade"
+    When I set "entryGradeLevel" to "Second_Grade"
+	  And I navigate to PUT "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
 	  Then I should receive a return code of 204
-	When I navigate to GET "/student-school-associations/<'Student Darren Boyton and School Apple Alternative Elementary School' ID>"
-	Then the "entryGradeLevel" should be "SECOND_GRADE"
-
+	When I navigate to GET "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
+	Then "entryGradeLevel" should be "Second_Grade"
+ 
 Scenario: Delete a student-school-association
 	Given format "application/json"
-	When I navigate to DELETE "/student-school-associations/<'Student Alana Yong and School Apple Alternative Elementary School' ID>"
+	When I navigate to DELETE "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
 	Then I should receive a return code of 204
-	When I navigate to GET "/student-school-associations/<'Student Alana Yong and School Apple Alternative Elementary School' ID>"
+	When I navigate to GET "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
 	Then I should receive a return code of 404
 	
 ###Referential Integrity Tests
@@ -81,9 +81,9 @@ Scenario: Delete a student and his/her associations should be deleted
 	Then I should receive a return code of 200
 	When I navigate to GET "/student-school-associations/<Priscilla at Ellington Middle School ID>"
 	Then I should receive a return code of 200
-	When I navigate to DELETE "/students/<Priscilla's ID>"
+	When I navigate to DELETE "/students/<'Priscilla' ID>"
 	Then I should receive a return code of 204
-	When I navigate to GET "/students/<Priscilla's ID>"
+	When I navigate to GET "/students/<'Priscilla' ID>"
 	Then I should receive a return code of 404
 	When I navigate to GET "/student-school-associations/<Priscilla at Orange Middle School ID>"
 	Then I should receive a return code of 404
@@ -96,9 +96,9 @@ Scenario: Delete a school and its associations should be deleted
 	Then I should receive a return code of 200
 	When I navigate to GET "/student-school-associations/<Rachel at Purple Middle School ID>"
 	Then I should receive a return code of 200
-	When I navigate to DELETE "/schools/<Purple Middle School ID>"
+	When I navigate to DELETE "/schools/<'Purple Middle School' ID>"
 	Then I should receive a return code of 204
-	When I navigate to GET "/schools/<Purple Middle School ID>"
+	When I navigate to GET "/schools/<'Purple Middle School' ID>"
 	Then I should receive a return code of 404
 	When I navigate to GET "/student-school-associations/<Donna at Purple Middle School ID>"
 	Then I should receive a return code of 404

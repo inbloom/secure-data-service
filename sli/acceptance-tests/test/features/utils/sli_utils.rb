@@ -20,7 +20,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function 
 def idpLogin(user, passwd)
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/identity/authenticate?username="+user+"&password="+passwd
+  url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
   @sessionId = res.body[res.body.rindex('=')+1..-1]
   puts(@sessionId) if $SLI_DEBUG

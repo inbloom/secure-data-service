@@ -1,8 +1,10 @@
 package org.slc.sli.api.security.openam;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +16,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -22,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
 import org.slc.sli.api.security.SliEntryPoint;
+import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 
@@ -93,8 +98,11 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));
-        
-        return new PreAuthenticatedAuthenticationToken(principal, token, this.resolver.resolveRoles(principal.getRoles()));
+
+        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.READ_GENERAL)));
+        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRoles());
+        SecurityContextHolder.clearContext();
+        return new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
         
     }
     
