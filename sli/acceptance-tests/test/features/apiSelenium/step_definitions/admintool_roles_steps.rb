@@ -16,7 +16,7 @@ Then /^I should be redirected to the Realm page$/ do
 end
 
 Given /^I am authenticated to SLI IDP$/ do
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
   @driver.get url
   @driver.find_element(:id, "IDToken1").send_keys "administrator"
   @driver.find_element(:id, "IDToken2").send_keys "administrator1234"
@@ -24,7 +24,7 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
   @driver.get url
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
@@ -32,7 +32,7 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sea_idp_server_url']+"/UI/Login"
   @driver.get url
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
@@ -119,17 +119,5 @@ When /^I click on the Logout link$/ do
 end
 
 Then /^I am no longer authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I click on the Default SLI Roles and Permissions URL$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser opens the confluence Default SLI Roles and Permissions page in a new browser window$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser focus is on the new browser window$/ do
   pending # express the regexp above with the code you wish you had
 end
