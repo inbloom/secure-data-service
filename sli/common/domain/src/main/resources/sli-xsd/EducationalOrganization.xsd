@@ -2,7 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
     targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="unqualified"
 >
-    <xs:include schemaLocation="ReferenceTYpes.xsd" />
+    <xs:include schemaLocation="ReferenceTypes.xsd" />
 
     <xs:complexType name="EducationOrganizationCategoriesType">
         <xs:annotation>

@@ -3668,5 +3668,44 @@
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
+	
+	<xs:simpleType name="CourseRepeatCodeType">
+		<xs:annotation>
+			<xs:documentation>Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="RepeatCounted"/>
+			<xs:enumeration value="RepeatNotCounted"/>
+			<xs:enumeration value="ReplacementCounted"/>
+			<xs:enumeration value="ReplacedNotCounted"/>
+			<xs:enumeration value="RepeatOtherInstitution"/>
+			<xs:enumeration value="NotCountedOther"/>
+		</xs:restriction>
+	</xs:simpleType>
 
+	<xs:simpleType name="GradeType">
+		<xs:annotation>
+			<xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Conduct"/>
+			<xs:enumeration value="Exam"/>
+			<xs:enumeration value="Final"/>
+			<xs:enumeration value="Grading Period"/>
+			<xs:enumeration value="Mid-Term Grade"/>
+			<xs:enumeration value="Progress Report"/>
+			<xs:enumeration value="Semester"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="text">
+		<xs:annotation>
+			<xs:documentation>Long string for annotations or descriptions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 </xs:schema>

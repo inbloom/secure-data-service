@@ -460,5 +460,145 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+    
+    <xs:complexType name="CourseCode">
+        <xs:annotation>
+            <xs:documentation>A standard code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ID" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.  For multi-part course codes, concatenate the parts separated by a "/".  For example, consider the following SCED code:
+                        subject = 20 Math
+                        course = 272 Geometry
+                        level = G General
+                        credits = 1.00
+                        course sequence 1 of 1
+                        would be entered as 20/272/G/1.00/1 of 1</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="IdentificationSystem" type="CourseCodeSystemType" use="required">
+            <xs:annotation>
+                <xs:documentation>A system that is used to identify the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
+            <xs:annotation>
+                <xs:documentation>The organization code or name assigning the staff Identification Code.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="CourseLevelCharacteristicsType">
+        <xs:annotation>
+            <xs:documentation>Indication of the nature and difficulty of instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc. </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="CourseLevelCharacteristic" type="CourseLevelCharacteristicItemType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Specification of the specific program or designation associated with the course. For example: Ap, IB, Dual Credit, CTE. etc.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Course">
+        <xs:annotation>
+            <xs:documentation>This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="CourseTitle" type="CourseTitle">
+                        <xs:annotation>
+                            <xs:documentation>The descriptive name given to a course of study offered in a school or other institution or organization. In departmentalized classes at the elementary, secondary, and postsecondary levels (and for staff development activities), this refers to the name by which a course is identified (e.g., American History, English III). For elementary and other non-departmentalized classes, it refers to any portion of the instruction for which a grade or report is assigned (e.g., reading, composition, spelling, and language arts).</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="NumberOfParts">
+                        <xs:annotation>
+                            <xs:documentation>The number of parts identified for a course.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:int">
+                                <xs:minInclusive value="1"/>
+                                <xs:maxInclusive value="8"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseLevel" type="CourseLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The course's level of rigor.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseLevelCharacteristics" type="CourseLevelCharacteristicsType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Specification of the specific program or designation associated with the course.  For example: Ap, IB, Dual Credit, CTE. etc.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The grade levels in which the course is offered.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SubjectArea" type="AcademicSubjectType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The intended major subject area of the course.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseDescription" type="Description" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A description of the content standards and goals covered in the course. Reference may be made to state or national content standards.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="DateCourseAdopted" type="xs:date" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Date the course was adopted by the education agency.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="HighSchoolCourseRequirement" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An indication that this course may satisfy high school graduation requirements in the course's subject area.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseGPAApplicability" type="CourseGPAApplicabilityType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An indicator of whether or not this course being described is included in the computation of the student’s Grade Point Average, and if so, if it weighted differently from regular courses.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseDefinedBy" type="CourseDefinedByType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Specifies whether the course was defined by the SEA, LEA, School, or national organization.  </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="MinimumAvailableCredit" type="Credits" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The minimum amount of credit available to a student who successfully completes the course</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="MaximumAvailableCredit" type="Credits" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The maximum amount of credit available to a student who successfully completes the course</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CareerPathway" type="CareerPathwayType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicates the career cluster or pathway the course is associated with as part of a CTE curriculum.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 </xs:schema>

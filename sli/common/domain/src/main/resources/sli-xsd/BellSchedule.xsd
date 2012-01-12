@@ -3,7 +3,6 @@
 	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
 
-	<xs:include schemaLocation="SimpleTypes.xsd" />
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
 
 	<xs:element name="Session">
@@ -62,7 +61,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GradingPeriodReference" type="GradingPeriodReference" maxOccurs="unbounded">
+				<xs:element name="GradingPeriodReference" type="GradingPeriodSimpleReference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Ids of grading periods associated with the
 							calendar.
@@ -362,9 +361,9 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            
+
             <!-- obtain location information via SectionBellScheduleAssocation -->
-            
+
 			<xs:element name="SessionReference" type="SessionSimpleReference"
 				minOccurs="1" maxOccurs="1">
 				<xs:annotation>

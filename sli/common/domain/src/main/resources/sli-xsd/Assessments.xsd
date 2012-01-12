@@ -3,9 +3,9 @@
     xmlns="http://slc-sli/ed-org/0.1"
     targetNamespace="http://slc-sli/ed-org/0.1"
     attributeFormDefault="unqualified">
-    <xs:include schemaLocation="SimpleTypes.xsd"/>
+
     <xs:include schemaLocation="ReferenceTypes.xsd"/>
-    
+
     <xs:complexType name="AssessmentIdentificationCode">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
@@ -28,7 +28,7 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-    
+
     <xs:complexType name="AssessmentPerformanceLevel">
         <xs:annotation>
             <xs:documentation>Definition of the performance levels and the associated cut scores.  Three styles are supported:
@@ -59,7 +59,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="SpecialAccommodationsType">
         <xs:annotation>
             <xs:documentation>The specific type of special variation used in how an examination is presented, how it is administered, or how the test taker is allowed to respond. This generally refers to changes that do not substantially alter what the examination measures. The proper use of accommodations does not substantially change academic level or performance criteria. </xs:documentation>
@@ -72,7 +72,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="LinguisticAccommodationsType">
         <xs:annotation>
             <xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
@@ -85,7 +85,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="ScoreResult">
         <xs:annotation>
             <xs:documentation>A meaningful raw score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
@@ -103,7 +103,7 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-    
+
     <xs:complexType name="Assessment">
         <xs:annotation>
             <xs:documentation>This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</xs:documentation>
@@ -238,10 +238,10 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
+
     <xs:complexType name="StudentAssessmentItem">
         <xs:annotation>
-            <xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard. 
+            <xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard.
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
@@ -281,7 +281,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
+
     <xs:complexType name="StudentAssessment">
         <xs:annotation>
             <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</xs:documentation>
@@ -307,7 +307,7 @@
                     </xs:element>
                     <xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>The language in which an assessment is written and/or administered. 
+                            <xs:documentation>The language in which an assessment is written and/or administered.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -407,7 +407,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="SectionAssessment">
+    <xs:complexType name="SectionAssessmentAssociation">
         <xs:annotation>
             <xs:documentation>This entity represents the association of a section with an administered assessment.</xs:documentation>
         </xs:annotation>
@@ -428,5 +428,5 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
+
 </xs:schema>

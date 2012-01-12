@@ -3,8 +3,8 @@
 	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
 
-	<xs:include schemaLocation="SimpleTypes.xsd" />
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
+
 	<xs:element name="GradingPeriod">
 		<xs:annotation>
 			<xs:documentation>

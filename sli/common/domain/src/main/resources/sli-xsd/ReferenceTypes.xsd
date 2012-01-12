@@ -3,7 +3,7 @@
     xmlns="http://slc-sli/ed-org/0.1" targetNamespace="http://slc-sli/ed-org/0.1"
     attributeFormDefault="unqualified"
 >
-    <xs:include schemaLocation="complexTypes.xsd"/>
+    <xs:include schemaLocation="ComplexTypes.xsd"/>
 
     <xs:complexType name="SectionSimpleReference">
         <xs:annotation>
@@ -262,85 +262,7 @@
         </xs:simpleContent>
     </xs:complexType>
 
-    <xs:complexType name="GradingPeriodReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a grading period with a type attribute set
-                to "GradingPeriod".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="GradingPeriod" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="AcademicWeekReference">
-        <xs:annotation>
-            <xs:documentation>A reference to an academic week with a type attribute set
-                to "AcademicWeek".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="AcademicWeek" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="SessionReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a session with a type attribute set
-                to "Session".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="Session" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="LocationReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a location with a type attribute set
-                to "Location".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="Location" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="BellScheduleReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a bell schedule with a type attribute set
-                to "BellSchedule".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="BellSchedule" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="MiscellaneousEventReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a miscellaneous event with a type attribute set
-                to "MiscellaneousEvent".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="MiscellaneousEvent" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="CourseOfferingReference">
+    <xs:complexType name="CourseOfferingSimpleReference">
         <xs:annotation>
             <xs:documentation>A reference to a course offering with a type attribute set
                 to "CourseOfferingReference".
@@ -353,33 +275,7 @@
         </xs:simpleContent>
     </xs:complexType>
 
-    <xs:complexType name="ProgramReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a program with a type attribute set
-                to "ProgramReference".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="ProgramReference" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="ServiceDescriptorReference">
-        <xs:annotation>
-            <xs:documentation>A reference to a service descriptor with a type attribute set
-                to "ServiceDescriptor".
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:IDREF">
-                <xs:attribute name="type" fixed="ServiceDescriptor" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="ReportCardReference">
+    <xs:complexType name="ReportCardSimpleReference">
         <xs:annotation>
             <xs:documentation>A reference to a report card with a type attribute set
                 to "ReportCardReference".
@@ -392,7 +288,7 @@
         </xs:simpleContent>
     </xs:complexType>
 
-    <xs:complexType name="DiplomaReference">
+    <xs:complexType name="DiplomaSimpleReference">
         <xs:annotation>
             <xs:documentation>A reference to a diploma with a type attribute set
                 to "DiplomaReference".
@@ -450,4 +346,31 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+	<xs:complexType name="GradebookEntrySimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a gradebook entry with a type attribute set
+				to "GradebookEntry".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="GradebookEntry"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="StudentTranscriptsAssociationSimpleReference">
+		<xs:annotation>
+			<xs:documentation>A reference to a transcripts with a type attribute set
+				to "StudentTranscriptsAssociation".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:IDREF">
+				<xs:attribute name="type" fixed="StudentTranscriptsAssociation"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
 </xs:schema>

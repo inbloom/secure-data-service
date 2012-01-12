@@ -3,12 +3,12 @@
 	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
 
-	<xs:include schemaLocation="SimpleTypes.xsd" />
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
+
 	<xs:element name="AttendanceEvent">
 		<xs:annotation>
 			<xs:documentation>
-				This event entity represents the recording of whether a student is in attendance for a class or in 
+				This event entity represents the recording of whether a student is in attendance for a class or in
 				attendance to receive or participate in program services.  This should be used to model irregularities,
 				no event should correspond to the student being present.
 			</xs:documentation>
@@ -23,7 +23,7 @@
 				<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
-							A code describing the type of the attendance event (e.g., daily attendance, 
+							A code describing the type of the attendance event (e.g., daily attendance,
 							section attendance, etc.)
 						</xs:documentation>
 					</xs:annotation>
@@ -46,8 +46,8 @@
 				<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
-							The setting in which a child receives education and related services.  This attribute 
-							is only used if it differs from the Educational Environment of the section. This is 
+							The setting in which a child receives education and related services.  This attribute
+							is only used if it differs from the Educational Environment of the section. This is
 							only used in the AttendanceEvent if different from the associated Section.
 						</xs:documentation>
 					</xs:annotation>
@@ -65,5 +65,5 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	
+
 </xs:schema>
