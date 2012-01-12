@@ -12,6 +12,12 @@ if(ENV['MONGO_HOME'])
 else
   MONGO_BIN = ""
 end
+
+if(ENV['NO_EXPAND'])
+  EXPAND = ""
+else
+  EXPAND = "--expand"
+end
 #######################################################
 
 $SUCCESS=true
@@ -31,7 +37,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} --expand --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -234,6 +240,10 @@ are on your PATH.
 By default, the tests run against the deployed API/application that is running on
 localhost:8080 and also assumes a mongo server running on localhost (at default port).
 
+By default, any Scenario Outlines will be expanded in the console output for ease of development,
+but at the command line, the env var "NO_EXPAND" may be defined to run without expanding the Scenario
+Outline to allow for proper JUnit XML output files for display in Jenkins
+
 To change this behavior use the following syntax to override:
 
 cmd>rake property=value <rake Task>
@@ -247,6 +257,7 @@ The properties available to override are as follows:
 DB_HOST           This property selects which mongo instance to set the fixture to (default: localhost)
 api_server_url    This property selects which running instance of the API to run tests against (default: localhost)
 DEBUG             This property tells the test code to display debug output in the console
+NO_EXPAND         This property tells cucumber no to expand Scenario Outlines (for use in jenkins)
 eos
 
 end
