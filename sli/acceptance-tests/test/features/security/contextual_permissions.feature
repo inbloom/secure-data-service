@@ -6,21 +6,33 @@ I would like to implement context-based permissions, so that when a SEA/LEA end 
 
 #School
 
-Scenario: Authenticated Educator makes API call to get own School
-Given I am a valid SEA/LEA end user
+Scenario Outline: Authenticated Educator makes API call to get own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <my school>
+And my School is <School>
+When I make an API call to get <School>
 Then I receive a JSON response that includes  the School entity and its attributes
+Examples:
+| Realm  | Username  | Password      | School                      |
+| "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           |
+| "idp2" | "johndoe" | "johndoe1234" | "Parker-Dust Middle School" |
+| "idp1" | "ejane"   | "ejane1234"   | "Watson Elementary School"  |
 
-Scenario: Authenticated Educator makes API call to get not own School
-Given I am a valid SEA/LEA end user
+Scenario Outline: Authenticated Educator makes API call to get not own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <not my school>
+And my School is <School>
+When I make an API call to get <School>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | School                      |
+| "idp1" | "tbear"    | "tbear1234"    | "Parker-Dust Middle School" |
+| "idp1" | "john_doe" | "john_doe1234" | "Fry High School"           |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Watson Elementary School"  |
+| "idp2" | "ejane"    | "ejane1234"    | "Watson Elementary School"  |
+| "idp1" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" |
 
 Scenario: Authenticated non-Educator makes API call to get School
 Given I am a valid SEA/LEA end user
