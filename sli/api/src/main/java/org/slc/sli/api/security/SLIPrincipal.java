@@ -1,11 +1,11 @@
 package org.slc.sli.api.security;
 
-import org.slc.sli.api.security.enums.DefaultRoles;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.Entity;
 
 import java.security.Principal;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +16,7 @@ import java.util.Set;
  * @author dkornishev
  * @author shalka
  */
+@Component
 public class SLIPrincipal implements Principal {
     
     private String       id;
@@ -23,13 +24,18 @@ public class SLIPrincipal implements Principal {
     private String       realm;
     private String       externalId;
     private List<String> roles;
-    private Set<Right>   rights = new HashSet<Right>();
+
+    private Set<Right> rights = new HashSet<Right>();
     private Entity       entity;
     
     public SLIPrincipal(String id) {
         this.id = id;
     }
-    
+
+    public SLIPrincipal() {
+
+    }
+
     @Override
     public String getName() {
         return this.name;
@@ -82,20 +88,7 @@ public class SLIPrincipal implements Principal {
     
     public void setRoles(List<String> roles) {
         this.roles = roles;
-        setRights(roles);
     }
-    
-    private void setRights(List<String> roleNames) {
-        rights.clear();
-        for (String roleName : roleNames) {
-            DefaultRoles role = DefaultRoles.find(roleName);
-            if (role != null) {
-                rights.addAll(role.getRights());
-            }
-        }
-    }
-    
-    public Collection<Right> getRights() {
-        return rights;
-    }
+
+
 }

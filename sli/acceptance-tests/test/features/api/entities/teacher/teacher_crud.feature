@@ -68,65 +68,6 @@ Scenario: Delete an existing teacher in JSON format
    Then I should receive a return code of 404
  
  
-### XML VERSION
-@wip
-Scenario: Create a new teacher in XML format
-   Given format "application/xml"
-      And the "name" is "Rafe" "Hairfire" "Esquith"
-      And the "birthDate" is "1954-08-31"
-      And the "sex" is "Male"
-      And the "yearsOfPriorTeachingExperience" is "32"
-      And the "staffUniqueStateId" is "567"
-      And the "highlyQualifiedTeacher" status is "1"
-   When I navigate to POST "/teachers/<'Rafe' ID>"
-   Then I should receive a return code of 201
-      And I should receive an ID for the newly created teacher
-         
-@wip
-Scenario: Read a teacher by ID in XML format
-   Given format "application/xml"
-   When I navigate to GET "/teachers/<'Illiana' ID>"
-   Then I should receive a return code of 200
-      And the "name" should be "Rafe" "Hairfire" "Esquith"
-      And the "sex" should be "Male"
-      And the "birthDate" should be "1954-08-31"
-      And the "yearsOfPriorTeachingExperience" should be "32"
-      And the "staffUniqueStateId" should be "567"
-      And the "highlyQualifiedTeacher" status should be "1"
-  
-@wip 
-Scenario: Update an existing teacher in XML format
-   Given format "application/xml"
-    When I navigate to GET "/teachers/<'Betty' ID>"
-   Then I should receive a return code of 200
-     And the "highlyQualifiedTeacher" status should be "false"
-  When I set the "highlyQualifiedTeacher" status to "true"
-   And I navigate to PUT "/teachers/<'Belle' ID>"
-   Then I should receive a return code of 204
-   When I navigate to GET" /teachers/<'Belle' ID>"
-   Then I should receive a return code of 200
-     And the "highlyQualifiedTeacher" status should be "true"
-       
-@wip 
-Scenario: Delete an existing teacher in XML format
-   Given format "application/xml"
-   When I navigate to DELETE "/teachers/<'Esquith' ID>"
-   Then I should receive a return code of 200
-   When I navigate to GET "/teachers/<'Esquith' ID>"
-   Then I should receive a return code of 200
- 
- 
-###Links
-@wip
-Scenario: Teacher Resource links to teacher section association
-   Given format "application/json"
-   When I navigate to GET "/teachers/<'Illiana' ID>"
-   Then I should receive a return code of 201
-      And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<Ms. Jones' ID>"
-      And I should receive a link named "getSections" with URI "/teacher-section-associations/<Ms. Jones' ID>/targets"
-      And I should receive a link named "getTeacherSchoolAssociations" with URI "/teacher-school-associations/< Ms. Jones' ID>"
-      And I should receive a link named "getSchools" with URI "/teacher-school-associations/<Ms. Jones' ID>/targets"
- 
  
 ### Error Handling
 Scenario: Attempt to read a non-existent teacher

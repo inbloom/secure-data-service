@@ -3,6 +3,7 @@ package org.slc.sli.view;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.assessmentmetadata.Period;
 import org.slc.sli.entity.assessmentmetadata.PerfLevel;
+import org.slc.sli.entity.assessmentmetadata.Cutpoint;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -114,7 +115,31 @@ public class AssessmentMetaDataResolver {
         return null;
     }
 
-    
+    /*
+     * Returns a list representing the high cutpoints of the assessment's levels, plus one first 
+     * element representing the lowest score.
+     * 
+     * Returns null if no cutpoints are found.  
+     */
+    public List<Integer> findCutpointsForFamily(String name) {
+        AssessmentMetaData metaData = allMetaData.get(name);
+        if (metaData == null) return null; 
+        // find the possible periods for the assessment family
+        while (metaData != null) {
+            if (metaData.getCutpoints() != null) {
+                List<Integer> retVal = new ArrayList<Integer>();
+                Cutpoint[] cutpoints = metaData.getCutpoints();
+                for (int i = 0; i < cutpoints.length; i++) {
+                    if (i == 0) { retVal.add(cutpoints[i].getRange()[0]); }
+                    retVal.add(cutpoints[i].getRange()[1]); 
+                }
+                return retVal;
+            }
+            metaData = parent.get(metaData);
+        }
+        return null; 
+    }
+
     public Integer findNumRealPerfLevelsForFamily(String name) {
         AssessmentMetaData metaData = allMetaData.get(name);
         if (metaData == null) return null; 

@@ -66,20 +66,6 @@ public class EntityRepositoryTest {
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
         
-        // test find by query string
-        searchResults = repository.findByFields("student", "firstName=Jane", 0, 20);
-        assertNotNull(searchResults);
-        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
-        searchResults = repository.findByFields("student", "firstName=Kevin", 0, 20);
-        assertTrue(!searchResults.iterator().hasNext());
-        searchResults = repository.findByFields("student", "birthDate<2011-10-01", 0, 20);
-        assertTrue(searchResults.iterator().hasNext());
-        searchResults = repository.findByFields("student", "birthDate>2011-10-01", 0, 20);
-        assertTrue(!searchResults.iterator().hasNext());
-        
-        // test match query string
-        assertTrue(repository.matchQuery("student", id, "firstName=Jane"));
-        
         // test find by query
         Query query = new Query();
         query.addCriteria(Criteria.where("body.firstName").is("Jane"));

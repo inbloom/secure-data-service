@@ -18,9 +18,9 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"4f3cb2fc-d2e6-4333-93c8-849928c49a6a" if arg2 == "Priscilla at Ellington Middle School ID"
   id = arg1+"ded6e1c6-146f-4f68-8a21-99446abab492" if arg2 == "Donna at Purple Middle School ID"
   id = arg1+"f7d86a4e-4d4a-49f6-9b8b-80973f1ae501" if arg2 == "Rachel at Purple Middle School ID"
-  id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "Invalid ID"
+  id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "'Invalid ID'"
   id = arg1+@assocId                               if arg2 == "'newly created student school association' ID"
-  id = arg1                                        if arg2 == "No GUID"
+  id = arg1                                        if arg2 == "'No GUID'"
   id
 end
 
@@ -52,6 +52,10 @@ Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
     @fields = {}
   end
   @fields[key] = value
+end
+
+When /^I set "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
+  step "\"#{arg1}\" is \"#{arg2}\""
 end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|

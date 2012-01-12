@@ -1,0 +1,162 @@
+@wip
+
+Feature: Context-based Permissions for Educator 
+
+I would like to implement context-based permissions, so that when a SEA/LEA end user (that represents an Educator) access the SLI, he/she is provided with the student data that the Educator has relationship with.
+
+School
+
+Scenario: Authenticated Educator makes API call to get own School
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get <my school>
+Then I receive a JSON response that includes  the School entity and its attributes
+
+Scenario: Authenticated Educator makes API call to get not own School
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get <not my school>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get School
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <school>
+Then I should get a message that I am not authorized
+
+Teacher
+
+Scenario: Authenticated Educator makes API call to get self (Teacher)
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get <teacher>
+Then I receive a JSON response that includes the Teacher entity and its attributes (allowed to be seen as an Educator role)
+
+Scenario: Authenticated Educator makes API call to get list of Teachers within own School
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get list of teachers  from <my school>
+Then I receive a JSON response that includes the list of Teachers
+
+Scenario: Authenticated Educator makes API call to get list of Teachers not in own School
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get list of teachers  from  <not my school>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated Educator makes API call to get Teacher in own School
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get <teacher> from <my school>
+Then I receive a JSON response that includes the Teacher
+
+Scenario: Authenticated Educator makes API call to get Teacher not in own School
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And my School is <my school>
+When I make an API call to get <teacher> from <not my school>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get Teacher
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <teacher>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get list of Teachers
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <list of teachers>
+Then I should get a message that I am not authorized
+
+Section
+
+Scenario: Authenticated Educator makes API call to get list of Sections
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+When I make an API call to get list of sections
+Then I receive a JSON response that includes the sections that I am teaching only
+
+Scenario: Authenticated Educator makes API call to get own Section
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And I teach in <my section #>
+When I make an API call to get <my section #>
+Then I receive a JSON response with that section
+
+Scenario: Authenticated Educator makes API call to get not own Section
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+When I make an API call to get <not my section #>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get Section
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <section>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get list of Sections
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <list of sections>
+Then I should get a message that I am not authorized
+
+Student
+
+Scenario: Authenticated Educator makes API call to get list of Students
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+When I make an API call to get list of students
+Then I receive a JSON response that includes the Students that I am teaching only
+
+Scenario: Authenticated Educator makes API call to get Student that he/she is teaching
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+And I teach  <my student #>
+When I make an API call to get <my student  #>
+Then I receive a JSON response with that student
+
+Scenario: Authenticated Educator makes API call to get Student that he/she is not teaching
+Given I am a valid SEA/LEA end user <teacher>
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that equals "Educator"
+When I make an API call to get <not my student  #>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get Student
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <teacher>
+Then I should get a message that I am not authorized
+
+Scenario: Authenticated non-Educator makes API call to get list of Students
+Given I am a valid SEA/LEA end user
+And I am authenticated to SEA/LEA IDP
+And I have a Role attribute that does not equals "Educator"
+When I make an API call to get <list of teachers>
+Then I should get a message that I am not authorized
