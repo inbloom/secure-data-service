@@ -9,6 +9,9 @@ import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -77,12 +80,13 @@ public class RESTClient {
      *         null.
      * @throws NoSessionException
      */
-    private String makeJsonRequest(String path, String token) {
+    public String makeJsonRequest(String path, String token) {
         RestTemplate template = new RestTemplate();
         URLBuilder url = new URLBuilder(apiServerUri);
         url.addPath(path);
         if (token != null) {
             url.addQueryParam(API_SESSION_KEY, token);
+           
         }
         logger.debug("Accessing API at: " + url.toString());
         String jsonText = template.getForObject(url.toString(), String.class);
@@ -91,8 +95,29 @@ public class RESTClient {
     }
     
     public String getStudent(String id, String token) {
-        return makeJsonRequest("students/" + id, token);
+        String url = apiServerUri + "/students/" + id;
+        return makeJsonRequestWHeaders(url, token);
     }
+    
+    
+    public String makeJsonRequestWHeaders(String url, String token) {
+        RestTemplate template = new RestTemplate();
+
+        if (token != null) {
+            //url.addQueryParam(API_SESSION_KEY, token);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(API_SESSION_KEY, token);
+            HttpEntity entity = new HttpEntity(headers);
+            logger.debug("Accessing API at: " + url);            
+            HttpEntity<String> response = template.exchange(url, HttpMethod.GET, entity, String.class);
+            return response.getBody();
+        }
+        logger.debug("Token is null in call to RESTClient for url" + url);
+
+        return null;
+    }    
+    
+    
     
     
 }

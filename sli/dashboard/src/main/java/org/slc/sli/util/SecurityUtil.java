@@ -3,6 +3,8 @@ package org.slc.sli.util;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import org.slc.sli.security.SLIPrincipal;
+
 
 /**
  * Class, which allows user to access security context
@@ -13,6 +15,15 @@ public class SecurityUtil {
 
     public static UserDetails getPrincipal() {
         return  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+    
+    public static String getToken() {
+        UserDetails user = getPrincipal();
+        if (user instanceof SLIPrincipal) {
+            return ((SLIPrincipal) user).getId();
+        }
+        
+        return null;
     }
     
 }

@@ -10,7 +10,9 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.slc.sli.entity.Course;
 import org.slc.sli.entity.School;
+import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
@@ -149,6 +151,34 @@ public class MockAPIClient implements APIClient {
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
         return url.getFile();
+    }
+
+
+    @Override
+    public String getTeacherId(String token) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public Section[] getSectionsForTeacher(String id, String token) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public Course[] getCoursesForSections(Section[] sections, String token) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public School[] getSchoolsForCourses(Course[] courses, String token) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

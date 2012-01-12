@@ -31,6 +31,11 @@ public class Student {
     
     private class BirthData {
         String birthDate;
+        
+        @Override
+        public String toString() {
+            return birthDate;
+        }
     }
     
     

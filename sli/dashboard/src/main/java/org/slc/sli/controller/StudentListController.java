@@ -42,7 +42,7 @@ public class StudentListController extends DashboardController {
         UserDetails user = getPrincipal();
 
 
-        School[] schoolList = schoolManager.retrieveSchools(user.getUsername());
+        School[] schoolList = schoolManager.getSchools();
         model.addAttribute("schoolList", gson.toJson(schoolList));
         model.addAttribute("message", "Hello " + user.getUsername());
         model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
