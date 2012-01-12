@@ -25,6 +25,11 @@ import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGRE
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_GROUPBY;
 
+/**
+ * Tests the AggregateURLCreator
+ * @author srupasinghe
+ *
+ */
 public class AggregateURLCreatorTest {
 	private AggregateURLCreator creator = new AggregateURLCreator(); //class under test
 	private static final String ED_ORG_ID = "12";
@@ -85,7 +90,7 @@ public class AggregateURLCreatorTest {
 		
 		assertEquals("Maps should be same size", params.size(), initParams.size());
 		
-		for(Map.Entry<String, String> e : initParams.entrySet()) {
+		for (Map.Entry<String, String> e : initParams.entrySet()) {
 			String key = ENTITY_BODY_GROUPBY + "." + e.getKey();
 			
 			assertEquals("Values should match",  e.getValue(), params.get(key));

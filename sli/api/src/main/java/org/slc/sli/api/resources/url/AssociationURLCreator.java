@@ -1,7 +1,7 @@
 package org.slc.sli.api.resources.url;
 
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_DISTRICT;
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_SCHOOL;
+import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_DISTRICT;
+import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_SCHOOL;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_EDORG_ASSOC;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_SCHOOL_ASSOC;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_EDORG_ID;
@@ -20,14 +20,18 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
 
+/**
+ * Creates URL sets for associations.
+ * Return URL format /agg/district/{JUUID}, /agg/school/{JUUID}
+ * @author srupasinghe
+ *
+ */
 public class AssociationURLCreator extends URLCreator {
-
 	@Override
 	/**
 	 * Returns a list association links for the logged in user
 	 */
-	public List<EmbeddedLink> getUrls(final UriInfo uriInfo,
-			Map<String, String> params) {
+	public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
 		List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
 		
 		// use login data to resolve what type of user and ID of user
@@ -37,13 +41,12 @@ public class AssociationURLCreator extends URLCreator {
         String userId = map.remove("id");
         String roleType = map.remove("roleType");
         
-        if(roleType.equals(ROLE_TYPE_SUPERINTENDENT)) {
+        if (roleType.equals(ROLE_TYPE_SUPERINTENDENT)) {
         	params.put(ENTITY_BODY_STAFF_ID, userId);
         
         	//get the staff-edorg links
         	results = getStaffEducationOrganizationAssociationLinks(uriInfo, params);
-        }
-        else if(roleType.equals(ROLE_TYPE_PRINCIPAL)) {
+        } else if (roleType.equals(ROLE_TYPE_PRINCIPAL)) {
         	params.put(ENTITY_BODY_STAFF_ID, userId);
             
         	//get the staff-edorg links
@@ -66,14 +69,13 @@ public class AssociationURLCreator extends URLCreator {
         Iterable<Entity> assocations = repo.findByFields(ENTITY_TYPE_STAFF_EDORG_ASSOC, params);
       		
         //iterate through the aggregations and build the embedded links list
-        for(Entity e : assocations) {
+        for (Entity e : assocations) {
         	System.out.println(e.getType());
         	Map<String, Object> body = e.getBody();
         	System.out.println(body.get(ENTITY_BODY_EDORG_ID));
-        	results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo, PATH_PARAM_DISTRICT, (String)body.get(ENTITY_BODY_EDORG_ID)).toString()));        			
+        	results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo, RESOURCE_PATH_DISTRICT, (String) body.get(ENTITY_BODY_EDORG_ID)).toString()));        			
         }
 
-        
 		return results;
 	}
 	
@@ -90,12 +92,11 @@ public class AssociationURLCreator extends URLCreator {
         Iterable<Entity> assocations = repo.findByFields(ENTITY_TYPE_STAFF_SCHOOL_ASSOC, params);
       		
         //iterate through the aggregations and build the embedded links list
-        for(Entity e : assocations) {
+        for (Entity e : assocations) {
         	Map<String, Object> body = e.getBody();
-        	results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo, PATH_PARAM_SCHOOL, (String)body.get(ENTITY_BODY_SCHOOL_ID)).toString()));        			
+        	results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo, RESOURCE_PATH_SCHOOL, (String) body.get(ENTITY_BODY_SCHOOL_ID)).toString()));        			
         }
 
-        
 		return results;
 	}
 

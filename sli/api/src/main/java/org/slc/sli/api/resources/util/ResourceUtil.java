@@ -155,8 +155,8 @@ public class ResourceUtil {
     public static Map<String, String> convertToMap(Map<String, List<String>> map) {
     	Map<String, String> results = new HashMap<String, String>();
     	
-    	if(map != null) {
-    		for(Map.Entry<String, List<String>> e: map.entrySet()) {
+    	if (map != null) {
+    		for (Map.Entry<String, List<String>> e : map.entrySet()) {
     			results.put(e.getKey(), e.getValue().get(0));
     		}
     	}

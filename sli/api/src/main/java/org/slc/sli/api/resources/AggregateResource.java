@@ -6,15 +6,11 @@ import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,12 +19,6 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
-
-import static org.slc.sli.api.resources.util.ResourceConstants.QUERY_PARAM_GRADE;
-import static org.slc.sli.api.resources.util.ResourceConstants.QUERY_PARAM_SUBJECT;
-import static org.slc.sli.api.resources.util.ResourceConstants.QUERY_PARAM_TYPE;
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_DISTRICT;
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_SCHOOL;
 
 /**
  * Jersey resource for aggregate discovery
@@ -41,9 +31,6 @@ import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_SCHOOL
 @Scope("request")
 @Produces(Resource.JSON_MEDIA_TYPE)
 public class AggregateResource {
-
-	private static final Logger LOG = LoggerFactory.getLogger(AggregateResource.class);
-    
     final EntityDefinitionStore entityDefs;
     
     @Autowired
@@ -81,13 +68,9 @@ public class AggregateResource {
      * @param uriInfo
      * @return
      */
-    @Path("/district/{district}")
+    @Path("/district/{districtId}")
     @GET
-    public Response getDistrictBasedAggregates(@PathParam(PATH_PARAM_DISTRICT) String districtId,
-    											@QueryParam(QUERY_PARAM_GRADE) String gradeId,
-    											@QueryParam(QUERY_PARAM_SUBJECT) String subjectId,
-    											@QueryParam(QUERY_PARAM_TYPE) String typeId,
-    											@Context final UriInfo uriInfo) {
+    public Response getDistrictBasedAggregates(@Context final UriInfo uriInfo) {
 
     	//build the param map
     	Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
@@ -104,13 +87,9 @@ public class AggregateResource {
      * @param uriInfo
      * @return
      */
-    @Path("/school/{school}")
+    @Path("/school/{schoolId}")
     @GET
-    public Response getSchoolBasedAggregates(@PathParam(PATH_PARAM_SCHOOL) String schoolId,
-    											@QueryParam(QUERY_PARAM_GRADE) String gradeId,
-    											@QueryParam(QUERY_PARAM_SUBJECT) String subjectId,
-    											@QueryParam(QUERY_PARAM_TYPE) String typeId,
-    											@Context final UriInfo uriInfo) {
+    public Response getSchoolBasedAggregates(@Context final UriInfo uriInfo) {
 
     	Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
     	

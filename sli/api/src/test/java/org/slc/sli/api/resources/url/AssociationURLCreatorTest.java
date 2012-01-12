@@ -10,8 +10,8 @@ import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_STAFF_ID;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_EDORG_ID;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_SCHOOL_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_DISTRICT;
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_SCHOOL;
+import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_DISTRICT;
+import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_SCHOOL;
 
 import org.slc.sli.api.representation.EmbeddedLink;
 
@@ -33,6 +33,11 @@ import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.service.MockRepo;
 
+/**
+ * Tests the AssociationURLCreator
+ * @author srupasinghe
+ *
+ */
 public class AssociationURLCreatorTest {
 	private AssociationURLCreator creator = new AssociationURLCreator(); //class under test
 	private static final String STAFF_ID = "1234";
@@ -66,7 +71,7 @@ public class AssociationURLCreatorTest {
 			EmbeddedLink link = list.get(0);
 			assertEquals("Type should be staff-edorg-association", link.getType(), ENTITY_TYPE_STAFF_EDORG_ASSOC);
 			assertEquals("Should be type links", link.getRel(), "links");
-			assertTrue("Returned link should point to a district", link.getHref().indexOf(PATH_PARAM_DISTRICT) > 0);
+			assertTrue("Returned link should point to a district", link.getHref().indexOf(RESOURCE_PATH_DISTRICT) > 0);
 			
 			assertUUID(link.getHref(), ED_ORG_ID);			
 		} catch (Exception e) {
@@ -87,7 +92,7 @@ public class AssociationURLCreatorTest {
 			EmbeddedLink link = list.get(0);
 			assertEquals("Type should be staff-school-association", link.getType(), ENTITY_TYPE_STAFF_SCHOOL_ASSOC);
 			assertEquals("Should be type links", link.getRel(), "links");
-			assertTrue("Returned link should point to a district", link.getHref().indexOf(PATH_PARAM_SCHOOL) > 0);
+			assertTrue("Returned link should point to a district", link.getHref().indexOf(RESOURCE_PATH_SCHOOL) > 0);
 			
 			assertUUID(link.getHref(), SCHOOL_ID);			
 		} catch (Exception e) {

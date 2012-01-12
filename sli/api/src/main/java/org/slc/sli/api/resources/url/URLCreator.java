@@ -16,8 +16,7 @@ import org.slc.sli.dal.repository.EntityRepository;
  * @author srupasinghe
  *
  */
-public abstract class URLCreator {
-	
+public abstract class URLCreator {	
 	@Autowired
     protected EntityDefinitionStore store;
 	
@@ -30,7 +29,7 @@ public abstract class URLCreator {
 	 * @param params
 	 * @return
 	 */
-	abstract public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params);
+	public abstract List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params);
 
 	public void setStore(EntityDefinitionStore store) {
 		this.store = store;

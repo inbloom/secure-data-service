@@ -35,6 +35,11 @@ import org.slc.sli.api.resources.url.AggregateURLCreator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
+/**
+ * Tests the AggregateResource Handler
+ * @author srupasinghe
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
