@@ -195,8 +195,8 @@ Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|
 end
 
 Then /^after resolving each link, I should get a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
-  found =false
   @ids.each do |id|
+    found =false
     uri = "/student-assessment-associations/"+id
     restHttpGet(uri)
     assert(@res != nil, "Response from rest-client GET is nil")
@@ -212,8 +212,8 @@ Then /^after resolving each link, I should get a link named "([^"]*)" with URI "
     else
       assert(false, "Unsupported MIME type")
     end
+     assert(found, "didnt receive link named #{rel} with URI #{href}")
   end
-  assert(found, "didnt receive link named #{rel} with URI #{href}")
 end
 
 Then /^after resolution, I should get a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
