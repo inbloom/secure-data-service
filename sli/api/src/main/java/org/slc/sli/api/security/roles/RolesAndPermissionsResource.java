@@ -5,17 +5,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.slc.sli.api.security.enums.DefaultRoles;
-import org.slc.sli.api.service.EntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -30,7 +24,7 @@ import java.util.List;
  *  method to create new roles.
  *
  *  @see org.slc.sli.api.security.enums.Right
- *  @see DefaultRoles
+ *  @see org.slc.sli.api.security.roles.Role
  */
 @Path("/admin/roles")
 @Component
@@ -41,7 +35,7 @@ public class RolesAndPermissionsResource {
 
     public static final int NUM_RESULTS = 100;
     @Autowired
-    private EntityDefinitionStore store;
+    private RoleRightAccess roleAccessor;
 
     private static final Logger LOG = LoggerFactory.getLogger(RolesAndPermissionsResource.class);
 
@@ -56,25 +50,11 @@ public class RolesAndPermissionsResource {
     @Path("/")
     public List<Map<String, Object>> getRolesAndPermissions() {
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
-        EntityService service = getEntityService();
-        
-        //Add default roles
-        roleList.add(getDefaultRole(DefaultRoles.EDUCATOR));
-        roleList.add(getDefaultRole(DefaultRoles.LEADER));
-        roleList.add(getDefaultRole(DefaultRoles.AGGREGATOR));
-        roleList.add(getDefaultRole(DefaultRoles.ADMINISTRATOR));
-
-        //TODO get some way to findAll.
-        Iterable<String> names = service.list(0, NUM_RESULTS);
-        Iterable<EntityBody> entities = service.get(names);
-        for (EntityBody body : entities) {
-            roleList.add(body);
+        List<Role>  roles = roleAccessor.fetchAllRoles();
+        for (Role role : roles) {
+            roleList.add(role.getRoleAsEntityBody());
         }
         return roleList;
-    }
-    
-    private Map<String, Object> getDefaultRole(DefaultRoles role) {
-        return RoleBuilder.makeRole(role.getRoleName()).addRights(role.getRights()).build();
     }
 
     /**
@@ -85,21 +65,16 @@ public class RolesAndPermissionsResource {
      */
     @POST
     @Path("/")
-    public void createRoleWithPermission(String name, Object rights) {
-        //Make sure we aren't creating a duplicate of a default role
-        if (name.equalsIgnoreCase(DefaultRoles.EDUCATOR.getRoleName())
-                || name.equalsIgnoreCase(DefaultRoles.ADMINISTRATOR.getRoleName())
-                || name.equalsIgnoreCase(DefaultRoles.AGGREGATOR.getRoleName())
-                || name.equalsIgnoreCase(DefaultRoles.LEADER.getRoleName())) {
-            return;
-        }
-        EntityService service = getEntityService();
-        service.create(RoleBuilder.makeRole(name).addRights(rights).build());
+    public boolean createRoleWithPermission(String name, List<String> rights) {
+        //TODO prevent default role manipulation
+        return roleAccessor.addRole(RoleBuilder.makeRole(name).addRights(rights).build());
     }
 
-    private EntityService getEntityService() {
-        EntityDefinition def = store.lookupByResourceName("roles");
-        return def.getService();
+    //Injection method
+    public void setRoleAccessor(RoleRightAccess roleRights) {
+        this.roleAccessor = roleRights;
     }
+
+
 
 }

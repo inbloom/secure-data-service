@@ -1,0 +1,14 @@
+{
+  "type" : "record",
+  "name" : "roles",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The definition of a role object",
+  "fields" : [ {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name" : "rights",
+    "type" : { "type": "array", "items": "string" }
+  }]
+}
+
