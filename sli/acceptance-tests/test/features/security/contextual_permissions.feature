@@ -24,15 +24,15 @@ Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 And my School is <School>
-When I make an API call to get <School>
+When I make an API call to get <OtherSchool>
 Then I should get a message that I am not authorized
 Examples:
-| Realm  | Username   | Password       | School                      |
-| "idp1" | "tbear"    | "tbear1234"    | "Parker-Dust Middle School" |
-| "idp1" | "john_doe" | "john_doe1234" | "Fry High School"           |
-| "idp2" | "johndoe"  | "johndoe1234"  | "Watson Elementary School"  |
-| "idp2" | "ejane"    | "ejane1234"    | "Watson Elementary School"  |
-| "idp1" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" |
+| Realm  | Username   | Password       | School                      | OtherSchool |
+| "idp1" | "tbear"    | "tbear1234"    | "Fry High School"           | "Parker-Dust Middle School" |
+| "idp1" | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Fry High School"           |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "idp1" | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
 
 Scenario: Authenticated non-Educator makes API call to get School
 Given I am a valid SEA/LEA end user
