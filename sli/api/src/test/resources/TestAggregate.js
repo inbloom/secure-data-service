@@ -1,4 +1,4 @@
-
+//Make sure to load uuid.js and uuidhelpers.js into mongo before running this!
 
 mapFunction = function() {
     var level1 = level2 = level3 = level4 = 0;
@@ -73,20 +73,21 @@ finalizeFunction = function(key,value) {
 
 
 var cleanUp = function() {
-    db.myoutput.find({"value.raw":"true"}).forEach(function (data) {
-        var old_id = data._id;
-        var doc = data;
-        doc._id = new BinData(3, new ObjectId());
-        doc.type = "aggregate";
-        doc.body = doc.value;
-        delete doc.value;
-        delete doc.body.raw;
-        
-        db.myoutput.insert(doc);
-        db.myoutput.remove({ _id: old_id});
-    });
-}
+	db.myoutput.find({"value.raw":"true"}).forEach(function (data) {
+		var old_id = data._id;
+		var doc = data;
+		
+		doc._id = JUUID(UUID.generate());
+		doc.type = "aggregate";
+		doc.body = doc.value;
 
+		delete doc.value;
+		delete doc.body.raw;
+		
+		db.myoutput.insert(doc);
+		db.myoutput.remove({ _id: old_id});
+	});
+}
 
 db.myoutput.drop()
 
