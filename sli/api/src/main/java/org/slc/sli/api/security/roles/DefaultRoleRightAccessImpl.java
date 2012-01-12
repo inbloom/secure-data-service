@@ -54,7 +54,7 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
         for (String id : ids) {
             EntityBody body = service.get(id);
             Role tempRole = getRoleWithBodyAndID(id, body);
-            if(tempRole.getSpringRoleName().equals(springName))
+            if (tempRole.getSpringRoleName().equals(springName))
                 return tempRole;
         }
         return null;
