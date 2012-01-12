@@ -48,6 +48,9 @@ public class RealmResourceTest {
     
     @Autowired
     private RealmResource realmer;
+
+    @Autowired
+    private SecurityContextInjector securityContextInjector;
     
     @Autowired
     @Value("${sli.security.sso.url}")
@@ -58,7 +61,7 @@ public class RealmResourceTest {
     @Before
     public void init() {
         // inject administrator security context for unit testing
-        SecurityContextInjection.setAdminContext();
+        securityContextInjector.setAdminContext();
         
         entities = new HashMap<String, EntityBody>();
         
