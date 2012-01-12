@@ -86,7 +86,7 @@ FuelGaugeWidget.getStyleDeclaration = function (element)
     if (window.getComputedStyle) {
         var compStyle = window.getComputedStyle (element, null);
     } else {
-	var compStyle = button.currentStyle;
+	var compStyle = element.currentStyle;
     }
     return compStyle;
 };
