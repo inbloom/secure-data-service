@@ -74,21 +74,9 @@ end
 
 Then /^after resolving each link, I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   @ids.each do |id|
-    found =false
-    uri = "/student-school-associations/"+id
-    restHttpGet(uri)
-    assert(@res != nil, "Response from rest-client GET is nil")
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      dataH=JSON.parse(@res.body)
-      dataH["links"].each do|link|
-        if link["rel"]==rel and link["href"].include? href
-          found =true
-        end
-      end
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
+    found=false
+    if findLink(id,"/student-school-associations/", rel,href)
+      found = true
     end
     assert(found, "didnt receive link named #{rel} with URI #{href}")
   end
@@ -96,27 +84,39 @@ Then /^after resolving each link, I should receive a link named "([^"]*)" with U
 end
 
 Then /^after resolution, I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
-  found =false
+  found = false
   @ids.each do |id|
-    uri = "/student-school-associations/"+id
-    restHttpGet(uri)
-    assert(@res != nil, "Response from rest-client GET is nil")
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      dataH=JSON.parse(@res.body)
-      dataH["links"].each do|link|
-        if link["rel"]==rel and link["href"].include? href
-          found =true
-        end
-      end
-      break if found
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
+    if findLink(id,"/student-school-associations/", rel,href)
+      found = true
+      break
     end
   end
   assert(found, "didnt receive link named #{rel} with URI #{href}")
 end
+
+#return boolean
+def findLink(id, type, rel, href)
+  found = false
+  uri = type+id
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    dataH["links"].each do |link|
+      if link["rel"]==rel and link["href"].include? href
+        found = true
+        break
+      end
+    end
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+  return found
+end
+
 
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
   assert(@data != nil, "Response contains no data")
