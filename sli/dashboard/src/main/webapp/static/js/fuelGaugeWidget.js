@@ -65,13 +65,13 @@ FuelGaugeWidget.prototype.create = function()
     this.paper = Raphael(element, width, fontSize);
     // draw background first
     for (var i = 0; i < this.cutpoints.length - 1; i++) {
-	this.paper.rect(i * (fullLevelRectWidth+1),0, fullLevelRectWidth, fontSize, 0)
+	this.paper.rect(i * (fullLevelRectWidth+this.PADDING),0, fullLevelRectWidth, fontSize, 0)
                   .attr("fill", this.BACKGROUNDCOLOUR)
                   .attr("stroke", "none");
     }
     // draw actual rectangle
     for (var i = 0; i < rects.length; i++) {
-	this.paper.rect(i * (fullLevelRectWidth+1),0, rects[i], fontSize, 1)
+	this.paper.rect(i * (fullLevelRectWidth+this.PADDING),0, rects[i], fontSize, 1)
                   .attr("fill", color)
                   .attr("stroke", "none");
     }
