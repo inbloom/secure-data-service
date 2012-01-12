@@ -23,6 +23,21 @@ Given /^I am authenticated to SLI IDP$/ do
   @driver.find_element(:name, "Login.Submit").click
 end
 
+Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
+  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  @driver.get url
+  @driver.find_element(:id, "IDToken1").send_keys arg1
+  @driver.find_element(:id, "IDToken2").send_keys arg2
+  @driver.find_element(:name, "Login.Submit").click
+end
+
+Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
+  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  @driver.get url
+  @driver.find_element(:id, "IDToken1").send_keys arg1
+  @driver.find_element(:id, "IDToken2").send_keys arg2
+  @driver.find_element(:name, "Login.Submit").click
+end
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
   assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
 end
@@ -95,10 +110,6 @@ Then /^I should get a message that I am not authorized$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Given /^I am authenticated to SEA\/LEA IDP$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
@@ -108,17 +119,5 @@ When /^I click on the Logout link$/ do
 end
 
 Then /^I am no longer authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I click on the Default SLI Roles and Permissions URL$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser opens the confluence Default SLI Roles and Permissions page in a new browser window$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser focus is on the new browser window$/ do
   pending # express the regexp above with the code you wish you had
 end
