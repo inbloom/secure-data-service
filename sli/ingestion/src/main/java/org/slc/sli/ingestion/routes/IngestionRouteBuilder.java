@@ -63,13 +63,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
                 .routeId("ctlFilePoller")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Processing file ${file:name}")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Processing file ${file:name} ${id}")
                 .process(new ControlFilePreProcessor(lz))
                 .to("seda:CtrlFilePreProcessor");
 
         // routeId: ctlFilePreprocessor
         from("seda:CtrlFilePreProcessor")
                 .routeId("ctlFilePreprocessor")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Processing control file ${file:name} ${id}")
                 .process(ctlFileProcessor)
                 .to("seda:assembledJobs");
 
@@ -80,6 +81,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + inboundDir + "/.done&moveFailed=" + inboundDir
                         + "/.error")
                 .routeId("zipFilePoller")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Processing zip file ${file:name} ${id}")
                 .process(zipFileProcessor)
                 .choice()
                     .when(body().isInstanceOf(BatchJob.class))
@@ -99,6 +101,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobDispatch
         from("seda:assembledJobs")
                 .routeId("jobDispatch")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Dispathing jobs for file ${file:name} ${id}")
                 .choice()
                     .when(header("hasErrors").isEqualTo(true))
                     .to("direct:stop")
@@ -108,6 +111,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobReporting
         from("direct:jobReporting")
                 .routeId("jobReporting")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Reporting on jobs for file ${file:name} ${id}")
                 .process(new Processor() {
 
                     @Override
@@ -161,12 +165,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobPipeline
         from("seda:acceptedJobs")
                 .routeId("jobPipeline")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Job Pipeline for file ${file:name} ${id}")
                 .process(edFiProcessor)
                 .to("seda:persist");
 
         // routeId: persistencePipeline
         from("seda:persist")
                 .routeId("persistencePipeline")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "Persisiting data for file ${file:name} ${id}")
                 .log("persist: jobId: " + header("jobId").toString())
                 .choice()
                     .when(or(header("dry-run").isEqualTo(true), header("hasErrors").isEqualTo(true)))
@@ -182,7 +188,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("stop")
                 .wireTap("direct:jobReporting")
                 .log("end of job: " + header("jobId").toString())
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "File ${file:name} processed")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "File ${file:name} ${id} processed")
                 .stop();
     }
 
