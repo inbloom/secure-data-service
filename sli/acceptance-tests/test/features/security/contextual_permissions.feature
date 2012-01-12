@@ -4,7 +4,7 @@ Feature: Context-based Permissions for Educator
 
 I would like to implement context-based permissions, so that when a SEA/LEA end user (that represents an Educator) access the SLI, he/she is provided with the student data that the Educator has relationship with.
 
-School
+#School
 
 Scenario: Authenticated Educator makes API call to get own School
 Given I am a valid SEA/LEA end user
@@ -29,7 +29,7 @@ And I have a Role attribute that does not equals "Educator"
 When I make an API call to get <school>
 Then I should get a message that I am not authorized
 
-Teacher
+#Teacher
 
 Scenario: Authenticated Educator makes API call to get self (Teacher)
 Given I am a valid SEA/LEA end user <teacher>
@@ -85,7 +85,7 @@ And I have a Role attribute that does not equals "Educator"
 When I make an API call to get <list of teachers>
 Then I should get a message that I am not authorized
 
-Section
+#Section
 
 Scenario: Authenticated Educator makes API call to get list of Sections
 Given I am a valid SEA/LEA end user <teacher>
@@ -123,7 +123,7 @@ And I have a Role attribute that does not equals "Educator"
 When I make an API call to get <list of sections>
 Then I should get a message that I am not authorized
 
-Student
+#Student
 
 Scenario: Authenticated Educator makes API call to get list of Students
 Given I am a valid SEA/LEA end user <teacher>

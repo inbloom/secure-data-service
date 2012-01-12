@@ -121,15 +121,3 @@ end
 Then /^I am no longer authenticated to SLI IDP$/ do
   pending # express the regexp above with the code you wish you had
 end
-
-When /^I click on the Default SLI Roles and Permissions URL$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser opens the confluence Default SLI Roles and Permissions page in a new browser window$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser focus is on the new browser window$/ do
-  pending # express the regexp above with the code you wish you had
-end
