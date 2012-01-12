@@ -23,6 +23,7 @@ import org.slc.sli.api.representation.EmbeddedLink;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGREGATION;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
+import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_GROUPBY;
 
 public class AggregateURLCreatorTest {
 	private AggregateURLCreator creator = new AggregateURLCreator(); //class under test
@@ -73,6 +74,24 @@ public class AggregateURLCreatorTest {
 		}
 	}
 	
+	@Test
+	public void testConvertParamsToEnitiyFormat() {
+		Map<String, String> initParams = new HashMap<String, String>();
+		initParams.put("districtId", "1234");
+		initParams.put("schoolId", "45678");
+		initParams.put("gradeId", "123");
+		
+		Map<String, String> params = creator.convertParamsToEnitiyFormat(initParams);
+		
+		assertEquals("Maps should be same size", params.size(), initParams.size());
+		
+		for(Map.Entry<String, String> e : initParams.entrySet()) {
+			String key = ENTITY_BODY_GROUPBY + "." + e.getKey();
+			
+			assertEquals("Values should match",  e.getValue(), params.get(key));
+		}
+	}
+	
 	public UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
@@ -104,9 +123,9 @@ public class AggregateURLCreatorTest {
 	private Map<String, Object> buildTestAggregationEntity() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("entityId", "9876543");
-        body.put("educationOrganization", ED_ORG_ID);
-        body.put("grade", GRADE_ID);
-        body.put("subject", "Math");
+        body.put(ENTITY_BODY_GROUPBY + "." + "educationOrganization", ED_ORG_ID);
+        body.put(ENTITY_BODY_GROUPBY + "." + "grade", GRADE_ID);
+        body.put(ENTITY_BODY_GROUPBY + "." + "subject", "Math");
         body.put("aggregate", "1234");
         return body;
     }

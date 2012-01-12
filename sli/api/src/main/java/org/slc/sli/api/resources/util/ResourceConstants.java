@@ -25,6 +25,8 @@ public class ResourceConstants {
 	public static final String ENTITY_BODY_STAFF_ID = "studentId";
 	
 	public static final String ENTITY_BODY_SCHOOL_ID = "schoolId";
+	public static final String ENTITY_BODY_DISTRICT_ID = "districtId";
+	public static final String ENTITY_BODY_GROUPBY = "groupBy";
 	
 	//TODO
 	public static final String ROLE_TYPE_SUPERINTENDENT = "superintendent";
