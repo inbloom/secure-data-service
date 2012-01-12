@@ -1,4 +1,4 @@
-
+@wip
 Feature: As an SLI application, I want to be able to manage teacher-school associations
 This means I want to be able to perform CRUD on teacher-school-associations. 
 Also so verify the correct links from that resource to the appropriate teacher and schools.
