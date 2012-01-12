@@ -2,13 +2,10 @@ package org.slc.sli.api.security;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.Entity;
 
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Attribute holder for SLI Principal
@@ -25,7 +22,6 @@ public class SLIPrincipal implements Principal {
     private String       externalId;
     private List<String> roles;
 
-    private Set<Right> rights = new HashSet<Right>();
     private Entity       entity;
     
     public SLIPrincipal(String id) {
