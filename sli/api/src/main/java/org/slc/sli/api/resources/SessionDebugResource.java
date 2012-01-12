@@ -1,9 +1,10 @@
 package org.slc.sli.api.resources;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.DefaultRoles;
+import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContext;
@@ -29,6 +30,9 @@ import java.util.TreeMap;
 public class SessionDebugResource {
     
     private static final Logger LOG = LoggerFactory.getLogger(SessionDebugResource.class);
+
+    @Autowired
+    RoleRightAccess roleAccessor;
     
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
@@ -66,7 +70,7 @@ public class SessionDebugResource {
             sessionDetails.put("redirect_user", getLoginUrl(uriInfo));
         }
         
-        sessionDetails.put("all_roles", DefaultRoles.getDefaultRoleNames());
+        sessionDetails.put("all_roles", roleAccessor.fetchAllRoles());
         
         return sessionDetails;
     }
