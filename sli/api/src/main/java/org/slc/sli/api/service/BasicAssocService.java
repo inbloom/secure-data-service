@@ -24,33 +24,21 @@ import org.slc.sli.validation.ValidationError;
 @Scope("prototype")
 @Component("basicAssociationService")
 public class BasicAssocService extends BasicService implements AssociationService {
+    private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
     private EntityDefinition sourceDefn;
     private EntityDefinition targetDefn;
     private String sourceKey;
     private String targetKey;
     
-    public BasicAssocService() {
-        super();
-    }
-    
-    public void setSourceDefinition(EntityDefinition sourceDefn) {
+    public BasicAssocService(String collectionName, List<Treatment> treatments, CoreBasicService coreService,
+            EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String targetKey) {
+        super(collectionName, treatments, coreService);
         this.sourceDefn = sourceDefn;
-    }
-    
-    public void setTargetDefinition(EntityDefinition targetDefn) {
         this.targetDefn = targetDefn;
-    }
-    
-    public void setSourceKey(String sourceKey) {
         this.sourceKey = sourceKey;
-    }
-    
-    public void setTargetKey(String targetKey) {
         this.targetKey = targetKey;
     }
-    
-    private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
     @Override
     public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString) {

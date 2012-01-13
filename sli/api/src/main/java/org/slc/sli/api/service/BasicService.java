@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -30,29 +31,16 @@ public class BasicService implements EntityService {
     
     private String collectionName;
     private List<Treatment> treatments;
-    private EntityRepository repo;
-    
     private EntityDefinition defn;
-    
     private CoreEntityService coreService;
     
-    public BasicService() {
-    }
+    @Autowired
+    private EntityRepository repo;
     
-    public void setCoreBasicService(CoreBasicService coreService) {
-        this.coreService = coreService;
-    }
-    
-    public void setCollectionName(String collectionName) {
+    public BasicService(String collectionName, List<Treatment> treatments, CoreBasicService coreService) {
         this.collectionName = collectionName;
-    }
-    
-    public void setTreatments(List<Treatment> treatments) {
         this.treatments = treatments;
-    }
-    
-    public void setRepo(EntityRepository repo) {
-        this.repo = repo;
+        this.coreService = coreService;
     }
     
     public void setDefn(EntityDefinition defn) {
