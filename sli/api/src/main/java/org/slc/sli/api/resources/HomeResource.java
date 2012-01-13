@@ -19,7 +19,6 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.security.SLIPrincipal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

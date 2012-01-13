@@ -19,6 +19,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.domain.Entity;
 
 /**
  * Jersey resource for aggregate discovery
