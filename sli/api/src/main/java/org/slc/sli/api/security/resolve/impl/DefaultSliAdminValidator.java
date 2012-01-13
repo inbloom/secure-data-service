@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultSliAdminValidator implements SliAdminValidator {
     
-    private static final Logger logger = LoggerFactory.getLogger(DefaultSliAdminValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultSliAdminValidator.class);
     
     private Pattern realmPattern = null;
     
@@ -45,7 +45,7 @@ public class DefaultSliAdminValidator implements SliAdminValidator {
         if (realm != null) {
             matches = realmPattern.matcher(realm).matches();
         }
-        logger.trace("isSliAdminRealm {} = {}", realm, matches);
+        LOG.trace("isSliAdminRealm {} = {}", realm, matches);
         return matches;
     }
 

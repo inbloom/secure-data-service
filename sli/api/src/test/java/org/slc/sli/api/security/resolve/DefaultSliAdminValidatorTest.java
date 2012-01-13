@@ -1,7 +1,6 @@
 package org.slc.sli.api.security.resolve;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator;
@@ -13,6 +12,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+/**
+ * 
+ * @author pwolf
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -47,8 +51,8 @@ public class DefaultSliAdminValidatorTest {
     
     @Test
     public void testRealmWildcardPatternMatch() {
-        SliAdminValidator validator = new DefaultSliAdminValidator("dc=sli.*,dc=org");
-        Assert.assertTrue(validator.isSliAdminRealm("dc=slidev,dc=org"));
+        SliAdminValidator validator = new DefaultSliAdminValidator(".*dc=sli.*,dc=org.*");
+        Assert.assertTrue(validator.isSliAdminRealm("adc=slidev,dc=org"));
     }
     
     @Test
@@ -58,13 +62,13 @@ public class DefaultSliAdminValidatorTest {
                 validator.isSliAdminRealm(null));
     }
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNoPattern() {
         SliAdminValidator validator = new DefaultSliAdminValidator(null);
         validator.isSliAdminRealm("dc=slidev,dc=org");
     }
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBadRegex() {
         SliAdminValidator validator = new DefaultSliAdminValidator("(foo");
     }
