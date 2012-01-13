@@ -12,7 +12,7 @@ And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 And my School is <School>
 When I make an API call to get the school <School>
-Then I receive a JSON response that includes  the School entity and its attributes
+Then I receive a JSON response that includes the School entity and its attributes
 Examples:
 | Realm  | Username  | Password      | School                      |
 | "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           |
