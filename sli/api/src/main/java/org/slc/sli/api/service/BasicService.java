@@ -43,6 +43,11 @@ public class BasicService implements EntityService {
         this.coreService = coreService;
     }
     
+    /**
+     * Set the entity definition for this service.
+     * There is a circular dependency between BasicService and EntityDefinition, so they both can't
+     * have it be a constructor arg.
+     */
     public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
