@@ -32,7 +32,8 @@ public class ControlFileProcessor implements Processor {
 
         ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-        BatchJob job = this.getJobAssembler().assembleJob(cfd, (String)exchange.getIn().getHeader("CamelFileNameOnly"));
+        BatchJob job = this.getJobAssembler()
+                .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
         long endTime = System.currentTimeMillis();
         log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);

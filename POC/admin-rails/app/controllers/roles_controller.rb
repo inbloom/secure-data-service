@@ -2,13 +2,7 @@ class RolesController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
-    begin
-      @roles = Role.all
-    rescue ActiveResource::UnauthorizedAccess => e
-      logger.info "Redirecting to authentication portal from: " + request.url
-      begin_authenticate(e.response['WWW-Authenticate'])
-      return
-    end
+    @roles = Role.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @roles }
@@ -19,7 +13,7 @@ class RolesController < ApplicationController
   # GET /roles/1.json
   def show
     @role = Role.find(params[:id])
-
+  
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @role }

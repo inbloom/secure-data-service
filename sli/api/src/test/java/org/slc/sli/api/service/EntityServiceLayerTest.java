@@ -19,14 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,13 +27,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.validation.EntityValidationException;
+
 /**
  * Service layer tests for the API.
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class EntityServiceLayerTest {
     
     @Autowired
@@ -54,13 +56,12 @@ public class EntityServiceLayerTest {
     private AssociationService studentSchoolAssociationService;
     @Autowired
     private EntityRepository repo;
-
+    
     public void setSecurityContextInjector(SecurityContextInjector securityContextInjector) {
         this.securityContextInjector = securityContextInjector;
     }
-
+    
     @Autowired
-
     private SecurityContextInjector securityContextInjector;
     
     @Before
@@ -68,7 +69,6 @@ public class EntityServiceLayerTest {
         // inject administrator security context for unit testing
         securityContextInjector.setAdminContext();
         
-        defs.init();
         repo.deleteAll("student");
         repo.deleteAll("school");
         studentDef = defs.lookupByResourceName("students");
@@ -262,7 +262,7 @@ public class EntityServiceLayerTest {
         assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociationsWith(id4, 0, 4, null));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null));
-
+        
         // test query fields
         assertEquals(Arrays.asList(assocId1),
                 studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=First grade"));
@@ -283,7 +283,7 @@ public class EntityServiceLayerTest {
                 studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "firstName=Bonzo"));
         assertFalse(studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "firstname=non exist")
                 .iterator().hasNext());
-
+        
         studentService.delete(id1);
         studentService.delete(id2);
         studentService.delete(id3);
