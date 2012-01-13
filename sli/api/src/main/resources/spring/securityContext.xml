@@ -53,4 +53,7 @@
     <!-- Default role initializer -->
     <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
 
+    <bean id="sliAdminValidator" class="org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator">
+    	<constructor-arg index="0" type="String" value="to/determine"/>
+    </bean>
 </beans>

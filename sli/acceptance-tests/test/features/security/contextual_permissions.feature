@@ -34,13 +34,6 @@ Examples:
 | "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
 | "idp1" | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
 
-Scenario: Authenticated non-Educator makes API call to get School
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <school>
-Then I should get a message that I am not authorized
-
 #Teacher
 
 Scenario Outline: Authenticated Educator makes API call to get self (Teacher)
@@ -112,20 +105,6 @@ Examples:
 | "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Elizabeth Jane" |
 | "idp1" | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Ted Bear"       |
 
-Scenario: Authenticated non-Educator makes API call to get Teacher
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <teacher>
-Then I should get a message that I am not authorized
-
-Scenario: Authenticated non-Educator makes API call to get list of Teachers
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <list of teachers>
-Then I should get a message that I am not authorized
-
 #Section
 
 Scenario: Authenticated Educator makes API call to get list of Sections
@@ -150,20 +129,6 @@ And I have a Role attribute that equals "Educator"
 When I make an API call to get <not my section #>
 Then I should get a message that I am not authorized
 
-Scenario: Authenticated non-Educator makes API call to get Section
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <section>
-Then I should get a message that I am not authorized
-
-Scenario: Authenticated non-Educator makes API call to get list of Sections
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <list of sections>
-Then I should get a message that I am not authorized
-
 #Student
 
 Scenario: Authenticated Educator makes API call to get list of Students
@@ -186,18 +151,4 @@ Given I am a valid SEA/LEA end user <teacher>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 When I make an API call to get <not my student  #>
-Then I should get a message that I am not authorized
-
-Scenario: Authenticated non-Educator makes API call to get Student
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <teacher>
-Then I should get a message that I am not authorized
-
-Scenario: Authenticated non-Educator makes API call to get list of Students
-Given I am a valid SEA/LEA end user
-And I am authenticated to SEA/LEA IDP
-And I have a Role attribute that does not equals "Educator"
-When I make an API call to get <list of teachers>
 Then I should get a message that I am not authorized
