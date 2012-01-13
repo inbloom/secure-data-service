@@ -147,6 +147,11 @@ desc "Run Home URI Tests"
 task :homeUriTests do
   runTests("test/features/api/home_uri")
 end
+
+desc "Run Aggregation Tests"
+task :aggregationTests => [:importSandboxData] do
+  runTests("test/features/api/end_user_stories/aggregates")
+end
 ############################################################
 # API tests end
 ############################################################
