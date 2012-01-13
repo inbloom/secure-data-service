@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.resolve.ClientRoleManager;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 
 /**
@@ -22,16 +22,16 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     
     @Autowired
-    private ClientRoleResolver roleMapper;
+    private ClientRoleManager roleMapper;
     @Autowired
     private RoleRightAccess roleRightAccess;
 
     @Override
-    public Set<GrantedAuthority> resolveRoles(List<String> roleNames) {
+    public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
         
         if (roleNames != null) {
-            List<String> sliRoleNames = roleMapper.resolveRoles(roleNames);
+            List<String> sliRoleNames = roleMapper.resolveRoles(realmId, roleNames);
             
             for (String sliRoleName : sliRoleNames) {
                 Role role = findRole(sliRoleName);
@@ -51,7 +51,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         this.roleRightAccess = roleRightAccess;
     }
 
-    public void setRoleMapper(ClientRoleResolver roleMapper) {
+    public void setRoleMapper(ClientRoleManager roleMapper) {
         this.roleMapper = roleMapper;
     }
     
