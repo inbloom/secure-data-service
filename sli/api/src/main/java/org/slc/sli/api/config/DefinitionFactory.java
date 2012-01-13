@@ -18,6 +18,9 @@ import org.slc.sli.dal.repository.EntityRepository;
 /**
  * Factory class for building Entity and Association definition objects.
  * 
+ * The quantity of fluent builder code is large enough to warrant capturing it in a factory class,
+ * yet breaking this into two factories (entity and association) seemed unneccesarily complex.
+ * 
  * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
@@ -316,9 +319,7 @@ public class DefinitionFactory {
         public AssociationDefinition build() {
             CoreBasicService coreService = (CoreBasicService) DefinitionFactory.this.beanFactory.getBean(
                     "coreBasicService", collectionName);
-            // (String collectionName, List<Treatment> treatments, CoreBasicService coreService,
-            // EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String
-            // targetKey)
+            
             BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory.getBean(
                     "basicAssociationService", collectionName, treatments, coreService, source.getDefn(),
                     source.getKey(), target.getDefn(), target.getKey());
