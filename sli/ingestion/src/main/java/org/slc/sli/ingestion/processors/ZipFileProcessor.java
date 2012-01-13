@@ -62,8 +62,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             }
         }
 
-        exchange.getOut().setBody(job, BatchJob.class);
-        exchange.getOut().setHeader("hasErrors", fr.hasErrors());
+        exchange.getIn().setBody(job, BatchJob.class);
+        exchange.getIn().setHeader("hasErrors", fr.hasErrors());
     }
 
     public ZipFileValidator getValidator() {

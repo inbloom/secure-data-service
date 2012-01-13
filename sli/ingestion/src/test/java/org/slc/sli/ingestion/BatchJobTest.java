@@ -35,10 +35,13 @@ public class BatchJobTest {
 
     @Test
     public void testCreateId() {
-        String id1 = BatchJob.createId();
-        String id2 = BatchJob.createId();
-        assertEquals(id1.length(), 36);
-        assertEquals(id2.length(), 36);
+        String id1 = BatchJob.createId(null);
+        String id2 = BatchJob.createId(null);
+        
+        //batch job id's are now dynamic - they depend on incoming file size
+        //assertEquals(id1.length(), 36);
+        //assertEquals(id2.length(), 36);
+        
         assertFalse(id1.equals(id2));
     }
 
@@ -97,7 +100,9 @@ public class BatchJobTest {
         System.out.println(System.getProperty("java.class.path"));
 
         String id = job.getId();
-        assertEquals(id.length(), 36);
+
+        //batch job id's are now dynamic - they depend on incoming file size
+        //assertEquals(id.length(), 36);
 
         Date jobDate = job.getCreationDate();
         assertTrue(jobDate.after(new Date(now.getTime() - 1)));
