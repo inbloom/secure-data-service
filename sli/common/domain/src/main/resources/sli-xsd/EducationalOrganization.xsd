@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
-    targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="unqualified"
->
-    <xs:include schemaLocation="ReferenceTypes.xsd" />
+    targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+    <xs:include schemaLocation="ReferenceTypes.xsd"/>
 
     <xs:complexType name="EducationOrganizationCategoriesType">
         <xs:annotation>
@@ -13,8 +13,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="OrganizationCategory" type="EducationOrganizationCategoryType"
-                maxOccurs="unbounded"
-            >
+                maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>The classification(s) of the education agency within the
                         geographic boundaries of a state according to the level of administrative
@@ -100,9 +99,8 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
-                    maxOccurs="unbounded"
-                >
+                <xs:element name="EducationOrgIdentificationCode"
+                    type="EducationOrgIdentificationCode" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>A unique number or alphanumeric code assigned to an
                             education organization by a school, school system, a state, or other
@@ -131,8 +129,7 @@
             </xs:element>
         </xs:sequence>
         <xs:attribute name="IdentificationSystem" type="EducationOrgIdentificationSystemType"
-            use="required"
-        >
+            use="required">
             <xs:annotation>
                 <xs:documentation>The school system, state, or agency assigning the identification
                     code.
@@ -157,8 +154,7 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
-                maxOccurs="unbounded"
-            >
+                maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>A unique number or alphanumeric code assigned to an education
                         organization by a school, school system, a state, or other agency or entity.
@@ -184,8 +180,7 @@
             </xs:element>
         </xs:sequence>
         <xs:attribute name="InstitutionTelephoneNumberType" type="InstitutionTelephoneNumberType"
-            use="optional"
-        >
+            use="optional">
             <xs:annotation>
                 <xs:documentation>The type of communication number listed for an individual or
                     organization.
@@ -202,8 +197,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="SchoolCategory" type="SchoolCategoryItemType" minOccurs="0"
-                maxOccurs="unbounded"
-            >
+                maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>The one or more categories of school. For example: High
                         School, Middle School, and/or Elementary School.
@@ -241,9 +235,8 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
-                    maxOccurs="unbounded"
-                >
+                <xs:element name="EducationOrgIdentificationCode"
+                    type="EducationOrgIdentificationCode" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>A unique number or alphanumeric code assigned to an
                             education organization by a school, school system, a state, or other
@@ -277,9 +270,8 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
-                    maxOccurs="unbounded"
-                >
+                <xs:element name="EducationOrgIdentificationCode"
+                    type="EducationOrgIdentificationCode" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>A unique number or alphanumeric code assigned to an
                             education organization by a school, school system, a state, or other
@@ -308,9 +300,8 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
-                        minOccurs="0" maxOccurs="unbounded"
-                    >
+                    <xs:element name="EducationOrgIdentificationCode"
+                        type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>A unique number or alphanumeric code assigned to an
                                 education organization by a school, school system, a state, or other
@@ -324,14 +315,13 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ShortNameOfInstitution" type="NameOfInstitution"
-                        minOccurs="0"
-                    >
+                    <xs:element name="ShortNameOfInstitution" type="NameOfInstitution" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>A short name for the institution.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType">
+                    <xs:element name="OrganizationCategories"
+                        type="EducationOrganizationCategoriesType">
                         <xs:annotation>
                             <xs:documentation>The classification of the education agency within the
                                 geographic boundaries of a state according to the level of
@@ -348,8 +338,7 @@
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0"
-                        maxOccurs="unbounded"
-                    >
+                        maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The 10-digit telephone number, including the area
                                 code, for the education entity.
@@ -363,9 +352,7 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="OperationalStatus" type="OperationalStatusType"
-                        minOccurs="0"
-                    >
+                    <xs:element name="OperationalStatus" type="OperationalStatusType" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>The current operational status of the education
                                 organization (e.g., active, inactive).
@@ -373,28 +360,17 @@
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="AccountabilityRatings" type="AccountabilityRating"
-                        minOccurs="0" maxOccurs="unbounded"
-                    >
+                        minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The accountability ratings assessed for the education
                                 organization.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ProgramReference" type="ProgramSimpleReference"
-                        minOccurs="0" maxOccurs="unbounded"
-                    >
+                    <xs:element name="ProgramReference" type="ProgramSimpleReference" minOccurs="0"
+                        maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The programs offered at the education organization.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EducationOrganizationPeerReference" type="EducationalOrgSimpleReference"
-                        minOccurs="0" maxOccurs="unbounded"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>The associated peer organization(s) for the
-                                EducationOrganization.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -427,33 +403,6 @@
                                 secondary education to eligible students under a specific charter
                                 granted by the state legislature or other appropriate authority and
                                 designated by such authority to be a charter school.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="LocalEducationAgencyReference" type="EducationalOrgSimpleReference"
-                        minOccurs="0"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>For subdistricts, the LEA the subdistrict is a
-                                component of.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EducationServiceCenterReference" type="EducationalOrgSimpleReference"
-                        minOccurs="0"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>The ESC of which the LEA is an organizational
-                                component.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StateEducationAgencyReference" type="EducationalOrgSimpleReference"
-                        minOccurs="0"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>The SEA of which the LEA is an organizational
-                                component.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -500,17 +449,15 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="TitleIPartASchoolDesignation" type="TitleIPartASchoolDesignationType"
-                        minOccurs="0"
-                    >
+                    <xs:element name="TitleIPartASchoolDesignation"
+                        type="TitleIPartASchoolDesignationType" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>Denotes the Title I Part A designation for the school.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="MagnetSpecialProgramEmphasisSchool" type="MagnetSpecialProgramEmphasisSchoolType"
-                        minOccurs="0"
-                    >
+                    <xs:element name="MagnetSpecialProgramEmphasisSchool"
+                        type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>A school that has been designed: 1) to attract
                                 students of different racial/ethnic backgrounds for the purpose of
@@ -521,43 +468,41 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="AdministrativeFundingControl" type="AdministrativeFundingControlType"
-                        minOccurs="0"
-                    >
+                    <xs:element name="AdministrativeFundingControl"
+                        type="AdministrativeFundingControlType" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>The type of education institution as classified by its
                                 funding source, for example public or private.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="LocalEducationAgencyReference" type="EducationalOrgSimpleReference"
-                        minOccurs="0"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>LEA of which the School is an organizational
-                                component.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="ClassPeriodReference" type="ClassPeriodSimpleReference"
-                        minOccurs="0" maxOccurs="unbounded"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>The class periods defined for the school.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="LocationReference" type="LocationSimpleReference"
-                        minOccurs="0" maxOccurs="unbounded"
-                    >
-                        <xs:annotation>
-                            <xs:documentation>The available class locations defined for the school.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="EducationOrgAssociation">
+        <xs:annotation>
+            <xs:documentation>The association denoting a hierarchical relationship among  Educational Organizations.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ChildAgencyHierarchyName" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>A hierarchical name for the child Ed Org using '.' separators.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ParentAgencyReference" type="EducationalOrgSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>Reference to the parent Education Organization in a hierarchy.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ChildAgencyReference" type="EducationalOrgSimpleReference">
+                <xs:annotation>
+                    <xs:documentation>Reference to the child Education Organization in a hierarchy.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="FeederSchoolAssociation">
@@ -590,9 +535,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="FeederRelationshipDescription" type="Description"
-                minOccurs="0"
-            >
+            <xs:element name="FeederRelationshipDescription" type="Description" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Describes the relationship from the feeder school to the
                         receiving school, for example by program emphasis, such as special

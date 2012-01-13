@@ -117,6 +117,11 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <xs:element name="AssessmentFamilyHierarchyName" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A hierarchical name for the Assessment using '.' separators.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                     <xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
