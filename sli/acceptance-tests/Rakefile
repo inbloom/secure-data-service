@@ -80,7 +80,7 @@ task :default => :production
 
 
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -200,7 +200,7 @@ task :securityTests do
     "realm" => "realm_fixture.json"
     ]
   setMultipleFixtureFiles(securityHash)
-  runTests("test/features/security")  
+  runTests("test/features/security")
 end
 ############################################################
 # Security tests end
@@ -216,13 +216,13 @@ end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")  
+  runTests("test/features/dashboard/population_widget.feature")
 end
 
 desc "Run Dashboard YY Tests"
 task :dashboardTests do
-  runTests("test/features/dashboard") 
-   
+  runTests("test/features/dashboard")
+
 end
 ############################################################
 # Dashboard tests end
