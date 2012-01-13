@@ -18,8 +18,8 @@ end
 Given /^I am authenticated to SLI IDP$/ do
   url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
   @driver.get url
-  @driver.find_element(:id, "IDToken1").send_keys "administrator"
-  @driver.find_element(:id, "IDToken2").send_keys "administrator1234"
+  @driver.find_element(:id, "IDToken1").send_keys "demo"
+  @driver.find_element(:id, "IDToken2").send_keys "demo1234"
   @driver.find_element(:name, "Login.Submit").click
 end
 
