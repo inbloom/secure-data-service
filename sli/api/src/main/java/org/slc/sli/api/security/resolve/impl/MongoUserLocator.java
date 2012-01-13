@@ -35,6 +35,8 @@ public class MongoUserLocator implements UserLocator {
     public SLIPrincipal locate(String realm, String externalUserId) {
         LOG.info("Locating user {}@{}", externalUserId, realm);
         SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + realm);
+        user.setRealm(realm);
+        user.setExternalId(externalUserId);
         
         Query query = new Query(Criteria.where("stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
         for (String entityName : ENTITY_NAMES) {

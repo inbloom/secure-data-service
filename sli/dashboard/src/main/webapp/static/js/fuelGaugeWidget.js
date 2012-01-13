@@ -11,13 +11,14 @@
 /**
  * parameters: 
  *  id : the id of the DOM element to draw the fuel gauge widget on. 
- *  score: a number. T
+ *  score: a number. 
  *  cutpoints: an array of numbers. Contains N+1 elements, where N is the total number of levels. The ith level's lowest score is (cutpoints[i]+1) and highest score is cutpoints[i+1]
  */
 function FuelGaugeWidget (id, score, cutpoints) { 
 
     // constants
     this.PADDING = 1; // paddings between levels, in pixel
+    this.BACKGROUNDCOLOUR = "#eeeeee"; // background colour of rectangles
 
     this.id = id;
     this.score = score;
@@ -44,7 +45,7 @@ FuelGaugeWidget.prototype.create = function()
 
     // calculate the widths of each level rectangle
     var fullLevelRectWidth = width / (this.cutpoints.length - 1)
-    fullLevelRectWidth--;
+    fullLevelRectWidth -= this.PADDING;
     var rects = new Array();
     for (var i = 0; i < this.cutpoints.length - 1; i++) {
 	if (this.score > this.cutpoints[i+1]) {
@@ -62,11 +63,19 @@ FuelGaugeWidget.prototype.create = function()
 
     // Now call raphael.
     this.paper = Raphael(element, width, fontSize);
+    // draw background first
+    for (var i = 0; i < this.cutpoints.length - 1; i++) {
+	this.paper.rect(i * (fullLevelRectWidth+this.PADDING),0, fullLevelRectWidth, fontSize, 0)
+                  .attr("fill", this.BACKGROUNDCOLOUR)
+                  .attr("stroke", "none");
+    }
+    // draw actual rectangle
     for (var i = 0; i < rects.length; i++) {
-	this.paper.rect(i * (fullLevelRectWidth+1),0, rects[i], fontSize, 1)
+	this.paper.rect(i * (fullLevelRectWidth+this.PADDING),0, rects[i], fontSize, 1)
                   .attr("fill", color)
                   .attr("stroke", "none");
     }
+
 };  
 
 // --- static helper function --- 

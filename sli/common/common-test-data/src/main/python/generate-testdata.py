@@ -12,7 +12,7 @@ import logging
 from xmltypes import *
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, handler=logging.StreamHandler())
 log = logging.getLogger(__name__)
 
 
@@ -50,6 +50,52 @@ def _get_sub_dict(d, prefix, strip=False):
     return tmpd
 
 
+def dictify(xmlobject, hide_empty=False):
+    """
+    Take one of the generateDS objects and turn it into a dictionary.
+    
+    This is intended for debugging, but could be more broadly useful (for json 
+    conversion, perhaps.)  Use the hide_empty flag to suppress empty attributes
+    (which can reduce a lot of output).
+    
+    >>> dictify(Student(Name=Name(FirstName="John", LastSurname="Doe"))
+    ... ) == {'CohortYears': [], 'DisplacementStatus': None, 
+    ... 'EconomicDisadvantaged': None, 'OldEthnicity': None, 'Languages': None, 
+    ... 'id': None, 'BirthData': None, 'LimitedEnglishProficiency': None, 
+    ... 'Address': [], 'StudentCharacteristics': [], 'OtherName': [], 
+    ... 'LearningStyles': None, 'Name': {'FirstName': 'John', 'MiddleName': 
+    ... None, 'MaidenName': None, 'PersonalTitlePrefix': None, 'LastSurname': 
+    ... 'Doe', 'Verification': None, 'GenerationCodeSuffix': None}, 
+    ... 'HomeLanguages': None, 'Disabilities': [], 'Race': None, 
+    ... 'StudentIndicators': [], 'ProfileThumbnail': None, 'ElectronicMail': [], 
+    ... 'StudentUniqueStateId': None, 'StudentIdentificationCode': [], 
+    ... 'Section504Disabilities': None, 'Telephone': [], 'Sex': None, 
+    ... 'HispanicLatinoEthnicity': None, 'ProgramParticipations': [], 
+    ... 'SchoolFoodServicesEligibility': None}
+    True
+    
+    >>> dictify(Student(Name=Name(FirstName="John", LastSurname="Doe")), True
+    ... ) == {'Name': {'LastSurname': 'Doe', 'FirstName': 'John'}}
+    True
+
+    
+    """
+    if isinstance(xmlobject, list):
+        return [dictify(v) for v in xmlobject]
+    elif xmlobject is None:
+        return None
+    elif isinstance(xmlobject, str):
+        return xmlobject
+    elif isinstance(xmlobject, int):
+        return str(xmlobject)
+    else:
+        return dict([(k,dictify(v, hide_empty)) for k,v in xmlobject.__dict__.items() \
+                     if k not in ('extensiontype_',) \
+                     and (v or not hide_empty) ])
+    
+
+
+
 class CSV_Reader(object):
     """
     """
@@ -75,7 +121,9 @@ class CSV_Reader(object):
         
         for row in self.reader:
             rowd = dict([(self.headers[i], row[i]) for i in range(len(self.headers))])
-            object = self.get_xml_object(rowd)            
+            object = self.get_xml_object(rowd)
+            log.debug("generating xml for %s: %s" % 
+                      (object.__class__.__name__, dictify(object)))
             object.export(string_io, 1)
             yield string_io.getvalue().strip()
             string_io.seek(0)
@@ -196,7 +244,7 @@ class Student_CSV_Reader(CSV_Reader):
                     )
         address = self.get_address(d, "address_1_")
         if address.hasContent_():
-            kwargs['Address'] = address
+            kwargs['Address'] = [address]
         if d['birth_date']:
             kwargs['BirthData'] = BirthData(BirthDate= d['birth_date'])
         if d['sex']:
