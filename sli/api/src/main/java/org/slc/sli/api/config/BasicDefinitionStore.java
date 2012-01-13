@@ -25,6 +25,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
+    private Map<String, String> entityResourceNameMapping = new HashMap<String, String>();
     private Map<EntityDefinition, Collection<AssociationDefinition>> links = new HashMap<EntityDefinition, Collection<AssociationDefinition>>();
     
     @Autowired
@@ -37,7 +38,12 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public EntityDefinition lookupByResourceName(String resourceName) {
         return mapping.get(resourceName);
     }
-    
+
+    @Override
+    public EntityDefinition lookupByEntityType(String entityType) {
+        return mapping.get(entityResourceNameMapping.get(entityType));        
+    }
+
     @Override
     public Collection<AssociationDefinition> getLinked(EntityDefinition defn) {
         return links.get(defn);
@@ -161,9 +167,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private EntityDefinition makeExposeAndAddEntityDefinition(String entityName, String exposeName) {
         //create the entity definition and expose it under the pluralized name ("teacher" exposed as "teachers")
         EntityDefinition definition = EntityDefinition.makeEntity(entityName, this.validator).exposeAs(exposeName).build();
-        //add the new definition to the map of known definitions
+        entityResourceNameMapping.put(entityName, exposeName);
+
+        //add and return the newly created definition
         this.addDefinition(definition);
-        //return newly created definition
         return definition;
     }
     
