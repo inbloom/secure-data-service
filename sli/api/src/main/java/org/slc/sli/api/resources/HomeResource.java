@@ -12,11 +12,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.security.SLIPrincipal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,19 +57,12 @@ public class HomeResource {
     public Response getHomeUri(@Context final UriInfo uriInfo) {
 
         // TODO: refactor common code from getHomeUri and GetHomeUriXML
-        
-        // use login data to resolve what type of user and ID of user
-        Map<String, String> map = this.resolveUserDataFromSecurityContext();
-        
-        // remove user's type from map
-        // TODO: if userType and id are still being used after
-        // authentication updates, then use static strings in code
-        String userType = map.remove("userType");
-        String userId = map.remove("id");
-        
-        // look up known associations to user's type
-        EntityDefinition defn = this.entityDefs.lookupByResourceName(userType);
-        
+
+        // get the entity ID and EntityDefinition for user
+        Entry<String, EntityDefinition> entityInfo = this.getEntityInfoForUser().entrySet().iterator().next();
+        String userId = entityInfo.getKey();
+        EntityDefinition defn = entityInfo.getValue();
+
         // prepare a list of links with the self link
         List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, userId, defn);
         
@@ -91,18 +87,11 @@ public class HomeResource {
 
         // TODO: refactor common code from getHomeUri and GetHomeUriXML
 
-        // use login data to resolve what type of user and ID of user
-        Map<String, String> map = this.resolveUserDataFromSecurityContext();
-        
-        // remove user's type from map
-        // TODO: if userType and id are still being used after
-        // authentication updates, then use static strings in code
-        String userType = map.remove("userType");
-        String userId = map.remove("id");
-        
-        // look up known associations to user's type
-        EntityDefinition defn = this.entityDefs.lookupByResourceName(userType);
-        
+        // get the entity ID and EntityDefinition for user
+        Entry<String, EntityDefinition> entityInfo = this.getEntityInfoForUser().entrySet().iterator().next();
+        String userId = entityInfo.getKey();
+        EntityDefinition defn = entityInfo.getValue();
+
         // prepare a list of links with the self link
         List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, userId, defn);
         
@@ -119,25 +108,18 @@ public class HomeResource {
     }
 
     /**
-     * Analyzes security context to determine exposure type and ID of user.
+     * Analyzes security context to get ID and EntityDefinition for user.
      * 
-     * @return deduced ID from available security context
+     * @return ID and EntityDefinition from security context
      */
-    // call with student id
-    private Map<String, String> resolveUserDataFromSecurityContext() {
-        // map user fields to values
-        Map<String, String> map = new HashMap<String, String>();
+    private Map<String, EntityDefinition> getEntityInfoForUser() {
+        Map<String, EntityDefinition> map = new HashMap<String, EntityDefinition>();
         
-        // lookup security/login information
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
+        // get the Entity for the logged in user
+        Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
+        EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
         
-        // TODO: extract userType and ID (in some way) from authentication value
-        map.put("userType", "students");
-        map.put("id", "714c1304-8a04-4e23-b043-4ad80eb60992");
-        // map.put("userType", "teachers");
-        // map.put("id", "fa45033c-5517-b14b-1d39-c9442ba95782");
-        
+        map.put(entity.getEntityId(), entityDefinition);
         return map;
     }
 }
