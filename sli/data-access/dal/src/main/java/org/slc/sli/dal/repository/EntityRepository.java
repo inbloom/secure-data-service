@@ -133,6 +133,27 @@ public interface EntityRepository {
      */
     public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max);
 
+    /*
+     * matchQuery method is a temporary solution for association/sourceGUID/targets type of
+     * filtering as the current data model does not have any reference between source entity and
+     * target entity. since mongodb does not provide any join collection query and the current
+     * collection configuration map each entity type to one collection, do the filtering on
+     * association/sourceGUID/targets will be difficult to accomplish directly. matchQuery method
+     * is used to check if the id with specific type matches the query after the id of the target
+     * entity has been retrieved by traversal from source entity -> association entity -> target
+     * entity
+     */
+
+    /**
+     * @param entityType
+     *            the entity type need to be checked, can be entity type for
+     *            core entity or association entity
+     * @param id
+     *            the global unique id of the entity
+     * @param query
+     *            the query for checking if specified entity matches
+     * @return true if specified entity matches query, otherwise return false
+     */
     public boolean matchQuery(String entityType, String id, Query query);
 
 }

@@ -16,7 +16,7 @@ Then /^I should be redirected to the Realm page$/ do
 end
 
 Given /^I am authenticated to SLI IDP$/ do
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
   @driver.get url
   @driver.find_element(:id, "IDToken1").send_keys "administrator"
   @driver.find_element(:id, "IDToken2").send_keys "administrator1234"
@@ -24,7 +24,7 @@ Given /^I am authenticated to SLI IDP$/ do
 end
 
 Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
   @driver.get url
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
@@ -32,12 +32,13 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sea_idp_server_url']+"/UI/Login"
   @driver.get url
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
   @driver.find_element(:name, "Login.Submit").click
 end
+
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
   assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
 end

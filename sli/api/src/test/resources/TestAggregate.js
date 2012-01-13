@@ -73,23 +73,23 @@ finalizeFunction = function(key,value) {
 
 
 var cleanUp = function() {
-	db.myoutput.find({"value.raw":"true"}).forEach(function (data) {
+	db.aggregation.find({"value.raw":"true"}).forEach(function (data) {
 		var old_id = data._id;
 		var doc = data;
 		
 		doc._id = JUUID(UUID.generate());
-		doc.type = "aggregate";
+		doc.type = "aggregation";
 		doc.body = doc.value;
 
 		delete doc.value;
 		delete doc.body.raw;
 		
-		db.myoutput.insert(doc);
-		db.myoutput.remove({ _id: old_id});
+		db.aggregation.insert(doc);
+		db.aggregation.remove({ _id: old_id});
 	});
 }
 
-db.myoutput.drop()
+db.aggregation.drop()
 
 db.runCommand( { mapreduce:"studentassessmentassociation",
                                                       map:mapFunction,
@@ -97,10 +97,10 @@ db.runCommand( { mapreduce:"studentassessmentassociation",
                                                       finalize:finalizeFunction,
                                                       query: {"body.assessmentId":{$in: ["67ce204b-9999-4a11-bfea-000000004682","67ce204b-9999-4a11-bfea-000000004683","67ce204b-9999-4a11-bfea-000000004684"]}},
                                                       scope: { aggregation_name : "8th Grade EOG" },
-                                                      out: { reduce: "myoutput" }
+                                                      out: { reduce: "aggregation" }
                                                     });
 cleanUp();
-db.myoutput.find()
+db.aggregation.find()
 
 
 

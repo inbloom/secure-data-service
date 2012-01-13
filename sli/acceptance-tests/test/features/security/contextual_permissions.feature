@@ -6,21 +6,33 @@ I would like to implement context-based permissions, so that when a SEA/LEA end 
 
 #School
 
-Scenario: Authenticated Educator makes API call to get own School
-Given I am a valid SEA/LEA end user
+Scenario Outline: Authenticated Educator makes API call to get own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <my school>
+And my School is <School>
+When I make an API call to get the school <School>
 Then I receive a JSON response that includes  the School entity and its attributes
+Examples:
+| Realm  | Username  | Password      | School                      |
+| "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           |
+| "idp2" | "johndoe" | "johndoe1234" | "Parker-Dust Middle School" |
+| "idp1" | "ejane"   | "ejane1234"   | "Watson Elementary School"  |
 
-Scenario: Authenticated Educator makes API call to get not own School
-Given I am a valid SEA/LEA end user
+Scenario Outline: Authenticated Educator makes API call to get not own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <not my school>
+And my School is <School>
+When I make an API call to get the school <OtherSchool>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | School                      | OtherSchool                 |
+| "idp1" | "tbear"    | "tbear1234"    | "Fry High School"           | "Parker-Dust Middle School" |
+| "idp1" | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Fry High School"           |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "idp1" | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
 
 Scenario: Authenticated non-Educator makes API call to get School
 Given I am a valid SEA/LEA end user
@@ -31,45 +43,74 @@ Then I should get a message that I am not authorized
 
 #Teacher
 
-Scenario: Authenticated Educator makes API call to get self (Teacher)
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get self (Teacher)
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <teacher>
-Then I receive a JSON response that includes the Teacher entity and its attributes (allowed to be seen as an Educator role)
+And my School is <School>
+When I make an API call to get the teacher <Teacher>
+Then I receive a JSON response that includes the Teacher entity and its attributes
+Examples:
+| Realm  | Username | Password    | School                      | Teacher          |
+| "idp1" | "tbear"  | "tbear1234" | "Fry High School"           | "Ted Bear"       |
+| "idp2" | "ejane"  | "ejane1234" | "Parker-Dust Middle School" | "Emily Jane"     |
+| "idp1" | "ejane"  | "ejane1234" | "Watson Elementary School"  | "Elizabeth Jane" |
+| "idp1" | "jdoe"   | "jdoe1234"  | "Fry High School"           | "John Doe 1"     |
 
-Scenario: Authenticated Educator makes API call to get list of Teachers within own School
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get list of Teachers within own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get list of teachers  from <my school>
-Then I receive a JSON response that includes the list of Teachers
+And my School is <School>
+When I make an API call to get list of teachers from the school <School>
+Then I receive a JSON response that includes the teacher <Teacher1> and the teacher <Teacher2>
+Examples:
+| Realm  | Username  | Password      | School                      | Teacher1         | Teacher2         |
+| "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           | "John Doe 1"     | "Ted Bear"       |
+| "idp2" | "johndoe" | "johndoe1234" | "Parker-Dust Middle School" | "John Doe 3"     | "Elizabeth Jane" |
+| "idp1" | "ejane"   | "ejane1234"   | "Watson Elementary School"  | "John Doe 2"     | "Emily Jane"     |
+| "idp2" | "ejane"   | "ejane1234"   | "Parker-Dust Middle School" | "John Doe 3"     | "Elizabeth Jane" |
 
-Scenario: Authenticated Educator makes API call to get list of Teachers not in own School
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get list of Teachers not in own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get list of teachers  from  <not my school>
+And my School is <School>
+When I make an API call to get list of teachers from the school <OtherSchool>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | School                      | OtherSchool                 |
+| "idp1" | "jdoe"     | "jdoe1234"     | "Fry High School"           | "Parker-Dust Middle School" |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "idp1" | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
 
-Scenario: Authenticated Educator makes API call to get Teacher in own School
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get Teacher in own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <teacher> from <my school>
+And my School is <School>
+When I make an API call to get the teacher <Teacher>
 Then I receive a JSON response that includes the Teacher
+Examples:
+| Realm  | Username   | Password       | School                      | Teacher      |
+| "idp1" | "tbear"    | "tbear1234"    | "Fry High School"           | "John Doe 1" |
+| "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "John Doe 3" |
+| "idp1" | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "John Doe 2" |
 
-Scenario: Authenticated Educator makes API call to get Teacher not in own School
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get Teacher not in own School
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And my School is <my school>
-When I make an API call to get <teacher> from <not my school>
+And my School is <School>
+When I make an API call to get the teacher <Teacher>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | School                      | Teacher          |
+| "idp1" | "tbear"    | "tbear1234"    | "Fry High School"           | "John Doe 3"     |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Elizabeth Jane" |
+| "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Elizabeth Jane" |
+| "idp1" | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Ted Bear"       |
 
 Scenario: Authenticated non-Educator makes API call to get Teacher
 Given I am a valid SEA/LEA end user

@@ -17,6 +17,7 @@
     <security:http auto-config="true" entry-point-ref="sliEntryPoint">
         <security:request-cache ref="nullCache"/>
         <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter"/>
+        <security:remember-me token-validity-seconds="0" />
     </security:http>
 
     <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
