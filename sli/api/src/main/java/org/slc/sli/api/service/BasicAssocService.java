@@ -3,40 +3,42 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slc.sli.api.config.AssociationDefinition.EntityInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.util.QueryUtil;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Implementation of AssociationService.
+ * 
  */
+@Scope("prototype")
+@Component("basicAssociationService")
 public class BasicAssocService extends BasicService implements AssociationService {
-    
-    private final EntityDefinition sourceDefn;
-    private final EntityDefinition targetDefn;
-    private final String sourceKey;
-    private final String targetKey;
-    
-    public BasicAssocService(String collectionName, List<Treatment> treatments, EntityRepository repo,
-            EntityInfo source, EntityInfo target, EntityValidator validator) {
-        super(collectionName, treatments, repo, validator);
-        this.sourceDefn = source.getDefn();
-        this.targetDefn = target.getDefn();
-        this.sourceKey = source.getKey();
-        this.targetKey = target.getKey();
-    }
-    
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
+    
+    private EntityDefinition sourceDefn;
+    private EntityDefinition targetDefn;
+    private String sourceKey;
+    private String targetKey;
+    
+    public BasicAssocService(String collectionName, List<Treatment> treatments, CoreBasicService coreService,
+            EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String targetKey) {
+        super(collectionName, treatments, coreService);
+        this.sourceDefn = sourceDefn;
+        this.targetDefn = targetDefn;
+        this.sourceKey = sourceKey;
+        this.targetKey = targetKey;
+    }
     
     @Override
     public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString) {
