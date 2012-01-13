@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.BasicService;
+import org.slc.sli.api.service.CoreBasicService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.validation.EntityValidator;
@@ -31,6 +33,9 @@ public class DefinitionFactory {
     
     @Autowired
     EntityValidator validator;
+    
+    @Autowired
+    ApplicationContext beanFactory;
     
     public EntityBuilder makeEntity(String type) {
         return new EntityBuilder(type);
@@ -128,7 +133,14 @@ public class DefinitionFactory {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            BasicService entityService = new BasicService(collectionName, treatments, repo, valid);
+            BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService");
+            entityService.setCollectionName(collectionName);
+            entityService.setTreatments(treatments);
+            entityService.setRepo(repo);
+            
+            CoreBasicService coreService = new CoreBasicService(collectionName, repo, validator);
+            entityService.setCoreBasicService(coreService);
+            
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
@@ -311,8 +323,18 @@ public class DefinitionFactory {
         
         @Override
         public AssociationDefinition build() {
-            BasicAssocService service = new BasicAssocService(super.collectionName, super.treatments, super.repo,
-                    source.getDefn(), source.getKey(), target.getDefn(), target.getKey(), super.valid);
+            BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory
+                    .getBean("basicAssociationService");
+            service.setCollectionName(collectionName);
+            service.setTreatments(treatments);
+            service.setRepo(repo);
+            CoreBasicService coreService = new CoreBasicService(collectionName, repo, validator);
+            service.setCoreBasicService(coreService);
+            service.setSourceDefinition(source.getDefn());
+            service.setSourceKey(source.getKey());
+            service.setTargetDefinition(target.getDefn());
+            service.setTargetKey(target.getKey());
+            
             source.setLinkToAssociation(this.relNameFromSource);
             target.setLinkToAssociation(this.relNameFromTarget);
             AssociationDefinition associationDefinition = new AssociationDefinition(super.type, super.resourceName,

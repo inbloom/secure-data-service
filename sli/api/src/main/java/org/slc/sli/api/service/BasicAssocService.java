@@ -5,35 +5,48 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.util.QueryUtil;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
 
 /**
  * Implementation of AssociationService.
+ * 
  */
+@Scope("prototype")
+@Component("basicAssociationService")
 public class BasicAssocService extends BasicService implements AssociationService {
     
-    private final EntityDefinition sourceDefn;
-    private final EntityDefinition targetDefn;
-    private final String sourceKey;
-    private final String targetKey;
+    private EntityDefinition sourceDefn;
+    private EntityDefinition targetDefn;
+    private String sourceKey;
+    private String targetKey;
     
-    public BasicAssocService(String collectionName, List<Treatment> treatments, EntityRepository repo,
-            EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String targetKey,
-            EntityValidator validator) {
-        super(collectionName, treatments, repo, validator);
+    public BasicAssocService() {
+        super();
+    }
+    
+    public void setSourceDefinition(EntityDefinition sourceDefn) {
         this.sourceDefn = sourceDefn;
+    }
+    
+    public void setTargetDefinition(EntityDefinition targetDefn) {
         this.targetDefn = targetDefn;
+    }
+    
+    public void setSourceKey(String sourceKey) {
         this.sourceKey = sourceKey;
+    }
+    
+    public void setTargetKey(String targetKey) {
         this.targetKey = targetKey;
     }
     
