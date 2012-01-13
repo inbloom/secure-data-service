@@ -1,4 +1,4 @@
-@wip
+
 Feature: As an SLI application, I want to be able to manage teacher-school associations
 This means I want to be able to perform CRUD on teacher-school-associations. 
 Also so verify the correct links from that resource to the appropriate teacher and schools.
@@ -12,18 +12,18 @@ Background: Nothing yet
 
 Scenario: Create a teacher-school-association
    Given format "application/json"
-     And the "teacherID" is "<'Mr. Smith' ID>"
-     And the "schoolID" is "<'Algebra Alternative' ID>"
-     And the "programAssignmentType" is "REGULAR_EDUCATION"
-     And the "instructionalGradeLevel is "10th"
+     And  "teacherId" is "<'Mr. Smith' ID>"
+     And  "schoolId" is "<'Algebra Alternative' ID>"
+     And  "programAssignment" is "Regular_Education"
+     And  "instructionalGradeLevels" is "Tenth_grade"
     When I navigate to POST "/teacher-school-associations"
     Then I should receive a return code of 201
      And I should receive an ID for the newly created teacher-school-association
-    When I navigate to POST "/teacher-school-associations/<'newly created teacher-school-association' ID>"
-    Then the "teacherID" should be "<'Mr. Smith' ID>"
-     And the "schoolID" should be "<'Algebra Alternative' ID>"
-     And the "programAssignmentType" should be "REGULAR_EDUCATION"
-     And the "instructionalGradeLevel" should be "10th"
+    When I navigate to GET "/teacher-school-associations/<'newly created teacher-school-association' ID>"
+    Then "teacherId" should be "<'Mr. Smith' ID>"
+     And "schoolId" should be "<'Algebra Alternative' ID>"
+     And "programAssignment" should be "Regular_Education"
+     And "instructionalGradeLevels" should be "Tenth_grade"
      
 Scenario: Reading a teacher-school-association
    Given format "application/json"
@@ -52,21 +52,39 @@ Scenario: Reading a teacher-school-association for a school
      And I should receive a collection of 2 teacher-school-association links
      And after resolving each link, I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
      And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
-     And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Mr. Smith ID>"
+     And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Mr. Smith' ID>"
 
 Scenario: Update a teacher-school-association
    Given format "application/json"
-     And I navigate to GET "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
-     And the "programAssignmentType" is "REGULAR_EDUCATION"
-    When I set the "programAssignmentType to "SPECIAL_EDUCATION"
+    When I navigate to GET "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
+    Then "programAssignment" should be "Regular_Education"
+    When I set the "programAssignment" to "Special_Education"
      And I navigate to PUT "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
     Then I should receive a return code of 204
      And I navigate to GET "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
-     And the "programAssignmentType" should be "SPECIAL_EDUCATION"
+     And "programAssignment" should be "Special_Education"
+
 
 Scenario: Delete a teacher-school-association
    Given format "application/json"
     When I navigate to DELETE "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
     Then I should receive a return code of 204
-     And I navigate to PUT "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
+     And I navigate to GET "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
      And I should receive a return code of 404
+     
+     
+ ### Error handling
+Scenario: Attempt to read a non-existent resource
+	Given format "application/json"
+	When I navigate to GET "/teacher-school-associations/<'Invalid ID'>"
+	Then I should receive a return code of 404
+	
+Scenario: Attempt to delete a non-existent resource
+	Given format "application/json"
+	When I navigate to DELETE "/teacher-school-associations/<'Invalid ID'>"
+	Then I should receive a return code of 404
+		
+Scenario: Update a non-existing student-school-association
+    Given format "application/json"
+    When I attempt to update a non-existing association "/teacher-school-associations/<'Invalid ID'>"
+    Then I should receive a return code of 404
