@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_EDORG_ASSOC;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_SCHOOL_ASSOC;
+import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_EDORG_SCHOOL_ASSOC;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_STAFF_ID;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_EDORG_ID;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_SCHOOL_ID;
@@ -15,6 +16,7 @@ import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_SCH
 
 import org.slc.sli.api.representation.EmbeddedLink;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,10 @@ public class AssociationURLCreatorTest {
         // create new staffschoolassociation entity
         Map<String, Object> staffSchoolAssoc = buildTestStaffSchoolEntity();
         creator.repo.create(ENTITY_TYPE_STAFF_SCHOOL_ASSOC, staffSchoolAssoc);
+        
+        // create new edorgschoolassociation entity
+        Map<String, Object> edOrgSchoolAssoc = buildTestEdOrgSchoolEntity();
+        creator.repo.create(ENTITY_TYPE_EDORG_SCHOOL_ASSOC, edOrgSchoolAssoc);
     }
     
     @Test
@@ -68,14 +74,46 @@ public class AssociationURLCreatorTest {
             
             List<EmbeddedLink> list = creator.getStaffEducationOrganizationAssociationLinks(buildMockUriInfo(""),
                     params);
-            assertEquals("Should have one link", 1, list.size());
+            assertEquals("Should have 2 links", 2, list.size());
             
+            //test the district link
             EmbeddedLink link = list.get(0);
             assertEquals("Type should be staff-edorg-association", link.getType(), ENTITY_TYPE_STAFF_EDORG_ASSOC);
             assertEquals("Should be type links", link.getRel(), "links");
             assertTrue("Returned link should point to a district", link.getHref().indexOf(RESOURCE_PATH_DISTRICT) > 0);
-            
             assertUUID(link.getHref(), ED_ORG_ID);
+            
+            //test the school
+            link = list.get(1);
+            assertEquals("Type should be edorg-school-association", link.getType(), ENTITY_TYPE_EDORG_SCHOOL_ASSOC);
+            assertEquals("Should be type links", link.getRel(), "links");
+            assertTrue("Returned link should point to a school", link.getHref().indexOf(RESOURCE_PATH_SCHOOL) > 0);
+            assertUUID(link.getHref(), SCHOOL_ID);
+            
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testBuildEmbeddedLinks() {
+        List<String> ids = new ArrayList<String>();
+        
+        ids.add("1");
+        ids.add("2");
+        ids.add("3");
+        
+        try {
+            List<EmbeddedLink> list = creator.buildEmbeddedLinks(buildMockUriInfo(""), ids, 
+                    ENTITY_TYPE_EDORG_SCHOOL_ASSOC, RESOURCE_PATH_SCHOOL);            
+            assertEquals("Should have 3 elements", 3, list.size());
+            
+            for (EmbeddedLink l : list) {
+                assertEquals("", l.getType(), ENTITY_TYPE_EDORG_SCHOOL_ASSOC);
+                assertTrue("", l.getHref().indexOf(RESOURCE_PATH_SCHOOL) > 0);
+                assertEquals("Should be type links", l.getRel(), "links");
+            }
+            
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -142,6 +180,14 @@ public class AssociationURLCreatorTest {
     private Map<String, Object> buildTestStaffEdOrgEntity() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ENTITY_BODY_STAFF_ID, STAFF_ID);
+        body.put(ENTITY_BODY_EDORG_ID, ED_ORG_ID);
+        
+        return body;
+    }
+    
+    private Map<String, Object> buildTestEdOrgSchoolEntity() {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ENTITY_BODY_SCHOOL_ID, SCHOOL_ID);
         body.put(ENTITY_BODY_EDORG_ID, ED_ORG_ID);
         
         return body;

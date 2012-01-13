@@ -109,7 +109,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition staffEducationOrganizationAssociation = AssociationDefinition
                 .makeAssoc("staffEducationOrganizationAssociation", validator)
                 .exposeAs("staff-educationOrganization-associations")
-                .storeAs("staffeducationOrganizationassociation")
+                .storeAs("staffEducationOrganizationAssociation")
                 .from(staff, "getStaff", "getStaff")
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
                 .calledFromSource("getEducationOrganizationsAssigned")

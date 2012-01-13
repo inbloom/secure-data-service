@@ -71,18 +71,18 @@ public class AggregateResourceTest {
         
         // test district based aggregates
         // test basic case
-        Response response1 = aggApi.getDistrictBasedAggregates("12", "8", null, null, info);
+        Response response1 = aggApi.getDistrictBasedAggregates(info);
         assertNotNull(response1);
         assertEquals(Status.OK.getStatusCode(), response1.getStatus());
         
         // test empty query param map
-        Response response2 = aggApi.getDistrictBasedAggregates("12", null, null, null, info);
+        Response response2 = aggApi.getDistrictBasedAggregates(info);
         assertNotNull(response2);
         assertEquals(Status.OK.getStatusCode(), response2.getStatus());
         
         // test school based aggregates
         // test basic case
-        Response response3 = aggApi.getSchoolBasedAggregates("12", "8", null, null, info);
+        Response response3 = aggApi.getSchoolBasedAggregates(info);
         assertNotNull(response3);
         assertEquals(Status.OK.getStatusCode(), response3.getStatus());
     }

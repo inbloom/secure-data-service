@@ -20,13 +20,12 @@ public class ResourceConstants {
     public static final String ENTITY_EXPOSE_TYPE_AGGREGATIONS = "aggregations";
     public static final String ENTITY_TYPE_AGGREGATION = "aggregation";
     
-    // TODO change
-    public static final String ENTITY_TYPE_STAFF_EDORG_ASSOC = "studentschoolassociation";
+    public static final String ENTITY_TYPE_STAFF_EDORG_ASSOC = "staffEducationOrganizationAssociation";
     public static final String ENTITY_TYPE_STAFF_SCHOOL_ASSOC = "staffschoolassociation";
+    public static final String ENTITY_TYPE_EDORG_SCHOOL_ASSOC = "educationOrganizationschoolassociation";
     
-    // TODO
-    public static final String ENTITY_BODY_EDORG_ID = "schoolId";
-    public static final String ENTITY_BODY_STAFF_ID = "studentId";
+    public static final String ENTITY_BODY_EDORG_ID = "educationOrganizationId";
+    public static final String ENTITY_BODY_STAFF_ID = "staffId";
     
     public static final String ENTITY_BODY_SCHOOL_ID = "schoolId";
     public static final String ENTITY_BODY_DISTRICT_ID = "districtId";
