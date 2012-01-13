@@ -177,6 +177,23 @@ class CSV_Reader(object):
         return Address(**value_dict)
                     
     @staticmethod            
+    def get_birth_data(d, prefix="birth_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                  ('BirthDate', 'date')
+                , ('CityOfBirth', 'city')
+                , ('StateOfBirthAbbreviation', 'state_abbrev')
+                , ('CountryOfBirthCode', 'country_code')
+                , ('MultipleBirthStatus', 'multiple_status')
+                #, ('DateEnteredUS', 'date_entered_us')
+            ):
+            if (not strip) or len(d[prefix + key]):
+                value_dict[xml_key] = d[prefix + key]
+        return BirthData(**value_dict)
+                    
+    @staticmethod            
     def get_ed_org_ref(d, prefix):
         """
         """
@@ -247,13 +264,8 @@ class Student_CSV_Reader(CSV_Reader):
         if address.hasContent_():
             kwargs['Address'] = [address]
         
-        if d['birth_date']:
-            kwargs['BirthData'] = BirthData(BirthDate= d['birth_date']
-                                           ,CityOfBirth= d.get('birth_city')
-                                           ,StateOfBirthAbbreviation= d.get('birth_state_abbrev')
-                                           ,CountryOfBirthCode= d.get('birth_country_code')
-                                           ,MultipleBirthStatus= d.get('birth_multiple_status')
-                                           ,DateEnteredUS= None) # FIXME - not in csv template
+        birthData = self.get_birth_data(d)
+        kwargs['BirthData'] = birthData
         
         if d['telephone_1_number']:
             telephone1 = Telephone(TelephoneNumberType= d['telephone_1_type']
