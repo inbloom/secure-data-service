@@ -3,7 +3,11 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slc.sli.api.config.AssociationDefinition.EntityInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.util.QueryUtil;
@@ -12,10 +16,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Implementation of AssociationService.
@@ -28,12 +28,13 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String targetKey;
     
     public BasicAssocService(String collectionName, List<Treatment> treatments, EntityRepository repo,
-            EntityInfo source, EntityInfo target, EntityValidator validator) {
+            EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String targetKey,
+            EntityValidator validator) {
         super(collectionName, treatments, repo, validator);
-        this.sourceDefn = source.getDefn();
-        this.targetDefn = target.getDefn();
-        this.sourceKey = source.getKey();
-        this.targetKey = target.getKey();
+        this.sourceDefn = sourceDefn;
+        this.targetDefn = targetDefn;
+        this.sourceKey = sourceKey;
+        this.targetKey = targetKey;
     }
     
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);

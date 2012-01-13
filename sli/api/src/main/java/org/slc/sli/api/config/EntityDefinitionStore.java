@@ -27,7 +27,4 @@ public interface EntityDefinitionStore {
      * @return the linked entity definitions
      */
     public Collection<AssociationDefinition> getLinked(EntityDefinition defn);
-    
-    public void init();
-    
 }
