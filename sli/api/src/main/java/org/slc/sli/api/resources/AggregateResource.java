@@ -54,8 +54,8 @@ public class AggregateResource {
      */
     @GET
     public Response getUpperMostAssociationsForUser(@Context final UriInfo uriInfo) {
-        // build the param map
-        Map<String, String> params = new HashMap<String, String>();
+        // use login data to resolve what type of user and ID of user
+        Map<String, String> params = ResourceUtil.resolveUserDataFromSecurityContext();
         
         // return as browser response
         return getLinksResponse(associationURLCreator, uriInfo, params);

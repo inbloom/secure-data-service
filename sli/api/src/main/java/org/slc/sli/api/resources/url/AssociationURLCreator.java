@@ -13,12 +13,17 @@ import static org.slc.sli.api.resources.util.ResourceConstants.ROLE_TYPE_SUPERIN
 import static org.slc.sli.api.resources.util.ResourceConstants.ROLE_TYPE_PRINCIPAL;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
@@ -38,12 +43,11 @@ public class AssociationURLCreator extends URLCreator {
     public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
         List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
         
-        // use login data to resolve what type of user and ID of user
-        Map<String, String> map = ResourceUtil.resolveUserDataFromSecurityContext();
-        
         // remove user's type from map
-        String userId = map.remove("id");
-        String roleType = map.remove("roleType");
+        String userId = params.remove("id");
+        String roleType = params.remove("roleType");
+        //clear the map
+        params.clear();
         
         if (roleType.equals(ROLE_TYPE_SUPERINTENDENT)) {
             params.put(ENTITY_BODY_STAFF_ID, userId);
@@ -59,7 +63,7 @@ public class AssociationURLCreator extends URLCreator {
         
         return results;
     }
-    
+        
     /**
      * Returns a list of association links for a given user
      * @param uriInfo The URIInfo context
