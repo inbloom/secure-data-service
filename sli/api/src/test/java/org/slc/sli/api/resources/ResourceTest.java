@@ -261,7 +261,19 @@ public class ResourceTest {
                 createTestSectionSchoolAssociation(sectionId1, schoolId)), info);
         assertNotNull(createResponseSSchA);
         String sectionSchoolAssocId = parseIdFromLocation(createResponseSSchA);
-
+        
+        Response createResponseAggregationDefinition = api.createEntity("aggregationdefinitions", new EntityBody(createTestEntity()), info);
+        assertNotNull(createResponseAggregationDefinition);
+        assertEquals(Status.CREATED.getStatusCode(), createResponseAggregationDefinition.getStatus());
+        String aggregationDefinitionId = parseIdFromLocation(createResponseAggregationDefinition);
+        ids.put(new TypeIdPair("aggregationdefinitions", aggregationDefinitionId), (String) createResponseAggregationDefinition.getMetadata().get("Location").get(0));
+        
+        Response createResponseAggregation = api.createEntity("aggregations", new EntityBody(createTestEntity()), info);
+        assertNotNull(createResponseAggregation);
+        assertEquals(Status.CREATED.getStatusCode(), createResponseAggregation.getStatus());
+        String aggregationId = parseIdFromLocation(createResponseAggregation);
+        ids.put(new TypeIdPair("aggregations", aggregationId), (String) createResponseAggregation.getMetadata().get("Location").get(0));
+        
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
             assertStudentCorrect(info, typeId);
