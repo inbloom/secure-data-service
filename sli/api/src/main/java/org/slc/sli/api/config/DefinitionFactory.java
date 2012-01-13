@@ -14,7 +14,6 @@ import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.CoreBasicService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.dal.repository.EntityRepository;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  * Factory class for building Entity and Association definition objects.
@@ -30,9 +29,6 @@ public class DefinitionFactory {
     
     @Autowired
     IdTreatment idTreatment;
-    
-    @Autowired
-    EntityValidator validator;
     
     @Autowired
     ApplicationContext beanFactory;
@@ -59,7 +55,6 @@ public class DefinitionFactory {
         protected String resourceName;
         protected List<Treatment> treatments = new ArrayList<Treatment>();
         protected EntityRepository repo;
-        protected EntityValidator valid;
         
         /**
          * Create a builder for an entity definition
@@ -74,7 +69,6 @@ public class DefinitionFactory {
             this.collectionName = type;
             this.resourceName = type;
             this.repo = DefinitionFactory.this.defaultRepo;
-            this.valid = DefinitionFactory.this.validator;
             this.treatments.add(DefinitionFactory.this.idTreatment);
         }
         
@@ -138,14 +132,14 @@ public class DefinitionFactory {
             entityService.setTreatments(treatments);
             entityService.setRepo(repo);
             
-            CoreBasicService coreService = new CoreBasicService(collectionName, repo, validator);
+            CoreBasicService coreService = (CoreBasicService) DefinitionFactory.this.beanFactory.getBean(
+                    "coreBasicService", collectionName);
             entityService.setCoreBasicService(coreService);
             
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }
-        
     }
     
     /**
@@ -328,7 +322,8 @@ public class DefinitionFactory {
             service.setCollectionName(collectionName);
             service.setTreatments(treatments);
             service.setRepo(repo);
-            CoreBasicService coreService = new CoreBasicService(collectionName, repo, validator);
+            CoreBasicService coreService = (CoreBasicService) DefinitionFactory.this.beanFactory.getBean(
+                    "coreBasicService", collectionName);
             service.setCoreBasicService(coreService);
             service.setSourceDefinition(source.getDefn());
             service.setSourceKey(source.getKey());
