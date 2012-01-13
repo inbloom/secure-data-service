@@ -2,10 +2,10 @@
 Feature: Test resolution of targets link for different entities
 
 Background: None
-
+	 Given I am logged in using "demo" "demo1234"
 
 Scenario: Check targets resolution after reading an assessment by ID
-  Given format "application/json"
+	  Given format "application/json"
       When I navigate to GET "/assessments/<'Writing Advanced Placement Test' ID>"
       Then I should receive a return code of 200
           And I should receive a link named "getStudents" with URI "/student-assessment-associations/<'Writing Advanced Placement Test' ID>/targets"
@@ -13,10 +13,10 @@ Scenario: Check targets resolution after reading an assessment by ID
       Then I should receive a return code of 200
         And I should receive a collection of 5 student links
         And after resolution, I should receive a "Student" with ID "<'Alfonso' ID>"
-        And after resolution, I should receive a "Student" with ID "<'Gil' ID>"
-        And after resolution, I should receive a "Student" with ID "<'Sybill' ID>"
-        And after resolution, I should receive a "Student" with ID "<'Mary' ID>"
-        And after resolution, I should receive a "Student" with ID "<'John' ID>"
+        And after resolution, I should receive a "Student" with ID "<'Priscilla' ID>"
+        And after resolution, I should receive a "Student" with ID "<'Alden' ID>"
+        And after resolution, I should receive a "Student" with ID "<'Donna' ID>"
+        And after resolution, I should receive a "Student" with ID "<'Rachel' ID>"
 
 Scenario: Check targets resolution after reading a teacher by ID
    Given format "application/json"
