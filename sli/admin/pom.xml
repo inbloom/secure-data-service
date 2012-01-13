@@ -71,5 +71,19 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+		<plugins>
+		<plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <systemProperty>
+              <name>sli.env</name>
+              <value>${sli.env}</value>
+            </systemProperty>
+          </systemProperties>
+        </configuration>
+      </plugin>
+      </plugins>
 	</build>
 </project>
