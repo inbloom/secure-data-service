@@ -5,6 +5,7 @@
     attributeFormDefault="unqualified">
 
     <xs:include schemaLocation="ReferenceTypes.xsd"/>
+    <xs:include schemaLocation="Attendance.xsd"></xs:include>
 
     <xs:complexType name="CourseSessionAssociation">
         <xs:annotation>
@@ -272,6 +273,11 @@
             <xs:element name="StudentGradebookEntries" type="StudentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>A collection of student’s grade or competency levels for all the GradeBookEntries.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StudentAttendance" type="AttendanceEvent" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>This list of student attendance irregularities for the section.</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>

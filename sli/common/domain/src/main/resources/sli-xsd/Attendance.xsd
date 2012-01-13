@@ -5,15 +5,14 @@
 
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
 
-	<xs:element name="AttendanceEvent">
-		<xs:annotation>
-			<xs:documentation>
-				This event entity represents the recording of whether a student is in attendance for a class or in
-				attendance to receive or participate in program services.  This should be used to model irregularities,
-				no event should correspond to the student being present.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
+		<xs:complexType name="AttendanceEvent">
+			<xs:annotation>
+				<xs:documentation>
+					This event entity represents the recording of whether a student is in attendance for a class or in
+					attendance to receive or participate in program services.  This should be used to model irregularities,
+					no event should correspond to the student being present.
+				</xs:documentation>
+			</xs:annotation>
 			<xs:sequence>
 				<xs:element name="EventDate" type="xs:date">
 					<xs:annotation>
@@ -52,18 +51,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="StudentReference" type="StudentSimpleReference">
-					<xs:annotation>
-						<xs:documentation>The student associated with the attendance event.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="SectionReference" type="SectionSimpleReference" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The section associated with the attendance event.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-	</xs:element>
 
 </xs:schema>
