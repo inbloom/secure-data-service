@@ -12,6 +12,11 @@ Transform /^<(.+)>$/ do |arg1|
   id = "61f13b73-92fa-4a86-aaab-84999c511148" if arg1 == "'Alden' ID"
   id = "289c933b-ca69-448c-9afd-2c5879b7d221" if arg1 == "'Donna' ID"
   id = "c7146300-5bb9-4cc6-8b95-9e401ce34a03" if arg1 == "'Rachel' ID"
+  id = "fa45033c-5517-b14b-1d39-c9442ba95782" if arg1 == "'Macey' ID"
+  id = "e24b24aa-2556-994b-d1ed-6e6f71d1be97" if arg1 == "'Quemby' ID"
+  id = "1e1cdb04-2094-46b7-8140-e3e481013480" if arg1 == "'Chemistry F11' ID"
+  id = "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431" if arg1 == "'Physics S08' ID"
+  id = "eb3b8c35-f582-df23-e406-6947249a19f2" if arg1 == "'Apple Alternative Elementary School' ID"
   id
 end
 
@@ -23,6 +28,16 @@ end
 # transform /path/<Place Holder Id>/targets
 Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
   Transform(uri + template) + "/targets"
+end
+
+# transform /path/<Place Holder Id>/targets
+Transform /^(Student|Section|School|Assessment|Teacher)$/ do |arg|
+  out = "/students/"    if arg == "Student"
+  out = "/sections/"    if arg == "Section"
+  out = "/schools/"     if arg == "School"
+  out = "/assessments/" if arg == "Assessment"
+  out = "/teachers/"    if arg == "Teacher"
+  out
 end
 
 Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, passwd|
@@ -68,7 +83,7 @@ Then /^I should receive a link named "([^\"]*)" with URI "([^\"]*)"$/ do |rel, h
   assert(found, "Did not find a link rel=#{rel} href=#{href}")
 end
 
-Then /^I should receive a collection of (\d+) student links$/ do |size|
+Then /^I should receive a collection of (\d+) [^"]* links$/ do |size|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
   assert(@result.length == Integer(size), "Expected response of size #{size}, received #{@result.length}");
@@ -84,7 +99,7 @@ end
 Then /^after resolution, I should receive a "([^"]*)" with ID "([^"]*)"$/ do |arg1, arg2| 
   found = false
   @ids.each do |id|
-    uri = "/students/"+id
+    uri = arg1+id
     restHttpGet(uri)
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
@@ -104,21 +119,7 @@ Then /^after resolution, I should receive a "([^"]*)" with ID "([^"]*)"$/ do |ar
   assert(found, "Object #{arg1} with id #{arg2} was not found")
 end
 
-Then /^I should receive a collection of (\d+) Section links$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
 
-Then /^I should receive a collection of (\d+) School links$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I should receive a collection of (\d+) Assessment links$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I should receive a collection of (\d+) Teacher links$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
 
 def contentType(response) 
   headers = @res.raw_headers

@@ -20,27 +20,26 @@ Scenario: Check targets resolution after reading an assessment by ID
 
 Scenario: Check targets resolution after reading a teacher by ID
    Given format "application/json"
-   When I navigate to GET "/teachers/<'Macey' ID>"
+   When I navigate to GET "/teachers/<'Quemby' ID>"
    Then I should receive a return code of 200
-      And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Macey' ID>/targets"
-      And I should receive a link named "getSchools" with URI "/teacher-school-associations/<'Macey' ID>/targets"
-   When I navigate to GET "/teacher-section-associations/<'Macey' ID>/targets"
+      And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Quemby' ID>/targets"
+      And I should receive a link named "getSchools" with URI "/teacher-school-associations/<'Quemby' ID>/targets"
+   When I navigate to GET "/teacher-section-associations/<'Quemby' ID>/targets"
       Then I should receive a return code of 200
-        And I should receive a collection of 3 Section links
-        And after resolution, I should receive a "Section" with ID "<'Algebra I' ID>"
-        And after resolution, I should receive a "Section" with ID "<'Algebra II' ID>"
-        And after resolution, I should receive a "Section" with ID "<'Advanced Algebra' ID>"
-   When I navigate to GET "/teacher-school-associations/<'Macey' ID>/targets"
+        And I should receive a collection of 2 Section links
+        And after resolution, I should receive a "Section" with ID "<'Chemistry F11' ID>"
+        And after resolution, I should receive a "Section" with ID "<'Physics S08' ID>"
+   When I navigate to GET "/teacher-school-associations/<'Quemby' ID>/targets"
       Then I should receive a return code of 200
-        And I should receive a collection of 2 School links
+        And I should receive a collection of 1 School links
         And after resolution, I should receive a "School" with ID "<'Apple Alternative Elementary School' ID>"
 
 Scenario: Check targets resolution after reading a student by ID
    Given format "application/json"
-   When I navigate to GET "/students/<'Alfonzo' ID>"
+   When I navigate to GET "/students/<'Alfonso' ID>"
    Then I should receive a return code of 200
-      And I should receive a link named "getAssessments" with URI "/student-assessment-associations/<'Alfonzo' ID>/targets"
-      When I navigate to GET "/student-assessment-associations/<'Alfonzo' ID>/targets"
+      And I should receive a link named "getAssessments" with URI "/student-assessment-associations/<'Alfonso' ID>/targets"
+      When I navigate to GET "/student-assessment-associations/<'Alfonso' ID>/targets"
       Then I should receive a return code of 200
         And I should receive a collection of 2 Assessment links
         And after resolution, I should receive a "Assessment" with ID "<'Writing Advanced Placement Test' ID>"
