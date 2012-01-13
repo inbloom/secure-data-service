@@ -301,7 +301,7 @@ public class EntityServiceLayerTest {
         
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
-        String schoolId = schoolService.create(school);
+        schoolService.create(school);
         
         EntityBody assoc1 = new EntityBody();
         // assoc1.put("schoolId", schoolId);

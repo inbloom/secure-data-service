@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Handler;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,11 +60,14 @@ public class PersistenceProcessor implements Processor {
             ingestionOutputFile.deleteOnExit();
 
             // Allow Ingestion processor to process Camel exchange file
-            this.processIngestionStream(fe.getNeutralRecordFile(), ingestionOutputFile);
+            this.processIngestionStream(fe.getNeutralRecordFile(), ingestionOutputFile, exchange);
         }
 
         // Update Camel Exchange processor output result
         exchange.getIn().setBody(job);
+        
+        // Update Camel Exchange header with status
+        exchange.getIn().setHeader("records.processed", "5");
 
         long endTime = System.currentTimeMillis();
 
@@ -77,10 +81,11 @@ public class PersistenceProcessor implements Processor {
      *
      * @param inputFile
      * @param outputFile
+     * @param exchange
      */
-    public void processIngestionStream(File inputFile, File outputFile) throws IOException, SAXException {
-
-        // Create Ingestion Neutral record reader
+    public void processIngestionStream(File inputFile, File outputFile, Exchange exchange) throws IOException, SAXException {
+    	
+    	// Create Ingestion Neutral record reader
         NeutralRecordFileReader fileReader = new NeutralRecordFileReader(inputFile);
 
         // Ingestion Neutral record
@@ -113,6 +118,11 @@ public class PersistenceProcessor implements Processor {
 
         String status = "processed " + ingestionCounter + " records.";
 
+        if (exchange != null) {
+        	log.info("Setting records.processed value on exchange header");
+        	exchange.setProperty("records.processed", ingestionCounter);
+        }
+        
         BufferedOutputStream outputStream = null;
         try {
 
@@ -128,8 +138,19 @@ public class PersistenceProcessor implements Processor {
 
         // Indicate processor status
         log.info(status);
-
+        
     }
+    
+    /**
+     * Consumes the SLI Neutral records file, parses, and persists the SLI Ingestion instances
+     *
+     * @param inputFile
+     * @param outputFile
+     */
+    public void processIngestionStream(File inputFile, File outputFile) throws IOException, SAXException {
+        this.processIngestionStream(inputFile, outputFile, null);
+    }
+
 
     /**
      * Persists the SLI Ingestion instance using the appropriate SLI repository.

@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.landingzone;
 
 import java.util.Enumeration;
 
+import org.apache.camel.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,20 @@ public class BatchJobAssembler {
         return populateJob(fileDesc, job);
     }
 
+    /**
+     * Attempt to generate a new BatchJob based on data found in the
+     * controlFile.
+     *
+     * @param controlFile Control file descriptor
+     * @param filename string representation of incoming file
+     * @return BatchJob Assembled batch job
+     */
+    public BatchJob assembleJob(ControlFileDescriptor fileDesc, String filename) {
+        BatchJob job = BatchJob.createDefault(filename);
+
+        return populateJob(fileDesc, job);
+    }
+    
     /**
      * Attempt to populate a BatchJob based on data found in the
      * controlFile.
