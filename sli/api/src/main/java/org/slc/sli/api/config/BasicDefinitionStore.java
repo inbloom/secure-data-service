@@ -23,6 +23,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
+    private Map<String, String> entityResourceNameMapping = new HashMap<String, String>();
     private Map<EntityDefinition, Collection<AssociationDefinition>> links = new HashMap<EntityDefinition, Collection<AssociationDefinition>>();
     
     @Autowired
@@ -31,6 +32,11 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
         return mapping.get(resourceName);
+    }
+    
+    @Override
+    public EntityDefinition lookupByEntityType(String entityType) {
+        return mapping.get(entityResourceNameMapping.get(entityType));
     }
     
     @Override
@@ -44,6 +50,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         // adding the entity definitions
         EntityDefinition aggregation = this.makeExposeAndAddEntityDefinition("aggregation");
+        EntityDefinition aggregationDefinition = this.makeExposeAndAddEntityDefinition("aggregationdefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
@@ -151,9 +158,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // create the entity definition and expose it under the pluralized name ("teacher" exposed
         // as "teachers")
         EntityDefinition definition = factory.makeEntity(entityName).exposeAs(exposeName).build();
-        // add the new definition to the map of known definitions
+        entityResourceNameMapping.put(entityName, exposeName);
+        
+        // add and return the newly created definition
         this.addDefinition(definition);
-        // return newly created definition
         return definition;
     }
     
