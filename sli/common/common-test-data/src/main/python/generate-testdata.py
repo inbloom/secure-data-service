@@ -123,7 +123,7 @@ class CSV_Reader(object):
             rowd = dict([(self.headers[i], row[i]) for i in range(len(self.headers))])
             object = self.get_xml_object(rowd)
             log.debug("generating xml for %s: %s" % 
-                      (object.__class__.__name__, dictify(object)))
+                      (object.__class__.__name__, dictify(object, True)))
             object.export(string_io, 1)
             yield string_io.getvalue().strip()
             string_io.seek(0)
@@ -175,6 +175,23 @@ class CSV_Reader(object):
             if (not strip) or len(d[prefix + key]):
                 value_dict[xml_key] = d[prefix + key]
         return Address(**value_dict)
+                    
+    @staticmethod            
+    def get_birth_data(d, prefix="birth_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                  ('BirthDate', 'date')
+                , ('CityOfBirth', 'city')
+                , ('StateOfBirthAbbreviation', 'state_abbrev')
+                , ('CountryOfBirthCode', 'country_code')
+                , ('MultipleBirthStatus', 'multiple_status')
+                #, ('DateEnteredUS', 'date_entered_us')
+            ):
+            if (not strip) or len(d[prefix + key]):
+                value_dict[xml_key] = d[prefix + key]
+        return BirthData(**value_dict)
                     
     @staticmethod            
     def get_ed_org_ref(d, prefix):
@@ -242,23 +259,52 @@ class Student_CSV_Reader(CSV_Reader):
                     Name = self.get_name(d) 
                    , StudentUniqueStateId=int( d['state_id'])
                     )
+        
         address = self.get_address(d, "address_1_")
         if address.hasContent_():
             kwargs['Address'] = [address]
-        if d['birth_date']:
-            kwargs['BirthData'] = BirthData(BirthDate= d['birth_date'])
+        
+        birthData = self.get_birth_data(d)
+        kwargs['BirthData'] = birthData
+        
+        if d['telephone_1_number']:
+            telephone1 = Telephone(TelephoneNumberType= d['telephone_1_type']
+                                            ,PrimaryTelephoneNumberIndicator=d['telephone_1_primary_indicator']
+                                            ,TelephoneNumber= d['telephone_1_number'])
+            kwargs['Telephone'] = [telephone1]
+        
+        if d['email_1_type']:
+            email1 = ElectronicMail(EmailAddress= d['email_1_address']
+                                    ,EmailAddressType=d['email_1_type'])
+            kwargs['ElectronicMail'] = [email1]
+        
         if d['sex']:
             kwargs['Sex'] = d['sex']
+        
         if d['hispanic_latino_ethnicity']:
             kwargs['HispanicLatinoEthnicity'] = d['hispanic_latino_ethnicity']
         else:
             # @todo: this is being put in just to get the xml validator to stop complaining. 
             kwargs['HispanicLatinoEthnicity'] = 'false'
-        #if d['racial_category_1']:
+        
+        if d['old_ethnicity']:
+            kwargs['OldEthnicity'] = d['old_ethnicity']
+        
+        if d['economic_disadvantaged']:
+            kwargs['EconomicDisadvantaged'] = d['economic_disadvantaged']
+
         kwargs['Race'] = RaceType(RacialCategory=_get_sub_dict(d, "racial_category_", True).values())
-            
-            
-        #kwargs = dict([(k,v) for k,v in kwargs.items() if (getattr(v,'hasContent_',None) and v.hasContent_()) or v])
+        
+        if d['school_food_services_eligibility']:
+            kwargs['SchoolFoodServicesEligibility'] = d['school_food_services_eligibility']
+        
+        if d['characteristic_1_characteristic']:
+            characteristic1 = StudentCharacteristic(Characteristic=d['characteristic_1_characteristic']
+                                                    , BeginDate=d['characteristic_1_begin_date']
+                                                    , EndDate=d['characteristic_1_end_date']
+                                                    , DesignatedBy=d['characteristic_1_designated_by'])
+            kwargs['StudentCharacteristics'] = [characteristic1]
+        
         object = Student(**kwargs)
         return object
     

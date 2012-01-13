@@ -10,14 +10,19 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+<<<<<<< HEAD
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
+=======
+>>>>>>> master
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.Entity;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
@@ -178,4 +183,17 @@ public class ResourceUtil {
     public static URI getURI(UriInfo uriInfo, String type, String id) {
         return uriInfo.getBaseUriBuilder().path(type).path(id).build();
     }
+
+    /**
+     * Analyzes security context to get SLIPrincipal for user.
+     * 
+     * @return SLIPrincipal from security context
+     */
+    public static SLIPrincipal getSLIPrincipalFromSecurityContext() {
+        // lookup security/login information
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return principal;
+    }
+
 }
