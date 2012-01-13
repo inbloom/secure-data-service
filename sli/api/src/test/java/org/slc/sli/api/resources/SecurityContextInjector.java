@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecurityContextInjector {
     private static final Logger LOG = LoggerFactory.getLogger(SecurityContextInjector.class);
+    private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     
     @Autowired
     private RolesToRightsResolver resolver;
@@ -35,7 +36,7 @@ public class SecurityContextInjector {
         String user = "administrator";
         String fullName = "IT Administrator";
 
-        setPrincipalAndSecurityContext(user, fullName, DefaultRoleRightAccessImpl.IT_ADMINISTRATOR);
+        setPrincipalAndSecurityContext(user, fullName, DEFAULT_REALM_ID, DefaultRoleRightAccessImpl.IT_ADMINISTRATOR);
 
     }
 
@@ -45,7 +46,7 @@ public class SecurityContextInjector {
 
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRoles());
+        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
         SecurityContextHolder.clearContext();
 
         PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
@@ -55,17 +56,17 @@ public class SecurityContextInjector {
     public void setEducatorContext() {
         String user = "educator";
         String fullName = "Educator";
-        setPrincipalAndSecurityContext(user, fullName, DefaultRoleRightAccessImpl.EDUCATOR);
+        setPrincipalAndSecurityContext(user, fullName, DEFAULT_REALM_ID, DefaultRoleRightAccessImpl.EDUCATOR);
     }
 
-    private void setPrincipalAndSecurityContext(String user, String fullName, String role) {
+    private void setPrincipalAndSecurityContext(String user, String fullName, String realmId, String role) {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
 
         // setTheirRoles will require a list
         List<String> roles = new ArrayList<String>();
         roles.add(role);
 
-        SLIPrincipal principal = buildPrincipal(user, fullName, roles);
+        SLIPrincipal principal = buildPrincipal(user, fullName, realmId, roles);
 
         LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal);
@@ -74,11 +75,12 @@ public class SecurityContextInjector {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
-    private SLIPrincipal buildPrincipal(String user, String fullName, List<String> roles) {
+    private SLIPrincipal buildPrincipal(String user, String fullName, String realmId, List<String> roles) {
         SLIPrincipal principal = new SLIPrincipal(user);
         principal.setId(user);
         principal.setName(fullName);
         principal.setRoles(roles);
+        principal.setRealm(realmId);
         return principal;
     }
 

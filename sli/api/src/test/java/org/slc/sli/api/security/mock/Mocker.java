@@ -58,7 +58,8 @@ public class Mocker {
     public static final String INVALID_USER_ID     = "~id->invalid";
     public static final String VALID_INTERNAL_ID   = "id->internal->valid";
     public static final String INVALID_INTERNAL_ID = "~id->internal->invalid";
-    
+    private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
+
 
     public static RestTemplate mockRest() {
         RestTemplate rest = mock(RestTemplate.class);
@@ -111,7 +112,7 @@ public class Mocker {
         Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(rolesToRightsResolver.resolveRoles(Arrays.asList(new String[]{"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        when(rolesToRightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[]{"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
         return rolesToRightsResolver;
     }
 }

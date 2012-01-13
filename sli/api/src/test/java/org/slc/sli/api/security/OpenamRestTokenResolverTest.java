@@ -36,6 +36,7 @@ import static org.mockito.Mockito.when;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class OpenamRestTokenResolverTest {
 
+    private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
 
     private OpenamRestTokenResolver resolver;
     
@@ -52,7 +53,7 @@ public class OpenamRestTokenResolverTest {
 
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(rightsResolver.resolveRoles(Arrays.asList(new String[] {"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] {"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
     }
     
     
@@ -66,7 +67,7 @@ public class OpenamRestTokenResolverTest {
     
     @Test
     public void testResolveFailure() {
-        when(rightsResolver.resolveRoles(null)).thenReturn(null);
+        when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, null)).thenReturn(null);
         Authentication auth = resolver.resolve(Mocker.INVALID_TOKEN);
         Assert.assertNull(auth);
     }
