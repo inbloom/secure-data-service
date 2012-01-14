@@ -1,4 +1,4 @@
-@wip
+
 Feature: Test resolution of targets link for different entities
 
 Background: None
@@ -43,17 +43,17 @@ Scenario: Check targets resolution after reading a student by ID
       Then I should receive a return code of 200
         And I should receive a collection of 2 Assessment links
         And after resolution, I should receive a "Assessment" with ID "<'Writing Advanced Placement Test' ID>"
-        And after resolution, I should receive a "Assessment" with ID "<'ISAT Mathematics' ID>"
+        And after resolution, I should receive a "Assessment" with ID "<'Writing Achievement Assessment Test' ID>"
 
 Scenario: Check targets resolution after reading a school by ID
    Given format "application/json"
-   When I navigate to GET "/schools/<'Apple Alternative Elementary School' ID>"
+   When I navigate to GET "/schools/<'Biology High School' ID>"
    Then I should receive a return code of 200
-      And I should receive a link named "getTeachers" with URI "/teacher-school-associations/<'Apple Alternative Elementary School' ID>/targets"
-      When I navigate to GET "/teacher-school-associations/<'Apple Alternative Elementary School' ID>/targets"
+      And I should receive a link named "getTeachers" with URI "/teacher-school-associations/<'Biology High School' ID>/targets"
+      When I navigate to GET "/teacher-school-associations/<'Biology High School' ID>/targets"
       Then I should receive a return code of 200
         And I should receive a collection of 3 Teacher links
         And after resolution, I should receive a "Teacher" with ID "<'Ms. Jones' ID>"
         And after resolution, I should receive a "Teacher" with ID "<'Mr. Smith' ID>"
-        And after resolution, I should receive a "Teacher" with ID "<'Mr. Green' ID>"
+        And after resolution, I should receive a "Teacher" with ID "<'Mrs. Solis' ID>"
 
