@@ -31,7 +31,7 @@ public class BasicQueryConverter implements QueryConverter {
         try {
             for (String query : queryStrings) {
                 
-                if (!isReservedQueryKey(query)&&!query.equals("")) {
+                if (!isReservedQueryKey(query) && !query.equals("")) {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");

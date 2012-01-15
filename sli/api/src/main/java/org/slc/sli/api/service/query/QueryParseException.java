@@ -6,16 +6,17 @@ package org.slc.sli.api.service.query;
  * 
  */
 
-public class QueryParseException extends RuntimeException{
+public class QueryParseException extends RuntimeException {
     
     private static final long serialVersionUID = 3777997711710333578L;
     private String queryString;
-    QueryParseException(String queryString){
+    
+    QueryParseException(String queryString) {
         super();
-        this.queryString=queryString;
+        this.queryString = queryString;
     }
     
-    public String getQueryString(){
+    public String getQueryString() {
         return this.queryString;
     }
 }
