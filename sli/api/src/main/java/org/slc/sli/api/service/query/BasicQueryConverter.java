@@ -2,6 +2,8 @@ package org.slc.sli.api.service.query;
 
 import org.apache.avro.Schema;
 import org.slc.sli.validation.EntitySchemaRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class BasicQueryConverter implements QueryConverter {
     
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
+    private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
     
     @Autowired
     EntitySchemaRegistry avroReg;
@@ -75,7 +78,9 @@ public class BasicQueryConverter implements QueryConverter {
             }
             
         } catch (RuntimeException e) {
+            LOG.debug("error parsing query String {}", queryString);
             throw new QueryParseException(queryString);
+            
         }
         
         return mongoQuery;
@@ -154,7 +159,10 @@ public class BasicQueryConverter implements QueryConverter {
         if (type.equals("INT")) {
             return Integer.parseInt(value);
         } else if (type.equals("BOOLEAN")) {
-            return Boolean.parseBoolean(value);
+            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+                return Boolean.parseBoolean(value);
+            else
+                throw new QueryParseException("");
         } else if (type.equals("STRING")) {
             return value;
         } else if (type.equals("ENUM")) {
