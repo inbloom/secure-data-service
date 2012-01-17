@@ -60,8 +60,10 @@ public class AggregateResource {
 
         //build the param map
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", userEntity.getEntityId());
-        params.put("type", userEntity.getType());
+        if (userEntity != null) {
+            params.put("id", userEntity.getEntityId());
+            params.put("type", userEntity.getType());
+        }
         
         // return as browser response
         return getLinksResponse(associationURLCreator, uriInfo, params);
