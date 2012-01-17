@@ -38,40 +38,45 @@ public class BasicQueryConverter implements QueryConverter {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");
-                        if (keyAndValue != null){
+                        if (keyAndValue != null) {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .gte(convertToType(type, keyAndValue[1]));
                         }
                     } else if (query.contains("<=")) {
                         String[] keyAndValue = getKeyAndValue(query, "<=");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .lte(convertToType(type, keyAndValue[1]));
+                        }
                         
                     } else if (query.contains("<>")) {
                         String[] keyAndValue = getKeyAndValue(query, "<>");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(convertToType(type, keyAndValue[1]));
+                        }
                     } else if (query.contains("=")) {
                         String[] keyAndValue = getKeyAndValue(query, "=");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).is(convertToType(type, keyAndValue[1]));
+                        }
                         
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(convertToType(type, keyAndValue[1]));
+                        }
                         
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(convertToType(type, keyAndValue[1]));
+                        }
                     }
                     if (criteria != null)
                         mongoQuery.addCriteria(criteria);
