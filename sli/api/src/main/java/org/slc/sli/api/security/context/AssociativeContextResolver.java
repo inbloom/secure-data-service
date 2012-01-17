@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Resolves Context based permissions.
+ * Determines if an associative path exists between a source and target entity.
+ */
 @Component
 public class AssociativeContextResolver implements EntityContextResolver {
 
