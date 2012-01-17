@@ -12,6 +12,7 @@ require_relative '../../../../utils/sli_utils.rb'
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"244520d2-8c6b-4a1e-b35e-d67819ec0211"  if arg2 == "'Ms. Jones' ID"
   id = arg1+"8e5b2d0e-959c-42ef-b3df-9b83cba85a33"  if arg2 == "'Mr. Smith' ID"
+  id = arg1+"a249d5d9-f149-d348-9b10-b26d68e7cb9c"  if arg2 == "'Mrs. Solis' ID"
   id = arg1+"41baa245-ceea-4336-a9dd-0ba868526b9b"  if arg2 == "'Algebra Alternative' ID"
   id = arg1+"0f464187-30ff-4e61-a0dd-74f45e5c7a9d"  if arg2 == "'Biology High' ID"
   id = arg1+"b6ad1eb2-3cf7-41c4-96e7-2f393f0dd847"  if arg2 == "'Chemistry Elementary' ID"
@@ -27,10 +28,6 @@ end
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, password|
-  idpLogin(user,password)
-  assert(@sessionId != nil, "Session returned was nil")
-end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
@@ -209,10 +206,6 @@ When /^I attempt to update a non\-existing association "(\/teacher-school-associ
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
-end
 
 # 
 # Function data_builder

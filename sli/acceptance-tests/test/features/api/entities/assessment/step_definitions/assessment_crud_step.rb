@@ -23,17 +23,6 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all assessments$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^format "([^"]*)"$/ do |arg1|
   ["application/json", "application/xml", "text/plain"].should include(arg1)
   @format = arg1
@@ -144,13 +133,6 @@ When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
-
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
-end
-
-
 
 When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
   if @format == "application/json"

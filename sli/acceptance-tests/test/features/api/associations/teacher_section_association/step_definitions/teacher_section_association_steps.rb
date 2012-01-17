@@ -20,18 +20,11 @@ Transform /(.*)<([^>]*)>$/ do |pre, arg|
   pre + result
 end
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, passwd|
-  idpLogin(user,passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}\nbody was #{@res}")
-end
 
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
   @data = JSON.parse(@res.body)

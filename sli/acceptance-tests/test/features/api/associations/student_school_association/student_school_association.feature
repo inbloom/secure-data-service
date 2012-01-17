@@ -1,4 +1,4 @@
-Feature: <US63> In order to manage students and schools 
+Feature: As an SLI application, I want to be able to manage students school associations
     As a client application using SLI
     I want to know what students are currently enrolled at a particular school, 
 		and I want to know what schools a student currently attends.  I also want

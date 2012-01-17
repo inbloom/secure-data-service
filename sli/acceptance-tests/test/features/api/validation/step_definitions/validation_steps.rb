@@ -40,12 +40,6 @@ Given /^I create a valid base level school object$/ do
   @object = createBaseSchool()
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  idpLogin(arg1, arg2)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^I create a blank json object$/ do
   @object = Hash[]
 end
@@ -62,10 +56,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
   restHttpPost(arg1, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-end
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
 end
 
 Given /^I create a student object with "([^"]*)" set to Guy$/ do |arg1|

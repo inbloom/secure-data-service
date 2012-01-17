@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -54,7 +55,8 @@ public class StudentSchoolAssociationIngestionTest {
     private static final String STUDENT_ENTITY = "student";
     private static final String STUDENT_SCHOOL_ASSOC_ENTITY = "studentSchoolAssociation";
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testStudentSchoolAssociationInterchangeXmlParsing() throws IOException, SAXException {
 
@@ -88,7 +90,8 @@ public class StudentSchoolAssociationIngestionTest {
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testStudentSchoolAssociationInterchangeCsvParsing() throws IOException, SAXException {
 
@@ -157,7 +160,7 @@ public class StudentSchoolAssociationIngestionTest {
         builder.append(createStudentSchoolAssociationInterchangeXmlHeader());
 
         for (int index = 1; index <= numberOfAssociations; index++) {
-            StudentSchoolAssociationInterchange studentSchoolAssociation = createStudentSchoolAssociation(index);
+            Entity studentSchoolAssociation = createStudentSchoolAssociation(index);
             builder.append(createStudentSchoolAssociationXml(studentSchoolAssociation));
         }
         builder.append(createStudentSchoolAssociationInterchangeXmlFooter());
@@ -169,7 +172,7 @@ public class StudentSchoolAssociationIngestionTest {
         StringBuilder builder = new StringBuilder();
 
         for (int index = 1; index <= numberOfAssociations; index++) {
-            StudentSchoolAssociationInterchange studentSchoolAssociation = createStudentSchoolAssociation(index);
+            Entity studentSchoolAssociation = createStudentSchoolAssociation(index);
             builder.append(createStudentSchoolAssociationCsv(studentSchoolAssociation));
             builder.append(System.getProperty("line.separator"));
         }
@@ -193,19 +196,19 @@ public class StudentSchoolAssociationIngestionTest {
         return interchangeXmlFooter;
     }
 
-    public static String createStudentSchoolAssociationXml(StudentSchoolAssociationInterchange studentSchoolAssociation) {
+    public static String createStudentSchoolAssociationXml(Entity studentSchoolAssociation) {
         String studentSchoolAssociationXml = "";
 
         studentSchoolAssociationXml += "<StudentSchoolAssociation>" + "\n";
 
         // Test Version Only - allow specification of Association ID
-        studentSchoolAssociationXml += "<AssociationId>" + studentSchoolAssociation.getAssociationId()
+        studentSchoolAssociationXml += "<AssociationId>" + studentSchoolAssociation.getBody().get("associationId")
                 + "</AssociationId>" + "\n";
 
         studentSchoolAssociationXml += "<StudentReference><StudentIdentity>" + "\n";
         studentSchoolAssociationXml += "<StudentUniqueStateId>";
 
-        studentSchoolAssociationXml += studentSchoolAssociation.getStudentUniqueStateId();
+        studentSchoolAssociationXml += studentSchoolAssociation.getBody().get("studentUniqueStateId");
 
         studentSchoolAssociationXml += "</StudentUniqueStateId>" + "\n";
         studentSchoolAssociationXml += "</StudentIdentity></StudentReference>" + "\n";
@@ -213,7 +216,7 @@ public class StudentSchoolAssociationIngestionTest {
         studentSchoolAssociationXml += "<SchoolReference><EducationalOrgIdentity>" + "\n";
         studentSchoolAssociationXml += "<StateOrganizationId>";
 
-        studentSchoolAssociationXml += studentSchoolAssociation.getStateOrganizationId();
+        studentSchoolAssociationXml += studentSchoolAssociation.getBody().get("stateOrganizationId");
 
         studentSchoolAssociationXml += "</StateOrganizationId>" + "\n";
         studentSchoolAssociationXml += "</EducationalOrgIdentity></SchoolReference>" + "\n";
@@ -223,36 +226,35 @@ public class StudentSchoolAssociationIngestionTest {
         return studentSchoolAssociationXml;
     }
 
-    public static String createStudentSchoolAssociationCsv(StudentSchoolAssociationInterchange studentSchoolAssociation) {
+    public static String createStudentSchoolAssociationCsv(Entity studentSchoolAssociation) {
         String studentSchoolAssociationCsv = "";
 
         // Test Version Only - allow specification of Student ID
-        studentSchoolAssociationCsv += studentSchoolAssociation.getAssociationId() + ",";
+        studentSchoolAssociationCsv += studentSchoolAssociation.getBody().get("associationId") + ",";
 
         // Skip 2 fields
         studentSchoolAssociationCsv += ",,";
 
-        studentSchoolAssociationCsv += studentSchoolAssociation.getStudentUniqueStateId() + ",";
+        studentSchoolAssociationCsv += studentSchoolAssociation.getBody().get("studentUniqueStateId") + ",";
 
         // Skip 22 fields for now
         studentSchoolAssociationCsv += ",,,,,,,,,,,,,,,,,,,,,,";
 
-        studentSchoolAssociationCsv += studentSchoolAssociation.getStateOrganizationId();
+        studentSchoolAssociationCsv += studentSchoolAssociation.getBody().get("stateOrganizationId");
 
         return studentSchoolAssociationCsv;
     }
 
-    public static StudentSchoolAssociationInterchange createStudentSchoolAssociation(int associationId) {
-        StudentSchoolAssociationInterchange studentSchoolAssociation = new StudentSchoolAssociationInterchange();
+    public static Entity createStudentSchoolAssociation(int associationId) {
+        Map<String, Object> body = new HashMap<String, Object>();
 
-        studentSchoolAssociation.setAssociationId(associationId);
-        studentSchoolAssociation.setStudentUniqueStateId("" + associationId);
-        studentSchoolAssociation.setStateOrganizationId("" + associationId);
+        body.put("associationId", associationId);
+        body.put("studentUniqueStateId", associationId);
+        body.put("stateOrganizationId", associationId);
 
-        return studentSchoolAssociation;
+        return new MongoEntity(STUDENT_SCHOOL_ASSOC_ENTITY, null, body, null);
     }
 
-    // TODO: FIX WITH CORRECT IDS
     public static void verifyStudentSchoolAssociations(EntityRepository repository, long expectedCount) {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, STUDENT_SCHOOL_ASSOC_ENTITY);
@@ -261,7 +263,7 @@ public class StudentSchoolAssociationIngestionTest {
 
         for (int index = 1; index <= repositorySize; index++) {
             Map<String, String> queryMap = new HashMap<String, String>();
-            queryMap.put("ssaId", Integer.toString(index));
+            queryMap.put("associationId", Integer.toString(index));
 
             Iterator<Entity> studentSchoolAssociations = (repository
                     .findByFields(STUDENT_SCHOOL_ASSOC_ENTITY, queryMap)).iterator();
@@ -272,12 +274,9 @@ public class StudentSchoolAssociationIngestionTest {
 
     }
 
-    // TODO: FIX WITH CORRECT IDS
-    public static void verifyStudentSchoolAssociation(int ssaId, Entity studentSchoolAssociation) {
+    public static void verifyStudentSchoolAssociation(int associationId, Entity studentSchoolAssociation) {
         assertNotNull(studentSchoolAssociation);
-        assertEquals("" + ssaId, (studentSchoolAssociation.getBody()).get("ssaId"));
-        assertEquals("nameOfInstitution" + "_" + ssaId, (studentSchoolAssociation.getBody()).get("fullName"));
-
+        assertEquals("" + associationId, (studentSchoolAssociation.getBody()).get("associationId"));
     }
 
 }

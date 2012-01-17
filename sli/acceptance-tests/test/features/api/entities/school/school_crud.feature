@@ -1,4 +1,4 @@
-Feature: <US63> In order to manage schools
+Feature: As an SLI application, I want to be able to manage schools
     As a client application using SLI
     I want to have create, read, update, and delete functionality for a school.
 

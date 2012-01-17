@@ -3,19 +3,19 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.util.QueryUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
 
 /**
  * Implementation of AssociationService.
@@ -25,6 +25,9 @@ import org.slc.sli.validation.ValidationError;
 @Component("basicAssociationService")
 public class BasicAssocService extends BasicService implements AssociationService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
+    
+    @Autowired
+    QueryConverter queryConverter;
     
     private EntityDefinition sourceDefn;
     private EntityDefinition targetDefn;
@@ -52,12 +55,12 @@ public class BasicAssocService extends BasicService implements AssociationServic
     
     @Override
     public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, String queryString) {
-        return getAssociatedEntities(sourceDefn, id, sourceKey, targetDefn, targetKey, start, numResults, queryString);
+        return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, start, numResults, queryString);
     }
     
     @Override
     public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, String queryString) {
-        return getAssociatedEntities(targetDefn, id, targetKey, sourceDefn, sourceKey, start, numResults, queryString);
+        return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, start, numResults, queryString);
     }
     
     public String create(EntityBody content) {
@@ -112,8 +115,9 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @return
      */
     private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key,
-            EntityDefinition otherEntityDefn, String otherEntityKey, int start, int numResults, String queryString) {
+            String otherEntityKey, int start, int numResults, String queryString) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
+        EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, null);
         for (Entity entity : entityObjects) {
@@ -121,7 +125,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
             if (other != null
                     && other instanceof String
                     && getRepo().matchQuery(otherEntityDefn.getStoredCollectionName(), (String) other,
-                            QueryUtil.stringToQuery(queryString))) {
+                            queryConverter.stringToQuery(otherEntityDefn.getType(), queryString))) {
                 results.add((String) other);
             } else {
                 LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
@@ -153,7 +157,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);
         }
-        Query query = QueryUtil.stringToQuery(queryString);
+        Query query = queryConverter.stringToQuery(this.getEntityDefinition().getType(), queryString);
         if (query == null)
             query = new Query(Criteria.where("body." + key).is(id));
         else

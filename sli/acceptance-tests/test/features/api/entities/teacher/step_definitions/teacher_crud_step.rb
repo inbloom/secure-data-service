@@ -8,9 +8,9 @@ require_relative '../../../../utils/sli_utils.rb'
 # transform <Place Holder Id>
 Transform /^<.+>$/ do |template|
   id = template
-  id = @newId.to_s if template == "<'newly created teacher' ID>"
+  id = @newId.to_s                            if template == "<'newly created teacher' ID>"
   id = "fa45033c-5517-b14b-1d39-c9442ba95782" if template == "<'Macey' ID>";
-  id = "738543275" if template == "<'Macey Home State' ID>"
+  id = "738543275"                            if template == "<'Macey Home State' ID>"
   id = "344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if template == "<'Belle' ID>"
   id = "11111111-1111-1111-1111-111111111111" if template == "<Unknown>"
   id = "824643f7-174b-4a50-9383-c9a6f762c49d" if template == "<'Christian' ID>"
@@ -46,15 +46,6 @@ end
 #   id
 # end
 
-Given /^I am logged in using "([^\"]*)" "([^\"]*)"$/ do |user, pass|
-  @user = user
-  @passwd = pass
-end
-
-Given /^I have access to all teachers$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
 
 Given /^format "([^\"]*)"$/ do |fmt|
   ["application/json", "application/xml", "text/plain"].should include(fmt)
@@ -90,10 +81,6 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
   data = prepareData(@format, @data)
   restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-end
-
-And /^I should receive a return code of (\d+)$/ do |status|
-  @res.code.should == Integer(status)
 end
 
 Then /^I should receive an ID for the newly created (\w+)$/ do |entity|

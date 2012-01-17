@@ -23,10 +23,6 @@ Transform /(.*)<([^>]*)>$/ do |pre, id|
 end
 
 #Givens
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, passwd|
-  idpLogin(user,passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
@@ -70,9 +66,6 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
 end
 
 #Thens
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}\nbody was #{@res}")
-end
 
 Then /^I should receive a ID for the newly created .*$/ do
   headers = @res.raw_headers

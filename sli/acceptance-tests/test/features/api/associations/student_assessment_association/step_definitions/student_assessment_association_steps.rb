@@ -31,16 +31,6 @@ Transform /^<([^"]*)>$/ do |step_arg|
 end
 
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all students and assessments$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
@@ -125,11 +115,6 @@ end
 Given /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |uri|
   restHttpDelete(uri)
   assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code.to_s} but expected #{arg1}")
 end
 
 Then /^I should receive a ID for the newly created student\-assessment\-association$/ do

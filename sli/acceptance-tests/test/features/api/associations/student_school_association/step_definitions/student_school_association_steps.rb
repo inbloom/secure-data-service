@@ -26,13 +26,6 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
 end
 
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
@@ -53,10 +46,6 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
   assert(@data.has_key?(key), "Response does not contain key #{key}")
   assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
-end
-
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
 end
 
 Then /^I should receive a collection of (\d+) student\-school\-association links$/ do |size|
@@ -152,12 +141,6 @@ end
 When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-
-Given /^I have access to all students and schools$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Then /^I should receive a ID for the newly created student\-school\-association$/ do

@@ -1,5 +1,5 @@
 
-Feature: In order to manage students and assessments
+Feature: As an SLI application, I want to be able to manage students  assessment associations
 As a SLI application I want to see analysis or scoring of a student's response on an assessment. 
 I must be able to perform CRUD functions on student-assessment association
 

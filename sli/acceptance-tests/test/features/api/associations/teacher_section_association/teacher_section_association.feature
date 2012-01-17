@@ -9,6 +9,7 @@ Section: Chem I, Physics II, Biology III, Algebra II
 
 Background: Logged in as a super-user 
   Given I am logged in using "demo" "demo1234"
+  And I have access to all teachers and sections
 
 Scenario: Create a teacher-section-association
 Given format "application/json"
