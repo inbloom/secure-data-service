@@ -68,10 +68,6 @@ When /^I set the "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
   @fullName = arg2
 end
 
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
-end
-
 Then /^I should receive a ID for the newly created school$/ do
   headers = @res.raw_headers
   assert(headers != nil, "Result of JSON parsing is nil")

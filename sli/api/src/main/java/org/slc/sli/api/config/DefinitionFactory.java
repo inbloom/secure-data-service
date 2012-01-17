@@ -28,13 +28,13 @@ import org.slc.sli.dal.repository.EntityRepository;
 public class DefinitionFactory {
     
     @Autowired
-    EntityRepository defaultRepo;
+    private EntityRepository defaultRepo;
     
     @Autowired
-    IdTreatment idTreatment;
+    private IdTreatment idTreatment;
     
     @Autowired
-    ApplicationContext beanFactory;
+    private ApplicationContext beanFactory;
     
     public EntityBuilder makeEntity(String type) {
         return new EntityBuilder(type);

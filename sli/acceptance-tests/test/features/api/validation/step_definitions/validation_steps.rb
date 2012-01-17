@@ -64,10 +64,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
-end
-
 Given /^I create a student object with "([^"]*)" set to Guy$/ do |arg1|
   @object = createBaseStudent()
   @object['sex'] = 'Guy'

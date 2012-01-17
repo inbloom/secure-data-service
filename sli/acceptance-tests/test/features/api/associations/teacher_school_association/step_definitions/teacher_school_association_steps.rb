@@ -211,10 +211,6 @@ When /^I attempt to update a non\-existing association "(\/teacher-school-associ
 end
 
 
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
-end
-
 # 
 # Function data_builder
 # Inputs: object_type - used only for error message when ID cannot be found
