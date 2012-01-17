@@ -37,7 +37,7 @@ FuelGaugeWidget.prototype.create = function()
 
     // missing info. Return an error. 
     if (!fontSize || !width || !color || isNaN(fontSize) || isNaN(width)) {
-	// alert("Fuel Gauge widget: font size, color, and width property must be defined for elementID: " + this.id);
+	throw ("Fuel Gauge widget: font size, color, and width property must be defined for elementID: " + this.id);
 	return; 
     }
 
