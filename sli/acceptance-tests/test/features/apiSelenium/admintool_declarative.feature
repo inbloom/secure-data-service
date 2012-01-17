@@ -66,3 +66,12 @@ And I enter "badpass" in the password text field
 And I click the Go button
 Then I am informed that authentication has failed
 And I do not have access to the SLI Default Roles Admin Page
+
+ @wip
+Scenario:  SLI Default Roles Admin Page logout
+ 
+Given I am authenticated to SLI IDP
+And I have navigated to the SLI Default Roles Admin Page
+When I click on the Logout link
+Then I am no longer authenticated to SLI IDP
+And I am redirected to the SLI-IDP Login Page

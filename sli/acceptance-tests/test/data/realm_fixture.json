@@ -1,0 +1,3 @@
+{ "_id":{"$binary":"ZUUkF5b+S1rhPG55szWxnQ==","$type":"03"} , "type" : "realm" , "body" : { "state" : "United Earth Directorate" , "idp" : "http://devdanil.slidev.org:8080/idp"} , "metadata" : { }}
+{ "_id":{"$binary":"lkK+c6AmsExXNx7xq9k2rQ==","$type":"03"} , "type" : "realm" , "body" : { "state" : "Earth Defence Force" , "idp" : "http://devdanil.slidev.org:8080/idp"} , "metadata" : { }}
+{ "_id":{"$binary":"4katg6A/sEx+N68xqwk2qQ==","$type":"03"} , "type" : "realm" , "body" : { "state" : "Shared Learning Initiative" , "idp" : "http://devdanil.slidev.org:8080/idp"} , "metadata" : { }}
