@@ -1,5 +1,5 @@
 
-reducePerf1to4 = function(key,values) {
+function(key,values) {
     
     //initialize sum variables to zero
     var level1total = level2total = level3total = level4total = 0;

@@ -55,10 +55,6 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
 end
 
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
-end
-
 Then /^I should receive a collection of (\d+) student\-school\-association links$/ do |size|
   assert(@data != nil, "Response contains no data")
   assert(@data.is_a?(Array), "Response contains #{@data.class}, expected Array")
