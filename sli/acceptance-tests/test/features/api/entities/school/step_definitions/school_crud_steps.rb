@@ -24,17 +24,6 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all schools$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^format "([^"]*)"$/ do |arg1|
   ["application/json", "application/xml", "text/plain"].should include(arg1)
   @format = arg1

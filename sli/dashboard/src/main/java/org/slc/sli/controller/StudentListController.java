@@ -35,16 +35,16 @@ public class StudentListController extends DashboardController {
      * @throws IOException
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView retrieveStudentList(String username, ModelMap model) throws IOException {
+    public ModelAndView retrieveStudentList(ModelMap model) throws IOException {
         Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
 
         UserDetails user = getPrincipal();
 
-
         School[] schoolList = schoolManager.getSchools();
         model.addAttribute("schoolList", gson.toJson(schoolList));
         model.addAttribute("message", "Hello " + user.getUsername());
+
         model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
         model.addAttribute(USER_NAME, user.getUsername());
 

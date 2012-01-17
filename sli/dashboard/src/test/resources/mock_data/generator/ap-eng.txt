@@ -1,0 +1,25 @@
+# for assessment data generation. 
+# DIBELS meta data
+#
+# Format: 
+# Grade/Period
+# Buckets array
+# Distribution array
+#
+# (not comments inside each block)
+# Grade K is '0'
+#
+11
+Literature
+1,2,3,4,5
+0.108,0.321,0.309,0.178,0.084
+12
+Literature
+1,2,3,4,5
+0.108,0.321,0.309,0.178,0.084
+12
+Language
+1,2,3,4,5
+0.113,0.275,0.301,0.20,0.111
+#
+#

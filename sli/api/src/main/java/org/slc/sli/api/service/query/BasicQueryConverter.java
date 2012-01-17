@@ -38,40 +38,45 @@ public class BasicQueryConverter implements QueryConverter {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");
-                        if (keyAndValue != null){
+                        if (keyAndValue != null) {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .gte(convertToType(type, keyAndValue[1]));
                         }
                     } else if (query.contains("<=")) {
                         String[] keyAndValue = getKeyAndValue(query, "<=");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .lte(convertToType(type, keyAndValue[1]));
+                        }
                         
-                    } else if (query.contains("<>")) {
-                        String[] keyAndValue = getKeyAndValue(query, "<>");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                    } else if (query.contains("!=")) {
+                        String[] keyAndValue = getKeyAndValue(query, "!=");
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(convertToType(type, keyAndValue[1]));
+                        }
                     } else if (query.contains("=")) {
                         String[] keyAndValue = getKeyAndValue(query, "=");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).is(convertToType(type, keyAndValue[1]));
+                        }
                         
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(convertToType(type, keyAndValue[1]));
+                        }
                         
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(convertToType(type, keyAndValue[1]));
+                        }
                     }
                     if (criteria != null)
                         mongoQuery.addCriteria(criteria);
@@ -106,36 +111,36 @@ public class BasicQueryConverter implements QueryConverter {
     
     private Schema getNestedSchema(Schema schema, String field) {
         switch (schema.getType()) {
-            case NULL:
-            case STRING:
-            case BYTES:
-            case INT:
-            case LONG:
-            case FLOAT:
-            case DOUBLE:
-            case BOOLEAN:
-            case MAP:
-            case FIXED:
-            case ENUM:
-                return Schema.create(Schema.Type.NULL);
-            case UNION:
-                for (Schema possibleSchema : schema.getTypes()) {
-                    if (!possibleSchema.getType().equals(Schema.Type.NULL)) {
-                        schema = possibleSchema;
-                        break;
-                    }
+        case NULL:
+        case STRING:
+        case BYTES:
+        case INT:
+        case LONG:
+        case FLOAT:
+        case DOUBLE:
+        case BOOLEAN:
+        case MAP:
+        case FIXED:
+        case ENUM:
+            return Schema.create(Schema.Type.NULL);
+        case UNION:
+            for (Schema possibleSchema : schema.getTypes()) {
+                if (!possibleSchema.getType().equals(Schema.Type.NULL)) {
+                    schema = possibleSchema;
+                    break;
                 }
-                return getNestedSchema(schema, field);
-            case RECORD:
-                if (schema.getField(field) != null) {
-                    return schema.getField(field).schema();
-                } else
-                    return Schema.create(Schema.Type.NULL);
-            case ARRAY:
-                return getNestedSchema(schema.getElementType(), field);
-            default: {
-                throw new RuntimeException("Unknown Avro Schema Type: " + schema.getType());
             }
+            return getNestedSchema(schema, field);
+        case RECORD:
+            if (schema.getField(field) != null) {
+                return schema.getField(field).schema();
+            } else
+                return Schema.create(Schema.Type.NULL);
+        case ARRAY:
+            return getNestedSchema(schema.getElementType(), field);
+        default: {
+            throw new RuntimeException("Unknown Avro Schema Type: " + schema.getType());
+        }
         }
     }
     
@@ -172,11 +177,9 @@ public class BasicQueryConverter implements QueryConverter {
             return Long.parseLong(value);
         } else if (type.equals("FLOAT")) {
             return Float.parseFloat(value);
-        } else if (type.equals("BYTES")) {
-            return Byte.parseByte(value);
         } else if (type.equals("DOUBLE")) {
             return Double.parseDouble(value);
         } else
-            return value;
+            throw new RuntimeException("Unsupported Avro Schema Type: " + type);
     }
 }

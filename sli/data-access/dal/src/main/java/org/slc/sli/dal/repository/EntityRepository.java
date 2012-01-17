@@ -131,7 +131,7 @@ public interface EntityRepository {
      * 
      * @return the collection of entities
      */
-    public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max);
+    public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max);
 
     /*
      * matchQuery method is a temporary solution for association/sourceGUID/targets type of

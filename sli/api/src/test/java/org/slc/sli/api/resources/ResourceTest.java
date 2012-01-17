@@ -85,6 +85,7 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("field1", 1);
         entity.put("field2", 2);
+        entity.put("studentUniqueStateId", 1234);
         return entity;
     }
     
@@ -454,7 +455,7 @@ public class ResourceTest {
         api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), 
                         uriInfo);
         
-        UriInfo queryInfo = buildMockUriInfo("field1=1");
+        UriInfo queryInfo = buildMockUriInfo("studentUniqueStateId=1234");
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);
@@ -465,17 +466,17 @@ public class ResourceTest {
         }
         assertEquals(new HashSet<String>(Arrays.asList(studentId1, studentId2)), hoppedRelatives);
         
-        queryInfo = buildMockUriInfo("field1=10");
+        queryInfo = buildMockUriInfo("studentUniqueStateId=1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNull(hopCollection);
         
-        queryInfo = buildMockUriInfo("field1>10");
+        queryInfo = buildMockUriInfo("studentUniqueStateId>1234");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNull(hopCollection);
         
-        queryInfo = buildMockUriInfo("field1<10");
+        queryInfo = buildMockUriInfo("studentUniqueStateId<1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);

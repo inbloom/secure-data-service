@@ -28,10 +28,6 @@ end
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, password|
-  idpLogin(user,password)
-  assert(@sessionId != nil, "Session returned was nil")
-end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt

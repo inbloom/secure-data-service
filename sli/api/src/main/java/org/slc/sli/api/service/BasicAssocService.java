@@ -55,12 +55,12 @@ public class BasicAssocService extends BasicService implements AssociationServic
     
     @Override
     public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, String queryString) {
-        return getAssociatedEntities(sourceDefn, id, sourceKey, targetDefn, targetKey, start, numResults, queryString);
+        return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, start, numResults, queryString);
     }
     
     @Override
     public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, String queryString) {
-        return getAssociatedEntities(targetDefn, id, targetKey, sourceDefn, sourceKey, start, numResults, queryString);
+        return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, start, numResults, queryString);
     }
     
     public String create(EntityBody content) {
@@ -115,8 +115,9 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @return
      */
     private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key,
-            EntityDefinition otherEntityDefn, String otherEntityKey, int start, int numResults, String queryString) {
+            String otherEntityKey, int start, int numResults, String queryString) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
+        EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, null);
         for (Entity entity : entityObjects) {
@@ -162,7 +163,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         else
             query.addCriteria(Criteria.where("body." + key).is(id));
         
-        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), query, start, numResults);
+        Iterable<Entity> entityObjects = getRepo().findByQuery(getCollectionName(), query, start, numResults);
         return entityObjects;
     }
     
