@@ -100,7 +100,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setRealm(extractRealm(payload));
 
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.READ_GENERAL)));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRoles());
+        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
         SecurityContextHolder.clearContext();
         return new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
         
