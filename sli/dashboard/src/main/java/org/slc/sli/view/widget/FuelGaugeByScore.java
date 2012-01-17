@@ -26,21 +26,21 @@ public class FuelGaugeByScore {
         this.colorByPerf = WidgetFactory.createColorByPerf(field, student, assmts);
     }
     
-    /*
+    /**
      * Get the color index for display
      */
     public int getColorIndex() { return colorByPerf.getColorIndex(); }
-    /*
+    /**
      * Returns the text to display
      */
     public String getText() { return colorByPerf.getText(); }
     
-    /*
+    /**
      * Returns the cut points 
      */
     public List<Integer> getCutpoints() { return assmts.getCutpoints(field, student); }
 
-    /*
+    /**
      * Returns the score 
      */
     public Integer getScore() { 
