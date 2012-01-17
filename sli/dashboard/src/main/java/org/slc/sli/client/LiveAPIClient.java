@@ -51,6 +51,10 @@ public class LiveAPIClient implements APIClient {
     @Override
     public Student[] getStudents(final String token, List<String> urls) {
         Gson gson = new Gson();
+        if (urls == null) {
+            return null;
+        }
+        
         Student[] students = new Student[urls.size()];
         
         int i = 0;
@@ -122,10 +126,13 @@ public class LiveAPIClient implements APIClient {
         String url = apiServerUri + "/teacher-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         //String[] sectionIds = new String[responses.length];
-        Section[] sections = new Section[responses.length];
+        
         int i = 0;
-        for (ResponseObject response: responses) {
-            sections[i++] = getSection(response.getId(), token);
+        String[] sectionIds = {"4efb4292-bc49-f388-0000-0000c9355701", "4efb4243-bc49-f388-0000-0000c93556ff", "4efb4238-bc49-f388-0000-0000c93556fe"};
+        Section[] sections = new Section[sectionIds.length];
+        //TODO: CHANGE TO USE RETURN FROM TEACHER-SECTION-ASSOCIATIONS
+        for (String sectionId : sectionIds) {
+            sections[i++] = getSection(sectionId, token);
         }
         
         return sections;
