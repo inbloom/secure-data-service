@@ -1,5 +1,5 @@
 
-finalizePerf1to4 = function(key,value) {
+function(key,value) {
     
     //determine total number of values
     var total = value.level1 + value.level2 + value.level3 + value.level4;

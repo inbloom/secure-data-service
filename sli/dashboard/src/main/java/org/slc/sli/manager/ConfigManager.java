@@ -82,6 +82,7 @@ public class ConfigManager extends Manager {
      * @param type - e.g. studentList, studentProfile, etc.
      * @return ViewConfig
      */
+    // TODO: should return a list of ViewConfigs, once User-Based View logic is complete.
     public ViewConfig getConfigWithType(String userId, String type) {
         
         ViewConfigSet config = getConfigSet(userId);

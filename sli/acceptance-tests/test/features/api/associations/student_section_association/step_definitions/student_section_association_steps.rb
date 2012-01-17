@@ -70,9 +70,6 @@ When /^I navigate to GET "([^"]*)"$/ do |uri|
 end
 
 #Thens
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}\nbody was #{@res}")
-end
 
 Then /^I should receive a ID for the newly created .*$/ do
   headers = @res.raw_headers

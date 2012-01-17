@@ -64,6 +64,7 @@ public class AssessmentResolver {
 
     /**
      * Looks up the cutpoints for the result returned by get(field, student);
+     * (used by fuel gauge visualization widget)
      */
     public List<Integer> getCutpoints(Field field, Student student) {
         // look up the assessment. 

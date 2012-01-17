@@ -31,15 +31,13 @@ FuelGaugeWidget.prototype.create = function()
 {  
     // Check we have all the information to draw a fuel gauge. 
     var element = document.getElementById(this.id);
-    var elemStyle = FuelGaugeWidget.getStyleDeclaration(element);
-
-    var fontSize = parseInt(elemStyle.fontSize);
-    var width = parseInt(elemStyle.width);
-    var color = elemStyle.color;
+    var fontSize = DashboardUtil.getElementFontSize(element);
+    var color = DashboardUtil.getElementColor(element);
+    var width = DashboardUtil.getElementWidth(element);
 
     // missing info. Return an error. 
     if (!fontSize || !width || !color || isNaN(fontSize) || isNaN(width)) {
-	alert("Fuel Gauge widget: font size and width property must be defined for elementID: " + this.id);
+	alert("Fuel Gauge widget: font size, color, and width property must be defined for elementID: " + this.id);
 	return; 
     }
 
@@ -77,17 +75,3 @@ FuelGaugeWidget.prototype.create = function()
     }
 
 };  
-
-// --- static helper function --- 
-// Gets the style object for the element where we're drawing the fuel gauge.
-// Returns a CSSStyleDeclaration object 
-FuelGaugeWidget.getStyleDeclaration = function (element)
-{
-    if (window.getComputedStyle) {
-        var compStyle = window.getComputedStyle (element, null);
-    } else {
-	var compStyle = button.currentStyle;
-    }
-    return compStyle;
-};
-
