@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityExistsException;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests for ContextResolver
  */
@@ -32,6 +34,7 @@ public class ContextResolverTest {
         Mockito.when(resolverIn.getSourceType()).thenReturn(source);
         Mockito.when(resolverIn.getTargetType()).thenReturn(target);
         nonExistingField = "nonExistingField";
+        contextResolver.clearContexts();
     }
 
     @Test
@@ -40,12 +43,12 @@ public class ContextResolverTest {
         try {
             contextResolver.addContextResolver(resolverIn);
         } catch (EntityExistsException e) {
-            org.junit.Assume.assumeNoException(e);
+            assertTrue("add on empty contextResolver should not throw exception", false);
         }
 
         try {
             contextResolver.addContextResolver(resolverIn);
-            Assert.fail("should throw EntityExistsException");
+            Assert.fail("should throw EntityExistsException resolver already exists");
         } catch (EntityExistsException e) {
             Assert.assertNotNull(contextResolver);
         }
@@ -58,7 +61,7 @@ public class ContextResolverTest {
         try {
             contextResolver.addContextResolver(resolverIn);
         } catch (EntityExistsException e) {
-            org.junit.Assume.assumeNoException(e);
+            assertTrue("add on empty contextResolver should not throw exception", false);
         }
 
         EntityContextResolver resolverOut = contextResolver.getContextResolver(source, target);

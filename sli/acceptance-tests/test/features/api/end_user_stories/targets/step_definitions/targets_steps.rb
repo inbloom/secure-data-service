@@ -45,11 +45,6 @@ Transform /^(Student|Section|School|Assessment|Teacher)$/ do |arg|
   out
 end
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, passwd|
-  idpLogin(user,passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^format "([^"]*)"$/ do |arg1|
   ["application/json", "application/xml", "text/plain"].should include(arg1)
   @format = arg1

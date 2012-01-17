@@ -26,13 +26,6 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
 end
 
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
@@ -148,12 +141,6 @@ end
 When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-
-Given /^I have access to all students and schools$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Then /^I should receive a ID for the newly created student\-school\-association$/ do

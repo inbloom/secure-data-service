@@ -9,6 +9,7 @@ Also so verify the correct links from that resource to the appropriate teacher a
 
 Background: Nothing yet
     Given I am logged in using "demo" "demo1234"
+    And I have access to all teachers and schools
 
 Scenario: Create a teacher-school-association
    Given format "application/json"

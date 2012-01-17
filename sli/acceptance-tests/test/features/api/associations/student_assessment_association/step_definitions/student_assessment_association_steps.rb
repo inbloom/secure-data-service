@@ -31,16 +31,6 @@ Transform /^<([^"]*)>$/ do |step_arg|
 end
 
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all students and assessments$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end

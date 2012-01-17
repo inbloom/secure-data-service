@@ -3,6 +3,7 @@ Feature: Test schema based validation on entities/associations
 
 Background: Logged in as a super-user and using the small data set
 	Given I am logged in using "demo" "demo1234"
+	And I have access to all entities
 	
 Scenario: Post a valid base Student/School with bare minimum required data
 	Given I create a valid base level student object

@@ -23,10 +23,6 @@ Transform /(.*)<([^>]*)>$/ do |pre, id|
 end
 
 #Givens
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, passwd|
-  idpLogin(user,passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
 
 Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt

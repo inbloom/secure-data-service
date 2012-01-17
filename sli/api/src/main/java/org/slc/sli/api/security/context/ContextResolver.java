@@ -4,9 +4,7 @@ import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityExistsException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +16,6 @@ import java.util.Map;
 public class ContextResolver {
 
     private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
-
-    @Autowired
-    private Collection<EntityContextResolver> staticContextResolvers;
 
     @Autowired
     private DefaultEntityContextResolver defaultEntityContextResolver;
@@ -38,15 +33,6 @@ public class ContextResolver {
         return resolver.hasPermission(principalEntity, requestEntity);
     }
 
-    @PostConstruct
-    public void init() {
-        setContexts(staticContextResolvers);
-    }
-
-    public void setStaticContextResolvers(Collection<EntityContextResolver> staticContextResolvers) {
-        this.staticContextResolvers = staticContextResolvers;
-    }
-
     public EntityContextResolver getContextResolver(String sourceType, String targetType) {
         EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
         return resolver == null ? defaultEntityContextResolver : resolver;
@@ -56,12 +42,8 @@ public class ContextResolver {
         return getContextResolver(principalEntity.getType(), requestEntity.getType());
     }
 
-    private void setContexts(Collection<EntityContextResolver> contextResolvers) {
-        for (EntityContextResolver resolver : contextResolvers) {
-            if (resolver.getSourceType() != null) {
-                contexts.put(getContextKey(resolver), resolver);
-            }
-        }
+    public void clearContexts() {
+        contexts.clear();
     }
 
     private String getContextKey(EntityContextResolver resolver) {
