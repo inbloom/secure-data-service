@@ -122,12 +122,12 @@ And I teach in <Section>
 When I make an API call to get <Section>
 Then I receive a JSON response that includes the section <Section> and its attributes
 Examples:
-| Realm  | Username  | Password      | Section       |
-| "idp1" | "jdoe"    | "jdoe1234"    | "Science 101" |
-| "idp2" | "johndoe" | "johndoe1234" | "Geometry"    |
-| "idp1" | "ejane"   | "ejane1234"   | "Math"        |
-| "idp1" | "jdoe"    | "jdoe1234"    | "Math 101"    |
-| "idp1" | "tbear"   | "tbear1234"   | "Science 101" |
+| Realm  | Username  | Password      | Section          |
+| "idp1" | "jdoe"    | "jdoe1234"    | "FHS-Science101" |
+| "idp2" | "johndoe" | "johndoe1234" | "PDMS-Geometry"  |
+| "idp1" | "ejane"   | "ejane1234"   | "WES-Math"       |
+| "idp1" | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
+| "idp1" | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
 Scenario Outline: Authenticated Educator makes API call to get not own Section
 Given I am a valid <Realm> end user <Username> with password <Password>
@@ -136,13 +136,13 @@ And I have a Role attribute that equals "Educator"
 When I make an API call to get <Section>
 Then I should get a message that I am not authorized
 Examples:
-| Realm  | Username   | Password       | Section       |
-| "idp1" | "jdoe"     | "jdoe1234"     | "English 101" |
-| "idp2" | "johndoe"  | "johndoe1234"  | "Math 101"    |
-| "idp2" | "ejane"    | "ejane1234"    | "Math"        |
-| "idp1" | "ejane"    | "ejane1234"    | "Trig"        |
-| "idp1" | "tbear"    | "tbear1234"    | "Math 101"    |
-| "idp1" | "john_doe" | "john_doe1234" | "English 101" |
+| Realm  | Username   | Password       | Section          |
+| "idp1" | "jdoe"     | "jdoe1234"     | "FHS-English101" |
+| "idp2" | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
+| "idp2" | "ejane"    | "ejane1234"    | "WES-Math"       |
+| "idp1" | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
+| "idp1" | "tbear"    | "tbear1234"    | "FHS-Math101"    |
+| "idp1" | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 #Student
 
@@ -176,7 +176,7 @@ Scenario Outline: Authenticated Educator makes API call to get Student that he/s
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get <not my student  #>
+When I make an API call to get <Student>
 Then I should get a message that I am not authorized
 Examples:
 | Realm  | Username   | Password       | Student          |
