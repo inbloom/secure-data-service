@@ -11,7 +11,7 @@
     "type" : "string"
   }, {
     "name" : "staffClassification",
-    "type" : "string"
+    "type" : "org.slc.sli.domain.enum.StaffClassificationType"
   }, {
     "name" : "positionTitle",
     "doc" : "The descriptive name of an individual's position.",
