@@ -1,5 +1,5 @@
 
-function() {
+mapDistrictPerf1to4 = function() {
     
     //initialize result to all zeroes
     var level1 = level2 = level3 = level4 = 0;
@@ -36,3 +36,5 @@ function() {
         emit({"districtId":districtId,"assessmentType":aggregation_name}, values); 
     }
 };
+
+db.system.js.save({ "_id" : "mapDistrictPerf1to4" , "value" : mapDistrictPerf1to4 })

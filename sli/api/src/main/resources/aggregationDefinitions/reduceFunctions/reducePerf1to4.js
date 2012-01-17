@@ -1,5 +1,5 @@
 
-function(key,values) {
+reducePerf1to4 = function(key,values) {
     
     //initialize sum variables to zero
     var level1total = level2total = level3total = level4total = 0;
@@ -16,3 +16,6 @@ function(key,values) {
     //return sum document
     return {level1:level1total,level2:level2total,level3:level3total,level4:level4total}; 
 };
+
+
+db.system.js.save({ "_id" : "reducePerf1to4" , "value" : reducePerf1to4 })

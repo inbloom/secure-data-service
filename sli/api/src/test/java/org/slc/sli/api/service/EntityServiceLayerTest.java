@@ -19,14 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -35,6 +27,13 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.validation.EntityValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  * Service layer tests for the API.
@@ -197,6 +196,7 @@ public class EntityServiceLayerTest {
     public void testAssociations() {
         EntityBody student1 = new EntityBody();
         student1.put("firstName", "Bonzo");
+        student1.put("name.firstName", "Bonzo");
         student1.put("lastName", "Madrid");
         EntityBody student2 = new EntityBody();
         student2.put("firstName", "Petra");
@@ -213,6 +213,7 @@ public class EntityServiceLayerTest {
         String id4 = studentService.create(student4);
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
+        school.put("nameOfInstitution", "Battle School");
         String schoolId = schoolService.create(school);
         EntityBody assoc1 = new EntityBody();
         assoc1.put("schoolId", schoolId);
@@ -275,13 +276,13 @@ public class EntityServiceLayerTest {
                 .iterator().hasNext());
         
         assertEquals(Arrays.asList(schoolId),
-                studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4, "name=Battle School"));
-        assertFalse(studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4, "name=new Battle School")
-                .iterator().hasNext());
+                studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4, "nameOfInstitution=Battle School"));
+        assertFalse(studentSchoolAssociationService
+                .getAssociatedEntitiesWith(id1, 0, 4, "nameOfInstitution=new Battle School").iterator().hasNext());
         
         assertEquals(Arrays.asList(id1),
-                studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "firstName=Bonzo"));
-        assertFalse(studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "firstname=non exist")
+                studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "name.firstName=Bonzo"));
+        assertFalse(studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "name.firstName=non exist")
                 .iterator().hasNext());
         
         studentService.delete(id1);
