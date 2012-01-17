@@ -8,6 +8,7 @@ Student: Jane Doe
 
 Background: 
 	Given I am logged in using "demo" "demo1234"
+	And I have access to all sections and students
 
 Scenario Outline: Create a student-section-association
 	Given format <format>

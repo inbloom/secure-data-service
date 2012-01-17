@@ -35,16 +35,6 @@ end
 
 ### GIVEN ###
 
-Given /^I am logged in using "([^\"]*)" "([^\"]*)"$/ do |user, pass|
-  @user = user
-  @passwd = pass
-end
-
-Given /^I have access to all sections$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^format "([^\"]*)"$/ do |fmt|
   ["application/json", "application/xml", "text/plain"].should include(fmt)
   @format = fmt

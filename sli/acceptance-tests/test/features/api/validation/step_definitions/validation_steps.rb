@@ -40,12 +40,6 @@ Given /^I create a valid base level school object$/ do
   @object = createBaseSchool()
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  idpLogin(arg1, arg2)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^I create a blank json object$/ do
   @object = Hash[]
 end
