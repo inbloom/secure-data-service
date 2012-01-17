@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores context based permission resolvers.
+ * Can determine if a principal entity has permission to access a request entity.
+ */
 @Component
 public class ContextResolver {
 
