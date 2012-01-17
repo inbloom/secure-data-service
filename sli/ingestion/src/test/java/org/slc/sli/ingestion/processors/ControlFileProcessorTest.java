@@ -20,6 +20,10 @@ import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 
+/**
+ * Tests for ControlFileProcessor
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
@@ -53,11 +57,11 @@ public class ControlFileProcessorTest {
         BatchJob bj = eObject.getIn().getBody(BatchJob.class);
 
         assertNotNull("BatchJob is not defined", bj);
-        
+
         boolean hasErrors = (Boolean) eObject.getIn().getHeader("hasErrors");
-        
+
         assertNotNull("header [hasErrors] not set on the exchange", hasErrors);
-        
+
     }
 
 }

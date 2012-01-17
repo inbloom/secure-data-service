@@ -23,6 +23,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
 
+
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
  * tasks include creating a list of embedded links, adding links to a list regarding associations,
@@ -93,13 +94,13 @@ public class ResourceUtil {
             if (assoc.getSourceEntity().equals(defn)) {
                 links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), ResourceUtil.getURI(uriInfo,
                         assoc.getResourceName(), id).toString()));
-                links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), ResourceUtil.getURI(uriInfo,
-                        assoc.getResourceName(), id).toString() + "/targets"));
+                links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), ResourceUtil
+                        .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
             } else if (assoc.getTargetEntity().equals(defn)) {
                 links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), ResourceUtil.getURI(uriInfo,
                         assoc.getResourceName(), id).toString()));
-                links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), ResourceUtil.getURI(uriInfo,
-                        assoc.getResourceName(), id).toString() + "/targets"));
+                links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), ResourceUtil
+                        .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
             }
         }
         return links;
@@ -178,7 +179,7 @@ public class ResourceUtil {
     public static URI getURI(UriInfo uriInfo, String type, String id) {
         return uriInfo.getBaseUriBuilder().path(type).path(id).build();
     }
-
+    
     /**
      * Analyzes security context to get SLIPrincipal for user.
      * 
@@ -186,9 +187,8 @@ public class ResourceUtil {
      */
     public static SLIPrincipal getSLIPrincipalFromSecurityContext() {
         // lookup security/login information
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return principal;
     }
-
+    
 }

@@ -49,10 +49,11 @@ Scenario: Reading a teacher-school-association for a school
    Given format "application/json"
     When I navigate to GET "/teacher-school-associations/<'Biology High' ID>"
     Then I should receive a return code of 200
-     And I should receive a collection of 2 teacher-school-association links
+     And I should receive a collection of 3 teacher-school-association links
      And after resolving each link, I should receive a link named "getSchool" with URI "/schools/<'Biology High' ID>"
      And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
      And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Mr. Smith' ID>"
+     And after resolution, I should receive a link named "getTeacher" with URI "/teachers/<'Mrs. Solis' ID>"
 
 Scenario: Update a teacher-school-association
    Given format "application/json"
