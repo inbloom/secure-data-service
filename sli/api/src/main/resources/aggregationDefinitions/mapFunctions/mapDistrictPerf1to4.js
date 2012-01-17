@@ -1,5 +1,5 @@
 
-mapDistrictPerf1to4 = function() {
+function() {
     
     //initialize result to all zeroes
     var level1 = level2 = level3 = level4 = 0;
