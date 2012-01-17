@@ -27,7 +27,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private Map<EntityDefinition, Collection<AssociationDefinition>> links = new HashMap<EntityDefinition, Collection<AssociationDefinition>>();
     
     @Autowired
-    DefinitionFactory factory;
+    private DefinitionFactory factory;
     
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
