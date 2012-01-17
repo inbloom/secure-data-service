@@ -1,4 +1,4 @@
-Feature: In order to manage sections and students
+Feature: As an SLI application, I want to be able to manage student section associations
 As a SLI application I want to use this association to get the course section(s) a student is assigned to, or all the student(s) a section has.  
 I must be able to perform CRUD functions on student-section association.
 

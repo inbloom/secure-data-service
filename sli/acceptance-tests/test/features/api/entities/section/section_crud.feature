@@ -1,4 +1,4 @@
-Feature: <US565> In order to manage sections
+Feature: As an SLI application, I want to be able to manage sections
     As a client application using SLI
     I want to have create, read, update, and delete functionality for a section.
 
