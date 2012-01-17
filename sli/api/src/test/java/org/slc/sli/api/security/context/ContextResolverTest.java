@@ -43,12 +43,12 @@ public class ContextResolverTest {
         try {
             contextResolver.addContextResolver(resolverIn);
         } catch (EntityExistsException e) {
-            assertTrue(false);
+            assertTrue("add on empty contextResolver should not throw exception", false);
         }
 
         try {
             contextResolver.addContextResolver(resolverIn);
-            Assert.fail("should throw EntityExistsException");
+            Assert.fail("should throw EntityExistsException resolver already exists");
         } catch (EntityExistsException e) {
             Assert.assertNotNull(contextResolver);
         }
@@ -61,7 +61,7 @@ public class ContextResolverTest {
         try {
             contextResolver.addContextResolver(resolverIn);
         } catch (EntityExistsException e) {
-            assertTrue(false);
+            assertTrue("add on empty contextResolver should not throw exception", false);
         }
 
         EntityContextResolver resolverOut = contextResolver.getContextResolver(source, target);
