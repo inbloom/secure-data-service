@@ -36,3 +36,5 @@ mapDistrictPerf1to4 = function() {
         emit({"districtId":districtId,"assessmentType":aggregation_name}, values); 
     }
 };
+
+db.system.js.save({ "_id" : "mapDistrictPerf1to4" , "value" : mapDistrictPerf1to4 })

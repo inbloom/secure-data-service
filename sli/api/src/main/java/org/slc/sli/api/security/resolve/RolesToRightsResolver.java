@@ -11,5 +11,5 @@ import org.springframework.security.core.GrantedAuthority;
  * 
  */
 public interface RolesToRightsResolver {
-    public Set<GrantedAuthority> resolveRoles(List<String> roleNames);
+    public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames);
 }

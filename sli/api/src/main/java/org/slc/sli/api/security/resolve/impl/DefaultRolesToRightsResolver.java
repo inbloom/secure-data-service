@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.SliAdminValidator;
 
 /**
  * 
@@ -23,13 +24,16 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     
     @Autowired
     private ClientRoleResolver roleMapper;
+    
     @Autowired
     private RoleRightAccess roleRightAccess;
+    
+    @Autowired 
+    private SliAdminValidator adminValidator;
 
     @Override
-    public Set<GrantedAuthority> resolveRoles(List<String> roleNames) {
+    public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-        
         if (roleNames != null) {
             List<String> sliRoleNames = roleMapper.resolveRoles(roleNames);
             

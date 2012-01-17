@@ -25,3 +25,5 @@ finalizePerf1to4 = function(key,value) {
     }; 
     
 };
+
+db.system.js.save({ "_id" : "finalizePerf1to4", "value" : finalizePerf1to4 })

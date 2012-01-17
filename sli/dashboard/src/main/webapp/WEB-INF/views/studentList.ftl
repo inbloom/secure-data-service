@@ -12,7 +12,6 @@ var schools = ${schoolList};
 $.ajaxSetup ({cache: false});
 </script>
 
-
 <link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
 </head>
 <body onLoad="populateSchoolMenu()">
