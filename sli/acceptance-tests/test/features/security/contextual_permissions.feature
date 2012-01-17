@@ -108,47 +108,85 @@ Examples:
 #Section
 
 Scenario: Authenticated Educator makes API call to get list of Sections
-Given I am a valid SEA/LEA end user <teacher>
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get list of sections
-Then I receive a JSON response that includes the sections that I am teaching only
+When I make an API call to get my list of sections
+Then I receive a JSON response that includes the list of sections that <Teacher> teaches only
 
-Scenario: Authenticated Educator makes API call to get own Section
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get own Section
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And I teach in <my section #>
-When I make an API call to get <my section #>
-Then I receive a JSON response with that section
+And I teach in <Section>
+When I make an API call to get <Section>
+Then I receive a JSON response that includes the section <Section> and its attributes
+Examples:
+| Realm  | Username  | Password      | Section       |
+| "idp1" | "jdoe"    | "jdoe1234"    | "Science 101" |
+| "idp2" | "johndoe" | "johndoe1234" | "Geometry"    |
+| "idp1" | "ejane"   | "ejane1234"   | "Math"        |
+| "idp1" | "jdoe"    | "jdoe1234"    | "Math 101"    |
+| "idp1" | "tbear"   | "tbear1234"   | "Science 101" |
 
-Scenario: Authenticated Educator makes API call to get not own Section
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get not own Section
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get <not my section #>
+When I make an API call to get <Section>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | Section       |
+| "idp1" | "jdoe"     | "jdoe1234"     | "English 101" |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Math 101"    |
+| "idp2" | "ejane"    | "ejane1234"    | "Math"        |
+| "idp1" | "ejane"    | "ejane1234"    | "Trig"        |
+| "idp1" | "tbear"    | "tbear1234"    | "Math 101"    |
+| "idp1" | "john_doe" | "john_doe1234" | "English 101" |
 
 #Student
 
 Scenario: Authenticated Educator makes API call to get list of Students
-Given I am a valid SEA/LEA end user <teacher>
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get list of students
+When I make an API call to get my list of students
 Then I receive a JSON response that includes the Students that I am teaching only
 
-Scenario: Authenticated Educator makes API call to get Student that he/she is teaching
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-And I teach  <my student #>
-When I make an API call to get <my student  #>
-Then I receive a JSON response with that student
+And I teach the student <Student>
+When I make an API call to get the student <Student>
+Then I receive a JSON response that includes the student <Student> and its attributes
+Examples:
+| Realm  | Username   | Password       | Student        |
+| "idp1" | "jdoe"     | "jdoe1234"     | "Doris Hanes"  |
+| "idp1" | "jdoe"     | "jdoe1234"     | "Gail Newman"  |
+| "idp1" | "jdoe"     | "jdoe1234"     | "Mark Moody"   |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Hal Kessler"  |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Brock Ott"    |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Elnora Fin"   |
+| "idp1" | "ejane"    | "ejane1234"    | "Laven Chaney" |
+| "idp1" | "john_doe" | "john_doe1234" | "Laven Chaney" |
+| "idp1" | "tbear"    | "tbear1234"    | "Mark Moody"   |
 
-Scenario: Authenticated Educator makes API call to get Student that he/she is not teaching
-Given I am a valid SEA/LEA end user <teacher>
+Scenario Outline: Authenticated Educator makes API call to get Student that he/she is not teaching
+Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 When I make an API call to get <not my student  #>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | Student          |
+| "idp1" | "jdoe"     | "jdoe1234"     | "Austin Durran"  |
+| "idp1" | "jdoe"     | "jdoe1234"     | "Millie Lovel"   |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Hal Kessler"    |
+| "idp2" | "ejane"    | "ejane1234"    | "Laven Chaney"   |
+| "idp2" | "ejane"    | "ejane1234"    | "Freeman Marcum" |
+| "idp2" | "ejane"    | "ejane1234"    | "Danny Fields"   |
+| "idp2" | "johndoe"  | "johndoe1234"  | "Kristy Carillo" |
+| "idp1" | "ejane"    | "ejane1234"    | "Forrest Hopper" |
+| "idp1" | "john_doe" | "john_doe1234" | "Emil Oneil"     |
+| "idp1" | "tbear"    | "tbear1234"    | "Doris Hanes"    |
