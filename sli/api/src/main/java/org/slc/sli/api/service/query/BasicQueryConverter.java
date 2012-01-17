@@ -38,10 +38,11 @@ public class BasicQueryConverter implements QueryConverter {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");
-                        String type = findParamType(entityType, keyAndValue[0]);
-                        if (keyAndValue != null)
+                        if (keyAndValue != null){
+                            String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .gte(convertToType(type, keyAndValue[1]));
+                        }
                     } else if (query.contains("<=")) {
                         String[] keyAndValue = getKeyAndValue(query, "<=");
                         String type = findParamType(entityType, keyAndValue[0]);

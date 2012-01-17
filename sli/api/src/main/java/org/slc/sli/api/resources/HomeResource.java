@@ -19,6 +19,7 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class HomeResource {
     public Response getHomeUri(@Context final UriInfo uriInfo) {
         
         // TODO: refactor common code from getHomeUri and GetHomeUriXML
-        
+
         // get the entity ID and EntityDefinition for user
         Entry<String, EntityDefinition> entityInfo = this.getEntityInfoForUser().entrySet().iterator().next();
         String userId = entityInfo.getKey();
@@ -64,6 +65,9 @@ public class HomeResource {
         
         // add links for all of the entity's associations for this ID
         links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, userId, uriInfo));
+        
+        //add the aggregate link
+        links.addAll(ResourceUtil.getAggregateLink(uriInfo));
         
         // create a final map of links to relevant links
         HashMap<String, Object> linksMap = new HashMap<String, Object>();
@@ -82,7 +86,7 @@ public class HomeResource {
     public Response getHomeUriXML(@Context final UriInfo uriInfo) {
         
         // TODO: refactor common code from getHomeUri and GetHomeUriXML
-        
+
         // get the entity ID and EntityDefinition for user
         Entry<String, EntityDefinition> entityInfo = this.getEntityInfoForUser().entrySet().iterator().next();
         String userId = entityInfo.getKey();
@@ -113,9 +117,12 @@ public class HomeResource {
         
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-        EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
+        if (entity != null) {
+            EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());        
+            map.put(entity.getEntityId(), entityDefinition);
+            map.put(entity.getEntityId(), entityDefinition);
+        }
         
-        map.put(entity.getEntityId(), entityDefinition);
         return map;
     }
 }
