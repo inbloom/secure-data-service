@@ -7,6 +7,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
@@ -23,12 +26,16 @@ import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_GROUP
  * 
  */
 public class AggregateURLCreator extends URLCreator {
+    private static final Logger LOG = LoggerFactory.getLogger(AggregateURLCreator.class);
+    
     /**
      * Returns a list of aggregate links that matches the parameters passed in
      */
     @Override
     public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
         List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
+        
+        LOG.debug("aggregation params : " + params);
         
         // get the aggregations that match the query params
         Iterable<Entity> aggregations = repo.findByFields(ENTITY_TYPE_AGGREGATION, convertParamsToEnitiyFormat(params));

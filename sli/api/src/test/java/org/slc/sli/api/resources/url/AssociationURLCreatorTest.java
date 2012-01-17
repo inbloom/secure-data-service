@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-//import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_EDORG_ASSOC;
-//import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_EDORG_SCHOOL_ASSOC;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_STAFF_ID;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_EDORG_ID;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_SCHOOL_ID;
@@ -14,6 +12,7 @@ import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_DIS
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_SCHOOL;
 
 import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.DefinitionFactory;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
@@ -45,7 +44,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  * Tests the AssociationURLCreator
@@ -66,7 +64,7 @@ public class AssociationURLCreatorTest {
     AssociationURLCreator associationURLCreator; //class under test
     
     @Autowired
-    EntityValidator validator;
+    DefinitionFactory factory;
     
     private EntityDefinition staff;
     
@@ -77,14 +75,14 @@ public class AssociationURLCreatorTest {
     @Before
     public void setup() {
         //create the mock staff entity
-        staff = EntityDefinition.makeEntity("staff", validator).exposeAs("staff").build();
+        staff = factory.makeEntity("staff").exposeAs("staff").build();
         //create the mock edorg entity
-        EntityDefinition educationOrganization = EntityDefinition.makeEntity("educationOrganization", validator).exposeAs("educationOrganizations").build();
+        EntityDefinition educationOrganization = factory.makeEntity("educationOrganization").exposeAs("educationOrganizations").build();
         //create the mock school entity
-        EntityDefinition school = EntityDefinition.makeEntity("school", validator).exposeAs("schools").build();
+        EntityDefinition school = factory.makeEntity("school").exposeAs("schools").build();
         
         //create the mock staffedorg association
-        AssociationDefinition staffEdOrgAssoc = AssociationDefinition.makeAssoc("staffEducationOrganizationAssociation", validator)
+        AssociationDefinition staffEdOrgAssoc = factory.makeAssoc("staffEducationOrganizationAssociation")
                 .exposeAs("staff-educationOrganization-associations")
                 .storeAs("staffEducationOrganizationAssociation")
                 .from(staff, "getStaff", "getStaff")
@@ -93,8 +91,7 @@ public class AssociationURLCreatorTest {
                 .calledFromTarget("getStaffAssigned").build();
         
         //create the mock edorgschool association
-        AssociationDefinition educationOrganizationSchoolAssoc = AssociationDefinition
-                .makeAssoc("educationOrganizationSchoolAssociation", validator)
+        AssociationDefinition educationOrganizationSchoolAssoc = factory.makeAssoc("educationOrganizationSchoolAssociation")
                 .exposeAs("educationOrganization-school-associations")
                 .storeAs("educationOrganizationschoolassociation")
                 .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")

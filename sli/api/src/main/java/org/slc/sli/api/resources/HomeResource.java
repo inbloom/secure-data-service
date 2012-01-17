@@ -117,9 +117,12 @@ public class HomeResource {
         
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-        EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
+        if (entity != null) {
+            EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());        
+            map.put(entity.getEntityId(), entityDefinition);
+            map.put(entity.getEntityId(), entityDefinition);
+        }
         
-        map.put(entity.getEntityId(), entityDefinition);
         return map;
     }
 }

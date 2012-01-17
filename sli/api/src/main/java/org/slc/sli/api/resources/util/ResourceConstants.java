@@ -37,6 +37,8 @@ public class ResourceConstants {
         ENTITY_ID_MAPPINGS.put("staff", ENTITY_BODY_STAFF_ID);
         ENTITY_ID_MAPPINGS.put("educationOrganization", ENTITY_BODY_EDORG_ID);
         ENTITY_ID_MAPPINGS.put("school", ENTITY_BODY_SCHOOL_ID);
+        ENTITY_ID_MAPPINGS.put("teacher", "teacherId");
+        ENTITY_ID_MAPPINGS.put("section", "sectionId");
     }
     
     public static final Map<String, String> RESOURCE_PATH_MAPPINGS = new HashMap<String, String>();
@@ -45,9 +47,14 @@ public class ResourceConstants {
         RESOURCE_PATH_MAPPINGS.put("school", RESOURCE_PATH_SCHOOL);
     }
     
+    /**
+     * Need to move this to BasicDefinitionStore ??
+     */
     public static final Map<String, String> ASSOC_ENTITY_NAME_MAPPINGS = new HashMap<String, String>();
     static {
         ASSOC_ENTITY_NAME_MAPPINGS.put("educationOrganizationSchoolAssociation", "educationOrganizationschoolassociation");
         ASSOC_ENTITY_NAME_MAPPINGS.put("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation");
+        ASSOC_ENTITY_NAME_MAPPINGS.put("teacherSchoolAssociation", "teacherschoolassociation");
+        ASSOC_ENTITY_NAME_MAPPINGS.put("teacherSectionAssociation", "teachersectionassociation");
     }
 }

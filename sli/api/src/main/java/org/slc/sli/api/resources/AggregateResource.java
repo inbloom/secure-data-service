@@ -28,7 +28,7 @@ import org.slc.sli.domain.Entity;
  * 
  */
 
-@Path("agg")
+@Path("aggregation")
 @Component
 @Scope("request")
 @Produces(Resource.JSON_MEDIA_TYPE)

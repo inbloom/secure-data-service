@@ -13,6 +13,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EmbeddedLink;
@@ -27,6 +30,8 @@ import org.slc.sli.domain.Entity;
  * 
  */
 public class AssociationURLCreator extends URLCreator {
+    private static final Logger LOG = LoggerFactory.getLogger(AssociationURLCreator.class);
+    
     @Override
     /**
      * Returns a list association links for the logged in user
@@ -66,9 +71,12 @@ public class AssociationURLCreator extends URLCreator {
                 //build the param map
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(ENTITY_ID_MAPPINGS.get(entityDef.getType()), entityId);
+             
+                LOG.debug("entityDef type : " + entityDef.getType());
                 
                 //get the actual associations
                 Iterable<Entity> entityList = repo.findByFields(ASSOC_ENTITY_NAME_MAPPINGS.get(assoc.getType()), params);
+                LOG.debug("assoc type : " + assoc.getType());
                 
                 for (Entity e : entityList) { 
                     //add the link to the list
