@@ -1,7 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  name: IT Administrator
+  rights:
+    - READ_GENERAL
+    - WRITE_GENERAL
+    - READ_RESTRICTED
+    - WRITE_RESTRICTED
+    - AGGREGATE_READ
+    - AGGREGATE_WRITE
+  mappings:
+    - NC Administrator
 
 two:
-  name: MyString
+  name: Educator
+  rights:
+    - READ_GENERAL
+    - WRITE_GENERAL
+  mappings:
+      
