@@ -44,15 +44,13 @@ public class StudentListContentController extends DashboardController {
     /**
      * Retrieves information for the student list and sends back an html table to be displayed
      * 
-     * @param username
-     * @param population
+     * @param population Don't know what this could be yet... For now, a list of student uids
      * @param model
      * @return a ModelAndView object
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String username, 
-                                           String population, // don't know what this could be yet... For now, a list of student uids
+    public ModelAndView studentListContent(String population, 
                                            ModelMap model) throws Exception {
 
         UserDetails user = SecurityUtil.getPrincipal();
@@ -63,8 +61,9 @@ public class StudentListContentController extends DashboardController {
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
         List<String> uids = null;
-        if (population != null)
+        if (population != null) {
             uids = Arrays.asList(population.split(","));
+        }
         List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
         model.addAttribute(STUDENTS, new StudentResolver(students));
 
