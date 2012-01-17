@@ -15,7 +15,7 @@ Transform /(.*)<([^>]*)>$/ do |pre, id|
   result = "4efb4243-bc49-f388-0000-0000c93556ff" if id == "'Physics I - B' ID"
   result = "4efb4238-bc49-f388-0000-0000c93556fe" if id == "'Chemistry I - A' ID"
   result = "4efb7614-8488-7b01-0000-000059f9ba55" if id == "'Student Albert Wright and Section Foreign Language - A' ID"
-  result = @new_id if id == "'newly created student-section-association' ID" or id == "the previous association"
+  result = @newId                                 if id == "'newly created student-section-association' ID"
   result = "11111111-1111-1111-1111-111111111111" if id == "'WrongURI' ID"
   result = "" if id == "'No GUID' ID"
 
@@ -23,10 +23,6 @@ Transform /(.*)<([^>]*)>$/ do |pre, id|
 end
 
 #Givens
-
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
 
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   if !defined? @fields
@@ -67,14 +63,6 @@ end
 
 #Thens
 
-Then /^I should receive a ID for the newly created .*$/ do
-  headers = @res.raw_headers
-  headers.should_not be_nil
-  headers['location'].should_not be_nil
-  s = headers['location'][0]
-  @new_id = s[s.rindex('/')+1..-1]
-  @new_id.should_not be_nil
-end
 
 Then /^I should receive a collection of (\d+) [^ ]* links$/ do |arg1|
   if @format == "application/json" or @format == "application/vnd.slc+json"
