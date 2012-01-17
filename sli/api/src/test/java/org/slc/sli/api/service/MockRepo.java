@@ -304,6 +304,13 @@ public class MockRepo implements EntityRepository {
                         queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
                                 + (String) queryObject.get(key);
                     }
+                } else if (queryObject.get(key) instanceof Integer) {
+                    if (queryString.equals("")) {
+                        queryString = key.replaceFirst("body.", "") + "=" + ((Integer) queryObject.get(key)).toString();
+                    } else {
+                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
+                                + ((Integer) queryObject.get(key)).toString();
+                    }
                 } else if (queryObject.get(key) instanceof DBObject) {
                     queryString = addQueryToString(queryString, (DBObject) queryObject.get(key), key);
                 }
