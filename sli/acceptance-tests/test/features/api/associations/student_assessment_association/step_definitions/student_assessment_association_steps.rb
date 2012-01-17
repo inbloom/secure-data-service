@@ -127,11 +127,6 @@ Given /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |uri|
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code.to_s} but expected #{arg1}")
-end
-
 Then /^I should receive a ID for the newly created student\-assessment\-association$/ do
   headers = @res.raw_headers
   assert(headers != nil, "Result contained no headers")

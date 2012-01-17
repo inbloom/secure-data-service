@@ -41,11 +41,12 @@ public class MockRepo implements EntityRepository {
         repo.put("staff", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganization", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganizationschoolassociation", new LinkedHashMap<String, Entity>());
-        repo.put("staffeducationOrganizationassociation", new LinkedHashMap<String, Entity>());
+        repo.put("staffEducationOrganizationAssociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionassessmentassociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionschoolassociation", new LinkedHashMap<String, Entity>());
-        repo.put("aggregationdefinition", new LinkedHashMap<String, Entity>());
         repo.put("aggregation", new LinkedHashMap<String, Entity>());
+        repo.put("staffschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("aggregationdefinition", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -231,6 +232,9 @@ public class MockRepo implements EntityRepository {
             } else if (operator.equals("<=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0)))
                     match = false;
+            } else if (operator.equals("!=")) {
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0)))
+                    match = false;
             } else if (operator.equals("=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0)))
                     match = false;
@@ -239,9 +243,6 @@ public class MockRepo implements EntityRepository {
                     match = false;
             } else if (operator.equals(">")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0)))
-                    match = false;
-            } else if (operator.equals("<>")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0)))
                     match = false;
             }
         }
@@ -304,6 +305,13 @@ public class MockRepo implements EntityRepository {
                         queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
                                 + (String) queryObject.get(key);
                     }
+                } else if (queryObject.get(key) instanceof Integer) {
+                    if (queryString.equals("")) {
+                        queryString = key.replaceFirst("body.", "") + "=" + ((Integer) queryObject.get(key)).toString();
+                    } else {
+                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
+                                + ((Integer) queryObject.get(key)).toString();
+                    }
                 } else if (queryObject.get(key) instanceof DBObject) {
                     queryString = addQueryToString(queryString, (DBObject) queryObject.get(key), key);
                 }
@@ -341,9 +349,9 @@ public class MockRepo implements EntityRepository {
             
         } else if (dbObject.containsField("$ne")) {
             if (queryString.equals(""))
-                queryString = key.replaceFirst("body.", "") + "<>" + dbObject.get("$ne");
+                queryString = key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
             else
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<>" + dbObject.get("$ne");
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
             
         }
         return queryString;

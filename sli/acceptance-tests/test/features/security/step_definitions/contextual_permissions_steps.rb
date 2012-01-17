@@ -18,6 +18,18 @@ Transform /^the teacher "([^"]*)"$/ do |arg1|
   id
 end
 
+Transform /^the section "([^"]*)"$/ do |arg1|
+  id = "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d" if arg1 == "FHS-Math101"
+  id = "eb4d7e1b-7bed-890a-d974-cdb25a29fc2d" if arg1 == "FHS-Science101"
+  id = "eb4d7e1b-7bed-890a-dd74-cdb25a29fc2d" if arg1 == "FHS-English101"
+  id = "eb4d7e1b-7bed-890a-d5b4-cdb25a29fc2d" if arg1 == "WES-English"
+  id = "eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d" if arg1 == "WES-Math"
+  id = "eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d" if arg1 == "PDMS-Trig"
+  id = "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d" if arg1 == "PDMS-Geometry"
+  id
+end
+
+
 Transform /^list of teachers from school "([^"]*)"&/ do |arg1|
   array = ["John Doe", "Ted Bear"] if arg1 == "Fry High School"
   array = ["John Doe", "Elizabeth Jane"] if arg1 == "Watson Elementary School"

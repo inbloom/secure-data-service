@@ -56,7 +56,7 @@ public class StudentListControllerTest {
         PowerMockito.doReturn(principal).when(partiallyMocked, "getPrincipal");
         
         ModelAndView result;   
-        result = partiallyMocked.retrieveStudentList("", model);
+        result = partiallyMocked.retrieveStudentList(model);
         assertEquals(result.getViewName(), "studentList");
         String schoolListJson = (String) model.get("schoolList");
         Gson gson = new Gson();
@@ -77,7 +77,7 @@ public class StudentListControllerTest {
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(mocked, "getPrincipal");
         ModelMap model = new ModelMap();
-        mocked.retrieveStudentList("", model);
+        mocked.retrieveStudentList(model);
         assertTrue(model.get("schoolList").equals("null"));
 
     }

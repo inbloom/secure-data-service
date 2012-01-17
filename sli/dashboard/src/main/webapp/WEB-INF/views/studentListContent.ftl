@@ -9,6 +9,7 @@
 <table id="studentList"> 
 
 <#-- draw header -->
+<#-- TODO: Handle programatically -->
 <tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <th colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
@@ -30,17 +31,17 @@
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
       
+      <#-- student info -->
+      <#if field.getType() = "studentInfo">
+        ${students.get(field, student)}
+        
       <#-- assessment results -->
-      <#if field.getType() = "assessment">
+      <#elseif field.getType() = "assessment">
         <#if field.getVisual()?? && (field.getVisual()?length > 0)>
           <#include "widget/" + field.getVisual() + ".ftl">
         <#else>
           ${assessments.get(field, student)}
         </#if>
-        
-      <#-- student info -->
-      <#elseif field.getType() = "studentInfo">
-        ${students.get(field, student)}
         
       <#else>
         <#-- No resolver found. Report an error. -->

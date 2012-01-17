@@ -46,6 +46,12 @@
     <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect" factory-method="aspectOf">
         <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
     </bean>
+    
+    <bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
+	</bean>
+	
+	<bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
+    </bean>
 
     <bean id="sliAdminValidator" class="org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator">
     	<constructor-arg index="0" type="String" value="test"/>

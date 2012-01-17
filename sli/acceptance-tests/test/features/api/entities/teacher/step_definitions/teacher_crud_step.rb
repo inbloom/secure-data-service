@@ -92,10 +92,6 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-And /^I should receive a return code of (\d+)$/ do |status|
-  @res.code.should == Integer(status)
-end
-
 Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
