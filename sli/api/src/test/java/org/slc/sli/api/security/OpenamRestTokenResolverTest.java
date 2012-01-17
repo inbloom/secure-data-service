@@ -51,7 +51,7 @@ public class OpenamRestTokenResolverTest {
 
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(rightsResolver.resolveRoles(Arrays.asList(new String[] {"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        when(rightsResolver.resolveRoles(null, Arrays.asList(new String[] {"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
     }
     
     
@@ -59,13 +59,13 @@ public class OpenamRestTokenResolverTest {
     public void testResolveSuccess() {
 
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
-        Assert.assertNotNull(auth);
+        Assert.assertNotNull(auth.getAuthorities());
         Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
     
     @Test
     public void testResolveFailure() {
-        when(rightsResolver.resolveRoles(null)).thenReturn(null);
+        when(rightsResolver.resolveRoles(null, null)).thenReturn(null);
         Authentication auth = resolver.resolve(Mocker.INVALID_TOKEN);
         Assert.assertNull(auth);
     }

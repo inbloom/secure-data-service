@@ -10,8 +10,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityExistsException;
 
+/**
+ * Tests for ContextResolver
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ContextResolverTest {
 
     @Autowired
@@ -44,7 +47,7 @@ public class ContextResolverTest {
             contextResolver.addContextResolver(resolverIn);
             Assert.fail("should throw EntityExistsException");
         } catch (EntityExistsException e) {
-
+            Assert.assertNotNull(contextResolver);
         }
 
     }
