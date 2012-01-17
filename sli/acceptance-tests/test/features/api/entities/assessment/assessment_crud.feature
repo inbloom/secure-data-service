@@ -1,5 +1,5 @@
 
-Feature: In order to manage assessments
+Feature: As an SLI application, I want to be able to manage assessments
 As a SLI Application I want to be able to manage the basic model of assessments. This includes performing CRUD on Assessment entity.
 Also verify the correct links from assessment to student-assessment associations and family-assessment associations. An assessment can 
 be used to measure differences in individuals or groups and changes in performance from one occasion to the next.
