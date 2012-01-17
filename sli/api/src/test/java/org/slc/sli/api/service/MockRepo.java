@@ -231,6 +231,9 @@ public class MockRepo implements EntityRepository {
             } else if (operator.equals("<=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0)))
                     match = false;
+            } else if (operator.equals("!=")) {
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0)))
+                    match = false;
             } else if (operator.equals("=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0)))
                     match = false;
@@ -239,9 +242,6 @@ public class MockRepo implements EntityRepository {
                     match = false;
             } else if (operator.equals(">")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0)))
-                    match = false;
-            } else if (operator.equals("<>")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0)))
                     match = false;
             }
         }
@@ -341,9 +341,9 @@ public class MockRepo implements EntityRepository {
             
         } else if (dbObject.containsField("$ne")) {
             if (queryString.equals(""))
-                queryString = key.replaceFirst("body.", "") + "<>" + dbObject.get("$ne");
+                queryString = key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
             else
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<>" + dbObject.get("$ne");
+                queryString = queryString + "&" + key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
             
         }
         return queryString;

@@ -49,8 +49,8 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .lte(convertToType(type, keyAndValue[1]));
                         
-                    } else if (query.contains("<>")) {
-                        String[] keyAndValue = getKeyAndValue(query, "<>");
+                    } else if (query.contains("!=")) {
+                        String[] keyAndValue = getKeyAndValue(query, "!=");
                         String type = findParamType(entityType, keyAndValue[0]);
                         if (keyAndValue != null)
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(convertToType(type, keyAndValue[1]));
@@ -172,7 +172,7 @@ public class BasicQueryConverter implements QueryConverter {
         } else if (type.equals("FLOAT")) {
             return Float.parseFloat(value);
         } else if (type.equals("BYTES")) {
-            return Byte.parseByte(value);
+            throw new RuntimeException("Unsupported Avro Schema Type: " + type);
         } else if (type.equals("DOUBLE")) {
             return Double.parseDouble(value);
         } else
