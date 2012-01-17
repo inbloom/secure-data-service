@@ -3,6 +3,25 @@
 <!-- no namespace defined here - this file is intended to be included into higher level XSD files -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
+    <xs:complexType name="ReferenceType">
+        <xs:annotation>
+            <xs:documentation>This is the base type for association references.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:ID">
+            <xs:annotation>
+                <xs:documentation>The XML ID associated with this complex object object.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref" type="xs:IDREF">
+            <xs:annotation>
+                <xs:documentation>The XML IDREF that references the object associated with this
+                    object.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:simpleType name="IdentificationCode">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
@@ -993,7 +1012,7 @@
             <xs:maxLength value="60" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="EducationalEnvironmentType">
         <xs:annotation>
             <xs:documentation>The setting in which a child receives education and
@@ -1015,7 +1034,7 @@
             <xs:enumeration value="Shop" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="MediumOfInstructionType">
         <xs:annotation>
             <xs:documentation>The media through which teachers provide
@@ -1038,7 +1057,7 @@
             <xs:enumeration value="Other" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="PopulationServedType">
         <xs:annotation>
             <xs:documentation>The type of students the course was designed for.
@@ -1057,44 +1076,7 @@
             <xs:enumeration value="Migrant Students" />
         </xs:restriction>
     </xs:simpleType>
-    
-    <xs:complexType name="Credits">
-        <xs:annotation>
-            <xs:documentation>Credits or units of value awarded for the
-                completion of a course
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Credit">
-                <xs:annotation>
-                    <xs:documentation>The value of credits or units of value awarded
-                        for the completion of a course
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="xs:decimal">
-                        <xs:minInclusive value="0" />
-                        <xs:fractionDigits value="2" />
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="CreditType" type="CreditType" use="optional">
-            <xs:annotation>
-                <xs:documentation>The type of credits or units of value awarded for
-                    the completion of a course
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="CreditConversion" type="xs:decimal" use="optional">
-            <xs:annotation>
-                <xs:documentation>Conversion factor that when multiplied by the
-                    number of credits is equivalent to Carnegie units.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-    
+
     <xs:simpleType name="CreditType">
         <xs:annotation>
             <xs:documentation>The type of credits or units of value awarded for
@@ -1111,7 +1093,7 @@
             <xs:enumeration value="Other" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="ClassroomIdentificationCode">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
@@ -1123,7 +1105,7 @@
             <xs:maxLength value="20" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="AttendanceEventReason">
         <xs:annotation>
             <xs:documentation>The reason for the absence or tardy.
@@ -1134,7 +1116,7 @@
             <xs:maxLength value="40" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="BellScheduleName">
         <xs:annotation>
             <xs:documentation>The title or name of the bell schedule.
@@ -1145,7 +1127,7 @@
             <xs:maxLength value="60" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="CaseNumber">
         <xs:annotation>
             <xs:documentation>The case number assigned to the incident by law
@@ -1157,7 +1139,7 @@
             <xs:maxLength value="20" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="ClassPeriodNameType">
         <xs:annotation>
             <xs:documentation>An indication of the portion of a typical daily
@@ -1215,7 +1197,7 @@
 	<xs:simpleType name="DiplomaLevelType">
 		<xs:annotation>
 			<xs:documentation>
-				The level of diploma/credential that is awarded to a student in recognition of his/her completion of 
+				The level of diploma/credential that is awarded to a student in recognition of his/her completion of
 				the curricular requirements.
 			</xs:documentation>
 		</xs:annotation>
@@ -1231,7 +1213,7 @@
 	<xs:simpleType name="DiplomaType">
 		<xs:annotation>
 			<xs:documentation>
-				The type of diploma/credential that is awarded to a student in recognition of his/her completion of 
+				The type of diploma/credential that is awarded to a student in recognition of his/her completion of
 				the curricular requirements..
 			</xs:documentation>
 		</xs:annotation>
@@ -1252,7 +1234,7 @@
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
     <xs:simpleType name="CIPCode">
         <xs:annotation>
             <xs:documentation>Number and description of the CIP Code associated
@@ -1286,7 +1268,7 @@
             <xs:maxLength value="1024" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="CohortIdentifier">
         <xs:annotation>
             <xs:documentation>A locally assigned unique identifier (within the
@@ -1301,7 +1283,7 @@
             <xs:maxLength value="20" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="ContactRestrictions">
         <xs:annotation>
             <xs:documentation>Restrictions for student and/or teacher contact
@@ -1314,7 +1296,7 @@
             <xs:maxLength value="250" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="ContentStandardName">
         <xs:annotation>
             <xs:documentation>The name of the content standard, for example
@@ -1381,7 +1363,7 @@
             <xs:maxLength value="60" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="DisabilityDiagnosis">
         <xs:annotation>
             <xs:documentation>A description of the disability diagnosis.
@@ -1392,7 +1374,7 @@
             <xs:maxLength value="80" />
         </xs:restriction>
     </xs:simpleType>
-   
+
     <xs:simpleType name="DisciplineActionIdentifier">
         <xs:annotation>
             <xs:documentation>Identifier assigned by the education organization
@@ -1417,7 +1399,7 @@
             <xs:maxLength value="30" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="ElectronicMailAddress">
         <xs:annotation>
             <xs:documentation>The electronic mail (e-mail) address listed for an
@@ -1429,7 +1411,7 @@
             <xs:maxLength value="128" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="SimpleName">
         <xs:annotation>
             <xs:documentation>A name given to an individual at birth, baptism, or
@@ -1441,7 +1423,7 @@
             <xs:maxLength value="75" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="GradebookEntryType">
         <xs:annotation>
             <xs:documentation>The type of the gradebook entry; for example,
@@ -1453,7 +1435,7 @@
             <xs:maxLength value="60" />
         </xs:restriction>
     </xs:simpleType>
-   
+
     <xs:simpleType name="GradeEarned">
         <xs:annotation>
             <xs:documentation>A final or interim (grading period) indicator of
@@ -1465,7 +1447,7 @@
             <xs:maxLength value="20" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="GradeValueQualifier">
         <xs:annotation>
             <xs:documentation>The scale of equivalents, if applicable, for grades
@@ -1481,7 +1463,7 @@
             <xs:maxLength value="80" />
         </xs:restriction>
     </xs:simpleType>
-   
+
     <xs:simpleType name="HonorsDescription">
         <xs:annotation>
             <xs:documentation>A description of the type of academic distinctions
@@ -1493,7 +1475,7 @@
             <xs:maxLength value="80" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="IncidentIdentifier">
         <xs:annotation>
             <xs:documentation>A locally assigned unique identifier (within the
@@ -1508,7 +1490,7 @@
             <xs:maxLength value="20" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="Indicator">
         <xs:annotation>
             <xs:documentation>Indicator or metric computed for the student (e.g.,
@@ -1581,7 +1563,7 @@
             <xs:maxLength value="35" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="Objective">
         <xs:annotation>
             <xs:documentation>The designated title of the learning objective.
@@ -1637,7 +1619,7 @@
             <xs:maxLength value="75" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="RequisitionNumber">
         <xs:annotation>
             <xs:documentation>The number or identfier assigned to an open staff
@@ -1752,7 +1734,7 @@
             <xs:maxLength value="80" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="AdditionalCreditType">
         <xs:annotation>
             <xs:documentation>The type of additional credits or units of value
@@ -1784,7 +1766,7 @@
             <xs:enumeration value="Testing Center" />
         </xs:restriction>
     </xs:simpleType>
-   
+
     <xs:simpleType name="AssessmentCategoryType">
         <xs:annotation>
             <xs:documentation>The category of an assessment based on format and
@@ -1831,7 +1813,7 @@
             <xs:enumeration value="Other" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="AssessmentIdentificationSystemType">
         <xs:annotation>
             <xs:documentation>A coding scheme that is used for identification and
@@ -1849,7 +1831,7 @@
             <xs:enumeration value="Other" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="AssessmentItemResultType">
         <xs:annotation>
             <xs:documentation>The analyzed result of a student's response to an
@@ -1866,7 +1848,7 @@
             <xs:enumeration value="Met standard" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="AssessmentReportingMethodType">
         <xs:annotation>
             <xs:documentation>The method that the instructor of the class uses to
@@ -1918,7 +1900,7 @@
             <xs:enumeration value="Not applicable" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="AttendanceEventCategoryType">
         <xs:annotation>
             <xs:documentation>A code categorizing the attendance event (e.g.,
@@ -1933,7 +1915,7 @@
             <xs:enumeration value="Early departure" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="AttendanceEventType">
         <xs:annotation>
             <xs:documentation>A code describing the type of the attendance event
@@ -1947,7 +1929,7 @@
             <xs:enumeration value="Extracurricular Attendance" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="BehaviorCategoryType">
         <xs:annotation>
             <xs:documentation>Enumeration items defining the categories of
@@ -1961,7 +1943,7 @@
             <xs:enumeration value="School Code of Conduct" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="CalendarEventType">
         <xs:annotation>
             <xs:documentation>The type of scheduled or unscheduled event for the
@@ -1987,7 +1969,7 @@
             <xs:enumeration value="Other" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="CareerPathwayType">
         <xs:annotation>
             <xs:documentation>The career cluster or pathway representing the
@@ -2013,7 +1995,7 @@
             <xs:enumeration value="Transportation, Distribution and Logistics" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="ClassroomPositionType">
         <xs:annotation>
             <xs:documentation>The type of position the staff member holds in the
@@ -2027,7 +2009,7 @@
             <xs:enumeration value="Substitute Teacher" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="CohortScopeType">
         <xs:annotation>
             <xs:documentation>The scope of cohort (e.g., school, district,
@@ -2044,7 +2026,7 @@
             <xs:enumeration value="Statewide" />
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="CohortType">
         <xs:annotation>
             <xs:documentation>The type of the cohort (e.g., academic
@@ -3144,15 +3126,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="ComplexObjectType" abstract="true">
-        <xs:attribute name="id" type="xs:ID">
-            <xs:annotation>
-                <xs:documentation>The XML ID associated with the complex object.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
     <xs:simpleType name="ProgramAssignmentType">
         <xs:annotation>
             <xs:documentation>The name of the education program for which a
@@ -3186,7 +3159,7 @@
             <xs:enumeration value="Vocational credit" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="PerformanceBaseType">
         <xs:annotation>
             <xs:documentation>Defines standard levels of competency or
@@ -3202,7 +3175,7 @@
             <xs:enumeration value="Well Below Basic" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="ProgramSponsorType">
         <xs:annotation>
             <xs:documentation>Ultimate and intermediate providers of funds for a
@@ -3243,7 +3216,7 @@
             <xs:enumeration value="Student Success Plan" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="EmploymentStatusType">
         <xs:annotation>
             <xs:documentation>Reflects the type of employment or contract.
@@ -3351,7 +3324,7 @@
             <xs:enumeration value="VIII" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="EntryType">
         <xs:annotation>
             <xs:documentation>The process by which a student enters a school
@@ -3391,7 +3364,7 @@
             <xs:enumeration value="Other" />
         </xs:restriction>
     </xs:simpleType>
- 
+
     <xs:simpleType name="ExitWithdrawType">
         <xs:annotation>
             <xs:documentation>The circumstances under which the student exited
@@ -3653,4 +3626,86 @@
         </xs:restriction>
     </xs:simpleType>
 
+	<xs:simpleType name="CourseLevelType">
+		<xs:annotation>
+			<xs:documentation>The secondary course's level of rigor.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Basic or remedial"/>
+			<xs:enumeration value="Enriched or advanced"/>
+			<xs:enumeration value="General or regular"/>
+			<xs:enumeration value="Honors"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CourseLevelCharacteristicItemType">
+		<xs:annotation>
+			<xs:documentation>The item for indication of the nature and difficulty of instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Advanced"/>
+			<xs:enumeration value="Advanced Placement"/>
+			<xs:enumeration value="Core Subject"/>
+			<xs:enumeration value="Correspondence"/>
+			<xs:enumeration value="CTE"/>
+			<xs:enumeration value="Distance Learning"/>
+			<xs:enumeration value="Dual Credit"/>
+			<xs:enumeration value="Graduation Credit"/>
+			<xs:enumeration value="Honors"/>
+			<xs:enumeration value="IB Course"/>
+			<xs:enumeration value="Magnet"/>
+			<xs:enumeration value="Pre-AP"/>
+			<xs:enumeration value="Pre-IB"/>
+			<xs:enumeration value="Remedial"/>
+			<xs:enumeration value="Students with disabilities"/>
+			<xs:enumeration value="Basic"/>
+			<xs:enumeration value="General"/>
+			<xs:enumeration value="Gifted and Talented"/>
+			<xs:enumeration value="College level"/>
+			<xs:enumeration value="English Language Learner"/>
+			<xs:enumeration value="Untracked"/>
+			<xs:enumeration value="Accepted as high school equivalent"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="CourseRepeatCodeType">
+		<xs:annotation>
+			<xs:documentation>Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="RepeatCounted"/>
+			<xs:enumeration value="RepeatNotCounted"/>
+			<xs:enumeration value="ReplacementCounted"/>
+			<xs:enumeration value="ReplacedNotCounted"/>
+			<xs:enumeration value="RepeatOtherInstitution"/>
+			<xs:enumeration value="NotCountedOther"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="GradeType">
+		<xs:annotation>
+			<xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Conduct"/>
+			<xs:enumeration value="Exam"/>
+			<xs:enumeration value="Final"/>
+			<xs:enumeration value="Grading Period"/>
+			<xs:enumeration value="Mid-Term Grade"/>
+			<xs:enumeration value="Progress Report"/>
+			<xs:enumeration value="Semester"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="text">
+		<xs:annotation>
+			<xs:documentation>Long string for annotations or descriptions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 </xs:schema>

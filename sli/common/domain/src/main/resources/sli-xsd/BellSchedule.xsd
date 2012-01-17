@@ -3,7 +3,6 @@
 	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
 
-	<xs:include schemaLocation="SimpleTypes.xsd" />
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
 
 	<xs:element name="Session">
@@ -62,10 +61,10 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GradingPeriodReference" type="GradingPeriodReference" maxOccurs="unbounded">
+				<xs:element name="GradingPeriodReference" type="GradingPeriodSimpleReference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Ids of grading periods associated with the
-							calendar. 
+							calendar.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
@@ -357,20 +356,14 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+
+            <!-- obtain location information via SectionBellScheduleAssocation -->
+
 			<xs:element name="SessionReference" type="SessionSimpleReference"
-				minOccurs="0">
+				minOccurs="1" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>The session associated with the session. This
-						reference is optional only if the session reference is available
-						elsewhere in the interchange.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="LocationReference" type="LocationSimpleReference"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The location, typically a classroom, where the
-						section meets.
+					<xs:documentation>The session associated with the section. This
+						reference is required.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -384,7 +377,6 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType></xs:element>
-
 
 	<xs:element name="Location">
 		<xs:annotation>
@@ -411,7 +403,7 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
-	</xs:complexType>
+	    </xs:complexType>
 	</xs:element>
 
 </xs:schema>
