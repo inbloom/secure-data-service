@@ -21,10 +21,6 @@ When /^I GET the url "([^"]*)" using that session ID$/ do |arg1|
     assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I should receive a return code of "([^"]*)"$/ do |arg1|
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == Integer(arg1), "Return code was not expected: '"+@res.code.to_s+"' but expected '" + arg1 + "'")
-end
 
 Then /^I should see the session debug context in the response body$/ do
     assert(@res != nil, "Response is nil")
