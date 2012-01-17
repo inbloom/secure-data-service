@@ -25,7 +25,7 @@ Given format "application/json"
 	And "performanceLevel" is "3"
 When I navigate to POST "/student-assessment-associations"
 Then I should receive a return code of 201
-	And I should receive a ID for the newly created student-assessment-association
+	And I should receive an ID for the newly created student-assessment-association
 	 When I navigate to GET "/student-assessment-associations/<'newly created student assessment association' ID>"
     Then the "administrationDate" should be "2011-12-01"
 	And the "scoreResults" should be "85"

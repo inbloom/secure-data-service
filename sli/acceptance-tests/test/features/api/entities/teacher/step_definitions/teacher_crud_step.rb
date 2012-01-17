@@ -47,11 +47,6 @@ end
 # end
 
 
-Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain"].should include(fmt)
-  @format = fmt
-end
-
 Given /^the "name" is "([^\"]+)" "([^\"]+)" "([^\"]+)"$/ do |first, mid, last|
   first.should_not == nil
   last.should_not == nil
@@ -81,15 +76,6 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
   data = prepareData(@format, @data)
   restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-end
-
-Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "Teacher ID is nil")
 end
 
 When /^I navigate to GET "([^\"]+)"$/ do |url|
