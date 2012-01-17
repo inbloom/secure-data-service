@@ -5,12 +5,14 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * Query Converter Test 
- *
+ * Query Converter Test
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -26,5 +28,16 @@ public class QueryConverterTest {
         assertEquals(queryConverter.findParamType("student", "studentUniqueStateId"), "INT");
         assertEquals(queryConverter.findParamType("student", "hispanicLatinoEthnicity"), "BOOLEAN");
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "entryGradeLevel"), "ENUM");
+    }
+    
+    @Test
+    public void testStringToQuery() {
+        assertEquals(queryConverter.stringToQuery("studentAssessmentAssociation", "performanceLevel=4")
+                .getQueryObject(), new Query(Criteria.where("body.performanceLevel").is("4")).getQueryObject());
+    }
+    
+    @Test(expected = QueryParseException.class)
+    public void testStringToQueryException() {
+        queryConverter.stringToQuery("studentAssessmentAssociation", "nonexist.field=test");
     }
 }
