@@ -163,7 +163,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         else
             query.addCriteria(Criteria.where("body." + key).is(id));
         
-        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), query, start, numResults);
+        Iterable<Entity> entityObjects = getRepo().findByQuery(getCollectionName(), query, start, numResults);
         return entityObjects;
     }
     
