@@ -20,15 +20,12 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"ded6e1c6-146f-4f68-8a21-99446abab492" if arg2 == "Donna at Purple Middle School ID"
   id = arg1+"f7d86a4e-4d4a-49f6-9b8b-80973f1ae501" if arg2 == "Rachel at Purple Middle School ID"
   id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "'Invalid ID'"
-  id = arg1+@assocId                               if arg2 == "'newly created student school association' ID"
+  id = arg1+@newId                                 if arg2 == "'newly created student school association' ID"
   id = arg1                                        if arg2 == "'No GUID'"
   id
 end
 
 
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
 
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   if !defined? @fields
@@ -141,15 +138,6 @@ end
 When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-Then /^I should receive a ID for the newly created student\-school\-association$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Result contained no headers")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @assocId = s[s.rindex('/')+1..-1]
-  assert(@assocId != nil, "Student-School-Association ID is nil")
 end
 
 

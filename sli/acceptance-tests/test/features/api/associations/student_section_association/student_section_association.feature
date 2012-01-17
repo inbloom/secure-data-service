@@ -18,7 +18,7 @@ Scenario Outline: Create a student-section-association
 		And "studentId" is "<'Jane Doe' ID>"
 	When I navigate to POST "/student-section-associations"
 	Then I should receive a return code of 201
-		And I should receive a ID for the newly created student-section-association
+		And I should receive an ID for the newly created student-section-association
 	When I navigate to GET "/student-section-associations/<'newly created student-section-association' ID>"
 	Then I should receive a return code of 200
 		And "beginDate" should be "2011-01-12"

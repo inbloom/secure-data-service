@@ -35,10 +35,6 @@ end
 
 ### GIVEN ###
 
-Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain"].should include(fmt)
-  @format = fmt
-end
 
 Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
   if !defined? @data
@@ -91,15 +87,6 @@ end
 
 ### THEN ###
 
-
-Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "#{entity} ID is nil")
-end
 
 Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |key, value|
   value = convert(value)

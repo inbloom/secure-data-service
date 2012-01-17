@@ -16,14 +16,11 @@ Transform /(.*)<([^>]*)>$/ do |pre, arg|
   result = "12f25c0f-75d7-4e45-8f36-af1bcc342871" if arg == "'Teacher Ms. Jones and Section Algebra II' ID"
   result = "8d180486-3f3e-49c6-9f80-a3481e225151" if arg == "'Teacher Ms. Smith and Section Chem I' ID"
   result = "da3eff9f-d26e-49f6-8b8b-1af59241c91a" if arg == "'Teacher Ms. Smith and Section Physics II' ID"
-  result = @newSectionId if arg == "'newly created teacher-section-association' ID"
+  result = @newId                                 if arg == "'newly created teacher-section-association' ID"
   pre + result
 end
 
 
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
 
 
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
@@ -81,15 +78,6 @@ Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
     @fields = {}
   end
   @fields[key] = value
-end
-
-Then /^I should receive a ID for the newly created teacher\-section\-association$/ do
-  headers = @res.raw_headers
-  headers.should_not be_nil
-  headers['location'].should_not be_nil
-  s = headers['location'][0]
-  @newSectionId = s[s.rindex('/')+1..-1]
-  @newSectionId.should_not be_nil
 end
 
 When /^I navigate to Teacher Section Associations for Teacher "([^"]*)" and Section "([^"]*)"$/ do |teacherarg, sectionarg| 

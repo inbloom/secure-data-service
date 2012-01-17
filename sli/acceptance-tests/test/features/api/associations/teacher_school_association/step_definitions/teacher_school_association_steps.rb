@@ -29,10 +29,6 @@ end
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
-
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   @fields = {} if !defined? @fields
   
@@ -121,11 +117,6 @@ Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"
     end
   end
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-Then /^I should receive an ID for the newly created (.*)$/ do |object_type_arg|
-  #common definition for extracting newly created object's ID
-  @newId = getIdOfNewlyCreatedObject(object_type_arg)
 end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
