@@ -3,6 +3,7 @@ package org.slc.sli.admin.client;
 import org.slc.sli.admin.util.UrlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
@@ -29,6 +30,7 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     
     /** URI for the API **/
+    @Autowired
     @Value("${apiServerUri}")
     private String apiServerUri;
     

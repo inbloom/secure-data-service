@@ -10,13 +10,14 @@
 		 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<context:component-scan base-package="org.slc.sli" />
-	<context:annotation-config />
+	<mvc:annotation-driven />
 
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 	<bean id="adminProperties"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
-			<value>classpath:/admin-local.properties</value>
+			<value>classpath:/${sli.env}.properties</value>
 		</property>
 	</bean>
 
@@ -29,7 +30,6 @@
 		</property>
 	</bean>
 
-
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -37,5 +37,5 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+
 </beans>

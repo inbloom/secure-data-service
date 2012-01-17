@@ -16,10 +16,26 @@ Then /^I should be redirected to the Realm page$/ do
 end
 
 Given /^I am authenticated to SLI IDP$/ do
-  url = "http://"+PropLoader.getProps['idp_server_url']+"/idp/UI/Login"
+  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
   @driver.get url
-  @driver.find_element(:id, "IDToken1").send_keys "administrator"
-  @driver.find_element(:id, "IDToken2").send_keys "administrator1234"
+  @driver.find_element(:id, "IDToken1").send_keys "demo"
+  @driver.find_element(:id, "IDToken2").send_keys "demo1234"
+  @driver.find_element(:name, "Login.Submit").click
+end
+
+Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
+  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
+  @driver.get url
+  @driver.find_element(:id, "IDToken1").send_keys arg1
+  @driver.find_element(:id, "IDToken2").send_keys arg2
+  @driver.find_element(:name, "Login.Submit").click
+end
+
+Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
+  url = PropLoader.getProps['sea_idp_server_url']+"/UI/Login"
+  @driver.get url
+  @driver.find_element(:id, "IDToken1").send_keys arg1
+  @driver.find_element(:id, "IDToken2").send_keys arg2
   @driver.find_element(:name, "Login.Submit").click
 end
 
@@ -87,6 +103,14 @@ Then /^I do not have access to the SLI Default Roles Admin Page$/ do
   assert(@driver.title.index("SLI Default Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
 end
 
+Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
+  #No code needed, this is done durring the IDP configuration
+end
+
+Then /^I should get a message that I am not authorized$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
@@ -96,17 +120,5 @@ When /^I click on the Logout link$/ do
 end
 
 Then /^I am no longer authenticated to SLI IDP$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I click on the Default SLI Roles and Permissions URL$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser opens the confluence Default SLI Roles and Permissions page in a new browser window$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the browser focus is on the new browser window$/ do
   pending # express the regexp above with the code you wish you had
 end
