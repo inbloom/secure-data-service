@@ -9,6 +9,7 @@ $.ajaxSetup ({cache: false});
 
 <script type="text/javascript" src="static/js/populationSelect.js"></script>
 <script type="text/javascript" src="static/js/3p/raphael-min.js"></script>
+<script type="text/javascript" src="static/js/dashboardUtil.js"></script>
 <script type="text/javascript" src="static/js/fuelGaugeWidget.js"></script>
 
 <link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
