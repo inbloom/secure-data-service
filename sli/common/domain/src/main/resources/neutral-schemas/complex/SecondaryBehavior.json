@@ -1,0 +1,10 @@
+
+{
+   "type":"SecondaryBehavior",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "BehaviorCategory":"BehaviorCategoryType",
+      "SecondaryBehavior":"SecondaryBehaviorsType"},
+   "properties":{}
+}

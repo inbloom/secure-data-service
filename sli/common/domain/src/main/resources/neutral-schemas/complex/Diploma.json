@@ -1,0 +1,16 @@
+
+{
+   "type":"Diploma",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "DiplomaAwardDate":"date",
+      "*DiplomaLevel":"DiplomaLevelType",
+      "DiplomaType":"DiplomaType",
+      "*CTECompleter":"boolean",
+      "*AcademicHonors":["AcademicHonor"],
+      "*Recognitions":["Recognition"],
+      "SchoolReference":"EducationalOrgReferenceType"},
+   "properties":{}
+}

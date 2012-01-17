@@ -1,0 +1,16 @@
+
+{
+   "type":"MeetingTime",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "ClassPeriodReference":"ClassPeriodReferenceType",
+      "WeekNumber":"restricted",
+      "MeetingDays":"MeetingDaysType",
+      "*AlternateDayName":"AlternateDayName",
+      "StartTime":"time",
+      "EndTime":"time",
+      "*OfficialAttendancePeriod":"boolean"},
+   "properties":{}
+}

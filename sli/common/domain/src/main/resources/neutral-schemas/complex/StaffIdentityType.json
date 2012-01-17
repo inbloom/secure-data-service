@@ -1,0 +1,18 @@
+
+{
+   "type":"StaffIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*StaffUniqueStateId":"UniqueStateIdentifier",
+      "*StaffIdentificationCode":["StaffIdentificationCode"],
+      "*Name":"Name",
+      "*OtherName":["OtherName"],
+      "*Sex":"SexType",
+      "*BirthDate":"date",
+      "*HispanicLatinoEthnicity":"boolean",
+      "*Race":"RaceType",
+      "*Telephone":["Telephone"],
+      "*ElectronicMail":["ElectronicMail"]},
+   "properties":{}
+}

@@ -1,0 +1,15 @@
+
+{
+   "type":"LearningStandard",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "LearningStandardId":"LearningStandardId",
+      "Description":"Description",
+      "ContentStandard":"ContentStandardType",
+      "GradeLevel":"GradeLevelType",
+      "SubjectArea":"AcademicSubjectType",
+      "*CourseTitle":"CourseTitle"},
+   "properties":{}
+}

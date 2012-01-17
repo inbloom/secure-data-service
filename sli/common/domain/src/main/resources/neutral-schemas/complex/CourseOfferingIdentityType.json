@@ -1,0 +1,12 @@
+
+{
+   "type":"CourseOfferingIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "LocalCourseCode":"LocalCourseCode",
+      "*CourseCode":["CourseCode"],
+      "Term":"TermType",
+      "SchoolYear":"SchoolYearType"},
+   "properties":{}
+}

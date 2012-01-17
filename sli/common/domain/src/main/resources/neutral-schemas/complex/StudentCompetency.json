@@ -1,0 +1,12 @@
+
+{
+   "type":"StudentCompetency",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "CompetencyLevel":"CompetencyLevelDescriptorType",
+      "*DiagnosticStatement":"text",
+      "*StudentSectionAssociationReference":"StudentSectionAssociationReferenceType"},
+   "properties":{}
+}

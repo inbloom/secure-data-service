@@ -1,0 +1,14 @@
+
+{
+   "type":"OtherName",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "OtherNameType":"OtherNameType",
+      "*PersonalTitlePrefix":"PersonalTitlePrefixType",
+      "FirstName":"FirstName",
+      "*MiddleName":"MiddleName",
+      "LastSurname":"LastSurname",
+      "*GenerationCodeSuffix":"GenerationCodeSuffixType"},
+   "properties":{}
+}

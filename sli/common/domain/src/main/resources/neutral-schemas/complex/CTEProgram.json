@@ -1,0 +1,12 @@
+
+{
+   "type":"CTEProgram",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "CareerPathway":"CareerPathwayType",
+      "*CIPCode":"CIPCode",
+      "*PrimaryCTEProgramIndicator":"boolean",
+      "*CTEProgramCompletionIndicator":"boolean"},
+   "properties":{}
+}

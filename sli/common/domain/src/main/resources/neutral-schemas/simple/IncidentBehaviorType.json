@@ -1,0 +1,9 @@
+
+{
+   "type":"IncidentBehaviorType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Alcohol","Arson","Attendance Policy Violation","Battery","Burglary/Breaking and Entering","Disorderly Conduct","Drugs Excluding Alcohol and Tobacco","Fighting","Harassment, Nonsexual","Harassment, Sexual","Homicide","Inappropriate Use of Medication","Insubordination","Kidnapping","Obscene Behavior","Physical Altercation, Minor","Robbery","School Threat","Theft","Threat/Intimidation","Tobacco Possession or Use","Trespassing","Vandalism","Violation of School Rules","Weapons Possession","Harassment or bullying on the basis of disability","Harassment or bullying on the basis of race, color, or national origin","Harassment or bullying on the basis of sex"]}
+}

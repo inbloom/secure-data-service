@@ -1,0 +1,12 @@
+
+{
+   "type":"StudentCohortAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StudentReference":"StudentReferenceType",
+      "CohortReference":"CohortReferenceType",
+      "BeginDate":"date",
+      "*EndDate":"date"},
+   "properties":{}
+}

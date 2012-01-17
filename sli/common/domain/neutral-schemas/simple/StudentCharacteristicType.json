@@ -1,0 +1,9 @@
+
+{
+   "type":"StudentCharacteristicType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Displaced Homemaker","Foster Care","Homeless","Immigrant","Migratory","Parent in Military","Pregnant","Single Parent","Unaccompanied Youth","Unschooled Asylee","Unschooled Refugee"]}
+}

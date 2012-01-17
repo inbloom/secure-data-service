@@ -1,0 +1,13 @@
+
+{
+   "type":"StaffCohortAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StaffReference":["StaffReferenceType"],
+      "CohortReference":["CohortReferenceType"],
+      "BeginDate":"date",
+      "*EndDate":"date",
+      "*StudentRecordAccess":"boolean"},
+   "properties":{}
+}

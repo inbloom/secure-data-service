@@ -1,0 +1,9 @@
+
+{
+   "type":"ObjectiveAssessmentIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "ObjectiveAssessmentIdentificationCode":"IdentificationCode"},
+   "properties":{}
+}

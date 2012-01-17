@@ -1,0 +1,13 @@
+
+{
+   "type":"FeederSchoolAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "FeederSchoolReference":"EducationalOrgSimpleReference",
+      "ReceivingSchoolReference":"EducationalOrgSimpleReference",
+      "BeginDate":"date",
+      "*EndDate":"date",
+      "*FeederRelationshipDescription":"Description"},
+   "properties":{}
+}

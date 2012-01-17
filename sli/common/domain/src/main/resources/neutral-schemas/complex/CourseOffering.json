@@ -1,0 +1,14 @@
+
+{
+   "type":"CourseOffering",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "LocalCourseCode":"LocalCourseCode",
+      "*LocalCourseTitle":"CourseTitle",
+      "SchoolReference":"EducationalOrgReferenceType",
+      "SessionReference":"SessionReferenceType",
+      "CourseReference":"CourseReferenceType"},
+   "properties":{}
+}

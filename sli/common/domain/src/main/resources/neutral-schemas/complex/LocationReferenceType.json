@@ -1,0 +1,11 @@
+
+{
+   "type":"LocationReferenceType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*ref":"IDREF",
+      "*LocationIdentity":"LocationIdentityType"},
+   "properties":{}
+}

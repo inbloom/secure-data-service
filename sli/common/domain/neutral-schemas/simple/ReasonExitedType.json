@@ -1,0 +1,9 @@
+
+{
+   "type":"ReasonExitedType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Transfer to regular education","Received a certificate","Reached maximum age","Died","Died or is permanently incapacitated","Discontinued schooling","Graduated with a high school diploma","Received certificate of completion, modified diploma, or finished IEP requirements","Program completion","Reached maximum age","No longer receiving special education","Refused services","Transferred to another district or school, known to be continuing in program/service","Transferred to another district or school, not known to be continuing in program/service","Transferred to another district or school, known not to be continuing in program/service","Suspended from school","Discontinued schooling, special education only","Discontinued schooling, not special education","Expulsion","Program discontinued","Completion of IFSP prior to reaching maximum age for Part C","Eligible for IDEA, Part B","Not eligible for Part B, exit with referrals to other programs","Part B eligibility not determined","Moved out of state","Withdrawal by a parent (or guardian)","Unknown reason","Not eligible for Part B, exit with no referrals","Attempts to contact the parent and/or child were unsuccessful","Other"]}
+}

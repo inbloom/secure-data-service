@@ -1,0 +1,9 @@
+
+{
+   "type":"GradingPeriodType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["First Six Weeks","Second Six Weeks","Third Six Weeks","Fourth Six Weeks","Fifth Six Weeks","Sixth Six Weeks","First Semester","Second Semester","First Summer Session","Second Summer Session","Third Summer Session","Summer Semester","First Nine Weeks","Second Nine Weeks","Third Nine Weeks","Fourth Nine Weeks","First Trimester","Second Trimester","Third Trimester","End of Year"]}
+}

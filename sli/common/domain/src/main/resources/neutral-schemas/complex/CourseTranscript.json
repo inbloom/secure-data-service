@@ -1,0 +1,21 @@
+
+{
+   "type":"CourseTranscript",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "CourseAttemptResult":"CourseAttemptResultType",
+      "*CreditsAttempted":"Credits",
+      "CreditsEarned":"Credits",
+      "*AdditionalCreditsEarned":["AdditionalCredits"],
+      "*GradeLevelWhenTaken":"GradeLevelType",
+      "*MethodCreditEarned":"MethodCreditEarnedType",
+      "*FinalLetterGradeEarned":"GradeEarned",
+      "*FinalNumericGradeEarned":"integer",
+      "*CourseRepeatCode":"CourseRepeatCodeType",
+      "CourseReference":"CourseReferenceType",
+      "EducationOrganizationReference":["EducationalOrgReferenceType"],
+      "StudentAcademicRecordReference":"ReferenceType"},
+   "properties":{}
+}

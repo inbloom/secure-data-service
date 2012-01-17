@@ -1,0 +1,15 @@
+
+{
+   "type":"StudentProgramAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StudentReference":"StudentReferenceType",
+      "ProgramReference":"ProgramReferenceType",
+      "*Services":["ServiceDescriptorType"],
+      "BeginDate":"date",
+      "*EndDate":"date",
+      "*ReasonExited":"ReasonExitedType",
+      "EducationOrganizationReference":"EducationalOrgReferenceType"},
+   "properties":{}
+}

@@ -1,0 +1,11 @@
+
+{
+   "type":"AssessmentFamilyReferenceType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*ref":"IDREF",
+      "*AssessmentFamilyIdentity":"AssessmentFamilyIdentityType"},
+   "properties":{}
+}

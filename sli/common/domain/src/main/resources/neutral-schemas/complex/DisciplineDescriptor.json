@@ -1,0 +1,13 @@
+
+{
+   "type":"DisciplineDescriptor",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "CodeValue":"CodeValue",
+      "ShortDescription":"ShortDescription",
+      "*Description":"Description",
+      "EducationOrganizationReference":["EducationalOrgReferenceType"]},
+   "properties":{}
+}

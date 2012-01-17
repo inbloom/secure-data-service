@@ -1,0 +1,6 @@
+
+{
+   "type":"Currency",
+   "validatorClass":"org.slc.sli.validation.DecimalSchema",
+   "version":"1.0"
+}

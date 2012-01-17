@@ -1,0 +1,12 @@
+
+{
+   "type":"Location",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "ClassroomIdentificationCode":"ClassroomIdentificationCode",
+      "*MaximumNumberOfSeats":"int",
+      "*OptimalNumberOfSeats":"int"},
+   "properties":{}
+}

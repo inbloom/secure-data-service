@@ -1,0 +1,15 @@
+
+{
+   "type":"AssessmentItem",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "IdentificationCode":"IdentificationCode",
+      "ItemCategory":"ItemCategoryType",
+      "MaxRawScore":"int",
+      "CorrectResponse":"CorrectResponse",
+      "*LearningStandardReference":["LearningStandardReferenceType"],
+      "*Nomenclature":"Nomenclature"},
+   "properties":{}
+}

@@ -1,0 +1,12 @@
+
+{
+   "type":"AssessmentPerformanceLevel",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "PerformanceLevel":"PerformanceLevelDescriptorType",
+      "AssessmentReportingMethod":"AssessmentReportingMethodType",
+      "*MinimumScore":"int",
+      "*MaximumScore":"int"},
+   "properties":{}
+}

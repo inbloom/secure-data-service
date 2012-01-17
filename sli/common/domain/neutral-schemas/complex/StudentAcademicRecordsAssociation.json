@@ -1,0 +1,25 @@
+
+{
+   "type":"StudentAcademicRecordsAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StudentReference":"StudentSimpleReference",
+      "SessionReference":"SessionSimpleReference",
+      "StudentTranscriptReference":"StudentTranscriptsAssociationSimpleReference",
+      "GPAGivenGradingPeriod":"decimal",
+      "GPACumulative":"decimal",
+      "*NumberOfDaysAbsent":"restricted",
+      "*NumberOfDaysInAttendance":"restricted",
+      "*NumberOfDaysTardy":"restricted",
+      "*CumulativeCreditsEarned":"Credits",
+      "*CumulativeCreditsAttempted":"Credits",
+      "*CumulativeGradePointsEarned":"decimal",
+      "*CumulativeGradePointAverage":"decimal",
+      "*GradeValueQualifier":"GradeValueQualifier",
+      "*ClassRanking":"ClassRanking",
+      "*AcademicHonors":["AcademicHonor"],
+      "*Recognitions":["Recognition"],
+      "*ProjectedGraduationDate":"date"},
+   "properties":{}
+}

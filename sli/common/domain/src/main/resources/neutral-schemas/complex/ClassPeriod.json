@@ -1,0 +1,10 @@
+
+{
+   "type":"ClassPeriod",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "ClassPeriodName":"ClassPeriodNameType"},
+   "properties":{}
+}

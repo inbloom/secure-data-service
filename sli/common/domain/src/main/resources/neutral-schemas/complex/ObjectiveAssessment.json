@@ -1,0 +1,18 @@
+
+{
+   "type":"ObjectiveAssessment",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "IdentificationCode":"IdentificationCode",
+      "*MaxRawScore":"int",
+      "*AssessmentPerformanceLevel":["AssessmentPerformanceLevel"],
+      "*PercentOfAssessment":"percent",
+      "*Nomenclature":"Nomenclature",
+      "*AssessmentItemReference":["ReferenceType"],
+      "*LearningObjectiveReference":["LearningObjectiveReferenceType"],
+      "*LearningStandardReference":["LearningStandardReferenceType"],
+      "*ObjectiveAssessmentReference":["ReferenceType"]},
+   "properties":{}
+}

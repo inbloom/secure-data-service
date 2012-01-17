@@ -1,0 +1,22 @@
+
+{
+   "type":"LocalEducationAgency",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "StateOrganizationId":"IdentificationCode",
+      "*EducationOrgIdentificationCode":["EducationOrgIdentificationCode"],
+      "NameOfInstitution":"NameOfInstitution",
+      "*ShortNameOfInstitution":"NameOfInstitution",
+      "OrganizationCategories":"EducationOrganizationCategoriesType",
+      "Address":["Address"],
+      "*Telephone":["InstitutionTelephone"],
+      "*WebSite":"WebSite",
+      "*OperationalStatus":"OperationalStatusType",
+      "*AccountabilityRatings":["AccountabilityRating"],
+      "*ProgramReference":["ProgramSimpleReference"],
+      "LEACategory":"LEACategoryType",
+      "*CharterStatus":"CharterStatusType"},
+   "properties":{}
+}

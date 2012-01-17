@@ -1,0 +1,9 @@
+
+{
+   "type":"LeaveEventCategoryType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Vacation","Jury","Training","Flex Time","Work Compensation","Administrative","Annual leave","Bereavement","Compensatory leave time","Family and medical leave","Government-requested","Military leave","Personal","Release time","Sabbatical leave","Sick leave","Suspension","Other"]}
+}

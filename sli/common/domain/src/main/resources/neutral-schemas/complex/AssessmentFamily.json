@@ -1,0 +1,21 @@
+
+{
+   "type":"AssessmentFamily",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "AssessmentFamilyTitle":"AssessmentTitle",
+      "AssessmentFamilyIdentificationCode":["AssessmentIdentificationCode"],
+      "*AssessmentCategory":"AssessmentCategoryType",
+      "*AcademicSubject":"AcademicSubjectType",
+      "*GradeLevelAssessed":"GradeLevelType",
+      "*LowestGradeLevelAssessed":"GradeLevelType",
+      "*ContentStandard":"ContentStandardType",
+      "*Version":"Version",
+      "*RevisionDate":"date",
+      "*Nomenclature":"Nomenclature",
+      "*AssessmentPeriods":["AssessmentPeriodDescriptorType"],
+      "*AssessmentFamilyReference":"AssessmentFamilyReferenceType"},
+   "properties":{}
+}

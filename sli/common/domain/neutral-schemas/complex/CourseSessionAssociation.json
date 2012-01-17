@@ -1,0 +1,13 @@
+
+{
+   "type":"CourseSessionAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "LocalCourseCode":"LocalCourseCode",
+      "*LocalCourseTitle":"CourseTitle",
+      "CourseReference":"CourseSimpleReference",
+      "SessionReference":"SessionSimpleReference"},
+   "properties":{}
+}

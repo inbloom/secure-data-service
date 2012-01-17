@@ -1,0 +1,9 @@
+
+{
+   "type":"ItemCategoryType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Analytic","List Question","Math Matrix","Matching","Multiple Choice","Prose","Rubric","True-False"]}
+}

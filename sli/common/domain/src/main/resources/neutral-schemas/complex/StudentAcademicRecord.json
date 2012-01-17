@@ -1,0 +1,22 @@
+
+{
+   "type":"StudentAcademicRecord",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*CumulativeCreditsEarned":"Credits",
+      "*CumulativeCreditsAttempted":"Credits",
+      "*CumulativeGradePointsEarned":"decimal",
+      "*CumulativeGradePointAverage":"decimal",
+      "*GradeValueQualifier":"GradeValueQualifier",
+      "*ClassRanking":"ClassRanking",
+      "*AcademicHonors":["AcademicHonor"],
+      "*Recognitions":["Recognition"],
+      "*ProjectedGraduationDate":"date",
+      "StudentReference":"StudentReferenceType",
+      "SessionReference":"SessionReferenceType",
+      "*ReportCardReference":["ReferenceType"],
+      "*DiplomaReference":"ReferenceType"},
+   "properties":{}
+}

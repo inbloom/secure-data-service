@@ -1,0 +1,13 @@
+
+{
+   "type":"Account",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "AccountNumber":"AccountNumber",
+      "AccountCodes":["AccountCodeDescriptorType"],
+      "FiscalYear":"int",
+      "EducationOrganizationReference":"EducationalOrgReferenceType"},
+   "properties":{}
+}

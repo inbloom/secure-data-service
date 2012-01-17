@@ -1,0 +1,14 @@
+
+{
+   "type":"StudentCompetencyObjective",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*StudentCompetencyObjectiveId":"IdentificationCode",
+      "Objective":"Objective",
+      "*Description":"Description",
+      "ObjectiveGradeLevel":"GradeLevelType",
+      "EducationOrganizationReference":"EducationalOrgReferenceType"},
+   "properties":{}
+}

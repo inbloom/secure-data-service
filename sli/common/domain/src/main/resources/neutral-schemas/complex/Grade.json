@@ -1,0 +1,16 @@
+
+{
+   "type":"Grade",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*LetterGradeEarned":"GradeEarned",
+      "*NumericGradeEarned":"integer",
+      "*DiagnosticStatement":"text",
+      "GradeType":"GradeType",
+      "*PerformanceBaseConversion":"PerformanceBaseType",
+      "StudentSectionAssociationReference":"StudentSectionAssociationReferenceType",
+      "*GradingPeriodReference":"GradingPeriodReferenceType"},
+   "properties":{}
+}

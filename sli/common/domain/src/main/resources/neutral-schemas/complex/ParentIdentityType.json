@@ -1,0 +1,15 @@
+
+{
+   "type":"ParentIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*ParentUniqueStateId":"UniqueStateIdentifier",
+      "*Name":"Name",
+      "*OtherName":["OtherName"],
+      "*Sex":"SexType",
+      "*Address":["Address"],
+      "*Telephone":["Telephone"],
+      "*ElectronicMail":["ElectronicMail"]},
+   "properties":{}
+}

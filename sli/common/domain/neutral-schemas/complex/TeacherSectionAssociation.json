@@ -1,0 +1,14 @@
+
+{
+   "type":"TeacherSectionAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "TeacherReference":"StaffSimpleReference",
+      "SectionReference":"SectionSimpleReference",
+      "ClassroomPosition":"ClassroomPositionType",
+      "*BeginDate":"date",
+      "*EndDate":"date",
+      "*HighlyQualifiedTeacher":"boolean"},
+   "properties":{}
+}

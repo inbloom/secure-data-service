@@ -1,0 +1,14 @@
+
+{
+   "type":"AccountabilityRating",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "RatingTitle":"RatingTitleType",
+      "Rating":"Rating",
+      "*RatingDate":"date",
+      "SchoolYear":"SchoolYearType",
+      "*RatingOrganization":"RatingOrganization",
+      "*RatingProgram":"RatingProgramType"},
+   "properties":{}
+}

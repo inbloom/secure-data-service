@@ -1,0 +1,9 @@
+
+{
+   "type":"CohortYearType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Eighth grade","Eleventh grade","Fifth grade","First grade","Fourth grade","Ninth grade","Second grade","Seventh grade","Sixth grade","Tenth grade","Third grade","Twelfth grade"]}
+}

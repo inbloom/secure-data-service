@@ -1,0 +1,12 @@
+
+{
+   "type":"PerformanceLevelDescriptor",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*CodeValue":"CodeValue",
+      "Description":"Description",
+      "*PerformanceBaseConversion":"PerformanceBaseType"},
+   "properties":{}
+}

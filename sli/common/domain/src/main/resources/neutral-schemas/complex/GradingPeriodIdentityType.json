@@ -1,0 +1,10 @@
+
+{
+   "type":"GradingPeriodIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "GradingPeriod":"GradingPeriodType",
+      "SchoolYear":"SchoolYearType"},
+   "properties":{}
+}

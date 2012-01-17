@@ -1,0 +1,13 @@
+
+{
+   "type":"ContractedStaff",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "AmountToDate":"Currency",
+      "AsOfDate":"date",
+      "AccountReference":"AccountReferenceType",
+      "StaffReference":"StaffReferenceType"},
+   "properties":{}
+}

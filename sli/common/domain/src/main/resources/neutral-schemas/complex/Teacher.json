@@ -1,0 +1,28 @@
+
+{
+   "type":"Teacher",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "StaffUniqueStateId":"UniqueStateIdentifier",
+      "*StaffIdentificationCode":["StaffIdentificationCode"],
+      "Name":"Name",
+      "*OtherName":["OtherName"],
+      "Sex":"SexType",
+      "*BirthDate":"date",
+      "*Address":["Address"],
+      "*Telephone":["Telephone"],
+      "*ElectronicMail":["ElectronicMail"],
+      "*HispanicLatinoEthnicity":"boolean",
+      "*OldEthnicity":"OldEthnicityType",
+      "Race":"RaceType",
+      "HighestLevelOfEducationCompleted":"LevelOfEducationType",
+      "*YearsOfPriorProfessionalExperience":"int",
+      "*YearsOfPriorTeachingExperience":"int",
+      "*Credentials":["Credential"],
+      "*LoginId":"IdentificationCode",
+      "*TeacherUniqueStateId":"UniqueStateIdentifier",
+      "*HighlyQualifiedTeacher":"boolean"},
+   "properties":{}
+}

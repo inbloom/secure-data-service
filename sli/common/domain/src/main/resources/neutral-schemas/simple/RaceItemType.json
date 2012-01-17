@@ -1,0 +1,9 @@
+
+{
+   "type":"RaceItemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["American Indian - Alaskan Native","Asian","Black - African American","Native Hawaiian - Pacific Islander","White"]}
+}

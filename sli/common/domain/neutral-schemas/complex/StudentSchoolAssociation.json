@@ -1,0 +1,20 @@
+
+{
+   "type":"StudentSchoolAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StudentReference":"StudentSimpleReference",
+      "SchoolReference":"SchoolSimpleReference",
+      "*EntryDate":"date",
+      "EntryGradeLevel":"GradeLevelType",
+      "*EntryType":"EntryType",
+      "*RepeatGradeIndicator":"boolean",
+      "*ClassOf":"SchoolYearType",
+      "*SchoolChoiceTransfer":"boolean",
+      "*ExitWithdrawDate":"date",
+      "*ExitWithdrawType":"ExitWithdrawType",
+      "*EducationalPlans":"EducationalPlansType",
+      "*GraduationPlan":"GraduationPlan"},
+   "properties":{}
+}

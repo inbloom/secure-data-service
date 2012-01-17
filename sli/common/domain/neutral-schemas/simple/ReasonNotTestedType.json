@@ -1,0 +1,9 @@
+
+{
+   "type":"ReasonNotTestedType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Absent","LEP exempt","LEP postponement","Not appropriate (ARD decision)","Not tested (ARD decision)","Alternate assessment administered","Parental waiver","Foreign exchange student waiver","Refusal by parent","Refusal by student","Medical waiver","Disruptive behavior","Previously passed the examination","Other"]}
+}

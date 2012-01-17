@@ -1,0 +1,13 @@
+
+{
+   "type":"TeacherSchoolAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "TeacherReference":"TeacherSimpleReference",
+      "SchoolReference":["SchoolSimpleReference"],
+      "ProgramAssignment":"ProgramAssignmentType",
+      "InstructionalGradeLevels":"GradeLevelsType",
+      "AcademicSubjects":"AcademicSubjectsType"},
+   "properties":{}
+}

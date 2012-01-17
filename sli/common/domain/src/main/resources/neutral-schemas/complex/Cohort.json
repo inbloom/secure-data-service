@@ -1,0 +1,16 @@
+
+{
+   "type":"Cohort",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "CohortIdentifier":"CohortIdentifier",
+      "*CohortDescription":"CohortDescription",
+      "CohortType":"CohortType",
+      "*CohortScope":"CohortScopeType",
+      "*AcademicSubject":"AcademicSubjectType",
+      "EducationOrgReference":"EducationalOrgReferenceType",
+      "*ProgramReference":["ProgramReferenceType"]},
+   "properties":{}
+}

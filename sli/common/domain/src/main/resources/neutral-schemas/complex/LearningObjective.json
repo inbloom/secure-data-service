@@ -1,0 +1,16 @@
+
+{
+   "type":"LearningObjective",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "*LearningObjectiveId":"LearningStandardId",
+      "Objective":"Objective",
+      "*Description":"Description",
+      "AcademicSubject":"AcademicSubjectType",
+      "ObjectiveGradeLevel":"GradeLevelType",
+      "*LearningStandardReference":["LearningStandardReferenceType"],
+      "*LearningObjectiveReference":["LearningObjectiveReferenceType"]},
+   "properties":{}
+}

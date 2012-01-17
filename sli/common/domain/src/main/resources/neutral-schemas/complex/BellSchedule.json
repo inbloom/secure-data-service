@@ -1,0 +1,15 @@
+
+{
+   "type":"BellSchedule",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "BellScheduleName":"BellScheduleName",
+      "GradeLevels":"GradeLevelsType",
+      "WeeksInCycle":"restricted",
+      "SessionReference":"SessionReferenceType",
+      "MeetingTimeReference":["ReferenceType"],
+      "*CalendarDateReference":["CalendarDateReferenceType"]},
+   "properties":{}
+}

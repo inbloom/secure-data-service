@@ -1,0 +1,14 @@
+
+{
+   "type":"BehaviorDescriptor",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "CodeValue":"CodeValue",
+      "ShortDescription":"ShortDescription",
+      "*Description":"Description",
+      "BehaviorCategory":"BehaviorCategoryType",
+      "EducationOrganizationReference":["EducationalOrgReferenceType"]},
+   "properties":{}
+}

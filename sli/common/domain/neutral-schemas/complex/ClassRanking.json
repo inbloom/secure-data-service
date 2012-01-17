@@ -1,0 +1,12 @@
+
+{
+   "type":"ClassRanking",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "ClassRank":"int",
+      "TotalNumberInClass":"int",
+      "*PercentageRanking":"int",
+      "*ClassRankingDate":"date"},
+   "properties":{}
+}

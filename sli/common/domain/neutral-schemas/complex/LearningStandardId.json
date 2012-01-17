@@ -1,0 +1,10 @@
+
+{
+   "type":"LearningStandardId",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*ContentStandardName":"ContentStandardName",
+      "IdentificationCode":"IdentificationCode"},
+   "properties":{}
+}

@@ -1,0 +1,9 @@
+
+{
+   "type":"OldEthnicityType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["American Indian Or Alaskan Native","Asian Or Pacific Islander","Black, Not Of Hispanic Origin","Hispanic","White, Not Of Hispanic Origin"]}
+}

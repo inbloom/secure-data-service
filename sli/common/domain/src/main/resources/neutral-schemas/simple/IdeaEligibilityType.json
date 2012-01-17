@@ -1,0 +1,9 @@
+
+{
+   "type":"IdeaEligibilityType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Not Applicable To This Student","Individuals With Disabilities Education Act"]}
+}

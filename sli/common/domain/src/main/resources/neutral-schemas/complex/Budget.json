@@ -1,0 +1,12 @@
+
+{
+   "type":"Budget",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "Amount":"Currency",
+      "AsOfDate":"date",
+      "AccountReference":"AccountReferenceType"},
+   "properties":{}
+}

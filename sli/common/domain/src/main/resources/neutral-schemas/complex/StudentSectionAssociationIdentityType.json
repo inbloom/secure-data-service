@@ -1,0 +1,10 @@
+
+{
+   "type":"StudentSectionAssociationIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StudentIdentity":"StudentIdentityType",
+      "SectionIdentity":"SectionIdentityType"},
+   "properties":{}
+}

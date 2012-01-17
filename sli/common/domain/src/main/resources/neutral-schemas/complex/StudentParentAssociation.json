@@ -1,0 +1,16 @@
+
+{
+   "type":"StudentParentAssociation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "StudentReference":"StudentReferenceType",
+      "ParentReference":"ParentReferenceType",
+      "*Relation":"RelationType",
+      "*PrimaryContactStatus":"boolean",
+      "*LivesWith":"boolean",
+      "*EmergencyContactStatus":"boolean",
+      "*ContactPriority":"int",
+      "*ContactRestrictions":"ContactRestrictions"},
+   "properties":{}
+}

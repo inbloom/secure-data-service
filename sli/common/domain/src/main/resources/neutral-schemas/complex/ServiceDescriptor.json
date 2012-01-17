@@ -1,0 +1,13 @@
+
+{
+   "type":"ServiceDescriptor",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "CodeValue":"CodeValue",
+      "ShortDescription":"ShortDescription",
+      "*Description":"Description",
+      "*ServiceCategory":"ServiceCategory"},
+   "properties":{}
+}
