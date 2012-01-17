@@ -12,7 +12,7 @@ And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 And my School is <School>
 When I make an API call to get the school <School>
-Then I receive a JSON response that includes the School entity and its attributes
+Then I receive a JSON response that includes the school <School> and its attributes
 Examples:
 | Realm  | Username  | Password      | School                      |
 | "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           |
@@ -42,7 +42,7 @@ And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 And my School is <School>
 When I make an API call to get the teacher <Teacher>
-Then I receive a JSON response that includes the Teacher entity and its attributes
+Then I receive a JSON response that includes the teacher <Teacher> and its attributes
 Examples:
 | Realm  | Username | Password    | School                      | Teacher          |
 | "idp1" | "tbear"  | "tbear1234" | "Fry High School"           | "Ted Bear"       |
@@ -56,13 +56,13 @@ And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 And my School is <School>
 When I make an API call to get list of teachers from the school <School>
-Then I receive a JSON response that includes the teacher <Teacher1> and the teacher <Teacher2>
+Then I receive a JSON response that includes a list of teachers from school <School>
 Examples:
-| Realm  | Username  | Password      | School                      | Teacher1         | Teacher2         |
-| "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           | "John Doe 1"     | "Ted Bear"       |
-| "idp2" | "johndoe" | "johndoe1234" | "Parker-Dust Middle School" | "John Doe 3"     | "Elizabeth Jane" |
-| "idp1" | "ejane"   | "ejane1234"   | "Watson Elementary School"  | "John Doe 2"     | "Emily Jane"     |
-| "idp2" | "ejane"   | "ejane1234"   | "Parker-Dust Middle School" | "John Doe 3"     | "Elizabeth Jane" |
+| Realm  | Username  | Password      | School                      |
+| "idp1" | "jdoe"    | "jdoe1234"    | "Fry High School"           |
+| "idp2" | "johndoe" | "johndoe1234" | "Parker-Dust Middle School" |
+| "idp1" | "ejane"   | "ejane1234"   | "Watson Elementary School"  |
+| "idp2" | "ejane"   | "ejane1234"   | "Parker-Dust Middle School" |
 
 Scenario Outline: Authenticated Educator makes API call to get list of Teachers not in own School
 Given I am a valid <Realm> end user <Username> with password <Password>
@@ -84,7 +84,7 @@ And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 And my School is <School>
 When I make an API call to get the teacher <Teacher>
-Then I receive a JSON response that includes the Teacher
+Then I receive a JSON response that includes the teacher <Teacher> and its attributes
 Examples:
 | Realm  | Username   | Password       | School                      | Teacher      |
 | "idp1" | "tbear"    | "tbear1234"    | "Fry High School"           | "John Doe 1" |
