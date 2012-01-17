@@ -28,7 +28,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the OpenamRestTokenResolver.
- * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -37,9 +36,9 @@ public class OpenamRestTokenResolverTest {
 
 
     private OpenamRestTokenResolver resolver;
-    
+
     private RolesToRightsResolver rightsResolver;
-    
+
     @Before
     public void init() {
         resolver = new OpenamRestTokenResolver();
@@ -51,10 +50,10 @@ public class OpenamRestTokenResolverTest {
 
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(rightsResolver.resolveRoles(null, Arrays.asList(new String[] {"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        when(rightsResolver.resolveRoles("dc=slidev,dc=net", Arrays.asList(new String[]{ "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
-    
-    
+
+
     @Test
     public void testResolveSuccess() {
 
@@ -62,7 +61,7 @@ public class OpenamRestTokenResolverTest {
         Assert.assertNotNull(auth.getAuthorities());
         Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
-    
+
     @Test
     public void testResolveFailure() {
         when(rightsResolver.resolveRoles(null, null)).thenReturn(null);
