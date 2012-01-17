@@ -31,15 +31,13 @@ FuelGaugeWidget.prototype.create = function()
 {  
     // Check we have all the information to draw a fuel gauge. 
     var element = document.getElementById(this.id);
-    var elemStyle = DashboardUtil.getStyleDeclaration(element);
-
-    var fontSize = parseInt(elemStyle.fontSize);
-    var width = parseInt(elemStyle.width);
-    var color = elemStyle.color;
+    var fontSize = DashboardUtil.getElementFontSize(element);
+    var color = DashboardUtil.getElementColor(element);
+    var width = DashboardUtil.getElementWidth(element);
 
     // missing info. Return an error. 
     if (!fontSize || !width || !color || isNaN(fontSize) || isNaN(width)) {
-	alert("Fuel Gauge widget: font size and width property must be defined for elementID: " + this.id);
+	alert("Fuel Gauge widget: font size, color, and width property must be defined for elementID: " + this.id);
 	return; 
     }
 

@@ -145,13 +145,6 @@ When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
-end
-
-
-
 When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
   if @format == "application/json"
     dataH = Hash[
