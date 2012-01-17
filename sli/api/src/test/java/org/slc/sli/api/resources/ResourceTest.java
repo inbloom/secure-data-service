@@ -236,11 +236,6 @@ public class ResourceTest {
             assertTrue(cr.get(0).getLink().getHref().contains(cr.get(0).getId()));
         }
         
-        testHops(uriInfo, studentId1, studentId2, schoolId);
-        
-        // test query on hops
-        testHopQuery(studentId1, studentId2, schoolId);
-        
         // test update/get/delete
         for (TypeIdPair typeId : ids.keySet()) {
             Response r = api.getEntity(typeId.type, typeId.id, 0, 100, uriInfo);
@@ -415,8 +410,23 @@ public class ResourceTest {
     }
     
     // The .../targets links, has nothing to do with beer
-    private void testHops(UriInfo info, String studentId1, String studentId2, String schoolId) {
-        Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, info);
+    @Test
+    public void testHops() {
+        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        String studentId1 = parseIdFromLocation(createResponse);
+        
+        Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        String studentId2 = parseIdFromLocation(createResponse2);
+        
+        Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
+        String schoolId = parseIdFromLocation(createResponse3);
+
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), 
+                        uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), 
+                        uriInfo);
+        
+        Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);
         assertEquals(2, hopCollection.size());
@@ -428,7 +438,22 @@ public class ResourceTest {
     }
     
     // test query on hop
-    private void testHopQuery(String studentId1, String studentId2, String schoolId) throws Exception {
+    @Test
+    public void testHopQuery() throws Exception {
+        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        String studentId1 = parseIdFromLocation(createResponse);
+        
+        Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        String studentId2 = parseIdFromLocation(createResponse2);
+        
+        Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
+        String schoolId = parseIdFromLocation(createResponse3);
+
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), 
+                        uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), 
+                        uriInfo);
+        
         UriInfo queryInfo = buildMockUriInfo("field1=1");
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
