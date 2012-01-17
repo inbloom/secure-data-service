@@ -139,6 +139,12 @@ h1
     float: left;
     width: 30px;
 }
+.fuelGauge, 
+.fuelGaugeLabel
+{
+    font-size:12px;
+}
+
 
 /**** styles that will be user-customizable ****/
 

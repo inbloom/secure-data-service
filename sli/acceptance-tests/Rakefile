@@ -78,7 +78,8 @@ end
 
 task :default => :production
 
-
+# This task will be used for end-to-end integration tests but currently just run all
+# available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
@@ -89,11 +90,43 @@ task :production => [:apiTests, :securityTests] do
   end
 end
 
+# This task is used as an entry point in Jenkins to run API and Security Tests
+# It is needed so that it fails the build if there are any failures based on the 
+# 'raise' exception logic below.  Rake will exit immediatly if you raise an exception
+# before all the tests complete and will show incomplete results
+desc "Run API/Security Acceptances Tests"
+task :apiAndSecurityTests => [:apiTests, :securityTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+
+############################################################
+# Ingestion tests start
+############################################################
+desc "Run Ingestion Acceptances Tests"
+task :ingestionTests => [:sampleIngestionTests] do
+  displayFailureReport()
+end
+
+desc "Run Sample Ingestion Tests"
+task :sampleIngestionTests do
+  runTests("test/features/ingestion/sample_test")
+end
+
+############################################################
+# Ingestion tests end
+############################################################
+
 ############################################################
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests] do
   displayFailureReport()
 end
 
@@ -128,14 +161,22 @@ task :validationTests do
 end
 
 desc "Run List-Filter Tests"
-task :listFilterTests => [:importSandboxData] do
+task :listFilterTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/lists")
+end
+
+desc "Run Target Tests"
+task :targetTests do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/targets")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated
 # entiy data to be available
 desc "Run Association Tests"
-task :associationTests => [:importSandboxData] do
+task :associationTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/api/associations/student_section_association")
   runTests("test/features/api/associations/student_assessment_association")
   runTests("test/features/api/associations/student_school_association")
@@ -187,7 +228,7 @@ task :securityTests do
     "realm" => "realm_fixture.json"
     ]
   setMultipleFixtureFiles(securityHash)
-  runTests("test/features/security")  
+  runTests("test/features/security")
 end
 ############################################################
 # Security tests end
@@ -203,13 +244,13 @@ end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")  
+  runTests("test/features/dashboard/population_widget.feature")
 end
 
 desc "Run Dashboard YY Tests"
 task :dashboardTests do
-  runTests("test/features/dashboard") 
-   
+  runTests("test/features/dashboard")
+
 end
 ############################################################
 # Dashboard tests end
