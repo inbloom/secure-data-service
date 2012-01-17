@@ -101,9 +101,6 @@ end
 
 ### THEN ###
 
-Then /^I should receive a return code of (\d+)$/ do |status|
-  @res.code.should == Integer(status)
-end
 
 Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
   headers = @res.raw_headers
