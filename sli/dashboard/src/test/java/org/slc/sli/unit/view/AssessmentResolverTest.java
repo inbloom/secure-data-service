@@ -80,7 +80,7 @@ public class AssessmentResolverTest {
     private List<Assessment> getAssessments() {
         String studentId = "111111111";
         student = new Student();
-        student.setUid(studentId);
+        student.setId(studentId);
         String[] studentIdArray = (String[]) Arrays.asList(studentId).toArray();
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());

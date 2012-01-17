@@ -13,7 +13,7 @@
 <#assign perfLevel = "perfLevel${fuelGaugeByScore.getColorIndex()}">
 <#assign text = "${fuelGaugeByScore.getText()}">
 
-<#assign id = "${field.getValue()}.${student.getUid()}">
+<#assign id = "${field.getValue()}.${student.getId()}">
 
 <#if fuelGaugeByScore.getCutpoints()?? && fuelGaugeByScore.getScore()??>
  
