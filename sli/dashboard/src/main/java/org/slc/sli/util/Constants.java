@@ -19,6 +19,6 @@ public class Constants {
     public static final String MM_KEY_ASSESSMENTS = "assessments"; 
     public static final String MM_KEY_STUDENTS = "students"; 
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
-    
+    public static final String MM_KEY_CONSTANTS = "constants";
     
 }

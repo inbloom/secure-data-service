@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Arrays;
 import java.util.List;
 
+import freemarker.ext.beans.BeansWrapper;
+
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.Student;
@@ -70,6 +72,9 @@ public class StudentListContentController extends DashboardController {
 
         // insert a widget factory into the modelmap
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
+        
+        // let template access Constants
+        model.addAttribute(Constants.MM_KEY_CONSTANTS, BeansWrapper.getDefaultInstance().getStaticModels().get(Constants.class.getName()));
         
         return new ModelAndView("studentListContent");
     }
