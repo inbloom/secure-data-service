@@ -3,6 +3,7 @@ Feature: Test resolution of targets link for different entities
 
 Background: None
 	 Given I am logged in using "demo" "demo1234"
+	 And I have access to all entities
 
 Scenario: Check targets resolution after reading an assessment by ID
 	  Given format "application/json"
