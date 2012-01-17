@@ -47,4 +47,4 @@ var juuid = function(uuid) {
 }
 
 db.system.js.save({ "_id" : "juuid", "value" : juuid })
-db.system.js.save({ "_id" : "value" : hexToBase64 })
+db.system.js.save({ "_id" : "hexToBase64", "value" : hexToBase64 })
