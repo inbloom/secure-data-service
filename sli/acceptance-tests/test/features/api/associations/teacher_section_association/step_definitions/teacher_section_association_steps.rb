@@ -29,9 +29,6 @@ Given /^format "([^"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}\nbody was #{@res}")
-end
 
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
   @data = JSON.parse(@res.body)
