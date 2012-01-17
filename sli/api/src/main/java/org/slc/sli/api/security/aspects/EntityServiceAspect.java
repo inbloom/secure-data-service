@@ -72,10 +72,6 @@ public class EntityServiceAspect {
         }
         Entity entity = (Entity) pjp.proceed();
 
-        if (!hasContext(entity)) {
-            throwAccessDeniedException();
-        }
-
         if (entity != null && !isPublicContext()) {
             Collection<GrantedAuthority> grantedRights = getGrantedRights();
             LOG.debug("Rights {}", grantedRights);
