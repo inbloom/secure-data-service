@@ -24,7 +24,18 @@
     <Append>true</Append>
 
     <encoder>
-      <Pattern>%-4relative [%thread] %-5level %logger{40} - %msg%n</Pattern>
+      <Pattern>%-4relative [%thread] %-5level %logger{40} - %msg%n
+      </Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
+    <File>performance.log</File>
+    <Append>true</Append>
+
+    <encoder>
+      <Pattern>%d - %msg%n
+      </Pattern>
     </encoder>
   </appender>
 
@@ -44,5 +55,9 @@
       <appender-ref ref="STDOUT"/>
       <appender-ref ref="FILE"/>
    </logger>
+
+  <logger name="Job.PerformanceMonitor" level="INFO">
+    <appender-ref ref="PERF_FILE" />
+  </logger>
 
 </configuration>

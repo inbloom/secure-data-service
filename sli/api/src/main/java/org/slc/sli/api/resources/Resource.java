@@ -48,8 +48,6 @@ public class Resource {
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
-    
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
     

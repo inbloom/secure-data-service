@@ -11,7 +11,7 @@ import org.slc.sli.entity.CustomData;
  */
 public class ConfigPersistor {
 
-    private static final String VIEW_CONFIG = "view_config";
+    private static final String VIEW_CONFIG_API_KEY = "view_config";
     
     private APIClient apiClient;
     
@@ -25,7 +25,7 @@ public class ConfigPersistor {
     public ViewConfigSet getConfigSet(String entityId) throws Exception {
     
         // make API call with entity id
-        CustomData[] customData = apiClient.getCustomData(entityId, VIEW_CONFIG);
+        CustomData[] customData = apiClient.getCustomData(entityId, VIEW_CONFIG_API_KEY);
         
         // extract data block from custom data field
         if (customData == null || customData.length == 0) {
@@ -59,7 +59,7 @@ public class ConfigPersistor {
         // make API call
         CustomData[] customDataSet = new CustomData[1];
         customDataSet[0] = customData;
-        apiClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG);
+        apiClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG_API_KEY);
     }
     
     

@@ -3,6 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
+require_relative 'common_stepdefs'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG'] 
@@ -21,6 +22,25 @@ end
 #              It is suggested you assert the @sessionId before returning success from the calling function 
 def idpLogin(user, passwd)
   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
+  res = RestClient.get(url){|response, request, result| response }
+  @sessionId = res.body[res.body.rindex('=')+1..-1]
+  puts(@sessionId) if $SLI_DEBUG
+end
+
+# Function idpRealmLogin
+# Inputs: (Enum/String) realm = ("sli" "idp1" or "idp2") Which IDP you want to login with
+# Inputs: (String) user = Username to login to the IDP with
+# Inputs: (String) passwd = Password associated with the username
+# Output: sets @sessionId, a cookie object that can be referenced throughout the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that logs in to the specified IDP using the supplied credentials
+#              and sets the @sessionId variable for use in later stepdefs throughout the scenario
+#              It is suggested you assert the @sessionId before returning success from the calling function 
+def idpRealmLogin(user, passwd, realm="sli")
+  realmType = 'sli_idp_server_url' # Default case
+  realmType = 'sea_idp_server_url' if realm == "idp1"
+  realmType = 'lea_idp_server_url' if realm == "idp2"
+  url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
   @sessionId = res.body[res.body.rindex('=')+1..-1]
   puts(@sessionId) if $SLI_DEBUG

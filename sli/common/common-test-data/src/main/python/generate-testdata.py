@@ -123,7 +123,7 @@ class CSV_Reader(object):
             rowd = dict([(self.headers[i], row[i]) for i in range(len(self.headers))])
             object = self.get_xml_object(rowd)
             log.debug("generating xml for %s: %s" % 
-                      (object.__class__.__name__, dictify(object)))
+                      (object.__class__.__name__, dictify(object, True)))
             object.export(string_io, 1)
             yield string_io.getvalue().strip()
             string_io.seek(0)
@@ -153,6 +153,68 @@ class CSV_Reader(object):
                 value_dict[xml_key] = d[prefix + key]
         return Name(**value_dict)     
 
+    @staticmethod
+    def get_other_name(d, prefix="other_name_1_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                 ('OtherNameType', 'type')
+                , ('PersonalTitlePrefix', 'prefix')
+                , ('FirstName', 'first')
+                , ('MiddleName', 'middle')
+                , ('LastSurname', 'last')
+                , ('GenerationCodeSuffix', 'suffix')
+            ):
+            if (not strip) or len(d[prefix + key]):
+                value_dict[xml_key] = d[prefix + key]
+        return OtherName(**value_dict)     
+
+    @staticmethod
+    def get_program_participation(d, prefix="programs_1_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                 ('Program', 'program')
+                , ('BeginDate', 'begin_date')
+                , ('EndDate', 'end_date')
+                , ('DesignatedBy', 'designated_by')
+            ):
+            if (not strip) or len(d[prefix + key]):
+                value_dict[xml_key] = d[prefix + key]
+        return ProgramParticipation(**value_dict)     
+
+    @staticmethod
+    def get_learning_styles(d, prefix="learning_styles_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                 ('VisualLearning', 'visual')
+                , ('AuditoryLearning', 'auditory')
+                , ('TactileLearning', 'tactile')
+            ):
+            if (not strip) or d[prefix + key]:
+                value_dict[xml_key] = d[prefix + key]
+        return LearningStyles(**value_dict)     
+
+    @staticmethod
+    def get_indicator(d, prefix="indicator_1_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                 ('IndicatorName', 'name')
+                , ('Indicator', 'indicator')
+                , ('BeginDate', 'begin_date')
+                , ('EndDate', 'end_date')
+                , ('DesignatedBy', 'designated_by')
+            ):
+            if (not strip) or d[prefix + key]:
+                value_dict[xml_key] = d[prefix + key]
+        return StudentIndicator(**value_dict)     
+
     @staticmethod            
     def get_address(d, prefix="address_1_", strip=True):
         """
@@ -175,6 +237,23 @@ class CSV_Reader(object):
             if (not strip) or len(d[prefix + key]):
                 value_dict[xml_key] = d[prefix + key]
         return Address(**value_dict)
+                    
+    @staticmethod            
+    def get_birth_data(d, prefix="birth_", strip=True):
+        """
+        """
+        value_dict = {}
+        for xml_key, key in (
+                  ('BirthDate', 'date')
+                , ('CityOfBirth', 'city')
+                , ('StateOfBirthAbbreviation', 'state_abbrev')
+                , ('CountryOfBirthCode', 'country_code')
+                , ('MultipleBirthStatus', 'multiple_status')
+                #, ('DateEnteredUS', 'date_entered_us')
+            ):
+            if (not strip) or len(d[prefix + key]):
+                value_dict[xml_key] = d[prefix + key]
+        return BirthData(**value_dict)
                     
     @staticmethod            
     def get_ed_org_ref(d, prefix):
@@ -242,23 +321,93 @@ class Student_CSV_Reader(CSV_Reader):
                     Name = self.get_name(d) 
                    , StudentUniqueStateId=int( d['state_id'])
                     )
+        
         address = self.get_address(d, "address_1_")
         if address.hasContent_():
             kwargs['Address'] = [address]
-        if d['birth_date']:
-            kwargs['BirthData'] = BirthData(BirthDate= d['birth_date'])
+        
+        birthData = self.get_birth_data(d)
+        kwargs['BirthData'] = birthData
+        
+        if d['telephone_1_number']:
+            telephone1 = Telephone(TelephoneNumberType= d['telephone_1_type']
+                                            ,PrimaryTelephoneNumberIndicator=d['telephone_1_primary_indicator']
+                                            ,TelephoneNumber= d['telephone_1_number'])
+            kwargs['Telephone'] = [telephone1]
+        
+        if d['other_name_1_type']:
+            otherName1 = self.get_other_name(d)
+            kwargs['OtherName'] = [otherName1]
+        
+        if d['email_1_type']:
+            email1 = ElectronicMail(EmailAddress= d['email_1_address']
+                                    ,EmailAddressType=d['email_1_type'])
+            kwargs['ElectronicMail'] = [email1]
+        
         if d['sex']:
             kwargs['Sex'] = d['sex']
+        
         if d['hispanic_latino_ethnicity']:
             kwargs['HispanicLatinoEthnicity'] = d['hispanic_latino_ethnicity']
         else:
             # @todo: this is being put in just to get the xml validator to stop complaining. 
             kwargs['HispanicLatinoEthnicity'] = 'false'
-        #if d['racial_category_1']:
+        
+        if d['old_ethnicity']:
+            kwargs['OldEthnicity'] = d['old_ethnicity']
+        
+        if d['economic_disadvantaged']:
+            kwargs['EconomicDisadvantaged'] = d['economic_disadvantaged']
+
         kwargs['Race'] = RaceType(RacialCategory=_get_sub_dict(d, "racial_category_", True).values())
+        
+        if d['school_food_services_eligibility']:
+            kwargs['SchoolFoodServicesEligibility'] = d['school_food_services_eligibility']
+        
+        if d['characteristic_1_characteristic']:
+            characteristic1 = StudentCharacteristic(Characteristic=d['characteristic_1_characteristic']
+                                                    , BeginDate=d['characteristic_1_begin_date']
+                                                    , EndDate=d['characteristic_1_end_date']
+                                                    , DesignatedBy=d['characteristic_1_designated_by'])
+            kwargs['StudentCharacteristics'] = [characteristic1]
+        
+        if d['disability_1_disability']:
+            disability1 = Disability(Disability=d['disability_1_disability']
+                                                    , DisabilityDiagnosis=d['disability_1_diagnosis']
+                                                    , OrderOfDisability=int(d['disability_1_order']))
+            kwargs['Disabilities'] = [disability1]
+
+        # section_504_disability_1
+        if d['section_504_disability_1']:
+            kwargs['Section504Disabilities'] = Section504DisabilitiesType([d['section_504_disability_1']])
+
+        # displacement_status_type
+        if d['displacement_status_type']:
+            kwargs['DisplacementStatus'] = d['displacement_status_type']
+        
+        # programs_1_program    programs_1_begin_date    programs_1_end_date    programs_1_designated_by
+        if d['programs_1_program']:
+            program1 = self.get_program_participation(d)
+            kwargs['ProgramParticipations'] = [program1]
             
-            
-        #kwargs = dict([(k,v) for k,v in kwargs.items() if (getattr(v,'hasContent_',None) and v.hasContent_()) or v])
+        # learning_styles_visual    learning_styles_auditory    learning_styles_tactile
+        if d['learning_styles_visual']:
+            for kp in ('visual', 'auditory', 'tactile'):
+                k = 'learning_styles_' + kp
+                if d.get(k):
+                    d[k] = int(d[k])
+            kwargs['LearningStyles'] = self.get_learning_styles(d)
+
+        # cohort_year_type    cohort_year
+        # FIXME:  seems to be a bug in generateDS - can't correctly add a year to Student.CohortYear ang get it to export properly.
+        # if d['cohort_year']:
+        #    kwargs['CohortYears'] = [CohortYear(CohortYearType=d['cohort_year_type'], Year=d['cohort_year'])]            
+                
+        # indicator_1_name    indicator_1_indicator    indicator_1_begin_date    indicator_1_end_date    indicator_1_designated_by
+        if d['indicator_1_name']:
+            indicator1 = self.get_indicator(d)
+            kwargs['StudentIndicators'] = [indicator1]
+
         object = Student(**kwargs)
         return object
     

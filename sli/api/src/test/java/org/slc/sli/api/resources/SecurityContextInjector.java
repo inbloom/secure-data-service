@@ -45,7 +45,7 @@ public class SecurityContextInjector {
 
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRoles());
+        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
         SecurityContextHolder.clearContext();
 
         PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);

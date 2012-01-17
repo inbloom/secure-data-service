@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,7 +28,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the OpenamRestTokenResolver.
- * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -38,9 +36,9 @@ public class OpenamRestTokenResolverTest {
 
 
     private OpenamRestTokenResolver resolver;
-    
+
     private RolesToRightsResolver rightsResolver;
-    
+
     @Before
     public void init() {
         resolver = new OpenamRestTokenResolver();
@@ -52,21 +50,21 @@ public class OpenamRestTokenResolverTest {
 
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(rightsResolver.resolveRoles(Arrays.asList(new String[] {"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        when(rightsResolver.resolveRoles("dc=slidev,dc=net", Arrays.asList(new String[]{ "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
-    
-    
+
+
     @Test
     public void testResolveSuccess() {
 
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
-        Assert.assertNotNull(auth);
+        Assert.assertNotNull(auth.getAuthorities());
         Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
-    
+
     @Test
     public void testResolveFailure() {
-        when(rightsResolver.resolveRoles(null)).thenReturn(null);
+        when(rightsResolver.resolveRoles(null, null)).thenReturn(null);
         Authentication auth = resolver.resolve(Mocker.INVALID_TOKEN);
         Assert.assertNull(auth);
     }

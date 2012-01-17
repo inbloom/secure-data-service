@@ -1,5 +1,5 @@
 
-Feature: In order to manage assessments
+Feature: As an SLI application, I want to be able to manage assessments
 As a SLI Application I want to be able to manage the basic model of assessments. This includes performing CRUD on Assessment entity.
 Also verify the correct links from assessment to student-assessment associations and family-assessment associations. An assessment can 
 be used to measure differences in individuals or groups and changes in performance from one occasion to the next.
@@ -28,7 +28,7 @@ Scenario: Create an assessment
 		And "version" is "1.2"
 	When I navigate to POST "/assessments/"
 	Then I should receive a return code of 201
-		And I should receive an ID for a newly created assessment
+		And I should receive an ID for the newly created assessment
     When I navigate to GET "/assessments/<'newly created assessment' ID>"
     Then "assessmentIdentificationCode" should be "01234B"
         And "academicSubject" should be "MATHEMATICS"

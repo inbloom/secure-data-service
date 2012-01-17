@@ -23,22 +23,6 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all assessments$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/xml", "text/plain"].should include(arg1)
-  @format = arg1
-end
-
 Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
   @data = {} if !defined? @data
   if key == "assessmentIdentificationCode"
@@ -85,15 +69,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   restHttpPost(arg1, data)    
   assert(@res != nil, "Response from rest-client POST is nil")
 
-end
-
-Then /^I should receive an ID for a newly created assessment$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "Assessment ID is nil")
 end
 
 When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |arg1|
@@ -144,13 +119,6 @@ When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
   restHttpDelete(arg1)
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
-
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
-end
-
-
 
 When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
   if @format == "application/json"

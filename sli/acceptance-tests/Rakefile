@@ -12,6 +12,12 @@ if(ENV['MONGO_HOME'])
 else
   MONGO_BIN = ""
 end
+
+if(ENV['NO_EXPAND'])
+  EXPAND = ""
+else
+  EXPAND = "--expand"
+end
 #######################################################
 
 $SUCCESS=true
@@ -31,7 +37,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} --expand --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -72,7 +78,8 @@ end
 
 task :default => :production
 
-
+# This task will be used for end-to-end integration tests but currently just run all
+# available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
 task :production => [:apiTests, :securityTests] do
   displayFailureReport()
@@ -83,11 +90,43 @@ task :production => [:apiTests, :securityTests] do
   end
 end
 
+# This task is used as an entry point in Jenkins to run API and Security Tests
+# It is needed so that it fails the build if there are any failures based on the 
+# 'raise' exception logic below.  Rake will exit immediatly if you raise an exception
+# before all the tests complete and will show incomplete results
+desc "Run API/Security Acceptances Tests"
+task :apiAndSecurityTests => [:apiTests, :securityTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+
+############################################################
+# Ingestion tests start
+############################################################
+desc "Run Ingestion Acceptances Tests"
+task :ingestionTests => [:sampleIngestionTests] do
+  displayFailureReport()
+end
+
+desc "Run Sample Ingestion Tests"
+task :sampleIngestionTests do
+  runTests("test/features/ingestion/sample_test")
+end
+
+############################################################
+# Ingestion tests end
+############################################################
+
 ############################################################
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests] do
   displayFailureReport()
 end
 
@@ -122,14 +161,22 @@ task :validationTests do
 end
 
 desc "Run List-Filter Tests"
-task :listFilterTests => [:importSandboxData] do
+task :listFilterTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/lists")
+end
+
+desc "Run Target Tests"
+task :targetTests do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/targets")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated
 # entiy data to be available
 desc "Run Association Tests"
-task :associationTests => [:importSandboxData] do
+task :associationTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/api/associations/student_section_association")
   runTests("test/features/api/associations/student_assessment_association")
   runTests("test/features/api/associations/student_school_association")
@@ -140,6 +187,11 @@ end
 desc "Run Home URI Tests"
 task :homeUriTests do
   runTests("test/features/api/home_uri")
+end
+
+desc "Run Aggregation Tests"
+task :aggregationTests => [:importSandboxData] do
+  runTests("test/features/api/end_user_stories/aggregates")
 end
 ############################################################
 # API tests end
@@ -176,7 +228,7 @@ task :securityTests do
     "realm" => "realm_fixture.json"
     ]
   setMultipleFixtureFiles(securityHash)
-  runTests("test/features/security")  
+  runTests("test/features/security")
 end
 ############################################################
 # Security tests end
@@ -192,13 +244,13 @@ end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")  
+  runTests("test/features/dashboard/population_widget.feature")
 end
 
 desc "Run Dashboard YY Tests"
 task :dashboardTests do
-  runTests("test/features/dashboard") 
-   
+  runTests("test/features/dashboard")
+
 end
 ############################################################
 # Dashboard tests end
@@ -214,9 +266,11 @@ task :importSandboxData do
     "assessment" => "assessment_fixture.json",
     "studentschoolassociation" => "student_enrollments_fixture.json",
     "teachersectionassociation" => "teacher_section_fixture.json",
-    "studentassessmentassociation"=> "studentassessmentassociation_fixture.json",
+    "studentassessmentassociation" => "studentassessmentassociation_fixture.json",
     "studentsectionassociation" => "student_section_association_fixture.json",
     "teacherschoolassociation" => "teacher_school_fixture.json",
+    "educationOrganization" => "educationOrganization_fixture.json",
+    "educationOrganizationschoolassociation" => "school_educationOrganization_fixure.json",
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
@@ -234,6 +288,10 @@ are on your PATH.
 By default, the tests run against the deployed API/application that is running on
 localhost:8080 and also assumes a mongo server running on localhost (at default port).
 
+By default, any Scenario Outlines will be expanded in the console output for ease of development,
+but at the command line, the env var "NO_EXPAND" may be defined to run without expanding the Scenario
+Outline to allow for proper JUnit XML output files for display in Jenkins
+
 To change this behavior use the following syntax to override:
 
 cmd>rake property=value <rake Task>
@@ -244,9 +302,14 @@ cmd>rake DB_HOST=myNewDbHost.domain.name api_server_url=my.API.server.com produc
 
 The properties available to override are as follows:
 
-DB_HOST           This property selects which mongo instance to set the fixture to (default: localhost)
-api_server_url    This property selects which running instance of the API to run tests against (default: localhost)
+DB_HOST                This property selects which mongo instance to set the fixture to (default: localhost)
+api_server_url         This property selects which running instance of the API to run tests against (default: localhost)
+admintools_server_url  This property selects which running instance of the Admin Tools to run tests against (default: localhost)
+sli_idp_server_url     This property selects which running IDP should be used as the SLI IDP (default http://devdanil.slidev.org:8080/idp)
+sea_idp_server_url     This property selects which running IDP should be used as a mock State IDP (default http://devopenam1.slidev.com:8080/idp1)
+lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG             This property tells the test code to display debug output in the console
+NO_EXPAND         This property tells cucumber no to expand Scenario Outlines (for use in jenkins)
 eos
 
 end

@@ -47,7 +47,7 @@ public class BatchJob implements ErrorReportSupport {
     /**
      * non-public constructor; use factory methods
      */
-    protected BatchJob() {
+    private BatchJob() {
     }
 
     /**
@@ -56,8 +56,19 @@ public class BatchJob implements ErrorReportSupport {
      * @return BatchJob with default settings
      */
     public static BatchJob createDefault() {
+        return BatchJob.createDefault(null);
+    }
+
+    
+    /**
+     * Initialize a BatchJob with default settings for initialization
+     *
+     * @param filename string representation of incoming file
+     * @return BatchJob with default settings
+     */
+    public static BatchJob createDefault(String filename) {
         BatchJob job = new BatchJob();
-        job.id = createId();
+        job.id = createId(filename);
         job.creationDate = new Date();
         job.configProperties = new Properties();
         job.files = new ArrayList<IngestionFileEntry>();
@@ -68,10 +79,13 @@ public class BatchJob implements ErrorReportSupport {
     /**
      * generates a new unique ID
      */
-    protected static String createId() {
-        return UUID.randomUUID().toString();
+    protected static String createId(String filename) {
+    	if (filename == null)
+    		return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+    	else
+    		return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
     }
-
+    
     /**
      * Adds a file.
      *

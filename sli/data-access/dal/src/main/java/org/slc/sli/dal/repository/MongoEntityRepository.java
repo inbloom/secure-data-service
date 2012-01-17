@@ -137,7 +137,7 @@ public class MongoEntityRepository implements EntityRepository {
     }
     
     @Override
-    public Iterable<Entity> findByFields(String entityType, Query query, int skip, int max) {
+    public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max) {
         if (query == null)
             query = new Query();
         query.skip(skip).limit(max);
