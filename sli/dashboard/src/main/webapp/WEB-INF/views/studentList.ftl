@@ -5,6 +5,7 @@
 <script type="text/javascript" src="static/js/3p/raphael-min.js"></script>
 <!-- Internal js -->
 <script type="text/javascript" src="static/js/populationSelect.js"></script>
+<script type="text/javascript" src="static/js/dashboardUtil.js"></script>
 <script type="text/javascript" src="static/js/fuelGaugeWidget.js"></script>
 
 <script type="text/javascript">
