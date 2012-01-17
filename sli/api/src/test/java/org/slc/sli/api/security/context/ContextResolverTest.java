@@ -14,7 +14,7 @@ import javax.persistence.EntityExistsException;
  * Tests for ContextResolver
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"} )
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ContextResolverTest {
 
     @Autowired
