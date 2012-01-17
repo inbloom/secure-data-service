@@ -1,21 +1,13 @@
 package org.slc.sli.api.resources.url;
 
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_DISTRICT;
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_SCHOOL;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_EDORG_ASSOC;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_STAFF_SCHOOL_ASSOC;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_EDORG_SCHOOL_ASSOC;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_EDORG_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_STAFF_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_SCHOOL_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.ROLE_TYPE_SUPERINTENDENT;
-import static org.slc.sli.api.resources.util.ResourceConstants.ROLE_TYPE_PRINCIPAL;
+import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_ID_MAPPINGS;
+import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_MAPPINGS;
+import static org.slc.sli.api.resources.util.ResourceConstants.ASSOC_ENTITY_NAME_MAPPINGS;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +15,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
@@ -45,117 +36,51 @@ public class AssociationURLCreator extends URLCreator {
         
         // remove user's type from map
         String userId = params.remove("id");
-        String roleType = params.remove("roleType");
+        String userType = params.remove("type");
         //clear the map
         params.clear();
         
-        if (roleType.equals(ROLE_TYPE_SUPERINTENDENT)) {
-            params.put(ENTITY_BODY_STAFF_ID, userId);
-            
-            // get the staff-edorg links
-            results = getStaffEducationOrganizationAssociationLinks(uriInfo, params);
-        } else if (roleType.equals(ROLE_TYPE_PRINCIPAL)) {
-            params.put(ENTITY_BODY_STAFF_ID, userId);
-            
-            // get the staff-edorg links
-            results = getStaffSchoolAssociationLinks(uriInfo, params);
-        }
+        //get the userType entity definition
+        EntityDefinition eDef = store.lookupByEntityType(userType);
+        
+        //get the association links
+        getAssociationUrls(eDef, userId, results, uriInfo);
         
         return results;
     }
-        
-    /**
-     * Returns a list of association links for a given user
-     * @param uriInfo The URIInfo context
-     * @param assocationType The type of association to look for
-     * @param entityBodyIdName The entity Id to search for
-     * @param params
-     * @return
-     */
-    protected List<String> getAssociationLinks(final UriInfo uriInfo, String assocationType, 
-            String entityBodyIdName, Map<String, String> params) {
-        List<String> results = new ArrayList<String>();
-        
-        // get the associations that match the query params
-        Iterable<Entity> assocations = repo.findByFields(assocationType, params);
-        
-        // iterate through the associations and build the id list
-        for (Entity e : assocations) {
-            Map<String, Object> body = e.getBody();
-            
-            results.add((String) body.get(entityBodyIdName));
-        }
-        
-        return results;        
-    }
     
     /**
-     * Builds a list of embedded link objects
+     * Builds the association urls for the given entity definition
+     * @param entityDef The definition to build the association urls
+     * @param entityId The id of the entity
+     * @param urls The association urls
      * @param uriInfo The context
-     * @param associations The associations to build the list for
-     * @param associationType The type of assocation
-     * @param resourcePathType The resource path for the returned Url
-     * @return
      */
-    protected List<EmbeddedLink> buildEmbeddedLinks(final UriInfo uriInfo, List<String> associations, String associationType, 
-            String resourcePathType) {
-        List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
+    protected void getAssociationUrls(EntityDefinition entityDef, String entityId, List<EmbeddedLink> urls, final UriInfo uriInfo) {          
+        //get the association definitions
+        Collection<AssociationDefinition> associations = store.getLinked(entityDef);
         
-        // iterate through the associations and build the embedded links list
-        for (String s : associations) {
-            results.add(new EmbeddedLink(ResourceUtil.LINKS, associationType, 
-                    uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).path(resourcePathType).
-                    path(s).build().toString()));
+        for (AssociationDefinition assoc : associations) {            
+            if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
+                
+                //build the param map
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(ENTITY_ID_MAPPINGS.get(entityDef.getType()), entityId);
+                
+                //get the actual associations
+                Iterable<Entity> entityList = repo.findByFields(ASSOC_ENTITY_NAME_MAPPINGS.get(assoc.getType()), params);
+                
+                for (Entity e : entityList) { 
+                    //add the link to the list
+                    urls.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), 
+                            uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).path(RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType())).
+                            path((String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType()))).build().toString()));
+                    
+                    //try and get the associations under the entity                    
+                    getAssociationUrls(assoc.getTargetEntity(), (String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType())), urls, uriInfo);
+                }
+            }
         }
-        
-        return results;
-    }
-    
-    /**
-     * Returns the staff-educationorganization association links for the logged in user
-     * 
-     * @param uriInfo
-     * @param params
-     * @return
-     */
-    protected List<EmbeddedLink> getStaffEducationOrganizationAssociationLinks(final UriInfo uriInfo,
-            Map<String, String> params) {
-        List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
-        
-        //get the associations for the district
-        List<String> ids = getAssociationLinks(uriInfo, ENTITY_TYPE_STAFF_EDORG_ASSOC, ENTITY_BODY_EDORG_ID, params);
-        //add it to the list
-        results.addAll(buildEmbeddedLinks(uriInfo, ids, ENTITY_TYPE_STAFF_EDORG_ASSOC, RESOURCE_PATH_DISTRICT));
-        
-        for (String s : ids) {
-            Map<String, String> edOrgIds = new HashMap<String, String>();
-            edOrgIds.put(ENTITY_BODY_EDORG_ID, s);
-            
-            //get the associations for school under the district
-            List<String> list = getAssociationLinks(uriInfo, ENTITY_TYPE_EDORG_SCHOOL_ASSOC, ENTITY_BODY_SCHOOL_ID, edOrgIds);
-            //add it to the list
-            results.addAll(buildEmbeddedLinks(uriInfo, list, ENTITY_TYPE_EDORG_SCHOOL_ASSOC, RESOURCE_PATH_SCHOOL));
-        }
-        
-        return results;
-    }
-    
-    /**
-     * Returns the staff-school association links for the logged in user
-     * 
-     * @param uriInfo
-     * @param params
-     * @return
-     */
-    protected List<EmbeddedLink> getStaffSchoolAssociationLinks(final UriInfo uriInfo, Map<String, String> params) {
-        List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
-        
-        //get the associations for the school
-        List<String> ids = getAssociationLinks(uriInfo, ENTITY_TYPE_STAFF_SCHOOL_ASSOC, ENTITY_BODY_SCHOOL_ID, params);
-        //add it to the list
-        results.addAll(buildEmbeddedLinks(uriInfo, ids, ENTITY_TYPE_STAFF_SCHOOL_ASSOC, RESOURCE_PATH_SCHOOL));
-        
-        return results;
     }
     
 }

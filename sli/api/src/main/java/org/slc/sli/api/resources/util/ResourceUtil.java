@@ -22,7 +22,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
-import static org.slc.sli.api.resources.util.ResourceConstants.ROLE_TYPE_SUPERINTENDENT;
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -143,7 +142,7 @@ public class ResourceUtil {
         map.put("userType", "staff");
         //map.put("id", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");
         map.put("id", "f0e41d87-92d4-4850-9262-ed2f2723159b");
-        map.put("roleType", ROLE_TYPE_SUPERINTENDENT); //this would change
+        //map.put("roleType", ROLE_TYPE_SUPERINTENDENT); //this would change
         
         return map;
     }

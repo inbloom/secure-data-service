@@ -1,5 +1,8 @@
 package org.slc.sli.api.resources.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Common class for constants for the resources
  * 
@@ -20,10 +23,6 @@ public class ResourceConstants {
     public static final String ENTITY_EXPOSE_TYPE_AGGREGATIONS = "aggregations";
     public static final String ENTITY_TYPE_AGGREGATION = "aggregation";
     
-    public static final String ENTITY_TYPE_STAFF_EDORG_ASSOC = "staffEducationOrganizationAssociation";
-    public static final String ENTITY_TYPE_STAFF_SCHOOL_ASSOC = "staffschoolassociation";
-    public static final String ENTITY_TYPE_EDORG_SCHOOL_ASSOC = "educationOrganizationschoolassociation";
-    
     public static final String ENTITY_BODY_EDORG_ID = "educationOrganizationId";
     public static final String ENTITY_BODY_STAFF_ID = "staffId";
     
@@ -31,9 +30,24 @@ public class ResourceConstants {
     public static final String ENTITY_BODY_DISTRICT_ID = "districtId";
     public static final String ENTITY_BODY_GROUPBY = "groupBy";
     
-    // TODO
-    public static final String ROLE_TYPE_SUPERINTENDENT = "superintendent";
-    public static final String ROLE_TYPE_PRINCIPAL = "principal";
+    public static final String RESOURCE_PATH_AGG = "aggregation";
     
-    public static final String RESOURCE_PATH_AGG = "agg";
+    public static final Map<String, String> ENTITY_ID_MAPPINGS = new HashMap<String, String>();
+    static {
+        ENTITY_ID_MAPPINGS.put("staff", ENTITY_BODY_STAFF_ID);
+        ENTITY_ID_MAPPINGS.put("educationOrganization", ENTITY_BODY_EDORG_ID);
+        ENTITY_ID_MAPPINGS.put("school", ENTITY_BODY_SCHOOL_ID);
+    }
+    
+    public static final Map<String, String> RESOURCE_PATH_MAPPINGS = new HashMap<String, String>();
+    static {
+        RESOURCE_PATH_MAPPINGS.put("educationOrganization", RESOURCE_PATH_DISTRICT);
+        RESOURCE_PATH_MAPPINGS.put("school", RESOURCE_PATH_SCHOOL);
+    }
+    
+    public static final Map<String, String> ASSOC_ENTITY_NAME_MAPPINGS = new HashMap<String, String>();
+    static {
+        ASSOC_ENTITY_NAME_MAPPINGS.put("educationOrganizationSchoolAssociation", "educationOrganizationschoolassociation");
+        ASSOC_ENTITY_NAME_MAPPINGS.put("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation");
+    }
 }
