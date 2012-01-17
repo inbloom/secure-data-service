@@ -347,7 +347,7 @@
         "name": "DIBELS_NEXT",
         "perfLevels": [
             {
-                "name": "1",
+                "name": "3",
                 "longName": "At or Above Benchmark",
                 "isReal": true
             },
@@ -357,7 +357,7 @@
                 "isReal": true
             },
             {
-                "name": "3",
+                "name": "1",
                 "longName": "Well Below Benchmark",
                 "isReal": true
             }
