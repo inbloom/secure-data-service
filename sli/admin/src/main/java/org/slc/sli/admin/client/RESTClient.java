@@ -30,7 +30,6 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     
     /** URI for the API **/
-    @Autowired
     @Value("${apiServerUri}")
     private String apiServerUri;
     
