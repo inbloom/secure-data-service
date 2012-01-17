@@ -1,45 +1,50 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.EntityDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.EntityValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Core operations of the Basic Service.
  */
+@Scope("prototype")
+@Component("coreBasicService")
 public class CoreBasicService implements CoreEntityService {
     private static final Logger LOG = LoggerFactory.getLogger(CoreBasicService.class);
-
+    
     private String collectionName;
+    
+    @Autowired
     private EntityRepository repo;
+    
+    @Autowired
     private EntityValidator validator;
-    private EntityDefinition defn;
-
-    public CoreBasicService(String collectionName, EntityRepository repo, EntityValidator validator) {
-        super();
+    
+    public CoreBasicService(String collectionName) {
         this.collectionName = collectionName;
-        this.repo = repo;
-        this.validator = validator;
     }
-
+    
     @Override
     public String create(EntityBody body, String type) {
         MongoEntity entity = MongoEntity.create(type, body);
         validator.validate(entity);
         return repo.create(type, body, collectionName).getEntityId();
     }
-
+    
     @Override
     public Entity get(String id) {
         Entity entity = repo.find(collectionName, id);
         return entity;
     }
-
+    
     @Override
     public void update(Entity entity, EntityBody updates) {
         Entity repoEntity = repo.find(collectionName, entity.getEntityId());
@@ -47,7 +52,7 @@ public class CoreBasicService implements CoreEntityService {
         validator.validate(repoEntity);
         repo.update(collectionName, repoEntity);
     }
-
+    
     @Override
     public void delete(Entity entity) {
         repo.delete(collectionName, entity.getEntityId());

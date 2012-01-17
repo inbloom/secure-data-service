@@ -43,7 +43,7 @@ Scenario: Read a student-school-association for a school
 	When I navigate to GET "/student-school-associations/<'Apple Alternative Elementary School' ID>"
 	Then I should receive a return code of 200
       And I should receive a collection of 3 student-school-association links
-      And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
+      And after resolving each link, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Gil' ID>"
       And after resolution, I should receive a link named "getStudent" with URI "/students/<'Sybill' ID>"
@@ -53,7 +53,7 @@ Scenario: Read a student-school-association for a student
 	When I navigate to GET "/student-school-associations/<'Alfonso' ID>"
 	Then I should receive a return code of 200
         And I should receive a collection of 2 student-school-association links
-        And after resolution, I should receive a link named "getStudent" with URI "/students/<'Alfonso' ID>"
+        And after resolving each link, I should receive a link named "getStudent" with URI "/students/<'Alfonso' ID>"
         And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
         And after resolution, I should receive a link named "getSchool" with URI "/schools/<'Yellow Middle School' ID>"
 
