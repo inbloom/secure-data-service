@@ -8,6 +8,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.Resource;
+
 /**
  * Provides a Jackson context resolver that Jersey uses for serializing to JSON.
  * 
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Provider
 @Component
-@Produces("application/json")
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
 public class CustomJacksonContextResolver implements ContextResolver<ObjectMapper> {
     
     private ObjectMapper mapper = new ObjectMapper();
