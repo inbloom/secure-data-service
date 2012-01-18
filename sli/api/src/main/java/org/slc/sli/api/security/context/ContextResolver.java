@@ -20,7 +20,7 @@ public class ContextResolver {
     @Autowired
     private DefaultEntityContextResolver defaultEntityContextResolver;
 
-    public void addContextResolver(EntityContextResolver resolver) throws EntityExistsException {
+    public void addContext(EntityContextResolver resolver) throws EntityExistsException {
         EntityContextResolver putResult =
                 contexts.put(getContextKey(resolver), resolver);
         if (putResult != null) {

@@ -4,6 +4,7 @@
      viewConfig: the view config for the list of students. Should be ViewConfig object
      assessments: contains assessment information for the list of students. Should be AssessmentResolver object
      students: contains the list of students to be displayed. Should be StudentResolver object. 
+     constants: the Constants util class
   -->
 
 <table id="studentList"> 
@@ -32,11 +33,11 @@
     <td class="${field.getValue()}">
       
       <#-- student info -->
-      <#if field.getType() = "studentInfo">
+      <#if field.getType() = constants.FIELD_TYPE_STUDENT_INFO>
         ${students.get(field, student)}
         
       <#-- assessment results -->
-      <#elseif field.getType() = "assessment">
+      <#elseif field.getType() = constants.FIELD_TYPE_ASSESSMENT>
         <#if field.getVisual()?? && (field.getVisual()?length > 0)>
           <#include "widget/" + field.getVisual() + ".ftl">
         <#else>

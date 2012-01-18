@@ -29,6 +29,25 @@ Transform /^the section "([^"]*)"$/ do |arg1|
   id
 end
 
+Transform /^the student "([^"]*)"$/ do |arg1|
+  id = "eb4d7e1b-7bed-890a-d574-5d8aa9fbfc2d" if arg1 == "Doris Hanes"
+  id = "eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d" if arg1 == "Danny Fields"
+  id = "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d" if arg1 == "Gail Newman"
+  id = "eb4d7e1b-7bed-890a-e174-5d8aa9fbfc2d" if arg1 == "Mark Moody"
+  id = "eb4d7e1b-7bed-890a-e574-5d8aa9fbfc2d" if arg1 == "Irma Atkons"
+  id = "eb4d7e1b-7bed-890a-e974-5d8aa9fbfc2d" if arg1 == "Austin Durran"
+  id = "eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d" if arg1 == "Kristy Carillo"
+  id = "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d" if arg1 == "Forrest Hopper"
+  id = "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if arg1 == "Lavern Chaney"
+  id = "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d" if arg1 == "Emil Oneil"
+  id = "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d" if arg1 == "Kesley Krauss"
+  id = "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d" if arg1 == "Hal Kessler"
+  id = "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d" if arg1 == "Millie Lovel"
+  id = "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d" if arg1 == "Brock Ott"
+  id = "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d" if arg1 == "Elnora Fin"
+  id = "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d" if arg1 == "Freeman Marcum"
+  id
+end
 
 Transform /^list of teachers from school "([^"]*)"&/ do |arg1|
   array = ["John Doe", "Ted Bear"] if arg1 == "Fry High School"
