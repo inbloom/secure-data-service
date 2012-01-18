@@ -40,7 +40,7 @@ public class MongoUserLocator implements UserLocator {
         for (String entityName : ENTITY_NAMES) {
             Iterable<Entity> staff = repo.findByQuery(entityName, query, 0, 1);
 
-            if (staff != null) {
+            if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();
                 LOG.info("Matched user: {}@{} -> {}", new Object[]{ externalUserId, realm, entity.getEntityId() });
                 user.setEntity(entity);
