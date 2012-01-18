@@ -5,8 +5,8 @@ var cleanupBodyAndId = function() {
         function (data) {
             var old_id = data._id;
             var doc = data;
-
-            doc._id = JUUID(UUID.generate());
+			
+            doc._id = makeID(generateUUID());
             doc.type = "aggregation";
             doc.body = doc.value;
 
