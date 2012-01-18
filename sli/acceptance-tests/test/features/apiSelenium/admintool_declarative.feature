@@ -1,4 +1,3 @@
-@wip
 Feature: Admin Tool Declarative Administrative Permissions
 
 As a SLI Operator/Administrator, I want to login to the SLI Default Roles Admin Page,
@@ -21,6 +20,7 @@ And I have a Role attribute equal to "Leader"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
  
+@wip
 Scenario: Go to SLI Default Roles Admin Page, with a SLI IT Administrator role when authenticated to SEA/LEA IDP
 Given I have an open web browser
 And I am authenticated to SEA/LEA IDP as user "badadmin" with pass "badadmin1234"
@@ -28,13 +28,15 @@ And I have a Role attribute equal to "SLI IT Administrator"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
  
+@wip
 Scenario: Go to SLI Default Roles Admin Page, with a role other than SLI IT Administrator when authenticated to SEA/LEA IDP
 Given I have an open web browser
-And I am authenticated to SEA\/LEA IDP as user "tbear" with pass "tbear1234"
+And I am authenticated to SEA/LEA IDP as user "tbear" with pass "tbear1234"
 And I have a Role attribute equal to "Educator"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
  
+@wip
 Scenario: Valid SLI IDP user login to SLI Default Roles Admin Page
 Given I have an open web browser 
 And I am not authenticated to SLI IDP
