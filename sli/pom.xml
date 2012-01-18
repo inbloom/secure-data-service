@@ -1000,10 +1000,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
       <id>sonatype-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
-	<repository>
-        <id>jboss</id>
-        <url>https://repository.jboss.org/nexus/content/groups/public</url>
-    </repository>
+
   </repositories>
 
   <distributionManagement>

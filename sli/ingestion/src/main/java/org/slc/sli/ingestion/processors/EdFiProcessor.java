@@ -1,12 +1,9 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.hsqldb.lib.Iterator;
-
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
@@ -33,16 +30,9 @@ public class EdFiProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
-        
-        Map<String, Object> headers = exchange.getIn().getHeaders();
-        LOG.debug("\nJMT exchange header:");
-        for(java.util.Iterator<Entry<String, Object>> it = headers.entrySet().iterator(); it.hasNext();) {
-            Map.Entry<String, Object> pair = it.next();
-            LOG.debug(pair.getKey() + " = " + pair.getValue());
-        }
-        
+
         for (IngestionFileEntry fe : job.getFiles()) {
 
             processFileEntry(fe);

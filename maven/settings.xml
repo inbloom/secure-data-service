@@ -265,10 +265,6 @@ under the License.
             <enabled>true</enabled>
           </snapshots>
         </repository>
-		<repository>
-            <id>jboss</id>
-            <url>https://repository.jboss.org/nexus/content/groups/public</url>
-        </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>

@@ -44,7 +44,7 @@ public class PersistenceProcessor implements Processor {
      */
     @Override
     public void process(Exchange exchange) throws IOException, SAXException {
-        
+
         long startTime = System.currentTimeMillis();
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
@@ -69,6 +69,7 @@ public class PersistenceProcessor implements Processor {
 
         // Log statistics
         log.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
+
     }
 
     /**
