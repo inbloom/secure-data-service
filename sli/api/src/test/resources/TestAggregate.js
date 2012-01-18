@@ -6,7 +6,7 @@ db.aggregation.drop();
 var inputCollectionName = "studentassessmentassociation";
 var mapFunction = db.system.js.findOne({"_id":"mapDistrictPerf1to4"}).value;
 var reduceFunction = db.system.js.findOne({"_id":"reducePerf1to4"}).value;
-var finalizeFunction = db.system.js.findOne({"_id":"finalizePerf1to4"}).value;v
+var finalizeFunction = db.system.js.findOne({"_id":"finalizePerf1to4"}).value;
 var cleanupFunction = db.system.js.findOne({"_id":"cleanupBodyAndId"}).value;
 var outputCollectionName = "aggregation";
 var aggregationName = "8th Grade EOG";
