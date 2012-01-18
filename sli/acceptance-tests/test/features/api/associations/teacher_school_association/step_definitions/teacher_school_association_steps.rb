@@ -50,13 +50,6 @@ When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I navigate to (Teacher School Associations for (Teacher|School) <[^"]*>)$/ do |uri,arg2|
-  @previousUri = uri
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
-end
-
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |property,value|
   step "\"#{property}\" is \"#{value}\""
 end
@@ -81,65 +74,33 @@ When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |uri|
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpDelete(uri)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  if @format == "application/json"
-    begin
-      @data = JSON.parse(@res.body);
-    rescue
-      @data = nil
-    end
-  elsif @format == "application/xml"
-    assert(false, "XML not supported yet")
-  else
-    assert(false, "Unsupported MediaType")
-  end
-end
 
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   if key == "instructionalGradeLevels"
-    assert(@data.has_key?(key), "Response does not contain key #{key}")
-    assert(@data[key][0] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
+    assert(@result.has_key?(key), "Response does not contain key #{key}")
+    assert(@result[key][0] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
   else
-    assert(@data.has_key?(key), "Response does not contain key #{key}")
-    assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
+    assert(@result.has_key?(key), "Response does not contain key #{key}")
+    assert(@result[key] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
   end
   
 end
 
 
 Then /^I should receive a collection of (\d+) teacher\-school\-association links$/ do |size|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Array), "Response contains #{@data.class}, expected Array")
-  assert(@data.length == Integer(size), "Expected response of size #{size}, received #{@data.length}");
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
+  assert(@result.length == Integer(size), "Expected response of size #{size}, received #{@result.length}");
   
   @ids = Array.new
-    @data.each do |link|
+    @result.each do |link|
       if link["link"]["rel"]=="self"
         @ids.push(link["id"])
       end
@@ -166,29 +127,6 @@ Then /^after resolution, I should receive a link named "([^"]*)" with URI "([^"]
     end
   end
   assert(found, "didnt receive link named #{rel} with URI #{href}")
-end
-
-#return boolean
-def findLink(id, type, rel, href)
-  found = false
-  uri = type+id
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    dataH["links"].each do |link|
-      if link["rel"]==rel and link["href"].include? href
-        found = true
-        break
-      end
-    end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  return found
 end
 
 When /^I attempt to update a non\-existing association "(\/teacher-school-associations\/<[^"]*>)"$/ do |uri|
