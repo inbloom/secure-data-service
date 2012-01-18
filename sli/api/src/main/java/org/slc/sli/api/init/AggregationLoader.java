@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
  * @author Kevin Myers kmyers@wgen.net
  * 
  */
-@Component
 public class AggregationLoader {
     
     //ability to write to DEBUG output
@@ -55,9 +54,8 @@ public class AggregationLoader {
     /**
      * Constructor. Loads all definitions from file system into Mongo.
      */
-    @Autowired
-    public AggregationLoader(MongoTemplate mongoTemplate) {
-        this.template = mongoTemplate;
+    public AggregationLoader(MongoTemplate template) {
+    	this.template = template;
         this.loadJavascriptFolders();
     }
     

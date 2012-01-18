@@ -253,6 +253,11 @@ task :dashboardPopWidgetTests do
   runTests("test/features/dashboard/population_widget.feature")
 end
 
+desc "Run Dashboard K-3 view Tests"
+task :dashboardK3ViewTests do
+  runTests("test/features/dashboard/k3view.feature")
+end
+
 desc "Run Dashboard YY Tests"
 task :dashboardTests do
   runTests("test/features/dashboard")

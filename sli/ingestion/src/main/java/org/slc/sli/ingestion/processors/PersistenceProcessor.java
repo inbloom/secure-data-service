@@ -44,7 +44,7 @@ public class PersistenceProcessor implements Processor {
      * @param exchange
      */
     @Override
-    @Profiled(tag = "PersistenceProcessor")
+    @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws IOException, SAXException {
 
         long startTime = System.currentTimeMillis();
