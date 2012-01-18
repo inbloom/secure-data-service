@@ -28,6 +28,15 @@
   </bean>
 
   <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
+ 
+  <bean id="ctrlFilePreProcessorQueueProperties" class="org.slc.sli.ingestion.queues.IngestionQueueProperties">
+    <property name="usingSedaQueues" value="${queues.ctrlFilePreProcessor.seda}"></property>
+    <property name="hostName" value="${queues.ctrlFilePreProcessor.host}"></property>
+    <property name="port" value="${queues.ctrlFilePreProcessor.port}"></property>
+    <property name="queueName" value="${queues.ctrlFilePreProcessor.queueName}"></property>
+    <property name="userName" value="${queues.ctrlFilePreProcessor.userName}"></property>
+    <property name="password" value="${queues.ctrlFilePreProcessor.password}"></property>
+  </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
@@ -95,7 +104,7 @@
         </entry>
       </map>
     </property>
-  </bean>
+  </bean> 
 </beans>
 
 

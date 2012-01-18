@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.landingzone;
 
+import java.io.Serializable;
 
 /**
  * Describes a file and the Landing Zone it is in.
@@ -8,8 +9,10 @@ package org.slc.sli.ingestion.landingzone;
  *
  * @param <T> Type that holds file information
  */
-public class FileDescriptor<T> {
+public class FileDescriptor<T> implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private T fileItem;
     private LandingZone landingZone;
 

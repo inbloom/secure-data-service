@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -17,8 +18,10 @@ import org.slc.sli.ingestion.FileType;
  * Represents control file information.
  *
  */
-public class ControlFile {
+public class ControlFile implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     protected File file;
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
     protected Properties configProperties = new Properties();

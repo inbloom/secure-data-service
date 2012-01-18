@@ -26,6 +26,31 @@
 
   <dependencies>
 
+    <dependency>
+     <groupId>javax.jms</groupId>
+     <artifactId>jms</artifactId>
+     <version>1.1</version>
+     <type>jar</type>
+    </dependency>
+
+	<dependency>
+      <groupId>org.hornetq</groupId>
+      <artifactId>hornetq-core</artifactId>
+      <version>2.2.5.Final</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jboss.netty</groupId>
+      <artifactId>netty</artifactId>
+      <version>3.2.3.Final</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.hornetq</groupId>
+      <artifactId>hornetq-jms</artifactId>
+      <version>2.2.5.Final</version>
+    </dependency>
+
     <!-- SLI - Domain -->
     <dependency>
       <groupId>org.slc.sli.common</groupId>
@@ -131,6 +156,13 @@
     	<version>${camel.version}</version>
     	<scope>test</scope>
     </dependency>
+    
+    <dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-jms</artifactId>
+    	<version>${camel.version}</version>
+    </dependency>
+    
   </dependencies>
 
   <build>

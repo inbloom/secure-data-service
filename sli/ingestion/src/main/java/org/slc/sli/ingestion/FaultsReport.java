@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,10 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author okrook
  *
  */
-public class FaultsReport implements ErrorReport {
+public class FaultsReport implements Serializable, ErrorReport {
+ 
+    private static final long serialVersionUID = 1L;
+    
     private List<Fault> faults = new ArrayList<Fault>();
 
     public FaultsReport() {
