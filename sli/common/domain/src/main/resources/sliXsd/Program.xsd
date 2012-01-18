@@ -48,40 +48,38 @@
 			</xs:sequence>
 		</xs:complexType>
     </xs:element>
-	<xs:element name="ServiceDescriptor">
+	<xs:complexType name="ServiceDescriptor">
 		<xs:annotation>
 			<xs:documentation>
 				This descriptor defines the services provided an education organization to populations of students
 				associated with a program.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="CodeValue" type="CodeValue">
-					<xs:annotation>
-						<xs:documentation>
-							A code or abbreviation that is used to refer to the service.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="ShortDescription" type="ShortDescription">
-					<xs:annotation>
-						<xs:documentation>A shortened description for the service.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Description" type="Description" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The description of the service.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="ServiceCategory" type="ServiceCategory" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+		<xs:sequence>
+			<xs:element name="CodeValue" type="CodeValue">
+				<xs:annotation>
+					<xs:documentation>
+						A code or abbreviation that is used to refer to the service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShortDescription" type="ShortDescription">
+				<xs:annotation>
+					<xs:documentation>A shortened description for the service.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="Description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the service.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceCategory" type="ServiceCategory" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:element name="StudentProgramAssociation">
 		<xs:annotation>
 			<xs:documentation>
