@@ -1,7 +1,7 @@
 /*
  The MIT License: Copyright (c) 2010 LiosK.
 */
-function UUID() {}
+UUID = function() {}
 UUID.generate = function () {
     var a = UUID._getRandomInt,
         b = UUID._hexAligner;
