@@ -14,6 +14,9 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public class FaultsReport implements Serializable, ErrorReport {
+ 
+    private static final long serialVersionUID = 1L;
+    
     private List<Fault> faults = new ArrayList<Fault>();
 
     public FaultsReport() {

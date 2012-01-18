@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class Fault implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     protected String message;
     protected FaultType type;
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.util.IngestionTimer;
 
 /**
  * Control file processor.
@@ -27,13 +28,16 @@ public class ControlFileProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-
+        
+        int routeTime = (int) IngestionTimer.getTime();
+        log.info("JMT ControlFilePreProcessor to ControlFileProcessor took {}  ms", routeTime);
+        
         long startTime = System.currentTimeMillis();
-
+        
         ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
         BatchJob job = this.getJobAssembler().assembleJob(cfd);
-
+        
         long endTime = System.currentTimeMillis();
         log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
 
@@ -43,7 +47,6 @@ public class ControlFileProcessor implements Processor {
         // set the exchange outbound message to the value of the job
         exchange.getIn().setBody(job, BatchJob.class);
         exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
-
     }
 
     public BatchJobAssembler getJobAssembler() {

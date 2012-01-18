@@ -36,6 +36,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
     @Override
     public void process(Exchange exchange) throws Exception {
 
+        System.out.println("\n\nJMT got file\n\n");
+        
         log.info("Received zip file: " + exchange.getIn());
         File zipFile = exchange.getIn().getBody(File.class);
 
@@ -45,15 +47,20 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
         if (validator.isValid(zipFile, fr)) {
 
+            System.out.println("valid zip");
+            
             // extract the zip file
             File dir = ZipFileUtil.extract(zipFile);
             log.info("Extracted zip file to {}", dir.getAbsolutePath());
 
+            System.out.println("extracted zip");
+            
             try {
                 // find manifest (ctl file)
                 File ctlFile = ZipFileUtil.findCtlFile(dir);
 
                 // send control file back
+                System.out.println("found ctrl");
                 exchange.getIn().setBody(ctlFile, File.class);
 
                 return;
@@ -61,9 +68,11 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
                 fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
             }
         }
-
+        
         exchange.getOut().setBody(job, BatchJob.class);
         exchange.getOut().setHeader("hasErrors", fr.hasErrors());
+        
+        System.out.println("zip processor done");
     }
 
     public ZipFileValidator getValidator() {
