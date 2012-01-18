@@ -20,7 +20,7 @@
     <#-- display fuel gauge for assessments with cutpoints and score -->
 
     <span class="${perfLevel}">
-      <span class="fuelGaugeLabel">${text}</span>
+      <span id="${id}.label" class="fuelGaugeLabel">${text}</span>
       <span id="${id}" class="fuelGauge"></span>
     </span>
  
@@ -43,7 +43,7 @@
     <#-- display fuel gauge for assessments with performance level only -->
 
     <span class="${perfLevel}">
-      <span class="fuelGaugeLabel">${text}</span>
+      <span id="${id}.label" class="fuelGaugeLabel">${text}</span>
       <span id="${id}" class="fuelGauge"></span>
     </span>
  
