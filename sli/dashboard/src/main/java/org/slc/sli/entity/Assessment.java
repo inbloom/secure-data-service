@@ -5,13 +5,21 @@ package org.slc.sli.entity;
  */
 public class Assessment {
 
+    private String id;
     private String studentId;
+    private String assessmentId;
     private String assessmentName;
+    private String administrationDate;
+    private String administrationEndDate;
+    private int performanceLevel;
+    private Object[] links;
+    private Object[] scoreResults;
     private int year;
     private int perfLevel;
     private int scaleScore;
     private double percentile;
     private String lexileScore;
+    private int	retestIndicator;
     
     public String getStudentId() { return studentId; }
     public String getAssessmentName() { return  assessmentName; }
@@ -33,4 +41,53 @@ public class Assessment {
     public String getPerfLevelAsString() { return  new Integer(getPerfLevel()).toString(); }
     public String getScaleScoreAsString() { return  new Integer(getScaleScore()).toString(); }
     public String getPercentileAsString() { return  new Double(getPercentile()).toString(); }
+    
+	public String getId() {
+		return id;
+	}
+	public String getAssessmentId() {
+		return assessmentId;
+	}
+	public String getAdministrationDate() {
+		return administrationDate;
+	}
+	public String getAdministrationEndDate() {
+		return administrationEndDate;
+	}
+	public Object[] getLinks() {
+		return links;
+	}
+	public Object[] getScoreResults() {
+		return scoreResults;
+	}
+	public int getPerformanceLevel() {
+		return performanceLevel;
+	}
+	public int getRetestIndicator() {
+		return retestIndicator;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setAssessmentId(String assessmentId) {
+		this.assessmentId = assessmentId;
+	}
+	public void setAdministrationDate(String administrationDate) {
+		this.administrationDate = administrationDate;
+	}
+	public void setAdministrationEndDate(String administrationEndDate) {
+		this.administrationEndDate = administrationEndDate;
+	}
+	public void setLinks(Object[] links) {
+		this.links = links;
+	}
+	public void setScoreResults(Object[] scoreResults) {
+		this.scoreResults = scoreResults;
+	}
+	public void setPerformanceLevel(int performanceLevel) {
+		this.performanceLevel = performanceLevel;
+	}
+	public void setRetestIndicator(int retestIndicator) {
+		this.retestIndicator = retestIndicator;
+	}
 }

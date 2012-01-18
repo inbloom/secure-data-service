@@ -1,5 +1,42 @@
 [
     {
+        "name": "AP_ENGLISH",
+        "perfLevels": [
+            {
+                "name": "1",
+                "isReal": true
+            },
+            {
+                "name": "2",
+                "isReal": true
+            },
+            {
+                "name": "3",
+                "isReal": true
+            },
+            {
+                "name": "4",
+                "isReal": true
+            },
+            {
+                "name": "5",
+                "isReal": true
+            }
+        ],
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "03/05",
+	           "windowEnd": "03/15"
+		}
+	],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "AP_LANGUAGE" },
+                    { "name": "AP_LITERATURE" }
+        ]
+    },
+    {
         "name": "ISAT_READING",
         "perfLevels": [
             {

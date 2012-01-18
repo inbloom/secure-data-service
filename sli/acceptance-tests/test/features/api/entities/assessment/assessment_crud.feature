@@ -28,7 +28,7 @@ Scenario: Create an assessment
 		And "version" is "1.2"
 	When I navigate to POST "/assessments/"
 	Then I should receive a return code of 201
-		And I should receive an ID for a newly created assessment
+		And I should receive an ID for the newly created assessment
     When I navigate to GET "/assessments/<'newly created assessment' ID>"
     Then "assessmentIdentificationCode" should be "01234B"
         And "academicSubject" should be "MATHEMATICS"

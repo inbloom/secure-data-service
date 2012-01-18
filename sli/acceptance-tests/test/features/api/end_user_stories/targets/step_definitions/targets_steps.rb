@@ -45,11 +45,6 @@ Transform /^(Student|Section|School|Assessment|Teacher)$/ do |arg|
   out
 end
 
-Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/xml", "text/plain"].should include(arg1)
-  @format = arg1
-end
-
 When /^I navigate to GET "([^"]*)"$/ do |url|
   restHttpGet(url)
   assert(@res != nil, "Response from rest-client GET is nil")

@@ -19,7 +19,7 @@ Scenario: Create a new student-school-association
 		And "entryDate" is "2010-01-01"
 	When I navigate to POST "/student-school-associations"
 	Then I should receive a return code of 201
-		And I should receive a ID for the newly created student-school-association
+		And I should receive an ID for the newly created student-school-association
 	 When I navigate to GET "/student-school-associations/<'newly created student school association' ID>"
       Then "entryDate" should be "2010-01-01"
         And "entryGradeLevel" should be "TENTH_GRADE"

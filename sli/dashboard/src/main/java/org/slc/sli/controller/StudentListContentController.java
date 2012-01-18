@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import freemarker.ext.beans.BeansWrapper;
+
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.Student;
@@ -20,7 +22,9 @@ import org.slc.sli.manager.StudentManager;
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.config.ViewConfig;
 
+
 import org.slc.sli.security.SLIPrincipal;
+import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
 import org.slc.sli.view.AssessmentResolver;
@@ -39,21 +43,6 @@ public class StudentListContentController extends DashboardController {
     
     public StudentListContentController() { }
     
-    // model map keys required by the view for the student list view
-    public static final String VIEW_CONFIG = "viewConfig"; 
-    public static final String ASSESSMENTS = "assessments"; 
-    public static final String STUDENTS = "students"; 
-    public static final String WIDGET_FACTORY = "widgetFactory";
-    
-    private LiveAPIClient liveClient;
-
-    public LiveAPIClient getLiveClient() {
-        return liveClient;
-    }
-
-    public void setLiveClient(LiveAPIClient liveClient) {
-        this.liveClient = liveClient;
-    }
 
     /**
      * Retrieves information for the student list and sends back an html table to be displayed
@@ -69,8 +58,8 @@ public class StudentListContentController extends DashboardController {
 
         UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
-        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), "listOfStudents");
-        model.addAttribute(VIEW_CONFIG, viewConfig);  
+        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
@@ -80,16 +69,19 @@ public class StudentListContentController extends DashboardController {
         }
 
         List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
-        model.addAttribute(STUDENTS, new StudentResolver(students));
 
+        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students));
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
         List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
-        model.addAttribute(ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
+        model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
 
         // insert a widget factory into the modelmap
-        model.addAttribute(WIDGET_FACTORY, new WidgetFactory());
+        model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
+        
+        // let template access Constants
+        model.addAttribute(Constants.MM_KEY_CONSTANTS, BeansWrapper.getDefaultInstance().getStaticModels().get(Constants.class.getName()));
         
         return new ModelAndView("studentListContent");
     }

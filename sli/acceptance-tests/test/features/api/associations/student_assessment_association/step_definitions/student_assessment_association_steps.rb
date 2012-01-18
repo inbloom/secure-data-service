@@ -7,7 +7,7 @@ include REXML
 require_relative '../../../../utils/sli_utils.rb'
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+@assocId                               if arg2 == "'newly created student assessment association' ID"
+  id = arg1+@newId                                 if arg2 == "'newly created student assessment association' ID"
   id = arg1+"1e0ddefb-6b61-4f7d-b8c3-33bb5676115a" if arg2 =="Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID"
   id = arg1+"c8672d3b-0953-4ad7-a1b5-d5395bc0150a" if arg2 =="Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID"
   id = arg1+"68fbec8e-2041-4536-aad7-1105ab042c77" if arg2 =="AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' ID"
@@ -30,10 +30,6 @@ Transform /^<([^"]*)>$/ do |step_arg|
   id
 end
 
-
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
 
 
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
@@ -115,15 +111,6 @@ end
 Given /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |uri|
   restHttpDelete(uri)
   assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-Then /^I should receive a ID for the newly created student\-assessment\-association$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Result contained no headers")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @assocId = s[s.rindex('/')+1..-1]
-  assert(@assocId != nil, "Student-Assessment-Association ID is nil")
 end
 
 Then /^I should receive a collection of (\d+) student\-assessment\-association links$/ do |arg1|

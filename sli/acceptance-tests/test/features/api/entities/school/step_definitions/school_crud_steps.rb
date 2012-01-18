@@ -11,7 +11,7 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2" if arg2 == "'Apple Alternative Elementary School' ID"
   id = arg1+"2058ddfb-b5c6-70c4-3bee-b43e9e93307d" if arg2 == "'Yellow Middle School' ID"
   id = arg1+"fdacc41b-8133-f12d-5d47-358e6c0c791c" if arg2 == "'Delete Me Middle School' ID"
-  id = arg1+@newSchoolID                           if arg2 == "'newly created school' ID"
+  id = arg1+@newId                                 if arg2 == "'newly created school' ID"
   id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "'that doesn't exist' ID"
   id = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2" if arg2 == "'using a wrong URI' ID"
   id = arg1                                        if arg2 == "'with no GUID' ID"
@@ -23,12 +23,6 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2/targets" if arg2 == "'Apple Alternative Elementary School' ID"
   id
 end
-
-Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/xml", "text/plain"].should include(arg1)
-  @format = arg1
-end
-
 
 Given /^the "shortNameOfInstitution" is "([^"]*)"$/ do |arg1|
   @shortName = arg1
@@ -55,15 +49,6 @@ end
 #this is not generic....get the data first and then update it in a generic fashion
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
   @fullName = arg2
-end
-
-Then /^I should receive a ID for the newly created school$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Result of JSON parsing is nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newSchoolID = s[s.rindex('/')+1..-1]
-  assert(@newSchoolID != nil, "School ID is nil")
 end
 
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|

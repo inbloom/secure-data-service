@@ -48,9 +48,6 @@ Transform /^\/students\/<([^>]*)>$/ do |step_arg|
   id
 end
 
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
 
 
 When /^I navigate to GET (\/teachers\/<[^>]*>|\/students\/<[^>]*>)$/ do |uri|
