@@ -2,9 +2,8 @@ Feature: <US435>
 
 Scenario: Selecting classes on LOS
 
-Given I am logged in using "cgray" "cgray"
-#	And I selected the "Dashboard" application
-
+Given I have an open web browser
+And I am authenticated to SLI as "cgray" password "cgray"
 When I look in the school drop-down
 Then I only see "Daybreak Central High"
 

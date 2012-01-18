@@ -31,7 +31,7 @@ public class EdFiProcessor implements Processor {
     private Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap;
 
     @Override
-    @Profiled(tag = "EdFiProcessor")
+    @Profiled(tag = "EdFiProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
