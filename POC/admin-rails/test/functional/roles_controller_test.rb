@@ -2,7 +2,14 @@ require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
   setup do
-    @role = roles(:one)
+    @role_admin    = {:id => 0, :name => "IT Administrator", :rights => ["One", "Two"], :mappings => nil}
+    @role_educator = {:id => 1, :name => "Educator", :rights => ["Three", "Four"], :mappings => ["teacher"]}
+    
+    ActiveResource::HttpMock.respond_to do |mock|
+      mock.get "roles", {"Accept" => "applciation/json"}, [@role_admin, @role_educator].to_json
+      mock.get "roles/1", {"Accept" => "applicaiton/json"}, @role_educator.to_json
+      mock.get "roles/0", {"Accept" => "applicaiton/json"}, @role_admin.to_json
+    end
   end
 
   test "should get index" do

@@ -1,7 +1,22 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+admin:
+  id: 0
+  name: IT Administrator
+  rights:
+    - Admin Right 1
+    - Admin Right 2
+    - Admin Right 3
+  mappings:
 
-two:
-  name: MyString
+educator:
+  id: 1
+  name: Educator
+  rights:
+      - Educator Right 1
+      - Educator Right 2
+      - Educator Right 3
+  mappings:
+      - teacher
+      - Teacher
+      - NC Teacher
