@@ -27,7 +27,7 @@ public class ControlFileProcessor implements Processor {
     private BatchJobAssembler jobAssembler;
 
     @Override
-    @Profiled(tag = "ControlFileProcessor")
+    @Profiled(tag = "ControlFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
 
         long startTime = System.currentTimeMillis();
