@@ -26,6 +26,9 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     @Autowired
     LocalFileSystemLandingZone lz;
 
+    private File newRecordFile;
+    private File currentRecordFile;
+
     @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         try {
@@ -46,14 +49,14 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     void loadFiles(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
 
         // load new files from user
-        File newRecordFile = fileEntry.getNeutralRecordFile();
+        newRecordFile = fileEntry.getNeutralRecordFile();
         // TODO: switch to HDFS as follows:
         // HDFSUtil.addFile(newRecordFile, "/");
         // temporarily using local landing zone
         lz.loadFile(newRecordFile);
 
         // load current state files
-        File currentRecordFile = getCurrentRecordFile(fileEntry, errorReport);
+        currentRecordFile = getCurrentRecordFile(fileEntry, errorReport);
         // TODO: switch to HDFS as follows:
         // HDFSUtil.addFile(currentRecordFile, "/");
         // temporarily using local landing zone
@@ -61,22 +64,30 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
 
     }
 
-    void computeDelta(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+    void computeDelta(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
 
         // TODO: compute delta between new and current state records
         File deltaFile = null;
+
+        deltaFile = computeDeltaImp(newRecordFile, currentRecordFile);
 
         // write delta to deltaNeutralRecordFile
         fileEntry.setDeltaNeutralRecordFile(deltaFile);
 
     }
 
-    File getCurrentRecordFile(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
+    private File getCurrentRecordFile(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
 
         // TODO: fetch current state records
         // temporarily return empty file
         File file = File.createTempFile("currentRecord_", ".tmp");
         file.deleteOnExit();
         return file;
+    }
+
+    private File computeDeltaImp(File newRecordFile, File currentRecordFile) {
+
+        // TODO: right now the currentRecordFile is empty, so the delta file is the same as the newRecordFile
+        return newRecordFile;
     }
 }
