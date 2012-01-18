@@ -50,9 +50,12 @@ Transform /^the student "([^"]*)"$/ do |arg1|
 end
 
 Transform /^list of teachers from school "([^"]*)"&/ do |arg1|
-  array = ["John Doe", "Ted Bear"] if arg1 == "Fry High School"
-  array = ["John Doe", "Elizabeth Jane"] if arg1 == "Watson Elementary School"
-  array = ["John Doe", "Emily Jane"] if arg1 == "Parker-Dust Middle School"
+  array = ["eb4d7e1b-7bed-890a-d574-1d729a37fd2d",
+           "eb4d7e1b-7bed-890a-d974-1d729a37fd2d"] if arg1 == "Fry High School"
+  array = ["eb4d7e1b-7bed-890a-d5b4-1d729a37fd2d",
+           "eb4d7e1b-7bed-890a-d9b4-1d729a37fd2d"] if arg1 == "Watson Elementary School"
+  array = ["eb4d7e1b-7bed-890a-d5f4-1d729a37fd2d",
+           "eb4d7e1b-7bed-890a-d9f4-1d729a37fd2d"] if arg1 == "Parker-Dust Middle School"
   array
 end
 
@@ -108,10 +111,16 @@ Then /^I receive a JSON response that includes the teacher "([^"]*)" and its att
   assert(result["name"]["lastSurname"] == lastName, "Teacher last name returned was "+result["name"]["lastName"]+" but expected "+lastName)
 end
 
-When /^I make an API call to get list of teachers from the school "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I make an API call to get list of teachers from (the school "[^"]*")$/ do |arg1|
+  restHttpGet("/teacher-school-associations/"+arg1+"/targets")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I receive a JSON response that includes a (list of teachers from school "[^"]*")$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  arg1.each {|id| 
+    # Find each ID in the JSON
+  }
 end
