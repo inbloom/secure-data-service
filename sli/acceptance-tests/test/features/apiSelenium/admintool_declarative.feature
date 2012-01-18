@@ -36,13 +36,13 @@ And I have a Role attribute equal to "Educator"
 When I navigate to the SLI Default Roles Admin Page
 Then I should get a message that I am not authorized
  
-@wip
 Scenario: Valid SLI IDP user login to SLI Default Roles Admin Page
 Given I have an open web browser 
 And I am not authenticated to SLI IDP
 And I have tried to access the SLI Default Roles Admin Page
 And I was redirected to the Realm page
 And I choose realm "Shared Learning Initiative" in the drop-down list
+And I click on the page Go button
 And I was redirected to the SLI IDP Login page
 And I am user "demo"
 And "demo" is valid "SLI IDP" user
