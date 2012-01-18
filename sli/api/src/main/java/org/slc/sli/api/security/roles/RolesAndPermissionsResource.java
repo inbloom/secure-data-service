@@ -1,5 +1,9 @@
 package org.slc.sli.api.security.roles;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -9,11 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -30,7 +31,6 @@ import java.util.List;
 @Component
 @Scope("request")
 @Produces("application/json")
-
 public class RolesAndPermissionsResource {
 
     public static final int NUM_RESULTS = 100;
@@ -48,6 +48,7 @@ public class RolesAndPermissionsResource {
      */
     @GET
     @Path("/")
+    @PreAuthorize("hasRole('READ_ROLES')")
     public List<Map<String, Object>> getRolesAndPermissions() {
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
         List<Role>  roles = roleAccessor.fetchAllRoles();
