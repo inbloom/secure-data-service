@@ -56,7 +56,7 @@ Given /^I have an aggregation definition for (<[^>]*>)$/ do |agg_def|
   @finalize = getFuncByName(@result["finalize"])
   @cleanup = getFuncByName("cleanupBodyAndId")
   
-  @params = @result["parameters"].join(",")
+  @params = @result["parameters"]
   @agg_coll = @result["collection"]
   @name = @result["name"]
 end
@@ -67,6 +67,7 @@ When /^the aggregation is calculated$/ do
     "map" => @map,
     "reduce" => @reduce,
     "finalize" => @finalize,
+    "query" => { "body.assessmentId" => { "$in" => @params }},
     "scope" => { "aggregation_name" => @name, "execution_time" => Time.new },
     "out" => { "reduce" => "aggregation" }
   }
