@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "EducationOrganizationAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This represents the associations of an education organization.",
+  "fields" : [ {
+    "name" : "educationOrganizationIdSource",
+    "type" : "string"
+  }, {
+    "name" : "educationOrganizationIdTarget",
+    "type" : "string"
+  } ]
+}
