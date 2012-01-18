@@ -123,35 +123,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="Recognition">
-		<xs:annotation>
-			<xs:documentation>
-				Recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="RecognitionType" type="RecognitionType">
-				<xs:annotation>
-					<xs:documentation>
-						The nature of recognition given to the student for accomplishments in a co-curricular, or
-						extra-curricular activity.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="RecognitionDescription" type="RecognitionDescription" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>
-						A description of the type of academic distinctions earned by or awarded to the individual.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="RecognitionAwardDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The date the recognition was awarded or earned.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:complexType name="AcademicHonor">
 	<xs:annotation>
 		<xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>

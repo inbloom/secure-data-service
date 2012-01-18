@@ -600,5 +600,97 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    
+    <xs:complexType name="AcademicHonor">
+        <xs:annotation>
+            <xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="AcademicHonorsType" type="AcademicHonorsType">
+                <xs:annotation>
+                    <xs:documentation>A designation of the type of academic distinctions earned by or awarded to the student.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="HonorsDescription" type="HonorsDescription" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>A description of the type of academic distinctions earned by or awarded to the individual.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="HonorAwardDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The date the honor was awarded or earned.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>    
+    
+    <xs:complexType name="ClassRanking">
+        <xs:annotation>
+            <xs:documentation>
+                The academic rank information of a student in relation to his or her graduating class
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ClassRank" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>
+                        The academic rank of a student in relation to his or her graduating class
+                        (e.g., 1st, 2nd, 3rd).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalNumberInClass" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>
+                        The total number of students in the student's graduating class.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PercentageRanking" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        The academic percentage rank of a student in relation to his or her graduating class
+                        (e.g., 95%, 80%, 50%).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ClassRankingDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Date class ranking was determined.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Recognition">
+        <xs:annotation>
+            <xs:documentation>
+                Recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="RecognitionType" type="RecognitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The nature of recognition given to the student for accomplishments in a co-curricular, or
+                        extra-curricular activity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RecognitionDescription" type="RecognitionDescription" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        A description of the type of academic distinctions earned by or awarded to the individual.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RecognitionAwardDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The date the recognition was awarded or earned.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
 
 </xs:schema>
