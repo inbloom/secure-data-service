@@ -27,4 +27,4 @@ db.runCommand( {
 db.runCommand({"$eval" : cleanupFunction });
 
 //show results
-db.aggregation.find()
+db.aggregation.find();
