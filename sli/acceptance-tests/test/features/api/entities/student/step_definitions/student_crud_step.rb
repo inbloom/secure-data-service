@@ -13,7 +13,7 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"289c933b-ca69-448c-9afd-2c5879b7d221"   if arg2 == "'Donna' ID"
   id = arg1+"c7146300-5bb9-4cc6-8b95-9e401ce34a03"   if arg2 == "'Rachel' ID"
   id = arg1+"11111111-1111-1111-1111-111111111111"   if arg2 == "'WrongURI' ID"
-  id = arg1+@newStudentID                            if arg2 == "'newly created student' ID"
+  id = arg1+@newId                                   if arg2 == "'newly created student' ID"
   id = arg1                                          if arg2 == "'NoGUID' ID"
   id
 end
@@ -23,21 +23,6 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id
 end
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all students$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-
-Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/xml", "text/plain"].should include(arg1)
-  @format = arg1
-end
 
 Given /^the "birthDate" is "([^"]*)"$/ do |arg1|
   #d = Date.strptime(arg1, '%m/%d/%Y')
@@ -65,19 +50,6 @@ end
 Given /^the "studentUniqueStateId" is "([^"]*)"$/ do |arg1|
   @studentSchoolId = Integer(arg1)
   @studentSchoolId.should_not == nil
-end
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
-end
-
-Then /^I should receive a ID for the newly created student$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newStudentID = s[s.rindex('/')+1..-1]
-  assert(@newStudentID != nil, "Student ID is nil")
 end
 
 Then /^the "([^"]*)" should be "([^"]*)"$/ do |arg1, arg2|

@@ -24,7 +24,8 @@ import java.util.ArrayList;
 public class ConfigUtil {
 
     private static Logger logger = LoggerFactory.getLogger(ConfigUtil.class);
-
+    private static final String CHAR_ENCODING = "UTF-8";
+    
     private static JAXBContext jc;
     
     static {
@@ -48,7 +49,7 @@ public class ConfigUtil {
         Marshaller m = jc.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         m.marshal(configSet, os);
-        return os.toString("UTF-8");
+        return os.toString(CHAR_ENCODING);
     }
 
     /**
@@ -60,7 +61,7 @@ public class ConfigUtil {
      */
     public static ViewConfigSet fromXMLString(String configStr) throws Exception {
         
-        InputStream is = new ByteArrayInputStream(configStr.getBytes("UTF-8"));
+        InputStream is = new ByteArrayInputStream(configStr.getBytes(CHAR_ENCODING));
         Unmarshaller u = jc.createUnmarshaller();
         ViewConfigSet configSet = (ViewConfigSet) (u.unmarshal(is));
         return configSet;

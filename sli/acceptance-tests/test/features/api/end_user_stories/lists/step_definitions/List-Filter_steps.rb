@@ -48,20 +48,6 @@ Transform /^\/students\/<([^>]*)>$/ do |step_arg|
   id
 end
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all students  assessments and sections$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-#puts @format
-end
 
 
 When /^I navigate to GET (\/teachers\/<[^>]*>|\/students\/<[^>]*>)$/ do |uri|

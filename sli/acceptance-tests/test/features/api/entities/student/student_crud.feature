@@ -1,4 +1,4 @@
-Feature: <US267> In order to manage students
+Feature: As an SLI application, I want to be able to manage students
     As a client application using SLI
     I want to have create, read, update, and delete functionality for a student.
 
@@ -15,7 +15,7 @@ Scenario: Create a new student JSON
         And the "studentUniqueStateId" is "123456"
     When I navigate to POST "/students/" 
     Then I should receive a return code of 201
-       And I should receive a ID for the newly created student
+       And I should receive an ID for the newly created student
     When I navigate to GET "/students/<'newly created student' ID>"
     Then the "name" should be "Mister" "John" "Doe"
        And the "birthDate" should be "1994-04-04"

@@ -111,7 +111,7 @@ public class Mocker {
         Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(rolesToRightsResolver.resolveRoles(Arrays.asList(new String[]{"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
+        when(rolesToRightsResolver.resolveRoles(null, Arrays.asList(new String[]{"IT Administrator", "parent", "teacher"}))).thenReturn(rights);
         return rolesToRightsResolver;
     }
 }

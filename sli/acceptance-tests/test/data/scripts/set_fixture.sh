@@ -13,3 +13,6 @@ $MONGO_HOME/mongoimport --drop -d sli -c studentschoolassociation -h $DB_HOST --
 $MONGO_HOME/mongoimport --drop -d sli -c teacher -h $DB_HOST --file "$DIR/../teacher_fixture.json"
 $MONGO_HOME/mongoimport --drop -d sli -c section -h $DB_HOST --file "$DIR/../section_fixture.json"
 $MONGO_HOME/mongoimport --drop -d sli -c section -h $DB_HOST --file "$DIR/../assessment_fixture.json"
+$MONGO_HOME/mongoimport --drop -d sli -c educationOrganization -h $DB_HOST --file "$DIR/../educationOrganization_fixture.json"
+$MONGO_HOME/mongoimport --drop -d sli -c staff -h $DB_HOST --file "$DIR/../staff_fixture.json"
+$MONGO_HOME/mongoimport --drop -d sli -c staffEducationOrganizationAssociation -h $DB_HOST --file "$DIR/../staffEducationOrganizationAssociation_fixture.json"

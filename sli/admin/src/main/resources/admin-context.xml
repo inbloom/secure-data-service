@@ -9,8 +9,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<context:component-scan base-package="org.slc.sli" />
 	<context:annotation-config />
+	<context:component-scan base-package="org.slc.sli" />
 
 
 	<bean id="adminProperties"
@@ -29,7 +29,6 @@
 		</property>
 	</bean>
 
-
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -37,5 +36,5 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+
 </beans>

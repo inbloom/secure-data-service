@@ -1,4 +1,4 @@
-Feature: <US63> In order to manage schools
+Feature: As an SLI application, I want to be able to manage schools
     As a client application using SLI
     I want to have create, read, update, and delete functionality for a school.
 
@@ -14,7 +14,7 @@ Scenario: Create a new school JSON
 	  And the "website" is "www.scts.edu"
     When I navigate to POST "/schools/" 
     Then I should receive a return code of 201
-       And I should receive a ID for the newly created school
+       And I should receive an ID for the newly created school
     When I navigate to GET "/schools/<'newly created school' ID>"
     Then I should see the "shortNameOfInstitution" is "SCTS"
       And I should see the "nameOfInstitution" is "School Crud Test School"
