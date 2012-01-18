@@ -53,21 +53,6 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-					<xs:annotation>
-						<xs:documentation>The id of the Education Organization that defines
-							the curriculum and courses offered - often the LEA. This is an
-							id to the education organization
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="GradingPeriodReference" type="GradingPeriodSimpleReference" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Ids of grading periods associated with the
-							calendar.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -113,7 +98,7 @@
 				<xs:element name="SessionsOffered" type="SessionSimpleReference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
-							The sessions associated with the session.
+							The sessions associated with this bell schedule.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
