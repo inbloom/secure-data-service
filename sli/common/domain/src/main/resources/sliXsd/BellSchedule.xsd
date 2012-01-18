@@ -57,12 +57,11 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="BellSchedule">
+	<xs:complexType name="BellSchedule">
 		<xs:annotation>
 			<xs:documentation>This entity represents the schedule of class period meeting times.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="BellScheduleName" type="xs:string">
 					<xs:annotation>
@@ -103,8 +102,7 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	</xs:complexType>
 
 	<xs:complexType name="MeetingTime">
 		<xs:annotation>
@@ -224,20 +222,18 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="MiscellaneousEvent">
+	<xs:complexType name="MiscellaneousEvent">
 		<xs:annotation>
 			<xs:documentation>A miscellaneous event, such as recess or lunch
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
 		<xs:sequence>
 		   <xs:element name="EventName" type="xs:string">
 		   </xs:element>
 		   <xs:element name="EventType" type="xs:string">
 		   </xs:element>
 		</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	</xs:complexType>
 
 	<xs:element name="Section">
 		<xs:annotation>
@@ -363,13 +359,12 @@
 		</xs:sequence>
 	</xs:complexType></xs:element>
 
-	<xs:element name="Location">
+	<xs:complexType name="Location">
 		<xs:annotation>
 			<xs:documentation>This entity represents the physical space where students gather for
 				a particular class/section.  The location may be an indoor or outdoor area
 				designated for the purpose of meeting the educational needs of students.</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
 				<xs:sequence>
 					<xs:element name="ClassroomIdentificationCode" type="ClassroomIdentificationCode">
 						<xs:annotation>
@@ -388,7 +383,6 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
-	    </xs:complexType>
-	</xs:element>
+	</xs:complexType>
 
 </xs:schema>
