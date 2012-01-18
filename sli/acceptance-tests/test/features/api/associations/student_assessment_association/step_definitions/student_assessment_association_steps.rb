@@ -34,55 +34,32 @@ Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
-  @fields[key] = value
+  if key == 'scoreResults'
+    @fields[key] = [Hash["assessmentReportingMethod"=>"Raw_score","result"=> value]]
+  else
+    @fields[key] = value
+  end
+  
 end
 
-When /^I navigate to POST "([^"]*)"$/ do |uri|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH = Hash["studentId"=> @fields["studentId"],
-    "assessmentId" => @fields["assessmentId"],
-    "administrationDate" => @fields["administrationDate"],
-    "scoreResults"=>[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@fields["scoreResults"]]],
-    "performanceLevel"=> @fields["performanceLevel"]]
-  data=dataH.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(uri, data)
+When /^I navigate to POST "([^"]*)"$/ do |url|
+  data = prepareData(@format, @fields)
+  restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
 
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
-  if !defined? @fields
-    @fields = {}
-  end
-  @fields[key]=value
+  step "\"#{key}\" is \"#{value}\""
 end
 
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-   if @format == "application/json"
-      modified = JSON.parse(@res.body)
-      @fields.each do |key, value|
-        if key == "scoreResults"
-        modified[key]=[Hash["assessmentReportingMethod"=>"Raw_score","result"=>value]]
-        elsif modified[key] = value
-        end
-      end
-      data = modified.to_json
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-    restHttpPut(uri, data)
-    assert(@res != nil, "Response from rest-client PUT is nil")
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 When /^I attempt to update a non\-existing association "([^"]*<[^"]*>)"$/ do |uri|

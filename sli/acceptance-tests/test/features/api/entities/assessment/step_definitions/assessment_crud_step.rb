@@ -40,9 +40,8 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   end
 end
 
-When /^I set the "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
-  @result[arg1] = arg2
-  @data = @result
+When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
+  @result[key] = value
 end
 
 
@@ -61,45 +60,17 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
 end
 
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |arg1|
-
-  if @format == "application/json"   
-    data = @data.to_json
-  elsif @format == "application/xml"
-    data = @data
-  else
-    assert(false, "Unsupported MIME type")
-  end
- 
-  restHttpPut(arg1, data)
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
-  
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 
-When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
-  if @format == "application/json"
-    dataH = Hash[
-      "assessmentTitle" => @assessmentTitle,
-      "academicSubject" => @academicSubject,
-      "assessmentCategory" => @assessmentCategory,
-      "gradeLevelAssessed" => @gradeLevelAssessed,
-      "contentStandard" => @contentStandard]
-    
-    data = dataH.to_json
-  elsif @format == "application/xml"
-    builder = Builder::XmlMarkup.new(:indent=>2)
-    data = builder.assessment { |b|
-      b.assessmentTitle(@assessmentTitle)
-      b.academicSubject(@academicSubject) 
-      b.assessmentCategory(@assessmentCategory)
-      b.gradeLevelAssessed(@gradeLevelAssessed)
-      b.contentStandard(@contentStandard)
-      }
-    
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPut(arg1, data)
+When /^I attempt to update "([^"]*<[^"]*>)"$/ do |url|
+  @result = {}
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
 end

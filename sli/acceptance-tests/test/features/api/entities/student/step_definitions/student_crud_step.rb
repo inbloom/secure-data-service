@@ -23,34 +23,38 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id
 end
 
-
-Given /^the "birthDate" is "([^"]*)"$/ do |arg1|
-  #d = Date.strptime(arg1, '%m/%d/%Y')
-  #@bdate = d.to_time.to_i*1000
-  @bdate = arg1
+Given /^the "name" is "([^\"]+)" "([^\"]+)" "([^\"]+)"$/ do |first, mid, last|
+  first.should_not == nil
+  last.should_not == nil
+  if !defined? @data
+    @data = {}
+  end
+  @data["name"] = { "firstName" => first, "middleName" => mid, "lastSurname" => last };
 end
 
-When /^I set the "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
-  step "the \"birthDate\" is \""+ arg2 + "\""
+Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
+  if !defined? @data
+    @data = {}
+  end
+  value = convert(value)
+  if key == 'birthDate'
+    @data['birthData'] = Hash[key => value]
+  else
+    @data[key] = value
+  end
 end
 
-Given /^the "sex" is "([^"]*)"$/ do |arg1|
-  ["Male","Female"].should include(arg1)
-  @sex = arg1
+
+When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
+  value = convert(value)
+  if key == 'birthDate'
+    @result['birthData'] = Hash[key => value]
+  else
+    @result[key] = value
+  end
 end
 
-Given /^the "name" is "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3|
-  @fname = arg1
-  @fname.should_not == nil
-  @mname = arg2
-  @lname = arg3
-  @lname.should_not == nil
-end
 
-Given /^the "studentUniqueStateId" is "([^"]*)"$/ do |arg1|
-  @studentSchoolId = Integer(arg1)
-  @studentSchoolId.should_not == nil
-end
 
 Then /^the "([^"]*)" should be "([^"]*)"$/ do |arg1, arg2|
   if(arg1 == 'birthDate')
@@ -63,6 +67,7 @@ end
 
 Then /^the "([^"]*)" should be "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   assert(@result[arg1]['firstName'] == arg2, "Expected data incorrect")
+  assert(@result[arg1]['middleName'] == arg3, "Expected data incorrect")
   assert(@result[arg1]['lastSurname'] == arg4, "Expected data incorrect")
 end
 
@@ -92,58 +97,18 @@ end
 
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
-  if @format == "application/json"
-    dataH = Hash[
-      "studentUniqueStateId" => @studentSchoolId,
-      "name" => Hash[
-        "firstName" => @fname,
-        "lastSurname" => @lname,
-        "middleName" => @mname],
-      "sex" => @sex,
-      "birthData" => Hash[
-        "birthDate" => @bdate
-        ]
-      ]
-    data = dataH.to_json
-  elsif @format == "application/xml"
-    builder = Builder::XmlMarkup.new(:indent=>2)
-    data = builder.student { |b| 
-      b.studentSchoolId(@studentSchoolId)
-      b.firstName(@fname) 
-      b.lastSurname(@lname)
-      b.middleName(@mname)
-      b.sex(@sex)
-      b.birthDate(@bdate)}      
-  else
-    assert(false, "Unsupported MIME type")
-  end
+  data = prepareData(@format, @data)
   restHttpPost(arg1, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
 
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |student_uri|
-  restHttpGet(student_uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  
-  if @format == "application/json"
-    dataH = JSON.parse(@res.body)
-    dataH['birthData']['birthDate'].should_not == @bdate
-    dataH['birthData']['birthDate'] = @bdate
-    data = dataH.to_json
-  elsif @format == "application/xml"    
-    doc = Document.new(@res.body)  
-    doc.root.elements["birthDate"].text.should_not == @bdate
-    doc.root.elements["birthDate"].text = @bdate
-    data = doc
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  
-  restHttpPut(student_uri, data)
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 
