@@ -18,25 +18,18 @@ import org.slc.sli.ingestion.queues.IngestionQueueProperties;
  *
  */
 
-// TODO - Can only access the ingestionJmsQueue bean if we use SpringJUnit4ClassRunner but then camel JMS routes don't work.
-//        For now using hard coded queue properties and the standard Junit class runner
-
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration({ "classpath:/spring/applicationContext-test.xml" })
 public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
 
-    //@Autowired
-    IngestionQueueProperties assembledJobsQueueProperties;
+    IngestionQueueProperties ctrlFilePreProcessorQueueProperties;
     
     /**
      * Set the assembledJobsQueueProperties from the applicationContext.
      * This is a workaround to avoid using SpringJUnit4ClassRunner which seemed to cause problems
      * when injecting a bean with autowire.
      */
-    private void setAssembledJobsQueueProperties() {
-        assembledJobsQueueProperties = 
+    private void setCtrlFilePreProcessorQueueProperties() {
+        ctrlFilePreProcessorQueueProperties = 
                 (IngestionQueueProperties) applicationContext.getBean("assembledJobsQueueProperties");
-        //System.out.println("getBean: queue name = " + assembledJobsQueueProperties.getQueueName() );
     }
     
     @Override
@@ -48,7 +41,7 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
 
     @Test
     public void testBatchJobWithFaultsIsNotProcessed() throws Exception {
-        setAssembledJobsQueueProperties();
+        setCtrlFilePreProcessorQueueProperties();
 
         // create a mock endpoint against which we can set expectations
         // it will be swapped in for the seda:acceptedJobs queue later
@@ -80,7 +73,7 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
 
         
         // put it on the assembledJobs queue
-        template.sendBody(assembledJobsQueueProperties.getQueueUri(), job);
+        template.sendBody(ctrlFilePreProcessorQueueProperties.getQueueUri(), job);
 
         // check it did NOT make it downstream to acceptedJobs q
         mock.assertIsSatisfied();
@@ -89,8 +82,8 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
     @Test
     public void testBatchJobWithoutFaultsIsProcessed() throws Exception {
 
-        setAssembledJobsQueueProperties();
-        String assembledJobsUri = assembledJobsQueueProperties.getQueueUri();
+        setCtrlFilePreProcessorQueueProperties();
+        String assembledJobsUri = ctrlFilePreProcessorQueueProperties.getQueueUri();
         
         // TODO boilerplate code - looks simple enough to factor out, but
         // so far all attempts have resulted in obscure camel/spring config

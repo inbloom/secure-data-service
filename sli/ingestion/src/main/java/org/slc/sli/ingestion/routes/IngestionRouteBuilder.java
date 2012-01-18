@@ -64,18 +64,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     LocalFileSystemLandingZone tempLz;
 
     @Autowired
-    IngestionQueueProperties assembledJobsQueueProperties;
+    IngestionQueueProperties ctrlFilePreProcessorQueueProperties;
     
     private void addJmsHornetQCamelComponent() {
 
-        String queueHostName = assembledJobsQueueProperties.getHostName();
-        int queuePort = assembledJobsQueueProperties.getPort();
+        String queueHostName = ctrlFilePreProcessorQueueProperties.getHostName();
+        int queuePort = ctrlFilePreProcessorQueueProperties.getPort();
         
-        /*
-        System.out.println("addJmsHornetQComponent() host = " + queueHostName + 
-                " port = " + queuePort + " queue name = " + assembledJobsQueueProperties.getQueueName() +
-                " URI = " + assembledJobsQueueProperties.getQueueUri());
-        */
+        //TODO Connect with credentials.
         
         //transport properties - set the server
         HashMap<String, Object> tcMap = new HashMap<String, Object>();
@@ -94,10 +90,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     
     @Override
     public void configure() throws Exception {
-
-        if(!assembledJobsQueueProperties.isUsingSedaQueues()) addJmsHornetQCamelComponent();
         
-        String assembledJobsUri = assembledJobsQueueProperties.getQueueUri();
+        if(!ctrlFilePreProcessorQueueProperties.isUsingSedaQueues()) addJmsHornetQCamelComponent();
+        
+        String ctrlFilePreProcessorUri = ctrlFilePreProcessorQueueProperties.getQueueUri();
         
         String inboundDir = lz.getDirectory().getPath();
 
@@ -108,13 +104,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
                 .routeId("ctlFilePoller")
                 .process(new ControlFilePreProcessor(lz))
-                .to("seda:CtrlFilePreProcessor");
+                .to(ctrlFilePreProcessorUri);
 
         // routeId: ctlFilePreprocessor
-        from("seda:CtrlFilePreProcessor")
+        from(ctrlFilePreProcessorUri)
                 .routeId("ctlFilePreprocessor")
                 .process(ctlFileProcessor)
-                .to(assembledJobsUri);
+                .to("seda:assembledJobs");
         
         // routeId: zipFilePoller
         from(
@@ -125,7 +121,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(zipFileProcessor)
                 .choice()
                     .when(body().isInstanceOf(BatchJob.class))
-                    .to(assembledJobsUri)
+                    .to("seda:assembledJobs")
                 .otherwise()
                     .process(new Processor() {
 
@@ -136,10 +132,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             tempLz.setDirectory(ctlFile.getParentFile());
                         }
                     }).process(new ControlFilePreProcessor(tempLz))
-                    .to("seda:CtrlFilePreProcessor");
+                    .to(ctrlFilePreProcessorUri);
         
         // routeId: jobDispatch  
-        from(assembledJobsUri)
+        from("seda:assembledJobs")
                 .routeId("jobDispatch")
                 .choice()
                     .when(header("hasErrors").isEqualTo(true))

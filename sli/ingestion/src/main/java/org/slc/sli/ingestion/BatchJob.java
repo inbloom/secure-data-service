@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -17,7 +18,9 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
  * @author okrook
  *
  */
-public class BatchJob implements ErrorReportSupport {
+public class BatchJob implements  Serializable, ErrorReportSupport{
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * holds references to the files involved in this Job

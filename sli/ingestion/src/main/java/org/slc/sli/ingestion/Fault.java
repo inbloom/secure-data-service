@@ -1,12 +1,14 @@
 package org.slc.sli.ingestion;
 
+import java.io.Serializable;
+
 /**
  * Fault that represents a warning or error in the system.
  *
  * @author okrook
  *
  */
-public class Fault {
+public class Fault implements Serializable {
 
     protected String message;
     protected FaultType type;

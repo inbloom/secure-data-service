@@ -52,11 +52,13 @@
   <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
 
 
-  <bean id="assembledJobsQueueProperties" class="org.slc.sli.ingestion.queues.IngestionQueueProperties">
-    <property name="hostName" value="${jmsqueue.host}"></property>
-    <property name="port" value="${jmsqueue.port}"></property>
-    <property name="queueName" value="${jmsqueue.queuename}"></property>
-    <property name="usingSedaQueues" value="${jmsqueue.seda}"></property>
+ <bean id="ctrlFilePreProcessorQueueProperties" class="org.slc.sli.ingestion.queues.IngestionQueueProperties">
+    <property name="usingSedaQueues" value="${queues.ctrlFilePreProcessor.seda}"></property>
+    <property name="hostName" value="${queues.ctrlFilePreProcessor.host}"></property>
+    <property name="port" value="${queues.ctrlFilePreProcessor.port}"></property>
+    <property name="queueName" value="${queues.ctrlFilePreProcessor.queueName}"></property>
+    <property name="userName" value="${queues.ctrlFilePreProcessor.userName}"></property>
+    <property name="password" value="${queues.ctrlFilePreProcessor.password}"></property>
   </bean>
 
  

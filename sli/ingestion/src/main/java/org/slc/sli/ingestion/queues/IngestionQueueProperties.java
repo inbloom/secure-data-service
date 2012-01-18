@@ -12,6 +12,12 @@ public class IngestionQueueProperties {
     
     private String queueName;
     
+    //TODO Credential encryption.
+    
+    private String userName;
+    
+    private String password;
+    
     /**
      * Whether the queue is a seda in memory queue as opposed to a jms queue.
      * If true, the port and hostName properties are redundant.
@@ -34,6 +40,14 @@ public class IngestionQueueProperties {
         return usingSedaQueues;
     }
     
+    public String getUserName() {
+        return userName;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
     public void setHostName(String name) {
         hostName = name;
     }
@@ -50,6 +64,14 @@ public class IngestionQueueProperties {
         usingSedaQueues = useSeda;
     }
     
+    public void setUserName(String name) {
+        userName = name;
+    }
+    
+    public void setPassword(String pass) {
+        password = pass;
+    }
+    
     /**
      * return the camel URI for the queue
      */
@@ -60,5 +82,10 @@ public class IngestionQueueProperties {
         else {
             return "jms:queue:" + queueName;
         }
-    }  
+    }
+    
+    @Override
+    public String toString() {
+        return "host name: " + hostName + ", port: " + port + ", queue name: " + queueName;
+    }
 }
