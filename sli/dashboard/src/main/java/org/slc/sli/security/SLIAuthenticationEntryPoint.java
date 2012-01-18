@@ -80,7 +80,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 }
             }
         }
-
+       
         addAuthentication((String) sessionId);
         response.sendRedirect(request.getRequestURI());
     }

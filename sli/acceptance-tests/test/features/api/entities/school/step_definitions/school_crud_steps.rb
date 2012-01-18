@@ -37,12 +37,10 @@ Given /^the "website" is "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should see the "([^"]*)" is "([^"]*)"$/ do |arg1, arg2|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
   if(arg1 == "telephoneNumber")
-    assert(result['telephone'][0][arg1] == arg2, "Expected attribute name not found in response")
+    assert(@result['telephone'][0][arg1] == arg2, "Expected attribute name not found in response")
   else
-    assert(result[arg1] == arg2, "Expected attribute name not found in response")
+    assert(@result[arg1] == arg2, "Expected attribute name not found in response")
   end
 end
 
@@ -50,22 +48,6 @@ end
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
   @fullName = arg2
 end
-
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
-  @data = JSON.parse(@res.body)
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
@@ -91,11 +73,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   restHttpPost(arg1, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 
-end
-
-When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |arg1|
-  restHttpGet(arg1)
-  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |arg1|
@@ -144,27 +121,16 @@ When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
-  restHttpDelete(arg1)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-Then /^I should see the school "([^"]*)"$/ do |arg1|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['nameOfInstitution'] == arg1, "Expected school name not found in response")
+Then /^I should see the school "([^"]*)"$/ do |arg1| 
+  assert(@result['nameOfInstitution'] == arg1, "Expected school name not found in response")
 end
 
 Then /^I should see a website of "([^"]*)"$/ do |arg1|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['webSite'] == arg1, "Expected website name not found in response")
+  assert(@result['webSite'] == arg1, "Expected website name not found in response")
 end
 
 Then /^I should see a phone number of "([^"]*)"$/ do |arg1|
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['telephone'][0]['telephoneNumber'] == arg1, "Expected website name not found in response")
+  assert(@result['telephone'][0]['telephoneNumber'] == arg1, "Expected website name not found in response")
 end
 
 

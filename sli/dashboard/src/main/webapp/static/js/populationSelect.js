@@ -3,7 +3,7 @@ function populateSchoolMenu(){
     y += "<option value=\"-1\"></option>"
     var i = 0;
     for(i = 0;i<schools.length;i++){
-        y += "<option value=\"" +i +"\">"+ schools[i].schoolId + "</option>"
+        y += "<option value=\"" +i +"\">"+ schools[i].nameOfInstitution + "</option>"
     }
     y += "</select>"
     document.getElementById("schoolDiv").innerHTML = y;
@@ -27,7 +27,7 @@ function populateSectionMenu(schoolIndex, courseIndex){
     y += "<option value=\"\"></option>"
     var i = 0
     for(;i < temp.length;i++){
-        y += "<option value=\"" +i +"\">"+ temp[i].section + "</option>"
+        y += "<option value=\"" +i +"\">"+ temp[i].uniqueSectionCode + "</option>"
     }
     y += "</select>"
     document.getElementById("sectionDiv").innerHTML = y

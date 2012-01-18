@@ -19,9 +19,9 @@ public class AssociativeContextResolver implements EntityContextResolver {
 
     private EntityDefinitionStore entityDefinitionStore;
 
-    private String sourceType = null;
-    private String targetType = null;
-    private List<AssociationDefinition> associativeContextPath = null;
+    private String sourceType;
+    private String targetType;
+    private List<AssociationDefinition> associativeContextPath;
 
     public AssociativeContextResolver() {
 

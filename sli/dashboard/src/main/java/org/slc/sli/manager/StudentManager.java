@@ -1,6 +1,7 @@
 package org.slc.sli.manager;
 
 import org.slc.sli.entity.Student;
+import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ConfigUtil;
@@ -29,7 +30,7 @@ public class StudentManager extends Manager {
         // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
         if (dataFields.size() > 0) {
-            studentInfo.addAll(Arrays.asList(apiClient.getStudents(username, studentIds)));
+            studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
         }
         
         // return the results

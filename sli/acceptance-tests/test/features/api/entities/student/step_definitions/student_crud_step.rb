@@ -54,31 +54,18 @@ end
 
 Then /^the "([^"]*)" should be "([^"]*)"$/ do |arg1, arg2|
   if(arg1 == 'birthDate')
-    assert(@data['birthData'][arg1] == arg2, "Expected data incorrect: Expected #{arg2} but got #{@data[arg1]}")
+    assert(@result['birthData'][arg1] == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
   else
-    assert(@data[arg1].to_s == arg2, "Expected data incorrect: Expected #{arg2} but got #{@data[arg1]}")
+    assert(@result[arg1].to_s == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
   end
   
 end
 
 Then /^the "([^"]*)" should be "([^"]*)" "([^"]*)" "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
-  assert(@data[arg1]['firstName'] == arg2, "Expected data incorrect")
-  assert(@data[arg1]['lastSurname'] == arg4, "Expected data incorrect")
+  assert(@result[arg1]['firstName'] == arg2, "Expected data incorrect")
+  assert(@result[arg1]['lastSurname'] == arg4, "Expected data incorrect")
 end
 
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
-  @data = JSON.parse(@res.body)
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
 
 When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
   if @format == "application/json"
@@ -134,17 +121,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |student_uri|
-  restHttpGet(student_uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  if @format == "application/json"
-    begin
-      @data = JSON.parse(@res.body);
-    rescue
-      @data = nil
-    end
-  end
-end
+
 
 When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |student_uri|
   restHttpGet(student_uri)
@@ -169,22 +146,5 @@ When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |student_uri|
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |student_uri|
-  restHttpDelete(student_uri)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
 
-Then /^I should receive a link where rel is "([^"]*)" and href ends with "([^"]*)"$/ do |rel, href|
-  @data = JSON.parse(@res.body)
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
 
