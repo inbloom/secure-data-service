@@ -24,7 +24,7 @@ db.runCommand( {
 });
 
 //clean up results so they can be found properly by the API's handlers
-cleanupFunction();
+db.runCommand({"$eval" : cleanupFunction });
 
 //show results
 db.aggregation.find()
