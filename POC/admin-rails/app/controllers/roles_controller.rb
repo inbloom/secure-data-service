@@ -34,6 +34,7 @@ class RolesController < ApplicationController
   # GET /roles/1/edit
   def edit
     @role = Role.find(params[:id])
+    puts "Role #{@role}"
   end
 
   # POST /roles
@@ -59,7 +60,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
-        format.html { redirect_to @role, notice: 'Role was successfully updated.' }
+        format.html { redirect_to @role.id, notice: 'Role was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

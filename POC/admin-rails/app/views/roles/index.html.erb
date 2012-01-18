@@ -3,21 +3,19 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Rights</th>
     <th></th>
-    <th></th>
-    <th></th>
+    <th>Actions</th>
   </tr>
 
 <% @roles.each do |role| %>
   <tr>
     <td><%= role.name %></td>
-    <td><%= link_to 'Show', role %></td>
-    <td><%= link_to 'Edit', edit_role_path(role) %></td>
-    <td><%= link_to 'Destroy', role, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= role.rights.join(', ')%></td>
+    <td></td>
+    <td><%= link_to 'Show', role.id %>, <%= link_to 'Edit', edit_role_path(role.id) %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Role', new_role_path %>

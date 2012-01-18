@@ -13,9 +13,13 @@ class ActiveSupport::TestCase
   setup do
     path = File.join(Rails.root, "test", "fixtures", "roles.yml")
     return nil unless File.exists?(path)
-    @roles = YAML::load(File.open path)
+    @role_fixtures = YAML::load(File.open path)
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/admin/roles?sessionId=", {"Accept" => "application/json"}, [@roles[:admin], @roles[:educator]].to_json
+      mock.get "/api/rest/admin/roles?sessionId=", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
+      mock.get "/api/rest/admin/roles/0?sessionId=", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json
+      mock.get "/api/rest/admin/roles/1?sessionId=", {"Accept" => "application/json"}, @role_fixtures["educator"].to_json
+      mock.get "/api/rest/admin/roles/-123?sessionId=", {"Accept" => "application/json"}, nil, 404
+      mock.put "/api/rest/admin/roles/?sessionId=", {"Content-Type" => "application/json"}, nil, 200
     end
   end
 

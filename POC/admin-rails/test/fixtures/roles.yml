@@ -20,3 +20,15 @@ educator:
       - teacher
       - Teacher
       - NC Teacher
+      
+update:
+    id:
+    name: IT Administrator
+    rights:
+        - Admin Right 1
+        - Admin Right 2
+        - Admin Right 3
+    mappings:
+        - admin
+        - Super Duper Admin
+        - dude guy
