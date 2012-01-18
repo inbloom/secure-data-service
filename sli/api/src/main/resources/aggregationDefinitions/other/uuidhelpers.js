@@ -17,7 +17,7 @@
 //      csuuid.toHexUUID() => 'HexData(3, "33221100-5544-7766-8899-aabbccddeeff")'
 //      pyuuid.toHexUUID() => 'HexData(3, "00112233-4455-6677-8899-aabbccddeeff")'
 
-var HexToBase64 = function(hex) {
+HexToBase64 = function(hex) {
     var base64Digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     var base64 = "";
     var group;
@@ -35,7 +35,7 @@ var HexToBase64 = function(hex) {
     return base64;
 }
 
-var JUUID = function(uuid) {
+JUUID = function(uuid) {
     var hex = uuid.replace(/[{}-]/g, ""); // remove extra characters
     var msb = hex.substr(0, 16);
     var lsb = hex.substr(16, 16);
@@ -47,4 +47,4 @@ var JUUID = function(uuid) {
 }
 
 db.system.js.save({ "_id" : "JUUID", "value" : JUUID })
-db.system.js.save({ "_id" : "HexToBase64", "value" : hexToBase64 })
+db.system.js.save({ "_id" : "HexToBase64", "value" : HexToBase64 })

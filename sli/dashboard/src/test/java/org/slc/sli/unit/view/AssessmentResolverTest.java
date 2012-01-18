@@ -48,7 +48,7 @@ public class AssessmentResolverTest {
         f.setValue("DIBELS_NEXT.perfLevel");
         f.setTimeSlot("MOST_RECENT_SCORE");
         String dnextPerfLevel = resolver.get(f, student);
-        assertEquals("3", dnextPerfLevel);
+        assertEquals("@B", dnextPerfLevel);
         // get the D-next Comp score
         f.setValue("DIBELS_NEXT.scaleScore");
         f.setTimeSlot("MOST_RECENT_SCORE");
@@ -80,7 +80,7 @@ public class AssessmentResolverTest {
     private List<Assessment> getAssessments() {
         String studentId = "111111111";
         student = new Student();
-        student.setUid(studentId);
+        student.setId(studentId);
         String[] studentIdArray = (String[]) Arrays.asList(studentId).toArray();
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());

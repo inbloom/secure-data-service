@@ -9,18 +9,27 @@ package org.slc.sli.entity;
 public class Section {
 
     private String[] studentUIDs;
-    private String section;
+    private String uniqueSectionCode, id;
+
+    
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public String[] getStudentUIDs() {
         return studentUIDs;
     }
     public void setStudentUIDs(String[] students) {
         this.studentUIDs = students;
     }
-    public String getSection() {
-        return section;
+    public String getUniqueSectionCode() {
+        return uniqueSectionCode;
     }
-    public void setSection(String section) {
-        this.section = section;
+    public void setUniqueSectionCode(String uniqueSectionCode) {
+        this.uniqueSectionCode = uniqueSectionCode;
     }
+
     
 }

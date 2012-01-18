@@ -40,6 +40,7 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
+  puts "Current title is "+@driver.title
   assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
 end
 
@@ -108,7 +109,8 @@ Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should get a message that I am not authorized$/ do
-  pending # express the regexp above with the code you wish you had
+  puts "Current title is "+@driver.title
+  assert(@driver.title == "Not Authorized", webdriverDebugMessage(@driver, "Could not find Not Authorized in page title"))
 end
 
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do

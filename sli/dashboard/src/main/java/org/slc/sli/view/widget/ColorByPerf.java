@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.config.Field;
+import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.Student;
 import org.slc.sli.view.AssessmentResolver;
 
@@ -54,15 +55,10 @@ public class ColorByPerf {
         // get number of levels and assmt result level
         Integer numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
         if (numLevels == null) { numLevels = 0; }  
-        int level = 0;
-        try {
-            level = Integer.parseInt(assmts.get(perfField, student));
-        } catch (Exception e) {
-            logger.info("Could not find performance level " + field.getValue() 
-                        + " for student " + student.getFirstName() + " " + student.getLastName());
-            return 0;
-        }
-        
+
+        Assessment assmt = assmts.resolveAssessment(perfField, student);
+        if (assmt == null) { return 0; }
+        int level = assmt.getPerfLevel();
         return getColorIndex(level, numLevels);
     }
     

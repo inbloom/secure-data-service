@@ -8,6 +8,7 @@
 
     <!-- the application context definition for the DispatcherServlet -->
     
+
     <!-- controllers -->
     <bean name="/studentlist"        class="org.slc.sli.controller.StudentListController">
         <property name="schoolManager" ref="schoolManager"/>
@@ -20,7 +21,7 @@
     
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
-        <property name="apiClient" ref="APIClientBean"/>
+        <property name="apiClient" ref="${apiclient}Client"/>
     </bean>
     <bean id="assessmentManager" class="org.slc.sli.manager.AssessmentManager" parent="manager"/>
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager"/>
@@ -52,12 +53,11 @@
 		    </list>
 	    </property>
     </bean>
+
+	<bean id= "LiveClient" class="org.slc.sli.client.LiveAPIClient">
+	    <property name="restClient" ref="restClient" />
+	</bean>
+
+    <bean id= "MockClient" class="org.slc.sli.client.MockAPIClient" />
     
-    <bean id="SpringPropertiesHandlingBean" class="org.slc.sli.entity.SpringPropertiesTest">
-    <property name="name" value="${my.name}" />
-    </bean>
-    
-    <!-- api client -->
-    <bean id="APIClientBean" class="org.slc.sli.client.${apiclient}APIClient" />
-     
 </beans>
