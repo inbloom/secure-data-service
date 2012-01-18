@@ -2,6 +2,7 @@ package org.slc.sli.view;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.assessmentmetadata.PerfLevel;
 import org.slc.sli.entity.Student;
 
 import org.slc.sli.config.Field;
@@ -54,10 +55,21 @@ public class AssessmentResolver {
         String dataPointName = extractDataPointName(field.getValue());
         if (chosenAssessment == null) { return ""; }
         if (dataPointName == null) { return ""; }
-        if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { return chosenAssessment.getPerfLevelAsString(); }
         if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }
         if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getPercentileAsString(); }
         if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScore(); }
+
+        // return shortname for perf levels?? 
+        if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { 
+            String perfLevel = chosenAssessment.getPerfLevelAsString(); 
+            List<PerfLevel> perfLevels = metaDataResolver.findPerfLevelsForFamily(chosenAssessment.getAssessmentName());
+            if (perfLevels == null) { return ""; }
+            for (PerfLevel pl : perfLevels) {
+                if (perfLevel.equals(pl.getName())) {
+                    return pl.getShortName();
+                }
+            }
+        }
 
         return ""; 
     }
@@ -90,7 +102,7 @@ public class AssessmentResolver {
         // A) filter out students first
         List<Assessment> studentFiltered = new ArrayList<Assessment>();
         for (Assessment a : assessments) {
-            if (a.getStudentId().equals(student.getUid())) {
+            if (a.getStudentId().equals(student.getId())) {
                 studentFiltered.add(a);
             }
         }

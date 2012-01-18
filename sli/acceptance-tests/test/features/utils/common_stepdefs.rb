@@ -26,3 +26,40 @@ Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
   @newId = s[s.rindex('/')+1..-1]
   assert(@newId != nil, "After POST, #{entity} ID is nil")
 end
+
+When /^I navigate to GET "([^"]*)"$/ do |uri|
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  contentType = contentType(@res)
+  if /application\/json/.match contentType
+    @result = JSON.parse(@res.body)
+    assert(@result != nil, "Result of JSON parsing is nil")
+  elsif /application\/xml/.match contentType
+    doc = Document.new @res.body
+    @result = doc.root
+    puts @result
+  else
+    @result = {}
+  end
+end
+
+When /^I navigate to DELETE "([^"]*)"$/ do |uri|
+  restHttpDelete(uri)
+  assert(@res != nil, "Response from rest-client DELETE is nil")
+end
+
+Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
+  assert(@result.has_key?("links"), "Response contains no links")
+  found = false
+  @result["links"].each do |link|
+    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+      found = true
+    end
+  end
+  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+end
+
+
+
+

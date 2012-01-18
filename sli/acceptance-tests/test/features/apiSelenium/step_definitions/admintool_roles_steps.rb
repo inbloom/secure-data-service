@@ -12,7 +12,7 @@ When /^I navigate to the SLI Default Roles Admin Page$/ do
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  assert(@driver.current_url.index("/disco/realms/") != nil, webdriverDebugMessage(@driver,"Failed to be redirected to Realmchooser"))
+  assertWithWait("Failed to be redirected to Realmchooser")  {@driver.current_url.index("/disco/realms/") != nil}
 end
 
 Given /^I am authenticated to SLI IDP$/ do
@@ -40,7 +40,7 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
+  assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.title.index("SLI Default Roles") != nil}
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do
@@ -108,7 +108,7 @@ Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should get a message that I am not authorized$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Could not find Not Authorized in page title")  {@driver.title == "Not Authorized"}
 end
 
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
