@@ -9,9 +9,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
 
 /**
  * On startup loads all javascript function definitions into Mongo's memory.
@@ -55,7 +53,7 @@ public class AggregationLoader {
      * Constructor. Loads all definitions from file system into Mongo.
      */
     public AggregationLoader(MongoTemplate template) {
-    	this.template = template;
+        this.template = template;
         this.loadJavascriptFolders();
     }
     
