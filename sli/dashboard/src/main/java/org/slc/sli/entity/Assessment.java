@@ -11,10 +11,11 @@ public class Assessment {
     private String assessmentName;
     private String administrationDate;
     private String administrationEndDate;
+    private int performanceLevel;
     private Object[] links;
     private Object[] scoreResults;
     private int year;
-    private int performanceLevel;
+    private int perfLevel;
     private int scaleScore;
     private double percentile;
     private String lexileScore;
@@ -23,7 +24,7 @@ public class Assessment {
     public String getStudentId() { return studentId; }
     public String getAssessmentName() { return  assessmentName; }
     public int getYear() { return  year; }
-    public int getPerfLevel() { return  performanceLevel; }
+    public int getPerfLevel() { return  perfLevel; }
     public int getScaleScore() { return  scaleScore; }
     public double getPercentile() { return  percentile; }
     public String getLexileScore() { return  lexileScore; }
@@ -31,7 +32,7 @@ public class Assessment {
     public void setStudentId(String x) { studentId = x; }
     public void setAssessmentName(String x) { assessmentName = x; }
     public void setYear(int x) { year = x; }
-    public void setPerfLevel(int x) { performanceLevel = x; }
+    public void setPerfLevel(int x) { perfLevel = x; }
     public void setScaleScore(int x) { scaleScore = x; }
     public void setPercentile(double x) { percentile = x; }
     public void setLexileScore(String x) { lexileScore = x; }

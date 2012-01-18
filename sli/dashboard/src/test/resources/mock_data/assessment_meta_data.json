@@ -1,6 +1,6 @@
 [
     {
-        "name": "AP ENGLISH",
+        "name": "AP_ENGLISH",
         "perfLevels": [
             {
                 "name": "1",
@@ -32,8 +32,8 @@
 	],
         "period" : "Annual",
         "children" : [
-                    { "name": "6a53f63e-deb8-443d-8138-fc5a7368239c" },
-                    { "name": "6a53f63e-deb8-443d-8138-fc5a7368239d" }
+                    { "name": "AP_LANGUAGE" },
+                    { "name": "AP_LITERATURE" }
         ]
     },
     {
