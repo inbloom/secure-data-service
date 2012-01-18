@@ -15,7 +15,7 @@ Transform /^<([^>]*)>$/ do |agg_def|
 end
 
 def db
-  @db ||= Mongo::Connection.new('localhost').db('sli')
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
 end
 
 def coll
