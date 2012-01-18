@@ -69,7 +69,9 @@ Given /^the "([^\"]+)" status is "([^\"]+)"$/ do |key, value|
 end
 
 When /^I set the "([^\"]*)" status to "([^\"]*)"$/ do |key, value|
-  step "the \"#{key}\" is \"#{value}\""
+  #step "the \"#{key}\" is \"#{value}\""
+  value = convert(value)
+  @result[key] = value
 end
 
 When /^I navigate to POST "([^\"]+)"$/ do |url|
@@ -79,7 +81,7 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
 end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
-  data = prepareData(@format, @data)
+  data = prepareData(@format, @result)
   restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
   assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")

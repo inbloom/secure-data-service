@@ -32,16 +32,9 @@ Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
 end
 
 #Whens
-When /^I navigate to POST "([^"]*)"$/ do |uri|
-  if @format == "application/json"
-    dataH = @fields
-    data=dataH.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(uri, data)
+When /^I navigate to POST "([^"]*)"$/ do |url|
+  data = prepareData(@format, @fields)
+  restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
@@ -80,9 +73,12 @@ When /^I set "([^"]*)" to "([^"]*)"$/ do |key, value|
   step "\"#{key}\" is \"#{value}\""
 end
 
-When /^I navigate to PUT "(\/[^\/]*\/[^\/]*)"$/ do |uri|
+When /^I navigate to PUT "(\/[^\/]*\/[^\/]*)"$/ do |url|
   @result.update(@fields)
-  restHttpPut(uri, @result.to_json)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 

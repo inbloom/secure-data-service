@@ -80,37 +80,18 @@ Then /^after resolution, I should receive a link named "([^"]*)" with URI "([^"]
   assert(found, "didnt receive link named #{rel} with URI #{href}")
 end
 
-When /^I navigate to POST "([^"]*)"$/ do |uri|
-  if @format == "application/json"
-    dataH = @fields
-    data=dataH.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(uri, data)
+When /^I navigate to POST "([^"]*)"$/ do |url|
+  data = prepareData(@format, @fields)
+  restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  
-  if @format == "application/json"
-      modified = JSON.parse(@res.body)
-      @fields.each do |key, value|
-        modified[key] = value
-      end
-      data = modified.to_json
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-    restHttpPut(uri, data)
-    assert(@res != nil, "Response from rest-client PUT is nil")
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 When /^I attempt to update a non\-existing association "(\/student-school-associations\/<[^"]*>)"$/ do |uri|
