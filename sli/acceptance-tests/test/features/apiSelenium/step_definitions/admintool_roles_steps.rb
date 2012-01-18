@@ -108,7 +108,7 @@ Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should get a message that I am not authorized$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@driver.title == "Not Authorized", "Could not find Not Authorized in page title")
 end
 
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
