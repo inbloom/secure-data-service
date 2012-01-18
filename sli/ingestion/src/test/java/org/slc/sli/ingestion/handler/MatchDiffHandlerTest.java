@@ -28,18 +28,19 @@ public class MatchDiffHandlerTest {
     @Autowired
     private MatchDiffHandler matchDiffHandler;
 
-    @Ignore
     @Test
     public void testDoHandling() throws IOException {
         IngestionFileEntry mockedIngestionFileEntry = mock(IngestionFileEntry.class);
         ErrorReport mockedErrorReport = mock(ErrorReport.class);
 
         File newRecordFile = File.createTempFile("newRecord_", ".tmp");
+        newRecordFile.deleteOnExit();
+
         when(mockedIngestionFileEntry.getNeutralRecordFile()).thenReturn(newRecordFile);
 
         matchDiffHandler.doHandling(mockedIngestionFileEntry, mockedErrorReport);
 
-        verify(mockedIngestionFileEntry).setDeltaNeutralRecordFile(null);
+        verify(mockedIngestionFileEntry).setDeltaNeutralRecordFile(newRecordFile);
     }
 
 }
