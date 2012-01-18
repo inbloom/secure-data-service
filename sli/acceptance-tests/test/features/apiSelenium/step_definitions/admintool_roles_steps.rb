@@ -40,6 +40,7 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
+  puts "Current title is "+@driver.title
   assert(@driver.title.index("SLI Default Roles") != nil, webdriverDebugMessage(@driver,"Failed to navigate to the Admintools Role page"))
 end
 
