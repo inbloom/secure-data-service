@@ -26,6 +26,7 @@ import org.slc.sli.util.Constants;
 public class LiveAPIClient implements APIClient {
 
     private RESTClient restClient;
+    private Gson gson;
 
     // For now, the live client will use the mock client for api calls not yet implemented
     private MockAPIClient mockClient;
@@ -43,11 +44,12 @@ public class LiveAPIClient implements APIClient {
     
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
+        gson = new Gson();
     }
     
     @Override
     public School[] getSchools(String token) {
-        String teacherId = getTeacherId(token);
+        String teacherId = getId(token);
         Section[] sections = getSectionsForTeacher(teacherId, token);
         Course[] courses = getCoursesForSections(sections, token);
         School[] schools = getSchoolsForCourses(courses, token);
@@ -57,7 +59,6 @@ public class LiveAPIClient implements APIClient {
     
     @Override
     public Student[] getStudents(final String token, List<String> urls) {
-        Gson gson = new Gson();
         if (urls == null) {
             return null;
         }
@@ -81,13 +82,11 @@ public class LiveAPIClient implements APIClient {
     
     private School getSchool(String id, String token) {
         String url = Constants.API_SERVER_URI + "/schools/" + id;
-        Gson gson = new Gson();
         School school = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), School.class);
         return school;
     }
     
     private String[] getStudentIdsForSection(String id, String token) {
-        Gson gson = new Gson();
         String url = Constants.API_SERVER_URI + "/student-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         
@@ -101,7 +100,6 @@ public class LiveAPIClient implements APIClient {
     
     
     private Section getSection(String id, String token) {
-        Gson gson = new Gson();
         String url = Constants.API_SERVER_URI + "/sections/" + id;
         Section section = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), Section.class);
         section.setStudentUIDs(getStudentIdsForSection(id, token));
@@ -125,13 +123,17 @@ public class LiveAPIClient implements APIClient {
         return mockClient.getAssessmentMetaData(token);
     }
     
-    public String getTeacherId(String token) {
+    private String getId(String token) {
     //TODO: Make a call to the /home uri and retrieve id from there
+        String url = Constants.API_SERVER_URI + "/home";
+        ResponseObject response = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject.class);
+        String id = response.getId();
+        //TODO: Actually return the id from the call, once teacher-section works
+        
         return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
     }
     
-    public Section[] getSectionsForTeacher(String id, String token) {
-        Gson gson = new Gson();
+    private Section[] getSectionsForTeacher(String id, String token) {
         String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         //String[] sectionIds = new String[responses.length];
@@ -147,7 +149,7 @@ public class LiveAPIClient implements APIClient {
         return sections;
     }
 
-    public Course[] getCoursesForSections(Section[] sections, String token) {
+    private Course[] getCoursesForSections(Section[] sections, String token) {
         
         Course[] courses = new Course[sections.length];
         int i = 0;
@@ -167,7 +169,7 @@ public class LiveAPIClient implements APIClient {
         return courses;
     }
     
-    public School[] getSchoolsForCourses(Course[] courses, String token) {
+    private School[] getSchoolsForCourses(Course[] courses, String token) {
         // TODO Auto-generated method stub
         HashMap<String, School> schoolMap = new HashMap<String, School>();
         
