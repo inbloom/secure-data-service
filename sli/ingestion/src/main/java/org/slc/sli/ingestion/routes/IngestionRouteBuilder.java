@@ -117,12 +117,17 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(workItemQueue)
                 .routeId("ctlFilePreprocessor")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
+                .process(ctlFileProcessor)
+                .to("seda:assembledJobs");
+        // TODO change routing to check for IngestionMessageType header - currently breaks with seda queues
+                /*
                 .choice()
                     .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
                     .process(ctlFileProcessor)
                     .to("seda:assembledJobs")
                 .otherwise()
                     .to("direct:stop");
+                    */
         
         // routeId: zipFilePoller
         from(
