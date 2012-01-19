@@ -5,7 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolver;
+import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
@@ -40,7 +40,7 @@ public class EntityServiceAspect {
     private EntitySchemaRegistry schemaRegistry;
 
     @Autowired
-    private ContextResolver contextResolver;
+    private ContextResolverStore contextResolverStore;
 
     /**
      * Controls access to functions in the EntityService class.
@@ -91,7 +91,7 @@ public class EntityServiceAspect {
 
     private boolean hasContext(Entity entity) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return contextResolver.hasPermission(principal.getEntity(), entity);
+        return contextResolverStore.hasPermission(principal.getEntity(), entity);
     }
 
     /**
@@ -189,7 +189,7 @@ public class EntityServiceAspect {
         this.schemaRegistry = schemaRegistry;
     }
 
-    public void setContextResolver(ContextResolver contextResolver) {
-        this.contextResolver = contextResolver;
+    public void setContextResolverStore(ContextResolverStore contextResolverStore) {
+        this.contextResolverStore = contextResolverStore;
     }
 }

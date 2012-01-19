@@ -81,10 +81,10 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
 end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
+  @result = {} if !defined? @result 
   data = prepareData(@format, @result)
   restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 
@@ -109,6 +109,13 @@ Given /^the "([^\"]+)" status should be "([^\"]+)"$/ do |key, value|
   step "the \"#{key}\" should be \"#{value}\""
 end
 
+When /^I create a blank request body object$/ do
+  @result = {}
+end
+
+Then /^the response body should be blank$/ do
+  assert(@result == {}, "The response body was not blank despite PUT-ing a blank object")
+end
 
 
 

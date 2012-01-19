@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import freemarker.ext.beans.BeansWrapper;
@@ -19,11 +18,8 @@ import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.StudentManager;
 
-import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.config.ViewConfig;
 
-
-import org.slc.sli.security.SLIPrincipal;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 

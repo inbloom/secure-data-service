@@ -1,6 +1,5 @@
 package org.slc.sli.client;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,43 +13,52 @@ import org.slc.sli.entity.School;
 import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.security.RESTClient;
+import org.slc.sli.util.Constants;
 
 
 /**
  * 
  * API Client class used by the Dashboard to make calls to the API service.
+ * 
+ * @author svankina
  *
  */
 public class LiveAPIClient implements APIClient {
 
     private RESTClient restClient;
+    private Gson gson;
 
-    private String apiServerUri = "http://devapi1.slidev.org:8080/api/rest";
-    
+    // For now, the live client will use the mock client for api calls not yet implemented
+    private MockAPIClient mockClient;
+
+    /** 
+     * Getter and Setter used by Spring to instantiate the live/test api class
+     * @return
+     */
     public RESTClient getRestClient() {
         return restClient;
     }
     public void setRestClient(RESTClient restClient) {
         this.restClient = restClient;
     }
-
-    // For now, the live client will use the mock client for api calls not yet implemented
-    private MockAPIClient mockClient;
     
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
+        gson = new Gson();
     }
     
-
     @Override
     public School[] getSchools(String token) {
-        return mockClient.getSchools(token);
+        String teacherId = getId(token);
+        Section[] sections = getSectionsForTeacher(teacherId, token);
+        Course[] courses = getCoursesForSections(sections, token);
+        School[] schools = getSchoolsForCourses(courses, token);
+        
+        return schools;
     }
     
     @Override
     public Student[] getStudents(final String token, List<String> urls) {
-        Gson gson = new Gson();
         if (urls == null) {
             return null;
         }
@@ -59,24 +67,27 @@ public class LiveAPIClient implements APIClient {
         
         int i = 0;
         for (String url: urls) {
-            students[i++] = gson.fromJson(restClient.getStudent(url, token), Student.class);
+            students[i++] = gson.fromJson(getStudent(url, token), Student.class);
         }
         
         return students;
-
     }
     
     
+    
+    private String getStudent(String id, String token) {
+        String url = Constants.API_SERVER_URI + "/students/" + id;
+        return restClient.makeJsonRequestWHeaders(url, token);
+    }    
+    
     private School getSchool(String id, String token) {
-        String url = apiServerUri + "/schools/" + id;
-        Gson gson = new Gson();
+        String url = Constants.API_SERVER_URI + "/schools/" + id;
         School school = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), School.class);
         return school;
     }
     
     private String[] getStudentIdsForSection(String id, String token) {
-        Gson gson = new Gson();
-        String url = apiServerUri + "/student-section-associations/" + id + "/targets";
+        String url = Constants.API_SERVER_URI + "/student-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         
         String[] studentIds = new String[responses.length];
@@ -89,12 +100,10 @@ public class LiveAPIClient implements APIClient {
     
     
     private Section getSection(String id, String token) {
-        Gson gson = new Gson();
-        String url = apiServerUri + "/sections/" + id;
+        String url = Constants.API_SERVER_URI + "/sections/" + id;
         Section section = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), Section.class);
         section.setStudentUIDs(getStudentIdsForSection(id, token));
         return section;
-        
     }
 
     @Override
@@ -114,16 +123,18 @@ public class LiveAPIClient implements APIClient {
         return mockClient.getAssessmentMetaData(token);
     }
     
-    @Override
-    public String getTeacherId(String token) {
+    private String getId(String token) {
     //TODO: Make a call to the /home uri and retrieve id from there
+        String url = Constants.API_SERVER_URI + "/home";
+        ResponseObject response = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject.class);
+        String id = response.getId();
+        //TODO: Actually return the id from the call, once teacher-section works
+        
         return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
     }
     
-    @Override
-    public Section[] getSectionsForTeacher(String id, String token) {
-        Gson gson = new Gson();
-        String url = apiServerUri + "/teacher-section-associations/" + id + "/targets";
+    private Section[] getSectionsForTeacher(String id, String token) {
+        String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         //String[] sectionIds = new String[responses.length];
         
@@ -138,8 +149,7 @@ public class LiveAPIClient implements APIClient {
         return sections;
     }
 
-    @Override
-    public Course[] getCoursesForSections(Section[] sections, String token) {
+    private Course[] getCoursesForSections(Section[] sections, String token) {
         
         Course[] courses = new Course[sections.length];
         int i = 0;
@@ -159,8 +169,7 @@ public class LiveAPIClient implements APIClient {
         return courses;
     }
     
-    @Override
-    public School[] getSchoolsForCourses(Course[] courses, String token) {
+    private School[] getSchoolsForCourses(Course[] courses, String token) {
         // TODO Auto-generated method stub
         HashMap<String, School> schoolMap = new HashMap<String, School>();
         
@@ -175,7 +184,6 @@ public class LiveAPIClient implements APIClient {
             }
         }
             
-        Collection<School> temp = schoolMap.values(); 
         return (School[]) schoolMap.values().toArray(new School[1]);
     }
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
@@ -23,12 +24,8 @@ public class AggregationLoader {
     //ability to write to DEBUG output
     private static final Logger LOG = LoggerFactory.getLogger(AggregationLoader.class);
     
-    //where javascript aggregation function definitions are stored 
-    private static final String DEFINITIONS_PATH = 
-            "src" + File.separator
-            + "main" + File.separator
-            + "resources" + File.separator
-            + "aggregationDefinitions" + File.separator + "";
+    //base path
+    private File basePath;
     
     //folders containing various functions inside the main definition folder
     private static final String[] DEFINITIONS_FOLDERS = new String[] {
@@ -52,7 +49,9 @@ public class AggregationLoader {
     /**
      * Constructor. Loads all definitions from file system into Mongo.
      */
-    public AggregationLoader(MongoTemplate template) {
+    public AggregationLoader(MongoTemplate template, URI path) {
+        //construct the base path
+        basePath = new File(path);
         this.template = template;
         this.loadJavascriptFolders();
     }
@@ -70,7 +69,7 @@ public class AggregationLoader {
         //for each known folder of aggregation definitions
         for (String definitionFolder : AggregationLoader.DEFINITIONS_FOLDERS) {
             //construct path to definition folder
-            String path = AggregationLoader.DEFINITIONS_PATH + definitionFolder;
+            String path = basePath.getAbsolutePath() + File.separator + definitionFolder;
             //load all definitions found at the specified path
             allFilesLoaded = (this.loadJavascriptFolder(path) && allFilesLoaded);
         }

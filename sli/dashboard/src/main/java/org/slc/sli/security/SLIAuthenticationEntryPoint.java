@@ -22,6 +22,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.util.WebUtils;
 
+import org.slc.sli.client.RESTClient;
 import org.slc.sli.util.URLBuilder;
 import org.slc.sli.util.URLHelper;
 
