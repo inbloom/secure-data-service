@@ -1,7 +1,5 @@
 package org.slc.sli.api.resources;
 
-import java.util.Map;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -24,9 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Map;
+
 /**
  * Unit tests for Aspect on EntityService.
- * 
+ *
  * @author shalka
  */
 
@@ -140,6 +140,8 @@ public class EntityServiceAspectTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testFieldViewForAdministrator() throws Throwable {
+
+
         injector.setAdminContext();
 
         String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
