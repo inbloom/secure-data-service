@@ -111,7 +111,7 @@ Scenario Outline: Authenticated Educator makes API call to get own list of Secti
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get  list of sections taught by the teacher <Teacher>
+When I make an API call to get the list of sections taught by the teacher <Teacher>
 Then I receive a JSON response that includes the list of sections that <Teacher> teaches
 Examples:
 | Realm  | Username   | Password       | Teacher      |
@@ -210,8 +210,8 @@ Examples:
 #| "idp2" | "johndoe"  | "johndoe1234"  | "Hal Kessler"  |
 #| "idp2" | "johndoe"  | "johndoe1234"  | "Brock Ott"    |
 #| "idp2" | "johndoe"  | "johndoe1234"  | "Elnora Fin"   |
-| "idp1" | "ejane"    | "ejane1234"    | "Laven Chaney" |
-| "idp1" | "john_doe" | "john_doe1234" | "Laven Chaney" |
+| "idp1" | "ejane"    | "ejane1234"    | "Lavern Chaney" |
+| "idp1" | "john_doe" | "john_doe1234" | "Lavern Chaney" |
 | "idp1" | "tbear"    | "tbear1234"    | "Mark Moody"   |
 
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is not teaching
@@ -225,7 +225,7 @@ Examples:
 | "idp1" | "jdoe"     | "jdoe1234"     | "Austin Durran"  |
 | "idp1" | "jdoe"     | "jdoe1234"     | "Millie Lovel"   |
 #| "idp2" | "johndoe"  | "johndoe1234"  | "Hal Kessler"    |
-#| "idp2" | "ejane"    | "ejane1234"    | "Laven Chaney"   |
+#| "idp2" | "ejane"    | "ejane1234"    | "Lavern Chaney"   |
 #| "idp2" | "ejane"    | "ejane1234"    | "Freeman Marcum" |
 #| "idp2" | "ejane"    | "ejane1234"    | "Danny Fields"   |
 #| "idp2" | "johndoe"  | "johndoe1234"  | "Kristy Carillo" |
