@@ -15,7 +15,6 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-
 import java.util.List;
 import java.util.Vector;
 
@@ -26,7 +25,18 @@ import java.util.Vector;
 public class MockAPIClient implements APIClient {
 
     private ClassLoader classLoader;
+    private String username;
     
+    public String getUsername() {
+        return username;
+    }
+
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
@@ -34,18 +44,19 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-        Student[] students = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student.json"), Student[].class);
+        Student[] students = fromFile(getFilename("mock_data/" + username.replaceAll("\\W", "") + "/student.json"), Student[].class);
         // perform the filtering. 
         Vector<Student> filtered = new Vector<Student>();
         if (studentIds != null)
             for (Student student : students) { 
-                if (studentIds.contains(student.getUid())) { 
+                if (studentIds.contains(student.getId())) { 
                     filtered.add(student);
                 }
             }
         Student[] retVal = new Student[filtered.size()];
         return filtered.toArray(retVal);
     }
+    
     @Override
     public School[] getSchools(final String token) {
         return fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/school.json"), School[].class);
@@ -86,7 +97,7 @@ public class MockAPIClient implements APIClient {
     }
 
     // Helper function to translate a .json file into object. 
-    private static <T> T[] fromFile(String fileName, Class<T[]> c) {
+    public static <T> T[] fromFile(String fileName, Class<T[]> c) {
     
         BufferedReader bin = null;
     

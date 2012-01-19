@@ -7,7 +7,7 @@ include REXML
 require_relative '../../../../utils/sli_utils.rb'
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+@assocId                               if arg2 == "'newly created student assessment association' ID"
+  id = arg1+@newId                                 if arg2 == "'newly created student assessment association' ID"
   id = arg1+"1e0ddefb-6b61-4f7d-b8c3-33bb5676115a" if arg2 =="Student 'Jane Doe' and AssessmentTitle 'Writing Achievement Assessment Test' ID"
   id = arg1+"c8672d3b-0953-4ad7-a1b5-d5395bc0150a" if arg2 =="Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID"
   id = arg1+"68fbec8e-2041-4536-aad7-1105ab042c77" if arg2 =="AssessmentTitle 'French Advanced Placement' and Student 'Joe Brown' ID"
@@ -30,90 +30,36 @@ Transform /^<([^"]*)>$/ do |step_arg|
   id
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  @user = arg1
-  @passwd = arg2
-end
-
-Given /^I have access to all students and assessments$/ do
-  idpLogin(@user,@passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
-
-
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
-  @fields[key] = value
+  if key == 'scoreResults'
+    @fields[key] = [Hash["assessmentReportingMethod"=>"Raw_score","result"=> value]]
+  else
+    @fields[key] = value
+  end
+  
 end
 
-When /^I navigate to POST "([^"]*)"$/ do |uri|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH = Hash["studentId"=> @fields["studentId"],
-    "assessmentId" => @fields["assessmentId"],
-    "administrationDate" => @fields["administrationDate"],
-    "scoreResults"=>[Hash["assessmentReportingMethod"=>"Raw_score","result"=>@fields["scoreResults"]]],
-    "performanceLevel"=> @fields["performanceLevel"]]
-  data=dataH.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(uri, data)
+When /^I navigate to POST "([^"]*)"$/ do |url|
+  data = prepareData(@format, @fields)
+  restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  if @format == "application/json"
-    begin
-      @data = JSON.parse(@res.body);
-    rescue
-      @data = nil
-    end
-  elsif @format == "application/xml"
-    assert(false, "XML not supported yet")
-  else
-    assert(false, "Unsupported MediaType")
-  end
-end
 
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
-  if !defined? @fields
-    @fields = {}
-  end
-  @fields[key]=value
+  step "\"#{key}\" is \"#{value}\""
 end
 
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-   if @format == "application/json"
-      modified = JSON.parse(@res.body)
-      @fields.each do |key, value|
-        if key == "scoreResults"
-        modified[key]=[Hash["assessmentReportingMethod"=>"Raw_score","result"=>value]]
-        elsif modified[key] = value
-        end
-      end
-      data = modified.to_json
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-    restHttpPut(uri, data)
-    assert(@res != nil, "Response from rest-client PUT is nil")
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 When /^I attempt to update a non\-existing association "([^"]*<[^"]*>)"$/ do |uri|
@@ -122,31 +68,11 @@ When /^I attempt to update a non\-existing association "([^"]*<[^"]*>)"$/ do |ur
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-Given /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpDelete(uri)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code.to_s} but expected #{arg1}")
-end
-
-Then /^I should receive a ID for the newly created student\-assessment\-association$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Result contained no headers")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @assocId = s[s.rindex('/')+1..-1]
-  assert(@assocId != nil, "Student-Assessment-Association ID is nil")
-end
-
 Then /^I should receive a collection of (\d+) student\-assessment\-association links$/ do |arg1|
 if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
     counter=0
     @ids = Array.new
-    dataH.each do|link|
+    @result.each do|link|
       if link["link"]["rel"]=="self"
         counter=counter+1
         @ids.push(link["id"])
@@ -160,41 +86,15 @@ if @format == "application/json" or @format == "application/vnd.slc+json"
   end
 end
 
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*)"$/ do |rel,href|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    found = false
-    dataH["links"].each do|link|
-      if link["rel"]==rel and link["href"].include? href
-      found =true
-      end
-    end
-    if found == false
-      assert(found, "didnt receive link named #{rel} with URI #{href}")
-    end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
+Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|  
+  if key == "scoreResults"
+    assert(@result["scoreResults"][0]["result"]==value,"Expected #{key} not found in response")
+  elsif
+  assert(@result[key]==value,"Expected #{key} not found in response")
   end
 end
 
-Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    if key == "scoreResults"
-      assert(dataH["scoreResults"][0]["result"]==value,"Expected #{key} not found in response")
-    elsif
-    assert(dataH[key]==value,"Expected #{key} not found in response")
-    end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-end
-
-Then /^after resolving each link, I should get a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
+Then /^after resolving each link, I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   @ids.each do |id|
     found =false
     uri = "/student-assessment-associations/"+id
@@ -216,7 +116,7 @@ Then /^after resolving each link, I should get a link named "([^"]*)" with URI "
   end
 end
 
-Then /^after resolution, I should get a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
+Then /^after resolution, I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   found =false
   @ids.each do |id|
     uri = "/student-assessment-associations/"+id
@@ -238,47 +138,4 @@ Then /^after resolution, I should get a link named "([^"]*)" with URI "([^"]*)"$
   assert(found, "didnt receive link named #{rel} with URI #{href}")
 end
 
-Then /^I should get a link named "([^"]*)" with URI (\/students\/<[^>]*>)$/ do |rel,href|
-  found =false
-  @ids.each do |id|
-    uri = "/student-assessment-associations/"+id
-    restHttpGet(uri)
-    assert(@res != nil, "Response from rest-client GET is nil")
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      dataH=JSON.parse(@res.body)
-      dataH["links"].each do|link|
-        if link["rel"]==rel and link["href"].include? href
-        found =true
-        end
-      end
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-  end
-  assert(found, "didnt receive link named #{rel} with URI #{href}")
-end
-
-Then /^I should get a link named "([^"]*)" with URI (\/assessments\/<[^>]*>)$/ do |rel,href|
-  found =false
-  @ids.each do |id|
-    uri = "/student-assessment-associations/"+id
-    restHttpGet(uri)
-    assert(@res != nil, "Response from rest-client GET is nil")
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      dataH=JSON.parse(@res.body)
-      dataH["links"].each do|link|
-        if link["rel"]==rel and link["href"].include? href
-        found =true
-        end
-      end
-    elsif @format == "application/xml"
-      assert(false, "application/xml is not supported")
-    else
-      assert(false, "Unsupported MIME type")
-    end
-  end
-  assert(found, "didnt receive link named #{rel} with URI #{href}")
-end
 

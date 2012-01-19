@@ -2,6 +2,18 @@ require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
 
+# transform <Place Holder Id>
+Transform /^<.+>$/ do |template|
+  id = template
+  id = "344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if template == "<'Belle' ID>"
+  id
+end
+
+# transform /path/<Place Holder Id>
+Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
+  uri + Transform(template)
+end
+
 def createBaseStudent()
   data = Hash[
       "studentUniqueStateId" => 123456,
@@ -40,12 +52,6 @@ Given /^I create a valid base level school object$/ do
   @object = createBaseSchool()
 end
 
-
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |arg1, arg2|
-  idpLogin(arg1, arg2)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^I create a blank json object$/ do
   @object = Hash[]
 end
@@ -62,10 +68,6 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
   end
   restHttpPost(arg1, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-end
-
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
 end
 
 Given /^I create a student object with "([^"]*)" set to Guy$/ do |arg1|
@@ -137,4 +139,15 @@ end
 Given /^I create a student object with "([^"]*)" set to MM\-DD\-YYYY$/ do |arg1|
   @object = createBaseStudent()
   @object['birthData'][arg1] = "01-01-2012"
+end
+
+When /^I navigate to PUT "([^\"]*)"$/ do |url|
+  @result = {} if !defined? @result 
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+When /^I create a blank request body object$/ do
+  @result = {}
 end

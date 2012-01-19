@@ -3,6 +3,7 @@ Feature: Test schema based validation on entities/associations
 
 Background: Logged in as a super-user and using the small data set
 	Given I am logged in using "demo" "demo1234"
+	And I have access to all entities
 	
 Scenario: Post a valid base Student/School with bare minimum required data
 	Given I create a valid base level student object
@@ -103,5 +104,13 @@ Scenario: Fail when posting a date in the wrong format
 	When I navigate to POST "/students"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
+
+Scenario: Passing blank object to a valid entity with PUT should fail with validation error (not patch the existing object)
+	Given format "application/json"
+    When I navigate to GET "/teachers/<'Belle' ID>"
+    Then I should receive a return code of 200   
+    When I create a blank request body object
+      And I navigate to PUT "/teachers/<'Belle' ID>"
+    Then I should receive a return code of 400
 
 	

@@ -35,20 +35,6 @@ end
 
 ### GIVEN ###
 
-Given /^I am logged in using "([^\"]*)" "([^\"]*)"$/ do |user, pass|
-  @user = user
-  @passwd = pass
-end
-
-Given /^I have access to all sections$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain"].should include(fmt)
-  @format = fmt
-end
 
 Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
   if !defined? @data
@@ -66,53 +52,23 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I navigate to GET "([^\"]+)"$/ do |url|
-  restHttpGet(url)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  contentType = contentType(@res)
-  if /application\/json/.match contentType
-    @result = JSON.parse(@res.body)
-  elsif /application\/xml/.match contentType
-    doc = Document.new @res.body
-    @result = doc.root
-    puts @result
-  else
-    @result = {}
-  end
-end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
-  if !defined? @data
-    @data = {}
+  if !defined? @result
+    @result = {}
   end
-  data = prepareData(@format, @data)
+  data = prepareData(@format, @result)
   restHttpPut(url, data)
 end
 
-When /^I navigate to DELETE "([^\"]*)"$/ do |url|
-  restHttpDelete(url)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
 
 When /^I set the "([^\"]*)" to "([^\"]*)"$/ do |key, value|
-  step "the \"#{key}\" is \"#{value}\""
+  value = convert(value)
+  @result[key] = value
 end
 
 ### THEN ###
 
-Then /^I should receive a return code of (\d+)$/ do |status|
-  @res.code.should == Integer(status)
-end
-
-Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "#{entity} ID is nil")
-end
 
 Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |key, value|
   value = convert(value)
@@ -120,47 +76,4 @@ Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |key, value|
   @result[key].should == value
 end
 
-Then /^I should receive a link named "([^\"]*)" with URI "([^\"]*)"$/ do |rel, href|
-  @result["links"].should_not == nil
-  found = false
-  @result["links"].each do |link|;
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-      break
-    end
-  end
-  assert(found, "Did not find a link rel=#{rel} href=#{href}")
-end
 
-### Util methods ###
-
-def convert(value)
-  if /^true$/.match value
-    true;
-  elsif /^false$/.match value
-    false;
-  elsif /^\d+\.\d+$/.match value
-    Float(value)
-  elsif /^\d+$/.match value
-    Integer(value)
-  else
-    value
-  end
-end
-
-def prepareData(format, hash)
-  if format == "application/json"
-    hash.to_json
-  elsif format == "application/xml"
-    raise "XML not implemented"
-  else
-    assert(false, "Unsupported MIME type")
-  end
-end
-
-def contentType(response) 
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['content-type'] != nil, "There is no content-type set in the response")
-  headers['content-type'][0]
-end

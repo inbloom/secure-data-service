@@ -139,6 +139,19 @@ h1
     float: left;
     width: 30px;
 }
+.fuelGauge, 
+.fuelGaugeLabel
+{
+    font-size:12px;
+}
+.lozenge
+{
+    color: #20c7c5;
+    font-size: 9px;
+    height: 14px;
+    width: 24px;
+}
+
 
 /**** styles that will be user-customizable ****/
 

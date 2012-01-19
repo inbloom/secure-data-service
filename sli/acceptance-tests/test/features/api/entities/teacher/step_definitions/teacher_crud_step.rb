@@ -8,9 +8,9 @@ require_relative '../../../../utils/sli_utils.rb'
 # transform <Place Holder Id>
 Transform /^<.+>$/ do |template|
   id = template
-  id = @newId.to_s if template == "<'newly created teacher' ID>"
+  id = @newId.to_s                            if template == "<'newly created teacher' ID>"
   id = "fa45033c-5517-b14b-1d39-c9442ba95782" if template == "<'Macey' ID>";
-  id = "738543275" if template == "<'Macey Home State' ID>"
+  id = "738543275"                            if template == "<'Macey Home State' ID>"
   id = "344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if template == "<'Belle' ID>"
   id = "11111111-1111-1111-1111-111111111111" if template == "<Unknown>"
   id = "824643f7-174b-4a50-9383-c9a6f762c49d" if template == "<'Christian' ID>"
@@ -46,20 +46,6 @@ end
 #   id
 # end
 
-Given /^I am logged in using "([^\"]*)" "([^\"]*)"$/ do |user, pass|
-  @user = user
-  @passwd = pass
-end
-
-Given /^I have access to all teachers$/ do
-  idpLogin(@user, @passwd)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain"].should include(fmt)
-  @format = fmt
-end
 
 Given /^the "name" is "([^\"]+)" "([^\"]+)" "([^\"]+)"$/ do |first, mid, last|
   first.should_not == nil
@@ -83,7 +69,9 @@ Given /^the "([^\"]+)" status is "([^\"]+)"$/ do |key, value|
 end
 
 When /^I set the "([^\"]*)" status to "([^\"]*)"$/ do |key, value|
-  step "the \"#{key}\" is \"#{value}\""
+  #step "the \"#{key}\" is \"#{value}\""
+  value = convert(value)
+  @result[key] = value
 end
 
 When /^I navigate to POST "([^\"]+)"$/ do |url|
@@ -92,46 +80,13 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-And /^I should receive a return code of (\d+)$/ do |status|
-  @res.code.should == Integer(status)
-end
-
-Then /^I should receive an ID for the newly created (\w+)$/ do |entity|
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "Teacher ID is nil")
-end
-
-When /^I navigate to GET "([^\"]+)"$/ do |url|
-  restHttpGet(url)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  contentType = contentType(@res)
-  if /application\/json/.match contentType
-    @result = JSON.parse(@res.body)
-  elsif /application\/xml/.match contentType
-    doc = Document.new @res.body
-    @result = doc.root
-    puts @result
-  else
-    @result = {}
-  end
-end
-
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
-  data = prepareData(@format, @data)
+  @result = {} if !defined? @result 
+  data = prepareData(@format, @result)
   restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
-When /^I navigate to DELETE "([^\"]*)"$/ do |url|
-  restHttpDelete(url)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
 
 Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first, mid, last|
   assert(@result["name"] != nil, "Name is nil")
@@ -154,49 +109,8 @@ Given /^the "([^\"]+)" status should be "([^\"]+)"$/ do |key, value|
   step "the \"#{key}\" should be \"#{value}\""
 end
 
-Then /^I should receive a link named "([^\"]*)" with URI "([^\"]*)"$/ do |rel, href|
-  @result["links"].should_not == nil
-  found = false
-  @result["links"].each do |link|;
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-      break
-    end
-  end
-  assert(found, "Did not find a link rel=#{rel} href=#{href}")
-end
 
 
-### Util methods ###
 
-def convert(value)
-  if /^true$/.match value
-    true;
-  elsif /^false$/.match value
-    false;
-  elsif /^\d+\.\d+$/.match value
-    Float(value)
-  elsif /^\d+$/.match value
-    Integer(value)
-  else
-    value
-  end
-end
 
-def prepareData(format, hash)
-  if format == "application/json"
-    hash.to_json
-  elsif format == "application/xml"
-    raise "XML not implemented"
-  else
-    assert(false, "Unsupported MIME type")
-  end
-end
-
-def contentType(response) 
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['content-type'] != nil, "There is no content-type set in the response")
-  headers['content-type'][0]
-end
 

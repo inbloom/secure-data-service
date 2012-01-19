@@ -1,4 +1,4 @@
-Feature: In order to manage sections and students
+Feature: As an SLI application, I want to be able to manage student section associations
 As a SLI application I want to use this association to get the course section(s) a student is assigned to, or all the student(s) a section has.  
 I must be able to perform CRUD functions on student-section association.
 
@@ -8,6 +8,7 @@ Student: Jane Doe
 
 Background: 
 	Given I am logged in using "demo" "demo1234"
+	And I have access to all sections and students
 
 Scenario Outline: Create a student-section-association
 	Given format <format>
@@ -17,7 +18,7 @@ Scenario Outline: Create a student-section-association
 		And "studentId" is "<'Jane Doe' ID>"
 	When I navigate to POST "/student-section-associations"
 	Then I should receive a return code of 201
-		And I should receive a ID for the newly created student-section-association
+		And I should receive an ID for the newly created student-section-association
 	When I navigate to GET "/student-section-associations/<'newly created student-section-association' ID>"
 	Then I should receive a return code of 200
 		And "beginDate" should be "2011-01-12"

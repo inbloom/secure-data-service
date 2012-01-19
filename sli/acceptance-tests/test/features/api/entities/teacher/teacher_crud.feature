@@ -1,4 +1,4 @@
-Feature: <US562> In order to manage teachers
+Feature: As an SLI application, I want to be able to manage teachers
    As a client application using SLI
    I want create, read, update, and delete functionality for a teacher
    So I can manage them.
@@ -82,7 +82,7 @@ Scenario: Attempt to delete a non-existent teacher
 
 Scenario: Attempt to update a non-existent teacher
    Given format "application/json"
-   When I navigate to DELETE "/teachers/<Unknown>"
+   When I navigate to PUT "/teachers/<Unknown>"
    Then I should receive a return code of 404
    
 Scenario: Attempt to read the base teacher resource with no GUID
@@ -99,4 +99,10 @@ Scenario: Fail if going to the wrong URI
     Given format "application/json"
     When I navigate to GET "/teacher/<'Macey' ID>"
     Then I should receive a return code of 404
+    
+       
+
+       
+       
+	
  

@@ -9,6 +9,7 @@ Section: Chem I, Physics II, Biology III, Algebra II
 
 Background: Logged in as a super-user 
   Given I am logged in using "demo" "demo1234"
+  And I have access to all teachers and sections
 
 Scenario: Create a teacher-section-association
 Given format "application/json"
@@ -19,7 +20,7 @@ Given format "application/json"
   And "classroomPosition" is "TEACHER_OF_RECORD"
 When I navigate to POST "/teacher-section-associations"
 Then I should receive a return code of 201
-  And I should receive a ID for the newly created teacher-section-association
+  And I should receive an ID for the newly created teacher-section-association
 When I navigate to GET "/teacher-section-associations/<'newly created teacher-section-association' ID>"
 Then I should receive a return code of 200
 Then "beginDate" should be "2011-8-15"

@@ -3,6 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
+require_relative 'common_stepdefs'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG'] 
@@ -21,6 +22,25 @@ end
 #              It is suggested you assert the @sessionId before returning success from the calling function 
 def idpLogin(user, passwd)
   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
+  res = RestClient.get(url){|response, request, result| response }
+  @sessionId = res.body[res.body.rindex('=')+1..-1]
+  puts(@sessionId) if $SLI_DEBUG
+end
+
+# Function idpRealmLogin
+# Inputs: (Enum/String) realm = ("sli" "idp1" or "idp2") Which IDP you want to login with
+# Inputs: (String) user = Username to login to the IDP with
+# Inputs: (String) passwd = Password associated with the username
+# Output: sets @sessionId, a cookie object that can be referenced throughout the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that logs in to the specified IDP using the supplied credentials
+#              and sets the @sessionId variable for use in later stepdefs throughout the scenario
+#              It is suggested you assert the @sessionId before returning success from the calling function 
+def idpRealmLogin(user, passwd, realm="sli")
+  realmType = 'sli_idp_server_url' # Default case
+  realmType = 'sea_idp_server_url' if realm == "idp1"
+  realmType = 'lea_idp_server_url' if realm == "idp2"
+  url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
   @sessionId = res.body[res.body.rindex('=')+1..-1]
   puts(@sessionId) if $SLI_DEBUG
@@ -103,6 +123,69 @@ def restHttpDelete(id, format = @format, cookie = @sessionId)
   @res = RestClient.delete(url,{:accept => format,  :sessionId => cookie}){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
+
+##############################################################################
+##############################################################################
+### Step Def Util methods ###
+
+def convert(value)
+  if /^true$/.match value
+    true;
+  elsif /^false$/.match value
+    false;
+  elsif /^\d+\.\d+$/.match value
+    Float(value)
+  elsif /^\d+$/.match value
+    Integer(value)
+  else
+    value
+  end
+end
+
+def prepareData(format, hash)
+  if format == "application/json"
+    hash.to_json
+  elsif format == "application/xml"
+    raise "XML not implemented"
+  else
+    assert(false, "Unsupported MIME type")
+  end
+end
+
+def contentType(response) 
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['content-type'] != nil, "There is no content-type set in the response")
+  headers['content-type'][0]
+end
+
+#return boolean
+def findLink(id, type, rel, href)
+  found = false
+  uri = type+id
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
+  if @format == "application/json" or @format == "application/vnd.slc+json"
+    dataH=JSON.parse(@res.body)
+    dataH["links"].each do |link|
+      if link["rel"]==rel and link["href"].include? href
+        found = true
+        break
+      end
+    end
+  elsif @format == "application/xml"
+    assert(false, "application/xml is not supported")
+  else
+    assert(false, "Unsupported MIME type")
+  end
+  return found
+end
+
+
+########################################################################
+########################################################################
+# Property Loader class
 
 class PropLoader
   @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))

@@ -1,7 +1,4 @@
 SLIAdmin::Application.routes.draw do
-  resources :roles
-
-  get "roles/index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -15,7 +12,7 @@ SLIAdmin::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-    # resources :roles
+    resources :roles
 
   # Sample resource route with options:
   #   resources :products do
@@ -52,7 +49,7 @@ SLIAdmin::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'roles#index'
+  # root :to => 'roles#index'
 
   # See how all your routes lay out with "rake routes"
 

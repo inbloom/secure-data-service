@@ -1,1 +1,5026 @@
-[]
+[
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "perfLevel": "1",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "perfLevel": "1",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "perfLevel": "1",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "802709591",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "437680177",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "170011136",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "547028299",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "258392050",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "178875887",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "100644447",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "376191021",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "336344132",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "711411586",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "131758477",
+        "year": "2010",
+        "perfLevel": "5",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "670703438",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "851123275",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "423037202",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "250918988",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "421216329",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "746199592",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "323538529",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "428250371",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "114989598",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "558780133",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "196038854",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "992193581",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "541397175",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "17",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "52",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "65",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "11",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "24",
+        "percentile": "68",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "65",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "90",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "23",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "4",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "48",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "44",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "32",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "24",
+        "percentile": "68",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "75",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "34",
+        "percentile": "96",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "42",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "41",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "89",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "5",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "76",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "4",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "88",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "47",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "31",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "3",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "48",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "20",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "31",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "42",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "24",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "86",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "63",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "59",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "73",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "29",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "21",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "20",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "46",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "55",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "71",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "3",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "76",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "81",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "27",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "29",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "49",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "83",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "54",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "85",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "17",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "61",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "5",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "46",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "1",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "75",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "70",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "71",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "78",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "86",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "37",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "46",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "92",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "82",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "15",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "280",
+        "percentile": "5",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "740",
+        "percentile": "96",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "460",
+        "percentile": "37",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "436",
+        "percentile": "29",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "632",
+        "percentile": "86",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "623",
+        "percentile": "84",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "494",
+        "percentile": "49",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "344",
+        "percentile": "9",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "428",
+        "percentile": "27",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "582",
+        "percentile": "75",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "494",
+        "percentile": "49",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "491",
+        "percentile": "48",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "400",
+        "percentile": "20",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "412",
+        "percentile": "23",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "695",
+        "percentile": "93",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "614",
+        "percentile": "82",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "480",
+        "percentile": "44",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "591",
+        "percentile": "77",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "725",
+        "percentile": "95",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "627",
+        "percentile": "85",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "41",
+        "percentile": "23",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "63",
+        "percentile": "86",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "49",
+        "percentile": "50",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "52",
+        "percentile": "59",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "2",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "46",
+        "percentile": "38",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "60",
+        "percentile": "81",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "50",
+        "percentile": "52",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "36",
+        "percentile": "11",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "74",
+        "percentile": "96",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "53",
+        "percentile": "61",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "55",
+        "percentile": "68",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "63",
+        "percentile": "86",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "58",
+        "percentile": "75",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "57",
+        "percentile": "74",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "65",
+        "percentile": "90",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "48",
+        "percentile": "47",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "51",
+        "percentile": "55",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "1",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "39",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "31",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "26",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "24",
+        "percentile": "77",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "50",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "43",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "2",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "63",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "59",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "40",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "91",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "4",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "27",
+        "percentile": "84",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "29",
+        "percentile": "88",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "26",
+        "percentile": "82",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "16",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "12",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "34",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "48",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "48",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "20",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "45",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "51",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "35",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "24",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "47",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "89",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "24",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "19",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "32",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "91",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "65",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "36",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "69",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "63",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "77",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "49",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "83",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "74",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "26",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "25",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "13",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "63",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "3",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "49",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "62",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "47",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "67",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "9",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "38",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "2",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "67",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "33",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "88",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "68",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "87",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "2",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "87",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "55",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "91",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "40",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "76",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "38",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "24",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "17",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "73",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "87",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "23",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "18",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "21",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "47",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "29",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "10",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "84",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "48",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "92",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "22",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "43",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "90",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "71",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "2",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "31",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "98",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "59",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "19",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "27",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "87",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "43",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "98",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "19",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "1",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "33",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "16",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "37",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "42",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "26",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "26",
+        "percentile": "83",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "14",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "27",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "68",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "62",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "32",
+        "percentile": "95",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "13",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "28",
+        "percentile": "90",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "1",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "80",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "44",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "49",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "51",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "57",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "34",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "2",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "53",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "505",
+        "percentile": "56",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "354",
+        "percentile": "10",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "387",
+        "percentile": "18",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "542",
+        "percentile": "67",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "444",
+        "percentile": "35",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "444",
+        "percentile": "35",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "403",
+        "percentile": "22",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "409",
+        "percentile": "24",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "477",
+        "percentile": "46",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "387",
+        "percentile": "18",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "465",
+        "percentile": "42",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "379",
+        "percentile": "16",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "412",
+        "percentile": "25",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "505",
+        "percentile": "56",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "395",
+        "percentile": "20",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "453",
+        "percentile": "38",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "527",
+        "percentile": "63",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "383",
+        "percentile": "17",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "428",
+        "percentile": "30",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "233",
+        "percentile": "2",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "379",
+        "percentile": "16",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "444",
+        "percentile": "35",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "684",
+        "percentile": "89",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "83",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "94",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "38",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "33",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "84",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "70",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "32",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "39",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "73",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "42",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "8",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "16",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "7",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "21",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "66",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "51",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "31",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "85",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "38",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "51",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "20",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "36",
+        "percentile": "13",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "55",
+        "percentile": "71",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "23",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "11",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "41",
+        "percentile": "26",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "10",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "38",
+        "percentile": "18",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "3",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "73",
+        "percentile": "94",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "1",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "2",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "58",
+        "percentile": "79",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "74",
+        "percentile": "95",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "67",
+        "percentile": "88",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "58",
+        "percentile": "79",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "3",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "49",
+        "percentile": "53",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "36",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "45",
+        "percentile": "37",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "52",
+        "percentile": "63",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "70",
+        "percentile": "91",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "51",
+        "percentile": "59",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "42",
+        "percentile": "28",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "56",
+        "percentile": "74",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "43",
+        "percentile": "32",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "46",
+        "percentile": "41",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "46",
+        "percentile": "42",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "64",
+        "percentile": "85",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "23",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "9",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "34",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "74",
+        "percentile": "95",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "37",
+        "percentile": "16",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "51",
+        "percentile": "59",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "36",
+        "percentile": "12",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "62",
+        "percentile": "83",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "48",
+        "percentile": "47",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "48",
+        "percentile": "47",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "scaleScore": "56",
+        "percentile": "74",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "scaleScore": "48",
+        "percentile": "49",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "scaleScore": "41",
+        "percentile": "26",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "22",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "558780133",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "34",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "scaleScore": "52",
+        "percentile": "61",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "scaleScore": "71",
+        "percentile": "92",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "541397175",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "3",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "6",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "55",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "19",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "48",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "50",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "54",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "30",
+        "percentile": "87",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "45",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "24",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "60",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "27",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "30",
+        "percentile": "88",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "74",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "13",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "16",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "22",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "57",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "34",
+        "percentile": "96",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "34",
+        "percentile": "96",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "6",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "21",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "74",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "52",
+        "assessmentName": "ACT_READING"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "63",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "87",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "16",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "57",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "74",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "20",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "47",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "69",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "6",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "70",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "2",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "39",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "32",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "77",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "62",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "32",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "79",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "33",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "74",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "2",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "15",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "36",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "91",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "74",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "12",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "15",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "18",
+        "assessmentName": "ACT_READING_SOC_SCI"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "77",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "24",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "60",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "45",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "30",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "35",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "72",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "20",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "70",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "10",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "33",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "21",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "13",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "87",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "92",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "25",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "94",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "73",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "2",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "21",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "73",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "36",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "73",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "42",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "21",
+        "assessmentName": "ACT_READING_ARTS_LIT"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "344",
+        "percentile": "9",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "364",
+        "percentile": "11",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "312",
+        "percentile": "7",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "544",
+        "percentile": "65",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "312",
+        "percentile": "7",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "384",
+        "percentile": "16",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "556",
+        "percentile": "69",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "569",
+        "percentile": "72",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "695",
+        "percentile": "93",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "471",
+        "percentile": "41",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "522",
+        "percentile": "58",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "525",
+        "percentile": "59",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "468",
+        "percentile": "40",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "392",
+        "percentile": "18",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "556",
+        "percentile": "69",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "216",
+        "percentile": "1",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "440",
+        "percentile": "30",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "264",
+        "percentile": "4",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "596",
+        "percentile": "78",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "755",
+        "percentile": "97",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "564",
+        "percentile": "71",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "454",
+        "percentile": "35",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "480",
+        "percentile": "44",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "528",
+        "percentile": "60",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "232",
+        "percentile": "2",
+        "assessmentName": "SAT_READING"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "51",
+        "percentile": "57",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "53",
+        "percentile": "63",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "52",
+        "percentile": "60",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "1",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "60",
+        "percentile": "81",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "55",
+        "percentile": "68",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "43",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "51",
+        "percentile": "56",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "45",
+        "percentile": "36",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "55",
+        "percentile": "67",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "21",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "42",
+        "percentile": "27",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "64",
+        "percentile": "89",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "7",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "63",
+        "percentile": "87",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "38",
+        "percentile": "15",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "42",
+        "percentile": "27",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "33",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "41",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "45",
+        "percentile": "36",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "43",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "30",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "43",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "22",
+        "assessmentName": "PSAT_READING"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "66",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "91",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "80",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "30",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "53",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "26",
+        "percentile": "82",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "15",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "24",
+        "percentile": "75",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "33",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "68",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "24",
+        "percentile": "77",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "30",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "30",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "30",
+        "percentile": "90",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "20",
+        "percentile": "51",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "19",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "31",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "27",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "24",
+        "percentile": "79",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "38",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "28",
+        "percentile": "86",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "73",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "29",
+        "percentile": "88",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "26",
+        "percentile": "83",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "67",
+        "assessmentName": "ACT_ENGLISH"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "64",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "86",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "68",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "68",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "48",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "25",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "21",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "63",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "68",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "49",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "88",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "91",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "8",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "8",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "26",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "83",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "73",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "3",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "54",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "11",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "12",
+        "percentile": "73",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "89",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "49",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "63",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "81",
+        "assessmentName": "ACT_ENGLISH_UM"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "16",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "92",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "37",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "37",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "95",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "53",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "52",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "94",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "98",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "36",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "29",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "26",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "95",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "66",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "20",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "42",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "96",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "88",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "13",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "87",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "97",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "48",
+        "assessmentName": "ACT_ENGLISH_RS"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "49",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "66",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "38",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "16",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "47",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "38",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "70",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "98",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "35",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "40",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "61",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "9",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "33",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "77",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "19",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "97",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "56",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "12",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "22",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "10",
+        "percentile": "93",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "84",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "18",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "77",
+        "assessmentName": "ACT_WRITING"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "57",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "1",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "6",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "44",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "19",
+        "percentile": "45",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "36",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "60",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "70",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "22",
+        "percentile": "60",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "13",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "23",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "94",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "54",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "36",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "32",
+        "percentile": "96",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "15",
+        "percentile": "20",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "35",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "1",
+        "percentile": "0",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "35",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "17",
+        "percentile": "26",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "18",
+        "percentile": "34",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "14",
+        "percentile": "17",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "16",
+        "percentile": "23",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "33",
+        "percentile": "97",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "3",
+        "percentile": "2",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "13",
+        "percentile": "10",
+        "assessmentName": "ACT_WRITING_PLUS_ENG"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "560",
+        "percentile": "72",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "444",
+        "percentile": "35",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "511",
+        "percentile": "58",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "406",
+        "percentile": "23",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "444",
+        "percentile": "35",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "431",
+        "percentile": "31",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "531",
+        "percentile": "64",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "354",
+        "percentile": "10",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "428",
+        "percentile": "30",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "441",
+        "percentile": "34",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "447",
+        "percentile": "36",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "523",
+        "percentile": "62",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "412",
+        "percentile": "25",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "571",
+        "percentile": "75",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "468",
+        "percentile": "43",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "383",
+        "percentile": "17",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "621",
+        "percentile": "83",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "684",
+        "percentile": "89",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "747",
+        "percentile": "95",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "514",
+        "percentile": "59",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "395",
+        "percentile": "20",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "560",
+        "percentile": "72",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "453",
+        "percentile": "38",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "758",
+        "percentile": "96",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "370",
+        "percentile": "14",
+        "assessmentName": "SAT_WRITING"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "15",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "59",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "15",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "62",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "43",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "95",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "75",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "49",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "47",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "80",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "2",
+        "percentile": "5",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "39",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "49",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "18",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "98",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "19",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "9",
+        "percentile": "86",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "7",
+        "percentile": "57",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "78",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "33",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "4",
+        "percentile": "19",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "5",
+        "percentile": "28",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "11",
+        "percentile": "95",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "42",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "6",
+        "percentile": "45",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "8",
+        "percentile": "78",
+        "assessmentName": "SAT_WRITING_ESSAY"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "46",
+        "percentile": "42",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "56",
+        "percentile": "74",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "9",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "23",
+        "percentile": "2",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "54",
+        "percentile": "67",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "46",
+        "percentile": "41",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "1",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "50",
+        "percentile": "56",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "3",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "26",
+        "percentile": "4",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "57",
+        "percentile": "75",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "31",
+        "percentile": "7",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "68",
+        "percentile": "89",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "45",
+        "percentile": "37",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "23",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "62",
+        "percentile": "83",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "45",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "scaleScore": "41",
+        "percentile": "25",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "scaleScore": "42",
+        "percentile": "29",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "scaleScore": "56",
+        "percentile": "73",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "77",
+        "percentile": "98",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "scaleScore": "50",
+        "percentile": "57",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "34",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "52",
+        "percentile": "63",
+        "assessmentName": "SAT_WRITING_MC"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "10",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "scaleScore": "50",
+        "percentile": "56",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "scaleScore": "57",
+        "percentile": "76",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "44",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "scaleScore": "45",
+        "percentile": "37",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "scaleScore": "41",
+        "percentile": "25",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "scaleScore": "25",
+        "percentile": "3",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "scaleScore": "46",
+        "percentile": "41",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "178828452",
+        "year": "2011",
+        "scaleScore": "40",
+        "percentile": "22",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "scaleScore": "69",
+        "percentile": "90",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "scaleScore": "44",
+        "percentile": "36",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "scaleScore": "51",
+        "percentile": "58",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "9",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "scaleScore": "73",
+        "percentile": "94",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "scaleScore": "61",
+        "percentile": "82",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "11",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "scaleScore": "50",
+        "percentile": "55",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "scaleScore": "21",
+        "percentile": "1",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "scaleScore": "65",
+        "percentile": "86",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "scaleScore": "35",
+        "percentile": "9",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "scaleScore": "47",
+        "percentile": "46",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "scaleScore": "54",
+        "percentile": "69",
+        "assessmentName": "PSAT_WRITING"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "scaleScore": "50",
+        "percentile": "54",
+        "assessmentName": "PSAT_WRITING"
+}
+]

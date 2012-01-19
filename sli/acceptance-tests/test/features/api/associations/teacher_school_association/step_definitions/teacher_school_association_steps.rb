@@ -12,6 +12,7 @@ require_relative '../../../../utils/sli_utils.rb'
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+"244520d2-8c6b-4a1e-b35e-d67819ec0211"  if arg2 == "'Ms. Jones' ID"
   id = arg1+"8e5b2d0e-959c-42ef-b3df-9b83cba85a33"  if arg2 == "'Mr. Smith' ID"
+  id = arg1+"a249d5d9-f149-d348-9b10-b26d68e7cb9c"  if arg2 == "'Mrs. Solis' ID"
   id = arg1+"41baa245-ceea-4336-a9dd-0ba868526b9b"  if arg2 == "'Algebra Alternative' ID"
   id = arg1+"0f464187-30ff-4e61-a0dd-74f45e5c7a9d"  if arg2 == "'Biology High' ID"
   id = arg1+"b6ad1eb2-3cf7-41c4-96e7-2f393f0dd847"  if arg2 == "'Chemistry Elementary' ID"
@@ -27,14 +28,6 @@ end
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |user, password|
-  idpLogin(user,password)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
-Given /^format "([^"]*)"$/ do |fmt|
-  @format = fmt
-end
 
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   @fields = {} if !defined? @fields
@@ -52,106 +45,50 @@ end
 ###############################################################################
 
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
-  data = data_builder
+  data = prepareData(@format, @fields)
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
-end
-
-When /^I navigate to (Teacher School Associations for (Teacher|School) <[^"]*>)$/ do |uri,arg2|
-  @previousUri = uri
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
 end
 
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |property,value|
   step "\"#{property}\" is \"#{value}\""
 end
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  
-  if @format == "application/json"
-    modified = JSON.parse(@res.body)
-    @fields.each do |key, value|
-      modified[key] = value
-    end
-    data = modified.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPut(uri, data)
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
-When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpDelete(uri)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
-
-When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  if @format == "application/json"
-    begin
-      @data = JSON.parse(@res.body);
-    rescue
-      @data = nil
-    end
-  elsif @format == "application/xml"
-    assert(false, "XML not supported yet")
-  else
-    assert(false, "Unsupported MediaType")
-  end
-end
 
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-Then /^I should receive an ID for the newly created (.*)$/ do |object_type_arg|
-  #common definition for extracting newly created object's ID
-  @newId = getIdOfNewlyCreatedObject(object_type_arg)
-end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   if key == "instructionalGradeLevels"
-    assert(@data.has_key?(key), "Response does not contain key #{key}")
-    assert(@data[key][0] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
+    assert(@result.has_key?(key), "Response does not contain key #{key}")
+    assert(@result[key][0] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
   else
-    assert(@data.has_key?(key), "Response does not contain key #{key}")
-    assert(@data[key] == value, "Expected #{key} to equal #{value}, received #{@data[key]}")
+    assert(@result.has_key?(key), "Response does not contain key #{key}")
+    assert(@result[key] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
   end
   
 end
 
 
 Then /^I should receive a collection of (\d+) teacher\-school\-association links$/ do |size|
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Array), "Response contains #{@data.class}, expected Array")
-  assert(@data.length == Integer(size), "Expected response of size #{size}, received #{@data.length}");
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
+  assert(@result.length == Integer(size), "Expected response of size #{size}, received #{@result.length}");
   
   @ids = Array.new
-    @data.each do |link|
+    @result.each do |link|
       if link["link"]["rel"]=="self"
         @ids.push(link["id"])
       end
@@ -180,39 +117,12 @@ Then /^after resolution, I should receive a link named "([^"]*)" with URI "([^"]
   assert(found, "didnt receive link named #{rel} with URI #{href}")
 end
 
-#return boolean
-def findLink(id, type, rel, href)
-  found = false
-  uri = type+id
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: #{@res.code.to_s} but expected 200")
-  if @format == "application/json" or @format == "application/vnd.slc+json"
-    dataH=JSON.parse(@res.body)
-    dataH["links"].each do |link|
-      if link["rel"]==rel and link["href"].include? href
-        found = true
-        break
-      end
-    end
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  return found
-end
-
 When /^I attempt to update a non\-existing association "(\/teacher-school-associations\/<[^"]*>)"$/ do |uri|
   data = {}
   restHttpPut(uri, data.to_json)
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-
-Then /^I should receive a return code of (\d+)$/ do |code|
-  assert(@res.code == Integer(code), "Return code was not expected: #{@res.code.to_s} but expected #{code}")
-end
 
 # 
 # Function data_builder

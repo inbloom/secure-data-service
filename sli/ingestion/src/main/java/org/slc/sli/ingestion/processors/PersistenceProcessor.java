@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Handler;
 import org.apache.camel.Processor;
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +44,7 @@ public class PersistenceProcessor implements Processor {
      * @param exchange
      */
     @Override
+    @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws IOException, SAXException {
 
         long startTime = System.currentTimeMillis();
@@ -65,7 +66,7 @@ public class PersistenceProcessor implements Processor {
 
         // Update Camel Exchange processor output result
         exchange.getIn().setBody(job);
-        
+
         // Update Camel Exchange header with status
         exchange.getIn().setHeader("records.processed", "5");
 
@@ -83,9 +84,10 @@ public class PersistenceProcessor implements Processor {
      * @param outputFile
      * @param exchange
      */
-    public void processIngestionStream(File inputFile, File outputFile, Exchange exchange) throws IOException, SAXException {
-    	
-    	// Create Ingestion Neutral record reader
+    public void processIngestionStream(File inputFile, File outputFile, Exchange exchange) throws IOException,
+            SAXException {
+
+        // Create Ingestion Neutral record reader
         NeutralRecordFileReader fileReader = new NeutralRecordFileReader(inputFile);
 
         // Ingestion Neutral record
@@ -119,10 +121,10 @@ public class PersistenceProcessor implements Processor {
         String status = "processed " + ingestionCounter + " records.";
 
         if (exchange != null) {
-        	log.info("Setting records.processed value on exchange header");
-        	exchange.setProperty("records.processed", ingestionCounter);
+            log.info("Setting records.processed value on exchange header");
+            exchange.setProperty("records.processed", ingestionCounter);
         }
-        
+
         BufferedOutputStream outputStream = null;
         try {
 
@@ -138,9 +140,9 @@ public class PersistenceProcessor implements Processor {
 
         // Indicate processor status
         log.info(status);
-        
+
     }
-    
+
     /**
      * Consumes the SLI Neutral records file, parses, and persists the SLI Ingestion instances
      *
@@ -150,7 +152,6 @@ public class PersistenceProcessor implements Processor {
     public void processIngestionStream(File inputFile, File outputFile) throws IOException, SAXException {
         this.processIngestionStream(inputFile, outputFile, null);
     }
-
 
     /**
      * Persists the SLI Ingestion instance using the appropriate SLI repository.

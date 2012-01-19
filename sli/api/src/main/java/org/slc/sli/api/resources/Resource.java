@@ -42,13 +42,13 @@ import org.springframework.stereotype.Component;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
 public class Resource {
     
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
-    
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
+    public static final String SLC_XML_MEDIA_TYPE = "application/vnd.slc+xml";
+    public static final String SLC_JSON_MEDIA_TYPE = "application/vnd.slc+json";
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     final EntityDefinitionStore entityDefs;
@@ -110,7 +110,7 @@ public class Resource {
      */
     @GET
     @Path("{id}")
-    @Produces({ Resource.JSON_MEDIA_TYPE })
+    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
@@ -165,7 +165,7 @@ public class Resource {
      */
     @GET
     @Path("{id}")
-    @Produces({ Resource.XML_MEDIA_TYPE })
+    @Produces({ Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE })
     public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {

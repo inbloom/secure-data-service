@@ -4,11 +4,13 @@
      viewConfig: the view config for the list of students. Should be ViewConfig object
      assessments: contains assessment information for the list of students. Should be AssessmentResolver object
      students: contains the list of students to be displayed. Should be StudentResolver object. 
+     constants: the Constants util class
   -->
 
 <table id="studentList"> 
 
 <#-- draw header -->
+<#-- TODO: Handle programatically -->
 <tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <th colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
@@ -29,19 +31,33 @@
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
-      
+    
+      <#-- lozenges in front -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition()?? && 
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_FRONT>
+<!--        ${field.getLozenges().getNames()} -->
+      </#if>
+  
+      <#-- student info -->
+      <#if field.getType() = constants.FIELD_TYPE_STUDENT_INFO>
+        ${students.get(field, student)}
+        
       <#-- assessment results -->
-      <#if field.getType() = "assessment">
+      <#elseif field.getType() = constants.FIELD_TYPE_ASSESSMENT>
         <#if field.getVisual()?? && (field.getVisual()?length > 0)>
           <#include "widget/" + field.getVisual() + ".ftl">
         <#else>
           ${assessments.get(field, student)}
         </#if>
         
-      <#-- student info -->
-      <#elseif field.getType() = "studentInfo">
-        ${students.get(field, student)}
-        
+      <#-- lozenges at the back -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition()?? && 
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
+<!--        ${field.getLozenges().getNames()} -->
+      </#if>
+  
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.
