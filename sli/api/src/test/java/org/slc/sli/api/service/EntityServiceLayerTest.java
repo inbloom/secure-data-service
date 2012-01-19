@@ -1,20 +1,5 @@
 package org.slc.sli.api.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,16 +20,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Service layer tests for the API.
- * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class EntityServiceLayerTest {
-    
+
     @Autowired
     private EntityDefinitionStore defs;
     private EntityDefinition studentDef;
@@ -55,19 +54,19 @@ public class EntityServiceLayerTest {
     private AssociationService studentSchoolAssociationService;
     @Autowired
     private EntityRepository repo;
-    
+
     public void setSecurityContextInjector(SecurityContextInjector securityContextInjector) {
         this.securityContextInjector = securityContextInjector;
     }
-    
+
     @Autowired
     private SecurityContextInjector securityContextInjector;
-    
+
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
-        securityContextInjector.setAdminContext();
-        
+        securityContextInjector.setAdminContextWithElevatedRights();
+
         repo.deleteAll("student");
         repo.deleteAll("school");
         studentDef = defs.lookupByResourceName("students");
@@ -77,12 +76,12 @@ public class EntityServiceLayerTest {
         schoolService = schoolDef.getService();
         studentSchoolAssociationService = studentEnrollmentDef.getService();
     }
-    
+
     @After
     public void tearDown() {
         SecurityContextHolder.clearContext();
     }
-    
+
     @Test
     public void testCrudEntity() {
         EntityBody student = new EntityBody();
@@ -132,7 +131,7 @@ public class EntityServiceLayerTest {
             assertTrue(true);
         }
     }
-    
+
     @Test
     public void testNoSuchEntity() {
         try {
@@ -147,9 +146,9 @@ public class EntityServiceLayerTest {
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        
+
     }
-    
+
     @Test
     public void testMultipleEntities() {
         EntityBody student1 = new EntityBody();
@@ -196,12 +195,12 @@ public class EntityServiceLayerTest {
         studentService.delete(id4);
         assertEquals(new ArrayList<EntityBody>(), studentService.list(0, 4));
     }
-    
+
     @Test
     public void testLinkedResources() {
         assertTrue(defs.getLinked(studentDef).contains(studentEnrollmentDef));
     }
-    
+
     @Test
     public void testAssociations() {
         EntityBody student1 = new EntityBody();
@@ -273,35 +272,35 @@ public class EntityServiceLayerTest {
         assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociationsWith(id4, 0, 4, null));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null));
-        
+
         // test query fields
         assertEquals(Arrays.asList(assocId1),
                 studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=First grade"));
         assertFalse(studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, "entryGradeLevel=Second grade")
                 .iterator().hasNext());
-        
+
         assertEquals(Arrays.asList(assocId1),
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=First grade"));
         assertFalse(studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=Fifth grade")
                 .iterator().hasNext());
-        
+
         assertEquals(Arrays.asList(schoolId),
                 studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4, "nameOfInstitution=Battle School"));
         assertFalse(studentSchoolAssociationService
                 .getAssociatedEntitiesWith(id1, 0, 4, "nameOfInstitution=new Battle School").iterator().hasNext());
-        
+
         assertEquals(Arrays.asList(id1),
                 studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "name.firstName=Bonzo"));
         assertFalse(studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, "name.firstName=non exist")
                 .iterator().hasNext());
-        
+
         studentService.delete(id1);
         studentService.delete(id2);
         studentService.delete(id3);
         studentService.delete(id4);
         schoolService.delete(schoolId);
     }
-    
+
     // test referential validation for association creation
     @Test(expected = EntityValidationException.class)
     public void testCreateAssocValidate() {
@@ -309,33 +308,33 @@ public class EntityServiceLayerTest {
         student1.put("firstName", "Bonzo");
         student1.put("lastName", "Madrid");
         String id1 = studentService.create(student1);
-        
+
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         schoolService.create(school);
-        
+
         EntityBody assoc1 = new EntityBody();
         // assoc1.put("schoolId", schoolId);
         assoc1.put("studentId", id1);
         assoc1.put("startDate", (new Date()).getTime());
         studentSchoolAssociationService.create(assoc1);
     }
-    
+
     // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteWithAssoc1() {
         Map<String, String> ids = setupTestDeleteWithAssoc();
         String studentId = ids.get("studentId");
         String assocId = ids.get("assocId");
-        
+
         EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
         assertEquals(assocEntity.get("studentId"), studentId);
-        
+
         studentService.delete(studentId);
         studentSchoolAssociationService.get(assocId);
     }
-    
+
     // test delete target entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteWithAssoc2() {
@@ -343,16 +342,16 @@ public class EntityServiceLayerTest {
         String schoolId = ids.get("schoolId");
         String assocId = ids.get("assocId");
         String assoc2Id = ids.get("assoc2Id");
-        
+
         EntityBody assocEntity = studentSchoolAssociationService.get(assocId);
         assertNotNull(assocEntity);
         assertEquals(assocEntity.get("schoolId"), schoolId);
-        
+
         schoolService.delete(schoolId);
         // studentSchoolAssociationService.get(assocId);
         studentSchoolAssociationService.get(assoc2Id);
     }
-    
+
     private <T> List<T> iterableToList(Iterable<T> itr) {
         List<T> result = new ArrayList<T>();
         for (T item : itr) {
@@ -360,42 +359,42 @@ public class EntityServiceLayerTest {
         }
         return result;
     }
-    
+
     private Map<String, String> setupTestDeleteWithAssoc() {
         Map<String, String> ids = new HashMap<String, String>();
         EntityBody student1 = new EntityBody();
         student1.put("firstName", "Bonzo");
         student1.put("lastName", "Madrid");
         String studentId = studentService.create(student1);
-        
+
         EntityBody student2 = new EntityBody();
         student1.put("firstName", "Jane");
         student1.put("lastName", "Doe");
         String student2Id = studentService.create(student2);
-        
+
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         String schoolId = schoolService.create(school);
-        
+
         EntityBody assoc = new EntityBody();
         assoc.put("schoolId", schoolId);
         assoc.put("studentId", studentId);
         assoc.put("startDate", (new Date()).getTime());
         String assocId = studentSchoolAssociationService.create(assoc);
-        
+
         EntityBody assoc2 = new EntityBody();
         assoc2.put("schoolId", schoolId);
         assoc2.put("studentId", student2Id);
         assoc2.put("startDate", (new Date()).getTime());
         String assoc2Id = studentSchoolAssociationService.create(assoc2);
-        
+
         ids.put("studentId", studentId);
         ids.put("schoolId", schoolId);
         ids.put("assocId", assocId);
-        
+
         ids.put("student2Id", student2Id);
         ids.put("assoc2Id", assoc2Id);
-        
+
         return ids;
     }
 }

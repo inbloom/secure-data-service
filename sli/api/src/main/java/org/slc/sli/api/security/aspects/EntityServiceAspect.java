@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntitySchemaRegistry;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 
 // add this import if we move to CoreEntityService paradigm
@@ -51,6 +53,10 @@ public class EntityServiceAspect {
      */
     @Around("call(* org.slc.sli.api.service.CoreEntityService.create(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.update(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.delete(..))")
     public Object authorizeWrite(ProceedingJoinPoint pjp) throws Throwable {
+        if (hasElevatedAccess()) {
+            return pjp.proceed();
+        }
+
         if (!isPublicContext() && !getGrantedRights().contains(Right.WRITE_GENERAL)) {
             throwAccessDeniedException();
         }
@@ -67,12 +73,35 @@ public class EntityServiceAspect {
      */
     @Around("call(* org.slc.sli.api.service.CoreEntityService.get(..))")
     public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
+        if (hasElevatedAccess()) {
+            return (Entity) pjp.proceed();
+        }
+
         if (!isPublicContext() && !getGrantedRights().contains(Right.READ_GENERAL)) {
             throwAccessDeniedException();
         }
+
         Entity entity = (Entity) pjp.proceed();
 
+
         if (entity != null && !isPublicContext()) {
+
+            // determine if principal entity is valid
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal == null || principal.getEntity() == null) {
+                LOG.error("Security Context does not contain a principal entity");
+                throwAccessDeniedException();
+            }
+
+            // TODO resolve context
+//            EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity(), entity);
+//            List<String> accessibleIds = resolver.findAccessible(principal.getEntity());
+//
+//            if( !accessibleIds.contains(entity.getEntityId()) ) {
+//                throwAccessDeniedException();
+//            }
+
+            // filter
             Collection<GrantedAuthority> grantedRights = getGrantedRights();
             LOG.debug("Rights {}", grantedRights);
 
@@ -89,6 +118,10 @@ public class EntityServiceAspect {
         return entity;
     }
 
+    private boolean hasElevatedAccess() {
+        return getGrantedRights().contains(Right.FULL_ACCESS);
+    }
+
     private boolean hasContext(Entity entity) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return contextResolverStore.hasPermission(principal.getEntity(), entity);
@@ -103,6 +136,10 @@ public class EntityServiceAspect {
      */
     @Around("call(* org.slc.sli.api.service.EntityService.list(..)) || " + "call(* org.slc.sli.api.service.EntityService.exists(..))")
     public Object authorizeExists(ProceedingJoinPoint pjp) throws Throwable {
+        if (hasElevatedAccess()) {
+            return pjp.proceed();
+        }
+
         if (!isPublicContext() && !getGrantedRights().contains(Right.READ_GENERAL)) {
             throwAccessDeniedException();
         }

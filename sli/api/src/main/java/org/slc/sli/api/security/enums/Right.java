@@ -7,7 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
  * 
  */
 public enum Right implements GrantedAuthority {
-    READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, AGGREGATE_READ, AGGREGATE_WRITE, READ_ROLES;
+    READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, AGGREGATE_READ, AGGREGATE_WRITE, READ_ROLES,
+    FULL_ACCESS;
     
     @Override
     public String getAuthority() {
