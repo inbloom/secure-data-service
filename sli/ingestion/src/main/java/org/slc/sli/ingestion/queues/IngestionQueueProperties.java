@@ -78,8 +78,7 @@ public class IngestionQueueProperties {
     public String getQueueUri() {
         if (usingSedaQueues) {
             return "seda:" + queueName;
-        }
-        else {
+        } else {
             return "jms:queue:" + queueName;
         }
     }
