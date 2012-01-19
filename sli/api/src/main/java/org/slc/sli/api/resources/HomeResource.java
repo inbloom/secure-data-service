@@ -120,7 +120,7 @@ public class HomeResource {
         if (entity != null) {
             EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());        
             map.put(entity.getEntityId(), entityDefinition);
-            map.put(entity.getEntityId(), entityDefinition);
+
         }
         
         return map;
