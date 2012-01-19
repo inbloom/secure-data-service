@@ -166,19 +166,34 @@ Examples:
 
 #Student
 
-Scenario: Authenticated Educator makes API call to get list of Students in section they teach
+Scenario Outline: Authenticated Educator makes API call to get list of Students in section they teach
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 When I make an API call to get a list of students in section <Section>
 Then I receive a JSON response that includes the list of students in section <Section>
+Examples:
+| Realm  | Username  | Password      | Section          |
+| "idp1" | "jdoe"    | "jdoe1234"    | "FHS-Science101" |
+#| "idp2" | "johndoe" | "johndoe1234" | "PDMS-Geometry"  |
+| "idp1" | "ejane"   | "ejane1234"   | "WES-Math"       |
+| "idp1" | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
+| "idp1" | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
-Scenario: Authenticated Educator makes API call to get list of Students in section they do not teach
+Scenario Outline: Authenticated Educator makes API call to get list of Students in section they do not teach
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
 When I make an API call to get a list of students in section <Section>
 Then I should get a message that I am not authorized
+Examples:
+| Realm  | Username   | Password       | Section          |
+| "idp1" | "jdoe"     | "jdoe1234"     | "FHS-English101" |
+#| "idp2" | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
+#| "idp2" | "ejane"    | "ejane1234"    | "WES-Math"       |
+| "idp1" | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
+| "idp1" | "tbear"    | "tbear1234"    | "FHS-Math101"    |
+| "idp1" | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
 Given I am a valid <Realm> end user <Username> with password <Password>
