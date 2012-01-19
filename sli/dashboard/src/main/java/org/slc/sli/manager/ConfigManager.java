@@ -1,11 +1,13 @@
 package org.slc.sli.manager;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
+import org.slc.sli.config.LozengeConfig;
 
 /**
  * 
@@ -73,6 +75,26 @@ public class ConfigManager extends Manager {
             }
         }
         return null;
+    }
+    
+    /**
+     * Get the configuration for one particular view, for a user
+     * 
+     * @param userId
+     * @param viewName
+     * @return ViewConfig
+     */
+    public List<LozengeConfig> getLozengeConfig(String userId) {
+        
+        // get lozenge configs for user's hierarchy (state, district, etc)
+        // TODO: call ConfigPersistor with entity ids, not user id
+        LozengeConfig[] userLozengeConfig = null;
+        try {
+            userLozengeConfig = persistor.getLozengeConfig(userId);
+        } catch (Exception e) {
+            return null;
+        }
+        return Arrays.asList(userLozengeConfig);
     }
     
     /**

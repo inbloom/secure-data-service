@@ -25,17 +25,6 @@ import java.util.Vector;
 public class MockAPIClient implements APIClient {
 
     private ClassLoader classLoader;
-    private String username;
-    
-    public String getUsername() {
-        return username;
-    }
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
 
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
@@ -44,7 +33,7 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-        Student[] students = fromFile(getFilename("mock_data/" + username.replaceAll("\\W", "") + "/student.json"), Student[].class);
+        Student[] students = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student.json"), Student[].class);
         // perform the filtering. 
         Vector<Student> filtered = new Vector<Student>();
         if (studentIds != null)
