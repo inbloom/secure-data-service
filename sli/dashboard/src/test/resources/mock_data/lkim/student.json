@@ -1,381 +1,408 @@
 [
     {
-        "uid": "453827070",
-        "nameSuffix": "",
-        "stateId": "453827070",
-        "sex": "Male",
-        "birthDate": "2002-07-05",
-        "firstName": "Marvin",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Miller"
-    },
+        "studentUniqueStateId": "453827070", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Miller", 
+            "firstName": "Marvin"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2002-07-05"
+        }, 
+        "sex": "Male", 
+        "id": "453827070"
+    }, 
     {
-        "uid": "943715230",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "943715230",
-        "birthDate": "2000-12-20",
-        "firstName": "Jolene",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Colt",
-        "racialCategory": "",
-        "lastName": "Ashley"
-    },
+        "studentUniqueStateId": "943715230", 
+        "name": {
+            "middleName": "Colt", 
+            "lastSurname": "Ashley", 
+            "firstName": "Jolene"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2000-12-20"
+        }, 
+        "sex": "Female", 
+        "id": "943715230"
+    }, 
     {
-        "uid": "164420088",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "164420088",
-        "birthDate": "1995-06-25",
-        "firstName": "Ursa",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Kellie",
-        "racialCategory": "",
-        "lastName": "Oconnor"
-    },
+        "studentUniqueStateId": "164420088", 
+        "name": {
+            "middleName": "Kellie", 
+            "lastSurname": "Oconnor", 
+            "firstName": "Ursa"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1995-06-25"
+        }, 
+        "sex": "Female", 
+        "id": "164420088"
+    }, 
     {
-        "uid": "505331723",
-        "nameSuffix": "",
-        "stateId": "505331723",
-        "sex": "Male",
-        "birthDate": "2004-08-22",
-        "firstName": "Gannon",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Eric",
-        "racialCategory": "",
-        "lastName": "Roman"
-    },
+        "studentUniqueStateId": "505331723", 
+        "name": {
+            "middleName": "Eric", 
+            "lastSurname": "Roman", 
+            "firstName": "Gannon"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2004-08-22"
+        }, 
+        "sex": "Male", 
+        "id": "505331723"
+    }, 
     {
-        "uid": "530425896",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "530425896",
-        "birthDate": "2006-07-02",
-        "firstName": "Rhonda",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Shannon",
-        "racialCategory": "",
-        "lastName": "Delgado"
-    },
+        "studentUniqueStateId": "530425896", 
+        "name": {
+            "middleName": "Shannon", 
+            "lastSurname": "Delgado", 
+            "firstName": "Rhonda"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2006-07-02"
+        }, 
+        "sex": "Female", 
+        "id": "530425896"
+    }, 
     {
-        "uid": "429526969",
-        "nameSuffix": "",
-        "stateId": "429526969",
-        "sex": "Male",
-        "birthDate": "1999-12-17",
-        "firstName": "Nicholas",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "A",
-        "racialCategory": "",
-        "lastName": "Burks"
-    },
+        "studentUniqueStateId": "429526969", 
+        "name": {
+            "middleName": "A", 
+            "lastSurname": "Burks", 
+            "firstName": "Nicholas"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1999-12-17"
+        }, 
+        "sex": "Male", 
+        "id": "429526969"
+    }, 
     {
-        "uid": "178828452",
-        "nameSuffix": "",
-        "stateId": "178828452",
-        "sex": "Male",
-        "birthDate": "2001-10-04",
-        "firstName": "Tyrone",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Burnett Jones"
-    },
+        "studentUniqueStateId": "178828452", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Burnett Jones", 
+            "firstName": "Tyrone"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2001-10-04"
+        }, 
+        "sex": "Male", 
+        "id": "178828452"
+    }, 
     {
-        "uid": "525878920",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "525878920",
-        "birthDate": "2004-12-04",
-        "firstName": "Delilah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "D",
-        "racialCategory": "",
-        "lastName": "Sims"
-    },
+        "studentUniqueStateId": "525878920", 
+        "name": {
+            "middleName": "D", 
+            "lastSurname": "Sims", 
+            "firstName": "Delilah"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2004-12-04"
+        }, 
+        "sex": "Female", 
+        "id": "525878920"
+    }, 
     {
-        "uid": "510152105",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "510152105",
-        "birthDate": "1997-06-01",
-        "firstName": "TaShya",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Nicole",
-        "racialCategory": "",
-        "lastName": "Alston"
-    },
+        "studentUniqueStateId": "510152105", 
+        "name": {
+            "middleName": "Nicole", 
+            "lastSurname": "Alston", 
+            "firstName": "TaShya"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1997-06-01"
+        }, 
+        "sex": "Female", 
+        "id": "510152105"
+    }, 
     {
-        "uid": "802709591",
-        "nameSuffix": "",
-        "stateId": "802709591",
-        "sex": "Female",
-        "birthDate": "1997-03-07",
-        "firstName": "Imelda",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Sydnee",
-        "racialCategory": "",
-        "lastName": "Lindsey"
-    },
+        "studentUniqueStateId": "802709591", 
+        "name": {
+            "middleName": "Sydnee", 
+            "lastSurname": "Lindsey", 
+            "firstName": "Imelda"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1997-03-07"
+        }, 
+        "sex": "Female", 
+        "id": "802709591"
+    }, 
     {
-        "uid": "437680177",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "437680177",
-        "birthDate": "2000-04-23",
-        "firstName": "Kimberley",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Yuli",
-        "racialCategory": "",
-        "lastName": "Pennington"
-    },
+        "studentUniqueStateId": "437680177", 
+        "name": {
+            "middleName": "Yuli", 
+            "lastSurname": "Pennington", 
+            "firstName": "Kimberley"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2000-04-23"
+        }, 
+        "sex": "Female", 
+        "id": "437680177"
+    }, 
     {
-        "uid": "170011136",
-        "nameSuffix": "",
-        "stateId": "170011136",
-        "sex": "Male",
-        "birthDate": "2001-01-23",
-        "firstName": "Arsenio",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Durham"
-    },
+        "studentUniqueStateId": "170011136", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Durham", 
+            "firstName": "Arsenio"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2001-01-23"
+        }, 
+        "sex": "Male", 
+        "id": "170011136"
+    }, 
     {
-        "uid": "547028299",
-        "nameSuffix": "",
-        "stateId": "547028299",
-        "sex": "Male",
-        "birthDate": "1999-11-15",
-        "firstName": "Alec",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Swanson"
-    },
+        "studentUniqueStateId": "547028299", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Swanson", 
+            "firstName": "Alec"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1999-11-15"
+        }, 
+        "sex": "Male", 
+        "id": "547028299"
+    }, 
     {
-        "uid": "258392050",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "258392050",
-        "birthDate": "1994-01-09",
-        "firstName": "Patricia",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Harper"
-    },
+        "studentUniqueStateId": "258392050", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Harper", 
+            "firstName": "Patricia"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1994-01-09"
+        }, 
+        "sex": "Female", 
+        "id": "258392050"
+    }, 
     {
-        "uid": "178875887",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "178875887",
-        "birthDate": "2000-10-14",
-        "firstName": "Astra",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Deirdre",
-        "racialCategory": "",
-        "lastName": "Vincent"
-    },
+        "studentUniqueStateId": "178875887", 
+        "name": {
+            "middleName": "Deirdre", 
+            "lastSurname": "Vincent", 
+            "firstName": "Astra"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2000-10-14"
+        }, 
+        "sex": "Female", 
+        "id": "178875887"
+    }, 
     {
-        "uid": "100644447",
-        "nameSuffix": "",
-        "stateId": "100644447",
-        "sex": "Female",
-        "birthDate": "2006-06-02",
-        "firstName": "Brielle",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "W",
-        "racialCategory": "",
-        "lastName": "Klein"
-    },
+        "studentUniqueStateId": "100644447", 
+        "name": {
+            "middleName": "W", 
+            "lastSurname": "Klein", 
+            "firstName": "Brielle"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2006-06-02"
+        }, 
+        "sex": "Female", 
+        "id": "100644447"
+    }, 
     {
-        "uid": "376191021",
-        "nameSuffix": "",
-        "stateId": "376191021",
-        "sex": "Female",
-        "birthDate": "1994-08-30",
-        "firstName": "Jeanette",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Graves"
-    },
+        "studentUniqueStateId": "376191021", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Graves", 
+            "firstName": "Jeanette"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1994-08-30"
+        }, 
+        "sex": "Female", 
+        "id": "376191021"
+    }, 
     {
-        "uid": "336344132",
-        "nameSuffix": "",
-        "stateId": "336344132",
-        "sex": "Male",
-        "birthDate": "2003-03-25",
-        "firstName": "Odysseus",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Merrill"
-    },
+        "studentUniqueStateId": "336344132", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Merrill", 
+            "firstName": "Odysseus"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2003-03-25"
+        }, 
+        "sex": "Male", 
+        "id": "336344132"
+    }, 
     {
-        "uid": "711411586",
-        "nameSuffix": "",
-        "stateId": "711411586",
-        "sex": "Male",
-        "birthDate": "2006-01-08",
-        "firstName": "Rafael",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Kirk"
-    },
+        "studentUniqueStateId": "711411586", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Kirk", 
+            "firstName": "Rafael"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2006-01-08"
+        }, 
+        "sex": "Male", 
+        "id": "711411586"
+    }, 
     {
-        "uid": "131758477",
-        "nameSuffix": "",
-        "stateId": "131758477",
-        "sex": "Female",
-        "birthDate": "1997-07-22",
-        "firstName": "Deirdre",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Tashya",
-        "racialCategory": "",
-        "lastName": "Gentry"
-    },
+        "studentUniqueStateId": "131758477", 
+        "name": {
+            "middleName": "Tashya", 
+            "lastSurname": "Gentry", 
+            "firstName": "Deirdre"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1997-07-22"
+        }, 
+        "sex": "Female", 
+        "id": "131758477"
+    }, 
     {
-        "uid": "670703438",
-        "nameSuffix": "",
-        "stateId": "670703438",
-        "sex": "Male",
-        "birthDate": "2002-04-10",
-        "firstName": "Zachary",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Melvin",
-        "racialCategory": "",
-        "lastName": "Patton"
-    },
+        "studentUniqueStateId": "670703438", 
+        "name": {
+            "middleName": "Melvin", 
+            "lastSurname": "Patton", 
+            "firstName": "Zachary"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2002-04-10"
+        }, 
+        "sex": "Male", 
+        "id": "670703438"
+    }, 
     {
-        "uid": "851123275",
-        "sex": "Male",
-        "nameSuffix": "",
-        "stateId": "851123275",
-        "birthDate": "1999-06-13",
-        "firstName": "Hoyt",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Hicks"
-    },
+        "studentUniqueStateId": "851123275", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Hicks", 
+            "firstName": "Hoyt"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1999-06-13"
+        }, 
+        "sex": "Male", 
+        "id": "851123275"
+    }, 
     {
-        "uid": "423037202",
-        "sex": "Male",
-        "nameSuffix": "",
-        "stateId": "423037202",
-        "birthDate": "1999-06-05",
-        "firstName": "Nomlanga",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Deacon",
-        "racialCategory": "",
-        "lastName": "Mccormick"
-    },
+        "studentUniqueStateId": "423037202", 
+        "name": {
+            "middleName": "Deacon", 
+            "lastSurname": "Mccormick", 
+            "firstName": "Nomlanga"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1999-06-05"
+        }, 
+        "sex": "Male", 
+        "id": "423037202"
+    }, 
     {
-        "uid": "250918988",
-        "sex": "Male",
-        "nameSuffix": "",
-        "stateId": "250918988",
-        "birthDate": "2005-04-06",
-        "firstName": "Uriah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "W",
-        "racialCategory": "",
-        "lastName": "Jordan"
-    },
+        "studentUniqueStateId": "250918988", 
+        "name": {
+            "middleName": "W", 
+            "lastSurname": "Jordan", 
+            "firstName": "Uriah"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2005-04-06"
+        }, 
+        "sex": "Male", 
+        "id": "250918988"
+    }, 
     {
-        "uid": "421216329",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "421216329",
-        "birthDate": "1994-03-17",
-        "firstName": "Madeline",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Hinton"
-    },
-
+        "studentUniqueStateId": "421216329", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Hinton", 
+            "firstName": "Madeline"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1994-03-17"
+        }, 
+        "sex": "Female", 
+        "id": "421216329"
+    }, 
     {
-        "uid": "111111111",
-        "sex": "Female",
-        "nameSuffix": "111111111",
-        "stateId": "",
-        "birthDate": "1994-03-17",
-        "firstName": "Bacon",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Burger"
-    },
+        "studentUniqueStateId": "111111111", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Burger", 
+            "firstName": "Bacon"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1994-03-17"
+        }, 
+        "sex": "Female", 
+        "id": "111111111"
+    }, 
     {
-        "uid": "222222222",
-        "sex": "Female",
-        "nameSuffix": "",
-        "stateId": "222222222",
-        "birthDate": "1994-04-17",
-        "firstName": "Salmon",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Burger"
-    },
+        "studentUniqueStateId": "222222222", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Burger", 
+            "firstName": "Salmon"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1994-04-17"
+        }, 
+        "sex": "Female", 
+        "id": "222222222"
+    }, 
     {
-        "uid": "333333333",
-        "sex": "Male",
-        "nameSuffix": "",
-        "stateId": "333333333",
-        "birthDate": "1994-05-17",
-        "firstName": "Fabio",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "De Silva"
-    },
+        "studentUniqueStateId": "333333333", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "De Silva", 
+            "firstName": "Fabio"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1994-05-17"
+        }, 
+        "sex": "Male", 
+        "id": "333333333"
+    }, 
     {
-        "uid": "444444444",
-        "sex": "Male",
-        "nameSuffix": "",
-        "stateId": "444444444",
-        "birthDate": "1994-05-18",
-        "firstName": "Raphael",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "De Silva"
+        "studentUniqueStateId": "444444444", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "De Silva", 
+            "firstName": "Raphael"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1994-05-18"
+        }, 
+        "sex": "Male", 
+        "id": "444444444"
     }
 ]
-

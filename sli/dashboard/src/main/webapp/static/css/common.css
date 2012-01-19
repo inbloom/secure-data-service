@@ -144,6 +144,13 @@ h1
 {
     font-size:12px;
 }
+.lozenge
+{
+    color: #20c7c5;
+    font-size: 8px;
+    height: 12px;
+    width: 22px;
+}
 
 
 /**** styles that will be user-customizable ****/

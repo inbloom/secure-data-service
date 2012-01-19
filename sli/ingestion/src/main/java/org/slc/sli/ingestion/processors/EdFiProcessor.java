@@ -4,15 +4,15 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -31,7 +31,7 @@ public class EdFiProcessor implements Processor {
     private Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap;
 
     @Override
-    @Profiled(tag = "EdFiProcessor")
+    @Profiled(tag = "EdFiProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);

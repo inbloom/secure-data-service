@@ -1,3 +1,4 @@
+require "active_resource/base"
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :check_login
@@ -8,7 +9,12 @@ class ApplicationController < ActionController::Base
   end
   
   def begin_authenticate(authentication)
-    redirect_to authentication + "?RelayState=" + request.url
+    redirect_to authentication + "?RelayState=" + current_url
+  end
+  
+  def current_url
+    "http://" + request.host_with_port + request.fullpath
+    
   end
   
   def check_login

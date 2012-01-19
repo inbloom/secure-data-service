@@ -12,14 +12,14 @@ import java.util.List;
  * 
  * @author syau
  */
-public class FuelGaugeByScore {
+public class FuelGauge {
     
     private Field field;
     private Student student;
     private AssessmentResolver assmts;
     private ColorByPerf colorByPerf;
 
-    public FuelGaugeByScore(Field field, Student student, AssessmentResolver assmts) {
+    public FuelGauge(Field field, Student student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;
@@ -39,6 +39,23 @@ public class FuelGaugeByScore {
      * Returns the cut points 
      */
     public List<Integer> getCutpoints() { return assmts.getCutpoints(field, student); }
+
+    /**
+     * Returns the number of possible performance levels that are "real" 
+     */
+    public Integer getNumRealPerfLevels() { 
+        Assessment assmt = assmts.resolveAssessment(field, student);
+        if (assmt == null) { return null; }
+        return assmts.getMetaData().findNumRealPerfLevelsForFamily(assmt.getAssessmentName());
+    }
+    /**
+     * Returns the performance level 
+     */
+    public Integer getPerfLevel() { 
+        Assessment assmt = assmts.resolveAssessment(field, student);
+        if (assmt == null) { return null; }
+        return assmt.getPerfLevel();
+    }
 
     /**
      * Returns the score 

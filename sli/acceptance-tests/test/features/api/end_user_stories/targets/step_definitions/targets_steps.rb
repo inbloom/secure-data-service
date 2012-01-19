@@ -45,33 +45,6 @@ Transform /^(Student|Section|School|Assessment|Teacher)$/ do |arg|
   out
 end
 
-When /^I navigate to GET "([^"]*)"$/ do |url|
-  restHttpGet(url)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  contentType = contentType(@res)
-  if /application\/json/.match contentType
-    @result = JSON.parse(@res.body)
-  elsif /application\/xml/.match contentType
-    doc = Document.new @res.body
-    @result = doc.root
-    puts @result
-  else
-    @result = {}
-  end
-end
-
-Then /^I should receive a link named "([^\"]*)" with URI "([^\"]*)"$/ do |rel, href|
-  @result["links"].should_not == nil
-  found = false
-  @result["links"].each do |link|;
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-      break
-    end
-  end
-  assert(found, "Did not find a link rel=#{rel} href=#{href}")
-end
 
 Then /^I should receive a collection of (\d+) [^"]* links$/ do |size|
   assert(@result != nil, "Response contains no data")

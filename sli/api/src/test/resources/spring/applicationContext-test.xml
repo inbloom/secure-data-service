@@ -36,6 +36,8 @@
 			expression=".*MongoEntityRepository" />
 			<context:exclude-filter type="regex"
 			expression=".*AvroEntityValidator" />
+			<context:exclude-filter type="regex"
+			expression=".*AggregationLoader" />
 	</context:component-scan>
 
 

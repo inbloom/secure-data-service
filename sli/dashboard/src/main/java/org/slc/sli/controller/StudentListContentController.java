@@ -22,6 +22,7 @@ import org.slc.sli.config.ViewConfig;
 
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
+
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -38,7 +39,7 @@ public class StudentListContentController extends DashboardController {
     
     public StudentListContentController() { }
     
-    
+
     /**
      * Retrieves information for the student list and sends back an html table to be displayed
      * 
@@ -62,7 +63,9 @@ public class StudentListContentController extends DashboardController {
         if (population != null) {
             uids = Arrays.asList(population.split(","));
         }
+
         List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+
         model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students));
 
         // insert the assessments object into the modelmap

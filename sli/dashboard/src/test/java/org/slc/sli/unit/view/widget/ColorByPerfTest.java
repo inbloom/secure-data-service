@@ -1,14 +1,9 @@
 package org.slc.sli.unit.view.widget;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.config.Field;
-import org.slc.sli.entity.Student;
-import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.widget.ColorByPerf;
 
 /**

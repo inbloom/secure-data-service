@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
+import java.io.Serializable;
 
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
@@ -13,8 +14,10 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
  * metainformation.
  *
  */
-public class IngestionFileEntry implements ErrorReportSupport {
+public class IngestionFileEntry implements Serializable, ErrorReportSupport {
 
+    private static final long serialVersionUID = 8326156381009199389L;
+    
     // Attributes
     private FileFormat fileFormat;
     private FileType fileType;

@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -11,8 +12,10 @@ import org.apache.commons.io.IOUtils;
 /**
  *
  */
-public class LocalFileSystemLandingZone implements LandingZone {
+public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
+    private static final long serialVersionUID = 7441095255253233611L;
+    
     protected File directory;
 
     /**
