@@ -41,7 +41,7 @@
   <xs:element name="lozenges">
     <xs:complexType>
       <xs:attribute name="names" use="required"/>
-      <xs:attribute name="position" type="xs:NCName"/>
+      <xs:attribute name="position" use="required" type="xs:NCName"/>
       <xs:attribute name="maxCount" type="xs:NCName"/>
     </xs:complexType>
   </xs:element>

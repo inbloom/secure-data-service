@@ -167,12 +167,22 @@ Then /^I receive a JSON response that includes a (list of teachers from school "
   assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
 end
 
-When /^I make an API call to get the list of sections taught by the teacher "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I make an API call to get the list of sections taught by (the teacher "[^"]*")$/ do |arg1|
+  restHttpGet("/teacher-section-associations/"+arg1+"/targets")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I receive a JSON response that includes the (list of sections that "[^"]*" teaches)$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  numMatches = 0
+  result.each {|jsonObj| 
+    # Find each ID in the JSON
+    assert(arg1.include?(jsonObj[id]),"ID returned in json was not expected: ID="+jsonObj[id])
+    numMatches += 1
+  }
+  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
 end
 
 Given /^I teach in "([^"]*)"$/ do |arg1|
@@ -191,12 +201,22 @@ Then /^I receive a JSON response that includes the section "([^"]*)" and its att
   assert(result[uniqueSectionCode] == arg1, "Section name returned was "+result[uniqueSectionCode]+" and expected "+arg1)
 end
 
-When /^I make an API call to get a list of students in section "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I make an API call to get a list of students in (the section "[^"]*")$/ do |arg1|
+  restHttpGet("/student-section-associations/"+arg1+"/targets")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I receive a JSON response that includes the (list of students in section "[^"]*")$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  numMatches = 0
+  result.each {|jsonObj| 
+    # Find each ID in the JSON
+    assert(arg1.include?(jsonObj[id]),"ID returned in json was not expected: ID="+jsonObj[id])
+    numMatches += 1
+  }
+  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
 end
 
 Given /^I teach the student "([^"]*)"$/ do |arg1|
