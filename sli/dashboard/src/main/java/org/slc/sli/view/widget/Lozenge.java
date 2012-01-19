@@ -54,8 +54,8 @@ public class Lozenge {
      */
     public int getNumLozenges() { return lozenges.size(); }
     /**
-     * Returns the text to display
+     * Returns the lozenge to display
      */
-    public LozengeConfig getLozenge(int i) { return lozenges.get(i); }
+    public LozengeConfig get(int i) { return lozenges.get(i); }
     
 }
