@@ -3,8 +3,6 @@ package org.slc.sli.api.resources;
 //
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,7 +18,6 @@ import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

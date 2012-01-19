@@ -7,6 +7,7 @@
 <script type="text/javascript" src="static/js/populationSelect.js"></script>
 <script type="text/javascript" src="static/js/dashboardUtil.js"></script>
 <script type="text/javascript" src="static/js/fuelGaugeWidget.js"></script>
+<script type="text/javascript" src="static/js/lozengeWidget.js"></script>
 
 <#-- TODO: find better way to pass freemarker variable to javascript -->
 <script type="text/javascript">
