@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class FileDescriptor<T> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2800997090364423334L;
     
     private T fileItem;
     private LandingZone landingZone;

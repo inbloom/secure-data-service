@@ -20,8 +20,8 @@ import org.slc.sli.ingestion.FileType;
  */
 public class ControlFile implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
+    private static final long serialVersionUID = 3231739301361458948L;
+
     protected File file;
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
     protected Properties configProperties = new Properties();

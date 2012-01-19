@@ -36,6 +36,7 @@ import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.IngestionQueueProperties;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Ingestion route builder.
@@ -65,15 +66,17 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     LocalFileSystemLandingZone tempLz;
 
     @Autowired
-    IngestionQueueProperties ctrlFilePreProcessorQueueProperties;
+    IngestionQueueProperties workItemQueueProperties;
+    
+    ConnectionFactory connectionFactory;
     
     private void addJmsHornetQCamelComponent() {
 
-        String queueHostName = ctrlFilePreProcessorQueueProperties.getHostName();
-        int queuePort = ctrlFilePreProcessorQueueProperties.getPort();
+        String queueHostName = workItemQueueProperties.getHostName();
+        int queuePort = workItemQueueProperties.getPort();
         
         //TODO Connect with credentials.
-        
+
         //transport properties - set the server
         HashMap<String, Object> tcMap = new HashMap<String, Object>();
         tcMap.put(TransportConstants.HOST_PROP_NAME, queueHostName);
@@ -82,8 +85,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         //TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName(), tcMap);
         TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName());
         //create a hornetQ connection factory
-        ConnectionFactory connectionFactory = (ConnectionFactory) HornetQJMSClient.createConnectionFactoryWithoutHA(JMSFactoryType.CF, transportConfiguration);
         
+        
+        connectionFactory = (ConnectionFactory) HornetQJMSClient.createConnectionFactoryWithoutHA(JMSFactoryType.CF, transportConfiguration);
+       
         //Add jms connection factory component to camel context
         CamelContext context = this.getContext();
         context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
@@ -92,9 +97,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
         
-        if(!ctrlFilePreProcessorQueueProperties.isUsingSedaQueues()) addJmsHornetQCamelComponent();
+        if(!workItemQueueProperties.isUsingSedaQueues()) addJmsHornetQCamelComponent();
         
-        String ctrlFilePreProcessorUri = ctrlFilePreProcessorQueueProperties.getQueueUri();
+        String workItemQueue = workItemQueueProperties.getQueueUri();
         
         String inboundDir = lz.getDirectory().getPath();
 
@@ -106,14 +111,18 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("ctlFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(new ControlFilePreProcessor(lz))
-                .to(ctrlFilePreProcessorUri);
+                .to(workItemQueue);
 
         // routeId: ctlFilePreprocessor
-        from(ctrlFilePreProcessorUri)
+        from(workItemQueue)
                 .routeId("ctlFilePreprocessor")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
-                .process(ctlFileProcessor)
-                .to("seda:assembledJobs");
+                .choice()
+                    .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                    .process(ctlFileProcessor)
+                    .to("seda:assembledJobs")
+                .otherwise()
+                    .to("direct:stop");
         
         // routeId: zipFilePoller
         from(
@@ -136,7 +145,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             tempLz.setDirectory(ctlFile.getParentFile());
                         }
                     }).process(new ControlFilePreProcessor(tempLz))
-                    .to(ctrlFilePreProcessorUri);
+                    .to(workItemQueue);
         
         // routeId: jobDispatch  
         from("seda:assembledJobs")

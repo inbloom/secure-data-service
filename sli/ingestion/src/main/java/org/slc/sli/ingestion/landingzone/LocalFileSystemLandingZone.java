@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
  */
 public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7441095255253233611L;
     
     protected File directory;
 

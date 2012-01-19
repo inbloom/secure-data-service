@@ -20,7 +20,7 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
  */
 public class BatchJob implements  Serializable, ErrorReportSupport{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -340538024579162600L;
 
     /**
      * holds references to the files involved in this Job

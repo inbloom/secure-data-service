@@ -32,13 +32,13 @@
 
   <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
  
-  <bean id="ctrlFilePreProcessorQueueProperties" class="org.slc.sli.ingestion.queues.IngestionQueueProperties">
-    <property name="usingSedaQueues" value="${queues.ctrlFilePreProcessor.seda}"></property>
-    <property name="hostName" value="${queues.ctrlFilePreProcessor.host}"></property>
-    <property name="port" value="${queues.ctrlFilePreProcessor.port}"></property>
-    <property name="queueName" value="${queues.ctrlFilePreProcessor.queueName}"></property>
-    <property name="userName" value="${queues.ctrlFilePreProcessor.userName}"></property>
-    <property name="password" value="${queues.ctrlFilePreProcessor.password}"></property>
+  <bean id="workItemQueueProperties" class="org.slc.sli.ingestion.queues.IngestionQueueProperties">
+    <property name="usingSedaQueues" value="${queues.workItem.seda}"></property>
+    <property name="hostName" value="${queues.workItem.host}"></property>
+    <property name="port" value="${queues.workItem.port}"></property>
+    <property name="queueName" value="${queues.workItem.queueName}"></property>
+    <property name="userName" value="${queues.workItem.userName}"></property>
+    <property name="password" value="${queues.workItem.password}"></property>
   </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->

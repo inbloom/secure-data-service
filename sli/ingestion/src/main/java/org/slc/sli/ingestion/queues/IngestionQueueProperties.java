@@ -2,7 +2,7 @@ package org.slc.sli.ingestion.queues;
 
 /**
 * @author jtully
-* Container for queue properties
+* Container for ingestion queue properties
 */
 public class IngestionQueueProperties {
  
@@ -86,6 +86,9 @@ public class IngestionQueueProperties {
     
     @Override
     public String toString() {
-        return "host name: " + hostName + ", port: " + port + ", queue name: " + queueName;
+        String str = "";
+        if (!usingSedaQueues) str += "host name: " + hostName + ", port: " + port + ", ";
+        str += "queue URI: " + getQueueUri();
+        return str;
     }
 }
