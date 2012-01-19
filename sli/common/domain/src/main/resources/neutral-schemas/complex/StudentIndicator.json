@@ -1,0 +1,14 @@
+
+{
+   "type":"StudentIndicator",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*IndicatorGroup":"IndicatorName",
+      "IndicatorName":"IndicatorName",
+      "Indicator":"Indicator",
+      "*BeginDate":"date",
+      "*EndDate":"date",
+      "*DesignatedBy":"DesignatedBy"},
+   "properties":{}
+}

@@ -1,0 +1,9 @@
+
+{
+   "type":"PersonalInformationVerificationType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Baptismal or church certificate","Birth certificate","Drivers license","Entry in family Bible","Hospital certificate","Immigration document/visa","Life insurance policy","Other","Other non-official document","Other official document","Parents affidavit","Passport","Physicians certificate","Previously verified school records","State-issued ID"]}
+}

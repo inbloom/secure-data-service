@@ -1,0 +1,9 @@
+
+{
+   "type":"CourseDefinedByType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["LEA","National Organization","SEA","School"]}
+}

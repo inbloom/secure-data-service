@@ -1,0 +1,9 @@
+
+{
+   "type":"GradeLevelType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Adult Education","Early Education","Eighth grade","Eleventh grade","Fifth grade","First grade","Fourth grade","Grade 13","Infant/toddler","Kindergarten","Ninth grade","Other","Postsecondary","Preschool/Prekindergarten","Second grade","Seventh grade","Sixth grade","Tenth grade","Third grade","Transitional Kindergarten","Twelfth grade","Ungraded"]}
+}

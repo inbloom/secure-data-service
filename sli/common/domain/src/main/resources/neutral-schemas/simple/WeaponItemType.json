@@ -1,0 +1,9 @@
+
+{
+   "type":"WeaponItemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Firearm","Illegal Knife","Non-Illegal Knife","Club","Other Sharp Objects","Other Object","Substance Used as Weapon","Knife","Unknown","None","Other"]}
+}

@@ -1,0 +1,9 @@
+
+{
+   "type":"ClassroomPositionType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Teacher of Record","Assistant Teacher","Support Teacher","Substitute Teacher"]}
+}

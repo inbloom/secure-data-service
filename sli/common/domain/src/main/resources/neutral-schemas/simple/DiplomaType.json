@@ -1,0 +1,9 @@
+
+{
+   "type":"DiplomaType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Regular diploma","Endorsed/advanced diploma","Regents diploma","International Baccalaureate","Modified diploma","Other diploma","Alternative credential","Certificate of attendance","Certificate of completion","High school equivalency credential, other than GED","General Educational Development (GED) credential","Post graduate certificate (grade 13)","Vocational certificate","Other"]}
+}

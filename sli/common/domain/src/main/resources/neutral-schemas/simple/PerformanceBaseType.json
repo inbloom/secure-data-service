@@ -1,0 +1,9 @@
+
+{
+   "type":"PerformanceBaseType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Advanced","Proficient","Basic","Below Basic","Well Below Basic"]}
+}

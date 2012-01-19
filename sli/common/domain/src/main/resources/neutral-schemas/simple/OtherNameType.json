@@ -1,0 +1,9 @@
+
+{
+   "type":"OtherNameType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Alias","Nickname","Other Name","Previous Legal Name"]}
+}

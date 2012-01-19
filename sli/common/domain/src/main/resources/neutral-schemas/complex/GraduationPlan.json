@@ -1,0 +1,14 @@
+
+{
+   "type":"GraduationPlan",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "GraduationPlanType":"GraduationPlanType",
+      "*IndividualPlan":"boolean",
+      "TotalCreditsRequired":"Credits",
+      "*CreditsBySubject":["CreditsBySubject"],
+      "*CreditsByCourse":["CreditsByCourse"]},
+   "properties":{}
+}
