@@ -1,6 +1,5 @@
 package org.slc.sli.client;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import org.slc.sli.entity.School;
 import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.security.RESTClient;
 import org.slc.sli.util.Constants;
 
 
@@ -49,7 +47,12 @@ public class LiveAPIClient implements APIClient {
     
     @Override
     public School[] getSchools(String token) {
-        return mockClient.getSchools(token);
+        String teacherId = getTeacherId(token);
+        Section[] sections = getSectionsForTeacher(teacherId, token);
+        Course[] courses = getCoursesForSections(sections, token);
+        School[] schools = getSchoolsForCourses(courses, token);
+        
+        return schools;
     }
     
     @Override
@@ -63,12 +66,18 @@ public class LiveAPIClient implements APIClient {
         
         int i = 0;
         for (String url: urls) {
-            students[i++] = gson.fromJson(restClient.getStudent(url, token), Student.class);
+            students[i++] = gson.fromJson(getStudent(url, token), Student.class);
         }
         
         return students;
     }
     
+    
+    
+    public String getStudent(String id, String token) {
+        String url = Constants.API_SERVER_URI + "/students/" + id;
+        return restClient.makeJsonRequestWHeaders(url, token);
+    }    
     
     private School getSchool(String id, String token) {
         String url = Constants.API_SERVER_URI + "/schools/" + id;
@@ -116,13 +125,11 @@ public class LiveAPIClient implements APIClient {
         return mockClient.getAssessmentMetaData(token);
     }
     
-    @Override
     public String getTeacherId(String token) {
     //TODO: Make a call to the /home uri and retrieve id from there
         return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
     }
     
-    @Override
     public Section[] getSectionsForTeacher(String id, String token) {
         Gson gson = new Gson();
         String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
@@ -140,7 +147,6 @@ public class LiveAPIClient implements APIClient {
         return sections;
     }
 
-    @Override
     public Course[] getCoursesForSections(Section[] sections, String token) {
         
         Course[] courses = new Course[sections.length];
@@ -161,7 +167,6 @@ public class LiveAPIClient implements APIClient {
         return courses;
     }
     
-    @Override
     public School[] getSchoolsForCourses(Course[] courses, String token) {
         // TODO Auto-generated method stub
         HashMap<String, School> schoolMap = new HashMap<String, School>();
@@ -177,7 +182,6 @@ public class LiveAPIClient implements APIClient {
             }
         }
             
-        Collection<School> temp = schoolMap.values(); 
         return (School[]) schoolMap.values().toArray(new School[1]);
     }
 }

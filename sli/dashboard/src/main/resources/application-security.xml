@@ -7,7 +7,7 @@
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
 
-<beans:bean id="restClient" class="org.slc.sli.security.RESTClient">
+<beans:bean id="restClient" class="org.slc.sli.client.RESTClient">
     <beans:property name="apiServerUri" value="http://devapi1.slidev.org:8080/api/rest" />
 </beans:bean>
 

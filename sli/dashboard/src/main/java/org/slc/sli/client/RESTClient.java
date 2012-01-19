@@ -1,8 +1,7 @@
-package org.slc.sli.security;
+package org.slc.sli.client;
 
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -92,11 +91,6 @@ public class RESTClient {
         String jsonText = template.getForObject(url.toString(), String.class);
         logger.debug("JSON response for roles: " + jsonText);
         return jsonText;
-    }
-    
-    public String getStudent(String id, String token) {
-        String url = apiServerUri + "/students/" + id;
-        return makeJsonRequestWHeaders(url, token);
     }
     
     
