@@ -232,11 +232,7 @@ end
 ############################################################
 desc "Run Security Tests"
 task :securityTests do
-  securityHash = Hash[
-    "student" => "student_fixture.json",
-    "realm" => "realm_fixture.json"
-    ]
-  setMultipleFixtureFiles(securityHash)
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/security")
 end
 ############################################################
