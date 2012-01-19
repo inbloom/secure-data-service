@@ -15,8 +15,5 @@ public class DefaultClientRoleManagerTest
 	@Before
 	public void setUp()
 	{
-        mockRepo = mock(EntityRepository.class);
-        roleResolver = new DefaultClientRoleManager();
-        roleResolver.setRepository(mockRepo);
 	}
 }
