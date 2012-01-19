@@ -11,19 +11,24 @@
 
 <#assign lozengeWidget = widgetFactory.createLozenge(field, student, students, lozengeConfigs)>
 
-<#assign maxLozengeIndx = lozengeWidget.getNumLozenges() - 1>
 
-<#list 0..maxLozengeIndx as lozengeIndx>
-  <#assign lozengeConfig = lozengeWidget.get(lozengeIndx)>
+<#if 0 < lozengeWidget.getNumLozenges()>
 
-  <#assign id = "${field.getValue()}.${student.getId()}.lozenge.${lozengeIndx}">
+  <#assign maxLozengeIndx = lozengeWidget.getNumLozenges() - 1>
+  
+  <#list 0..maxLozengeIndx as lozengeIndx>
+    <#assign lozengeConfig = lozengeWidget.get(lozengeIndx)>
+  
+    <#assign id = "${field.getValue()}.${student.getId()}.lozenge.${lozengeIndx}">
+  
+    <#-- drawing code -->
+    <span id="${id}" class="lozenge"></span>
+    <script>
+      var widget = new LozengeWidget("${id}", "${lozengeConfig.getLabel()}", "${lozengeConfig.getColor()}", "${lozengeConfig.getStyle()}");
+      widget.create();
+    </script>
+  
+  
+  </#list>
 
-  <#-- drawing code -->
-  <span id="${id}" class="lozenge"></span>
-  <script>
-    var widget = new LozengeWidget("${id}", "${lozengeConfig.getLabel()}", "${lozengeConfig.getColor()}", "${lozengeConfig.getStyle()}");
-    widget.create();
-  </script>
-
-
-</#list>
+</#if>
