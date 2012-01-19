@@ -20,7 +20,7 @@ Given /^I am authenticated on "([^"]*)"$/ do |arg1|
 end
 
 When /^I make a REST API call$/ do
-  student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
+  student_uri = "/students/2899a720-4186-4598-9874-edde0e2541db" 
   restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -44,7 +44,7 @@ Given /^"([^"]*)" is allowed to change Student address$/ do |arg1|
 end
 
 When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
-  student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
+  student_uri = "/students/2899a720-4186-4598-9874-edde0e2541db" 
   restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
@@ -67,7 +67,7 @@ Then /^the Student address is changed$/ do
   assert(@res.code == 204, "Return code was not expected: "+@res.code.to_s+" but expected 204")
   
   #Then get the data to see it has changed
-  restHttpGet("/students/289c933b-ca69-448c-9afd-2c5879b7d221","application/json")
+  restHttpGet("/students/2899a720-4186-4598-9874-edde0e2541db","application/json")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
@@ -83,7 +83,7 @@ Then /^a message is displayed that the "([^"]*)" role does not allow this action
   assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
   
   #Then get the data to see it hasn't changed
-  restHttpGet("/students/289c933b-ca69-448c-9afd-2c5879b7d221","application/json")
+  restHttpGet("/students/2899a720-4186-4598-9874-edde0e2541db","application/json")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
@@ -96,7 +96,7 @@ Given /^"([^"]*)" is not allowed to view Student data$/ do |arg1|
 end
 
 When /^I make an API call to view a Student's data$/ do
-  student_uri = "/students/289c933b-ca69-448c-9afd-2c5879b7d221" 
+  student_uri = "/students/2899a720-4186-4598-9874-edde0e2541db" 
   restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
