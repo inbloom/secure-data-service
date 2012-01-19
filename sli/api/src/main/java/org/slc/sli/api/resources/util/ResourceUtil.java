@@ -10,8 +10,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.config.AssociationDefinition;
