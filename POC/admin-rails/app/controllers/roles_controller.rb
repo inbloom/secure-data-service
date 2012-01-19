@@ -33,6 +33,7 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
+    puts "Params: #{params}"
     @role = Role.find(params[:id])
     puts "Role #{@role}"
   end

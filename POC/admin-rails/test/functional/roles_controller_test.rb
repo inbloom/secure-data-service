@@ -21,12 +21,12 @@ class RolesControllerTest < ActionController::TestCase
   # end
 
   test "should show role" do
-    get :show, id: @role_fixtures["admin"]["id"]
+    get :show, id: @role_fixtures["admin"].to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @role_fixtures["admin"]["id"]
+    get :edit, id: @role_fixtures["admin"].to_param
     assert_response :success
   end
 
