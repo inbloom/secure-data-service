@@ -146,7 +146,7 @@ Then /^I receive a JSON response that includes the teacher "([^"]*)" and its att
   firstName = nameArray[0]
   lastName = nameArray[1]
   assert(result["name"]["firstName"] == firstName, "Teacher first name returned was "+result["name"]["firstName"]+" but expected "+firstName)
-  assert(result["name"]["lastSurname"] == lastName, "Teacher last name returned was "+result["name"]["lastName"]+" but expected "+lastName)
+  assert(result["name"]["lastSurname"] == lastName, "Teacher last name returned was "+result["name"]["lastSurname"]+" but expected "+lastName)
 end
 
 When /^I make an API call to get list of teachers from (the school "[^"]*")$/ do |arg1|
@@ -161,7 +161,7 @@ Then /^I receive a JSON response that includes a (list of teachers from school "
   numMatches = 0
   result.each {|jsonObj| 
     # Find each ID in the JSON
-    assert(arg1.include?(jsonObj[id]),"ID returned in json was not expected: ID="+jsonObj[id])
+    assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
     numMatches += 1
   }
   assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
@@ -236,5 +236,5 @@ Then /^I receive a JSON response that includes the student "([^"]*)" and its att
   firstName = nameArray[0]
   lastName = nameArray[1]
   assert(result["name"]["firstName"] == firstName, "Student first name returned was "+result["name"]["firstName"]+" but expected "+firstName)
-  assert(result["name"]["lastSurname"] == lastName, "Student last name returned was "+result["name"]["lastName"]+" but expected "+lastName)
+  assert(result["name"]["lastSurname"] == lastName, "Student last name returned was "+result["name"]["lastSurname"]+" but expected "+lastName)
 end
