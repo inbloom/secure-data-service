@@ -75,7 +75,7 @@ public class LiveAPIClient implements APIClient {
     
     
     
-    public String getStudent(String id, String token) {
+    private String getStudent(String id, String token) {
         String url = Constants.API_SERVER_URI + "/students/" + id;
         return restClient.makeJsonRequestWHeaders(url, token);
     }    
