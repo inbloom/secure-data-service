@@ -126,9 +126,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, 
-  :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests,
-  :aggregationTests] do
+task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
   displayFailureReport()
 end
 
@@ -195,6 +193,11 @@ desc "Run Aggregation Tests"
 task :aggregationTests do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/aggregates")
+end
+
+desc "Run Aggregation Discovery Tests"
+task :aggregationDiscoveryTests do
+  runFixtureAndTests("test/features/api/aggregations","aggregation","aggregation_fixture.json")
 end
 ############################################################
 # API tests end
