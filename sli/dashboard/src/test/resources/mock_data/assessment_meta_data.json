@@ -1,5 +1,97 @@
 [
     {
+        "name": "ACT_READING",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "ACT_READING_SOC_SCI" },
+                    { "name": "ACT_READING_ARTS_LIT" }
+        ]
+    },
+    {
+        "name": "ACT_ENGLISH",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "ACT_ENGLISH_UM" },
+                    { "name": "ACT_ENGLISH_RS" }
+        ]
+    },
+    {
+        "name": "ACT_WRITING",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "ACT_WRITING_PLUS_ENG" }
+        ]
+    },
+    {
+        "name": "SAT_READING",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual"
+    },
+    {
+        "name": "SAT_WRITING",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "SAT_WRITING_ESSAY" },
+                    { "name": "SAT_WRITING_MC" }
+        ]
+    },
+    {
+        "name": "PSAT_READING",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual"
+    },
+    {
+        "name": "PSAT_WRITING",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual"
+    },
+    {
         "name": "AP_ENGLISH",
         "perfLevels": [
             {
