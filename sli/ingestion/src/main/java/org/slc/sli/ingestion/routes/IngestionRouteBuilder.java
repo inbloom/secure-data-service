@@ -97,8 +97,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
         
-        System.out.println(workItemQueueProperties);
-        
         if (!workItemQueueProperties.isUsingSedaQueues()) addJmsHornetQCamelComponent();
         
         String workItemQueue = workItemQueueProperties.getQueueUri();
