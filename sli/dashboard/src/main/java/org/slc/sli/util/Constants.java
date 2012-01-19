@@ -8,7 +8,9 @@ package org.slc.sli.util;
  *
  */
 public class Constants {
-
+    // API related URLs
+    public static final String API_SERVER_URI = "http://devapi1.slidev.org:8080/api/rest";
+    
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
@@ -20,5 +22,5 @@ public class Constants {
     public static final String MM_KEY_STUDENTS = "students"; 
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
-    
+
 }

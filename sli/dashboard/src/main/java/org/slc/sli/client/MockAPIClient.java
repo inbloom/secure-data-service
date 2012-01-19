@@ -10,17 +10,11 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
-import org.slc.sli.entity.Course;
 import org.slc.sli.entity.School;
-import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.util.SecurityUtil;
-
 import java.util.List;
 import java.util.Vector;
 
@@ -62,6 +56,7 @@ public class MockAPIClient implements APIClient {
         Student[] retVal = new Student[filtered.size()];
         return filtered.toArray(retVal);
     }
+    
     @Override
     public School[] getSchools(final String token) {
         return fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/school.json"), School[].class);
@@ -167,36 +162,4 @@ public class MockAPIClient implements APIClient {
         return url.getFile();
     }
 
-
-    @Override
-    public String getTeacherId(String token) {
-        // TODO Auto-generated method stub
-        UserDetails user = SecurityUtil.getPrincipal();
-        username = user.getUsername();
-        return username;
-    }
-
-
-    @Override
-    public Section[] getSectionsForTeacher(String id, String token) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public Course[] getCoursesForSections(Section[] sections, String token) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public School[] getSchoolsForCourses(Course[] courses, String token) {
-        School[] schools = fromFile(getFilename("mock_data/" + username.replaceAll("\\W", "") + "/school.json"), School[].class);
-        return schools;
-    }
-
-    
-    
 }
