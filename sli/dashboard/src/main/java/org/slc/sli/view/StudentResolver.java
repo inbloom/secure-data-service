@@ -44,4 +44,10 @@ public class StudentResolver {
         return "";
     }
 
+    /**
+     * returns true if the given lozenge code applies to the given student
+     */
+    public boolean lozengeApplies(Student student, String code) {
+        return true;
+    }
 }
