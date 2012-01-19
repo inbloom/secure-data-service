@@ -9,6 +9,10 @@
   }, {
     "name" : "rights",
     "type" : { "type": "array", "items": "string" }
-  }]
+  }, {
+  	"name" : "mappings",
+  	"type" : {"type" : "map", "values" : {"type" : "array", "items" : "string"}}
+  }
+  ]
 }
 
