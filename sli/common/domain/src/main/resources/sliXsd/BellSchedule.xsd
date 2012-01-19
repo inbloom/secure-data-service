@@ -57,11 +57,12 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="BellSchedule">
+	<xs:element name="BellSchedule">
 		<xs:annotation>
 			<xs:documentation>This entity represents the schedule of class period meeting times.
 			</xs:documentation>
 		</xs:annotation>
+		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="BellScheduleName" type="xs:string">
 					<xs:annotation>
@@ -102,7 +103,8 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
-	</xs:complexType>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:complexType name="MeetingTime">
 		<xs:annotation>

@@ -123,27 +123,4 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="AcademicHonor">
-	<xs:annotation>
-		<xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>
-	</xs:annotation>
-	<xs:sequence>
-		<xs:element name="AcademicHonorsType" type="AcademicHonorsType">
-			<xs:annotation>
-				<xs:documentation>A designation of the type of academic distinctions earned by or awarded to the student.</xs:documentation>
-			</xs:annotation>
-		</xs:element>
-		<xs:element name="HonorsDescription" type="HonorsDescription" minOccurs="0">
-			<xs:annotation>
-				<xs:documentation>A description of the type of academic distinctions earned by or awarded to the individual.</xs:documentation>
-			</xs:annotation>
-		</xs:element>
-		<xs:element name="HonorAwardDate" type="xs:date" minOccurs="0">
-			<xs:annotation>
-				<xs:documentation>The date the honor was awarded or earned.</xs:documentation>
-			</xs:annotation>
-		</xs:element>
-	</xs:sequence>
-	</xs:complexType>
-
 </xs:schema>
