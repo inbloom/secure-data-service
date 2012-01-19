@@ -12,9 +12,10 @@
  * parameters: 
  *  id : the id of the DOM element to draw the fuel gauge widget on. 
  *  label: a 3-character string. 
+ *  color: a string indicating the color. 
  *  style: a string describing how lozenge looks. Currently "solid" or "hollow"
  */
-function LozengeWidget (id, label, style) { 
+function LozengeWidget (id, label, color, style) { 
 
     // constants
     this.STROKEWIDTH = 1;
@@ -22,6 +23,7 @@ function LozengeWidget (id, label, style) {
 
     this.id = id;
     this.label = label;
+    this.color = color;
     this.style = style;
 
 }
@@ -33,12 +35,11 @@ LozengeWidget.prototype.create = function()
     var element = document.getElementById(this.id);
     var fontSize = DashboardUtil.getElementFontSize(element);
     var height = DashboardUtil.getElementHeight(element);
-    var color = DashboardUtil.getElementColor(element);
     var width = DashboardUtil.getElementWidth(element);
 
     // missing info. Return an error. 
-    if (!fontSize || !width || !height || !color || isNaN(fontSize) || isNaN(width)) {
-	throw ("Lozenge widget: font size, color, height, and width property must be defined for elementID: " + this.id);
+    if (!fontSize || !width || !height || isNaN(fontSize) || isNaN(width)) {
+	throw ("Lozenge widget: font size, height, and width property must be defined for elementID: " + this.id);
 	return; 
     }
 
@@ -47,12 +48,12 @@ LozengeWidget.prototype.create = function()
 
     var rectOpacity = this.style == "solid" ? 1 : 0;
     var cornerRadius = Math.floor(width / 4);
-    var textColor = this.style == "solid" ? this.WHITE : color;
+    var textColor = this.style == "solid" ? this.WHITE : this.color;
 
     // draw the rectangle
     this.paper.rect(1,1, width-2, height-2, cornerRadius)
-              .attr("fill", color)
-              .attr("stroke", color)
+              .attr("fill", this.color)
+              .attr("stroke", this.color)
               .attr("stroke-width", this.STROKEWIDTH)
               .attr("fill-opacity", rectOpacity);
 

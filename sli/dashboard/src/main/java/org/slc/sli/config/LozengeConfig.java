@@ -6,6 +6,7 @@ package org.slc.sli.config;
 public class LozengeConfig {
     String name;
     String label;
+    String color;
     String style;
     String description;
 
@@ -32,5 +33,11 @@ public class LozengeConfig {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
     }
 }
