@@ -40,7 +40,7 @@ public class Assessment {
     // easy accessor functions
     public String getPerfLevelAsString() { return  new Integer(getPerfLevel()).toString(); }
     public String getScaleScoreAsString() { return  new Integer(getScaleScore()).toString(); }
-    public String getPercentileAsString() { return  new Double(getPercentile()).toString(); }
+    public String getPercentileAsString() { return  new Integer((int) (getPercentile())).toString(); }
     
     public String getId() {
         return id;
