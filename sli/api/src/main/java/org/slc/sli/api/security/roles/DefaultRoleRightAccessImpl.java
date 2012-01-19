@@ -4,7 +4,11 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +26,9 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
     @Autowired
     private EntityDefinitionStore store;
 
+    @Autowired
+    private EntityRepository repo;
+
     private EntityService service;
 
     public static final String EDUCATOR = "Educator";
@@ -37,15 +44,15 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
 
     @Override
     public Role findRoleByName(String name) {
-        //TODO find a way to "findAll" from entity service
-        Iterable<String> ids = service.list(0, 100);
-        for (String id : ids) {
-            EntityBody body = service.get(id);
-            if (body.get("name").equals(name)) {
-                return getRoleWithBodyAndID(id, body);
-            }
+        Role found = null;
+        Iterable<Entity> results = repo.findByQuery("roles", new Query(Criteria.where("body.name").is(name)), 0, 1);
+
+        if (results.iterator().hasNext()) {
+            Entity e = results.iterator().next();
+            found = getRoleWithBodyAndID(e.getEntityId(), new EntityBody(e.getBody()));
         }
-        return null;
+
+        return found;
     }
 
     @Override
@@ -70,7 +77,7 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
         Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body = service.get(id);
-                roles.add(getRoleWithBodyAndID(id, body));
+            roles.add(getRoleWithBodyAndID(id, body));
         }
         return roles;
     }
@@ -116,7 +123,7 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
     public void setService(EntityService service) {
         this.service = service;
     }
-    
+
     public Role getDefaultRole(String name) {
         return findRoleByName(name);
     }
