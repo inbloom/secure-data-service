@@ -61,18 +61,13 @@ public class AssessmentMetaDataResolver {
         }
     }
     
-    public PerfLevel findPerfLevelLabelForFamily(String name, String perfLevel) {
-        AssessmentMetaData metaData = allMetaData.get(name);
-        if (metaData == null) return null; 
-        while (metaData != null) {
-            if (metaData.getPerfLevels() != null) {
-                for (PerfLevel pl : Arrays.asList(metaData.getPerfLevels())) {
-                    if (pl.getName().equals(name)) {
-                        return pl;
-                    }
-                }
+    public PerfLevel findPerfLevelForFamily(String name, String perfLevel) {
+        List<PerfLevel> perfLevels = findPerfLevelsForFamily(name);
+        if (perfLevels == null) { return null; }
+        for (PerfLevel pl : perfLevels) {
+            if (pl.getName().equals(name)) {
+                return pl;
             }
-            metaData = parent.get(metaData);
         }
         return null;
     }
@@ -140,20 +135,32 @@ public class AssessmentMetaDataResolver {
         return null; 
     }
 
-    public Integer findNumRealPerfLevelsForFamily(String name) {
+    /*
+     * Returns a list representing the possible performance levels of the assessment family
+     * 
+     * Returns null if no perf levels are found for the family.  
+     */
+    public List<PerfLevel> findPerfLevelsForFamily(String name) {
         AssessmentMetaData metaData = allMetaData.get(name);
         if (metaData == null) return null; 
+        // find the possible periods for the assessment family
         while (metaData != null) {
             if (metaData.getPerfLevels() != null) {
-                int retVal = 0;
-                for (PerfLevel pl : Arrays.asList(metaData.getPerfLevels())) {
-                    if (pl.getIsReal()) { retVal++; }
-                }
-                return retVal;
+                return Arrays.asList(metaData.getPerfLevels());
             }
             metaData = parent.get(metaData);
         }
-        return null;
+        return null; 
+    }
+
+    public Integer findNumRealPerfLevelsForFamily(String name) {
+        List<PerfLevel> perfLevels = findPerfLevelsForFamily(name);
+        if (perfLevels == null) { return null; }
+        int retVal = 0;
+        for (PerfLevel pl : perfLevels) {
+            if (pl.getIsReal()) { retVal++; }
+        }
+        return retVal;
     }
 
     /**

@@ -1,12 +1,12 @@
 [
     {
-        "schoolId": "East Daybreak Junior High",
+        "nameOfInstitution": "East Daybreak Junior High",
         "courses": [
             {
                 "course": "Club/Team",
                 "sections": [
                     {
-                        "section": "Spartans Softball Team",
+                        "uniqueSectionCode": "Spartans Softball Team",
                         "studentUIDs": []
                     }
                 ]
@@ -15,7 +15,7 @@
                 "course": "7th Grade Homeroom",
                 "sections": [
                     {
-                        "section": "Mrs. Kim's Homeroom",
+                        "uniqueSectionCode": "Mrs. Kim's Homeroom",
                         "studentUIDs": []
                     }
                 ]
@@ -24,15 +24,15 @@
                 "course": "7th Grade English",
                 "sections": [
                     {
-                        "section": "M. Jones - 7th Grade English - Sec. 1",
+                        "uniqueSectionCode": "M. Jones - 7th Grade English - Sec. 1",
                         "studentUIDs": []
                     },
                     {
-                        "section": "M. Jones - 7th Grade English - Sec. 2",
+                        "uniqueSectionCode": "M. Jones - 7th Grade English - Sec. 2",
                         "studentUIDs": []
                     },
                     {
-                        "section": "M. Jones - 7th Grade English - Sec. 3",
+                        "uniqueSectionCode": "M. Jones - 7th Grade English - Sec. 3",
                         "studentUIDs": [
                                      "111111111",
                                      "222222222",
@@ -46,15 +46,15 @@
                 "course": "8th Grade English",
                 "sections": [
                     {
-                        "section": "M. Jones - 8th Grade English - Sec 4",
+                        "uniqueSectionCode": "M. Jones - 8th Grade English - Sec 4",
                         "studentUIDs": []
                     },
                     {
-                        "section": "M. Jones - 8th Grade English - Sec 5",
+                        "uniqueSectionCode": "M. Jones - 8th Grade English - Sec 5",
                         "studentUIDs": []
                     },
                     {
-                        "section": "M. Jones - 8th Grade English - Sec 6",
+                        "uniqueSectionCode": "M. Jones - 8th Grade English - Sec 6",
                         "studentUIDs": [
                                      "453827070",
                                      "943715230",
