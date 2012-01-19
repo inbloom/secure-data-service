@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.perf4j.aop.Profiled;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
