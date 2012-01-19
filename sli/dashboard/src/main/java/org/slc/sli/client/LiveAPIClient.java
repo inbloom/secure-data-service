@@ -15,34 +15,38 @@ import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.security.RESTClient;
+import org.slc.sli.util.Constants;
 
 
 /**
  * 
  * API Client class used by the Dashboard to make calls to the API service.
+ * 
+ * @author svankina
  *
  */
 public class LiveAPIClient implements APIClient {
 
     private RESTClient restClient;
 
-    private String apiServerUri = "http://devapi1.slidev.org:8080/api/rest";
-    
+    // For now, the live client will use the mock client for api calls not yet implemented
+    private MockAPIClient mockClient;
+
+    /** 
+     * Getter and Setter used by Spring to instantiate the live/test api class
+     * @return
+     */
     public RESTClient getRestClient() {
         return restClient;
     }
     public void setRestClient(RESTClient restClient) {
         this.restClient = restClient;
     }
-
-    // For now, the live client will use the mock client for api calls not yet implemented
-    private MockAPIClient mockClient;
     
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
     }
     
-
     @Override
     public School[] getSchools(String token) {
         return mockClient.getSchools(token);
@@ -63,12 +67,11 @@ public class LiveAPIClient implements APIClient {
         }
         
         return students;
-
     }
     
     
     private School getSchool(String id, String token) {
-        String url = apiServerUri + "/schools/" + id;
+        String url = Constants.API_SERVER_URI + "/schools/" + id;
         Gson gson = new Gson();
         School school = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), School.class);
         return school;
@@ -76,7 +79,7 @@ public class LiveAPIClient implements APIClient {
     
     private String[] getStudentIdsForSection(String id, String token) {
         Gson gson = new Gson();
-        String url = apiServerUri + "/student-section-associations/" + id + "/targets";
+        String url = Constants.API_SERVER_URI + "/student-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         
         String[] studentIds = new String[responses.length];
@@ -90,11 +93,10 @@ public class LiveAPIClient implements APIClient {
     
     private Section getSection(String id, String token) {
         Gson gson = new Gson();
-        String url = apiServerUri + "/sections/" + id;
+        String url = Constants.API_SERVER_URI + "/sections/" + id;
         Section section = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), Section.class);
         section.setStudentUIDs(getStudentIdsForSection(id, token));
         return section;
-        
     }
 
     @Override
@@ -123,7 +125,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public Section[] getSectionsForTeacher(String id, String token) {
         Gson gson = new Gson();
-        String url = apiServerUri + "/teacher-section-associations/" + id + "/targets";
+        String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
         ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
         //String[] sectionIds = new String[responses.length];
         
