@@ -17,7 +17,7 @@ public class Role {
     private String name;
     private Set<Right> rights = new HashSet<Right>();
     private String id = "";
-    private List<Map<String, List<String>>> mappings = new ArrayList<Map<String, List<String>>>();
+    private Map<String, List<String>> mappings = new HashMap<String, List<String>>();
 
     public String getId() {
         return id;
@@ -65,5 +65,15 @@ public class Role {
         body.put("rights", rightStrings);
         body.put("mappings", mappings);
         return body;
+    }
+    
+    public Map<String, List<String>> getRealmRoleMappings()
+    {
+    	return mappings;
+    }
+    
+    public void setRealmRoleMappings(Map<String, List<String>> mappings)
+    {
+    	this.mappings = mappings;
     }
 }
