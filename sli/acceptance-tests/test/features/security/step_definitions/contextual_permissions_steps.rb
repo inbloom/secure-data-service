@@ -126,7 +126,7 @@ Then /^I receive a JSON response that includes the school "([^"]*)" and its attr
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result[nameOfInstitution] == arg1, "School name returned was "+result[nameOfInstitution]+" and expected "+arg1)
+  assert(result["nameOfInstitution"] == arg1, "School name returned was "+result["nameOfInstitution"]+" and expected "+arg1)
 end
 
 Then /^I should get a message that I am not authorized$/ do
@@ -179,7 +179,7 @@ Then /^I receive a JSON response that includes the (list of sections that "[^"]*
   numMatches = 0
   result.each {|jsonObj| 
     # Find each ID in the JSON
-    assert(arg1.include?(jsonObj[id]),"ID returned in json was not expected: ID="+jsonObj[id])
+    assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
     numMatches += 1
   }
   assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
@@ -198,7 +198,7 @@ Then /^I receive a JSON response that includes the section "([^"]*)" and its att
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result[uniqueSectionCode] == arg1, "Section name returned was "+result[uniqueSectionCode]+" and expected "+arg1)
+  assert(result["uniqueSectionCode"] == arg1, "Section name returned was "+result["uniqueSectionCode"]+" and expected "+arg1)
 end
 
 When /^I make an API call to get a list of students in (the section "[^"]*")$/ do |arg1|
@@ -213,7 +213,7 @@ Then /^I receive a JSON response that includes the (list of students in section 
   numMatches = 0
   result.each {|jsonObj| 
     # Find each ID in the JSON
-    assert(arg1.include?(jsonObj[id]),"ID returned in json was not expected: ID="+jsonObj[id])
+    assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
     numMatches += 1
   }
   assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
