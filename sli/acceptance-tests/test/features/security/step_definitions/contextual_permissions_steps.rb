@@ -122,7 +122,7 @@ When /^I make an API call to get (the school "[^"]*")$/ do |arg1|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I receive a JSON response that includes the school "[^"]*" and its attributes$/ do |arg1|
+Then /^I receive a JSON response that includes the school "([^"]*)" and its attributes$/ do |arg1|
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")

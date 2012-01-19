@@ -9,8 +9,13 @@ Transform /^level (\w+) performers$/ do |level|
   ret 
 end
 
-Transform /^<([^>]*)>$/ do |agg_def|
-  ret = "d8db9f83-6bb1-4919-bb53-11e6e7fa9877" if agg_def == 'District Level 8th Grade EOG'
+Transform /^<([^>]*)>$/ do |arg|
+  ret = "d8db9f83-6bb1-4919-bb53-11e6e7fa9877" if arg == 'District Level 8th Grade EOG'
+  ret = "bd9a323a-d6fd-454f-98d9-edf2702d31e1" if arg == 'School Level 8th Grade EOG'
+  ret = "4f0c9368-8488-7b01-0000-000059f9ba56" if arg == 'Smallville District'
+  ret = "67ce204b-9999-4a11-bfea-000000000006" if arg == 'Small Mouth Bass Middle School'
+  ret = "67ce204b-9999-4a11-bfea-000000000007" if arg == 'Don\'t Sweat the Small Stuff Middle School'
+  ret = "67ce204b-9999-4a11-bfea-000000000008" if arg == 'La Vie en Small French-Immersion K-8'
   ret
 end
 
@@ -74,11 +79,10 @@ When /^the aggregation is calculated$/ do
   run(cmd)
 end
 
-Then /^I should receive a performance level aggregation$/ do 
-  smallvilleDistrictId = "4f0c9368-8488-7b01-0000-000059f9ba56"  
+Then /^I should receive a (district|school) performance level aggregation for (<[^>]*>)/ do |type, id|
   @agg_res = coll.find_one( 
     { "body.groupBy" => 
-      { "districtId" => smallvilleDistrictId, "assessmentType" => @name }});
+      { "#{type}Id" => id, "assessmentType" => @name }});
 end
 
 Then /^there should be (\d+) (level \w+ performers)$/ do |count, level|
