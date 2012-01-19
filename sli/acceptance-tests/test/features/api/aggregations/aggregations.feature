@@ -1,4 +1,4 @@
-
+@wip
 Feature: In order to provide base aggregation information
 	As a client application using SLI
 	I want to know what aggregations are available to a user based on their user type.
