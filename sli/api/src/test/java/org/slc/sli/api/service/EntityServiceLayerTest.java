@@ -94,16 +94,26 @@ public class EntityServiceLayerTest {
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         student = new EntityBody(student);
         student.put("sex", "Male");
+        student.put("otherName", "Ender");
         assertTrue(studentService.update(id, student));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        assertEquals(student.get("otherName"), retrievedEntity.get("otherName"));
         assertFalse(studentService.update(id, student));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        student = new EntityBody(student);
+        student.remove("otherName");
+        assertTrue(studentService.update(id, student));
+        retrievedEntity = studentService.get(id);
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
+        assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        assertEquals(null, retrievedEntity.get("otherName"));
         try {
             studentService.delete(id);
         } catch (EntityNotFoundException e) {
