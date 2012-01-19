@@ -82,11 +82,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         tcMap.put(TransportConstants.HOST_PROP_NAME, queueHostName);
         tcMap.put(TransportConstants.PORT_PROP_NAME, queuePort);
         
-        //TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName(), tcMap);
-        TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName());
+        TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName(), tcMap);
+        
         //create a hornetQ connection factory
-        
-        
         connectionFactory = (ConnectionFactory) HornetQJMSClient.createConnectionFactoryWithoutHA(JMSFactoryType.CF, transportConfiguration);
        
         //Add jms connection factory component to camel context
@@ -116,18 +114,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: ctlFilePreprocessor
         from(workItemQueue)
                 .routeId("ctlFilePreprocessor")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
-                .process(ctlFileProcessor)
-                .to("seda:assembledJobs");
-        // TODO change routing to check for IngestionMessageType header - currently breaks with seda queues
-                /*
                 .choice()
                     .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
                     .process(ctlFileProcessor)
                     .to("seda:assembledJobs")
                 .otherwise()
                     .to("direct:stop");
-                    */
         
         // routeId: zipFilePoller
         from(

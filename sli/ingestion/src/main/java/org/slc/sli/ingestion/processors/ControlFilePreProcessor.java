@@ -9,6 +9,7 @@ import org.perf4j.aop.Profiled;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -34,6 +35,8 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
 
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+        
         exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
     }
 
