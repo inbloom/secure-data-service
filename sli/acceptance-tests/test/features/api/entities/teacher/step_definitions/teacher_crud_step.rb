@@ -109,13 +109,6 @@ Given /^the "([^\"]+)" status should be "([^\"]+)"$/ do |key, value|
   step "the \"#{key}\" should be \"#{value}\""
 end
 
-When /^I create a blank request body object$/ do
-  @result = {}
-end
-
-Then /^the response body should be blank$/ do
-  assert(@result == {}, "The response body was not blank despite PUT-ing a blank object")
-end
 
 
 
