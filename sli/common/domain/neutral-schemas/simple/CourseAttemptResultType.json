@@ -1,9 +1,0 @@
-
-{
-   "type":"CourseAttemptResultType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Pass","Fail","Incomplete","Withdrawn"]}
-}

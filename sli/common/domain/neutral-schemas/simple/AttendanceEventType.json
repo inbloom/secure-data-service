@@ -1,9 +1,0 @@
-
-{
-   "type":"AttendanceEventType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Daily Attendance","Section Attendance","Program Attendance","Extracurricular Attendance"]}
-}

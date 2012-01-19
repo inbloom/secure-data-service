@@ -1,9 +1,0 @@
-
-{
-   "type":"TermType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Fall Semester","Spring Semester","Summer Semester","First Trimester","Second Trimester","Third Trimester","Year Round","MiniTerm"]}
-}
