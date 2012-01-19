@@ -1,6 +1,6 @@
 [
     {
-        "name": "ACT_READING",
+        "name": "ACT",
         "periods" : [
 		{ 
 	           "name": "Annual",
@@ -10,52 +10,18 @@
 	  ],
         "period" : "Annual",
         "children" : [
+                    { "name": "ACT_READING" },
                     { "name": "ACT_READING_SOC_SCI" },
-                    { "name": "ACT_READING_ARTS_LIT" }
-        ]
-    },
-    {
-        "name": "ACT_ENGLISH",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual",
-        "children" : [
+                    { "name": "ACT_READING_ARTS_LIT" },
+                    { "name": "ACT_ENGLISH" },
                     { "name": "ACT_ENGLISH_UM" },
-                    { "name": "ACT_ENGLISH_RS" }
-        ]
-    },
-    {
-        "name": "ACT_WRITING",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual",
-        "children" : [
+                    { "name": "ACT_ENGLISH_RS" },
+                    { "name": "ACT_WRITING" },
                     { "name": "ACT_WRITING_PLUS_ENG" }
         ]
     },
     {
-        "name": "SAT_READING",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual"
-    },
-    {
-        "name": "SAT_WRITING",
+        "name": "SAT",
         "periods" : [
 		{ 
 	           "name": "Annual",
@@ -65,12 +31,14 @@
 	  ],
         "period" : "Annual",
         "children" : [
+                    { "name": "SAT_READING" },
+                    { "name": "SAT_WRITING" },
                     { "name": "SAT_WRITING_ESSAY" },
                     { "name": "SAT_WRITING_MC" }
         ]
     },
     {
-        "name": "PSAT_READING",
+        "name": "PSAT",
         "periods" : [
 		{ 
 	           "name": "Annual",
@@ -78,18 +46,12 @@
 	           "windowEnd": "12/31"
 		}
 	  ],
-        "period" : "Annual"
-    },
-    {
-        "name": "PSAT_WRITING",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual"
+        "period" : "Annual",
+        "children" : [
+                    { "name": "PSAT_READING" },
+                    { "name": "PSAT_WRITING" }
+        ]
+
     },
     {
         "name": "AP_ENGLISH",

@@ -96,6 +96,9 @@ while ($line = <INPUT_STUDENT>)
             $a = ($percentile - $percentiles[$i-1]) / ($percentiles[$i] - $percentiles[$i-1]);
             $b = ($scores[$i] - $scores[$i-1]);
             $score = int(($a * $b) + $scores[$i-1]);
+            if(($assessmentCode eq "SAT_READING") || ($assessmentCode eq "SAT_WRITING")) {
+                $score = int($score / 10) * 10;
+            }
             last;
         }
     }
