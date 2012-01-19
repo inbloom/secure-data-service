@@ -1,11 +1,21 @@
 package org.slc.sli.entity;
 
+/**
+ * 
+ * @author svankina
+ *TODO: javadoc
+ */
 public class ResponseObject {
 
     String id;
     InnerResponse link;
     
-    public class InnerResponse{
+    /**
+     * 
+     * @author svankina
+     *TODO: javadoc
+     */
+    public class InnerResponse {
         public String getRel() {
             return rel;
         }
@@ -23,7 +33,7 @@ public class ResponseObject {
     }
     
     
-    public String getId(){
+    public String getId() {
         return id;
     }
     
@@ -31,7 +41,7 @@ public class ResponseObject {
         this.id = id;
     }
     
-    public String getHref(){
+    public String getHref() {
         return link.getHref();
     }
     

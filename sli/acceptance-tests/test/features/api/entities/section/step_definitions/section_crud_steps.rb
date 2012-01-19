@@ -54,16 +54,17 @@ end
 
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
-  if !defined? @data
-    @data = {}
+  if !defined? @result
+    @result = {}
   end
-  data = prepareData(@format, @data)
+  data = prepareData(@format, @result)
   restHttpPut(url, data)
 end
 
 
 When /^I set the "([^\"]*)" to "([^\"]*)"$/ do |key, value|
-  step "the \"#{key}\" is \"#{value}\""
+  value = convert(value)
+  @result[key] = value
 end
 
 ### THEN ###

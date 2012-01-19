@@ -52,7 +52,7 @@ public class School {
     }
     
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         School sc = (School) o;
         return (sc.getId() == this.id);
     }

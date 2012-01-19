@@ -1,14 +1,12 @@
-package org.slc.sli.security;
+package org.slc.sli.client;
 
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.util.URLBuilder;
-
+import org.slc.sli.util.Constants;
 /**
  * 
  * @author pwolf
@@ -30,8 +28,7 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     
     /** URI for the API **/
-    @Value("${apiServerUri}")
-    private String apiServerUri;
+    private String apiServerUri = Constants.API_SERVER_URI;
     
     /**
      * Get the Roles and Rights information from the API
@@ -45,14 +42,6 @@ public class RESTClient {
         String jsonText = makeJsonRequest("admin/roles", token);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject().getAsJsonArray(); 
-    }
-    
-    public String getApiServerUri() {
-        return apiServerUri;
-    }
-
-    public void setApiServerUri(String apiServerUri) {
-        this.apiServerUri = apiServerUri;
     }
 
     /**
@@ -92,11 +81,6 @@ public class RESTClient {
         String jsonText = template.getForObject(url.toString(), String.class);
         logger.debug("JSON response for roles: " + jsonText);
         return jsonText;
-    }
-    
-    public String getStudent(String id, String token) {
-        String url = apiServerUri + "/students/" + id;
-        return makeJsonRequestWHeaders(url, token);
     }
     
     

@@ -54,6 +54,8 @@
 	    </property>
     </bean>
 
+    <bean id="restClient" class="org.slc.sli.client.RESTClient" />
+    
 	<bean id= "LiveClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />
 	</bean>

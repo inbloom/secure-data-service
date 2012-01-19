@@ -45,7 +45,7 @@ end
 ###############################################################################
 
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
-  data = data_builder
+  data = prepareData(@format, @fields)
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
@@ -54,24 +54,12 @@ When /^I set the "([^"]*)" to "([^"]*)"$/ do |property,value|
   step "\"#{property}\" is \"#{value}\""
 end
 
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |uri|
-  restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  
-  if @format == "application/json"
-    modified = JSON.parse(@res.body)
-    @fields.each do |key, value|
-      modified[key] = value
-    end
-    data = modified.to_json
-  elsif @format == "application/xml"
-    assert(false, "application/xml is not supported")
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPut(uri, data)
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
 

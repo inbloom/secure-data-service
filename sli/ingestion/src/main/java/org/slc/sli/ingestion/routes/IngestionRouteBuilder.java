@@ -4,13 +4,26 @@ import static org.apache.camel.builder.PredicateBuilder.or;
 
 import java.io.File;
 import java.util.Enumeration;
+import java.util.HashMap;
+
+import javax.jms.ConnectionFactory;
 
 import ch.qos.logback.classic.Logger;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
+import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.hornetq.api.core.TransportConfiguration;
+import org.hornetq.api.jms.HornetQJMSClient;
+import org.hornetq.api.jms.JMSFactoryType;
+import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
+import org.hornetq.core.remoting.impl.netty.TransportConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
@@ -22,8 +35,8 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slc.sli.ingestion.queues.IngestionQueueProperties;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Ingestion route builder.
@@ -52,9 +65,44 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
+    @Autowired
+    IngestionQueueProperties workItemQueueProperties;
+    
+    ConnectionFactory connectionFactory;
+    
+    private void addJmsHornetQCamelComponent() {
+
+        String queueHostName = workItemQueueProperties.getHostName();
+        int queuePort = workItemQueueProperties.getPort();
+        
+        //TODO Connect with credentials.
+
+        //transport properties - set the server
+        HashMap<String, Object> tcMap = new HashMap<String, Object>();
+        tcMap.put(TransportConstants.HOST_PROP_NAME, queueHostName);
+        tcMap.put(TransportConstants.PORT_PROP_NAME, queuePort);
+        
+        //TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName(), tcMap);
+        TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName());
+        //create a hornetQ connection factory
+        
+        
+        connectionFactory = (ConnectionFactory) HornetQJMSClient.createConnectionFactoryWithoutHA(JMSFactoryType.CF, transportConfiguration);
+       
+        //Add jms connection factory component to camel context
+        CamelContext context = this.getContext();
+        context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+    }
+    
     @Override
     public void configure() throws Exception {
-
+        
+        System.out.println(workItemQueueProperties);
+        
+        if (!workItemQueueProperties.isUsingSedaQueues()) addJmsHornetQCamelComponent();
+        
+        String workItemQueue = workItemQueueProperties.getQueueUri();
+        
         String inboundDir = lz.getDirectory().getPath();
 
         // routeId: ctlFilePoller
@@ -65,16 +113,19 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("ctlFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(new ControlFilePreProcessor(lz))
-                .to("seda:CtrlFilePreProcessor");
+                .to(workItemQueue);
 
         // routeId: ctlFilePreprocessor
-        from("seda:CtrlFilePreProcessor")
+        from(workItemQueue)
                 .routeId("ctlFilePreprocessor")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
-                .process(ctlFileProcessor)
-                .to("seda:assembledJobs");
-
-
+                .choice()
+                    .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                    .process(ctlFileProcessor)
+                    .to("seda:assembledJobs")
+                .otherwise()
+                    .to("direct:stop");
+        
         // routeId: zipFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
@@ -96,9 +147,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             tempLz.setDirectory(ctlFile.getParentFile());
                         }
                     }).process(new ControlFilePreProcessor(tempLz))
-                    .to("seda:CtrlFilePreProcessor");
-
-        // routeId: jobDispatch
+                    .to(workItemQueue);
+        
+        // routeId: jobDispatch  
         from("seda:assembledJobs")
                 .routeId("jobDispatch")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispathing jobs for file.")
@@ -107,7 +158,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to("direct:stop")
                 .otherwise()
                     .to("seda:acceptedJobs");
-
+        
         // routeId: jobReporting
         from("direct:jobReporting")
                 .routeId("jobReporting")
@@ -190,6 +241,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log("end of job: " + header("jobId").toString())
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
                 .stop();
+   
     }
 
 }
