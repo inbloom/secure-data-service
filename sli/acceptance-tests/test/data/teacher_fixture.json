@@ -1,4 +1,68 @@
-{"_id":{"$binary":"S7EXVTwDRfqCV6krRMk5HQ==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MRS","firstName":"Macey","middleName":"","lastSurname":"Finch","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":null,"firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Female","birthDate":"1956-08-14","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":false,"highestLevelOfEducationCompleted":"Bachelors","yearsOfPriorProfessionalExperience":26,"yearsOfPriorTeachingExperience":22,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1998-01-01"}],"staffUniqueStateId":738543275,"highlyQualifiedTeacher":false},"tenantId":"Zork"}
+{"_id":{
+    "$binary":"S7EXVTwDRfqCV6krRMk5HQ==",
+    "$type":"03"
+}, "type":"teacher", "stateId":"dc=slidev,dc=net", "body":{
+    "name":{
+        "personalTitlePrefix":"MRS",
+        "firstName":"Macey",
+        "middleName":"",
+        "lastSurname":"Finch",
+        "generationCodeSuffix":null,
+        "maidenName":""
+    },
+    "otherName":[
+        {
+            "otherNameType":"ALIAS",
+            "personalTitlePrefix":null,
+            "firstName":"",
+            "middleName":"",
+            "lastSurname":"",
+            "generationCodeSuffix":null
+        }
+    ],
+    "sex":"Female",
+    "birthDate":"1956-08-14",
+    "address":[
+        {
+            "addressType":"Physical",
+            "streetNumberName":"",
+            "apartmentRoomSuiteNumber":"",
+            "buildingSiteNumber":"",
+            "city":"",
+            "stateAbbreviation":"NY",
+            "postalCode":"",
+            "nameOfCounty":""
+        }
+    ],
+    "telephone":[
+        {
+            "telephoneNumberType":"HOME",
+            "telephoneNumber":"",
+            "primaryTelephoneNumberIndicator":true
+        }
+    ],
+    "electronicMail":[
+        {
+            "emailAddressType":"HOME_PERSONAL",
+            "emailAddress":""
+        }
+    ],
+    "hispanicLatinoEthnicity":false,
+    "highestLevelOfEducationCompleted":"Bachelors",
+    "yearsOfPriorProfessionalExperience":26,
+    "yearsOfPriorTeachingExperience":22,
+    "credentials":[
+        {
+            "credentialType":"LICENSURE",
+            "field":"Mathematics",
+            "level":"ALL_LEVEL_GRADE_LEVEL_PK_12",
+            "teachingCredentialType":"Professional",
+            "credentialIssuanceDate":"1998-01-01"
+        }
+    ],
+    "staffUniqueStateId":738543275,
+    "highlyQualifiedTeacher":false
+}, "tenantId":"Zork"}
 {"_id":{"$binary":"1439UI32TDScIWz3ne3W6A==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MRS","firstName":"Belle","middleName":"","lastSurname":"Fernandez","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":null,"firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Female","birthDate":"1954-01-01","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":true,"highestLevelOfEducationCompleted":"Masters","yearsOfPriorProfessionalExperience":15,"yearsOfPriorTeachingExperience":12,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1998-01-01"}],"staffUniqueStateId":170025444,"highlyQualifiedTeacher":false},"tenantId":"Zork"}
 {"_id":{"$binary":"UEpLF/dDRoKdxGL3psmDkw==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MR","firstName":"Christian","middleName":"","lastSurname":"Petersen","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":null,"firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Male","birthDate":"1950-01-01","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":false,"highestLevelOfEducationCompleted":"Masters","yearsOfPriorProfessionalExperience":10,"yearsOfPriorTeachingExperience":5,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1998-01-01"}],"staffUniqueStateId":578301014,"highlyQualifiedTeacher":false},"tenantId":"Zork"}
 {"_id":{"$binary":"SNNJ8dnVSaKcy+dobbIQmw==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MRS","firstName":"Illiana","middleName":"","lastSurname":"Solis","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":null,"firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Female","birthDate":"1950-01-01","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":false,"highestLevelOfEducationCompleted":"Masters","yearsOfPriorProfessionalExperience":10,"yearsOfPriorTeachingExperience":5,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1998-01-01"}],"staffUniqueStateId":227791546,"highlyQualifiedTeacher":false},"tenantId":"Zork"}
@@ -20,3 +84,4 @@
 { "_id" : {"$binary":"LUOVZUf/yusnh9sJNfjvvQ==","$type":"03"}, "type" : "teacher", "body" : { "otherName" : [      {  "otherNameType" : "ALIAS",      "personalTitlePrefix" : "MR",   "firstName" : "",       "middleName" : "",      "lastSurname": "",   "generationCodeSuffix" : null } ], "sex" : "Male", "staffUniqueStateId" : 57000001, "hispanicLatinoEthnicity" : true, "yearsOfPriorTeachingExperience" : 5, "yearsOfPriorProfessionalExperience" : 10, "address" : [    {"addressType" : "Physical",     "streetNumberName" : "",        "apartmentRoomSuiteNumber" : "",    "buildingSiteNumber" : "",  "city" : "",    "stateAbbreviation" : "NY",     "postalCode" : "",      "nameOfCounty" : "" } ], "electronicMail" : [ { "emailAddressType" : "HOME_PERSONAL", "emailAddress" : "" } ], "name" : { "personalTitlePrefix" : "MR", "firstName" : "Malcolm", "middleName" : "", "lastSurname" : "Wheeler-Nicholson", "generationCodeSuffix" : null, "maidenName" : "" }, "highestLevelOfEducationCompleted" : "Doctorate", "credentials" : [    {   "credentialType" : "LICENSURE",     "field" : "Mathematics",        "level" : "ALL_LEVEL_GRADE_LEVEL_PK_12",        "teachingCredentialType" : "Professional",    "credentialIssuanceDate" : "1998-01-01" } ], "birthDate" : "1934-01-01", "telephone" : [        {       "telephoneNumberType" : "HOME",         "telephoneNumber" : "",         "primaryTelephoneNumberIndicator" : true } ] }, "metadata" : { },"tenantId":"Zork" }
 {"_id":{"$binary":"123text+Test/Teach202Q==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MR","firstName":"John","middleName":"","lastSurname":"Cole","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":"MR","firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Male","birthDate":"1950-01-01","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":true,"highestLevelOfEducationCompleted":"Doctorate","yearsOfPriorProfessionalExperience":10,"yearsOfPriorTeachingExperience":5,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1998-01-01"}],"staffUniqueStateId":"462954157"," highlyQualifiedTeacher":false},"tenantId":"Zork"}
 {"_id":{"$binary":"aktYnoxoeLA4BdCA3v/iuw==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MR","firstName":"Johnny","middleName":"","lastSurname":"Educator","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":"MR","firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Male","birthDate":"1969-07-09","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":true,"highestLevelOfEducationCompleted":"Doctorate","yearsOfPriorProfessionalExperience":13,"yearsOfPriorTeachingExperience":7,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1999-06-30"}],"staffUniqueStateId":"educator"," highlyQualifiedTeacher":false},"tenantId":"Zorked"}
+{"_id":{"$binary":"API+Test1234/Teach302Q==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net","body":{"name":{"personalTitlePrefix":"MRS","firstName":"Emily","middleName":"","lastSurname":"Jane","generationCodeSuffix":null,"maidenName":""},"otherName":[{"otherNameType":"ALIAS","personalTitlePrefix":"MR","firstName":"","middleName":"","lastSurname":"","generationCodeSuffix":null}],"sex":"Male","birthDate":"1950-01-01","address":[{"addressType":"Physical","streetNumberName":"","apartmentRoomSuiteNumber":"","buildingSiteNumber":"","city":"","stateAbbreviation":"NY","postalCode":"","nameOfCounty":""}],"telephone":[{"telephoneNumberType":"HOME","telephoneNumber":"","primaryTelephoneNumberIndicator":true}],"electronicMail":[{"emailAddressType":"HOME_PERSONAL","emailAddress":""}],"hispanicLatinoEthnicity":true,"highestLevelOfEducationCompleted":"Doctorate","yearsOfPriorProfessionalExperience":10,"yearsOfPriorTeachingExperience":5,"credentials":[{"credentialType":"LICENSURE","field":"Mathematics","level":"ALL_LEVEL_GRADE_LEVEL_PK_12","teachingCredentialType":"Professional","credentialIssuanceDate":"1998-01-01"}],"staffUniqueStateId":"demo"," highlyQualifiedTeacher":false},"tenantId":"Zork"}
