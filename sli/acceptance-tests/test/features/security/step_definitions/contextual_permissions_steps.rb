@@ -49,7 +49,7 @@ Transform /^the student "([^"]*)"$/ do |arg1|
   id
 end
 
-Transform /^list of teachers from school "([^"]*)"&/ do |arg1|
+Transform /list of teachers from school "([^\"]*)"/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d574-1d729a37fd2d",
            "eb4d7e1b-7bed-890a-d974-1d729a37fd2d"] if arg1 == "Fry High School"
   array = ["eb4d7e1b-7bed-890a-d5b4-1d729a37fd2d",
@@ -59,7 +59,7 @@ Transform /^list of teachers from school "([^"]*)"&/ do |arg1|
   array
 end
 
-Transform /^list of sections that "([^"]*)" teaches&/ do |arg1|
+Transform /list of sections that "([^\"]*)" teaches/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d574-cdb25a29fc2d",
            "eb4d7e1b-7bed-890a-d974-cdb25a29fc2d"] if arg1 == "John Doe 1"
   array = ["eb4d7e1b-7bed-890a-d974-cdb25a29fc2d",
@@ -72,7 +72,7 @@ Transform /^list of sections that "([^"]*)" teaches&/ do |arg1|
   array
 end
 
-Transform /^list of students in section "([^"]*)"&/ do |arg1|
+Transform /list of students in section "([^\"]*)"/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d574-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d974-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-dd74-5d8aa9fbfc2d",
@@ -164,7 +164,7 @@ Then /^I receive a JSON response that includes a (list of teachers from school "
     assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
     numMatches += 1
   }
-  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
+  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
 end
 
 When /^I make an API call to get the list of sections taught by (the teacher "[^"]*")$/ do |arg1|
@@ -182,7 +182,7 @@ Then /^I receive a JSON response that includes the (list of sections that "[^"]*
     assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
     numMatches += 1
   }
-  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
+  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
 end
 
 Given /^I teach in "([^"]*)"$/ do |arg1|
@@ -216,7 +216,7 @@ Then /^I receive a JSON response that includes the (list of students in section 
     assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
     numMatches += 1
   }
-  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches+" but expected "+arg1.length+" maches")
+  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
 end
 
 Given /^I teach the student "([^"]*)"$/ do |arg1|
