@@ -8,166 +8,79 @@ import com.google.gson.Gson;
  */
 public class Student {
 
-    private String nameSuffix, uid, stateId, sex, birthDate, firstName, nameVerification, hispanicLatinoEthnicity, 
-                   middleName, racialCategory, lastName;
-
-
-    public String getFirstName() {
-        return firstName;
+    private String id, studentUniqueStateId, sex, economicDisadvantaged;
+    
+    private NameData name;
+    public NameData getName() {
+        return name;
     }
 
-
-
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(NameData name) {
+        this.name = name;
     }
 
-
-
-
-    public String getMiddleName() {
-        return middleName;
+    public BirthData getBirthData() {
+        return birthData;
     }
 
-
-
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setBirthData(BirthData birthData) {
+        this.birthData = birthData;
     }
 
-
-
-
-    public String getLastName() {
-        return lastName;
+    private BirthData birthData;
+    
+    private class BirthData {
+        String birthDate;
+        
+        @Override
+        public String toString() {
+            return birthDate;
+        }
+    }
+    
+    
+    public String getFirstName(){
+        return name.getFirstName();
+    }
+    
+    public String getId() {
+        return id;
     }
 
-
-
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setId(String id) {
+        this.id = id;
     }
 
-
-
-
-    public String getStateId() {
-        return stateId;
+    public String getLastName(){
+        return name.getLastSurname();
     }
+    
+    private class NameData {
+        private String firstName, middleName, lastSurname;
 
+        public String getFirstName() {
+            return firstName;
+        }
 
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
 
+        public String getMiddleName() {
+            return middleName;
+        }
 
-    public void setStateId(String stateId) {
-        this.stateId = stateId;
-    }
+        public void setMiddleName(String middleName) {
+            this.middleName = middleName;
+        }
 
+        public String getLastSurname() {
+            return lastSurname;
+        }
 
-
-
-    public String getUid() {
-        return uid;
-    }
-
-
-
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-
-
-
-    public String getSex() {
-        return sex;
-    }
-
-
-
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-
-
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-
-
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-
-
-
-    public String getNameVerification() {
-        return nameVerification;
-    }
-
-
-
-
-    public void setNameVerification(String nameVerification) {
-        this.nameVerification = nameVerification;
-    }
-
-
-
-
-    public String getHispanicLatinoEthnicity() {
-        return hispanicLatinoEthnicity;
-    }
-
-
-
-
-    public void setHispanicLatinoEthnicity(String hispanicLatinoEthnicity) {
-        this.hispanicLatinoEthnicity = hispanicLatinoEthnicity;
-    }
-
-
-
-
-    public String getRacialCategory() {
-        return racialCategory;
-    }
-
-
-
-
-    public void setRacialCategory(String racialCategory) {
-        this.racialCategory = racialCategory;
-    }
-
-
-    public static Student fromJson(String json) {
-        Gson gson = new Gson();
-        Student student = gson.fromJson(json, Student.class);
-        return student;
-    }
-
-
-
-
-    public String getNameSuffix() {
-        return nameSuffix;
-    }
-
-
-
-
-    public void setNameSuffix(String nameSuffix) {
-        this.nameSuffix = nameSuffix;
+        public void setLastSurname(String lastSurname) {
+            this.lastSurname = lastSurname;
+        }
     }
 
 }

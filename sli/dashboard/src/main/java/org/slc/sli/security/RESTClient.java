@@ -9,6 +9,9 @@ import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,7 +42,9 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonArray getRoles(String token) {
-        return makeJsonRequest("admin/roles", token).getAsJsonArray();
+        String jsonText = makeJsonRequest("admin/roles", token);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonText).getAsJsonObject().getAsJsonArray(); 
     }
     
     public String getApiServerUri() {
@@ -59,7 +64,9 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-        return makeJsonRequest("system/session/check", token).getAsJsonObject();
+        String jsonText = makeJsonRequest("system/session/check", token);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonText).getAsJsonObject();
     }
     
     /**
@@ -73,19 +80,44 @@ public class RESTClient {
      *         null.
      * @throws NoSessionException
      */
-    private JsonElement makeJsonRequest(String path, String token) {
+    public String makeJsonRequest(String path, String token) {
         RestTemplate template = new RestTemplate();
         URLBuilder url = new URLBuilder(apiServerUri);
         url.addPath(path);
         if (token != null) {
             url.addQueryParam(API_SESSION_KEY, token);
+           
         }
         logger.debug("Accessing API at: " + url.toString());
         String jsonText = template.getForObject(url.toString(), String.class);
         logger.debug("JSON response for roles: " + jsonText);
-        JsonParser parser = new JsonParser();
-        return parser.parse(jsonText);
-        
+        return jsonText;
     }
+    
+    public String getStudent(String id, String token) {
+        String url = apiServerUri + "/students/" + id;
+        return makeJsonRequestWHeaders(url, token);
+    }
+    
+    
+    public String makeJsonRequestWHeaders(String url, String token) {
+        RestTemplate template = new RestTemplate();
+
+        if (token != null) {
+            //url.addQueryParam(API_SESSION_KEY, token);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(API_SESSION_KEY, token);
+            HttpEntity entity = new HttpEntity(headers);
+            logger.debug("Accessing API at: " + url);            
+            HttpEntity<String> response = template.exchange(url, HttpMethod.GET, entity, String.class);
+            return response.getBody();
+        }
+        logger.debug("Token is null in call to RESTClient for url" + url);
+
+        return null;
+    }    
+    
+    
+    
     
 }

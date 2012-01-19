@@ -16,8 +16,8 @@ public class WidgetFactory {
     public static ColorByPerf createColorByPerf(Field field, Student student, AssessmentResolver assmts) {
         return new ColorByPerf(field, student, assmts);
     }
-    public static FuelGaugeByScore createFuelGaugeByScore(Field field, Student student, AssessmentResolver assmts) {
-        return new FuelGaugeByScore(field, student, assmts);
+    public static FuelGauge createFuelGauge(Field field, Student student, AssessmentResolver assmts) {
+        return new FuelGauge(field, student, assmts);
     }
     
 }

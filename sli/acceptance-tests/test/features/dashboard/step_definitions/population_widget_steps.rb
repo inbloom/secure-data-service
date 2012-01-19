@@ -5,14 +5,6 @@ require 'selenium-webdriver'
 # idpLogin("demo", "demo1234")
 
 
-Given /^I am logged in using "([^"]*)" "([^"]*)"$/ do |username, password|
-  puts "login"
-  $SLI_DEBUG=true
-  @username = username
-  @password = password
-  localLogin(username, password)
-end
-
 Given /^I selected the "([^"]*)" application$/ do |appName|
   @driver.find_element(:link_text, appName).click
 end

@@ -15,6 +15,12 @@
  	
 	<bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
 	</bean>
+	
+	
+	
+	<bean id="aggregationLoader" class="org.slc.sli.api.init.AggregationLoader">
+		<constructor-arg ref="mongoTemplate" />
+	</bean>
   
   	<bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
 	</bean>

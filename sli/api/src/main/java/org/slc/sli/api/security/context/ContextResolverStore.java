@@ -13,14 +13,14 @@ import java.util.Map;
  * Can determine if a principal entity has permission to access a request entity.
  */
 @Component
-public class ContextResolver {
+public class ContextResolverStore {
 
     private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
 
     @Autowired
     private DefaultEntityContextResolver defaultEntityContextResolver;
 
-    public void addContextResolver(EntityContextResolver resolver) throws EntityExistsException {
+    public void addContext(EntityContextResolver resolver) throws EntityExistsException {
         EntityContextResolver putResult =
                 contexts.put(getContextKey(resolver), resolver);
         if (putResult != null) {

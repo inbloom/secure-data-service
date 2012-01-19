@@ -17,3 +17,12 @@ AfterStep('@pause') do
   print "Press Return to continue..." 
   STDIN.getc  
 end 
+
+def assertWithWait(msg, &blk)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 2)
+  begin
+    wait.until {yield}
+  rescue
+  end
+  assert(yield, webdriverDebugMessage(@driver,msg))
+end

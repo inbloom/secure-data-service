@@ -1,6 +1,6 @@
 [
 {
-    "schoolId": "Daybreak Central High",
+    "nameOfInstitution": "Daybreak Central High",
     "courses": [
         {
             "course": "Club/Team"
@@ -12,7 +12,7 @@
             "course": "Writing about Government",
             "sections": [
                 {
-                    "section": "Sec 923",
+                    "uniqueSectionCode": "Sec 923",
                     "studentUIDs": [
             	        "525878920",
                         "510152105"
@@ -27,13 +27,13 @@
             "course": "American Literature",
             "sections": [
                 {
-                    "section": "Sec 142"
+                    "uniqueSectionCode": "Sec 142"
                 },
                 {
-                    "section": "Sec 143"
+                    "uniqueSectionCode": "Sec 143"
                 },
                 {
-                    "section": "Sec 144",
+                    "uniqueSectionCode": "Sec 144",
                     "studentUIDs": [
                                  "802709591",
                                  "437680177",
@@ -62,7 +62,7 @@
                                 ]
                 },
                 {
-                    "section": "Sec 145",
+                    "uniqueSectionCode": "Sec 145",
                     "studentUIDs": [
                                   "555685100",
                                   "453827023",
