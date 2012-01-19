@@ -170,7 +170,7 @@ Scenario Outline: Authenticated Educator makes API call to get list of Students 
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get a list of students in section <Section>
+When I make an API call to get a list of students in the section <Section>
 Then I receive a JSON response that includes the list of students in section <Section>
 Examples:
 | Realm  | Username  | Password      | Section          |
@@ -184,7 +184,7 @@ Scenario Outline: Authenticated Educator makes API call to get list of Students 
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
 And I have a Role attribute that equals "Educator"
-When I make an API call to get a list of students in section <Section>
+When I make an API call to get a list of students in the section <Section>
 Then I should get a message that I am not authorized
 Examples:
 | Realm  | Username   | Password       | Section          |

@@ -8,12 +8,9 @@
 
 package org.slc.sli.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
@@ -30,11 +27,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}displaySet" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *       &lt;attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
- *       &lt;attribute name="type" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
+ *       &lt;attribute name="names" use="required" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
+ *       &lt;attribute name="position" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
+ *       &lt;attribute name="maxCount" type="{http://www.w3.org/2001/XMLSchema}NCName" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -43,98 +38,92 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "displaySet"
-})
-@XmlRootElement(name = "viewConfig")
-public class ViewConfig {
+@XmlType(name = "")
+@XmlRootElement(name = "lozenges")
+public class Lozenges {
 
-    @XmlElement(required = true)
-    protected List<DisplaySet> displaySet;
+    @XmlAttribute(required = true)
+    @XmlSchemaType(name = "anySimpleType")
+    protected String names;
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
-    protected String name;
-    @XmlAttribute(required = true)
+    protected String position;
+    @XmlAttribute
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
-    protected String type;
+    protected String maxCount;
 
     /**
-     * Gets the value of the displaySet property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the displaySet property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDisplaySet().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DisplaySet }
-     * 
-     * 
-     */
-    public List<DisplaySet> getDisplaySet() {
-        if (displaySet == null) {
-            displaySet = new ArrayList<DisplaySet>();
-        }
-        return this.displaySet;
-    }
-
-    /**
-     * Gets the value of the name property.
+     * Gets the value of the names property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getNames() {
+        return names;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the names property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setNames(String value) {
+        this.names = value;
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the position property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getType() {
-        return type;
+    public String getPosition() {
+        return position;
     }
 
     /**
-     * Sets the value of the type property.
+     * Sets the value of the position property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setType(String value) {
-        this.type = value;
+    public void setPosition(String value) {
+        this.position = value;
+    }
+
+    /**
+     * Gets the value of the maxCount property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMaxCount() {
+        return maxCount;
+    }
+
+    /**
+     * Sets the value of the maxCount property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMaxCount(String value) {
+        this.maxCount = value;
     }
 
 }

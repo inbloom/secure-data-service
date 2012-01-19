@@ -31,7 +31,14 @@
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
-      
+    
+      <#-- lozenges in front -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition()?? && 
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_FRONT>
+<!--        ${field.getLozenges().getNames()} -->
+      </#if>
+  
       <#-- student info -->
       <#if field.getType() = constants.FIELD_TYPE_STUDENT_INFO>
         ${students.get(field, student)}
@@ -44,6 +51,13 @@
           ${assessments.get(field, student)}
         </#if>
         
+      <#-- lozenges at the back -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition()?? && 
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
+<!--        ${field.getLozenges().getNames()} -->
+      </#if>
+  
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.
