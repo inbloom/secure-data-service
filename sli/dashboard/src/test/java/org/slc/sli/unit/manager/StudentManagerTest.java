@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.slc.sli.client.MockAPIClient;
@@ -29,7 +30,8 @@ public class StudentManagerTest {
     
     
     //TODO: Unskip test after debugging
-    //@Test
+    @Test
+    @Ignore
     public void testGetStudentInfo() {
         
         String[] studentIdArray = {"453827070", "943715230"};

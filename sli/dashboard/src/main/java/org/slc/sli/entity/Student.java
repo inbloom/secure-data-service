@@ -1,5 +1,4 @@
 package org.slc.sli.entity;
-import com.google.gson.Gson;
 
 /**
  * 
@@ -39,7 +38,7 @@ public class Student {
     }
     
     
-    public String getFirstName(){
+    public String getFirstName() {
         return name.getFirstName();
     }
     
@@ -51,7 +50,7 @@ public class Student {
         this.id = id;
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return name.getLastSurname();
     }
     
