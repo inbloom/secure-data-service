@@ -29,16 +29,17 @@ import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.apache.ws.commons.schema.XmlSchemaParticle;
 import org.apache.ws.commons.schema.XmlSchemaSequence;
+import org.apache.ws.commons.schema.XmlSchemaSimpleContentExtension;
 import org.apache.ws.commons.schema.XmlSchemaSimpleType;
+import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
-import org.springframework.util.ResourceUtils;
-
 import org.slc.sli.validation.ListSchema;
 import org.slc.sli.validation.NeutralSchema;
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.TokenSchema;
+import org.springframework.util.ResourceUtils;
 
 /**
  * Generation tool used to convert XSD to SLI Neutral Schema.
@@ -345,6 +346,21 @@ public class XsdToNeutralSchema {
                     simpleSchema = this.getSchemaFactory().createSchema(simpleTypeName);
                 }
             }
+        } else if (schemaSimpleType.getContent() != null
+                && schemaSimpleType.getContent() instanceof XmlSchemaSimpleTypeList) {
+            ListSchema listSchema = (ListSchema) this.getSchemaFactory().createSchema("list");
+            
+            XmlSchemaSimpleTypeList content = (XmlSchemaSimpleTypeList) schemaSimpleType.getContent();
+            NeutralSchema listContentSchema = null;
+            if (content.getItemType() != null) {
+                listContentSchema = parseSimpleType(content.getItemType());
+            } else {
+                QName itemTypeName = content.getItemTypeName();
+                listContentSchema = this.getSchemaFactory().createSchema(itemTypeName.getLocalPart());
+            }
+            listSchema.getList().add(listContentSchema);
+            return listSchema;
+            
         } else if (getSimpleContentTypeName(schemaSimpleType) != null) {
             if (NeutralSchemaType.isPrimitive(getSimpleContentTypeName(schemaSimpleType))) {
                 simpleSchema = this.getSchemaFactory().createSchema(getSimpleContentTypeName(schemaSimpleType));
