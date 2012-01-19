@@ -1,9 +1,0 @@
-
-{
-   "type":"GradeType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Conduct","Exam","Final","Grading Period","Mid-Term Grade","Progress Report","Semester"]}
-}

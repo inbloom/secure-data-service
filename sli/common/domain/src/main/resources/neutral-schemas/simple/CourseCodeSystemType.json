@@ -1,9 +1,0 @@
-
-{
-   "type":"CourseCodeSystemType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["CSSC course code","Intermediate agency course code","LEA course code","NCES Pilot SNCCS course code","Other","SCED course code","School course code","State course code","University course code"]}
-}

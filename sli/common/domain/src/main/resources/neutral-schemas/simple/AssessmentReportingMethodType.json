@@ -1,9 +1,0 @@
-
-{
-   "type":"AssessmentReportingMethodType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Achievement/proficiency level","ACT score","Adaptive scale score","Age score","C-scaled scores","College Board examination scores","Composite Score","Composite Rating","Composition Score","Grade equivalent or grade-level indicator","Grade equivalent or grade-level indicator","Graduation score","Growth/value-added/indexing","International Baccalaureate score","Letter grade/mark","Mastery level","Normal curve equivalent","Normalized standard score","Number score","Pass-fail","Percentile","Percentile rank","Proficiency level","Promotion score","Ranking","Ratio IQ's","Raw score","Scale score","Standard age score","Standard error measurement","Stanine score","Sten score","Theta","T-score","Vertical score","Workplace readiness score","Z-score","Other","Not applicable"]}
-}

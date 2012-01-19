@@ -1,9 +1,0 @@
-
-{
-   "type":"CalendarEventType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Instructional day","Teacher only day","Holiday","Make-up day","Weather day","Student late arrival/early dismissal","Emergency day","Strike","Other"]}
-}
