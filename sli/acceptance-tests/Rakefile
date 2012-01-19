@@ -186,6 +186,7 @@ end
 
 desc "Run Home URI Tests"
 task :homeUriTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/api/home_uri")
 end
 
@@ -274,6 +275,7 @@ task :importSandboxData do
     "school" => "school_fixture.json",
     "student" => "student_fixture.json",
     "teacher" => "teacher_fixture.json",
+    "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
     "studentschoolassociation" => "student_enrollments_fixture.json",
     "teachersectionassociation" => "teacher_section_fixture.json",
