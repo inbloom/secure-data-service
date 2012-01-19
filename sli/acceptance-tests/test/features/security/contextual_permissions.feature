@@ -1,5 +1,3 @@
-@wip
-
 Feature: Context-based Permissions for Educator 
 
 I would like to implement context-based permissions, so that when a SEA/LEA end user (that represents an Educator) access the SLI, he/she is provided with the student data that the Educator has relationship with.
@@ -132,7 +130,7 @@ Examples:
 #| "idp2" | "johndoe"  | "johndoe1234" | "Ted Bear"       |
 | "idp1" | "ejane"    | "ejane1234"   | "Emily Jane"     |
 #| "idp2" | "ejane"    | "ejane1234"   | "Elizabeth Jane" |
-| "idp1" | "jdoe"     | "jdoe1234"    | "Ted Bear"       |
+#| "idp1" | "jdoe"     | "jdoe1234"    | "Ted Bear"       | #disabled, would get shared sections
 
 Scenario Outline: Authenticated Educator makes API call to get own Section
 Given I am a valid <Realm> end user <Username> with password <Password>
