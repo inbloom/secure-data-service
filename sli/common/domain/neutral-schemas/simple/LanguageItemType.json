@@ -1,9 +1,0 @@
-
-{
-   "type":"LanguageItemType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Spanish","Vietnamese","Laotian (Lao)","Cambodian (Khmer)","Korean","Japanese","French","German","English","Other languages","Afrikaans (Taal)","Akan (Fante, Asante)","Albanian, Gheg (Kossovo/Macedonia)","Albanian, Tosk (Albania)","Algonquin","Amharic","Apache","Arabic","Armenian","Assyrian (Syriac, Aramaic)","Balinese","Bengali","Bosnian","Bulgarian","Burmese","Cantonese (Chinese)","Cebuano (Visayan)","Chamorro","Chaochow/Teochiu (Chinese)","Cherokee","Chippewa/Ojibawa/Ottawa","Choctaw","Comanche","Coushatta","Creek","Croatian","Crow","Czech","Danish","Dard","Dutch/Flemish","Efik","Eskimo","Estonian","Ethiopic","Ewe","Farsi (Persian)","Finnish","Fukien/Hokkien (Chinese)","Gaelic (Irish)","Gaelic (Scottish)","Greek","Gujarati","Guyanese","Hainanese (Chinese)","Haitian-Creole","Hakka (Chinese)","Hausa","Hebrew","Hindi","Hmong","Hopi","Hungarian","Ibo/Igbo","Icelandic","Ilonggo (Hiligaynon)","Indonesian","Italian","Kache (Kaje, Jju)","Kannada (Kanarese)","Kanuri","Kashmiri","Kickapoo","Konkani","Kpelle","Krio","Kurdish","Kwa","Latvian","Lingala","Lithuanian","Luganda","Lunda","Luyia (Luhya)","Macedonian","Malay","Malayalam","Maltese","Mandarin (Chinese)","Mande","Marathi","Menominee","Mien (Yao)","Navajo","Nepali","Norwegian","Okinawan","Oneida","Oriya","Orri (Oring)","Pampangan","Panjabi (Punjabi)","Pashto (Pushto)","Pilipino (Tagalog)","Pima","Polish","Portuguese","Pueblo","Romanian","Romany (Gypsy)","Russian","Samoan","Serbian","Shanghai (Chinese)","Shona","Sikkimese","Sindhi","Sinhalese (Sri Lanka)","Sioux (Dakota)","Slavic","Slovenian (Slovene)","Somali","Sotho","Swahili","Swedish","Taiwanese/Formosan/Min Nan (Chinese)","Tamil","Telugu (Telegu)","Thai","Tibetan","Tigrinya","Tiwa","Tuluau","Turkish","Ukrainian","Urdu","Welsh","Winnebago","Yiddish","Yombe","Yoruba"]}
-}

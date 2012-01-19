@@ -4,8 +4,8 @@
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "VisualLearning":"percent",
-      "AuditoryLearning":"percent",
-      "TactileLearning":"percent"},
+      "VisualLearning":"Percent",
+      "AuditoryLearning":"Percent",
+      "TactileLearning":"Percent"},
    "properties":{}
 }

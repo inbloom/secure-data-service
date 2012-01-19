@@ -15,7 +15,6 @@
       "*WebSite":"WebSite",
       "*OperationalStatus":"OperationalStatusType",
       "*AccountabilityRatings":["AccountabilityRating"],
-      "*ProgramReference":["ProgramReferenceType"],
-      "*EducationOrganizationPeerReference":["EducationalOrgReferenceType"]},
+      "*ProgramReference":["ProgramSimpleReference"]},
    "properties":{}
 }

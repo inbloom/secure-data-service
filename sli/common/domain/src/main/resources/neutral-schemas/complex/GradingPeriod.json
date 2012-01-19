@@ -8,7 +8,6 @@
       "GradingPeriod":"GradingPeriodType",
       "BeginDate":"date",
       "EndDate":"date",
-      "TotalInstructionalDays":"restricted",
-      "CalendarDateReference":["ReferenceType"]},
+      "TotalInstructionalDays":"restricted"},
    "properties":{}
 }

@@ -1,9 +1,10 @@
 
 {
-   "type":"RestraintEventReasonsType",
+   "type":"MiscellaneousEvent",
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "*RestraintEventReason":["RestraintEventReasonItemType"]},
+      "EventName":"string",
+      "EventType":"string"},
    "properties":{}
 }

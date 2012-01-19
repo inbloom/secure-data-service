@@ -1,9 +1,0 @@
-
-{
-   "type":"TitleIPartAParticipantType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Public Targeted Assistance Program","Public Schoolwide Program","Private school students participating","Local Neglected Program"," Was not served"]}
-}

@@ -6,8 +6,7 @@
    "fields":{
       "*id":"ID",
       "ScoreResults":["ScoreResult"],
-      "*PerformanceLevels":["PerformanceLevelDescriptorType"],
-      "StudentTestAssessmentReference":"ReferenceType",
-      "ObjectiveAssessmentReference":"ObjectiveAssessmentReferenceType"},
+      "*PerformanceLevels":["Description"],
+      "StudentTestAssessmentReference":"ReferenceType"},
    "properties":{}
 }

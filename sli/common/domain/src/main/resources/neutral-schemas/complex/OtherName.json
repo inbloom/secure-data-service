@@ -6,9 +6,9 @@
    "fields":{
       "OtherNameType":"OtherNameType",
       "*PersonalTitlePrefix":"PersonalTitlePrefixType",
-      "FirstName":"FirstName",
-      "*MiddleName":"MiddleName",
-      "LastSurname":"LastSurname",
+      "FirstName":"SimpleName",
+      "*MiddleName":"SimpleName",
+      "LastSurname":"SimpleName",
       "*GenerationCodeSuffix":"GenerationCodeSuffixType"},
    "properties":{}
 }

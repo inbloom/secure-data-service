@@ -9,7 +9,6 @@
       "*IndividualPlan":"boolean",
       "TotalCreditsRequired":"Credits",
       "*CreditsBySubject":["CreditsBySubject"],
-      "*CreditsByCourse":["CreditsByCourse"],
-      "*EducationOrganizationReference":["EducationalOrgReferenceType"]},
+      "*CreditsByCourse":["CreditsByCourse"]},
    "properties":{}
 }

@@ -4,11 +4,8 @@
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "*id":"ID",
-      "ClassPeriodReference":"ClassPeriodReferenceType",
+      "ClassPeriodName":"string",
       "WeekNumber":"restricted",
-      "MeetingDays":"MeetingDaysType",
-      "*AlternateDayName":"AlternateDayName",
       "StartTime":"time",
       "EndTime":"time",
       "*OfficialAttendancePeriod":"boolean"},

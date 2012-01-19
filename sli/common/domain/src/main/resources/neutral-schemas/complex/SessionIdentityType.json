@@ -1,8 +1,0 @@
-
-{
-   "type":"SessionIdentityType",
-   "validatorClass":"org.slc.sli.validation.ComplexSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{}
-}

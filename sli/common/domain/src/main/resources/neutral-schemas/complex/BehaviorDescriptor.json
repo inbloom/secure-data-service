@@ -9,6 +9,6 @@
       "ShortDescription":"ShortDescription",
       "*Description":"Description",
       "BehaviorCategory":"BehaviorCategoryType",
-      "EducationOrganizationReference":["EducationalOrgReferenceType"]},
+      "EducationOrganizationReference":["EducationalOrgSimpleReference"]},
    "properties":{}
 }
