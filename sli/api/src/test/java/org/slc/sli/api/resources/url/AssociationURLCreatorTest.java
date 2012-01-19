@@ -61,7 +61,7 @@ public class AssociationURLCreatorTest {
     private static final String ENTITY_TYPE_EDORG_SCHOOL_ASSOC = "educationOrganizationschoolassociation";
     
     @Autowired
-    AssociationURLCreator associationURLCreator; //class under test
+    AssociationURLCreator associationURLCreator; // class under test
     
     @Autowired
     DefinitionFactory factory;
@@ -74,52 +74,51 @@ public class AssociationURLCreatorTest {
     
     @Before
     public void setup() {
-        //create the mock staff entity
+        // create the mock staff entity
         staff = factory.makeEntity("staff").exposeAs("staff").build();
-        //create the mock edorg entity
-        EntityDefinition educationOrganization = factory.makeEntity("educationOrganization").exposeAs("educationOrganizations").build();
-        //create the mock school entity
+        // create the mock edorg entity
+        EntityDefinition educationOrganization = factory.makeEntity("educationOrganization")
+                .exposeAs("educationOrganizations").build();
+        // create the mock school entity
         EntityDefinition school = factory.makeEntity("school").exposeAs("schools").build();
         
-        //create the mock staffedorg association
+        // create the mock staffedorg association
         AssociationDefinition staffEdOrgAssoc = factory.makeAssoc("staffEducationOrganizationAssociation")
-                .exposeAs("staff-educationOrganization-associations")
-                .storeAs("staffEducationOrganizationAssociation")
+                .exposeAs("staff-educationOrganization-associations").storeAs("staffEducationOrganizationAssociation")
                 .from(staff, "getStaff", "getStaff")
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
-                .calledFromSource("getEducationOrganizationsAssigned")
-                .calledFromTarget("getStaffAssigned").build();
+                .calledFromSource("getEducationOrganizationsAssigned").calledFromTarget("getStaffAssigned").build();
         
-        //create the mock edorgschool association
-        AssociationDefinition educationOrganizationSchoolAssoc = factory.makeAssoc("educationOrganizationSchoolAssociation")
+        // create the mock edorgschool association
+        AssociationDefinition educationOrganizationSchoolAssoc = factory
+                .makeAssoc("educationOrganizationSchoolAssociation")
                 .exposeAs("educationOrganization-school-associations")
                 .storeAs("educationOrganizationschoolassociation")
                 .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
-                .to(school, "getSchool", "getSchools")
-                .calledFromSource("getSchoolsAssigned")
+                .to(school, "getSchool", "getSchools").calledFromSource("getSchoolsAssigned")
                 .calledFromTarget("getEducationOrganizationsAssigned").build();
         
-        //create the mock collection for staffedorg association
+        // create the mock collection for staffedorg association
         Collection<AssociationDefinition> staffEdOrgAssocColl = new ArrayList<AssociationDefinition>();
         staffEdOrgAssocColl.add(staffEdOrgAssoc);
         
-        //create the mock collection for edorgschool association
+        // create the mock collection for edorgschool association
         Collection<AssociationDefinition> edOrgSchoolAssocColl = new ArrayList<AssociationDefinition>();
         edOrgSchoolAssocColl.add(educationOrganizationSchoolAssoc);
         
-        //mock the EntityDefinitionStore
+        // mock the EntityDefinitionStore
         EntityDefinitionStore store = mock(EntityDefinitionStore.class);
         when(store.getLinked(staff)).thenReturn(staffEdOrgAssocColl);
         when(store.getLinked(educationOrganization)).thenReturn(edOrgSchoolAssocColl);
         associationURLCreator.setStore(store);
         
-        //create the mock repo
+        // create the mock repo
         MockRepo repo = new MockRepo();
-        //create the staffedorgassociation entity
+        // create the staffedorgassociation entity
         Map<String, Object> staffEdOrgAssocData = buildTestStaffEdOrgEntity();
         repo.create(ENTITY_TYPE_STAFF_EDORG_ASSOC, staffEdOrgAssocData);
         
-        //create edorgschoolassociation entity
+        // create edorgschoolassociation entity
         Map<String, Object> edOrgSchoolAssoc = buildTestEdOrgSchoolEntity();
         repo.create(ENTITY_TYPE_EDORG_SCHOOL_ASSOC, edOrgSchoolAssoc);
         
@@ -134,14 +133,14 @@ public class AssociationURLCreatorTest {
             associationURLCreator.getAssociationUrls(staff, STAFF_ID, results, buildMockUriInfo(""));
             assertEquals("Should have 2 links", 2, results.size());
             
-            //test the district link  
+            // test the district link
             EmbeddedLink link = results.get(0);
             assertEquals("Type should be staff-edorg-association", link.getType(), ENTITY_TYPE_STAFF_EDORG_ASSOC);
             assertEquals("Should be type links", link.getRel(), "links");
             assertTrue("Returned link should point to a district", link.getHref().indexOf(RESOURCE_PATH_DISTRICT) > 0);
             assertUUID(link.getHref(), ED_ORG_ID);
             
-            //test the school
+            // test the school
             link = results.get(1);
             assertEquals("Type should be edorg-school-association", link.getType(), ENTITY_TYPE_EDORG_SCHOOL_ASSOC);
             assertEquals("Should be type links", link.getRel(), "links");
@@ -151,7 +150,7 @@ public class AssociationURLCreatorTest {
         } catch (Exception e) {
             fail(e.getMessage());
         }
-    }   
+    }
     
     private void assertUUID(String url, String uuid) {
         Pattern regex = Pattern.compile(".+/(\\d+)$");

@@ -40,18 +40,18 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
         DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class DefaultRoleRightAccessImplTest {
-
+    
     @Autowired
     private DefaultRoleRightAccessImpl access;
-
+    
     @Autowired
     private SecurityContextInjector securityContextInjector;
     
     private EntityService mockService;
-
+    
     @Before
     public void setUp() throws Exception {
-    	
+        
         securityContextInjector.setAdminContext();
         List<String> ids = new ArrayList<String>();
         mockService = mock(EntityService.class);
@@ -71,12 +71,12 @@ public class DefaultRoleRightAccessImplTest {
         
         when(mockService.list(0, 100)).thenReturn(ids);
     }
-
+    
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
     }
-
+    
     private EntityBody getEntityBody() {
         EntityBody roleBody;
         List<String> rights = new ArrayList<String>();
@@ -87,6 +87,7 @@ public class DefaultRoleRightAccessImplTest {
         roleBody.put("rights", rights);
         return roleBody;
     }
+    
     private EntityBody getITEntityBody() {
         EntityBody roleBody;
         List<String> rights = new ArrayList<String>();
@@ -97,85 +98,86 @@ public class DefaultRoleRightAccessImplTest {
         roleBody.put("rights", rights);
         return roleBody;
     }
-
+    
     @Test
     public void testFindRoleByName() throws Exception {
         Role testRole = null;
-        //Find a role that does exist
+        // Find a role that does exist
         testRole = access.findRoleByName("Educator");
         assertNotNull(testRole);
-
-        //Find a role that doesn't exist.
+        
+        // Find a role that doesn't exist.
         testRole = access.findRoleByName("Waffles");
         assertNull(testRole);
-
+        
     }
-
+    
     @Test
     public void testFindRoleBySpringName() throws Exception {
         Role testRole = null;
-        //Find a role that does exist
+        // Find a role that does exist
         testRole = access.findRoleBySpringName("ROLE_EDUCATOR");
         assertNotNull(testRole);
-
-        //Find a role that doesn't exist.
+        
+        // Find a role that doesn't exist.
         testRole = access.findRoleByName("ROLE_WAFFLES");
         assertNull(testRole);
-
+        
     }
-
+    
     @Test
     public void testFetchAllRoles() throws Exception {
-
+        
         List<Role> roles = access.fetchAllRoles();
         assertNotNull(roles);
         assertTrue(roles.size() == 5);
     }
-
+    
     @Test
     public void testAddRole() throws Exception {
         Role tempRole = new Role("Somebody");
         tempRole.addRight(Right.AGGREGATE_READ);
         when(mockService.create(tempRole.getRoleAsEntityBody())).thenReturn("Something");
         assertTrue(access.addRole(tempRole));
-
-        //TODO fail case?
+        
+        // TODO fail case?
     }
-
+    
     @Test
     public void testDeleteRole() throws Exception {
-        //Delete a role that exists.
+        // Delete a role that exists.
         Role tempRole = new Role("Somebody");
         tempRole.setId("BadID");
         tempRole.addRight(Right.READ_RESTRICTED);
         assertTrue(access.deleteRole(tempRole));
-
-        //Can't delete a role that doesn't exist now.
+        
+        // Can't delete a role that doesn't exist now.
         doThrow(new EntityNotFoundException(tempRole.getId())).when(mockService).delete(tempRole.getId());
         assertFalse(access.deleteRole(tempRole));
-
+        
     }
-
+    
     @Test
     public void testUpdateRole() throws Exception {
-        //Update a role that exists
+        // Update a role that exists
         Role tempRole = new Role("Somebody");
         tempRole.setId("BadID");
         tempRole.addRight(Right.READ_RESTRICTED);
         assertTrue(access.updateRole(tempRole));
-
-        //Update a role that doesn't exist.
+        
+        // Update a role that doesn't exist.
         tempRole.setId("BLAHBLAH");
-        doThrow(new EntityNotFoundException(tempRole.getId())).when(mockService).update(tempRole.getId(), tempRole.getRoleAsEntityBody());
+        doThrow(new EntityNotFoundException(tempRole.getId())).when(mockService).update(tempRole.getId(),
+                tempRole.getRoleAsEntityBody());
         assertFalse(access.updateRole(tempRole));
-
+        
     }
-
+    
     @Test
     public void testGetDefaultRole() throws Exception {
-        //Valid default role.
+        // Valid default role.
         assertTrue(access.getDefaultRole(DefaultRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
-        //Invalid default role.
+        // Invalid default role.
         assertNull(access.getDefaultRole("Monkeys"));
     }
 }

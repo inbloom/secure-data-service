@@ -31,7 +31,8 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RolesToRightsTest {
     
@@ -43,7 +44,7 @@ public class RolesToRightsTest {
     private ClientRoleManager mockRoleManager;
     
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
-
+    
     @Before
     public void setUp() throws Exception {
         mockAccess = mock(RoleRightAccess.class);
@@ -52,8 +53,14 @@ public class RolesToRightsTest {
         resolver.setRoleRightAccess(mockAccess);
         resolver.setRoleMapper(mockRoleManager);
         
-        when(mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR))).thenReturn(Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR));
-        when(mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR));
+        when(
+                mockRoleManager.resolveRoles(DEFAULT_REALM_ID,
+                        Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR)))
+                .thenReturn(Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR));
+        when(
+                mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR,
+                        DefaultRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(
+                Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR));
         when(mockAccess.getDefaultRole(DefaultRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
         when(mockAccess.getDefaultRole(DefaultRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
         when(mockAccess.getDefaultRole("bad")).thenReturn(null);
@@ -61,15 +68,16 @@ public class RolesToRightsTest {
         when(mockAccess.getDefaultRole("Pink")).thenReturn(null);
         when(mockAccess.getDefaultRole("Goo")).thenReturn(null);
     }
-
+    
     private Role buildRole() {
         return RoleBuilder.makeRole(DefaultRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
     }
-
+    
     @Test
     public void testMappedRoles() throws Exception {
         
-        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR));
+        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_REALM_ID,
+                Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR));
         Assert.assertTrue(rights.size() > 0);
     }
     
@@ -81,7 +89,8 @@ public class RolesToRightsTest {
     
     @Test
     public void testMixedRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(
+                DefaultRoleRightAccessImpl.EDUCATOR, DefaultRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
         Assert.assertTrue(authorities.size() > 0);
     }
 }

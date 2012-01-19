@@ -16,37 +16,35 @@ import org.slc.sli.api.security.resolve.ClientRoleManager;
 @Path("/pub/roles")
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE })
-public class ClientRoleManagerResource { 
-	
-	@Autowired
-	private ClientRoleManager roleManager;
-
-	
-	@GET
-	@Path("addClientRole")
-	public void addClientRole(@QueryParam("realmId") String realmId, @QueryParam("sliRole") String sliRoleName,
-			@QueryParam("clientRole") String clientRoleName) {
-		roleManager.addClientRole(realmId, sliRoleName, clientRoleName);
-	}
-
-	@GET
-	@Path("deleteClientRole")
-	public void deleteClientRole(@QueryParam("realmId") String realmId, @QueryParam("clientRole") String clientRoleName) {
-		roleManager.deleteClientRole(realmId, clientRoleName);
-	}
-	
-	@GET
-	@Path("mappings")
-	public Object getMappings(@QueryParam("realmId") String realmId, @QueryParam("sliRole") String sliRoleName) {
-		return roleManager.getMappings(realmId, sliRoleName);
-	}
-	
-	@GET
-	@Path("getSliRole")
-	public String getSliRoleName(@QueryParam("realmId") String realmId, @QueryParam("clientRole") String clientRoleName) {
-		return roleManager.getSliRoleName(realmId, clientRoleName);
-
-	}
-	
-
+public class ClientRoleManagerResource {
+    
+    @Autowired
+    private ClientRoleManager roleManager;
+    
+    @GET
+    @Path("addClientRole")
+    public void addClientRole(@QueryParam("realmId") String realmId, @QueryParam("sliRole") String sliRoleName,
+            @QueryParam("clientRole") String clientRoleName) {
+        roleManager.addClientRole(realmId, sliRoleName, clientRoleName);
+    }
+    
+    @GET
+    @Path("deleteClientRole")
+    public void deleteClientRole(@QueryParam("realmId") String realmId, @QueryParam("clientRole") String clientRoleName) {
+        roleManager.deleteClientRole(realmId, clientRoleName);
+    }
+    
+    @GET
+    @Path("mappings")
+    public Object getMappings(@QueryParam("realmId") String realmId, @QueryParam("sliRole") String sliRoleName) {
+        return roleManager.getMappings(realmId, sliRoleName);
+    }
+    
+    @GET
+    @Path("getSliRole")
+    public String getSliRoleName(@QueryParam("realmId") String realmId, @QueryParam("clientRole") String clientRoleName) {
+        return roleManager.getSliRoleName(realmId, clientRoleName);
+        
+    }
+    
 }

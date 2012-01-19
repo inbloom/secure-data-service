@@ -7,13 +7,11 @@ import org.junit.Before;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.dal.repository.EntityRepository;
 
-public class DefaultClientRoleManagerTest 
-{
-	private EntityRepository mockRepo;
-	private DefaultClientRoleManager roleResolver;
-	
-	@Before
-	public void setUp()
-	{
-	}
+public class DefaultClientRoleManagerTest {
+    private EntityRepository mockRepo;
+    private DefaultClientRoleManager roleResolver;
+    
+    @Before
+    public void setUp() {
+    }
 }

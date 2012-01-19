@@ -16,14 +16,15 @@ import org.springframework.stereotype.Component;
 public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
     
     private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
-
+    
     public Response toResponse(Throwable e) {
         Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
         
         LOG.error("Caught exception thrown by ReST handler", e);
-
-        return Response.status(errorStatus)
-            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+        
+        return Response
+                .status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
                         "Internal Server Error: " + e.getMessage())).build();
     }
 }

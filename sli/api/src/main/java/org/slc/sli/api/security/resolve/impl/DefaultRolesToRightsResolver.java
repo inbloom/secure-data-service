@@ -45,7 +45,8 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             for (String sliRoleName : sliRoleNames) {
                 Role role = findRole(sliRoleName);
                 if (role != null) {
-                    if (role.getName().equals(RoleInitializer.SLI_ADMINISTRATOR) && !sliAdminValidator.isSliAdminRealm(realmId)) {
+                    if (role.getName().equals(RoleInitializer.SLI_ADMINISTRATOR)
+                            && !sliAdminValidator.isSliAdminRealm(realmId)) {
                         LOG.trace("Ignoring SLI Admin because {} is not admin realm.", realmId);
                         continue;
                     }
@@ -59,11 +60,11 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     private Role findRole(String roleName) {
         return roleRightAccess.getDefaultRole(roleName);
     }
-
+    
     public void setRoleRightAccess(RoleRightAccess roleRightAccess) {
         this.roleRightAccess = roleRightAccess;
     }
-
+    
     public void setRoleMapper(ClientRoleManager roleMapper) {
         this.roleMapper = roleMapper;
     }

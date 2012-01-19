@@ -18,27 +18,27 @@ public class Role {
     private Set<Right> rights = new HashSet<Right>();
     private String id = "";
     private Map<String, List<String>> mappings = new HashMap<String, List<String>>();
-
+    
     public String getId() {
         return id;
     }
-
+    
     public void setId(String id) {
         this.id = id;
     }
-
+    
     public Role(String name) {
         this.name = name;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public boolean hasRight(Right right) {
         return rights.contains(right);
     }
@@ -46,11 +46,11 @@ public class Role {
     public Set<Right> getRights() {
         return rights;
     }
-
+    
     public void addRight(Right right) {
         rights.add(right);
     }
-
+    
     public String getSpringRoleName() {
         return "ROLE_" + getName().toUpperCase().replace(' ', '_');
     }
@@ -67,13 +67,11 @@ public class Role {
         return body;
     }
     
-    public Map<String, List<String>> getRealmRoleMappings()
-    {
-    	return mappings;
+    public Map<String, List<String>> getRealmRoleMappings() {
+        return mappings;
     }
     
-    public void setRealmRoleMappings(Map<String, List<String>> mappings)
-    {
-    	this.mappings = mappings;
+    public void setRealmRoleMappings(Map<String, List<String>> mappings) {
+        this.mappings = mappings;
     }
 }

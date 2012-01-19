@@ -55,10 +55,10 @@ public class AggregateResource {
      */
     @GET
     public Response getUpperMostAssociationsForUser(@Context final UriInfo uriInfo) {
-        //get the user entity
+        // get the user entity
         Entity userEntity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-
-        //build the param map
+        
+        // build the param map
         Map<String, String> params = new HashMap<String, String>();
         if (userEntity != null) {
             params.put("id", userEntity.getEntityId());

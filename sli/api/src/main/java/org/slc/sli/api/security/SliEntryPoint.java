@@ -34,7 +34,8 @@ public class SliEntryPoint implements AuthenticationEntryPoint {
      * Redirects user to login URL
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
         LOG.warn("Unauthorized access");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader("WWW-Authenticate", this.realmSelectionUrl);

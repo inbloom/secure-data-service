@@ -14,44 +14,43 @@ import java.util.Map;
  */
 @Component
 public class ContextResolverStore {
-
+    
     private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
-
+    
     @Autowired
     private DefaultEntityContextResolver defaultEntityContextResolver;
-
+    
     public void addContext(EntityContextResolver resolver) throws EntityExistsException {
-        EntityContextResolver putResult =
-                contexts.put(getContextKey(resolver), resolver);
+        EntityContextResolver putResult = contexts.put(getContextKey(resolver), resolver);
         if (putResult != null) {
             throw new EntityExistsException();
         }
     }
-
+    
     public boolean hasPermission(Entity principalEntity, Entity requestEntity) {
         EntityContextResolver resolver = getContextResolver(principalEntity, requestEntity);
         return resolver.hasPermission(principalEntity, requestEntity);
     }
-
+    
     public EntityContextResolver getContextResolver(String sourceType, String targetType) {
         EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
         return resolver == null ? defaultEntityContextResolver : resolver;
     }
-
+    
     public EntityContextResolver getContextResolver(Entity principalEntity, Entity requestEntity) {
         return getContextResolver(principalEntity.getType(), requestEntity.getType());
     }
-
+    
     public void clearContexts() {
         contexts.clear();
     }
-
+    
     private String getContextKey(EntityContextResolver resolver) {
         return getContextKey(resolver.getSourceType(), resolver.getTargetType());
     }
-
+    
     private String getContextKey(String sourceType, String targetType) {
         return sourceType + targetType;
     }
-
+    
 }
