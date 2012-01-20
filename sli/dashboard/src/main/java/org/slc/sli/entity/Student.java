@@ -1,5 +1,6 @@
 package org.slc.sli.entity;
 
+
 /**
  * 
  * TODO: Write Javadoc
@@ -7,7 +8,17 @@ package org.slc.sli.entity;
  */
 public class Student {
 
-    private String id, studentUniqueStateId, sex, economicDisadvantaged;
+    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServiceEligibility;
+    
+    public void setLimitedEnglishProficiency(String limitedEnglishProficiency) {
+        this.limitedEnglishProficiency = limitedEnglishProficiency;
+    }
+
+    public void setSchoolFoodServiceEligibility(String schoolFoodServiceEligibility) {
+        this.schoolFoodServiceEligibility = schoolFoodServiceEligibility;
+    }
+
+    private static String[] studentEntityProgramCodes = {"limitedEnglishProficiency", "schoolFoodServiceEligibility"};
     
     private NameData name;
     public NameData getName() {
@@ -16,6 +27,7 @@ public class Student {
 
     public void setName(NameData name) {
         this.name = name;
+        
     }
 
     public BirthData getBirthData() {
@@ -80,6 +92,33 @@ public class Student {
         public void setLastSurname(String lastSurname) {
             this.lastSurname = lastSurname;
         }
+    
+    }
+    
+    public static String[] getProgramCodesForStudent() {
+        return studentEntityProgramCodes;
     }
 
+    
+    public boolean getProgramParticipation(String programCode) {
+        if (programCode.equals("limitedEnglishProficiency"))
+            return isLimitedEnglishProficient();
+        
+        if (programCode.equals("schoolFoodServiceEligibility"))
+            return isSchoolFoodServiceEligile();
+        
+        return false;
+    }
+    
+    private boolean isLimitedEnglishProficient() {
+        return limitedEnglishProficiency.equals("Yes");
+    }
+    
+    
+    private boolean isSchoolFoodServiceEligile() {
+        return schoolFoodServiceEligibility.equals("Free");
+    }
+    
+    
+    
 }
