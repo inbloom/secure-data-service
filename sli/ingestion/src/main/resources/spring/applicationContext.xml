@@ -34,7 +34,7 @@
 
   <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
   
-  <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+  <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
     <property name="connectionFactory">
   	  <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
   	    <constructor-arg>
@@ -116,6 +116,8 @@
       <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
     </property>
   </bean>
+
+  <bean id="matchDiffHandler" class="org.slc.sli.ingestion.handler.MatchDiffHandler" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
     <property name="fileHandlerMap">
