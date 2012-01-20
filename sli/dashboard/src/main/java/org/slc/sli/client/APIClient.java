@@ -2,7 +2,7 @@ package org.slc.sli.client;
 
 import java.util.List;
 
-import org.slc.sli.entity.ProgramParticipation;
+import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
@@ -25,5 +25,5 @@ public interface APIClient {
     public CustomData[] getCustomData(final String token, String key);
     public void saveCustomData(CustomData[] src, String token, String key);
     public AssessmentMetaData[] getAssessmentMetaData(final String token);
-    public ProgramParticipation[] getProgramParticipation(final String token, List<String> studentIds);
+    public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds);
 }
