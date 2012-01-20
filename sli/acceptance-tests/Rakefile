@@ -80,7 +80,7 @@ task :default => :production
 
 
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
