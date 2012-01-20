@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div style="float:right">
-		Welcome ${USER_NAME} | <a href="/logout">Logout</a>
+		Welcome ${USER_NAME} | <a href="/admin/logout">Logout</a>
 	</div>
 	
 	<h1>SLI Admin Tool - Default Roles and Permissions</h1>
