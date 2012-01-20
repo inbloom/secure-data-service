@@ -16,7 +16,7 @@
       "*CountryCode":"CountryCodeType",
       "*Latitude":"Coordinate",
       "*Longitude":"Coordinate",
-      "*BeginDate":"date",
-      "*EndDate":"date"},
+      "*OpenDate":"date",
+      "*CloseDate":"date"},
    "properties":{}
 }

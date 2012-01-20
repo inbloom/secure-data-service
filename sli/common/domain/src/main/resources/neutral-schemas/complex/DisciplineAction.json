@@ -6,15 +6,15 @@
    "fields":{
       "*id":"ID",
       "DisciplineActionIdentifier":"DisciplineActionIdentifier",
-      "Disciplines":["DisciplineDescriptorType"],
+      "Disciplines":["BehaviorDescriptorSimpleReference"],
       "DisciplineDate":"date",
       "*DisciplineActionLength":"integer",
       "*ActualDisciplineActionLength":"integer",
       "*DisciplineActionLengthDifferenceReason":"DisciplineActionLengthDifferenceReasonType",
-      "StudentReference":["StudentReferenceType"],
-      "DisciplineIncidentReference":["DisciplineIncidentReferenceType"],
-      "*StaffReference":["StaffReferenceType"],
-      "ResponsibilitySchoolReference":"EducationalOrgReferenceType",
-      "*AssignmentSchoolReference":"EducationalOrgReferenceType"},
+      "StudentReference":["StudentSimpleReference"],
+      "DisciplineIncidentReference":["DisciplineIncidentSimpleReference"],
+      "*StaffReference":["StaffSimpleReference"],
+      "ResponsibilitySchoolReference":"SchoolSimpleReference",
+      "*AssignmentSchoolReference":"SchoolSimpleReference"},
    "properties":{}
 }

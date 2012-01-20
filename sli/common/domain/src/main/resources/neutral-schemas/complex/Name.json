@@ -6,10 +6,10 @@
    "fields":{
       "*Verification":"PersonalInformationVerificationType",
       "*PersonalTitlePrefix":"PersonalTitlePrefixType",
-      "FirstName":"FirstName",
-      "*MiddleName":"MiddleName",
-      "LastSurname":"LastSurname",
+      "FirstName":"SimpleName",
+      "*MiddleName":"SimpleName",
+      "LastSurname":"SimpleName",
       "*GenerationCodeSuffix":"GenerationCodeSuffixType",
-      "*MaidenName":"LastSurname"},
+      "*MaidenName":"SimpleName"},
    "properties":{}
 }

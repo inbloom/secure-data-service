@@ -4,12 +4,8 @@
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "*id":"ID",
-      "BellScheduleName":"BellScheduleName",
-      "GradeLevels":"GradeLevelsType",
+      "BellScheduleName":"string",
       "WeeksInCycle":"restricted",
-      "SessionReference":"SessionReferenceType",
-      "MeetingTimeReference":["ReferenceType"],
-      "*CalendarDateReference":["CalendarDateReferenceType"]},
+      "SessionsOffered":["SessionSimpleReference"]},
    "properties":{}
 }

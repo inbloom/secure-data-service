@@ -1,9 +1,0 @@
-
-{
-   "type":"RestraintEventReasonsType",
-   "validatorClass":"org.slc.sli.validation.ComplexSchema",
-   "version":"1.0",
-   "fields":{
-      "*RestraintEventReason":["RestraintEventReasonItemType"]},
-   "properties":{}
-}

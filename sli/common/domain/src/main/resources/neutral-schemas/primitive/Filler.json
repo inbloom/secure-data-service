@@ -1,6 +1,0 @@
-
-{
-   "type":"Filler",
-   "validatorClass":"org.slc.sli.validation.StringSchema",
-   "version":"1.0"
-}

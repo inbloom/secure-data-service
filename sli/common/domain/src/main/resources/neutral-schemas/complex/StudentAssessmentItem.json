@@ -8,9 +8,6 @@
       "*AssessmentResponse":"AssessmentResponse",
       "*ResponseIndicator":"ResponseIndicatorType",
       "AssessmentItemResult":"AssessmentItemResultType",
-      "*RawScoreResult":"int",
-      "*StudentTestAssessmentReference":"ReferenceType",
-      "*StudentObjectiveAssessmentReference":"ReferenceType",
-      "AssessmentItemReference":"AssessmentItemReferenceType"},
+      "*RawScoreResult":"int"},
    "properties":{}
 }

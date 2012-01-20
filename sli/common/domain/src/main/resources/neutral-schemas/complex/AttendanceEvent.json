@@ -4,13 +4,10 @@
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "*id":"ID",
       "EventDate":"date",
       "*AttendanceEventType":"AttendanceEventType",
       "AttendanceEventCategory":"AttendanceEventCategoryType",
       "*AttendanceEventReason":"AttendanceEventReason",
-      "*EducationalEnvironment":"EducationalEnvironmentType",
-      "StudentReference":"StudentReferenceType",
-      "*SectionReference":"SectionReferenceType"},
+      "*EducationalEnvironment":"EducationalEnvironmentType"},
    "properties":{}
 }

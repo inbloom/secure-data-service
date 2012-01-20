@@ -7,10 +7,6 @@
       "*id":"ID",
       "GradebookEntryType":"GradebookEntryType",
       "DateAssigned":"date",
-      "*Description":"Description",
-      "*LearningStandardReference":["LearningStandardReferenceType"],
-      "*LearningObjectiveReference":["LearningObjectiveReferenceType"],
-      "SectionReference":"SectionReferenceType",
-      "*GradingPeriodReference":"GradingPeriodReferenceType"},
+      "*Description":"Description"},
    "properties":{}
 }

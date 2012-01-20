@@ -3697,7 +3697,49 @@
 			<xs:enumeration value="Semester"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+    
+    <xs:simpleType name="DisciplineActionLengthDifferenceReasonType">
+        <xs:annotation>
+            <xs:documentation>Indicates the reason for the difference, if any, between the official
+                and actual lengths of a student’s disciplinary assignment.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="No Difference"/>
+            <xs:enumeration value="Term Modified By District"/>
+            <xs:enumeration value="Term Modified By Court Order"/>
+            <xs:enumeration value="Term Modified By Mutual Agreement"/>
+            <xs:enumeration value="Student Completed Term Requirements Sooner Than Expected"/>
+            <xs:enumeration value="Student Incarcerated"/>
+            <xs:enumeration value="Term Decreased Due To Extenuating Health-Related Circumstances"/>
+            <xs:enumeration value="Student Withdrew From School"/>
+            <xs:enumeration value="School Year Ended"/>
+            <xs:enumeration value="Continuation Of Previous Year’s Disciplinary Action Assignment"/>
+            <xs:enumeration
+                value="Term Modified By Placement Program Due To Student Behavior While In The Placement"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="WeaponItemType">
+        <xs:annotation>
+            <xs:documentation>The enumeration items for the types of weapon used during an incident.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Firearm"/>
+            <xs:enumeration value="Illegal Knife"/>
+            <xs:enumeration value="Non-Illegal Knife"/>
+            <xs:enumeration value="Club"/>
+            <xs:enumeration value="Other Sharp Objects"/>
+            <xs:enumeration value="Other Object"/>
+            <xs:enumeration value="Substance Used as Weapon"/>
+            <xs:enumeration value="Knife"/>
+            <xs:enumeration value="Unknown"/>
+            <xs:enumeration value="None"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
 	<xs:simpleType name="text">
 		<xs:annotation>
 			<xs:documentation>Long string for annotations or descriptions</xs:documentation>

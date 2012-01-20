@@ -5,11 +5,10 @@
    "version":"1.0",
    "fields":{
       "*id":"ID",
+      "GradebookEntryReference":"GradebookEntrySimpleReference",
       "*DateFulfilled":"date",
       "*LetterGradeEarned":"GradeEarned",
       "*NumericGradeEarned":"integer",
-      "*CompetencyLevel":"CompetencyLevelDescriptorType",
-      "*DiagnosticStatement":"text",
-      "StudentSectionAssociationReference":"StudentSectionAssociationReferenceType"},
+      "*DiagnosticStatement":"text"},
    "properties":{}
 }

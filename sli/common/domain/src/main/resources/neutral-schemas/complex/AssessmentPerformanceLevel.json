@@ -4,7 +4,7 @@
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "PerformanceLevel":"PerformanceLevelDescriptorType",
+      "PerformanceLevel":"Description",
       "AssessmentReportingMethod":"AssessmentReportingMethodType",
       "*MinimumScore":"int",
       "*MaximumScore":"int"},

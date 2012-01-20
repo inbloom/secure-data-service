@@ -10,6 +10,6 @@
       "*LeaveEventReason":"LeaveEventReason",
       "*HoursOnLeave":"decimal",
       "*SubstituteAssigned":"boolean",
-      "StaffReference":"StaffReferenceType"},
+      "StaffReference":"StaffSimpleReference"},
    "properties":{}
 }

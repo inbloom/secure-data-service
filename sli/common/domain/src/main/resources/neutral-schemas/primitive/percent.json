@@ -1,6 +1,0 @@
-
-{
-   "type":"percent",
-   "validatorClass":"org.slc.sli.validation.IntegerSchema",
-   "version":"1.0"
-}

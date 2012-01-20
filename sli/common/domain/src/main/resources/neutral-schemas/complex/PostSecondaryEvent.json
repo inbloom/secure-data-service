@@ -9,6 +9,6 @@
       "PostSecondaryEventCategory":"PostSecondaryEventCategoryType",
       "*NameOfInstitution":"NameOfInstitution",
       "*InstitutionId":"InstitutionId",
-      "StudentReference":"StudentReferenceType"},
+      "StudentReference":"StudentSimpleReference"},
    "properties":{}
 }

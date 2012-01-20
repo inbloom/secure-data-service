@@ -4,8 +4,8 @@
    "validatorClass":"org.slc.sli.validation.ComplexSchema",
    "version":"1.0",
    "fields":{
-      "StaffReference":"StaffReferenceType",
-      "EducationOrganizationReference":"EducationalOrgReferenceType",
+      "StaffReference":"StaffSimpleReference",
+      "EducationOrganizationReference":"EducationalOrgSimpleReference",
       "StaffClassification":"StaffClassificationType",
       "*PositionTitle":"PositionTitle",
       "BeginDate":"date",

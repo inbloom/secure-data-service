@@ -1,6 +1,0 @@
-
-{
-   "type":"timeinterval",
-   "validatorClass":"org.slc.sli.validation.DurationSchema",
-   "version":"1.0"
-}

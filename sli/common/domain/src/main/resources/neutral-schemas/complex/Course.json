@@ -19,10 +19,6 @@
       "*CourseDefinedBy":"CourseDefinedByType",
       "*MinimumAvailableCredit":"Credits",
       "*MaximumAvailableCredit":"Credits",
-      "*CareerPathway":"CareerPathwayType",
-      "EducationOrganizationReference":"EducationalOrgReferenceType",
-      "*LearningStandardReference":["LearningStandardReferenceType"],
-      "*LearningObjectiveReference":["LearningObjectiveReferenceType"],
-      "*CompetencyLevels":["CompetencyLevelDescriptorType"]},
+      "*CareerPathway":"CareerPathwayType"},
    "properties":{}
 }

@@ -11,6 +11,6 @@
       "*CTECompleter":"boolean",
       "*AcademicHonors":["AcademicHonor"],
       "*Recognitions":["Recognition"],
-      "SchoolReference":"EducationalOrgReferenceType"},
+      "SchoolReference":"EducationalOrgSimpleReference"},
    "properties":{}
 }

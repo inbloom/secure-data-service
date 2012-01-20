@@ -1,9 +1,0 @@
-
-{
-   "type":"CourseGPAApplicabilityType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Applicable","Not Applicable","Weighted"]}
-}

@@ -15,6 +15,6 @@
       "DatePosted":"date",
       "*DatePostingRemoved":"date",
       "*PostingResult":"PostingResultType",
-      "EducationOrganizationReference":"EducationalOrgReferenceType"},
+      "EducationOrganizationReference":"EducationalOrgSimpleReference"},
    "properties":{}
 }
