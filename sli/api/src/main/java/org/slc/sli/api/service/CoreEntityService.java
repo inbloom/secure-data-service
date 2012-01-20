@@ -32,14 +32,14 @@ public interface CoreEntityService {
      * @param updates the updates to body of the entity
      * @return if the entity was changed
      */
-    public void update(Entity entity, EntityBody updates);
+    public boolean update(Entity entity, EntityBody updates);
 
     /**
      * Delete an entity from the data store
      *
-     * @param entity the entity to delete
-     * @return
+     * @param id id of the entity to delete
+     * @return if the entity was deleted
      */
-    public void delete(Entity entity);
+    public boolean delete(String id);
 
 }

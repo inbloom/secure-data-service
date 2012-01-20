@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.WriteResult;
+
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 /**
@@ -52,17 +55,20 @@ public class MongoEntityRepository implements EntityRepository {
     }
     
     @Override
-    public void update(String collection, Entity entity) {
+    public boolean update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
         String id = entity.getEntityId();
         if (id.equals(""))
-            return;
+            return false;
         
         Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 MongoEntity.class, collection);
         if (found != null)
             template.save(entity, collection);
+        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+                new Update().set("body", entity.getBody()), collection);
         LOG.info("update a entity in collection {} with id {}", new Object[] { collection, id });
+        return result.getN() == 1;
     }
     
     @Override
@@ -79,11 +85,13 @@ public class MongoEntityRepository implements EntityRepository {
         return entity;
     }
     
-    public void delete(String entityType, String id) {
+    public boolean delete(String entityType, String id) {
         if (id.equals(""))
-            return;
-        template.remove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), entityType);
+            return false;
+        Entity deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+                MongoEntity.class, entityType);
         LOG.info("delete a entity in collection {} with id {}", new Object[] { entityType, id });
+        return deleted != null;
     }
     
     @Override

@@ -70,8 +70,9 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void update(String type, Entity entity) {
+    public boolean update(String type, Entity entity) {
         repo.get(type).put(entity.getEntityId(), entity);
+        return true;
     }
     
     @Override
@@ -87,8 +88,8 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void delete(String entityType, String id) {
-        repo.get(entityType).remove(id);
+    public boolean delete(String entityType, String id) {
+        return repo.get(entityType).remove(id) != null;
     }
     
     @Override
@@ -258,7 +259,7 @@ public class MockRepo implements EntityRepository {
             compare = (Integer) entityValue - Integer.parseInt(value);
         return compare;
     }
-
+    
     private boolean matchQuery(String entityType, String id, String queryString) {
         boolean match = false;
         List<Entity> toReturn = new ArrayList<Entity>();
@@ -335,7 +336,7 @@ public class MockRepo implements EntityRepository {
                 queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-
+            
         } else if (dbObject.containsField("$gte")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
