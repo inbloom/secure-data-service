@@ -1,7 +1,7 @@
 package org.slc.sli.manager;
 
 import org.slc.sli.entity.Student;
-import org.slc.sli.entity.ProgramParticipation;
+import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.Field;
@@ -38,9 +38,9 @@ public class StudentManager extends Manager {
         return studentInfo;
     }
     
-    public List<ProgramParticipation> getProgramParticipation(String username, List<String> studentIds) {
-        List<ProgramParticipation> programs = new ArrayList<ProgramParticipation>();
-        programs.addAll(Arrays.asList(apiClient.getProgramParticipation(SecurityUtil.getToken(), studentIds)));
+    public List<StudentProgramAssociation> getStudentProgramAssociations(String username, List<String> studentIds) {
+        List<StudentProgramAssociation> programs = new ArrayList<StudentProgramAssociation>();
+        programs.addAll(Arrays.asList(apiClient.getStudentProgramAssociation(SecurityUtil.getToken(), studentIds)));
         return programs;
     }
 }
