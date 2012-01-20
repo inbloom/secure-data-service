@@ -21,7 +21,7 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/admin/roles/1?sessionId=", {"Accept" => "application/json"}, @role_fixtures["educator"].to_json
       mock.get "/api/rest/admin/roles/-123?sessionId=", {"Accept" => "application/json"}, nil, 404
       mock.get "/api/rest/admin/roles/#{@role_fixtures["admin"].to_param}?sessionId=", {"Accept" => "application/json"}, nil, 200
-      mock.put "/api/rest/admin/roles/?sessionId=", {"Content-Type" => "application/json"}, {"role" => @role_fixtures["update"]}
+      mock.put "/api/rest/admin/roles/0?sessionId=", {"Content-Type" => "application/json"}, {"role" => @role_fixtures["update"]}, 200, @role_fixtures["admin"]
     end
   end
 

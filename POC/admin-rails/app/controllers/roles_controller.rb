@@ -20,6 +20,7 @@ class RolesController < ApplicationController
       end
       role.general = []
       role.restricted = []
+      role.aggregate = nil
       role.rights.each do |right|
         puts "Right: #{right}"
         case right
@@ -33,10 +34,8 @@ class RolesController < ApplicationController
           role.general << "W"
         when /WRITE_RESTRICTED/
           role.restricted << "W"
-        end
-        puts "Rights in Role: #{role}"    
+        end    
       end
-      puts "Temp Role: #{role}"
       role.general = role.general.join('/')
       role.restricted = role.restricted.join('/')
     end
@@ -71,7 +70,6 @@ class RolesController < ApplicationController
   # GET /roles/1/edit
   def edit
     @role = Role.find(params[:id])
-    puts "Role #{@role}"
   end
 
   # POST /roles
@@ -94,7 +92,7 @@ class RolesController < ApplicationController
   # PUT /roles/1.json
   def update
     @role = Role.find(params[:id])
-    puts params[:role]
+    puts "Role found (Update): #{@role.attributes}"
     respond_to do |format|
       if @role.update_attributes(params[:role])
         format.html { redirect_to @role.id, notice: 'Role was successfully updated.' }
