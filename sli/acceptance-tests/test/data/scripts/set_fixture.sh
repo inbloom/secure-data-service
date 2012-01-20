@@ -17,4 +17,4 @@ $MONGO_HOME/mongoimport --drop -d sli -c educationOrganization -h $DB_HOST --fil
 $MONGO_HOME/mongoimport --drop -d sli -c staff -h $DB_HOST --file "$DIR/../staff_fixture.json"
 $MONGO_HOME/mongoimport --drop -d sli -c staffEducationOrganizationAssociation -h $DB_HOST --file "$DIR/../staffEducationOrganizationAssociation_fixture.json"
 $MONGO_HOME/mongoimport --drop -d sli -c educationOrganizationassociation -h $DB_HOST --file "$DIR/../educationOrganizationAssociation_fixture.json"
-$MONGO_HOME/mongoimport --drop -d sli -c educationOrganizationschoolassociation -h $DB_HOST --file "$DIR/../school_educationOrganization_fixure.json"
+$MONGO_HOME/mongoimport --drop -d sli -c educationOrganizationschoolassociation -h $DB_HOST --file "$DIR/../school_educationOrganization_fixture.json"
