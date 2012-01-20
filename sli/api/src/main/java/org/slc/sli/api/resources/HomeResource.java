@@ -53,10 +53,10 @@ public class HomeResource {
     public Response getHomeUri(@Context final UriInfo uriInfo) {
         
         // TODO: refactor common code from getHomeUri and GetHomeUriXML
-
+        
         // create a final map of links to relevant links
         HashMap<String, Object> linksMap = new HashMap<String, Object>();
-
+        
         // get the entity ID and EntityDefinition for user
         Pair<String, EntityDefinition> pair = this.getEntityInfoForUser();
         if (pair != null) {
@@ -69,8 +69,8 @@ public class HomeResource {
             // add links for all of the entity's associations for this ID
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, userId, uriInfo));
             
-            //add the aggregate link
-            links.addAll(ResourceUtil.getAggregateLink(uriInfo));    
+            // add the aggregate link
+            links.addAll(ResourceUtil.getAggregateLink(uriInfo));
             linksMap.put(ResourceUtil.LINKS, links);
         }
         
@@ -87,8 +87,8 @@ public class HomeResource {
     public Response getHomeUriXML(@Context final UriInfo uriInfo) {
         
         // TODO: refactor common code from getHomeUri and GetHomeUriXML
-        Home home = null; 
-
+        Home home = null;
+        
         // get the entity ID and EntityDefinition for user
         Pair<String, EntityDefinition> pair = this.getEntityInfoForUser();
         if (pair != null) {
@@ -103,8 +103,8 @@ public class HomeResource {
             
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
-            linksMap.put(ResourceUtil.LINKS, links);            
-
+            linksMap.put(ResourceUtil.LINKS, links);
+            
             // return as browser response
             home = new Home(linksMap, defn.getStoredCollectionName());
         }
@@ -118,11 +118,11 @@ public class HomeResource {
      */
     private Pair<String, EntityDefinition> getEntityInfoForUser() {
         Pair<String, EntityDefinition> pair = null;
-                
+        
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
         if (entity != null) {
-            EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());        
+            EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
             pair = Pair.of(entity.getEntityId(), entityDefinition);
         }
         

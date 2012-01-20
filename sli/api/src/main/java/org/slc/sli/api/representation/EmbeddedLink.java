@@ -8,12 +8,16 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Intended for use within response bodies, not headers.
  * 
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 public class EmbeddedLink {
-    @JsonProperty("rel") String rel;
-    @JsonIgnore @JsonProperty("type") String type;
-    @JsonProperty("href") String href;
+    @JsonProperty("rel")
+    String rel;
+    @JsonIgnore
+    @JsonProperty("type")
+    String type;
+    @JsonProperty("href")
+    String href;
     
     public EmbeddedLink(String rel, String type, String href) {
         this.rel = rel;
@@ -23,22 +27,22 @@ public class EmbeddedLink {
     
     public EmbeddedLink() {
     }
-
+    
     @JsonIgnore
     public String getRel() {
         return rel;
     }
-
+    
     @JsonIgnore
     public String getType() {
         return type;
     }
-
+    
     @JsonIgnore
     public String getHref() {
         return href;
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -48,7 +52,7 @@ public class EmbeddedLink {
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -75,7 +79,7 @@ public class EmbeddedLink {
             return false;
         return true;
     }
-
+    
     @Override
     public String toString() {
         return "EmbeddedLink [rel=" + rel + ", type=" + type + ", href=" + href + "]";

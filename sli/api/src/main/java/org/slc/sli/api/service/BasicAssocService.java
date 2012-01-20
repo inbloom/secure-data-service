@@ -114,8 +114,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key,
-            String otherEntityKey, int start, int numResults, String queryString) {
+    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
+            int start, int numResults, String queryString) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         List<String> results = new ArrayList<String>();
@@ -170,17 +170,17 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private boolean createAssocValidate(EntityBody content) {
         String sourceType = sourceDefn.getType();
         String targetType = targetDefn.getType();
-
+        
         String sourceKey = sourceType + "Id";
         String targetKey = targetType + "Id";
-
+        
         // If both the source and the target are the same type,
         // add Source-Target info that is specified in association
         if (sourceType.equals(targetType)) {
             sourceKey = sourceKey + "Source";
             targetKey = targetKey + "Target";
         }
-
+        
         String sourceId = (String) content.get(sourceKey);
         String targetId = (String) content.get(targetKey);
         

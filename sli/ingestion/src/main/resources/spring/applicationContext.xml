@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util"
   xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd   
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
         
@@ -31,14 +33,28 @@
   </bean>
 
   <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
- 
-  <bean id="workItemQueueProperties" class="org.slc.sli.ingestion.queues.IngestionQueueProperties">
-    <property name="usingSedaQueues" value="${queues.workItem.seda}"></property>
-    <property name="hostName" value="${queues.workItem.host}"></property>
-    <property name="port" value="${queues.workItem.port}"></property>
-    <property name="queueName" value="${queues.workItem.queueName}"></property>
-    <property name="userName" value="${queues.workItem.userName}"></property>
-    <property name="password" value="${queues.workItem.password}"></property>
+  
+  <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
+    <property name="connectionFactory">
+  	  <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
+  	    <constructor-arg>
+  		  <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF"/>
+  		</constructor-arg>
+  		<constructor-arg>
+  		  <bean class="org.hornetq.api.core.TransportConfiguration" >
+		    <constructor-arg index="0">
+              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
+	        </constructor-arg>
+            <constructor-arg index="1">
+              <map>
+                <entry key="host" value="${queues.workItem.host}"/>
+                <entry key="port" value="${queues.workItem.port}"/>
+              </map>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
   </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->
@@ -100,6 +116,8 @@
       <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
     </property>
   </bean>
+
+  <bean id="matchDiffHandler" class="org.slc.sli.ingestion.handler.MatchDiffHandler" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
     <property name="fileHandlerMap">

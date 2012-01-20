@@ -10,7 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 /**
- * 
+ *
  */
 public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
@@ -56,11 +56,21 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
         f.createNewFile();
         return f;
     }
-    
+
+    /**
+     * load file to local landing zone
+     */
+    public void loadFile(File file) throws IOException {
+
+        File dest = FileUtils.getFile(this.directory, file.getName());
+        // will overwrite if destination file exists
+        FileUtils.copyFile(file, dest);
+    }
+
     /**
      * Returns a java.io.File for a log file to be used to report BatchJob
      * status/progress.  The file will be created if it does not yet exist.
-     * 
+     *
      * @return File object
      */
     public File getLogFile(String jobId) throws IOException {
