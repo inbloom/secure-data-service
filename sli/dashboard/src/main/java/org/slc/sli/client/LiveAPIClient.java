@@ -1,13 +1,16 @@
 package org.slc.sli.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.AssociationResponseObject;
 import org.slc.sli.entity.Course;
 import org.slc.sli.entity.CustomData;
+import org.slc.sli.entity.InnerResponse;
 import org.slc.sli.entity.ResponseObject;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Section;
@@ -15,6 +18,7 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 
 
 /**
@@ -109,49 +113,80 @@ public class LiveAPIClient implements APIClient {
 
     @Override
     public Assessment[] getAssessments(final String token, List<String> studentIds) {
-        return mockClient.getAssessments(token, studentIds);
+        return mockClient.getAssessments(getUsername(), studentIds);
     }
     @Override
     public CustomData[] getCustomData(final String token, String key) {
-        return mockClient.getCustomData(token, key);
+        return mockClient.getCustomData(getUsername(), key);
     }
     @Override
     public void saveCustomData(CustomData[] src, String token, String key) {
-        mockClient.saveCustomData(src, token, key);
+        mockClient.saveCustomData(src, getUsername(), key);
     }
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return mockClient.getAssessmentMetaData(token);
+        return mockClient.getAssessmentMetaData(getUsername());
     }
     @Override
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
-        return mockClient.getStudentProgramAssociation(token, studentIds);
+        return mockClient.getStudentProgramAssociation(getUsername(), studentIds);
     }
     
     private String getId(String token) {
     //TODO: Make a call to the /home uri and retrieve id from there
-        String url = Constants.API_SERVER_URI + "/home";
+        String returnValue = "";
+    	String url = Constants.API_SERVER_URI + "/home";
         ResponseObject response = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject.class);
-        String id = response.getId();
-        //TODO: Actually return the id from the call, once teacher-section works
         
-        return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
+        for(InnerResponse link : response.getLinks()) {
+        	if(link.getRel().equals("self")) {
+            	returnValue = parseId(link);
+        	}
+        }
+    	
+        //TODO: Actually return the id from the call, once teacher-section works
+        // FIXME
+        //return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
+        return returnValue;
     }
+
+    private String parseId(InnerResponse link) {
+		String returnValue;
+		int index = link.getHref().lastIndexOf("/");
+		returnValue = link.getHref().substring(index+1);
+		return returnValue;
+	}
     
     private Section[] getSectionsForTeacher(String id, String token) {
         String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
-        ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
+        AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
         //String[] sectionIds = new String[responses.length];
         
         int i = 0;
-        String[] sectionIds = {"4efb4292-bc49-f388-0000-0000c9355701", "4efb4243-bc49-f388-0000-0000c93556ff", "4efb4238-bc49-f388-0000-0000c93556fe"};
-        Section[] sections = new Section[sectionIds.length];
+        //String[] sectionIds = {"4efb4292-bc49-f388-0000-0000c9355701", "4efb4243-bc49-f388-0000-0000c93556ff", "4efb4238-bc49-f388-0000-0000c93556fe"};
+        //String[] sectionIds =
+        
+        
+        //Section[] sections = new Section[sectionIds.length];
+        List<Section> sections = new ArrayList<Section>();
+        
         //TODO: CHANGE TO USE RETURN FROM TEACHER-SECTION-ASSOCIATIONS
-        for (String sectionId : sectionIds) {
-            sections[i++] = getSection(sectionId, token);
+        //for (String sectionId : sectionIds) {
+        System.out.println("NUM RESPONSES: " + responses.length);
+        for(AssociationResponseObject response : responses) {
+      		System.out.println("parseid(response.getLink()): " + parseId(response.getLink()));
+            sections.add(getSection(parseId(response.getLink()), token));
         }
         
-        return sections;
+        // FIXME: converting like this because we suck.
+        
+        Section[] sections2 = new Section[sections.size()];
+        int index = 0;
+        for(Section s : sections) {
+        	sections2[index++] = s;
+        }
+        
+        return sections2;
     }
 
     private Course[] getCoursesForSections(Section[] sections, String token) {
@@ -163,11 +198,21 @@ public class LiveAPIClient implements APIClient {
             Course course = new Course();
             Section[] sectionArray = {section};
             course.setSections(sectionArray);
-            String sectionName = section.getUniqueSectionCode();
-            course.setCourse(sectionName.substring(0, sectionName.length() - 3));
+            String sectionName = section.getSectionName();
+            if( sectionName.indexOf('-') > 0) {
+            	course.setCourse(sectionName.substring(0, sectionName.indexOf('-') - 1));
+            } else {
+            	course.setCourse(sectionName);
+            }
             
             //TODO: Make a mapping between courses and schools 
-            course.setSchoolId("0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
+            //course.setSchoolId("0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
+            if( SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
+            	course.setSchoolId("00000000-0000-0000-0000-000000000201");
+            }
+            else {
+            	course.setSchoolId("00000000-0000-0000-0000-000000000202");
+            }
             courses[i++] = course;
         }
 
@@ -191,4 +236,9 @@ public class LiveAPIClient implements APIClient {
             
         return (School[]) schoolMap.values().toArray(new School[1]);
     }
+    
+    private String getUsername() {
+    	return SecurityUtil.getPrincipal().getUsername().replace(" ", "");
+    }
+    
 }
