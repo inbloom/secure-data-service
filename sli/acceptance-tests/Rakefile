@@ -294,7 +294,7 @@ task :importSandboxData do
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
     "educationOrganizationschoolassociation" => "school_educationOrganization_fixure.json",
-    "aggregationdefinition" => "aggregationdefinition_fixture.json",
+    "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffeducationOrganizationassociation" => "staffEducationOrganizationAssociation_fixture.json",
     "realm" => "realm_fixture.json"
   ]
