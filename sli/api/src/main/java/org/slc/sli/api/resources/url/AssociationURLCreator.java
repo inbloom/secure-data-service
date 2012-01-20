@@ -1,9 +1,7 @@
 package org.slc.sli.api.resources.url;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_ID_MAPPINGS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_MAPPINGS;
-import static org.slc.sli.api.resources.util.ResourceConstants.ASSOC_ENTITY_NAME_MAPPINGS;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -75,27 +73,27 @@ public class AssociationURLCreator extends URLCreator {
             if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
                 
                 // build the param map
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(ENTITY_ID_MAPPINGS.get(entityDef.getType()), entityId);
+                Map<String, String> params = new HashMap<String, String>();                
+                params.put(assoc.getSourceKey(), entityId);                
                 
-                LOG.debug("entityDef type : " + entityDef.getType());
+                LOG.debug("entityDef type : " + entityDef.getType());               
                 
                 // get the actual associations
                 Iterable<Entity> entityList = repo
-                        .findByFields(ASSOC_ENTITY_NAME_MAPPINGS.get(assoc.getType()), params);
-                LOG.debug("assoc type : " + assoc.getType());
+                        .findByFields(assoc.getStoredCollectionName(), params);
+                LOG.debug("assoc type : " + assoc.getType());                
                 
                 for (Entity e : entityList) {
                     // add the link to the list
                     urls.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
                             .path(RESOURCE_PATH_AGG)
                             .path(RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
-                            .path((String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType())))
+                            .path((String) e.getBody().get(assoc.getTargetKey()))
                             .build().toString()));
                     
                     // try and get the associations under the entity
                     getAssociationUrls(assoc.getTargetEntity(),
-                            (String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType())), urls,
+                            (String) e.getBody().get(assoc.getTargetKey()), urls,
                             uriInfo);
                 }
             }
