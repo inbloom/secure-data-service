@@ -14,6 +14,7 @@ import freemarker.ext.beans.BeansWrapper;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.ProgramParticipation;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.StudentManager;
@@ -71,8 +72,9 @@ public class StudentListContentController extends DashboardController {
         }
 
         List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+        List<ProgramParticipation> programs = studentManager.getProgramParticipation(user.getUsername(), uids);
 
-        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students));
+        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
