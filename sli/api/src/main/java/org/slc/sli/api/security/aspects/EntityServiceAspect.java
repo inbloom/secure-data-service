@@ -37,7 +37,7 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Aspect
 public class EntityServiceAspect {
     
-    private static final Logger  LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
     @Autowired
     private EntitySchemaRegistry schemaRegistry;
@@ -48,11 +48,15 @@ public class EntityServiceAspect {
     /**
      * Controls access to functions in the EntityService class.
      * 
-     * @param pjp Method invoked if principal has required rights.
+     * @param pjp
+     *            Method invoked if principal has required rights.
      * @return Entity returned from invoked method (if method is entered).
-     * @throws Throwable AccessDeniedException (HTTP 403).
+     * @throws Throwable
+     *             AccessDeniedException (HTTP 403).
      */
-    @Around("call(* org.slc.sli.api.service.CoreEntityService.create(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.update(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.delete(..))")
+    @Around("call(* org.slc.sli.api.service.CoreEntityService.create(..)) || "
+            + "call(* org.slc.sli.api.service.CoreEntityService.update(..)) || "
+            + "call(* org.slc.sli.api.service.CoreEntityService.delete(..))")
     public Object authorizeWrite(ProceedingJoinPoint pjp) throws Throwable {
         if (hasElevatedAccess()) {
             return pjp.proceed();
@@ -68,9 +72,11 @@ public class EntityServiceAspect {
     /**
      * Controls access to functions in the EntityService class.
      * 
-     * @param pjp Method invoked if principal has required rights.
+     * @param pjp
+     *            Method invoked if principal has required rights.
      * @return Entity returned from invoked method (if method is entered).
-     * @throws Throwable AccessDeniedException (HTTP 403).
+     * @throws Throwable
+     *             AccessDeniedException (HTTP 403).
      */
     @Around("call(* org.slc.sli.api.service.CoreEntityService.get(..))")
     public Entity filterEntityRead(ProceedingJoinPoint pjp) throws Throwable {
@@ -87,7 +93,8 @@ public class EntityServiceAspect {
         if (entity != null && !isPublicContext()) {
             
             // determine if principal entity is valid
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
             if (principal == null || principal.getEntity() == null) {
                 LOG.error("Security Context does not contain a principal entity");
                 throwAccessDeniedException();
@@ -95,7 +102,9 @@ public class EntityServiceAspect {
             
             EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity(), entity);
             
-            if (resolver instanceof AssociativeContextResolver) { // FIXME temporary hack so that only educator is context-enforced
+            if (resolver instanceof AssociativeContextResolver) { // FIXME temporary hack so that
+                                                                  // only educator is
+                                                                  // context-enforced
                 List<String> accessibleIds = resolver.findAccessible(principal.getEntity());
                 
                 if (!accessibleIds.contains(entity.getEntityId())) {
@@ -126,11 +135,14 @@ public class EntityServiceAspect {
     /**
      * Controls access to functions in the EntityService class.
      * 
-     * @param pjp Method invoked if principal has required rights.
+     * @param pjp
+     *            Method invoked if principal has required rights.
      * @return Entity returned from invoked method (if method is entered).
-     * @throws Throwable AccessDeniedException (HTTP 403).
+     * @throws Throwable
+     *             AccessDeniedException (HTTP 403).
      */
-    @Around("call(* org.slc.sli.api.service.EntityService.list(..)) || " + "call(* org.slc.sli.api.service.EntityService.exists(..))")
+    @Around("call(* org.slc.sli.api.service.EntityService.list(..)) || "
+            + "call(* org.slc.sli.api.service.EntityService.exists(..))")
     public Object authorizeExists(ProceedingJoinPoint pjp) throws Throwable {
         if (hasElevatedAccess()) {
             return pjp.proceed();
@@ -201,7 +213,8 @@ public class EntityServiceAspect {
     /**
      * Returns true if the Field is marked "restricted" under "read_enforcement".
      * 
-     * @param field Field to be checked for a 'restricted' read enforcement flag.
+     * @param field
+     *            Field to be checked for a 'restricted' read enforcement flag.
      * @return Boolean indicating whether or not the Field requires READ_RESTRICTED right to be
      *         read.
      */

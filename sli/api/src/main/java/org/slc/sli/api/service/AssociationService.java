@@ -17,7 +17,7 @@ public interface AssociationService extends EntityService {
      *            the query string to filter returned collection results
      * @return the ids of association entities
      */
-
+    
     public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString);
     
     /**

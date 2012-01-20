@@ -15,7 +15,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 /**
  * 
  * @author pwolf
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -58,8 +58,7 @@ public class DefaultSliAdminValidatorTest {
     @Test
     public void testNullRealm() {
         SliAdminValidator validator = new DefaultSliAdminValidator(".*");
-        Assert.assertFalse("Tolerate a null realm, but never allow it to match", 
-                validator.isSliAdminRealm(null));
+        Assert.assertFalse("Tolerate a null realm, but never allow it to match", validator.isSliAdminRealm(null));
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -72,5 +71,5 @@ public class DefaultSliAdminValidatorTest {
     public void testBadRegex() {
         SliAdminValidator validator = new DefaultSliAdminValidator("(foo");
     }
-
+    
 }

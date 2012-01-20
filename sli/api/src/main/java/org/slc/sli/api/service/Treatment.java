@@ -3,7 +3,6 @@ package org.slc.sli.api.service;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 
-
 /**
  * Interface for objects used to transform entities between their database representations and their
  * exposed representations on the ReST URI.
@@ -22,15 +21,19 @@ public interface Treatment {
      * 
      * @param exposed
      *            The entity in the form it is exposed via ReST
-     * @param defn TODO
+     * @param defn
+     *            TODO
      * @return The entity in the form it is stored in the DB
      */
     public EntityBody toStored(EntityBody exposed, EntityDefinition defn);
     
     /**
      * Transform from a stored entity to an exposed entity
-     * @param defn TODO
-     * @param id TODO
+     * 
+     * @param defn
+     *            TODO
+     * @param id
+     *            TODO
      * @param exposed
      *            The entity in the form it is stored in the DB
      * @return The entity in the form it is exposed via ReST

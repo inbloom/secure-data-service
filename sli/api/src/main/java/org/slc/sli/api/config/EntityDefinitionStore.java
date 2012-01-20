@@ -18,7 +18,7 @@ public interface EntityDefinitionStore {
      * @return the definition of the entity
      */
     public EntityDefinition lookupByResourceName(String resourceName);
-
+    
     /**
      * Find an entity definition based on the entity type
      * 

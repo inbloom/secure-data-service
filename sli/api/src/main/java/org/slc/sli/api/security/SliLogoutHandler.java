@@ -24,34 +24,37 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class SliLogoutHandler implements LogoutHandler {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(SliLogoutHandler.class);
-
+    
     @Value("http://devdanil.slidev.org:8080/idp")
     private String tokenServiceUrl;
     @Value("/identity/logout?subjectid=")
     private String logoutPath;
-
+    
     private RestTemplate rest = new RestTemplate();
-
+    
     /**
      * Requires the request to be passed in.
-     *
-     * @param request        from which to obtain a HTTP session (cannot be null)
-     * @param response       not used (can be <code>null</code>)
-     * @param authentication not used (can be <code>null</code>)
+     * 
+     * @param request
+     *            from which to obtain a HTTP session (cannot be null)
+     * @param response
+     *            not used (can be <code>null</code>)
+     * @param authentication
+     *            not used (can be <code>null</code>)
      */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         Assert.notNull(request, "HttpServletRequest required");
-
+        
         if (authentication != null && authentication.getCredentials() != null) {
-
+            
             String tokenId = (String) authentication.getCredentials();
             invalidateSessionAtTokenService(tokenId);
         }
     }
-
+    
     private void invalidateSessionAtTokenService(String sessionId) {
         try {
             String logoutUrl = tokenServiceUrl + logoutPath + sessionId;
@@ -65,17 +68,17 @@ public class SliLogoutHandler implements LogoutHandler {
             LOG.error("Logout error calling openAM Restful Service at {}", e);
         }
     }
-
+    
     public void setTokenServiceUrl(String tokenServiceUrl) {
         this.tokenServiceUrl = tokenServiceUrl;
     }
-
+    
     public void setLogoutPath(String logoutPath) {
         this.logoutPath = logoutPath;
     }
-
+    
     public void setRest(RestTemplate rest) {
         this.rest = rest;
     }
-
+    
 }

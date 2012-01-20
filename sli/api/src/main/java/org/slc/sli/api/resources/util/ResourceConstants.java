@@ -52,8 +52,10 @@ public class ResourceConstants {
      */
     public static final Map<String, String> ASSOC_ENTITY_NAME_MAPPINGS = new HashMap<String, String>();
     static {
-        ASSOC_ENTITY_NAME_MAPPINGS.put("educationOrganizationSchoolAssociation", "educationOrganizationschoolassociation");
-        ASSOC_ENTITY_NAME_MAPPINGS.put("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation");
+        ASSOC_ENTITY_NAME_MAPPINGS.put("educationOrganizationSchoolAssociation",
+                "educationOrganizationschoolassociation");
+        ASSOC_ENTITY_NAME_MAPPINGS
+                .put("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation");
         ASSOC_ENTITY_NAME_MAPPINGS.put("teacherSchoolAssociation", "teacherschoolassociation");
         ASSOC_ENTITY_NAME_MAPPINGS.put("teacherSectionAssociation", "teachersectionassociation");
     }

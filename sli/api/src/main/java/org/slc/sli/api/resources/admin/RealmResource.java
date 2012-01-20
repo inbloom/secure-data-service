@@ -39,15 +39,15 @@ import org.slc.sli.api.service.EntityService;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class RealmResource implements IdpResolver {
     
-    private static final Logger   LOG        = LoggerFactory.getLogger(RealmResource.class);
-    private static final int      MAX_REALMS = 9999;
+    private static final Logger LOG = LoggerFactory.getLogger(RealmResource.class);
+    private static final int MAX_REALMS = 9999;
     
     @Autowired
     private EntityDefinitionStore store;
-    
     @Autowired
     @Value("${sli.security.sso.url}")
-    private String                ssoInitUrl;
+    
+    private String ssoInitUrl;
     
     /**
      * Provides a list of all available realms
@@ -71,7 +71,8 @@ public class RealmResource implements IdpResolver {
     /**
      * Provides the SSO initiation url given the idp of the user
      * 
-     * @param realmId id of the user preferred idp
+     * @param realmId
+     *            id of the user preferred idp
      */
     @GET
     @Path("ssoInit")
