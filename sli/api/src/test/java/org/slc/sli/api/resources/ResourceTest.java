@@ -368,7 +368,7 @@ public class ResourceTest {
         assertNotNull(createResponseAggregationDefinition);
         assertEquals(Status.CREATED.getStatusCode(), createResponseAggregationDefinition.getStatus());
         String aggregationDefinitionId = parseIdFromLocation(createResponseAggregationDefinition);
-        ids.put(new TypeIdPair("aggregationdefinitions", aggregationDefinitionId),
+        ids.put(new TypeIdPair("aggregationDefinitions", aggregationDefinitionId),
                 (String) createResponseAggregationDefinition.getMetadata().get("Location").get(0));
         
         Response createResponseAggregation = api.createEntity("aggregations", new EntityBody(createTestEntity()),
