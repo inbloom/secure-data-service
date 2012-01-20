@@ -27,9 +27,17 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
+      <properties>
+	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
+	    <server.mode>live</server.mode>
+	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
+	    <apiclient>Live</apiclient>
+      </properties>
       <build>
         <filters>
+        <!-- 
           <filter>src/main/filters/server.properties</filter>
+           -->
         </filters>
       </build>
     </profile>
@@ -43,6 +51,10 @@
     <profile>
       <id>test</id>
       <properties>
+	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
+	    <server.mode>test</server.mode>
+	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
+	    <apiclient>Mock</apiclient>
         <env>test</env>
       </properties>
     </profile>

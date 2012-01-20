@@ -15,6 +15,7 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.ProgramParticipation;
 import java.util.List;
 import java.util.Vector;
 
@@ -83,6 +84,21 @@ public class MockAPIClient implements APIClient {
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentMetaData[].class);
+    }
+    
+    @Override
+    public ProgramParticipation[] getProgramParticipation(final String token, List<String> studentIds) {
+        ProgramParticipation[] programs = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/program_participation.json"), ProgramParticipation[].class);
+        // perform the filtering. 
+        Vector<ProgramParticipation> filtered = new Vector<ProgramParticipation>();
+        if (studentIds != null)
+            for (ProgramParticipation program : programs) { 
+                if (studentIds.contains(program.getStudentId())) { 
+                    filtered.add(program);
+                }
+            }
+        ProgramParticipation[] retVal = new ProgramParticipation[filtered.size()];
+        return filtered.toArray(retVal);
     }
 
     // Helper function to translate a .json file into object. 
