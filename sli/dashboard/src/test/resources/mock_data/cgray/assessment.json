@@ -1,1 +1,434 @@
-[]
+[
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "perfLevel": "1",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "perfLevel": "1",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "746199592",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "323538529",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "428250371",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "114989598",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "196038854",
+        "year": "2011",
+        "perfLevel": "1",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "992193581",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "802709591",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "437680177",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "170011136",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "547028299",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "258392050",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "178875887",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "100644447",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "376191021",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "336344132",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "711411586",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "131758477",
+        "year": "2010",
+        "perfLevel": "5",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "670703438",
+        "year": "2010",
+        "perfLevel": "1",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "851123275",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "423037202",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "250918988",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "421216329",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "746199592",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "323538529",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "428250371",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "114989598",
+        "year": "2010",
+        "perfLevel": "4",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "558780133",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "196038854",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "992193581",
+        "year": "2010",
+        "perfLevel": "2",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "541397175",
+        "year": "2010",
+        "perfLevel": "3",
+        "assessmentName": "AP_LITERATURE"
+},
+{
+        "studentId": "555685100",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "453827023",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "555685177",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "453827070",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "943715230",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "164420088",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "505331723",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "530425896",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "429526969",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "525878920",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "510152105",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "802709591",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "437680177",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "170011136",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "547028299",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "258392050",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "178875887",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "100644447",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "376191021",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "336344132",
+        "year": "2011",
+        "perfLevel": "2",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "711411586",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "131758477",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "670703438",
+        "year": "2011",
+        "perfLevel": "5",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "851123275",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "423037202",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "250918988",
+        "year": "2011",
+        "perfLevel": "4",
+        "assessmentName": "AP_LANGUAGE"
+},
+{
+        "studentId": "421216329",
+        "year": "2011",
+        "perfLevel": "3",
+        "assessmentName": "AP_LANGUAGE"
+}
+]

@@ -1,11 +1,7 @@
 <h1>Editing role</h1>
-<% form_for @role do |f| -%>
-  
-<% end -%>
+<%= render 'form' %>
 
-<%= submit_tag "Save changes", :id => "submit", :name => "submit", :class => "form_submit", :disabled => false, :disable_with => "Please wait..." %>
-<%= submit_tag "+", :id => "add", :name => "add", :class => "add_mapping", :disabled => false, :disable_with => "Please wait..." %>
-<%= link_to 'Show', @role %> |
+<%= link_to 'Show', @role.id %> |
 <%= link_to 'Back', roles_path %>
 
 <script type="text/javascript">

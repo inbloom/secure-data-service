@@ -3,6 +3,43 @@ class RolesController < ApplicationController
   # GET /roles.json
   def index
     @roles = Role.all
+    @roles.each do |role|
+      case role.name
+      when /Aggregator/
+        role.examples = "State Data Analyst, State DOE Representative"
+        role.individual = nil
+      when /Leader/
+        role.examples = "School Principal, District Superintendent, State Superintendent" 
+        role.individual = "student enrolled in my district(s) or school(s)"
+      when /Educator/
+        role.examples = "Teacher, Athletic Coach, Classroom Assistant"
+        role.individual = "student enrolled in my sections"
+      when /IT Administrator/
+        role.examples = "SLC Operator, SEA IT Admin, LEA IT Admin"
+        role.individual = "student enrolled in my district(s) or school(s)"
+      end
+      role.general = []
+      role.restricted = []
+      role.rights.each do |right|
+        puts "Right: #{right}"
+        case right
+        when /AGGREGATE_READ/
+          role.aggregate = "yes"
+        when /READ_GENERAL/
+          role.general << "R"
+        when /READ_RESTRICTED/
+          role.restricted << "R"
+        when /WRITE_GENERAL/
+          role.general << "W"
+        when /WRITE_RESTRICTED/
+          role.restricted << "W"
+        end
+        puts "Rights in Role: #{role}"    
+      end
+      puts "Temp Role: #{role}"
+      role.general = role.general.join('/')
+      role.restricted = role.restricted.join('/')
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @roles }
@@ -20,24 +57,26 @@ class RolesController < ApplicationController
     end
   end
 
-  # GET /roles/new
-  # GET /roles/new.json
-  def new
-    @role = Role.new
+  # # GET /roles/new
+  # # GET /roles/new.json
+  # def new
+  #   @role = Role.new
+  # 
+  #   respond_to do |format|
+  #     format.html # new.html.erb
+  #     format.json { render json: @role }
+  #   end
+  # end
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @role }
-    end
-  end
-  
   # GET /roles/1/edit
   def edit
+    puts "Params: #{params}"
     @role = Role.find(params[:id])
+    puts "Role #{@role}"
   end
 
-  # # POST /roles
-  # # POST /roles.json
+  # POST /roles
+  # POST /roles.json
   # def create
   #   @role = Role.new(params[:role])
   # 
@@ -59,7 +98,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
-        format.html { redirect_to @role, notice: 'Role was successfully updated.' }
+        format.html { redirect_to @role.id, notice: 'Role was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -68,8 +107,8 @@ class RolesController < ApplicationController
     end
   end
 
-  # # DELETE /roles/1
-  # # DELETE /roles/1.json
+  # DELETE /roles/1
+  # DELETE /roles/1.json
   # def destroy
   #   @role = Role.find(params[:id])
   #   @role.destroy

@@ -163,13 +163,27 @@ public class BasicAssocService extends BasicService implements AssociationServic
         else
             query.addCriteria(Criteria.where("body." + key).is(id));
         
-        Iterable<Entity> entityObjects = getRepo().findByFields(getCollectionName(), query, start, numResults);
+        Iterable<Entity> entityObjects = getRepo().findByQuery(getCollectionName(), query, start, numResults);
         return entityObjects;
     }
     
     private boolean createAssocValidate(EntityBody content) {
         String sourceType = sourceDefn.getType();
-        String sourceId = (String) content.get(sourceType + "Id");
+        String targetType = targetDefn.getType();
+
+        String sourceKey = sourceType + "Id";
+        String targetKey = targetType + "Id";
+
+        // If both the source and the target are the same type,
+        // add Source-Target info that is specified in association
+        if (sourceType.equals(targetType)) {
+            sourceKey = sourceKey + "Source";
+            targetKey = targetKey + "Target";
+        }
+
+        String sourceId = (String) content.get(sourceKey);
+        String targetId = (String) content.get(targetKey);
+        
         String sourceCollectionName = sourceDefn.getStoredCollectionName();
         ValidationError sourceError;
         ValidationError targetError;
@@ -180,8 +194,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
                     + "Id", sourceId, null);
             errors.add(sourceError);
         }
-        String targetType = targetDefn.getType();
-        String targetId = (String) content.get(targetType + "Id");
         String targetCollectionName = targetDefn.getStoredCollectionName();
         
         if (!checkEntityExist(targetCollectionName, targetId)) {

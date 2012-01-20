@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.perf4j.aop.Profiled;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -27,6 +28,7 @@ public class ControlFilePreProcessor implements Processor {
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
     @Override
+    @Profiled(tag = "ControlFilePreProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error

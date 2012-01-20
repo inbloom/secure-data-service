@@ -23,11 +23,6 @@ Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id
 end
 
-Given /^format "([^"]*)"$/ do |arg1|
-  ["application/json", "application/xml", "text/plain"].should include(arg1)
-  @format = arg1
-end
-
 Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
   @data = {} if !defined? @data
   if key == "assessmentIdentificationCode"
@@ -39,34 +34,22 @@ end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   if key == "assessmentIdentificationCode"
-    assert(@data[key][0]['id'] == value, "Expected value of #{value} but received #{@data[key][0]['id']} in the response body")
+    assert(@result[key][0]['id'] == value, "Expected value of #{value} but received #{@result[key][0]['id']} in the response body")
   else
-    assert(@data[key] == value, "Expected value of #{value} but received #{@data[key]}")
+    assert(@result[key] == value, "Expected value of #{value} but received #{@result[key]}")
   end
 end
 
-When /^I set the "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
-  @data[arg1] = arg2
+When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
+  @result[key] = value
 end
 
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   if @format == "application/json"
-    dataH = Hash[
-      "assessmentTitle" => @assessmentTitle,
-      "assessmentIdentificationCode" => [Hash["identificationSystem"=>"School","id"=>@assessmentIdentificationCode]],
-      "academicSubject" => @academicSubject,
-      "assessmentCategory" => @assessmentCategory,
-      "gradeLevelAssessed" => @gradeLevelAssessed,
-      "contentStandard" => @contentStandard,
-      "version" => @version
-      ]
-    data = @data.to_json
-      
+    data = @data.to_json 
   elsif @format == "application/xml"
-    builder = Builder::XmlMarkup.new(:indent=>2)
-    
-      
+    builder = Builder::XmlMarkup.new(:indent=>2)   
   else
     assert(false, "Unsupported MIME type")
   end
@@ -76,87 +59,18 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
 
 end
 
-Then /^I should receive an ID for a newly created assessment$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "Assessment ID is nil")
-end
 
-When /^I navigate to GET "([^"]*<[^"]*>)"$/ do |arg1|
-  restHttpGet(arg1)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  
-  if @format == "application/json"
-    begin
-      @data = JSON.parse(@res.body);
-    rescue
-      @data = nil
-    end
-  end
-end
-
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>\/targets)"$/ do |rel, href|
-  @data = JSON.parse(@res.body)
-  assert(@data != nil, "Response contains no data")
-  assert(@data.is_a?(Hash), "Response contains #{@data.class}, expected Hash")
-  assert(@data.has_key?("links"), "Response contains no links")
-  found = false
-  @data["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-
-
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |arg1|
-
-  if @format == "application/json"   
-    data = @data.to_json
-  elsif @format == "application/xml"
-    data = @data
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  
-  restHttpPut(arg1, data)
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
-  
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
 end
 
-When /^I navigate to DELETE "([^"]*<[^"]*>)"$/ do |arg1|
-  restHttpDelete(arg1)
-  assert(@res != nil, "Response from rest-client DELETE is nil")
-end
 
-When /^I attempt to update "([^"]*<[^"]*>)"$/ do |arg1|
-  if @format == "application/json"
-    dataH = Hash[
-      "assessmentTitle" => @assessmentTitle,
-      "academicSubject" => @academicSubject,
-      "assessmentCategory" => @assessmentCategory,
-      "gradeLevelAssessed" => @gradeLevelAssessed,
-      "contentStandard" => @contentStandard]
-    
-    data = dataH.to_json
-  elsif @format == "application/xml"
-    builder = Builder::XmlMarkup.new(:indent=>2)
-    data = builder.assessment { |b|
-      b.assessmentTitle(@assessmentTitle)
-      b.academicSubject(@academicSubject) 
-      b.assessmentCategory(@assessmentCategory)
-      b.gradeLevelAssessed(@gradeLevelAssessed)
-      b.contentStandard(@contentStandard)
-      }
-    
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPut(arg1, data)
+When /^I attempt to update "([^"]*<[^"]*>)"$/ do |url|
+  @result = {}
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
 end

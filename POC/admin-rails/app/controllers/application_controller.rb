@@ -1,23 +1,30 @@
-require 'active_resource/base'
-require 'rubygems'
-
+require "active_resource/base"
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :check_login
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
-    redirect_to exception.response['WWW-Authenticate'] + "?RelayState=#{@current_url}"
+    redirect_to exception.response['WWW-Authenticate'] + "?RelayState=#{current_url}"
   end
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
     super
   end
+  
+  rescue_from ActiveResource::ServerError do |exception|
+    logger.error {"Exception on server, clearing your session."}
+    SessionResource.auth_id = nil
+  end
 
   
   def begin_authenticate(authentication)
-    redirect_to authentication + "?RelayState=" + request.url
+    redirect_to authentication + "?RelayState=" + current_url
+  end
+  
+  def current_url
+    "http://" + request.host_with_port + request.fullpath
   end
   
   def check_login

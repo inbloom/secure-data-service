@@ -1,21 +1,33 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
+admin:
+  id: 0
   name: IT Administrator
   rights:
-    - READ_GENERAL
-    - WRITE_GENERAL
-    - READ_RESTRICTED
-    - WRITE_RESTRICTED
-    - AGGREGATE_READ
-    - AGGREGATE_WRITE
+    - Admin Right 1
+    - Admin Right 2
+    - Admin Right 3
   mappings:
-    - NC Administrator
 
-two:
+educator:
+  id: 1
   name: Educator
   rights:
-    - READ_GENERAL
-    - WRITE_GENERAL
+      - Educator Right 1
+      - Educator Right 2
+      - Educator Right 3
   mappings:
+      - teacher
+      - Teacher
+      - NC Teacher
       
+update:
+    id:
+    name: IT Administrator
+    rights:
+        - Admin Right 1
+        - Admin Right 2
+        - Admin Right 3
+    mappings:
+        - admin
+        - Super Duper Admin
+        - dude guy

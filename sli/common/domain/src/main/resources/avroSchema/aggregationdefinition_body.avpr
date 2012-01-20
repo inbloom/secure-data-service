@@ -56,8 +56,7 @@
     "type" : {
       "type" : "string",
       "max-length" : "60",
-      "min-length" : "1",
-      "default": "studentassessmentassociation"
+      "min-length" : "1"
     }
   }]
 }

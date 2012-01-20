@@ -4,6 +4,7 @@ package org.slc.sli.unit.config;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.slc.sli.config.ConfigUtil;
@@ -23,7 +24,8 @@ public class ConfigUtilTest {
         
     }
 
-    //@Test
+    @Ignore
+    @Test
     public void testFromXMLString1() {
         
         String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"

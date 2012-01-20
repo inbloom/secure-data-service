@@ -8,6 +8,7 @@
 <script type="text/javascript" src="static/js/dashboardUtil.js"></script>
 <script type="text/javascript" src="static/js/fuelGaugeWidget.js"></script>
 
+<#-- TODO: find better way to pass freemarker variable to javascript -->
 <script type="text/javascript">
 var schools = ${schoolList};
 $.ajaxSetup ({cache: false});
