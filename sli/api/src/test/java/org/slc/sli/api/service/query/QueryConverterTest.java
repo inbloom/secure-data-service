@@ -40,4 +40,12 @@ public class QueryConverterTest {
     public void testStringToQueryException() {
         queryConverter.stringToQuery("studentAssessmentAssociation", "nonexist.field=test");
     }
+    
+    @Test
+    public void testStringToQueryReservedKeys() {
+        assertEquals(queryConverter.stringToQuery("student", "sessionId=12345678").getQueryObject(),
+                new Query().getQueryObject());
+        assertEquals(queryConverter.stringToQuery("student", "start-index=10").getQueryObject(),
+                new Query().getQueryObject());
+    }
 }

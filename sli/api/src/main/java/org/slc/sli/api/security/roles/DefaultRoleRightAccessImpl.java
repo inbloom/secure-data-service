@@ -73,13 +73,20 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
     
     @Override
     public List<Role> fetchAllRoles() {
-        List<Role> roles = new ArrayList<Role>();
-        Iterable<String> ids = service.list(0, 100);
-        for (String id : ids) {
-            EntityBody body = service.get(id);
-            roles.add(getRoleWithBodyAndID(id, body));
+        List<Role> allRoles = new ArrayList<Role>();
+        Iterable<Entity> results = repo.findAll("roles");
+        for (Entity entity : results) {
+            allRoles.add(getRoleWithBodyAndID(entity.getEntityId(), new EntityBody(entity.getBody())));
         }
-        return roles;
+        return allRoles;
+        
+        // List<Role> roles = new ArrayList<Role>();
+        // Iterable<String> ids = service.list(0, 100);
+        // for (String id : ids) {
+        // EntityBody body = service.get(id);
+        // roles.add(getRoleWithBodyAndID(id, body));
+        // }
+        // return roles;
     }
     
     @Override
