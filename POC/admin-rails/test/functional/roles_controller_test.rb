@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
-
+  setup do
+    @roles = Role.all
+  end
+  
   test "should get index" do
     get :index
     assert_response :success
@@ -22,17 +25,17 @@ class RolesControllerTest < ActionController::TestCase
   # end
 
   test "should show role" do
-    get :show, id: @role_fixtures["admin"].to_param
+    get :show, id: @roles[0].id
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @role_fixtures["admin"].to_param
+    get :edit, id: @roles[0].id
     assert_response :success
   end
 
   test "should update role" do
-    put :update, id: @role_fixtures["admin"]["id"], role: @role_fixtures["update"]
+    put :update, id:@roles[0].id, role: @role_fixtures["update"]
     assert_redirected_to role_path(assigns(:role))
   end
 

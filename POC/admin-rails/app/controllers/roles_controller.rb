@@ -70,7 +70,6 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    puts "Params: #{params}"
     @role = Role.find(params[:id])
     puts "Role #{@role}"
   end
@@ -95,7 +94,7 @@ class RolesController < ApplicationController
   # PUT /roles/1.json
   def update
     @role = Role.find(params[:id])
-
+    puts params[:role]
     respond_to do |format|
       if @role.update_attributes(params[:role])
         format.html { redirect_to @role.id, notice: 'Role was successfully updated.' }
