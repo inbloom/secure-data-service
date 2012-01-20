@@ -7,27 +7,11 @@
       <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
          <!--
         var propertiesBoxes= new Array('properties_Graduation.xsd', 
-				'properties_StudentAcademicRecord', 
-				'properties_StudentAcademicRecord_CumulativeCreditsEarned', 
-				'properties_StudentAcademicRecord_CumulativeCreditsAttempted', 
-				'properties_StudentAcademicRecord_CumulativeGradePointsEarned', 
-				'properties_StudentAcademicRecord_CumulativeGradePointAverage', 
-				'properties_StudentAcademicRecord_GradeValueQualifier', 
-				'properties_StudentAcademicRecord_ClassRanking', 
-				'properties_StudentAcademicRecord_AcademicHonors', 
-				'properties_StudentAcademicRecord_Recognitions', 
-				'properties_StudentAcademicRecord_ProjectedGraduationDate', 
-				'properties_StudentAcademicRecord_StudentReference', 
-				'properties_StudentAcademicRecord_SessionReference', 
-				'properties_StudentAcademicRecord_ReportCardReference', 
-				'properties_StudentAcademicRecord_DiplomaReference', 
-				'properties_PostSecondaryEvent', 
 				'properties_PostSecondaryEvent_EventDate', 
 				'properties_PostSecondaryEvent_PostSecondaryEventCategory', 
 				'properties_PostSecondaryEvent_NameOfInstitution', 
 				'properties_PostSecondaryEvent_InstitutionId', 
 				'properties_PostSecondaryEvent_StudentReference', 
-				'properties_Diploma', 
 				'properties_Diploma_DiplomaAwardDate', 
 				'properties_Diploma_DiplomaLevel', 
 				'properties_Diploma_DiplomaType', 
@@ -36,8 +20,7 @@
 				'properties_Diploma_Recognitions', 
 				'properties_Diploma_SchoolReference');
 
-        var facetsBoxes= new Array('facets_StudentAcademicRecord_GradeValueQualifier', 
-				'facets_PostSecondaryEvent_PostSecondaryEventCategory', 
+        var facetsBoxes= new Array('facets_PostSecondaryEvent_PostSecondaryEventCategory', 
 				'facets_PostSecondaryEvent_NameOfInstitution', 
 				'facets_PostSecondaryEvent_InstitutionId', 
 				'facets_Diploma_DiplomaLevel', 
@@ -46,75 +29,40 @@
         
         
         
-        var diagramBoxes= new Array('diagram_StudentAcademicRecord', 
-				'diagram_StudentAcademicRecord_CumulativeCreditsEarned', 
-				'diagram_StudentAcademicRecord_CumulativeCreditsAttempted', 
-				'diagram_StudentAcademicRecord_CumulativeGradePointsEarned', 
-				'diagram_StudentAcademicRecord_CumulativeGradePointAverage', 
-				'diagram_StudentAcademicRecord_GradeValueQualifier', 
-				'diagram_StudentAcademicRecord_ClassRanking', 
-				'diagram_StudentAcademicRecord_AcademicHonors', 
-				'diagram_StudentAcademicRecord_Recognitions', 
-				'diagram_StudentAcademicRecord_ProjectedGraduationDate', 
-				'diagram_StudentAcademicRecord_StudentReference', 
-				'diagram_StudentAcademicRecord_SessionReference', 
-				'diagram_StudentAcademicRecord_ReportCardReference', 
-				'diagram_StudentAcademicRecord_DiplomaReference', 
-				'diagram_PostSecondaryEvent', 
-				'diagram_PostSecondaryEvent_EventDate', 
+        var diagramBoxes= new Array('diagram_PostSecondaryEvent_EventDate', 
 				'diagram_PostSecondaryEvent_PostSecondaryEventCategory', 
 				'diagram_PostSecondaryEvent_NameOfInstitution', 
 				'diagram_PostSecondaryEvent_InstitutionId', 
 				'diagram_PostSecondaryEvent_StudentReference', 
-				'diagram_Diploma', 
 				'diagram_Diploma_DiplomaAwardDate', 
 				'diagram_Diploma_DiplomaLevel', 
 				'diagram_Diploma_DiplomaType', 
 				'diagram_Diploma_CTECompleter', 
 				'diagram_Diploma_AcademicHonors', 
 				'diagram_Diploma_Recognitions', 
-				'diagram_Diploma_SchoolReference');
+				'diagram_Diploma_SchoolReference', 
+				'diagram_PostSecondaryEvent', 
+				'diagram_Diploma');
 
-        var annotationBoxes= new Array('annotations_StudentAcademicRecord', 
-				'annotations_StudentAcademicRecord_CumulativeCreditsEarned', 
-				'annotations_StudentAcademicRecord_CumulativeCreditsAttempted', 
-				'annotations_StudentAcademicRecord_CumulativeGradePointsEarned', 
-				'annotations_StudentAcademicRecord_CumulativeGradePointAverage', 
-				'annotations_StudentAcademicRecord_GradeValueQualifier', 
-				'annotations_StudentAcademicRecord_ClassRanking', 
-				'annotations_StudentAcademicRecord_AcademicHonors', 
-				'annotations_StudentAcademicRecord_Recognitions', 
-				'annotations_StudentAcademicRecord_ProjectedGraduationDate', 
-				'annotations_StudentAcademicRecord_StudentReference', 
-				'annotations_StudentAcademicRecord_SessionReference', 
-				'annotations_StudentAcademicRecord_ReportCardReference', 
-				'annotations_StudentAcademicRecord_DiplomaReference', 
-				'annotations_PostSecondaryEvent', 
-				'annotations_PostSecondaryEvent_EventDate', 
+        var annotationBoxes= new Array('annotations_PostSecondaryEvent_EventDate', 
 				'annotations_PostSecondaryEvent_PostSecondaryEventCategory', 
 				'annotations_PostSecondaryEvent_NameOfInstitution', 
 				'annotations_PostSecondaryEvent_InstitutionId', 
 				'annotations_PostSecondaryEvent_StudentReference', 
-				'annotations_Diploma', 
 				'annotations_Diploma_DiplomaAwardDate', 
 				'annotations_Diploma_DiplomaLevel', 
 				'annotations_Diploma_DiplomaType', 
 				'annotations_Diploma_CTECompleter', 
 				'annotations_Diploma_AcademicHonors', 
 				'annotations_Diploma_Recognitions', 
-				'annotations_Diploma_SchoolReference');
+				'annotations_Diploma_SchoolReference', 
+				'annotations_PostSecondaryEvent', 
+				'annotations_Diploma');
 
-        var attributesBoxes= new Array('attributes_StudentAcademicRecord', 
-				'attributes_StudentAcademicRecord_CumulativeCreditsEarned', 
-				'attributes_StudentAcademicRecord_CumulativeCreditsAttempted', 
-				'attributes_StudentAcademicRecord_StudentReference', 
-				'attributes_StudentAcademicRecord_SessionReference', 
-				'attributes_StudentAcademicRecord_ReportCardReference', 
-				'attributes_StudentAcademicRecord_DiplomaReference', 
+        var attributesBoxes= new Array('attributes_PostSecondaryEvent_StudentReference', 
+				'attributes_Diploma_SchoolReference', 
 				'attributes_PostSecondaryEvent', 
-				'attributes_PostSecondaryEvent_StudentReference', 
-				'attributes_Diploma', 
-				'attributes_Diploma_SchoolReference');
+				'attributes_Diploma');
 
         
         var button_prefix = 'button_';
@@ -430,2021 +378,6 @@
                                        
                                     </td>
                                     <td><b>qualified</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord"></a><div class="componentTitle">Element <span class="qname">StudentAcademicRecord</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This educational entity represents the cumulative record of academic achievement for a student.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_StudentAcademicRecord.png"
-                                   usemap="#Graduation_xsd_Element_StudentAcademicRecord" /><map name="Graduation_xsd_Element_StudentAcademicRecord"
-                                   id="Graduation_xsd_Element_StudentAcademicRecord">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="238,80,310,104" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="213,5,465,27" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_CumulativeCreditsEarned"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_CumulativeCreditsEarned"
-                                       coords="302,158,469,182" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_CumulativeCreditsAttempted"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_CumulativeCreditsAttempted"
-                                       coords="302,235,488,259" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_CumulativeGradePointsEarned"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_CumulativeGradePointsEarned"
-                                       coords="302,312,495,336" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_CumulativeGradePointAverage"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_CumulativeGradePointAverage"
-                                       coords="302,389,496,413" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_GradeValueQualifier"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_GradeValueQualifier"
-                                       coords="302,466,440,490" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_ClassRanking"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_ClassRanking"
-                                       coords="302,543,405,567" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_AcademicHonors"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_AcademicHonors"
-                                       coords="302,620,425,644" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_Recognitions"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_Recognitions"
-                                       coords="302,684,403,708" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_ProjectedGraduationDate"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_ProjectedGraduationDate"
-                                       coords="302,761,467,785" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_StudentReference"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_StudentReference"
-                                       coords="302,825,427,849" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_SessionReference"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_SessionReference"
-                                       coords="302,902,427,926" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_ReportCardReference"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_ReportCardReference"
-                                       coords="302,966,448,990" />
-                                 <area alt="Graduation_xsd.tmp#StudentAcademicRecord_DiplomaReference"
-                                       href="Graduation_xsd.html#StudentAcademicRecord_DiplomaReference"
-                                       coords="302,1030,430,1054" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b></li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_CumulativeCreditsEarned"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / CumulativeCreditsEarned</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_CumulativeCreditsEarned"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_CumulativeCreditsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_CumulativeCreditsEarned"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The cumulative number of credits an individual earns by completing courses or</span><span class="tI">
-</span><span class="tT">examinations during his or her enrollment in the current school as well as those</span><span class="tI">
-</span><span class="tT">credits transferred from schools in which the individual had been previously</span><span class="tI">
-</span><span class="tT">enrolled.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_CumulativeCreditsEarned" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_CumulativeCreditsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_CumulativeCreditsEarned"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_CumulativeCreditsEarned.png"
-                                   usemap="#Graduation_xsd_Element_CumulativeCreditsEarned" /><map name="Graduation_xsd_Element_CumulativeCreditsEarned"
-                                   id="Graduation_xsd_Element_CumulativeCreditsEarned">
-                                 <area alt="ComplexTypes_xsd.tmp#Credits_CreditType"
-                                       href="ComplexTypes_xsd.html#Credits_CreditType"
-                                       coords="243,78,350,102" />
-                                 <area alt="ComplexTypes_xsd.tmp#Credits_CreditConversion"
-                                       href="ComplexTypes_xsd.html#Credits_CreditConversion"
-                                       coords="243,155,386,179" />
-                                 <area alt="ComplexTypes_xsd.tmp#Credits_Credit"
-                                       href="ComplexTypes_xsd.html#Credits_Credit"
-                                       coords="300,243,364,267" />
-                                 <area alt="ComplexTypes_xsd.tmp#Credits" href="ComplexTypes_xsd.html#Credits"
-                                       coords="218,3,308,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_CumulativeCreditsEarned"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_CumulativeCreditsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_CumulativeCreditsEarned"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord_CumulativeCreditsEarned"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord_CumulativeCreditsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord_CumulativeCreditsEarned"
-                                style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#Credits_CreditConversion" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">CreditConversion</a></b></td>
-                                    <td><b>xs:decimal</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Conversion factor that when multiplied by the</span><span class="tI">
-</span><span class="tT">number of credits is equivalent to Carnegie units.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#Credits_CreditType" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">CreditType</a></b></td>
-                                    <td><b><a href="SimpleTypes_xsd.html#CreditType" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">CreditType</a></b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The type of credits or units of value awarded for</span><span class="tI">
-</span><span class="tT">the completion of a course</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_CumulativeCreditsAttempted"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / CumulativeCreditsAttempted</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_CumulativeCreditsAttempted');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The cumulative number of credits an individual attempts to earn by taking courses</span><span class="tI">
-</span><span class="tT">during his or her enrollment in the current school as well as those credits</span><span class="tI">
-</span><span class="tT">transferred from schools in which the individual had been previously enrolled.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_CumulativeCreditsAttempted');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_CumulativeCreditsAttempted.png"
-                                   usemap="#Graduation_xsd_Element_CumulativeCreditsAttempted" /><map name="Graduation_xsd_Element_CumulativeCreditsAttempted"
-                                   id="Graduation_xsd_Element_CumulativeCreditsAttempted">
-                                 <area alt="ComplexTypes_xsd.tmp#Credits_CreditType"
-                                       href="ComplexTypes_xsd.html#Credits_CreditType"
-                                       coords="262,78,369,102" />
-                                 <area alt="ComplexTypes_xsd.tmp#Credits_CreditConversion"
-                                       href="ComplexTypes_xsd.html#Credits_CreditConversion"
-                                       coords="262,155,405,179" />
-                                 <area alt="ComplexTypes_xsd.tmp#Credits_Credit"
-                                       href="ComplexTypes_xsd.html#Credits_Credit"
-                                       coords="319,243,383,267" />
-                                 <area alt="ComplexTypes_xsd.tmp#Credits" href="ComplexTypes_xsd.html#Credits"
-                                       coords="237,3,327,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_CumulativeCreditsAttempted');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord_CumulativeCreditsAttempted');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord_CumulativeCreditsAttempted"
-                                style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#Credits_CreditConversion" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">CreditConversion</a></b></td>
-                                    <td><b>xs:decimal</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Conversion factor that when multiplied by the</span><span class="tI">
-</span><span class="tT">number of credits is equivalent to Carnegie units.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#Credits_CreditType" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">CreditType</a></b></td>
-                                    <td><b><a href="SimpleTypes_xsd.html#CreditType" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">CreditType</a></b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The type of credits or units of value awarded for</span><span class="tI">
-</span><span class="tT">the completion of a course</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_CumulativeGradePointsEarned"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / CumulativeGradePointsEarned</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_CumulativeGradePointsEarned"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_CumulativeGradePointsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_CumulativeGradePointsEarned"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The cumulative number of grade points an individual earns by successfully</span><span class="tI">
-</span><span class="tT">completing courses or examinations during his or her enrollment in the current</span><span class="tI">
-</span><span class="tT">school as well as those transferred from schools in which the individual had been</span><span class="tI">
-</span><span class="tT">previously enrolled.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_CumulativeGradePointsEarned"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_CumulativeGradePointsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_CumulativeGradePointsEarned"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_CumulativeGradePointsEarned.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_CumulativeGradePointsEarned"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_CumulativeGradePointsEarned');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_CumulativeGradePointsEarned"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_CumulativeGradePointAverage"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / CumulativeGradePointAverage</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_CumulativeGradePointAverage"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_CumulativeGradePointAverage');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_CumulativeGradePointAverage"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">A measure of average performance in all courses taken by an individual during his</span><span class="tI">
-</span><span class="tT">or her school career as determined for record-keeping purposes. This is obtained by</span><span class="tI">
-</span><span class="tT">dividing the total grade points received by the total number of credits attempted.</span><span class="tI">
-</span><span class="tT">This usually includes grade points received and credits attempted in his or her</span><span class="tI">
-</span><span class="tT">current school as well as those transferred from schools in which the individual</span><span class="tI">
-</span><span class="tT">was previously enrolled.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_CumulativeGradePointAverage"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_CumulativeGradePointAverage');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_CumulativeGradePointAverage"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_CumulativeGradePointAverage.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_CumulativeGradePointAverage"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_CumulativeGradePointAverage');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_CumulativeGradePointAverage"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_GradeValueQualifier"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / GradeValueQualifier</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_GradeValueQualifier" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_GradeValueQualifier');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_GradeValueQualifier"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The scale of equivalents, if applicable, for grades awarded as indicators of</span><span class="tI">
-</span><span class="tT">performance in schoolwork. For example, numerical equivalents for letter grades</span><span class="tI">
-</span><span class="tT">used in determining a student's Grade Point Average (A=4, B=3, C=2, D=1 in a</span><span class="tI">
-</span><span class="tT">four-point system) or letter equivalents for percentage grades (90-100%=A,</span><span class="tI">
-</span><span class="tT">80-90%=B, etc.).</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_GradeValueQualifier" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_GradeValueQualifier');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_GradeValueQualifier" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_GradeValueQualifier.png"
-                                   usemap="#Graduation_xsd_Element_GradeValueQualifier" /><map name="Graduation_xsd_Element_GradeValueQualifier"
-                                   id="Graduation_xsd_Element_GradeValueQualifier">
-                                 <area alt="SimpleTypes_xsd.tmp#GradeValueQualifier"
-                                       href="SimpleTypes_xsd.html#GradeValueQualifier"
-                                       coords="186,0,348,26" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_GradeValueQualifier" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_GradeValueQualifier');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_GradeValueQualifier" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Facets</b></div>
-                           <div class="floatRight"><input id="button_facets_StudentAcademicRecord_GradeValueQualifier" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('facets_StudentAcademicRecord_GradeValueQualifier');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="facets_StudentAcademicRecord_GradeValueQualifier" style="display:block">
-                              <table class="facetsTable">
-                                 <tr>
-                                    <td class="firstColumn">minLength</td>
-                                    <td width="30%"><b>1</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxLength</td>
-                                    <td width="30%"><b>80</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_ClassRanking"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / ClassRanking</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_ClassRanking" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_ClassRanking');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_ClassRanking" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The academic rank information of a student in relation to his or her graduating</span><span class="tI">
-</span><span class="tT">class.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_ClassRanking" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_ClassRanking');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_ClassRanking" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_ClassRanking.png"
-                                   usemap="#Graduation_xsd_Element_ClassRanking" /><map name="Graduation_xsd_Element_ClassRanking"
-                                   id="Graduation_xsd_Element_ClassRanking">
-                                 <area alt="ComplexTypes_xsd.tmp#ClassRanking_ClassRank"
-                                       href="ComplexTypes_xsd.html#ClassRanking_ClassRank"
-                                       coords="236,40,322,64" />
-                                 <area alt="ComplexTypes_xsd.tmp#ClassRanking_TotalNumberInClass"
-                                       href="ComplexTypes_xsd.html#ClassRanking_TotalNumberInClass"
-                                       coords="236,117,376,141" />
-                                 <area alt="ComplexTypes_xsd.tmp#ClassRanking_PercentageRanking"
-                                       href="ComplexTypes_xsd.html#ClassRanking_PercentageRanking"
-                                       coords="236,181,369,205" />
-                                 <area alt="ComplexTypes_xsd.tmp#ClassRanking_ClassRankingDate"
-                                       href="ComplexTypes_xsd.html#ClassRanking_ClassRankingDate"
-                                       coords="236,258,363,282" />
-                                 <area alt="ComplexTypes_xsd.tmp#ClassRanking"
-                                       href="ComplexTypes_xsd.html#ClassRanking"
-                                       coords="154,3,277,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_ClassRanking" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_ClassRanking');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_ClassRanking" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_AcademicHonors"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / AcademicHonors</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_AcademicHonors" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_AcademicHonors');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_AcademicHonors" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Academic distinctions earned by or awarded to the student.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_AcademicHonors" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_AcademicHonors');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_AcademicHonors" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_AcademicHonors_1.png"
-                                   usemap="#Graduation_xsd_Element_AcademicHonors_1" /><map name="Graduation_xsd_Element_AcademicHonors_1"
-                                   id="Graduation_xsd_Element_AcademicHonors_1">
-                                 <area alt="ComplexTypes_xsd.tmp#AcademicHonor_AcademicHonorsType"
-                                       href="ComplexTypes_xsd.html#AcademicHonor_AcademicHonorsType"
-                                       coords="256,40,405,64" />
-                                 <area alt="ComplexTypes_xsd.tmp#AcademicHonor_HonorsDescription"
-                                       href="ComplexTypes_xsd.html#AcademicHonor_HonorsDescription"
-                                       coords="256,117,389,141" />
-                                 <area alt="ComplexTypes_xsd.tmp#AcademicHonor_HonorAwardDate"
-                                       href="ComplexTypes_xsd.html#AcademicHonor_HonorAwardDate"
-                                       coords="256,194,379,218" />
-                                 <area alt="ComplexTypes_xsd.tmp#AcademicHonor"
-                                       href="ComplexTypes_xsd.html#AcademicHonor"
-                                       coords="174,3,311,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_AcademicHonors" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_AcademicHonors');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_AcademicHonors" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxOccurs:
-                                       
-                                    </td>
-                                    <td><b>unbounded</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_Recognitions"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / Recognitions</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_Recognitions" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_Recognitions');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_Recognitions" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Recognitions given to the student for accomplishments in a co-curricular, or</span><span class="tI">
-</span><span class="tT">extra-curricular activity.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_Recognitions" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_Recognitions');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_Recognitions" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_Recognitions_1.png"
-                                   usemap="#Graduation_xsd_Element_Recognitions_1" /><map name="Graduation_xsd_Element_Recognitions_1"
-                                   id="Graduation_xsd_Element_Recognitions_1">
-                                 <area alt="ComplexTypes_xsd.tmp#Recognition_RecognitionType"
-                                       href="ComplexTypes_xsd.html#Recognition_RecognitionType"
-                                       coords="234,40,355,64" />
-                                 <area alt="ComplexTypes_xsd.tmp#Recognition_RecognitionDescription"
-                                       href="ComplexTypes_xsd.html#Recognition_RecognitionDescription"
-                                       coords="234,130,391,154" />
-                                 <area alt="ComplexTypes_xsd.tmp#Recognition_RecognitionAwardDate"
-                                       href="ComplexTypes_xsd.html#Recognition_RecognitionAwardDate"
-                                       coords="234,207,387,231" />
-                                 <area alt="ComplexTypes_xsd.tmp#Recognition" href="ComplexTypes_xsd.html#Recognition"
-                                       coords="152,3,267,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_Recognitions" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_Recognitions');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_Recognitions" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxOccurs:
-                                       
-                                    </td>
-                                    <td><b>unbounded</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_ProjectedGraduationDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / ProjectedGraduationDate</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_ProjectedGraduationDate"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_ProjectedGraduationDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_ProjectedGraduationDate"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The month and year the student is projected to graduate.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_ProjectedGraduationDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_ProjectedGraduationDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_ProjectedGraduationDate"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_ProjectedGraduationDate.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_ProjectedGraduationDate"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_ProjectedGraduationDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_ProjectedGraduationDate"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_StudentReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / StudentReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_StudentReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_StudentReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_StudentReference" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Identifies the student that is associated wth the Student Academic Record.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_StudentReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_StudentReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_StudentReference" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_StudentReference.png"
-                                   usemap="#Graduation_xsd_Element_StudentReference" /><map name="Graduation_xsd_Element_StudentReference"
-                                   id="Graduation_xsd_Element_StudentReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#StudentSimpleReference_type"
-                                       coords="201,157,262,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference"
-                                       href="ReferenceTypes_xsd.html#StudentSimpleReference"
-                                       coords="176,3,356,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_StudentReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_StudentReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_StudentReference" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord_StudentReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord_StudentReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord_StudentReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#StudentSimpleReference_type" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>Student</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_SessionReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / SessionReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_SessionReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_SessionReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_SessionReference" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The session associated with the session.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_SessionReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_SessionReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_SessionReference" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_SessionReference.png"
-                                   usemap="#Graduation_xsd_Element_SessionReference" /><map name="Graduation_xsd_Element_SessionReference"
-                                   id="Graduation_xsd_Element_SessionReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#SessionSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#SessionSimpleReference_type"
-                                       coords="201,157,262,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#SessionSimpleReference"
-                                       href="ReferenceTypes_xsd.html#SessionSimpleReference"
-                                       coords="176,3,356,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_SessionReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_SessionReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_SessionReference" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord_SessionReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord_SessionReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord_SessionReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SessionSimpleReference_type" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>Session</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_ReportCardReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / ReportCardReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_ReportCardReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_ReportCardReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_ReportCardReference"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Report cards for the student.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_ReportCardReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_ReportCardReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_ReportCardReference" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_ReportCardReference.png"
-                                   usemap="#Graduation_xsd_Element_ReportCardReference" /><map name="Graduation_xsd_Element_ReportCardReference"
-                                   id="Graduation_xsd_Element_ReportCardReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#ReportCardSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#ReportCardSimpleReference_type"
-                                       coords="222,157,283,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#ReportCardSimpleReference"
-                                       href="ReferenceTypes_xsd.html#ReportCardSimpleReference"
-                                       coords="197,3,398,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_ReportCardReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_ReportCardReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_ReportCardReference" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxOccurs:
-                                       
-                                    </td>
-                                    <td><b>unbounded</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord_ReportCardReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord_ReportCardReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord_ReportCardReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#ReportCardSimpleReference_type"
-                                             target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>ReportCardReference</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAcademicRecord_DiplomaReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#StudentAcademicRecord" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">StudentAcademicRecord</a></b> / DiplomaReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAcademicRecord_DiplomaReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAcademicRecord_DiplomaReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAcademicRecord_DiplomaReference" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Diploma(s) earned by the student.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAcademicRecord_DiplomaReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentAcademicRecord_DiplomaReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAcademicRecord_DiplomaReference" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_DiplomaReference.png"
-                                   usemap="#Graduation_xsd_Element_DiplomaReference" /><map name="Graduation_xsd_Element_DiplomaReference"
-                                   id="Graduation_xsd_Element_DiplomaReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#DiplomaSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#DiplomaSimpleReference_type"
-                                       coords="204,157,265,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#DiplomaSimpleReference"
-                                       href="ReferenceTypes_xsd.html#DiplomaSimpleReference"
-                                       coords="179,3,362,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_StudentAcademicRecord_DiplomaReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_StudentAcademicRecord_DiplomaReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_StudentAcademicRecord_DiplomaReference" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAcademicRecord_DiplomaReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAcademicRecord_DiplomaReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAcademicRecord_DiplomaReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#DiplomaSimpleReference_type" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>DiplomaReference</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="PostSecondaryEvent"></a><div class="componentTitle">Element <span class="qname">PostSecondaryEvent</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_PostSecondaryEvent" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_PostSecondaryEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_PostSecondaryEvent" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity captures significant postsecondary events during a student's high school tenure (e.g.,</span><span class="tI">
-</span><span class="tT">FASFSA application, or college application, acceptance, and enrollment).</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_PostSecondaryEvent" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_PostSecondaryEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_PostSecondaryEvent" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_PostSecondaryEvent.png"
-                                   usemap="#Graduation_xsd_Element_PostSecondaryEvent" /><map name="Graduation_xsd_Element_PostSecondaryEvent"
-                                   id="Graduation_xsd_Element_PostSecondaryEvent">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="215,80,287,104" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="190,5,442,27" />
-                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_EventDate"
-                                       href="Graduation_xsd.html#PostSecondaryEvent_EventDate"
-                                       coords="258,158,342,182" />
-                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_PostSecondaryEventCategory"
-                                       href="Graduation_xsd.html#PostSecondaryEvent_PostSecondaryEventCategory"
-                                       coords="258,222,446,246" />
-                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_NameOfInstitution"
-                                       href="Graduation_xsd.html#PostSecondaryEvent_NameOfInstitution"
-                                       coords="258,299,387,323" />
-                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_InstitutionId"
-                                       href="Graduation_xsd.html#PostSecondaryEvent_InstitutionId"
-                                       coords="258,363,354,387" />
-                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_StudentReference"
-                                       href="Graduation_xsd.html#PostSecondaryEvent_StudentReference"
-                                       coords="258,427,383,451" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b></li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_PostSecondaryEvent" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_PostSecondaryEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_PostSecondaryEvent" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_PostSecondaryEvent" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_PostSecondaryEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_PostSecondaryEvent" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -2994,10 +927,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_PostSecondaryEvent_StudentReference" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Graduation_xsd_Element_StudentReference_1.png"
-                                   usemap="#Graduation_xsd_Element_StudentReference_1" /><map name="Graduation_xsd_Element_StudentReference_1"
-                                   id="Graduation_xsd_Element_StudentReference_1">
+                           <div id="diagram_PostSecondaryEvent_StudentReference" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_StudentReference.png"
+                                   usemap="#Graduation_xsd_Element_StudentReference" /><map name="Graduation_xsd_Element_StudentReference"
+                                   id="Graduation_xsd_Element_StudentReference">
                                  <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#StudentSimpleReference_type"
                                        coords="201,157,262,181" />
@@ -3060,166 +992,6 @@
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="Diploma"></a><div class="componentTitle">Element <span class="qname">Diploma</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_Diploma" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_Diploma');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_Diploma" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This educational entity represents the conferring or certification by an educational organization that</span><span class="tI">
-</span><span class="tT">the student has successfully completed a particular course of study.  It represents the electronic</span><span class="tI">
-</span><span class="tT">version of its physical document counterpart.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_Diploma" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_Diploma');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_Diploma" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_Diploma.png"
-                                   usemap="#Graduation_xsd_Element_Diploma" /><map name="Graduation_xsd_Element_Diploma" id="Graduation_xsd_Element_Diploma">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="151,80,223,104" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="126,5,378,27" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_DiplomaAwardDate"
-                                       href="Graduation_xsd.html#Diploma_DiplomaAwardDate"
-                                       coords="215,158,348,182" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_DiplomaLevel"
-                                       href="Graduation_xsd.html#Diploma_DiplomaLevel"
-                                       coords="215,235,317,259" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_DiplomaType"
-                                       href="Graduation_xsd.html#Diploma_DiplomaType"
-                                       coords="215,325,316,349" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_CTECompleter"
-                                       href="Graduation_xsd.html#Diploma_CTECompleter"
-                                       coords="215,415,323,439" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_AcademicHonors"
-                                       href="Graduation_xsd.html#Diploma_AcademicHonors"
-                                       coords="215,505,338,529" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_Recognitions"
-                                       href="Graduation_xsd.html#Diploma_Recognitions"
-                                       coords="215,569,316,593" />
-                                 <area alt="Graduation_xsd.tmp#Diploma_SchoolReference"
-                                       href="Graduation_xsd.html#Diploma_SchoolReference"
-                                       coords="215,646,335,670" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b></li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_Diploma" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('properties_Diploma');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_Diploma" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_Diploma" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('attributes_Diploma');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_Diploma" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -4089,6 +1861,294 @@
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="PostSecondaryEvent"></a><div class="componentTitle">Complex Type <span class="qname">PostSecondaryEvent</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_PostSecondaryEvent" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_PostSecondaryEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_PostSecondaryEvent" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity captures significant postsecondary events during a student's high school tenure (e.g.,</span><span class="tI">
+</span><span class="tT">FASFSA application, or college application, acceptance, and enrollment).</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_PostSecondaryEvent" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_PostSecondaryEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_PostSecondaryEvent" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Graduation_xsd_Complex_Type_PostSecondaryEvent.png"
+                                   usemap="#Graduation_xsd_Complex_Type_PostSecondaryEvent" /><map name="Graduation_xsd_Complex_Type_PostSecondaryEvent"
+                                   id="Graduation_xsd_Complex_Type_PostSecondaryEvent">
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
+                                       coords="239,78,311,102" />
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType"
+                                       coords="214,3,466,25" />
+                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_EventDate"
+                                       href="Graduation_xsd.html#PostSecondaryEvent_EventDate"
+                                       coords="282,156,366,180" />
+                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_PostSecondaryEventCategory"
+                                       href="Graduation_xsd.html#PostSecondaryEvent_PostSecondaryEventCategory"
+                                       coords="282,220,470,244" />
+                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_NameOfInstitution"
+                                       href="Graduation_xsd.html#PostSecondaryEvent_NameOfInstitution"
+                                       coords="282,297,411,321" />
+                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_InstitutionId"
+                                       href="Graduation_xsd.html#PostSecondaryEvent_InstitutionId"
+                                       coords="282,361,378,385" />
+                                 <area alt="Graduation_xsd.tmp#PostSecondaryEvent_StudentReference"
+                                       href="Graduation_xsd.html#PostSecondaryEvent_StudentReference"
+                                       coords="282,425,407,449" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
+                                       title="http://slc-sli/ed-org/0.1"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
+                                    <li><b><a href="Graduation_xsd.html#PostSecondaryEvent" target="mainFrame"
+                                             title="http://slc-sli/ed-org/0.1"
+                                             onclick="updatePageTitle('Schema documentation for Graduation.xsd')">PostSecondaryEvent</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_PostSecondaryEvent" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_PostSecondaryEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_PostSecondaryEvent" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                                 class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Diploma"></a><div class="componentTitle">Complex Type <span class="qname">Diploma</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Diploma" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_Diploma');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Diploma" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This educational entity represents the conferring or certification by an educational organization that</span><span class="tI">
+</span><span class="tT">the student has successfully completed a particular course of study.  It represents the electronic</span><span class="tI">
+</span><span class="tT">version of its physical document counterpart.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Diploma" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Diploma');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Diploma" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Complex_Type_Diploma.png"
+                                   usemap="#Graduation_xsd_Complex_Type_Diploma" /><map name="Graduation_xsd_Complex_Type_Diploma"
+                                   id="Graduation_xsd_Complex_Type_Diploma">
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
+                                       coords="175,78,247,102" />
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType"
+                                       coords="150,3,402,25" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_DiplomaAwardDate"
+                                       href="Graduation_xsd.html#Diploma_DiplomaAwardDate"
+                                       coords="239,156,372,180" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_DiplomaLevel"
+                                       href="Graduation_xsd.html#Diploma_DiplomaLevel"
+                                       coords="239,233,341,257" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_DiplomaType"
+                                       href="Graduation_xsd.html#Diploma_DiplomaType"
+                                       coords="239,323,340,347" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_CTECompleter"
+                                       href="Graduation_xsd.html#Diploma_CTECompleter"
+                                       coords="239,413,347,437" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_AcademicHonors"
+                                       href="Graduation_xsd.html#Diploma_AcademicHonors"
+                                       coords="239,503,362,527" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_Recognitions"
+                                       href="Graduation_xsd.html#Diploma_Recognitions"
+                                       coords="239,567,340,591" />
+                                 <area alt="Graduation_xsd.tmp#Diploma_SchoolReference"
+                                       href="Graduation_xsd.html#Diploma_SchoolReference"
+                                       coords="239,644,359,668" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
+                                       title="http://slc-sli/ed-org/0.1"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
+                                    <li><b><a href="Graduation_xsd.html#Diploma" target="mainFrame"
+                                             title="http://slc-sli/ed-org/0.1"
+                                             onclick="updatePageTitle('Schema documentation for Graduation.xsd')">Diploma</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_Diploma" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('attributes_Diploma');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_Diploma" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                                 class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>

@@ -40,6 +40,7 @@
 				'properties_Staff_YearsOfPriorTeachingExperience', 
 				'properties_Staff_Credentials', 
 				'properties_Staff_LoginId', 
+				'properties_Teacher', 
 				'properties_Teacher_TeacherUniqueStateId', 
 				'properties_Teacher_HighlyQualifiedTeacher', 
 				'properties_LeaveEvent_EventDate', 
@@ -71,6 +72,7 @@
 				'properties_StaffEducationOrgAssignmentAssociation_PositionTitle', 
 				'properties_StaffEducationOrgAssignmentAssociation_BeginDate', 
 				'properties_StaffEducationOrgAssignmentAssociation_EndDate', 
+				'properties_TeacherSchoolAssociation', 
 				'properties_TeacherSchoolAssociation_TeacherReference', 
 				'properties_TeacherSchoolAssociation_SchoolReference', 
 				'properties_TeacherSchoolAssociation_ProgramAssignment', 
@@ -147,6 +149,7 @@
 				'diagram_Staff_YearsOfPriorTeachingExperience', 
 				'diagram_Staff_Credentials', 
 				'diagram_Staff_LoginId', 
+				'diagram_Teacher', 
 				'diagram_Teacher_TeacherUniqueStateId', 
 				'diagram_Teacher_HighlyQualifiedTeacher', 
 				'diagram_LeaveEvent_EventDate', 
@@ -178,6 +181,7 @@
 				'diagram_StaffEducationOrgAssignmentAssociation_PositionTitle', 
 				'diagram_StaffEducationOrgAssignmentAssociation_BeginDate', 
 				'diagram_StaffEducationOrgAssignmentAssociation_EndDate', 
+				'diagram_TeacherSchoolAssociation', 
 				'diagram_TeacherSchoolAssociation_TeacherReference', 
 				'diagram_TeacherSchoolAssociation_SchoolReference', 
 				'diagram_TeacherSchoolAssociation_ProgramAssignment', 
@@ -188,12 +192,10 @@
 				'diagram_CredentialFieldDescriptor', 
 				'diagram_Credential', 
 				'diagram_Staff', 
-				'diagram_Teacher', 
 				'diagram_LeaveEvent', 
 				'diagram_OpenStaffPosition', 
 				'diagram_StaffEducationOrgEmploymentAssociation', 
-				'diagram_StaffEducationOrgAssignmentAssociation', 
-				'diagram_TeacherSchoolAssociation');
+				'diagram_StaffEducationOrgAssignmentAssociation');
 
         var annotationBoxes= new Array('annotations_StaffIdentificationCode_ID', 
 				'annotations_EmploymentPeriod_HireDate', 
@@ -228,6 +230,7 @@
 				'annotations_Staff_YearsOfPriorTeachingExperience', 
 				'annotations_Staff_Credentials', 
 				'annotations_Staff_LoginId', 
+				'annotations_Teacher', 
 				'annotations_Teacher_TeacherUniqueStateId', 
 				'annotations_Teacher_HighlyQualifiedTeacher', 
 				'annotations_LeaveEvent_EventDate', 
@@ -259,6 +262,7 @@
 				'annotations_StaffEducationOrgAssignmentAssociation_PositionTitle', 
 				'annotations_StaffEducationOrgAssignmentAssociation_BeginDate', 
 				'annotations_StaffEducationOrgAssignmentAssociation_EndDate', 
+				'annotations_TeacherSchoolAssociation', 
 				'annotations_TeacherSchoolAssociation_TeacherReference', 
 				'annotations_TeacherSchoolAssociation_SchoolReference', 
 				'annotations_TeacherSchoolAssociation_ProgramAssignment', 
@@ -269,12 +273,10 @@
 				'annotations_CredentialFieldDescriptor', 
 				'annotations_Credential', 
 				'annotations_Staff', 
-				'annotations_Teacher', 
 				'annotations_LeaveEvent', 
 				'annotations_OpenStaffPosition', 
 				'annotations_StaffEducationOrgEmploymentAssociation', 
 				'annotations_StaffEducationOrgAssignmentAssociation', 
-				'annotations_TeacherSchoolAssociation', 
 				'annotations_StaffIdentificationCode_IdentificationSystem', 
 				'annotations_StaffIdentificationCode_AssigningOrganizationCode');
 
@@ -286,6 +288,7 @@
 				'attributes_Staff_Address', 
 				'attributes_Staff_Telephone', 
 				'attributes_Staff_ElectronicMail', 
+				'attributes_Teacher', 
 				'attributes_LeaveEvent_StaffReference', 
 				'attributes_OpenStaffPosition_EducationOrganizationReference', 
 				'attributes_StaffEducationOrgEmploymentAssociation_StaffReference', 
@@ -297,7 +300,6 @@
 				'attributes_StaffIdentificationCode', 
 				'attributes_CredentialFieldDescriptor', 
 				'attributes_Staff', 
-				'attributes_Teacher', 
 				'attributes_LeaveEvent', 
 				'attributes_OpenStaffPosition');
 
@@ -956,11 +958,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Type of employment separation; for example:</span><span class="tI">
-</span><span class="tT">Voluntary separation</span><span class="tI">
-</span><span class="tT">Involuntary separation</span><span class="tI">
-</span><span class="tT">Mutual agreement</span><span class="tI">
-</span><span class="tT">Other</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Type of employment separation; for example: Voluntary</span><span class="tI">
+</span><span class="tT">separation Involuntary separation Mutual agreement Other</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1097,12 +1096,9 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Reason for terminating the employment; for example:</span><span class="tI">
-</span><span class="tT">Employment in education</span><span class="tI">
-</span><span class="tT">Employment outside of education</span><span class="tI">
-</span><span class="tT">Retirement</span><span class="tI">
-</span><span class="tT">Family/personal relocation</span><span class="tI">
-</span><span class="tT">Change of assignment</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Reason for terminating the employment; for example: Employment</span><span class="tI">
+</span><span class="tT">in education Employment outside of education Retirement Family/personal</span><span class="tI">
+</span><span class="tT">relocation Change of assignment</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -4685,12 +4681,9 @@
                                         class="preWrapContainer">
                                     <tr>
                                        <td width="100%"><pre><span class="tT">Previous definition of Ethnicity combining</span><span class="tI">
-</span><span class="tT">Hispanic/Latino and race:</span><span class="tI">
-</span><span class="tT">1 - American Indian or Alaskan Native</span><span class="tI">
-</span><span class="tT">2 - Asian or Pacific Islander</span><span class="tI">
-</span><span class="tT">3 - Black, not of Hispanic origin</span><span class="tI">
-</span><span class="tT">4 - Hispanic</span><span class="tI">
-</span><span class="tT">5 - White, not of Hispanic origin</span></pre></td>
+</span><span class="tT">Hispanic/Latino and race: 1 - American Indian or Alaskan Native 2 -</span><span class="tI">
+</span><span class="tT">Asian or Pacific Islander 3 - Black, not of Hispanic origin 4 -</span><span class="tI">
+</span><span class="tT">Hispanic 5 - White, not of Hispanic origin</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -5451,6 +5444,199 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="Teacher"></a><div class="componentTitle">Element <span class="qname">Teacher</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Teacher" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_Teacher');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Teacher" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents a person that is employed by an LEA or other</span><span class="tI">
+</span><span class="tT">educational unit engaged in student instruction. These persons are</span><span class="tI">
+</span><span class="tT">instructional-type staff members. In the data model, a teacher entity is a staff</span><span class="tI">
+</span><span class="tT">member with additional properties.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Teacher" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Teacher');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Teacher" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_Teacher.png"
+                                   usemap="#Staff_xsd_Element_Teacher" /><map name="Staff_xsd_Element_Teacher" id="Staff_xsd_Element_Teacher">
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
+                                       coords="164,120,236,144" />
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType"
+                                       coords="139,45,391,67" />
+                                 <area alt="Staff_xsd.tmp#Staff_StaffUniqueStateId"
+                                       href="Staff_xsd.html#Staff_StaffUniqueStateId"
+                                       coords="228,198,357,222" />
+                                 <area alt="Staff_xsd.tmp#Staff_StaffIdentificationCode"
+                                       href="Staff_xsd.html#Staff_StaffIdentificationCode"
+                                       coords="228,275,381,299" />
+                                 <area alt="Staff_xsd.tmp#Staff_Name" href="Staff_xsd.html#Staff_Name"
+                                       coords="228,352,289,376" />
+                                 <area alt="Staff_xsd.tmp#Staff_OtherName" href="Staff_xsd.html#Staff_OtherName"
+                                       coords="228,416,320,440" />
+                                 <area alt="Staff_xsd.tmp#Staff_Sex" href="Staff_xsd.html#Staff_Sex"
+                                       coords="228,493,283,517" />
+                                 <area alt="Staff_xsd.tmp#Staff_BirthDate" href="Staff_xsd.html#Staff_BirthDate"
+                                       coords="228,557,308,581" />
+                                 <area alt="Staff_xsd.tmp#Staff_Address" href="Staff_xsd.html#Staff_Address"
+                                       coords="228,634,304,658" />
+                                 <area alt="Staff_xsd.tmp#Staff_Telephone" href="Staff_xsd.html#Staff_Telephone"
+                                       coords="228,724,315,748" />
+                                 <area alt="Staff_xsd.tmp#Staff_ElectronicMail"
+                                       href="Staff_xsd.html#Staff_ElectronicMail"
+                                       coords="228,801,333,825" />
+                                 <area alt="Staff_xsd.tmp#Staff_HispanicLatinoEthnicity"
+                                       href="Staff_xsd.html#Staff_HispanicLatinoEthnicity"
+                                       coords="228,891,384,915" />
+                                 <area alt="Staff_xsd.tmp#Staff_OldEthnicity" href="Staff_xsd.html#Staff_OldEthnicity"
+                                       coords="228,968,324,992" />
+                                 <area alt="Staff_xsd.tmp#Staff_Race" href="Staff_xsd.html#Staff_Race"
+                                       coords="228,1058,284,1082" />
+                                 <area alt="Staff_xsd.tmp#Staff_HighestLevelOfEducationCompleted"
+                                       href="Staff_xsd.html#Staff_HighestLevelOfEducationCompleted"
+                                       coords="228,1148,451,1172" />
+                                 <area alt="Staff_xsd.tmp#Staff_YearsOfPriorProfessionalExperience"
+                                       href="Staff_xsd.html#Staff_YearsOfPriorProfessionalExperience"
+                                       coords="228,1225,453,1249" />
+                                 <area alt="Staff_xsd.tmp#Staff_YearsOfPriorTeachingExperience"
+                                       href="Staff_xsd.html#Staff_YearsOfPriorTeachingExperience"
+                                       coords="228,1302,436,1326" />
+                                 <area alt="Staff_xsd.tmp#Staff_Credentials" href="Staff_xsd.html#Staff_Credentials"
+                                       coords="228,1379,320,1403" />
+                                 <area alt="Staff_xsd.tmp#Staff_LoginId" href="Staff_xsd.html#Staff_LoginId"
+                                       coords="228,1469,299,1493" />
+                                 <area alt="Staff_xsd.tmp#Staff" href="Staff_xsd.html#Staff" coords="125,5,292,27" />
+                                 <area alt="Staff_xsd.tmp#Teacher_TeacherUniqueStateId"
+                                       href="Staff_xsd.html#Teacher_TeacherUniqueStateId"
+                                       coords="193,1596,341,1620" />
+                                 <area alt="Staff_xsd.tmp#Teacher_HighlyQualifiedTeacher"
+                                       href="Staff_xsd.html#Teacher_HighlyQualifiedTeacher"
+                                       coords="193,1673,349,1697" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
+                                       title="http://slc-sli/ed-org/0.1"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
+                                    <li><b><a href="Staff_xsd.html#Staff" target="mainFrame"
+                                             title="http://slc-sli/ed-org/0.1"
+                                             onclick="updatePageTitle('Schema documentation for Staff.xsd')">Staff</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Teacher" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Teacher');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Teacher" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_Teacher" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('attributes_Teacher');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_Teacher" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                                 class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Staff_xsd.html">Staff.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="Teacher_TeacherUniqueStateId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Staff_xsd.html#Teacher" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for Staff.xsd')">Teacher</a></b> / TeacherUniqueStateId</span></div>
@@ -5605,10 +5791,10 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">An indication of whether a teacher is classified as</span><span class="tI">
-</span><span class="tT">highly qualified for his/her assignment according to state</span><span class="tI">
-</span><span class="tT">definition. This attribute indicates the teacher is highly qualified</span><span class="tI">
-</span><span class="tT">for ALL sections being taught.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">An indication of whether a teacher is classified</span><span class="tI">
+</span><span class="tT">as highly qualified for his/her assignment according to state</span><span class="tI">
+</span><span class="tT">definition. This attribute indicates the teacher is highly</span><span class="tI">
+</span><span class="tT">qualified for ALL sections being taught.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -5782,10 +5968,7 @@
                                         class="preWrapContainer">
                                     <tr>
                                        <td width="100%"><pre><span class="tT">The code describing the type of leave taken, for</span><span class="tI">
-</span><span class="tT">example:</span><span class="tI">
-</span><span class="tT">Sick</span><span class="tI">
-</span><span class="tT">Personal</span><span class="tI">
-</span><span class="tT">Vacation</span></pre></td>
+</span><span class="tT">example: Sick Personal Vacation</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -6450,13 +6633,8 @@
                                         class="preWrapContainer">
                                     <tr>
                                        <td width="100%"><pre><span class="tT">Reflects the type of employment or contract desired</span><span class="tI">
-</span><span class="tT">for the position; for example:</span><span class="tI">
-</span><span class="tT">Probationary</span><span class="tI">
-</span><span class="tT">Contractual</span><span class="tI">
-</span><span class="tT">Substitute/temporary</span><span class="tI">
-</span><span class="tT">Tenured or permanent</span><span class="tI">
-</span><span class="tT">Volunteer/no contract</span><span class="tI">
-</span><span class="tT">...</span></pre></td>
+</span><span class="tT">for the position; for example: Probationary Contractual</span><span class="tI">
+</span><span class="tT">Substitute/temporary Tenured or permanent Volunteer/no contract ...</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -6473,9 +6651,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_OpenStaffPosition_EmploymentStatus" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_EmploymentStatus_1.png"
-                                   usemap="#Staff_xsd_Element_EmploymentStatus_1" /><map name="Staff_xsd_Element_EmploymentStatus_1"
-                                   id="Staff_xsd_Element_EmploymentStatus_1">
+                           <div id="diagram_OpenStaffPosition_EmploymentStatus" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_EmploymentStatus.png"
+                                   usemap="#Staff_xsd_Element_EmploymentStatus" /><map name="Staff_xsd_Element_EmploymentStatus"
+                                   id="Staff_xsd_Element_EmploymentStatus">
                                  <area alt="SimpleTypes_xsd.tmp#EmploymentStatusType"
                                        href="SimpleTypes_xsd.html#EmploymentStatusType"
                                        coords="178,0,358,26" /></map></div>
@@ -7190,12 +7368,9 @@
                                         class="preWrapContainer">
                                     <tr>
                                        <td width="100%"><pre><span class="tT">The name of the program for which the position will be</span><span class="tI">
-</span><span class="tT">assigned; for example:</span><span class="tI">
-</span><span class="tT">Regular education</span><span class="tI">
-</span><span class="tT">Title I-Academic</span><span class="tI">
-</span><span class="tT">Title I-Non-Academic</span><span class="tI">
-</span><span class="tT">Special Education</span><span class="tI">
-</span><span class="tT">Bilingual/English as a Second Language</span></pre></td>
+</span><span class="tT">assigned; for example: Regular education Title I-Academic Title</span><span class="tI">
+</span><span class="tT">I-Non-Academic Special Education Bilingual/English as a Second</span><span class="tI">
+</span><span class="tT">Language</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -7362,9 +7537,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_OpenStaffPosition_InstructionalGradeLevels" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Staff_xsd_Element_InstructionalGradeLevels.png"
-                                   usemap="#Staff_xsd_Element_InstructionalGradeLevels" /><map name="Staff_xsd_Element_InstructionalGradeLevels"
-                                   id="Staff_xsd_Element_InstructionalGradeLevels">
+                                   src="img/Staff_xsd_Element_InstructionalGradeLevels_1.png"
+                                   usemap="#Staff_xsd_Element_InstructionalGradeLevels_1" /><map name="Staff_xsd_Element_InstructionalGradeLevels_1"
+                                   id="Staff_xsd_Element_InstructionalGradeLevels_1">
                                  <area alt="ComplexTypes_xsd.tmp#GradeLevelsType_GradeLevel"
                                        href="ComplexTypes_xsd.html#GradeLevelsType_GradeLevel"
                                        coords="318,44,408,68" />
@@ -7464,9 +7639,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_OpenStaffPosition_AcademicSubjects" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_AcademicSubjects.png"
-                                   usemap="#Staff_xsd_Element_AcademicSubjects" /><map name="Staff_xsd_Element_AcademicSubjects"
-                                   id="Staff_xsd_Element_AcademicSubjects">
+                           <div id="diagram_OpenStaffPosition_AcademicSubjects" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_AcademicSubjects_1.png"
+                                   usemap="#Staff_xsd_Element_AcademicSubjects_1" /><map name="Staff_xsd_Element_AcademicSubjects_1"
+                                   id="Staff_xsd_Element_AcademicSubjects_1">
                                  <area alt="ComplexTypes_xsd.tmp#AcademicSubjectsType_AcademicSubject"
                                        href="ComplexTypes_xsd.html#AcademicSubjectsType_AcademicSubject"
                                        coords="282,44,404,68" />
@@ -7870,9 +8045,9 @@
                         <td class="diagram">
                            <div id="diagram_OpenStaffPosition_EducationOrganizationReference"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Staff_xsd_Element_EducationOrganizationReference.png"
-                                   usemap="#Staff_xsd_Element_EducationOrganizationReference" /><map name="Staff_xsd_Element_EducationOrganizationReference"
-                                   id="Staff_xsd_Element_EducationOrganizationReference">
+                                   src="img/Staff_xsd_Element_EducationOrganizationReference_2.png"
+                                   usemap="#Staff_xsd_Element_EducationOrganizationReference_2" /><map name="Staff_xsd_Element_EducationOrganizationReference_2"
+                                   id="Staff_xsd_Element_EducationOrganizationReference_2">
                                  <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
                                        coords="283,157,344,181" />
@@ -8010,9 +8185,8 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_StaffEducationOrgEmploymentAssociation_StaffReference"
-                                style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_StaffReference_1.png"
-                                   usemap="#Staff_xsd_Element_StaffReference_1" /><map name="Staff_xsd_Element_StaffReference_1"
-                                   id="Staff_xsd_Element_StaffReference_1">
+                                style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_StaffReference.png"
+                                   usemap="#Staff_xsd_Element_StaffReference" /><map name="Staff_xsd_Element_StaffReference" id="Staff_xsd_Element_StaffReference">
                                  <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#StaffSimpleReference_type"
                                        coords="184,157,245,181" />
@@ -8150,9 +8324,9 @@
                         <td class="diagram">
                            <div id="diagram_StaffEducationOrgEmploymentAssociation_EducationOrganizationReference"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Staff_xsd_Element_EducationOrganizationReference_2.png"
-                                   usemap="#Staff_xsd_Element_EducationOrganizationReference_2" /><map name="Staff_xsd_Element_EducationOrganizationReference_2"
-                                   id="Staff_xsd_Element_EducationOrganizationReference_2">
+                                   src="img/Staff_xsd_Element_EducationOrganizationReference_3.png"
+                                   usemap="#Staff_xsd_Element_EducationOrganizationReference_3" /><map name="Staff_xsd_Element_EducationOrganizationReference_3"
+                                   id="Staff_xsd_Element_EducationOrganizationReference_3">
                                  <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
                                        coords="283,157,344,181" />
@@ -8272,12 +8446,8 @@
                                         class="preWrapContainer">
                                     <tr>
                                        <td width="100%"><pre><span class="tT">Reflects the type of employment or contract; for example:</span><span class="tI">
-</span><span class="tT">Probationary</span><span class="tI">
-</span><span class="tT">Contractual</span><span class="tI">
-</span><span class="tT">Substitute/temporary</span><span class="tI">
-</span><span class="tT">Tenured or permanent</span><span class="tI">
-</span><span class="tT">Volunteer/no contract</span><span class="tI">
-</span><span class="tT">...</span></pre></td>
+</span><span class="tT">Probationary Contractual Substitute/temporary Tenured or permanent</span><span class="tI">
+</span><span class="tT">Volunteer/no contract ...</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -8296,9 +8466,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_StaffEducationOrgEmploymentAssociation_EmploymentStatus"
-                                style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_EmploymentStatus.png"
-                                   usemap="#Staff_xsd_Element_EmploymentStatus" /><map name="Staff_xsd_Element_EmploymentStatus"
-                                   id="Staff_xsd_Element_EmploymentStatus">
+                                style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_EmploymentStatus_1.png"
+                                   usemap="#Staff_xsd_Element_EmploymentStatus_1" /><map name="Staff_xsd_Element_EmploymentStatus_1"
+                                   id="Staff_xsd_Element_EmploymentStatus_1">
                                  <area alt="SimpleTypes_xsd.tmp#EmploymentStatusType"
                                        href="SimpleTypes_xsd.html#EmploymentStatusType"
                                        coords="178,0,358,26" /></map></div>
@@ -8832,8 +9002,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_StaffEducationOrgAssignmentAssociation_StaffReference"
-                                style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_StaffReference.png"
-                                   usemap="#Staff_xsd_Element_StaffReference" /><map name="Staff_xsd_Element_StaffReference" id="Staff_xsd_Element_StaffReference">
+                                style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_StaffReference_1.png"
+                                   usemap="#Staff_xsd_Element_StaffReference_1" /><map name="Staff_xsd_Element_StaffReference_1"
+                                   id="Staff_xsd_Element_StaffReference_1">
                                  <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#StaffSimpleReference_type"
                                        coords="184,157,245,181" />
@@ -8972,9 +9143,9 @@
                         <td class="diagram">
                            <div id="diagram_StaffEducationOrgAssignmentAssociation_EducationOrganizationReference"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Staff_xsd_Element_EducationOrganizationReference_3.png"
-                                   usemap="#Staff_xsd_Element_EducationOrganizationReference_3" /><map name="Staff_xsd_Element_EducationOrganizationReference_3"
-                                   id="Staff_xsd_Element_EducationOrganizationReference_3">
+                                   src="img/Staff_xsd_Element_EducationOrganizationReference.png"
+                                   usemap="#Staff_xsd_Element_EducationOrganizationReference" /><map name="Staff_xsd_Element_EducationOrganizationReference"
+                                   id="Staff_xsd_Element_EducationOrganizationReference">
                                  <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
                                        coords="283,157,344,181" />
@@ -9695,6 +9866,105 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="TeacherSchoolAssociation"></a><div class="componentTitle">Element <span class="qname">TeacherSchoolAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TeacherSchoolAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_TeacherSchoolAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TeacherSchoolAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This association indicates the school(s) to which a teacher provides</span><span class="tI">
+</span><span class="tT">instructional services to.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TeacherSchoolAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_TeacherSchoolAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TeacherSchoolAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Staff_xsd_Element_TeacherSchoolAssociation.png"
+                                   usemap="#Staff_xsd_Element_TeacherSchoolAssociation" /><map name="Staff_xsd_Element_TeacherSchoolAssociation"
+                                   id="Staff_xsd_Element_TeacherSchoolAssociation">
+                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_TeacherReference"
+                                       href="Staff_xsd.html#TeacherSchoolAssociation_TeacherReference"
+                                       coords="313,2,440,26" />
+                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_SchoolReference"
+                                       href="Staff_xsd.html#TeacherSchoolAssociation_SchoolReference"
+                                       coords="313,66,433,90" />
+                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_ProgramAssignment"
+                                       href="Staff_xsd.html#TeacherSchoolAssociation_ProgramAssignment"
+                                       coords="313,130,454,154" />
+                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_InstructionalGradeLevels"
+                                       href="Staff_xsd.html#TeacherSchoolAssociation_InstructionalGradeLevels"
+                                       coords="313,207,477,231" />
+                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_AcademicSubjects"
+                                       href="Staff_xsd.html#TeacherSchoolAssociation_AcademicSubjects"
+                                       coords="313,284,441,308" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TeacherSchoolAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_TeacherSchoolAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TeacherSchoolAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Staff_xsd.html">Staff.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="TeacherSchoolAssociation_TeacherReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Staff_xsd.html#TeacherSchoolAssociation" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for Staff.xsd')">TeacherSchoolAssociation</a></b> / TeacherReference</span></div>
@@ -9994,12 +10264,8 @@
                                         class="preWrapContainer">
                                     <tr>
                                        <td width="100%"><pre><span class="tT">The name of the program for which the individual is assigned;</span><span class="tI">
-</span><span class="tT">for example:</span><span class="tI">
-</span><span class="tT">Regular education</span><span class="tI">
-</span><span class="tT">Title I-Academic</span><span class="tI">
-</span><span class="tT">Title I-Non-Academic</span><span class="tI">
-</span><span class="tT">Special Education</span><span class="tI">
-</span><span class="tT">Bilingual/English as a Second Language</span></pre></td>
+</span><span class="tT">for example: Regular education Title I-Academic Title I-Non-Academic Special</span><span class="tI">
+</span><span class="tT">Education Bilingual/English as a Second Language</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -10164,9 +10430,9 @@
                         <td class="diagram">
                            <div id="diagram_TeacherSchoolAssociation_InstructionalGradeLevels"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Staff_xsd_Element_InstructionalGradeLevels_1.png"
-                                   usemap="#Staff_xsd_Element_InstructionalGradeLevels_1" /><map name="Staff_xsd_Element_InstructionalGradeLevels_1"
-                                   id="Staff_xsd_Element_InstructionalGradeLevels_1">
+                                   src="img/Staff_xsd_Element_InstructionalGradeLevels.png"
+                                   usemap="#Staff_xsd_Element_InstructionalGradeLevels" /><map name="Staff_xsd_Element_InstructionalGradeLevels"
+                                   id="Staff_xsd_Element_InstructionalGradeLevels">
                                  <area alt="ComplexTypes_xsd.tmp#GradeLevelsType_GradeLevel"
                                        href="ComplexTypes_xsd.html#GradeLevelsType_GradeLevel"
                                        coords="318,44,408,68" />
@@ -10261,9 +10527,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_TeacherSchoolAssociation_AcademicSubjects" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_AcademicSubjects_1.png"
-                                   usemap="#Staff_xsd_Element_AcademicSubjects_1" /><map name="Staff_xsd_Element_AcademicSubjects_1"
-                                   id="Staff_xsd_Element_AcademicSubjects_1">
+                           <div id="diagram_TeacherSchoolAssociation_AcademicSubjects" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Element_AcademicSubjects.png"
+                                   usemap="#Staff_xsd_Element_AcademicSubjects" /><map name="Staff_xsd_Element_AcademicSubjects"
+                                   id="Staff_xsd_Element_AcademicSubjects">
                                  <area alt="ComplexTypes_xsd.tmp#AcademicSubjectsType_AcademicSubject"
                                        href="ComplexTypes_xsd.html#AcademicSubjectsType_AcademicSubject"
                                        coords="282,44,404,68" />
@@ -10773,15 +11039,14 @@
                                        <td width="100%"><pre><span class="tT">This entity represents an individual who performs specified activities</span><span class="tI">
 </span><span class="tT">for any public or private education institution or agency that provides</span><span class="tI">
 </span><span class="tT">instructional and/or support services to students or staff at the early childhood</span><span class="tI">
-</span><span class="tT">level through high school completion. For example, this includes:</span><span class="tI">
-</span><span class="tT">1) an "employee" who performs services under the direction of the employing institution or agency,</span><span class="tI">
-</span><span class="tT">is compensated for such services by the employer, and is eligible for employee</span><span class="tI">
-</span><span class="tT">benefits and wage or salary tax withholdings;</span><span class="tI">
-</span><span class="tT">2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of</span><span class="tI">
-</span><span class="tT">a management service contracted to work on site;</span><span class="tI">
-</span><span class="tT">3) a "volunteer" who performs services on a voluntary and uncompensated basis;</span><span class="tI">
-</span><span class="tT">4) an in kind service provider; or</span><span class="tI">
-</span><span class="tT">5) an independent contractor or businessperson working at a school site.</span></pre></td>
+</span><span class="tT">level through high school completion. For example, this includes: 1) an "employee"</span><span class="tI">
+</span><span class="tT">who performs services under the direction of the employing institution or agency, is</span><span class="tI">
+</span><span class="tT">compensated for such services by the employer, and is eligible for employee benefits</span><span class="tI">
+</span><span class="tT">and wage or salary tax withholdings; 2) a "contractor" or "consultant" who performs</span><span class="tI">
+</span><span class="tT">services for an agreed upon fee, or an employee of a management service contracted</span><span class="tI">
+</span><span class="tT">to work on site; 3) a "volunteer" who performs services on a voluntary and</span><span class="tI">
+</span><span class="tT">uncompensated basis; 4) an in kind service provider; or 5) an independent contractor</span><span class="tI">
+</span><span class="tT">or businessperson working at a school site.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -10871,184 +11136,6 @@
                         </td>
                         <td>
                            <div id="attributes_Staff" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Staff_xsd.html">Staff.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="Teacher"></a><div class="componentTitle">Complex Type <span class="qname">Teacher</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_Teacher" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_Teacher');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_Teacher" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents a person that is employed by an LEA or other</span><span class="tI">
-</span><span class="tT">educational unit engaged in student instruction. These persons are</span><span class="tI">
-</span><span class="tT">instructional-type staff members. In the data model, a teacher entity is a staff</span><span class="tI">
-</span><span class="tT">member with additional properties.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_Teacher" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_Teacher');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_Teacher" style="display:block"><img alt="Diagram" border="0" src="img/Staff_xsd_Complex_Type_Teacher.png"
-                                   usemap="#Staff_xsd_Complex_Type_Teacher" /><map name="Staff_xsd_Complex_Type_Teacher" id="Staff_xsd_Complex_Type_Teacher">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="188,118,260,142" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="163,43,415,65" />
-                                 <area alt="Staff_xsd.tmp#Staff_StaffUniqueStateId"
-                                       href="Staff_xsd.html#Staff_StaffUniqueStateId"
-                                       coords="252,196,381,220" />
-                                 <area alt="Staff_xsd.tmp#Staff_StaffIdentificationCode"
-                                       href="Staff_xsd.html#Staff_StaffIdentificationCode"
-                                       coords="252,273,405,297" />
-                                 <area alt="Staff_xsd.tmp#Staff_Name" href="Staff_xsd.html#Staff_Name"
-                                       coords="252,350,313,374" />
-                                 <area alt="Staff_xsd.tmp#Staff_OtherName" href="Staff_xsd.html#Staff_OtherName"
-                                       coords="252,414,344,438" />
-                                 <area alt="Staff_xsd.tmp#Staff_Sex" href="Staff_xsd.html#Staff_Sex"
-                                       coords="252,491,307,515" />
-                                 <area alt="Staff_xsd.tmp#Staff_BirthDate" href="Staff_xsd.html#Staff_BirthDate"
-                                       coords="252,555,332,579" />
-                                 <area alt="Staff_xsd.tmp#Staff_Address" href="Staff_xsd.html#Staff_Address"
-                                       coords="252,632,328,656" />
-                                 <area alt="Staff_xsd.tmp#Staff_Telephone" href="Staff_xsd.html#Staff_Telephone"
-                                       coords="252,722,339,746" />
-                                 <area alt="Staff_xsd.tmp#Staff_ElectronicMail"
-                                       href="Staff_xsd.html#Staff_ElectronicMail"
-                                       coords="252,799,357,823" />
-                                 <area alt="Staff_xsd.tmp#Staff_HispanicLatinoEthnicity"
-                                       href="Staff_xsd.html#Staff_HispanicLatinoEthnicity"
-                                       coords="252,889,408,913" />
-                                 <area alt="Staff_xsd.tmp#Staff_OldEthnicity" href="Staff_xsd.html#Staff_OldEthnicity"
-                                       coords="252,966,348,990" />
-                                 <area alt="Staff_xsd.tmp#Staff_Race" href="Staff_xsd.html#Staff_Race"
-                                       coords="252,1056,308,1080" />
-                                 <area alt="Staff_xsd.tmp#Staff_HighestLevelOfEducationCompleted"
-                                       href="Staff_xsd.html#Staff_HighestLevelOfEducationCompleted"
-                                       coords="252,1146,475,1170" />
-                                 <area alt="Staff_xsd.tmp#Staff_YearsOfPriorProfessionalExperience"
-                                       href="Staff_xsd.html#Staff_YearsOfPriorProfessionalExperience"
-                                       coords="252,1223,477,1247" />
-                                 <area alt="Staff_xsd.tmp#Staff_YearsOfPriorTeachingExperience"
-                                       href="Staff_xsd.html#Staff_YearsOfPriorTeachingExperience"
-                                       coords="252,1300,460,1324" />
-                                 <area alt="Staff_xsd.tmp#Staff_Credentials" href="Staff_xsd.html#Staff_Credentials"
-                                       coords="252,1377,344,1401" />
-                                 <area alt="Staff_xsd.tmp#Staff_LoginId" href="Staff_xsd.html#Staff_LoginId"
-                                       coords="252,1467,323,1491" />
-                                 <area alt="Staff_xsd.tmp#Staff" href="Staff_xsd.html#Staff" coords="149,3,316,25" />
-                                 <area alt="Staff_xsd.tmp#Teacher_TeacherUniqueStateId"
-                                       href="Staff_xsd.html#Teacher_TeacherUniqueStateId"
-                                       coords="217,1594,365,1618" />
-                                 <area alt="Staff_xsd.tmp#Teacher_HighlyQualifiedTeacher"
-                                       href="Staff_xsd.html#Teacher_HighlyQualifiedTeacher"
-                                       coords="217,1671,373,1695" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Staff_xsd.html#Staff" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Staff.xsd')">Staff</a></b><ul>
-                                          <li><b><a href="Staff_xsd.html#Teacher" target="mainFrame"
-                                                   title="http://slc-sli/ed-org/0.1"
-                                                   onclick="updatePageTitle('Schema documentation for Staff.xsd')">Teacher</a></b></li>
-                                       </ul>
-                                    </li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_Teacher" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('attributes_Teacher');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_Teacher" style="display:block">
                               <table class="attributesTable">
                                  <thead>
                                     <tr>
@@ -11549,84 +11636,6 @@
                                  <area alt="Staff_xsd.tmp#StaffEducationOrgAssignmentAssociation_EndDate"
                                        href="Staff_xsd.html#StaffEducationOrgAssignmentAssociation_EndDate"
                                        coords="399,359,474,383" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Staff_xsd.html">Staff.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="TeacherSchoolAssociation"></a><div class="componentTitle">Complex Type <span class="qname">TeacherSchoolAssociation</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_TeacherSchoolAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_TeacherSchoolAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_TeacherSchoolAssociation" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This association indicates the school(s) to which a teacher provides</span><span class="tI">
-</span><span class="tT">instructional services to.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_TeacherSchoolAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_TeacherSchoolAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_TeacherSchoolAssociation" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Staff_xsd_Complex_Type_TeacherSchoolAssociation.png"
-                                   usemap="#Staff_xsd_Complex_Type_TeacherSchoolAssociation" /><map name="Staff_xsd_Complex_Type_TeacherSchoolAssociation"
-                                   id="Staff_xsd_Complex_Type_TeacherSchoolAssociation">
-                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_TeacherReference"
-                                       href="Staff_xsd.html#TeacherSchoolAssociation_TeacherReference"
-                                       coords="337,0,464,24" />
-                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_SchoolReference"
-                                       href="Staff_xsd.html#TeacherSchoolAssociation_SchoolReference"
-                                       coords="337,64,457,88" />
-                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_ProgramAssignment"
-                                       href="Staff_xsd.html#TeacherSchoolAssociation_ProgramAssignment"
-                                       coords="337,128,478,152" />
-                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_InstructionalGradeLevels"
-                                       href="Staff_xsd.html#TeacherSchoolAssociation_InstructionalGradeLevels"
-                                       coords="337,205,501,229" />
-                                 <area alt="Staff_xsd.tmp#TeacherSchoolAssociation_AcademicSubjects"
-                                       href="Staff_xsd.html#TeacherSchoolAssociation_AcademicSubjects"
-                                       coords="337,282,465,306" /></map></div>
                         </td>
                      </tr>
                      <tr>

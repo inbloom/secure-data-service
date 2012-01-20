@@ -15,6 +15,7 @@
 				'properties_SpecialAccommodationsType_SpecialAccommodation', 
 				'properties_LinguisticAccommodationsType_LinguisticAccommodation', 
 				'properties_ScoreResult_Result', 
+				'properties_Assessment', 
 				'properties_Assessment_AssessmentTitle', 
 				'properties_Assessment_AssessmentFamilyHierarchyName', 
 				'properties_Assessment_AssessmentIdentificationCode', 
@@ -36,6 +37,7 @@
 				'properties_StudentAssessmentItem_ResponseIndicator', 
 				'properties_StudentAssessmentItem_AssessmentItemResult', 
 				'properties_StudentAssessmentItem_RawScoreResult', 
+				'properties_StudentAssessment', 
 				'properties_StudentAssessment_AdministrationDate', 
 				'properties_StudentAssessment_AdministrationEndDate', 
 				'properties_StudentAssessment_SerialNumber', 
@@ -52,6 +54,7 @@
 				'properties_StudentAssessment_StudentAssessmentItems', 
 				'properties_StudentAssessment_StudentReference', 
 				'properties_StudentAssessment_AssessmentReference', 
+				'properties_SectionAssessmentAssociation', 
 				'properties_SectionAssessmentAssociation_SectionReference', 
 				'properties_SectionAssessmentAssociation_AssessmentReference', 
 				'properties_AssessmentIdentificationCode_IdentificationSystem', 
@@ -98,6 +101,7 @@
 				'diagram_SpecialAccommodationsType_SpecialAccommodation', 
 				'diagram_LinguisticAccommodationsType_LinguisticAccommodation', 
 				'diagram_ScoreResult_Result', 
+				'diagram_Assessment', 
 				'diagram_Assessment_AssessmentTitle', 
 				'diagram_Assessment_AssessmentFamilyHierarchyName', 
 				'diagram_Assessment_AssessmentIdentificationCode', 
@@ -119,6 +123,7 @@
 				'diagram_StudentAssessmentItem_ResponseIndicator', 
 				'diagram_StudentAssessmentItem_AssessmentItemResult', 
 				'diagram_StudentAssessmentItem_RawScoreResult', 
+				'diagram_StudentAssessment', 
 				'diagram_StudentAssessment_AdministrationDate', 
 				'diagram_StudentAssessment_AdministrationEndDate', 
 				'diagram_StudentAssessment_SerialNumber', 
@@ -135,6 +140,7 @@
 				'diagram_StudentAssessment_StudentAssessmentItems', 
 				'diagram_StudentAssessment_StudentReference', 
 				'diagram_StudentAssessment_AssessmentReference', 
+				'diagram_SectionAssessmentAssociation', 
 				'diagram_SectionAssessmentAssociation_SectionReference', 
 				'diagram_SectionAssessmentAssociation_AssessmentReference', 
 				'diagram_AssessmentIdentificationCode', 
@@ -142,11 +148,8 @@
 				'diagram_SpecialAccommodationsType', 
 				'diagram_LinguisticAccommodationsType', 
 				'diagram_ScoreResult', 
-				'diagram_Assessment', 
 				'diagram_StudentObjectiveAssessment', 
-				'diagram_StudentAssessmentItem', 
-				'diagram_StudentAssessment', 
-				'diagram_SectionAssessmentAssociation');
+				'diagram_StudentAssessmentItem');
 
         var annotationBoxes= new Array('annotations_AssessmentIdentificationCode_ID', 
 				'annotations_AssessmentPerformanceLevel_PerformanceLevel', 
@@ -156,6 +159,7 @@
 				'annotations_SpecialAccommodationsType_SpecialAccommodation', 
 				'annotations_LinguisticAccommodationsType_LinguisticAccommodation', 
 				'annotations_ScoreResult_Result', 
+				'annotations_Assessment', 
 				'annotations_Assessment_AssessmentTitle', 
 				'annotations_Assessment_AssessmentFamilyHierarchyName', 
 				'annotations_Assessment_AssessmentIdentificationCode', 
@@ -177,6 +181,7 @@
 				'annotations_StudentAssessmentItem_ResponseIndicator', 
 				'annotations_StudentAssessmentItem_AssessmentItemResult', 
 				'annotations_StudentAssessmentItem_RawScoreResult', 
+				'annotations_StudentAssessment', 
 				'annotations_StudentAssessment_AdministrationDate', 
 				'annotations_StudentAssessment_AdministrationEndDate', 
 				'annotations_StudentAssessment_SerialNumber', 
@@ -193,6 +198,7 @@
 				'annotations_StudentAssessment_StudentAssessmentItems', 
 				'annotations_StudentAssessment_StudentReference', 
 				'annotations_StudentAssessment_AssessmentReference', 
+				'annotations_SectionAssessmentAssociation', 
 				'annotations_SectionAssessmentAssociation_SectionReference', 
 				'annotations_SectionAssessmentAssociation_AssessmentReference', 
 				'annotations_AssessmentIdentificationCode', 
@@ -200,11 +206,8 @@
 				'annotations_SpecialAccommodationsType', 
 				'annotations_LinguisticAccommodationsType', 
 				'annotations_ScoreResult', 
-				'annotations_Assessment', 
 				'annotations_StudentObjectiveAssessment', 
 				'annotations_StudentAssessmentItem', 
-				'annotations_StudentAssessment', 
-				'annotations_SectionAssessmentAssociation', 
 				'annotations_AssessmentIdentificationCode_IdentificationSystem', 
 				'annotations_AssessmentIdentificationCode_AssigningOrganizationCode', 
 				'annotations_ScoreResult_AssessmentReportingMethod');
@@ -221,11 +224,8 @@
 				'attributes_SectionAssessmentAssociation_AssessmentReference', 
 				'attributes_AssessmentIdentificationCode', 
 				'attributes_ScoreResult', 
-				'attributes_Assessment', 
 				'attributes_StudentObjectiveAssessment', 
-				'attributes_StudentAssessmentItem', 
-				'attributes_StudentAssessment', 
-				'attributes_SectionAssessmentAssociation');
+				'attributes_StudentAssessmentItem');
 
         
         var button_prefix = 'button_';
@@ -2390,6 +2390,127 @@
                                     <td>
                                        <div class="annotation"></div>
                                     </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Assessments_xsd.html">Assessments.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Assessment"></a><div class="componentTitle">Element <span class="qname">Assessment</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Assessment" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_Assessment');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Assessment" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Assessment" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Assessment');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Assessment" style="display:block"><img alt="Diagram" border="0" src="img/Assessments_xsd_Element_Assessment.png"
+                                   usemap="#Assessments_xsd_Element_Assessment" /><map name="Assessments_xsd_Element_Assessment"
+                                   id="Assessments_xsd_Element_Assessment">
+                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentTitle"
+                                       href="Assessments_xsd.html#Assessment_AssessmentTitle"
+                                       coords="236,2,355,26" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentFamilyHierarchyName"
+                                       href="Assessments_xsd.html#Assessment_AssessmentFamilyHierarchyName"
+                                       coords="236,66,448,90" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentIdentificationCode"
+                                       href="Assessments_xsd.html#Assessment_AssessmentIdentificationCode"
+                                       coords="236,130,430,154" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentCategory"
+                                       href="Assessments_xsd.html#Assessment_AssessmentCategory"
+                                       coords="236,207,381,231" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_AcademicSubject"
+                                       href="Assessments_xsd.html#Assessment_AcademicSubject"
+                                       coords="236,284,358,308" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_GradeLevelAssessed"
+                                       href="Assessments_xsd.html#Assessment_GradeLevelAssessed"
+                                       coords="236,361,377,385" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_LowestGradeLevelAssessed"
+                                       href="Assessments_xsd.html#Assessment_LowestGradeLevelAssessed"
+                                       coords="236,438,414,462" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentPerformanceLevel"
+                                       href="Assessments_xsd.html#Assessment_AssessmentPerformanceLevel"
+                                       coords="236,515,427,539" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_ContentStandard"
+                                       href="Assessments_xsd.html#Assessment_ContentStandard"
+                                       coords="236,592,358,616" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentForm"
+                                       href="Assessments_xsd.html#Assessment_AssessmentForm"
+                                       coords="236,669,360,693" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_Version"
+                                       href="Assessments_xsd.html#Assessment_Version"
+                                       coords="236,746,308,770" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_RevisionDate"
+                                       href="Assessments_xsd.html#Assessment_RevisionDate"
+                                       coords="236,810,336,834" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_MaxRawScore"
+                                       href="Assessments_xsd.html#Assessment_MaxRawScore"
+                                       coords="236,887,340,911" />
+                                 <area alt="Assessments_xsd.tmp#Assessment_Nomenclature"
+                                       href="Assessments_xsd.html#Assessment_Nomenclature"
+                                       coords="236,977,342,1001" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Assessment" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Assessment');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Assessment" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -4854,9 +4975,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_StudentObjectiveAssessment_ScoreResults" style="display:block"><img alt="Diagram" border="0" src="img/Assessments_xsd_Element_ScoreResults.png"
-                                   usemap="#Assessments_xsd_Element_ScoreResults" /><map name="Assessments_xsd_Element_ScoreResults"
-                                   id="Assessments_xsd_Element_ScoreResults">
+                           <div id="diagram_StudentObjectiveAssessment_ScoreResults" style="display:block"><img alt="Diagram" border="0" src="img/Assessments_xsd_Element_ScoreResults_1.png"
+                                   usemap="#Assessments_xsd_Element_ScoreResults_1" /><map name="Assessments_xsd_Element_ScoreResults_1"
+                                   id="Assessments_xsd_Element_ScoreResults_1">
                                  <area alt="Assessments_xsd.tmp#ScoreResult_AssessmentReportingMethod"
                                        href="Assessments_xsd.html#ScoreResult_AssessmentReportingMethod"
                                        coords="176,78,382,102" />
@@ -5742,6 +5863,136 @@
                                        
                                     </td>
                                     <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Assessments_xsd.html">Assessments.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StudentAssessment"></a><div class="componentTitle">Element <span class="qname">StudentAssessment</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StudentAssessment" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StudentAssessment');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StudentAssessment" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StudentAssessment" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_StudentAssessment');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StudentAssessment" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Assessments_xsd_Element_StudentAssessment.png"
+                                   usemap="#Assessments_xsd_Element_StudentAssessment" /><map name="Assessments_xsd_Element_StudentAssessment"
+                                   id="Assessments_xsd_Element_StudentAssessment">
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationDate"
+                                       href="Assessments_xsd.html#StudentAssessment_AdministrationDate"
+                                       coords="277,2,412,26" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationEndDate"
+                                       href="Assessments_xsd.html#StudentAssessment_AdministrationEndDate"
+                                       coords="277,79,432,103" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_SerialNumber"
+                                       href="Assessments_xsd.html#StudentAssessment_SerialNumber"
+                                       coords="277,156,380,180" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationLanguage"
+                                       href="Assessments_xsd.html#StudentAssessment_AdministrationLanguage"
+                                       coords="277,233,440,257" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationEnvironment"
+                                       href="Assessments_xsd.html#StudentAssessment_AdministrationEnvironment"
+                                       coords="277,297,456,321" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_SpecialAccommodations"
+                                       href="Assessments_xsd.html#StudentAssessment_SpecialAccommodations"
+                                       coords="277,374,439,398" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_LinguisticAccommodations"
+                                       href="Assessments_xsd.html#StudentAssessment_LinguisticAccommodations"
+                                       coords="277,451,454,475" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_RetestIndicator"
+                                       href="Assessments_xsd.html#StudentAssessment_RetestIndicator"
+                                       coords="277,528,389,552" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_ReasonNotTested"
+                                       href="Assessments_xsd.html#StudentAssessment_ReasonNotTested"
+                                       coords="277,605,402,629" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_ScoreResults"
+                                       href="Assessments_xsd.html#StudentAssessment_ScoreResults"
+                                       coords="277,682,377,706" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_GradeLevelWhenAssessed"
+                                       href="Assessments_xsd.html#StudentAssessment_GradeLevelWhenAssessed"
+                                       coords="277,772,447,796" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_PerformanceLevels"
+                                       href="Assessments_xsd.html#StudentAssessment_PerformanceLevels"
+                                       coords="277,836,409,860" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_StudentObjectiveAssessments"
+                                       href="Assessments_xsd.html#StudentAssessment_StudentObjectiveAssessments"
+                                       coords="277,900,470,924" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_StudentAssessmentItems"
+                                       href="Assessments_xsd.html#StudentAssessment_StudentAssessmentItems"
+                                       coords="277,977,443,1001" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_StudentReference"
+                                       href="Assessments_xsd.html#StudentAssessment_StudentReference"
+                                       coords="277,1041,402,1065" />
+                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AssessmentReference"
+                                       href="Assessments_xsd.html#StudentAssessment_AssessmentReference"
+                                       coords="277,1105,426,1129" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StudentAssessment" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StudentAssessment');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StudentAssessment" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -7935,9 +8186,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_StudentAssessment_ScoreResults" style="display:block"><img alt="Diagram" border="0" src="img/Assessments_xsd_Element_ScoreResults_1.png"
-                                   usemap="#Assessments_xsd_Element_ScoreResults_1" /><map name="Assessments_xsd_Element_ScoreResults_1"
-                                   id="Assessments_xsd_Element_ScoreResults_1">
+                           <div id="diagram_StudentAssessment_ScoreResults" style="display:block"><img alt="Diagram" border="0" src="img/Assessments_xsd_Element_ScoreResults.png"
+                                   usemap="#Assessments_xsd_Element_ScoreResults" /><map name="Assessments_xsd_Element_ScoreResults"
+                                   id="Assessments_xsd_Element_ScoreResults">
                                  <area alt="Assessments_xsd.tmp#ScoreResult_AssessmentReportingMethod"
                                        href="Assessments_xsd.html#ScoreResult_AssessmentReportingMethod"
                                        coords="176,78,382,102" />
@@ -9073,6 +9324,97 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="SectionAssessmentAssociation"></a><div class="componentTitle">Element <span class="qname">SectionAssessmentAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_SectionAssessmentAssociation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_SectionAssessmentAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_SectionAssessmentAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the association of a section with an administered assessment.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_SectionAssessmentAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_SectionAssessmentAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_SectionAssessmentAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Assessments_xsd_Element_SectionAssessmentAssociation.png"
+                                   usemap="#Assessments_xsd_Element_SectionAssessmentAssociation" /><map name="Assessments_xsd_Element_SectionAssessmentAssociation"
+                                   id="Assessments_xsd_Element_SectionAssessmentAssociation">
+                                 <area alt="Assessments_xsd.tmp#SectionAssessmentAssociation_SectionReference"
+                                       href="Assessments_xsd.html#SectionAssessmentAssociation_SectionReference"
+                                       coords="317,2,440,26" />
+                                 <area alt="Assessments_xsd.tmp#SectionAssessmentAssociation_AssessmentReference"
+                                       href="Assessments_xsd.html#SectionAssessmentAssociation_AssessmentReference"
+                                       coords="317,66,466,90" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_SectionAssessmentAssociation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_SectionAssessmentAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_SectionAssessmentAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Assessments_xsd.html">Assessments.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="SectionAssessmentAssociation_SectionReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Assessments_xsd.html#SectionAssessmentAssociation" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for Assessments.xsd')">SectionAssessmentAssociation</a></b> / SectionReference</span></div>
@@ -9816,171 +10158,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="Assessment"></a><div class="componentTitle">Complex Type <span class="qname">Assessment</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_Assessment" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_Assessment');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_Assessment" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_Assessment" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_Assessment');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_Assessment" style="display:block"><img alt="Diagram" border="0" src="img/Assessments_xsd_Complex_Type_Assessment.png"
-                                   usemap="#Assessments_xsd_Complex_Type_Assessment" /><map name="Assessments_xsd_Complex_Type_Assessment"
-                                   id="Assessments_xsd_Complex_Type_Assessment">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="196,78,268,102" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="171,3,423,25" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentTitle"
-                                       href="Assessments_xsd.html#Assessment_AssessmentTitle"
-                                       coords="260,156,379,180" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentFamilyHierarchyName"
-                                       href="Assessments_xsd.html#Assessment_AssessmentFamilyHierarchyName"
-                                       coords="260,220,472,244" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentIdentificationCode"
-                                       href="Assessments_xsd.html#Assessment_AssessmentIdentificationCode"
-                                       coords="260,284,454,308" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentCategory"
-                                       href="Assessments_xsd.html#Assessment_AssessmentCategory"
-                                       coords="260,361,405,385" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AcademicSubject"
-                                       href="Assessments_xsd.html#Assessment_AcademicSubject"
-                                       coords="260,438,382,462" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_GradeLevelAssessed"
-                                       href="Assessments_xsd.html#Assessment_GradeLevelAssessed"
-                                       coords="260,515,401,539" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_LowestGradeLevelAssessed"
-                                       href="Assessments_xsd.html#Assessment_LowestGradeLevelAssessed"
-                                       coords="260,592,438,616" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentPerformanceLevel"
-                                       href="Assessments_xsd.html#Assessment_AssessmentPerformanceLevel"
-                                       coords="260,669,451,693" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_ContentStandard"
-                                       href="Assessments_xsd.html#Assessment_ContentStandard"
-                                       coords="260,746,382,770" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_AssessmentForm"
-                                       href="Assessments_xsd.html#Assessment_AssessmentForm"
-                                       coords="260,823,384,847" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_Version"
-                                       href="Assessments_xsd.html#Assessment_Version"
-                                       coords="260,900,332,924" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_RevisionDate"
-                                       href="Assessments_xsd.html#Assessment_RevisionDate"
-                                       coords="260,964,360,988" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_MaxRawScore"
-                                       href="Assessments_xsd.html#Assessment_MaxRawScore"
-                                       coords="260,1041,364,1065" />
-                                 <area alt="Assessments_xsd.tmp#Assessment_Nomenclature"
-                                       href="Assessments_xsd.html#Assessment_Nomenclature"
-                                       coords="260,1131,366,1155" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Assessments_xsd.html#Assessment" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Assessments.xsd')">Assessment</a></b></li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_Assessment" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('attributes_Assessment');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_Assessment" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Assessments_xsd.html">Assessments.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="StudentObjectiveAssessment"></a><div class="componentTitle">Complex Type <span class="qname">StudentObjectiveAssessment</span></div>
       <table class="rt">
          <tr>
@@ -10210,315 +10387,6 @@
                         </td>
                         <td>
                            <div id="attributes_StudentAssessmentItem" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Assessments_xsd.html">Assessments.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentAssessment"></a><div class="componentTitle">Complex Type <span class="qname">StudentAssessment</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentAssessment" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentAssessment');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentAssessment" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentAssessment" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_StudentAssessment');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentAssessment" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Assessments_xsd_Complex_Type_StudentAssessment.png"
-                                   usemap="#Assessments_xsd_Complex_Type_StudentAssessment" /><map name="Assessments_xsd_Complex_Type_StudentAssessment"
-                                   id="Assessments_xsd_Complex_Type_StudentAssessment">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="237,78,309,102" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="212,3,464,25" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationDate"
-                                       href="Assessments_xsd.html#StudentAssessment_AdministrationDate"
-                                       coords="301,156,436,180" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationEndDate"
-                                       href="Assessments_xsd.html#StudentAssessment_AdministrationEndDate"
-                                       coords="301,233,456,257" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_SerialNumber"
-                                       href="Assessments_xsd.html#StudentAssessment_SerialNumber"
-                                       coords="301,310,404,334" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationLanguage"
-                                       href="Assessments_xsd.html#StudentAssessment_AdministrationLanguage"
-                                       coords="301,387,464,411" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AdministrationEnvironment"
-                                       href="Assessments_xsd.html#StudentAssessment_AdministrationEnvironment"
-                                       coords="301,451,480,475" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_SpecialAccommodations"
-                                       href="Assessments_xsd.html#StudentAssessment_SpecialAccommodations"
-                                       coords="301,528,463,552" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_LinguisticAccommodations"
-                                       href="Assessments_xsd.html#StudentAssessment_LinguisticAccommodations"
-                                       coords="301,605,478,629" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_RetestIndicator"
-                                       href="Assessments_xsd.html#StudentAssessment_RetestIndicator"
-                                       coords="301,682,413,706" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_ReasonNotTested"
-                                       href="Assessments_xsd.html#StudentAssessment_ReasonNotTested"
-                                       coords="301,759,426,783" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_ScoreResults"
-                                       href="Assessments_xsd.html#StudentAssessment_ScoreResults"
-                                       coords="301,836,401,860" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_GradeLevelWhenAssessed"
-                                       href="Assessments_xsd.html#StudentAssessment_GradeLevelWhenAssessed"
-                                       coords="301,926,471,950" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_PerformanceLevels"
-                                       href="Assessments_xsd.html#StudentAssessment_PerformanceLevels"
-                                       coords="301,990,433,1014" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_StudentObjectiveAssessments"
-                                       href="Assessments_xsd.html#StudentAssessment_StudentObjectiveAssessments"
-                                       coords="301,1054,494,1078" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_StudentAssessmentItems"
-                                       href="Assessments_xsd.html#StudentAssessment_StudentAssessmentItems"
-                                       coords="301,1131,467,1155" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_StudentReference"
-                                       href="Assessments_xsd.html#StudentAssessment_StudentReference"
-                                       coords="301,1195,426,1219" />
-                                 <area alt="Assessments_xsd.tmp#StudentAssessment_AssessmentReference"
-                                       href="Assessments_xsd.html#StudentAssessment_AssessmentReference"
-                                       coords="301,1259,450,1283" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Assessments_xsd.html#StudentAssessment" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Assessments.xsd')">StudentAssessment</a></b></li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_StudentAssessment" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_StudentAssessment');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_StudentAssessment" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Assessments_xsd.html">Assessments.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="SectionAssessmentAssociation"></a><div class="componentTitle">Complex Type <span class="qname">SectionAssessmentAssociation</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_SectionAssessmentAssociation" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_SectionAssessmentAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_SectionAssessmentAssociation" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents the association of a section with an administered assessment.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_SectionAssessmentAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_SectionAssessmentAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_SectionAssessmentAssociation" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Assessments_xsd_Complex_Type_SectionAssessmentAssociation.png"
-                                   usemap="#Assessments_xsd_Complex_Type_SectionAssessmentAssociation" /><map name="Assessments_xsd_Complex_Type_SectionAssessmentAssociation"
-                                   id="Assessments_xsd_Complex_Type_SectionAssessmentAssociation">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="298,78,370,102" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="273,3,525,25" />
-                                 <area alt="Assessments_xsd.tmp#SectionAssessmentAssociation_SectionReference"
-                                       href="Assessments_xsd.html#SectionAssessmentAssociation_SectionReference"
-                                       coords="341,156,464,180" />
-                                 <area alt="Assessments_xsd.tmp#SectionAssessmentAssociation_AssessmentReference"
-                                       href="Assessments_xsd.html#SectionAssessmentAssociation_AssessmentReference"
-                                       coords="341,220,490,244" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Assessments_xsd.html#SectionAssessmentAssociation" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Assessments.xsd')">SectionAssessmentAssociation</a></b></li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_SectionAssessmentAssociation" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_SectionAssessmentAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_SectionAssessmentAssociation" style="display:block">
                               <table class="attributesTable">
                                  <thead>
                                     <tr>

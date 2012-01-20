@@ -39,8 +39,10 @@
 				'properties_EducationOrganization_OperationalStatus', 
 				'properties_EducationOrganization_AccountabilityRatings', 
 				'properties_EducationOrganization_ProgramReference', 
+				'properties_LocalEducationAgency', 
 				'properties_LocalEducationAgency_LEACategory', 
 				'properties_LocalEducationAgency_CharterStatus', 
+				'properties_School', 
 				'properties_School_GradesOffered', 
 				'properties_School_SchoolCategories', 
 				'properties_School_SchoolType', 
@@ -48,14 +50,14 @@
 				'properties_School_TitleIPartASchoolDesignation', 
 				'properties_School_MagnetSpecialProgramEmphasisSchool', 
 				'properties_School_AdministrativeFundingControl', 
-				'properties_EducationOrgAssociation_ChildAgencyHierarchyName', 
+				'properties_FeederSchoolType_BeginDate', 
+				'properties_FeederSchoolType_EndDate', 
+				'properties_FeederSchoolType_FeederRelationshipDescription', 
+				'properties_EducationOrgAssociation', 
 				'properties_EducationOrgAssociation_ParentAgencyReference', 
 				'properties_EducationOrgAssociation_ChildAgencyReference', 
-				'properties_FeederSchoolAssociation_FeederSchoolReference', 
-				'properties_FeederSchoolAssociation_ReceivingSchoolReference', 
-				'properties_FeederSchoolAssociation_BeginDate', 
-				'properties_FeederSchoolAssociation_EndDate', 
-				'properties_FeederSchoolAssociation_FeederRelationshipDescription', 
+				'properties_EducationOrgAssociation_ChildAgencyHierarchyName', 
+				'properties_EducationOrgAssociation_FeederSchool', 
 				'properties_EducationOrganization', 
 				'properties_EducationOrgIdentificationCode_IdentificationSystem', 
 				'properties_InstitutionTelephone_InstitutionTelephoneNumberType');
@@ -88,7 +90,7 @@
 				'facets_School_TitleIPartASchoolDesignation', 
 				'facets_School_MagnetSpecialProgramEmphasisSchool', 
 				'facets_School_AdministrativeFundingControl', 
-				'facets_FeederSchoolAssociation_FeederRelationshipDescription', 
+				'facets_FeederSchoolType_FeederRelationshipDescription', 
 				'facets_EducationOrgIdentificationCode_IdentificationSystem', 
 				'facets_InstitutionTelephone_InstitutionTelephoneNumberType');
 
@@ -127,8 +129,10 @@
 				'diagram_EducationOrganization_OperationalStatus', 
 				'diagram_EducationOrganization_AccountabilityRatings', 
 				'diagram_EducationOrganization_ProgramReference', 
+				'diagram_LocalEducationAgency', 
 				'diagram_LocalEducationAgency_LEACategory', 
 				'diagram_LocalEducationAgency_CharterStatus', 
+				'diagram_School', 
 				'diagram_School_GradesOffered', 
 				'diagram_School_SchoolCategories', 
 				'diagram_School_SchoolType', 
@@ -136,14 +140,14 @@
 				'diagram_School_TitleIPartASchoolDesignation', 
 				'diagram_School_MagnetSpecialProgramEmphasisSchool', 
 				'diagram_School_AdministrativeFundingControl', 
-				'diagram_EducationOrgAssociation_ChildAgencyHierarchyName', 
+				'diagram_FeederSchoolType_BeginDate', 
+				'diagram_FeederSchoolType_EndDate', 
+				'diagram_FeederSchoolType_FeederRelationshipDescription', 
+				'diagram_EducationOrgAssociation', 
 				'diagram_EducationOrgAssociation_ParentAgencyReference', 
 				'diagram_EducationOrgAssociation_ChildAgencyReference', 
-				'diagram_FeederSchoolAssociation_FeederSchoolReference', 
-				'diagram_FeederSchoolAssociation_ReceivingSchoolReference', 
-				'diagram_FeederSchoolAssociation_BeginDate', 
-				'diagram_FeederSchoolAssociation_EndDate', 
-				'diagram_FeederSchoolAssociation_FeederRelationshipDescription', 
+				'diagram_EducationOrgAssociation_ChildAgencyHierarchyName', 
+				'diagram_EducationOrgAssociation_FeederSchool', 
 				'diagram_EducationOrganizationCategoriesType', 
 				'diagram_AccountabilityRating', 
 				'diagram_ProgramIdentityType', 
@@ -154,10 +158,7 @@
 				'diagram_ClassPeriodIdentityType', 
 				'diagram_LocationIdentityType', 
 				'diagram_EducationOrganization', 
-				'diagram_LocalEducationAgency', 
-				'diagram_School', 
-				'diagram_EducationOrgAssociation', 
-				'diagram_FeederSchoolAssociation');
+				'diagram_FeederSchoolType');
 
         var annotationBoxes= new Array('annotations_EducationOrganizationCategoriesType_OrganizationCategory', 
 				'annotations_AccountabilityRating_RatingTitle', 
@@ -191,8 +192,10 @@
 				'annotations_EducationOrganization_OperationalStatus', 
 				'annotations_EducationOrganization_AccountabilityRatings', 
 				'annotations_EducationOrganization_ProgramReference', 
+				'annotations_LocalEducationAgency', 
 				'annotations_LocalEducationAgency_LEACategory', 
 				'annotations_LocalEducationAgency_CharterStatus', 
+				'annotations_School', 
 				'annotations_School_GradesOffered', 
 				'annotations_School_SchoolCategories', 
 				'annotations_School_SchoolType', 
@@ -200,14 +203,14 @@
 				'annotations_School_TitleIPartASchoolDesignation', 
 				'annotations_School_MagnetSpecialProgramEmphasisSchool', 
 				'annotations_School_AdministrativeFundingControl', 
-				'annotations_EducationOrgAssociation_ChildAgencyHierarchyName', 
+				'annotations_FeederSchoolType_BeginDate', 
+				'annotations_FeederSchoolType_EndDate', 
+				'annotations_FeederSchoolType_FeederRelationshipDescription', 
+				'annotations_EducationOrgAssociation', 
 				'annotations_EducationOrgAssociation_ParentAgencyReference', 
 				'annotations_EducationOrgAssociation_ChildAgencyReference', 
-				'annotations_FeederSchoolAssociation_FeederSchoolReference', 
-				'annotations_FeederSchoolAssociation_ReceivingSchoolReference', 
-				'annotations_FeederSchoolAssociation_BeginDate', 
-				'annotations_FeederSchoolAssociation_EndDate', 
-				'annotations_FeederSchoolAssociation_FeederRelationshipDescription', 
+				'annotations_EducationOrgAssociation_ChildAgencyHierarchyName', 
+				'annotations_EducationOrgAssociation_FeederSchool', 
 				'annotations_EducationOrganizationCategoriesType', 
 				'annotations_AccountabilityRating', 
 				'annotations_ProgramIdentityType', 
@@ -218,10 +221,7 @@
 				'annotations_ClassPeriodIdentityType', 
 				'annotations_LocationIdentityType', 
 				'annotations_EducationOrganization', 
-				'annotations_LocalEducationAgency', 
-				'annotations_School', 
-				'annotations_EducationOrgAssociation', 
-				'annotations_FeederSchoolAssociation', 
+				'annotations_FeederSchoolType', 
 				'annotations_EducationOrgIdentificationCode_IdentificationSystem', 
 				'annotations_InstitutionTelephone_InstitutionTelephoneNumberType');
 
@@ -235,13 +235,9 @@
 				'attributes_EducationOrganization_ProgramReference', 
 				'attributes_EducationOrgAssociation_ParentAgencyReference', 
 				'attributes_EducationOrgAssociation_ChildAgencyReference', 
-				'attributes_FeederSchoolAssociation_FeederSchoolReference', 
-				'attributes_FeederSchoolAssociation_ReceivingSchoolReference', 
 				'attributes_EducationOrgIdentificationCode', 
 				'attributes_InstitutionTelephone', 
-				'attributes_EducationOrganization', 
-				'attributes_LocalEducationAgency', 
-				'attributes_School');
+				'attributes_EducationOrganization');
 
         
         var button_prefix = 'button_';
@@ -2000,9 +1996,9 @@
                         <td class="diagram">
                            <div id="diagram_ProgramIdentityType_EducationOrgIdentificationCode"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1.png"
-                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1"
-                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1">
+                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2.png"
+                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2"
+                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2">
                                  <area alt="EducationalOrganization_xsd.tmp#EducationOrgIdentificationCode_IdentificationSystem"
                                        href="EducationalOrganization_xsd.html#EducationOrgIdentificationCode_IdentificationSystem"
                                        coords="279,78,435,102" />
@@ -2285,9 +2281,9 @@
                         <td class="diagram">
                            <div id="diagram_EducationalOrgIdentityType_StateOrganizationId"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_StateOrganizationId.png"
-                                   usemap="#EducationalOrganization_xsd_Element_StateOrganizationId" /><map name="EducationalOrganization_xsd_Element_StateOrganizationId"
-                                   id="EducationalOrganization_xsd_Element_StateOrganizationId">
+                                   src="img/EducationalOrganization_xsd_Element_StateOrganizationId_4.png"
+                                   usemap="#EducationalOrganization_xsd_Element_StateOrganizationId_4" /><map name="EducationalOrganization_xsd_Element_StateOrganizationId_4"
+                                   id="EducationalOrganization_xsd_Element_StateOrganizationId_4">
                                  <area alt="SimpleTypes_xsd.tmp#IdentificationCode"
                                        href="SimpleTypes_xsd.html#IdentificationCode"
                                        coords="185,0,338,26" /></map></div>
@@ -2415,9 +2411,9 @@
                         <td class="diagram">
                            <div id="diagram_EducationalOrgIdentityType_EducationOrgIdentificationCode"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3.png"
-                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3"
-                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3">
+                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1.png"
+                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1"
+                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_1">
                                  <area alt="EducationalOrganization_xsd.tmp#EducationOrgIdentificationCode_IdentificationSystem"
                                        href="EducationalOrganization_xsd.html#EducationOrgIdentificationCode_IdentificationSystem"
                                        coords="279,78,435,102" />
@@ -3162,9 +3158,9 @@
                         <td class="diagram">
                            <div id="diagram_ClassPeriodIdentityType_EducationOrgIdentificationCode"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode.png"
-                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode"
-                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode">
+                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3.png"
+                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3"
+                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_3">
                                  <area alt="EducationalOrganization_xsd.tmp#EducationOrgIdentificationCode_IdentificationSystem"
                                        href="EducationalOrganization_xsd.html#EducationOrgIdentificationCode_IdentificationSystem"
                                        coords="279,78,435,102" />
@@ -3450,9 +3446,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_LocationIdentityType_StateOrganizationId" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_StateOrganizationId_3.png"
-                                   usemap="#EducationalOrganization_xsd_Element_StateOrganizationId_3" /><map name="EducationalOrganization_xsd_Element_StateOrganizationId_3"
-                                   id="EducationalOrganization_xsd_Element_StateOrganizationId_3">
+                                   src="img/EducationalOrganization_xsd_Element_StateOrganizationId.png"
+                                   usemap="#EducationalOrganization_xsd_Element_StateOrganizationId" /><map name="EducationalOrganization_xsd_Element_StateOrganizationId"
+                                   id="EducationalOrganization_xsd_Element_StateOrganizationId">
                                  <area alt="SimpleTypes_xsd.tmp#IdentificationCode"
                                        href="SimpleTypes_xsd.html#IdentificationCode"
                                        coords="185,0,338,26" /></map></div>
@@ -3577,9 +3573,9 @@
                         <td class="diagram">
                            <div id="diagram_LocationIdentityType_EducationOrgIdentificationCode"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2.png"
-                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2"
-                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_2">
+                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4.png"
+                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4"
+                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4">
                                  <area alt="EducationalOrganization_xsd.tmp#EducationOrgIdentificationCode_IdentificationSystem"
                                        href="EducationalOrganization_xsd.html#EducationOrgIdentificationCode_IdentificationSystem"
                                        coords="279,78,435,102" />
@@ -3737,9 +3733,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_EducationOrganization_StateOrganizationId" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_StateOrganizationId_4.png"
-                                   usemap="#EducationalOrganization_xsd_Element_StateOrganizationId_4" /><map name="EducationalOrganization_xsd_Element_StateOrganizationId_4"
-                                   id="EducationalOrganization_xsd_Element_StateOrganizationId_4">
+                                   src="img/EducationalOrganization_xsd_Element_StateOrganizationId_3.png"
+                                   usemap="#EducationalOrganization_xsd_Element_StateOrganizationId_3" /><map name="EducationalOrganization_xsd_Element_StateOrganizationId_3"
+                                   id="EducationalOrganization_xsd_Element_StateOrganizationId_3">
                                  <area alt="SimpleTypes_xsd.tmp#IdentificationCode"
                                        href="SimpleTypes_xsd.html#IdentificationCode"
                                        coords="185,0,338,26" /></map></div>
@@ -3865,9 +3861,9 @@
                         <td class="diagram">
                            <div id="diagram_EducationOrganization_EducationOrgIdentificationCode"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4.png"
-                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4"
-                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode_4">
+                                   src="img/EducationalOrganization_xsd_Element_EducationOrgIdentificationCode.png"
+                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgIdentificationCode" /><map name="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode"
+                                   id="EducationalOrganization_xsd_Element_EducationOrgIdentificationCode">
                                  <area alt="EducationalOrganization_xsd.tmp#EducationOrgIdentificationCode_IdentificationSystem"
                                        href="EducationalOrganization_xsd.html#EducationOrgIdentificationCode_IdentificationSystem"
                                        coords="279,78,435,102" />
@@ -5259,6 +5255,98 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="LocalEducationAgency"></a><div class="componentTitle">Element <span class="qname">LocalEducationAgency</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_LocalEducationAgency" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_LocalEducationAgency');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_LocalEducationAgency" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents an administrative unit at the local level which</span><span class="tI">
+</span><span class="tT">exists primarily to operate schools or to contract for educational services. It</span><span class="tI">
+</span><span class="tT">includes school districts, charter schools, charter management organizations, or</span><span class="tI">
+</span><span class="tT">other local administrative organizations.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_LocalEducationAgency" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_LocalEducationAgency');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_LocalEducationAgency" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_LocalEducationAgency.png"
+                                   usemap="#EducationalOrganization_xsd_Element_LocalEducationAgency" /><map name="EducationalOrganization_xsd_Element_LocalEducationAgency"
+                                   id="EducationalOrganization_xsd_Element_LocalEducationAgency">
+                                 <area alt="EducationalOrganization_xsd.tmp#LocalEducationAgency_LEACategory"
+                                       href="EducationalOrganization_xsd.html#LocalEducationAgency_LEACategory"
+                                       coords="271,2,371,26" />
+                                 <area alt="EducationalOrganization_xsd.tmp#LocalEducationAgency_CharterStatus"
+                                       href="EducationalOrganization_xsd.html#LocalEducationAgency_CharterStatus"
+                                       coords="271,79,376,103" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_LocalEducationAgency" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_LocalEducationAgency');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_LocalEducationAgency" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="LocalEducationAgency_LEACategory"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#LocalEducationAgency" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">LocalEducationAgency</a></b> / LEACategory</span></div>
@@ -5431,9 +5519,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_LocalEducationAgency_CharterStatus" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_CharterStatus_1.png"
-                                   usemap="#EducationalOrganization_xsd_Element_CharterStatus_1" /><map name="EducationalOrganization_xsd_Element_CharterStatus_1"
-                                   id="EducationalOrganization_xsd_Element_CharterStatus_1">
+                                   src="img/EducationalOrganization_xsd_Element_CharterStatus.png"
+                                   usemap="#EducationalOrganization_xsd_Element_CharterStatus" /><map name="EducationalOrganization_xsd_Element_CharterStatus"
+                                   id="EducationalOrganization_xsd_Element_CharterStatus">
                                  <area alt="SimpleTypes_xsd.tmp#CharterStatusType"
                                        href="SimpleTypes_xsd.html#CharterStatusType"
                                        coords="153,0,308,26" /></map></div>
@@ -5506,6 +5594,108 @@
                                     <td>
                                        <div class="annotation"></div>
                                     </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="School"></a><div class="componentTitle">Element <span class="qname">School</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_School" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_School');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_School" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents an educational organization that includes staff</span><span class="tI">
+</span><span class="tT">and students who participate in classes and educational activity groups.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_School" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_School');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_School" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_School.png"
+                                   usemap="#EducationalOrganization_xsd_Element_School" /><map name="EducationalOrganization_xsd_Element_School"
+                                   id="EducationalOrganization_xsd_Element_School">
+                                 <area alt="EducationalOrganization_xsd.tmp#School_GradesOffered"
+                                       href="EducationalOrganization_xsd.html#School_GradesOffered"
+                                       coords="186,2,296,26" />
+                                 <area alt="EducationalOrganization_xsd.tmp#School_SchoolCategories"
+                                       href="EducationalOrganization_xsd.html#School_SchoolCategories"
+                                       coords="186,66,311,90" />
+                                 <area alt="EducationalOrganization_xsd.tmp#School_SchoolType"
+                                       href="EducationalOrganization_xsd.html#School_SchoolType"
+                                       coords="186,143,279,167" />
+                                 <area alt="EducationalOrganization_xsd.tmp#School_CharterStatus"
+                                       href="EducationalOrganization_xsd.html#School_CharterStatus"
+                                       coords="186,220,291,244" />
+                                 <area alt="EducationalOrganization_xsd.tmp#School_TitleIPartASchoolDesignation"
+                                       href="EducationalOrganization_xsd.html#School_TitleIPartASchoolDesignation"
+                                       coords="186,310,372,334" />
+                                 <area alt="EducationalOrganization_xsd.tmp#School_MagnetSpecialProgramEmphasisSchool"
+                                       href="EducationalOrganization_xsd.html#School_MagnetSpecialProgramEmphasisSchool"
+                                       coords="186,374,426,398" />
+                                 <area alt="EducationalOrganization_xsd.tmp#School_AdministrativeFundingControl"
+                                       href="EducationalOrganization_xsd.html#School_AdministrativeFundingControl"
+                                       coords="186,451,380,475" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_School" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_School');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_School" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -5905,9 +6095,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_School_CharterStatus" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_CharterStatus.png"
-                                   usemap="#EducationalOrganization_xsd_Element_CharterStatus" /><map name="EducationalOrganization_xsd_Element_CharterStatus"
-                                   id="EducationalOrganization_xsd_Element_CharterStatus">
+                                   src="img/EducationalOrganization_xsd_Element_CharterStatus_1.png"
+                                   usemap="#EducationalOrganization_xsd_Element_CharterStatus_1" /><map name="EducationalOrganization_xsd_Element_CharterStatus_1"
+                                   id="EducationalOrganization_xsd_Element_CharterStatus_1">
                                  <area alt="SimpleTypes_xsd.tmp#CharterStatusType"
                                        href="SimpleTypes_xsd.html#CharterStatusType"
                                        coords="153,0,308,26" /></map></div>
@@ -6434,10 +6624,9 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="EducationOrgAssociation_ChildAgencyHierarchyName"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#EducationOrgAssociation"
-                  target="mainFrame"
+      </table><a id="FeederSchoolType_BeginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolType" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">EducationOrgAssociation</a></b> / ChildAgencyHierarchyName</span></div>
+                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolType</a></b> / BeginDate</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -6452,21 +6641,20 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_EducationOrgAssociation_ChildAgencyHierarchyName"
-                                     type="image"
+                           <div class="floatRight"><input id="button_annotations_FeederSchoolType_BeginDate" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('annotations_EducationOrgAssociation_ChildAgencyHierarchyName');"
+                                     onclick="switchState('annotations_FeederSchoolType_BeginDate');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_EducationOrgAssociation_ChildAgencyHierarchyName"
-                                style="display:block">
+                           <div id="annotations_FeederSchoolType_BeginDate" style="display:block">
                               <div class="annotation">
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">A hierarchical name for the child Ed Org using '.' separators.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year of the first day of the feeder school</span><span class="tI">
+</span><span class="tT">association.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -6476,31 +6664,213 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_EducationOrgAssociation_ChildAgencyHierarchyName"
-                                     type="image"
-                                     src="img/btM.gif"
+                           <div class="floatRight"><input id="button_diagram_FeederSchoolType_BeginDate" type="image" src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('diagram_EducationOrgAssociation_ChildAgencyHierarchyName');"
+                                     onclick="switchState('diagram_FeederSchoolType_BeginDate');"
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_EducationOrgAssociation_ChildAgencyHierarchyName"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_ChildAgencyHierarchyName.png" /></div>
+                           <div id="diagram_FeederSchoolType_BeginDate" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_BeginDate.png" /></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_EducationOrgAssociation_ChildAgencyHierarchyName"
-                                     type="image"
+                           <div class="floatRight"><input id="button_properties_FeederSchoolType_BeginDate" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('properties_EducationOrgAssociation_ChildAgencyHierarchyName');"
+                                     onclick="switchState('properties_FeederSchoolType_BeginDate');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_EducationOrgAssociation_ChildAgencyHierarchyName"
+                           <div id="properties_FeederSchoolType_BeginDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="FeederSchoolType_EndDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolType" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolType</a></b> / EndDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_FeederSchoolType_EndDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_FeederSchoolType_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_FeederSchoolType_EndDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year of the last day of the feeder school</span><span class="tI">
+</span><span class="tT">association.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_FeederSchoolType_EndDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_FeederSchoolType_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_FeederSchoolType_EndDate" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_EndDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_FeederSchoolType_EndDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_FeederSchoolType_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_FeederSchoolType_EndDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="FeederSchoolType_FeederRelationshipDescription"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolType" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolType</a></b> / FeederRelationshipDescription</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_FeederSchoolType_FeederRelationshipDescription"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_FeederSchoolType_FeederRelationshipDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_FeederSchoolType_FeederRelationshipDescription"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Describes the relationship from the feeder school to the</span><span class="tI">
+</span><span class="tT">receiving school, for example by program emphasis, such as special</span><span class="tI">
+</span><span class="tT">education, language immersion, science or performing art.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_FeederSchoolType_FeederRelationshipDescription" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_FeederSchoolType_FeederRelationshipDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_FeederSchoolType_FeederRelationshipDescription"
+                                style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_FeederRelationshipDescription.png"
+                                   usemap="#EducationalOrganization_xsd_Element_FeederRelationshipDescription" /><map name="EducationalOrganization_xsd_Element_FeederRelationshipDescription"
+                                   id="EducationalOrganization_xsd_Element_FeederRelationshipDescription">
+                                 <area alt="SimpleTypes_xsd.tmp#Description" href="SimpleTypes_xsd.html#Description"
+                                       coords="243,0,360,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_FeederSchoolType_FeederRelationshipDescription"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_FeederSchoolType_FeederRelationshipDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_FeederSchoolType_FeederRelationshipDescription"
                                 style="display:block">
                               <table class="propertiesTable">
                                  <tr>
@@ -6514,6 +6884,132 @@
                                        
                                     </td>
                                     <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_FeederSchoolType_FeederRelationshipDescription" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_FeederSchoolType_FeederRelationshipDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_FeederSchoolType_FeederRelationshipDescription"
+                                style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>1024</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="EducationOrgAssociation"></a><div class="componentTitle">Element <span class="qname">EducationOrgAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_EducationOrgAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_EducationOrgAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_EducationOrgAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The association denoting a hierarchical relationship among  Educational Organizations.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_EducationOrgAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_EducationOrgAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_EducationOrgAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_EducationOrgAssociation.png"
+                                   usemap="#EducationalOrganization_xsd_Element_EducationOrgAssociation" /><map name="EducationalOrganization_xsd_Element_EducationOrgAssociation"
+                                   id="EducationalOrganization_xsd_Element_EducationOrgAssociation">
+                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_ParentAgencyReference"
+                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_ParentAgencyReference"
+                                       coords="287,2,445,26" />
+                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_ChildAgencyReference"
+                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_ChildAgencyReference"
+                                       coords="287,66,439,90" />
+                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_ChildAgencyHierarchyName"
+                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_ChildAgencyHierarchyName"
+                                       coords="287,130,468,154" />
+                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_FeederSchool"
+                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_FeederSchool"
+                                       coords="287,194,390,218" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_EducationOrgAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_EducationOrgAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_EducationOrgAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -6814,10 +7310,10 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="FeederSchoolAssociation_FeederSchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolAssociation"
+      </table><a id="EducationOrgAssociation_ChildAgencyHierarchyName"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#EducationOrgAssociation"
                   target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolAssociation</a></b> / FeederSchoolReference</span></div>
+                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">EducationOrgAssociation</a></b> / ChildAgencyHierarchyName</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -6832,21 +7328,21 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_FeederSchoolAssociation_FeederSchoolReference"
+                           <div class="floatRight"><input id="button_annotations_EducationOrgAssociation_ChildAgencyHierarchyName"
                                      type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('annotations_FeederSchoolAssociation_FeederSchoolReference');"
+                                     onclick="switchState('annotations_EducationOrgAssociation_ChildAgencyHierarchyName');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_FeederSchoolAssociation_FeederSchoolReference"
+                           <div id="annotations_EducationOrgAssociation_ChildAgencyHierarchyName"
                                 style="display:block">
                               <div class="annotation">
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Reference to the Feeder school.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">A hierarchical name for the child Ed Org using '.' separators.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -6856,398 +7352,32 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_FeederSchoolAssociation_FeederSchoolReference" type="image"
+                           <div class="floatRight"><input id="button_diagram_EducationOrgAssociation_ChildAgencyHierarchyName"
+                                     type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('diagram_FeederSchoolAssociation_FeederSchoolReference');"
+                                     onclick="switchState('diagram_EducationOrgAssociation_ChildAgencyHierarchyName');"
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_FeederSchoolAssociation_FeederSchoolReference"
+                           <div id="diagram_EducationOrgAssociation_ChildAgencyHierarchyName"
                                 style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_FeederSchoolReference.png"
-                                   usemap="#EducationalOrganization_xsd_Element_FeederSchoolReference" /><map name="EducationalOrganization_xsd_Element_FeederSchoolReference"
-                                   id="EducationalOrganization_xsd_Element_FeederSchoolReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
-                                       coords="232,157,293,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference"
-                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference"
-                                       coords="207,3,429,25" /></map></div>
+                                   src="img/EducationalOrganization_xsd_Element_ChildAgencyHierarchyName.png" /></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_FeederSchoolAssociation_FeederSchoolReference"
+                           <div class="floatRight"><input id="button_properties_EducationOrgAssociation_ChildAgencyHierarchyName"
                                      type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('properties_FeederSchoolAssociation_FeederSchoolReference');"
+                                     onclick="switchState('properties_EducationOrgAssociation_ChildAgencyHierarchyName');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_FeederSchoolAssociation_FeederSchoolReference"
+                           <div id="properties_EducationOrgAssociation_ChildAgencyHierarchyName"
                                 style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_FeederSchoolAssociation_FeederSchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_FeederSchoolAssociation_FeederSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_FeederSchoolAssociation_FeederSchoolReference"
-                                style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
-                                             target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>EducationalOrg</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="FeederSchoolAssociation_ReceivingSchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolAssociation"
-                  target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolAssociation</a></b> / ReceivingSchoolReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_FeederSchoolAssociation_ReceivingSchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_FeederSchoolAssociation_ReceivingSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_FeederSchoolAssociation_ReceivingSchoolReference"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Reference to the receiving school.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_FeederSchoolAssociation_ReceivingSchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_FeederSchoolAssociation_ReceivingSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_FeederSchoolAssociation_ReceivingSchoolReference"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_ReceivingSchoolReference.png"
-                                   usemap="#EducationalOrganization_xsd_Element_ReceivingSchoolReference" /><map name="EducationalOrganization_xsd_Element_ReceivingSchoolReference"
-                                   id="EducationalOrganization_xsd_Element_ReceivingSchoolReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
-                                       coords="247,157,308,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference"
-                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference"
-                                       coords="222,3,444,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_FeederSchoolAssociation_ReceivingSchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_FeederSchoolAssociation_ReceivingSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_FeederSchoolAssociation_ReceivingSchoolReference"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_FeederSchoolAssociation_ReceivingSchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_FeederSchoolAssociation_ReceivingSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_FeederSchoolAssociation_ReceivingSchoolReference"
-                                style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
-                                             target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>EducationalOrg</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="FeederSchoolAssociation_BeginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolAssociation"
-                  target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolAssociation</a></b> / BeginDate</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_FeederSchoolAssociation_BeginDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_FeederSchoolAssociation_BeginDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_FeederSchoolAssociation_BeginDate" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The month, day, and year of the first day of the feeder school</span><span class="tI">
-</span><span class="tT">association.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_FeederSchoolAssociation_BeginDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_FeederSchoolAssociation_BeginDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_FeederSchoolAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_BeginDate.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_FeederSchoolAssociation_BeginDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_FeederSchoolAssociation_BeginDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_FeederSchoolAssociation_BeginDate" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="FeederSchoolAssociation_EndDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolAssociation"
-                  target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolAssociation</a></b> / EndDate</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_FeederSchoolAssociation_EndDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_FeederSchoolAssociation_EndDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_FeederSchoolAssociation_EndDate" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The month, day, and year of the last day of the feeder school</span><span class="tI">
-</span><span class="tT">association.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_FeederSchoolAssociation_EndDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_FeederSchoolAssociation_EndDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_FeederSchoolAssociation_EndDate" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_EndDate.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_FeederSchoolAssociation_EndDate" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_FeederSchoolAssociation_EndDate');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_FeederSchoolAssociation_EndDate" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn">content:
@@ -7279,10 +7409,10 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="FeederSchoolAssociation_FeederRelationshipDescription"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#FeederSchoolAssociation"
+      </table><a id="EducationOrgAssociation_FeederSchool"></a><div class="componentTitle">Element <span class="qname"><b><a href="EducationalOrganization_xsd.html#EducationOrgAssociation"
                   target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">FeederSchoolAssociation</a></b> / FeederRelationshipDescription</span></div>
+                  onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">EducationOrgAssociation</a></b> / FeederSchool</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -7297,23 +7427,19 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_FeederSchoolAssociation_FeederRelationshipDescription"
-                                     type="image"
+                           <div class="floatRight"><input id="button_annotations_EducationOrgAssociation_FeederSchool" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('annotations_FeederSchoolAssociation_FeederRelationshipDescription');"
+                                     onclick="switchState('annotations_EducationOrgAssociation_FeederSchool');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_FeederSchoolAssociation_FeederRelationshipDescription"
-                                style="display:block">
+                           <div id="annotations_EducationOrgAssociation_FeederSchool" style="display:block">
                               <div class="annotation">
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Describes the relationship from the feeder school to the</span><span class="tI">
-</span><span class="tT">receiving school, for example by program emphasis, such as special</span><span class="tI">
-</span><span class="tT">education, language immersion, science or performing art.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">If the child Education Org is a Feeder school for the parent, this optional entry provides details about that relationship.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -7323,80 +7449,54 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_FeederSchoolAssociation_FeederRelationshipDescription"
-                                     type="image"
+                           <div class="floatRight"><input id="button_diagram_EducationOrgAssociation_FeederSchool" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('diagram_FeederSchoolAssociation_FeederRelationshipDescription');"
+                                     onclick="switchState('diagram_EducationOrgAssociation_FeederSchool');"
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_FeederSchoolAssociation_FeederRelationshipDescription"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Element_FeederRelationshipDescription.png"
-                                   usemap="#EducationalOrganization_xsd_Element_FeederRelationshipDescription" /><map name="EducationalOrganization_xsd_Element_FeederRelationshipDescription"
-                                   id="EducationalOrganization_xsd_Element_FeederRelationshipDescription">
-                                 <area alt="SimpleTypes_xsd.tmp#Description" href="SimpleTypes_xsd.html#Description"
-                                       coords="243,0,360,26" /></map></div>
+                           <div id="diagram_EducationOrgAssociation_FeederSchool" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Element_FeederSchool.png"
+                                   usemap="#EducationalOrganization_xsd_Element_FeederSchool" /><map name="EducationalOrganization_xsd_Element_FeederSchool"
+                                   id="EducationalOrganization_xsd_Element_FeederSchool">
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType_BeginDate"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType_BeginDate"
+                                       coords="236,40,320,64" />
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType_EndDate"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType_EndDate"
+                                       coords="236,117,311,141" />
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType_FeederRelationshipDescription"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType_FeederRelationshipDescription"
+                                       coords="236,194,431,218" />
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType"
+                                       coords="154,3,303,25" /></map></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_FeederSchoolAssociation_FeederRelationshipDescription"
-                                     type="image"
+                           <div class="floatRight"><input id="button_properties_EducationOrgAssociation_FeederSchool" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('properties_FeederSchoolAssociation_FeederRelationshipDescription');"
+                                     onclick="switchState('properties_EducationOrgAssociation_FeederSchool');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_FeederSchoolAssociation_FeederRelationshipDescription"
-                                style="display:block">
+                           <div id="properties_EducationOrgAssociation_FeederSchool" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn">content:
                                        
                                     </td>
-                                    <td><b>simple</b></td>
+                                    <td><b>complex</b></td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">minOccurs:
                                        
                                     </td>
                                     <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Facets</b></div>
-                           <div class="floatRight"><input id="button_facets_FeederSchoolAssociation_FeederRelationshipDescription"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('facets_FeederSchoolAssociation_FeederRelationshipDescription');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="facets_FeederSchoolAssociation_FeederRelationshipDescription"
-                                style="display:block">
-                              <table class="facetsTable">
-                                 <tr>
-                                    <td class="firstColumn">minLength</td>
-                                    <td width="30%"><b>1</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxLength</td>
-                                    <td width="30%"><b>1024</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -8340,7 +8440,7 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="LocalEducationAgency"></a><div class="componentTitle">Complex Type <span class="qname">LocalEducationAgency</span></div>
+      </table><a id="FeederSchoolType"></a><div class="componentTitle">Complex Type <span class="qname">FeederSchoolType</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -8355,21 +8455,18 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_LocalEducationAgency" type="image" src="img/btM.gif"
+                           <div class="floatRight"><input id="button_annotations_FeederSchoolType" type="image" src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('annotations_LocalEducationAgency');"
+                                     onclick="switchState('annotations_FeederSchoolType');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_LocalEducationAgency" style="display:block">
+                           <div id="annotations_FeederSchoolType" style="display:block">
                               <div class="annotation">
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents an administrative unit at the local level which</span><span class="tI">
-</span><span class="tT">exists primarily to operate schools or to contract for educational services. It</span><span class="tI">
-</span><span class="tT">includes school districts, charter schools, charter management organizations, or</span><span class="tI">
-</span><span class="tT">other local administrative organizations.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The feeder school relationship between two schools.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -8379,465 +8476,24 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_LocalEducationAgency" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_LocalEducationAgency');"
+                           <div class="floatRight"><input id="button_diagram_FeederSchoolType" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_FeederSchoolType');"
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_LocalEducationAgency" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Complex_Type_LocalEducationAgency.png"
-                                   usemap="#EducationalOrganization_xsd_Complex_Type_LocalEducationAgency" /><map name="EducationalOrganization_xsd_Complex_Type_LocalEducationAgency"
-                                   id="EducationalOrganization_xsd_Complex_Type_LocalEducationAgency">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="266,118,338,142" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="241,43,493,65" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_StateOrganizationId"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_StateOrganizationId"
-                                       coords="330,196,467,220" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_EducationOrgIdentificationCode"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_EducationOrgIdentificationCode"
-                                       coords="330,273,533,297" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_NameOfInstitution"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_NameOfInstitution"
-                                       coords="330,350,459,374" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_ShortNameOfInstitution"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_ShortNameOfInstitution"
-                                       coords="330,414,488,438" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_OrganizationCategories"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_OrganizationCategories"
-                                       coords="330,478,489,502" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_Address"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_Address"
-                                       coords="330,555,406,579" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_Telephone"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_Telephone"
-                                       coords="330,645,417,669" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_WebSite"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_WebSite"
-                                       coords="330,722,402,746" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_OperationalStatus"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_OperationalStatus"
-                                       coords="330,799,457,823" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_AccountabilityRatings"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_AccountabilityRatings"
-                                       coords="330,876,478,900" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_ProgramReference"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_ProgramReference"
-                                       coords="330,953,460,977" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization"
-                                       coords="227,3,493,25" />
-                                 <area alt="EducationalOrganization_xsd.tmp#LocalEducationAgency_LEACategory"
-                                       href="EducationalOrganization_xsd.html#LocalEducationAgency_LEACategory"
-                                       coords="295,1067,395,1091" />
-                                 <area alt="EducationalOrganization_xsd.tmp#LocalEducationAgency_CharterStatus"
-                                       href="EducationalOrganization_xsd.html#LocalEducationAgency_CharterStatus"
-                                       coords="295,1144,400,1168" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="EducationalOrganization_xsd.html#EducationOrganization"
-                                             target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">EducationOrganization</a></b><ul>
-                                          <li><b><a href="EducationalOrganization_xsd.html#LocalEducationAgency" target="mainFrame"
-                                                   title="http://slc-sli/ed-org/0.1"
-                                                   onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">LocalEducationAgency</a></b></li>
-                                       </ul>
-                                    </li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_LocalEducationAgency" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_LocalEducationAgency');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_LocalEducationAgency" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="School"></a><div class="componentTitle">Complex Type <span class="qname">School</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_School" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_School');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_School" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents an educational organization that includes staff</span><span class="tI">
-</span><span class="tT">and students who participate in classes and educational activity groups.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_School" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_School');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_School" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Complex_Type_School.png"
-                                   usemap="#EducationalOrganization_xsd_Complex_Type_School" /><map name="EducationalOrganization_xsd_Complex_Type_School"
-                                   id="EducationalOrganization_xsd_Complex_Type_School">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="181,118,253,142" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="156,43,408,65" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_StateOrganizationId"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_StateOrganizationId"
-                                       coords="245,196,382,220" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_EducationOrgIdentificationCode"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_EducationOrgIdentificationCode"
-                                       coords="245,273,448,297" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_NameOfInstitution"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_NameOfInstitution"
-                                       coords="245,350,374,374" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_ShortNameOfInstitution"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_ShortNameOfInstitution"
-                                       coords="245,414,403,438" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_OrganizationCategories"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_OrganizationCategories"
-                                       coords="245,478,404,502" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_Address"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_Address"
-                                       coords="245,555,321,579" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_Telephone"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_Telephone"
-                                       coords="245,645,332,669" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_WebSite"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_WebSite"
-                                       coords="245,722,317,746" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_OperationalStatus"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_OperationalStatus"
-                                       coords="245,799,372,823" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_AccountabilityRatings"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_AccountabilityRatings"
-                                       coords="245,876,393,900" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization_ProgramReference"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization_ProgramReference"
-                                       coords="245,953,375,977" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrganization"
-                                       href="EducationalOrganization_xsd.html#EducationOrganization"
-                                       coords="142,3,408,25" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_GradesOffered"
-                                       href="EducationalOrganization_xsd.html#School_GradesOffered"
-                                       coords="210,1067,320,1091" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_SchoolCategories"
-                                       href="EducationalOrganization_xsd.html#School_SchoolCategories"
-                                       coords="210,1131,335,1155" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_SchoolType"
-                                       href="EducationalOrganization_xsd.html#School_SchoolType"
-                                       coords="210,1208,303,1232" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_CharterStatus"
-                                       href="EducationalOrganization_xsd.html#School_CharterStatus"
-                                       coords="210,1285,315,1309" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_TitleIPartASchoolDesignation"
-                                       href="EducationalOrganization_xsd.html#School_TitleIPartASchoolDesignation"
-                                       coords="210,1375,396,1399" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_MagnetSpecialProgramEmphasisSchool"
-                                       href="EducationalOrganization_xsd.html#School_MagnetSpecialProgramEmphasisSchool"
-                                       coords="210,1439,450,1463" />
-                                 <area alt="EducationalOrganization_xsd.tmp#School_AdministrativeFundingControl"
-                                       href="EducationalOrganization_xsd.html#School_AdministrativeFundingControl"
-                                       coords="210,1516,404,1540" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="EducationalOrganization_xsd.html#EducationOrganization"
-                                             target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">EducationOrganization</a></b><ul>
-                                          <li><b><a href="EducationalOrganization_xsd.html#School" target="mainFrame"
-                                                   title="http://slc-sli/ed-org/0.1"
-                                                   onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">School</a></b></li>
-                                       </ul>
-                                    </li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_School" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('attributes_School');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_School" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="EducationOrgAssociation"></a><div class="componentTitle">Complex Type <span class="qname">EducationOrgAssociation</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_EducationOrgAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_EducationOrgAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_EducationOrgAssociation" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The association denoting a hierarchical relationship among  Educational Organizations.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_EducationOrgAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_EducationOrgAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_EducationOrgAssociation" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Complex_Type_EducationOrgAssociation.png"
-                                   usemap="#EducationalOrganization_xsd_Complex_Type_EducationOrgAssociation" /><map name="EducationalOrganization_xsd_Complex_Type_EducationOrgAssociation"
-                                   id="EducationalOrganization_xsd_Complex_Type_EducationOrgAssociation">
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_ChildAgencyHierarchyName"
-                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_ChildAgencyHierarchyName"
-                                       coords="311,0,492,24" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_ParentAgencyReference"
-                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_ParentAgencyReference"
-                                       coords="311,64,469,88" />
-                                 <area alt="EducationalOrganization_xsd.tmp#EducationOrgAssociation_ChildAgencyReference"
-                                       href="EducationalOrganization_xsd.html#EducationOrgAssociation_ChildAgencyReference"
-                                       coords="311,128,463,152" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="EducationalOrganization_xsd.html">EducationalOrganization.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="FeederSchoolAssociation"></a><div class="componentTitle">Complex Type <span class="qname">FeederSchoolAssociation</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_FeederSchoolAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_FeederSchoolAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_FeederSchoolAssociation" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The association from feeder school to the receiving school.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_FeederSchoolAssociation" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_FeederSchoolAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_FeederSchoolAssociation" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/EducationalOrganization_xsd_Complex_Type_FeederSchoolAssociation.png"
-                                   usemap="#EducationalOrganization_xsd_Complex_Type_FeederSchoolAssociation" /><map name="EducationalOrganization_xsd_Complex_Type_FeederSchoolAssociation"
-                                   id="EducationalOrganization_xsd_Complex_Type_FeederSchoolAssociation">
-                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolAssociation_FeederSchoolReference"
-                                       href="EducationalOrganization_xsd.html#FeederSchoolAssociation_FeederSchoolReference"
-                                       coords="309,0,465,24" />
-                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolAssociation_ReceivingSchoolReference"
-                                       href="EducationalOrganization_xsd.html#FeederSchoolAssociation_ReceivingSchoolReference"
-                                       coords="309,64,480,88" />
-                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolAssociation_BeginDate"
-                                       href="EducationalOrganization_xsd.html#FeederSchoolAssociation_BeginDate"
-                                       coords="309,128,393,152" />
-                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolAssociation_EndDate"
-                                       href="EducationalOrganization_xsd.html#FeederSchoolAssociation_EndDate"
-                                       coords="309,205,384,229" />
-                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolAssociation_FeederRelationshipDescription"
-                                       href="EducationalOrganization_xsd.html#FeederSchoolAssociation_FeederRelationshipDescription"
-                                       coords="309,282,504,306" /></map></div>
+                           <div id="diagram_FeederSchoolType" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/EducationalOrganization_xsd_Complex_Type_FeederSchoolType.png"
+                                   usemap="#EducationalOrganization_xsd_Complex_Type_FeederSchoolType" /><map name="EducationalOrganization_xsd_Complex_Type_FeederSchoolType"
+                                   id="EducationalOrganization_xsd_Complex_Type_FeederSchoolType">
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType_BeginDate"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType_BeginDate"
+                                       coords="272,0,356,24" />
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType_EndDate"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType_EndDate"
+                                       coords="272,77,347,101" />
+                                 <area alt="EducationalOrganization_xsd.tmp#FeederSchoolType_FeederRelationshipDescription"
+                                       href="EducationalOrganization_xsd.html#FeederSchoolType_FeederRelationshipDescription"
+                                       coords="272,154,467,178" /></map></div>
                         </td>
                      </tr>
                      <tr>

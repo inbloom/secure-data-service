@@ -15,6 +15,10 @@
 				'properties_DisciplineAction_DisciplineActionLengthDifferenceReason', 
 				'properties_DisciplineAction_StudentReference', 
 				'properties_DisciplineAction_DisciplineIncidentReference', 
+				'properties_DisciplineAction_StaffReference', 
+				'properties_DisciplineAction_ResponsibilitySchoolReference', 
+				'properties_DisciplineAction_AssignmentSchoolReference', 
+				'properties_DisciplineIncident', 
 				'properties_DisciplineIncident_IncidentIdentifier', 
 				'properties_DisciplineIncident_IncidentDate', 
 				'properties_DisciplineIncident_IncidentTime', 
@@ -30,9 +34,7 @@
 				'properties_DisciplineIncident_CaseNumber', 
 				'properties_DisciplineIncident_SchoolReference', 
 				'properties_DisciplineIncident_StaffReference', 
-				'properties_DisciplineAction_StaffReference', 
-				'properties_DisciplineAction_ResponsibilitySchoolReference', 
-				'properties_DisciplineAction_AssignmentSchoolReference', 
+				'properties_StudentDisciplineIncidentAssociation', 
 				'properties_StudentDisciplineIncidentAssociation_StudentReference', 
 				'properties_StudentDisciplineIncidentAssociation_DisciplineIncidentReference', 
 				'properties_StudentDisciplineIncidentAssociation_StudentParticipationCode', 
@@ -59,8 +61,6 @@
 				'facets_BehaviorDescriptor_ShortDescription', 
 				'facets_BehaviorDescriptor_Description', 
 				'facets_BehaviorDescriptor_BehaviorCategory', 
-				'facets_DisciplineActionLengthDifferenceReasonType', 
-				'facets_WeaponItemType', 
 				'facets_SecondaryBehavior_BehaviorCategory');
 
         
@@ -74,6 +74,10 @@
 				'diagram_DisciplineAction_DisciplineActionLengthDifferenceReason', 
 				'diagram_DisciplineAction_StudentReference', 
 				'diagram_DisciplineAction_DisciplineIncidentReference', 
+				'diagram_DisciplineAction_StaffReference', 
+				'diagram_DisciplineAction_ResponsibilitySchoolReference', 
+				'diagram_DisciplineAction_AssignmentSchoolReference', 
+				'diagram_DisciplineIncident', 
 				'diagram_DisciplineIncident_IncidentIdentifier', 
 				'diagram_DisciplineIncident_IncidentDate', 
 				'diagram_DisciplineIncident_IncidentTime', 
@@ -89,9 +93,7 @@
 				'diagram_DisciplineIncident_CaseNumber', 
 				'diagram_DisciplineIncident_SchoolReference', 
 				'diagram_DisciplineIncident_StaffReference', 
-				'diagram_DisciplineAction_StaffReference', 
-				'diagram_DisciplineAction_ResponsibilitySchoolReference', 
-				'diagram_DisciplineAction_AssignmentSchoolReference', 
+				'diagram_StudentDisciplineIncidentAssociation', 
 				'diagram_StudentDisciplineIncidentAssociation_StudentReference', 
 				'diagram_StudentDisciplineIncidentAssociation_DisciplineIncidentReference', 
 				'diagram_StudentDisciplineIncidentAssociation_StudentParticipationCode', 
@@ -103,12 +105,8 @@
 				'diagram_BehaviorDescriptor_BehaviorCategory', 
 				'diagram_BehaviorDescriptor_EducationOrganizationReference', 
 				'diagram_DisciplineAction', 
-				'diagram_DisciplineActionLengthDifferenceReasonType', 
-				'diagram_DisciplineIncident', 
 				'diagram_SecondaryBehavior', 
 				'diagram_WeaponsType', 
-				'diagram_WeaponItemType', 
-				'diagram_StudentDisciplineIncidentAssociation', 
 				'diagram_BehaviorDescriptor');
 
         var annotationBoxes= new Array('annotations_DisciplineAction_DisciplineActionIdentifier', 
@@ -119,6 +117,10 @@
 				'annotations_DisciplineAction_DisciplineActionLengthDifferenceReason', 
 				'annotations_DisciplineAction_StudentReference', 
 				'annotations_DisciplineAction_DisciplineIncidentReference', 
+				'annotations_DisciplineAction_StaffReference', 
+				'annotations_DisciplineAction_ResponsibilitySchoolReference', 
+				'annotations_DisciplineAction_AssignmentSchoolReference', 
+				'annotations_DisciplineIncident', 
 				'annotations_DisciplineIncident_IncidentIdentifier', 
 				'annotations_DisciplineIncident_IncidentDate', 
 				'annotations_DisciplineIncident_IncidentTime', 
@@ -134,9 +136,7 @@
 				'annotations_DisciplineIncident_CaseNumber', 
 				'annotations_DisciplineIncident_SchoolReference', 
 				'annotations_DisciplineIncident_StaffReference', 
-				'annotations_DisciplineAction_StaffReference', 
-				'annotations_DisciplineAction_ResponsibilitySchoolReference', 
-				'annotations_DisciplineAction_AssignmentSchoolReference', 
+				'annotations_StudentDisciplineIncidentAssociation', 
 				'annotations_StudentDisciplineIncidentAssociation_StudentReference', 
 				'annotations_StudentDisciplineIncidentAssociation_DisciplineIncidentReference', 
 				'annotations_StudentDisciplineIncidentAssociation_StudentParticipationCode', 
@@ -148,32 +148,27 @@
 				'annotations_BehaviorDescriptor_BehaviorCategory', 
 				'annotations_BehaviorDescriptor_EducationOrganizationReference', 
 				'annotations_DisciplineAction', 
-				'annotations_DisciplineActionLengthDifferenceReasonType', 
-				'annotations_DisciplineIncident', 
 				'annotations_SecondaryBehavior', 
 				'annotations_WeaponsType', 
-				'annotations_WeaponItemType', 
-				'annotations_StudentDisciplineIncidentAssociation', 
 				'annotations_BehaviorDescriptor', 
 				'annotations_SecondaryBehavior_BehaviorCategory');
 
         var attributesBoxes= new Array('attributes_DisciplineAction_Disciplines', 
 				'attributes_DisciplineAction_StudentReference', 
 				'attributes_DisciplineAction_DisciplineIncidentReference', 
+				'attributes_DisciplineAction_StaffReference', 
+				'attributes_DisciplineAction_ResponsibilitySchoolReference', 
+				'attributes_DisciplineAction_AssignmentSchoolReference', 
 				'attributes_DisciplineIncident_Behaviors', 
 				'attributes_DisciplineIncident_SecondaryBehaviors', 
 				'attributes_DisciplineIncident_SchoolReference', 
 				'attributes_DisciplineIncident_StaffReference', 
-				'attributes_DisciplineAction_StaffReference', 
-				'attributes_DisciplineAction_ResponsibilitySchoolReference', 
-				'attributes_DisciplineAction_AssignmentSchoolReference', 
 				'attributes_StudentDisciplineIncidentAssociation_StudentReference', 
 				'attributes_StudentDisciplineIncidentAssociation_DisciplineIncidentReference', 
 				'attributes_StudentDisciplineIncidentAssociation_Behaviors', 
 				'attributes_StudentDisciplineIncidentAssociation_SecondaryBehaviors', 
 				'attributes_BehaviorDescriptor_EducationOrganizationReference', 
 				'attributes_DisciplineAction', 
-				'attributes_DisciplineIncident', 
 				'attributes_SecondaryBehavior', 
 				'attributes_BehaviorDescriptor');
 
@@ -541,7 +536,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Identifier assigned by the education organization to the discipline action.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Identifier assigned by the education organization to</span><span class="tI">
+</span><span class="tT">the discipline action.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -663,7 +659,9 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Type of action or removal from the classroom used to discipline the student involved as a perpetrator in a discipline incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Type of action or removal from the classroom used to</span><span class="tI">
+</span><span class="tT">discipline the student involved as a perpetrator in a discipline</span><span class="tI">
+</span><span class="tT">incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -885,7 +883,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The length of time in days for the Discipline Action (e.g. removal, detention), if applicable.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The length of time in days for the Discipline Action</span><span class="tI">
+</span><span class="tT">(e.g. removal, detention), if applicable.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -979,7 +978,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Indicates the actual length in days of a student’s disciplinary assignment.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Indicates the actual length in days of a student’s</span><span class="tI">
+</span><span class="tT">disciplinary assignment.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1076,7 +1076,9 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Indicates the reason for the difference, if any, between the official and actual lengths of a student’s disciplinary assignment.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Indicates the reason for the difference, if any,</span><span class="tI">
+</span><span class="tT">between the official and actual lengths of a student’s disciplinary</span><span class="tI">
+</span><span class="tT">assignment.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1099,8 +1101,8 @@
                                    src="img/Discipline_xsd_Element_DisciplineActionLengthDifferenceReason.png"
                                    usemap="#Discipline_xsd_Element_DisciplineActionLengthDifferenceReason" /><map name="Discipline_xsd_Element_DisciplineActionLengthDifferenceReason"
                                    id="Discipline_xsd_Element_DisciplineActionLengthDifferenceReason">
-                                 <area alt="Discipline_xsd.tmp#DisciplineActionLengthDifferenceReasonType"
-                                       href="Discipline_xsd.html#DisciplineActionLengthDifferenceReasonType"
+                                 <area alt="SimpleTypes_xsd.tmp#DisciplineActionLengthDifferenceReasonType"
+                                       href="SimpleTypes_xsd.html#DisciplineActionLengthDifferenceReasonType"
                                        coords="297,0,596,26" /></map></div>
                         </td>
                      </tr>
@@ -1279,7 +1281,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The student(s) disciplined by the discipline action.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The student(s) disciplined by the discipline</span><span class="tI">
+</span><span class="tT">action.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1296,9 +1299,10 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_DisciplineAction_StudentReference" style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_StudentReference.png"
-                                   usemap="#Discipline_xsd_Element_StudentReference" /><map name="Discipline_xsd_Element_StudentReference"
-                                   id="Discipline_xsd_Element_StudentReference">
+                           <div id="diagram_DisciplineAction_StudentReference" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Discipline_xsd_Element_StudentReference_1.png"
+                                   usemap="#Discipline_xsd_Element_StudentReference_1" /><map name="Discipline_xsd_Element_StudentReference_1"
+                                   id="Discipline_xsd_Element_StudentReference_1">
                                  <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#StudentSimpleReference_type"
                                        coords="201,157,262,181" />
@@ -1418,7 +1422,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Reference to the DisciplineIncident(s) associated with the DisciplineAction.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Reference to the DisciplineIncident(s) associated with</span><span class="tI">
+</span><span class="tT">the DisciplineAction.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1439,69 +1444,12 @@
                                    src="img/Discipline_xsd_Element_DisciplineIncidentReference_1.png"
                                    usemap="#Discipline_xsd_Element_DisciplineIncidentReference_1" /><map name="Discipline_xsd_Element_DisciplineIncidentReference_1"
                                    id="Discipline_xsd_Element_DisciplineIncidentReference_1">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="269,118,341,142" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="244,43,496,65" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentIdentifier"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentIdentifier"
-                                       coords="333,196,455,220" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentDate"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentDate"
-                                       coords="333,273,431,297" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentTime"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentTime"
-                                       coords="333,350,433,374" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentLocation"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentLocation"
-                                       coords="333,414,453,438" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterDescription"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReporterDescription"
-                                       coords="333,491,473,515" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterName"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReporterName"
-                                       coords="333,568,441,592" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Behaviors"
-                                       href="Discipline_xsd.html#DisciplineIncident_Behaviors"
-                                       coords="333,632,416,656" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SecondaryBehaviors"
-                                       href="Discipline_xsd.html#DisciplineIncident_SecondaryBehaviors"
-                                       coords="333,709,472,733" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Weapons"
-                                       href="Discipline_xsd.html#DisciplineIncident_Weapons"
-                                       coords="333,773,412,797" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReportedToLawEnforcement"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReportedToLawEnforcement"
-                                       coords="333,863,515,887" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_CaseNumber"
-                                       href="Discipline_xsd.html#DisciplineIncident_CaseNumber"
-                                       coords="333,927,433,951" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SchoolReference"
-                                       href="Discipline_xsd.html#DisciplineIncident_SchoolReference"
-                                       coords="333,1004,453,1028" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_StaffReference"
-                                       href="Discipline_xsd.html#DisciplineIncident_StaffReference"
-                                       coords="333,1068,441,1092" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident"
-                                       href="Discipline_xsd.html#DisciplineIncident"
-                                       coords="230,3,376,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Discipline_xsd.html#DisciplineIncident" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineIncident</a></b></li>
-                                 </ul>
-                              </li>
-                           </ul>
+                                 <area alt="ReferenceTypes_xsd.tmp#DisciplineIncidentSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#DisciplineIncidentSimpleReference_type"
+                                       coords="255,157,316,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#DisciplineIncidentSimpleReference"
+                                       href="ReferenceTypes_xsd.html#DisciplineIncidentSimpleReference"
+                                       coords="230,3,464,25" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1559,23 +1507,569 @@
                                     </tr>
                                  </thead>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#DisciplineIncidentSimpleReference_type"
+                                             target="mainFrame"
                                              title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
                                     <td></td>
+                                    <td>DisciplineIncident</td>
                                     <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation"></div>
                                     </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DisciplineAction_StaffReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Discipline_xsd.html#DisciplineAction" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineAction</a></b> / StaffReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_DisciplineAction_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_DisciplineAction_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_DisciplineAction_StaffReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The staff responsible for enforcing the discipline</span><span class="tI">
+</span><span class="tT">action.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DisciplineAction_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_DisciplineAction_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DisciplineAction_StaffReference" style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_StaffReference.png"
+                                   usemap="#Discipline_xsd_Element_StaffReference" /><map name="Discipline_xsd_Element_StaffReference"
+                                   id="Discipline_xsd_Element_StaffReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#StaffSimpleReference_type"
+                                       coords="184,157,245,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference"
+                                       href="ReferenceTypes_xsd.html#StaffSimpleReference"
+                                       coords="159,3,322,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DisciplineAction_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_DisciplineAction_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DisciplineAction_StaffReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DisciplineAction_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_DisciplineAction_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DisciplineAction_StaffReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#StaffSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>Staff</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DisciplineAction_ResponsibilitySchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Discipline_xsd.html#DisciplineAction" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineAction</a></b> / ResponsibilitySchoolReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_DisciplineAction_ResponsibilitySchoolReference"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_DisciplineAction_ResponsibilitySchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_DisciplineAction_ResponsibilitySchoolReference"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">School responsible for student's</span><span class="tI">
+</span><span class="tT">discipline.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DisciplineAction_ResponsibilitySchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_DisciplineAction_ResponsibilitySchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DisciplineAction_ResponsibilitySchoolReference"
+                                style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Discipline_xsd_Element_ResponsibilitySchoolReference.png"
+                                   usemap="#Discipline_xsd_Element_ResponsibilitySchoolReference" /><map name="Discipline_xsd_Element_ResponsibilitySchoolReference"
+                                   id="Discipline_xsd_Element_ResponsibilitySchoolReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference_type"
+                                       coords="271,157,332,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference"
+                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference"
+                                       coords="246,3,421,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DisciplineAction_ResponsibilitySchoolReference"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_DisciplineAction_ResponsibilitySchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DisciplineAction_ResponsibilitySchoolReference"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DisciplineAction_ResponsibilitySchoolReference"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_DisciplineAction_ResponsibilitySchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DisciplineAction_ResponsibilitySchoolReference"
+                                style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SchoolSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>School</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DisciplineAction_AssignmentSchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Discipline_xsd.html#DisciplineAction" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineAction</a></b> / AssignmentSchoolReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_DisciplineAction_AssignmentSchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_DisciplineAction_AssignmentSchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_DisciplineAction_AssignmentSchoolReference"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">School responsible for student's</span><span class="tI">
+</span><span class="tT">discipline.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DisciplineAction_AssignmentSchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_DisciplineAction_AssignmentSchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DisciplineAction_AssignmentSchoolReference" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Discipline_xsd_Element_AssignmentSchoolReference.png"
+                                   usemap="#Discipline_xsd_Element_AssignmentSchoolReference" /><map name="Discipline_xsd_Element_AssignmentSchoolReference"
+                                   id="Discipline_xsd_Element_AssignmentSchoolReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference_type"
+                                       coords="260,157,321,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference"
+                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference"
+                                       coords="235,3,410,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DisciplineAction_AssignmentSchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_DisciplineAction_AssignmentSchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DisciplineAction_AssignmentSchoolReference"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_DisciplineAction_AssignmentSchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_DisciplineAction_AssignmentSchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_DisciplineAction_AssignmentSchoolReference"
+                                style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SchoolSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>School</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="DisciplineIncident"></a><div class="componentTitle">Element <span class="qname">DisciplineIncident</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_DisciplineIncident" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_DisciplineIncident');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_DisciplineIncident" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This event entity represents an occurrence of an infraction ranging</span><span class="tI">
+</span><span class="tT">from a minor problem behavior that disrupts the orderly functioning of a school or</span><span class="tI">
+</span><span class="tT">classroom (such as tardiness) to a criminal act that results in the involvement of a</span><span class="tI">
+</span><span class="tT">law enforcement official (such as robbery). A single event (e.g., a fight) is one</span><span class="tI">
+</span><span class="tT">incident regardless of how many perpetrators or victims are involved. Discipline</span><span class="tI">
+</span><span class="tT">incidents are events classified as warranting discipline action.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_DisciplineIncident" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_DisciplineIncident');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_DisciplineIncident" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Discipline_xsd_Element_DisciplineIncident.png"
+                                   usemap="#Discipline_xsd_Element_DisciplineIncident" /><map name="Discipline_xsd_Element_DisciplineIncident"
+                                   id="Discipline_xsd_Element_DisciplineIncident">
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentIdentifier"
+                                       href="Discipline_xsd.html#DisciplineIncident_IncidentIdentifier"
+                                       coords="266,2,388,26" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentDate"
+                                       href="Discipline_xsd.html#DisciplineIncident_IncidentDate"
+                                       coords="266,79,364,103" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentTime"
+                                       href="Discipline_xsd.html#DisciplineIncident_IncidentTime"
+                                       coords="266,156,366,180" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentLocation"
+                                       href="Discipline_xsd.html#DisciplineIncident_IncidentLocation"
+                                       coords="266,220,386,244" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterDescription"
+                                       href="Discipline_xsd.html#DisciplineIncident_ReporterDescription"
+                                       coords="266,297,406,321" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterName"
+                                       href="Discipline_xsd.html#DisciplineIncident_ReporterName"
+                                       coords="266,374,374,398" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Behaviors"
+                                       href="Discipline_xsd.html#DisciplineIncident_Behaviors"
+                                       coords="266,438,349,462" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SecondaryBehaviors"
+                                       href="Discipline_xsd.html#DisciplineIncident_SecondaryBehaviors"
+                                       coords="266,515,405,539" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Weapons"
+                                       href="Discipline_xsd.html#DisciplineIncident_Weapons"
+                                       coords="266,579,345,603" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReportedToLawEnforcement"
+                                       href="Discipline_xsd.html#DisciplineIncident_ReportedToLawEnforcement"
+                                       coords="266,669,448,693" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_CaseNumber"
+                                       href="Discipline_xsd.html#DisciplineIncident_CaseNumber"
+                                       coords="266,733,366,757" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SchoolReference"
+                                       href="Discipline_xsd.html#DisciplineIncident_SchoolReference"
+                                       coords="266,810,386,834" />
+                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_StaffReference"
+                                       href="Discipline_xsd.html#DisciplineIncident_StaffReference"
+                                       coords="266,874,374,898" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_DisciplineIncident" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_DisciplineIncident');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_DisciplineIncident" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1624,7 +2118,11 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">A locally assigned unique identifier (within the school or school district) to identify each specific incident or occurrence. The same identifier should be used to document the entire incident even if it included multiple offenses and multiple offenders.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">A locally assigned unique identifier (within the</span><span class="tI">
+</span><span class="tT">school or school district) to identify each specific incident or</span><span class="tI">
+</span><span class="tT">occurrence. The same identifier should be used to document the</span><span class="tI">
+</span><span class="tT">entire incident even if it included multiple offenses and multiple</span><span class="tI">
+</span><span class="tT">offenders.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1745,7 +2243,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the incident occurred.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the incident</span><span class="tI">
+</span><span class="tT">occurred.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1830,7 +2329,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">An indication of the time of day the incident took place.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">An indication of the time of day the incident took</span><span class="tI">
+</span><span class="tT">place.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -1915,12 +2415,9 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Identifies where the incident occurred and whether or not it occurred on school, for example:</span><span class="tI">
-</span><span class="tT">On school</span><span class="tI">
-</span><span class="tT">Administrative offices area</span><span class="tI">
-</span><span class="tT">Cafeteria area</span><span class="tI">
-</span><span class="tT">Classroom</span><span class="tI">
-</span><span class="tT">Hallway or stairs</span><span class="tI">
+                                       <td width="100%"><pre><span class="tT">Identifies where the incident occurred and whether or</span><span class="tI">
+</span><span class="tT">not it occurred on school, for example: On school Administrative</span><span class="tI">
+</span><span class="tT">offices area Cafeteria area Classroom Hallway or stairs</span><span class="tI">
 </span><span class="tT">...</span></pre></td>
                                     </tr>
                                  </table>
@@ -2188,13 +2685,11 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Information on the type of individual who reported the incident. When known and/or if useful, use a more specific option code (e.g., "Counselor" rather than "Professional Staff"); for example:</span><span class="tI">
-</span><span class="tT">Student</span><span class="tI">
-</span><span class="tT">Parent/guardian</span><span class="tI">
-</span><span class="tT">Law enforcement officer</span><span class="tI">
-</span><span class="tT">Nonschool personnel</span><span class="tI">
-</span><span class="tT">Representative of visiting school</span><span class="tI">
-</span><span class="tT">...</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Information on the type of individual who reported the</span><span class="tI">
+</span><span class="tT">incident. When known and/or if useful, use a more specific option</span><span class="tI">
+</span><span class="tT">code (e.g., "Counselor" rather than "Professional Staff"); for</span><span class="tI">
+</span><span class="tT">example: Student Parent/guardian Law enforcement officer Nonschool</span><span class="tI">
+</span><span class="tT">personnel Representative of visiting school ...</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -2335,7 +2830,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Identifies the reporter of the incident by name.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Identifies the reporter of the incident by</span><span class="tI">
+</span><span class="tT">name.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -2460,7 +2956,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Categories of behavior coded for use in describing an incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Categories of behavior coded for use in describing an</span><span class="tI">
+</span><span class="tT">incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -2476,8 +2973,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_DisciplineIncident_Behaviors" style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_Behaviors.png"
-                                   usemap="#Discipline_xsd_Element_Behaviors" /><map name="Discipline_xsd_Element_Behaviors" id="Discipline_xsd_Element_Behaviors">
+                           <div id="diagram_DisciplineIncident_Behaviors" style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_Behaviors_1.png"
+                                   usemap="#Discipline_xsd_Element_Behaviors_1" /><map name="Discipline_xsd_Element_Behaviors_1"
+                                   id="Discipline_xsd_Element_Behaviors_1">
                                  <area alt="ReferenceTypes_xsd.tmp#BehaviorDescriptorSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#BehaviorDescriptorSimpleReference_type"
                                        coords="159,157,220,181" />
@@ -2700,7 +3198,8 @@
                                           <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                                  class="preWrapContainer">
                                              <tr>
-                                                <td width="100%"><pre><span class="tT">The category of the incident behavior for classification purposes</span></pre></td>
+                                                <td width="100%"><pre><span class="tT">The category of the incident behavior for classification</span><span class="tI">
+</span><span class="tT">purposes</span></pre></td>
                                              </tr>
                                           </table>
                                        </div>
@@ -2753,7 +3252,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The description of the behavior of a student for a disipline incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The description of the behavior of a student for a disipline</span><span class="tI">
+</span><span class="tT">incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -2873,7 +3373,10 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Identifies the type of weapon used during an incident. The Federal Gun-Free Schools Act requires states to report the number of students expelled for bringing firearms to school by type of firearm.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Identifies the type of weapon used during an incident.</span><span class="tI">
+</span><span class="tT">The Federal Gun-Free Schools Act requires states to report the</span><span class="tI">
+</span><span class="tT">number of students expelled for bringing firearms to school by type</span><span class="tI">
+</span><span class="tT">of firearm.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -2985,8 +3488,8 @@
                         <td class="diagram">
                            <div id="diagram_WeaponsType_Weapon" style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_Weapon.png"
                                    usemap="#Discipline_xsd_Element_Weapon" /><map name="Discipline_xsd_Element_Weapon" id="Discipline_xsd_Element_Weapon">
-                                 <area alt="Discipline_xsd.tmp#WeaponItemType"
-                                       href="Discipline_xsd.html#WeaponItemType"
+                                 <area alt="SimpleTypes_xsd.tmp#WeaponItemType"
+                                       href="SimpleTypes_xsd.html#WeaponItemType"
                                        coords="121,0,267,26" /></map></div>
                         </td>
                      </tr>
@@ -3159,7 +3662,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Indicator of whether the incident was reported to law enforcement.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Indicator of whether the incident was reported to law</span><span class="tI">
+</span><span class="tT">enforcement.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -3252,7 +3756,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The case number assigned to the incident by law enforcement or other organization.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The case number assigned to the incident by law</span><span class="tI">
+</span><span class="tT">enforcement or other organization.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -3506,7 +4011,9 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Identifies the staff reporter of the incident by use of a pre-existing school or district unique identifier.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Identifies the staff reporter of the incident by use</span><span class="tI">
+</span><span class="tT">of a pre-existing school or district unique</span><span class="tI">
+</span><span class="tT">identifier.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -3614,9 +4121,7 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="DisciplineAction_StaffReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Discipline_xsd.html#DisciplineAction" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineAction</a></b> / StaffReference</span></div>
+      </table><a id="StudentDisciplineIncidentAssociation"></a><div class="componentTitle">Element <span class="qname">StudentDisciplineIncidentAssociation</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -3631,19 +4136,21 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_DisciplineAction_StaffReference" type="image"
+                           <div class="floatRight"><input id="button_annotations_StudentDisciplineIncidentAssociation" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('annotations_DisciplineAction_StaffReference');"
+                                     onclick="switchState('annotations_StudentDisciplineIncidentAssociation');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_DisciplineAction_StaffReference" style="display:block">
+                           <div id="annotations_StudentDisciplineIncidentAssociation" style="display:block">
                               <div class="annotation">
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The staff responsible for enforcing the discipline action.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">This association indicates those students who were victims,</span><span class="tI">
+</span><span class="tT">perpetrators, witnesses, and/or reporters for a discipline</span><span class="tI">
+</span><span class="tT">incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -3653,371 +4160,51 @@
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_DisciplineAction_StaffReference" type="image"
+                           <div class="floatRight"><input id="button_diagram_StudentDisciplineIncidentAssociation" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('diagram_DisciplineAction_StaffReference');"
+                                     onclick="switchState('diagram_StudentDisciplineIncidentAssociation');"
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_DisciplineAction_StaffReference" style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_StaffReference.png"
-                                   usemap="#Discipline_xsd_Element_StaffReference" /><map name="Discipline_xsd_Element_StaffReference"
-                                   id="Discipline_xsd_Element_StaffReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#StaffSimpleReference_type"
-                                       coords="184,157,245,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference"
-                                       href="ReferenceTypes_xsd.html#StaffSimpleReference"
-                                       coords="159,3,322,25" /></map></div>
+                           <div id="diagram_StudentDisciplineIncidentAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Discipline_xsd_Element_StudentDisciplineIncidentAssociation.png"
+                                   usemap="#Discipline_xsd_Element_StudentDisciplineIncidentAssociation" /><map name="Discipline_xsd_Element_StudentDisciplineIncidentAssociation"
+                                   id="Discipline_xsd_Element_StudentDisciplineIncidentAssociation">
+                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_StudentReference"
+                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_StudentReference"
+                                       coords="370,2,495,26" />
+                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_DisciplineIncidentReference"
+                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_DisciplineIncidentReference"
+                                       coords="370,66,549,90" />
+                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_StudentParticipationCode"
+                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_StudentParticipationCode"
+                                       coords="370,130,537,154" />
+                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_Behaviors"
+                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_Behaviors"
+                                       coords="370,207,453,231" />
+                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_SecondaryBehaviors"
+                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_SecondaryBehaviors"
+                                       coords="370,284,509,308" /></map></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_DisciplineAction_StaffReference" type="image"
+                           <div class="floatRight"><input id="button_properties_StudentDisciplineIncidentAssociation" type="image"
                                      src="img/btM.gif"
                                      value="-"
-                                     onclick="switchState('properties_DisciplineAction_StaffReference');"
+                                     onclick="switchState('properties_StudentDisciplineIncidentAssociation');"
                                      class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_DisciplineAction_StaffReference" style="display:block">
+                           <div id="properties_StudentDisciplineIncidentAssociation" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn">content:
                                        
                                     </td>
                                     <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxOccurs:
-                                       
-                                    </td>
-                                    <td><b>unbounded</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_DisciplineAction_StaffReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_DisciplineAction_StaffReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_DisciplineAction_StaffReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#StaffSimpleReference_type" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>Staff</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="DisciplineAction_ResponsibilitySchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Discipline_xsd.html#DisciplineAction" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineAction</a></b> / ResponsibilitySchoolReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_DisciplineAction_ResponsibilitySchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_DisciplineAction_ResponsibilitySchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_DisciplineAction_ResponsibilitySchoolReference"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">School responsible for student's discipline.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_DisciplineAction_ResponsibilitySchoolReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_DisciplineAction_ResponsibilitySchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_DisciplineAction_ResponsibilitySchoolReference"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Element_ResponsibilitySchoolReference.png"
-                                   usemap="#Discipline_xsd_Element_ResponsibilitySchoolReference" /><map name="Discipline_xsd_Element_ResponsibilitySchoolReference"
-                                   id="Discipline_xsd_Element_ResponsibilitySchoolReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference_type"
-                                       coords="271,157,332,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference"
-                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference"
-                                       coords="246,3,421,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_DisciplineAction_ResponsibilitySchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_DisciplineAction_ResponsibilitySchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_DisciplineAction_ResponsibilitySchoolReference"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_DisciplineAction_ResponsibilitySchoolReference"
-                                     type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_DisciplineAction_ResponsibilitySchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_DisciplineAction_ResponsibilitySchoolReference"
-                                style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SchoolSimpleReference_type" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>School</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="DisciplineAction_AssignmentSchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Discipline_xsd.html#DisciplineAction" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineAction</a></b> / AssignmentSchoolReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_DisciplineAction_AssignmentSchoolReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_DisciplineAction_AssignmentSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_DisciplineAction_AssignmentSchoolReference"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">School responsible for student's discipline.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_DisciplineAction_AssignmentSchoolReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_DisciplineAction_AssignmentSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_DisciplineAction_AssignmentSchoolReference" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Element_AssignmentSchoolReference.png"
-                                   usemap="#Discipline_xsd_Element_AssignmentSchoolReference" /><map name="Discipline_xsd_Element_AssignmentSchoolReference"
-                                   id="Discipline_xsd_Element_AssignmentSchoolReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference_type"
-                                       coords="260,157,321,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference"
-                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference"
-                                       coords="235,3,410,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_DisciplineAction_AssignmentSchoolReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_DisciplineAction_AssignmentSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_DisciplineAction_AssignmentSchoolReference"
-                                style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">minOccurs:
-                                       
-                                    </td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_DisciplineAction_AssignmentSchoolReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_DisciplineAction_AssignmentSchoolReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_DisciplineAction_AssignmentSchoolReference"
-                                style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SchoolSimpleReference_type" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>School</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -4069,7 +4256,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The student associated with the discipline incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The student associated with the discipline</span><span class="tI">
+</span><span class="tT">incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -4088,10 +4276,9 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_StudentDisciplineIncidentAssociation_StudentReference"
-                                style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Element_StudentReference_1.png"
-                                   usemap="#Discipline_xsd_Element_StudentReference_1" /><map name="Discipline_xsd_Element_StudentReference_1"
-                                   id="Discipline_xsd_Element_StudentReference_1">
+                                style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_StudentReference.png"
+                                   usemap="#Discipline_xsd_Element_StudentReference" /><map name="Discipline_xsd_Element_StudentReference"
+                                   id="Discipline_xsd_Element_StudentReference">
                                  <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#StudentSimpleReference_type"
                                        coords="201,157,262,181" />
@@ -4210,7 +4397,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Reference to the discipline incident associated with the student.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Reference to the discipline incident associated with the</span><span class="tI">
+</span><span class="tT">student.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -4233,69 +4421,12 @@
                                    src="img/Discipline_xsd_Element_DisciplineIncidentReference.png"
                                    usemap="#Discipline_xsd_Element_DisciplineIncidentReference" /><map name="Discipline_xsd_Element_DisciplineIncidentReference"
                                    id="Discipline_xsd_Element_DisciplineIncidentReference">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="269,118,341,142" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="244,43,496,65" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentIdentifier"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentIdentifier"
-                                       coords="333,196,455,220" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentDate"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentDate"
-                                       coords="333,273,431,297" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentTime"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentTime"
-                                       coords="333,350,433,374" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentLocation"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentLocation"
-                                       coords="333,414,453,438" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterDescription"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReporterDescription"
-                                       coords="333,491,473,515" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterName"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReporterName"
-                                       coords="333,568,441,592" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Behaviors"
-                                       href="Discipline_xsd.html#DisciplineIncident_Behaviors"
-                                       coords="333,632,416,656" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SecondaryBehaviors"
-                                       href="Discipline_xsd.html#DisciplineIncident_SecondaryBehaviors"
-                                       coords="333,709,472,733" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Weapons"
-                                       href="Discipline_xsd.html#DisciplineIncident_Weapons"
-                                       coords="333,773,412,797" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReportedToLawEnforcement"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReportedToLawEnforcement"
-                                       coords="333,863,515,887" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_CaseNumber"
-                                       href="Discipline_xsd.html#DisciplineIncident_CaseNumber"
-                                       coords="333,927,433,951" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SchoolReference"
-                                       href="Discipline_xsd.html#DisciplineIncident_SchoolReference"
-                                       coords="333,1004,453,1028" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_StaffReference"
-                                       href="Discipline_xsd.html#DisciplineIncident_StaffReference"
-                                       coords="333,1068,441,1092" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident"
-                                       href="Discipline_xsd.html#DisciplineIncident"
-                                       coords="230,3,376,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Discipline_xsd.html#DisciplineIncident" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineIncident</a></b></li>
-                                 </ul>
-                              </li>
-                           </ul>
+                                 <area alt="ReferenceTypes_xsd.tmp#DisciplineIncidentSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#DisciplineIncidentSimpleReference_type"
+                                       coords="255,157,316,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#DisciplineIncidentSimpleReference"
+                                       href="ReferenceTypes_xsd.html#DisciplineIncidentSimpleReference"
+                                       coords="230,3,464,25" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -4347,22 +4478,16 @@
                                     </tr>
                                  </thead>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#DisciplineIncidentSimpleReference_type"
+                                             target="mainFrame"
                                              title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
                                     <td></td>
+                                    <td>DisciplineIncident</td>
                                     <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation"></div>
                                     </td>
                                  </tr>
                               </table>
@@ -4415,10 +4540,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The role or type of participation of a student in a discipline incident; for example:</span><span class="tI">
-</span><span class="tT">Victim</span><span class="tI">
-</span><span class="tT">Perpetrator</span><span class="tI">
-</span><span class="tT">Witness</span><span class="tI">
+                                       <td width="100%"><pre><span class="tT">The role or type of participation of a student in a discipline</span><span class="tI">
+</span><span class="tT">incident; for example: Victim Perpetrator Witness</span><span class="tI">
 </span><span class="tT">Reporter</span></pre></td>
                                     </tr>
                                  </table>
@@ -4563,7 +4686,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Categories of student-specific behavior coded for use in describing an incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Categories of student-specific behavior coded for use in</span><span class="tI">
+</span><span class="tT">describing an incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -4581,9 +4705,8 @@
                         </td>
                         <td class="diagram">
                            <div id="diagram_StudentDisciplineIncidentAssociation_Behaviors"
-                                style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_Behaviors_1.png"
-                                   usemap="#Discipline_xsd_Element_Behaviors_1" /><map name="Discipline_xsd_Element_Behaviors_1"
-                                   id="Discipline_xsd_Element_Behaviors_1">
+                                style="display:block"><img alt="Diagram" border="0" src="img/Discipline_xsd_Element_Behaviors.png"
+                                   usemap="#Discipline_xsd_Element_Behaviors" /><map name="Discipline_xsd_Element_Behaviors" id="Discipline_xsd_Element_Behaviors">
                                  <area alt="ReferenceTypes_xsd.tmp#BehaviorDescriptorSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#BehaviorDescriptorSimpleReference_type"
                                        coords="159,157,220,181" />
@@ -4825,7 +4948,8 @@
                                           <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                                  class="preWrapContainer">
                                              <tr>
-                                                <td width="100%"><pre><span class="tT">The category of the incident behavior for classification purposes</span></pre></td>
+                                                <td width="100%"><pre><span class="tT">The category of the incident behavior for classification</span><span class="tI">
+</span><span class="tT">purposes</span></pre></td>
                                              </tr>
                                           </table>
                                        </div>
@@ -4878,7 +5002,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">A code or abbreviation that is used to refer to the behavior category.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">A code or abbreviation that is used to refer to the</span><span class="tI">
+</span><span class="tT">behavior category.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -4994,7 +5119,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">A shortened description for the behavior.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">A shortened description for the</span><span class="tI">
+</span><span class="tT">behavior.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -5239,7 +5365,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">A classification of the behavior for reporting types.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">A classification of the behavior for reporting</span><span class="tI">
+</span><span class="tT">types.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -5375,7 +5502,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The Education Organization associated with the behavior codes.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The Education Organization associated with the</span><span class="tI">
+</span><span class="tT">behavior codes.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -5517,7 +5645,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">This event entity represents actions taken by an education organization after a disruptive event that is recorded as a discipline incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">This event entity represents actions taken by an education</span><span class="tI">
+</span><span class="tT">organization after a disruptive event that is recorded as a discipline incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -5650,334 +5779,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="DisciplineActionLengthDifferenceReasonType"></a><div class="componentTitle">Simple Type <span class="qname">DisciplineActionLengthDifferenceReasonType</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_DisciplineActionLengthDifferenceReasonType" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_DisciplineActionLengthDifferenceReasonType');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_DisciplineActionLengthDifferenceReasonType"
-                                style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Indicates the reason for the difference, if any, between the official and actual lengths of a student’s disciplinary assignment.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_DisciplineActionLengthDifferenceReasonType" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_DisciplineActionLengthDifferenceReasonType');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_DisciplineActionLengthDifferenceReasonType" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Simple_Type_DisciplineActionLengthDifferenceReasonType.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Facets</b></div>
-                           <div class="floatRight"><input id="button_facets_DisciplineActionLengthDifferenceReasonType" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('facets_DisciplineActionLengthDifferenceReasonType');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="facets_DisciplineActionLengthDifferenceReasonType" style="display:block">
-                              <table class="facetsTable">
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>No Difference</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Term Modified By District</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Term Modified By Court Order</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Term Modified By Mutual Agreement</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Student Completed Term Requirements Sooner Than Expected</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Student Incarcerated</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Term Decreased Due To Extenuating Health-Related Circumstances</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Student Withdrew From School</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>School Year Ended</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Continuation Of Previous Year’s Disciplinary Action Assignment</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Term Modified By Placement Program Due To Student Behavior While In The Placement</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Other</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="DisciplineIncident"></a><div class="componentTitle">Complex Type <span class="qname">DisciplineIncident</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_DisciplineIncident" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_DisciplineIncident');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_DisciplineIncident" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This event entity represents an occurrence of an infraction ranging from a minor problem behavior that disrupts the orderly functioning of a school or classroom (such as tardiness) to a criminal act that results in the involvement of a law enforcement official (such as robbery). A single event (e.g., a fight) is one incident regardless of how many perpetrators or victims are involved.  Discipline incidents are events classified as warranting discipline action.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_DisciplineIncident" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_DisciplineIncident');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_DisciplineIncident" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Complex_Type_DisciplineIncident.png"
-                                   usemap="#Discipline_xsd_Complex_Type_DisciplineIncident" /><map name="Discipline_xsd_Complex_Type_DisciplineIncident"
-                                   id="Discipline_xsd_Complex_Type_DisciplineIncident">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="226,78,298,102" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="201,3,453,25" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentIdentifier"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentIdentifier"
-                                       coords="290,156,412,180" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentDate"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentDate"
-                                       coords="290,233,388,257" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentTime"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentTime"
-                                       coords="290,310,390,334" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_IncidentLocation"
-                                       href="Discipline_xsd.html#DisciplineIncident_IncidentLocation"
-                                       coords="290,374,410,398" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterDescription"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReporterDescription"
-                                       coords="290,451,430,475" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReporterName"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReporterName"
-                                       coords="290,528,398,552" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Behaviors"
-                                       href="Discipline_xsd.html#DisciplineIncident_Behaviors"
-                                       coords="290,592,373,616" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SecondaryBehaviors"
-                                       href="Discipline_xsd.html#DisciplineIncident_SecondaryBehaviors"
-                                       coords="290,669,429,693" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_Weapons"
-                                       href="Discipline_xsd.html#DisciplineIncident_Weapons"
-                                       coords="290,733,369,757" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_ReportedToLawEnforcement"
-                                       href="Discipline_xsd.html#DisciplineIncident_ReportedToLawEnforcement"
-                                       coords="290,823,472,847" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_CaseNumber"
-                                       href="Discipline_xsd.html#DisciplineIncident_CaseNumber"
-                                       coords="290,887,390,911" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_SchoolReference"
-                                       href="Discipline_xsd.html#DisciplineIncident_SchoolReference"
-                                       coords="290,964,410,988" />
-                                 <area alt="Discipline_xsd.tmp#DisciplineIncident_StaffReference"
-                                       href="Discipline_xsd.html#DisciplineIncident_StaffReference"
-                                       coords="290,1028,398,1052" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
-                                    <li><b><a href="Discipline_xsd.html#DisciplineIncident" target="mainFrame"
-                                             title="http://slc-sli/ed-org/0.1"
-                                             onclick="updatePageTitle('Schema documentation for Discipline.xsd')">DisciplineIncident</a></b></li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_DisciplineIncident" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_DisciplineIncident');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_DisciplineIncident" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="SecondaryBehavior"></a><div class="componentTitle">Complex Type <span class="qname">SecondaryBehavior</span></div>
       <table class="rt">
          <tr>
@@ -6004,7 +5805,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">Definition of the behavior coded for use in describing an incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">Definition of the behavior coded for use in describing an</span><span class="tI">
+</span><span class="tT">incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -6068,7 +5870,8 @@
                                           <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                                  class="preWrapContainer">
                                              <tr>
-                                                <td width="100%"><pre><span class="tT">The category of the incident behavior for classification purposes</span></pre></td>
+                                                <td width="100%"><pre><span class="tT">The category of the incident behavior for classification</span><span class="tI">
+</span><span class="tT">purposes</span></pre></td>
                                              </tr>
                                           </table>
                                        </div>
@@ -6154,234 +5957,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="WeaponItemType"></a><div class="componentTitle">Simple Type <span class="qname">WeaponItemType</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_WeaponItemType" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_WeaponItemType');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_WeaponItemType" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The enumeration items for the types of weapon used during an incident.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_WeaponItemType" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_WeaponItemType');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_WeaponItemType" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Simple_Type_WeaponItemType.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Facets</b></div>
-                           <div class="floatRight"><input id="button_facets_WeaponItemType" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('facets_WeaponItemType');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="facets_WeaponItemType" style="display:block">
-                              <table class="facetsTable">
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Firearm</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Illegal Knife</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Non-Illegal Knife</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Club</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Other Sharp Objects</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Other Object</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Substance Used as Weapon</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Knife</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Unknown</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>None</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>Other</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="StudentDisciplineIncidentAssociation"></a><div class="componentTitle">Complex Type <span class="qname">StudentDisciplineIncidentAssociation</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_StudentDisciplineIncidentAssociation" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_StudentDisciplineIncidentAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_StudentDisciplineIncidentAssociation" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This association indicates those students who were victims, perpetrators, witnesses, and/or reporters for a discipline incident.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_StudentDisciplineIncidentAssociation" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_StudentDisciplineIncidentAssociation');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_StudentDisciplineIncidentAssociation" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/Discipline_xsd_Complex_Type_StudentDisciplineIncidentAssociation.png"
-                                   usemap="#Discipline_xsd_Complex_Type_StudentDisciplineIncidentAssociation" /><map name="Discipline_xsd_Complex_Type_StudentDisciplineIncidentAssociation"
-                                   id="Discipline_xsd_Complex_Type_StudentDisciplineIncidentAssociation">
-                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_StudentReference"
-                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_StudentReference"
-                                       coords="394,0,519,24" />
-                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_DisciplineIncidentReference"
-                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_DisciplineIncidentReference"
-                                       coords="394,64,573,88" />
-                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_StudentParticipationCode"
-                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_StudentParticipationCode"
-                                       coords="394,128,561,152" />
-                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_Behaviors"
-                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_Behaviors"
-                                       coords="394,205,477,229" />
-                                 <area alt="Discipline_xsd.tmp#StudentDisciplineIncidentAssociation_SecondaryBehaviors"
-                                       href="Discipline_xsd.html#StudentDisciplineIncidentAssociation_SecondaryBehaviors"
-                                       coords="394,282,533,306" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Discipline_xsd.html">Discipline.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="BehaviorDescriptor"></a><div class="componentTitle">Complex Type <span class="qname">BehaviorDescriptor</span></div>
       <table class="rt">
          <tr>
@@ -6408,7 +5983,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">This descriptor holds the categories of behavior describing a discipline incident.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">This descriptor holds the categories of behavior describing a</span><span class="tI">
+</span><span class="tT">discipline incident.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -6552,7 +6128,8 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The category of the incident behavior for classification purposes</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The category of the incident behavior for classification</span><span class="tI">
+</span><span class="tT">purposes</span></pre></td>
                                     </tr>
                                  </table>
                               </div>

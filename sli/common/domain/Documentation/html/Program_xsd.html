@@ -12,7 +12,6 @@
 				'properties_Program_ProgramType', 
 				'properties_Program_ProgramSponsor', 
 				'properties_Program_Services', 
-				'properties_ServiceDescriptor', 
 				'properties_ServiceDescriptor_CodeValue', 
 				'properties_ServiceDescriptor_ShortDescription', 
 				'properties_ServiceDescriptor_Description', 
@@ -49,7 +48,6 @@
 				'diagram_Program_ProgramType', 
 				'diagram_Program_ProgramSponsor', 
 				'diagram_Program_Services', 
-				'diagram_ServiceDescriptor', 
 				'diagram_ServiceDescriptor_CodeValue', 
 				'diagram_ServiceDescriptor_ShortDescription', 
 				'diagram_ServiceDescriptor_Description', 
@@ -67,14 +65,14 @@
 				'diagram_StaffProgramAssociation_ProgramReference', 
 				'diagram_StaffProgramAssociation_BeginDate', 
 				'diagram_StaffProgramAssociation_EndDate', 
-				'diagram_StaffProgramAssociation_StudentRecordAccess');
+				'diagram_StaffProgramAssociation_StudentRecordAccess', 
+				'diagram_ServiceDescriptor');
 
         var annotationBoxes= new Array('annotations_Program', 
 				'annotations_Program_ProgramId', 
 				'annotations_Program_ProgramType', 
 				'annotations_Program_ProgramSponsor', 
 				'annotations_Program_Services', 
-				'annotations_ServiceDescriptor', 
 				'annotations_ServiceDescriptor_CodeValue', 
 				'annotations_ServiceDescriptor_ShortDescription', 
 				'annotations_ServiceDescriptor_Description', 
@@ -92,7 +90,8 @@
 				'annotations_StaffProgramAssociation_ProgramReference', 
 				'annotations_StaffProgramAssociation_BeginDate', 
 				'annotations_StaffProgramAssociation_EndDate', 
-				'annotations_StaffProgramAssociation_StudentRecordAccess');
+				'annotations_StaffProgramAssociation_StudentRecordAccess', 
+				'annotations_ServiceDescriptor');
 
         var attributesBoxes= new Array('attributes_Program_Services', 
 				'attributes_StudentProgramAssociation_StudentReference', 
@@ -1315,100 +1314,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="ServiceDescriptor"></a><div class="componentTitle">Element <span class="qname">ServiceDescriptor</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_ServiceDescriptor" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_ServiceDescriptor');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_ServiceDescriptor" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This descriptor defines the services provided an education organization to populations of students</span><span class="tI">
-</span><span class="tT">associated with a program.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_ServiceDescriptor" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_ServiceDescriptor');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_ServiceDescriptor" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_ServiceDescriptor.png"
-                                   usemap="#Program_xsd_Element_ServiceDescriptor" /><map name="Program_xsd_Element_ServiceDescriptor"
-                                   id="Program_xsd_Element_ServiceDescriptor">
-                                 <area alt="Program_xsd.tmp#ServiceDescriptor_CodeValue"
-                                       href="Program_xsd.html#ServiceDescriptor_CodeValue"
-                                       coords="245,2,333,26" />
-                                 <area alt="Program_xsd.tmp#ServiceDescriptor_ShortDescription"
-                                       href="Program_xsd.html#ServiceDescriptor_ShortDescription"
-                                       coords="245,79,367,103" />
-                                 <area alt="Program_xsd.tmp#ServiceDescriptor_Description"
-                                       href="Program_xsd.html#ServiceDescriptor_Description"
-                                       coords="245,143,338,167" />
-                                 <area alt="Program_xsd.tmp#ServiceDescriptor_ServiceCategory"
-                                       href="Program_xsd.html#ServiceDescriptor_ServiceCategory"
-                                       coords="245,207,363,231" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_ServiceDescriptor" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_ServiceDescriptor');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_ServiceDescriptor" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Program_xsd.html">Program.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="ServiceDescriptor_CodeValue"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#ServiceDescriptor" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for Program.xsd')">ServiceDescriptor</a></b> / CodeValue</span></div>
@@ -2456,7 +2361,7 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_StudentProgramAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_BeginDate_1.png" /></div>
+                           <div id="diagram_StudentProgramAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_BeginDate.png" /></div>
                         </td>
                      </tr>
                      <tr>
@@ -3456,7 +3361,7 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_StaffProgramAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_BeginDate.png" /></div>
+                           <div id="diagram_StaffProgramAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_BeginDate_1.png" /></div>
                         </td>
                      </tr>
                      <tr>
@@ -3665,6 +3570,80 @@
                                  </tr>
                               </table>
                            </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ServiceDescriptor"></a><div class="componentTitle">Complex Type <span class="qname">ServiceDescriptor</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_ServiceDescriptor" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_ServiceDescriptor');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_ServiceDescriptor" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This descriptor defines the services provided an education organization to populations of students</span><span class="tI">
+</span><span class="tT">associated with a program.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ServiceDescriptor" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_ServiceDescriptor');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ServiceDescriptor" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Program_xsd_Complex_Type_ServiceDescriptor.png"
+                                   usemap="#Program_xsd_Complex_Type_ServiceDescriptor" /><map name="Program_xsd_Complex_Type_ServiceDescriptor"
+                                   id="Program_xsd_Complex_Type_ServiceDescriptor">
+                                 <area alt="Program_xsd.tmp#ServiceDescriptor_CodeValue"
+                                       href="Program_xsd.html#ServiceDescriptor_CodeValue"
+                                       coords="269,0,357,24" />
+                                 <area alt="Program_xsd.tmp#ServiceDescriptor_ShortDescription"
+                                       href="Program_xsd.html#ServiceDescriptor_ShortDescription"
+                                       coords="269,77,391,101" />
+                                 <area alt="Program_xsd.tmp#ServiceDescriptor_Description"
+                                       href="Program_xsd.html#ServiceDescriptor_Description"
+                                       coords="269,141,362,165" />
+                                 <area alt="Program_xsd.tmp#ServiceDescriptor_ServiceCategory"
+                                       href="Program_xsd.html#ServiceDescriptor_ServiceCategory"
+                                       coords="269,205,387,229" /></map></div>
                         </td>
                      </tr>
                      <tr>

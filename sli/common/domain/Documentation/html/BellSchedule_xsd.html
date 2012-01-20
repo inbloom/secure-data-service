@@ -14,8 +14,6 @@
 				'properties_Session_BeginDate', 
 				'properties_Session_EndDate', 
 				'properties_Session_TotalInstructionalDays', 
-				'properties_Session_EducationOrganizationReference', 
-				'properties_Session_GradingPeriodReference', 
 				'properties_BellSchedule', 
 				'properties_BellSchedule_BellScheduleName', 
 				'properties_BellSchedule_GradeLevels', 
@@ -33,7 +31,6 @@
 				'properties_EventBellScheduleAssoc', 
 				'properties_EventBellScheduleAssoc_BellSchedule', 
 				'properties_EventBellScheduleAssoc_MiscellaneousEvent', 
-				'properties_MiscellaneousEvent', 
 				'properties_MiscellaneousEvent_EventName', 
 				'properties_MiscellaneousEvent_EventType', 
 				'properties_Section', 
@@ -47,7 +44,6 @@
 				'properties_Section_SchoolReference', 
 				'properties_Section_SessionReference', 
 				'properties_Section_ProgramReference', 
-				'properties_Location', 
 				'properties_Location_ClassroomIdentificationCode', 
 				'properties_Location_MaximumNumberOfSeats', 
 				'properties_Location_OptimalNumberOfSeats');
@@ -74,8 +70,6 @@
 				'diagram_Session_BeginDate', 
 				'diagram_Session_EndDate', 
 				'diagram_Session_TotalInstructionalDays', 
-				'diagram_Session_EducationOrganizationReference', 
-				'diagram_Session_GradingPeriodReference', 
 				'diagram_BellSchedule', 
 				'diagram_BellSchedule_BellScheduleName', 
 				'diagram_BellSchedule_GradeLevels', 
@@ -93,7 +87,6 @@
 				'diagram_EventBellScheduleAssoc', 
 				'diagram_EventBellScheduleAssoc_BellSchedule', 
 				'diagram_EventBellScheduleAssoc_MiscellaneousEvent', 
-				'diagram_MiscellaneousEvent', 
 				'diagram_MiscellaneousEvent_EventName', 
 				'diagram_MiscellaneousEvent_EventType', 
 				'diagram_Section', 
@@ -107,11 +100,12 @@
 				'diagram_Section_SchoolReference', 
 				'diagram_Section_SessionReference', 
 				'diagram_Section_ProgramReference', 
-				'diagram_Location', 
 				'diagram_Location_ClassroomIdentificationCode', 
 				'diagram_Location_MaximumNumberOfSeats', 
 				'diagram_Location_OptimalNumberOfSeats', 
-				'diagram_MeetingTime');
+				'diagram_MeetingTime', 
+				'diagram_MiscellaneousEvent', 
+				'diagram_Location');
 
         var annotationBoxes= new Array('annotations_Session', 
 				'annotations_Session_SessionName', 
@@ -120,8 +114,6 @@
 				'annotations_Session_BeginDate', 
 				'annotations_Session_EndDate', 
 				'annotations_Session_TotalInstructionalDays', 
-				'annotations_Session_EducationOrganizationReference', 
-				'annotations_Session_GradingPeriodReference', 
 				'annotations_BellSchedule', 
 				'annotations_BellSchedule_BellScheduleName', 
 				'annotations_BellSchedule_GradeLevels', 
@@ -139,7 +131,6 @@
 				'annotations_EventBellScheduleAssoc', 
 				'annotations_EventBellScheduleAssoc_BellSchedule', 
 				'annotations_EventBellScheduleAssoc_MiscellaneousEvent', 
-				'annotations_MiscellaneousEvent', 
 				'annotations_Section', 
 				'annotations_Section_UniqueSectionCode', 
 				'annotations_Section_SequenceOfCourse', 
@@ -151,15 +142,14 @@
 				'annotations_Section_SchoolReference', 
 				'annotations_Section_SessionReference', 
 				'annotations_Section_ProgramReference', 
-				'annotations_Location', 
 				'annotations_Location_ClassroomIdentificationCode', 
 				'annotations_Location_MaximumNumberOfSeats', 
 				'annotations_Location_OptimalNumberOfSeats', 
-				'annotations_MeetingTime');
+				'annotations_MeetingTime', 
+				'annotations_MiscellaneousEvent', 
+				'annotations_Location');
 
-        var attributesBoxes= new Array('attributes_Session_EducationOrganizationReference', 
-				'attributes_Session_GradingPeriodReference', 
-				'attributes_BellSchedule_SessionsOffered', 
+        var attributesBoxes= new Array('attributes_BellSchedule_SessionsOffered', 
 				'attributes_SectionBellScheduleAssoc_BellSchedule', 
 				'attributes_SectionBellScheduleAssoc_Section', 
 				'attributes_EventBellScheduleAssoc_BellSchedule', 
@@ -552,28 +542,22 @@
                                    usemap="#BellSchedule_xsd_Element_Session" /><map name="BellSchedule_xsd_Element_Session" id="BellSchedule_xsd_Element_Session">
                                  <area alt="BellSchedule_xsd.tmp#Session_SessionName"
                                        href="BellSchedule_xsd.html#Session_SessionName"
-                                       coords="212,2,314,26" />
+                                       coords="191,2,293,26" />
                                  <area alt="BellSchedule_xsd.tmp#Session_SchoolYear"
                                        href="BellSchedule_xsd.html#Session_SchoolYear"
-                                       coords="212,79,303,103" />
+                                       coords="191,79,282,103" />
                                  <area alt="BellSchedule_xsd.tmp#Session_Term"
                                        href="BellSchedule_xsd.html#Session_Term"
-                                       coords="212,143,271,167" />
+                                       coords="191,143,250,167" />
                                  <area alt="BellSchedule_xsd.tmp#Session_BeginDate"
                                        href="BellSchedule_xsd.html#Session_BeginDate"
-                                       coords="212,207,296,231" />
+                                       coords="191,207,275,231" />
                                  <area alt="BellSchedule_xsd.tmp#Session_EndDate"
                                        href="BellSchedule_xsd.html#Session_EndDate"
-                                       coords="212,271,287,295" />
+                                       coords="191,271,266,295" />
                                  <area alt="BellSchedule_xsd.tmp#Session_TotalInstructionalDays"
                                        href="BellSchedule_xsd.html#Session_TotalInstructionalDays"
-                                       coords="212,335,364,359" />
-                                 <area alt="BellSchedule_xsd.tmp#Session_EducationOrganizationReference"
-                                       href="BellSchedule_xsd.html#Session_EducationOrganizationReference"
-                                       coords="212,399,419,423" />
-                                 <area alt="BellSchedule_xsd.tmp#Session_GradingPeriodReference"
-                                       href="BellSchedule_xsd.html#Session_GradingPeriodReference"
-                                       coords="212,476,373,500" /></map></div>
+                                       coords="191,335,343,359" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1456,281 +1440,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="Session_EducationOrganizationReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="BellSchedule_xsd.html#Session" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">Session</a></b> / EducationOrganizationReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_Session_EducationOrganizationReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_Session_EducationOrganizationReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_Session_EducationOrganizationReference" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The id of the Education Organization that defines</span><span class="tI">
-</span><span class="tT">the curriculum and courses offered - often the LEA. This is an</span><span class="tI">
-</span><span class="tT">id to the education organization</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_Session_EducationOrganizationReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_Session_EducationOrganizationReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_Session_EducationOrganizationReference" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/BellSchedule_xsd_Element_EducationOrganizationReference.png"
-                                   usemap="#BellSchedule_xsd_Element_EducationOrganizationReference" /><map name="BellSchedule_xsd_Element_EducationOrganizationReference"
-                                   id="BellSchedule_xsd_Element_EducationOrganizationReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
-                                       coords="283,157,344,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference"
-                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference"
-                                       coords="258,3,480,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_Session_EducationOrganizationReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_Session_EducationOrganizationReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_Session_EducationOrganizationReference" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_Session_EducationOrganizationReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_Session_EducationOrganizationReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_Session_EducationOrganizationReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
-                                             target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>EducationalOrg</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="BellSchedule_xsd.html">BellSchedule.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="Session_GradingPeriodReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="BellSchedule_xsd.html#Session" target="mainFrame"
-                  title="http://slc-sli/ed-org/0.1"
-                  onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">Session</a></b> / GradingPeriodReference</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_Session_GradingPeriodReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_Session_GradingPeriodReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_Session_GradingPeriodReference" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Ids of grading periods associated with the</span><span class="tI">
-</span><span class="tT">calendar.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_Session_GradingPeriodReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('diagram_Session_GradingPeriodReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_Session_GradingPeriodReference" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/BellSchedule_xsd_Element_GradingPeriodReference.png"
-                                   usemap="#BellSchedule_xsd_Element_GradingPeriodReference" /><map name="BellSchedule_xsd_Element_GradingPeriodReference"
-                                   id="BellSchedule_xsd_Element_GradingPeriodReference">
-                                 <area alt="ReferenceTypes_xsd.tmp#GradingPeriodSimpleReference_type"
-                                       href="ReferenceTypes_xsd.html#GradingPeriodSimpleReference_type"
-                                       coords="237,157,298,181" />
-                                 <area alt="ReferenceTypes_xsd.tmp#GradingPeriodSimpleReference"
-                                       href="ReferenceTypes_xsd.html#GradingPeriodSimpleReference"
-                                       coords="212,3,428,25" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_Session_GradingPeriodReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_Session_GradingPeriodReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_Session_GradingPeriodReference" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">maxOccurs:
-                                       
-                                    </td>
-                                    <td><b>unbounded</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_Session_GradingPeriodReference" type="image"
-                                     src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('attributes_Session_GradingPeriodReference');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_Session_GradingPeriodReference" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#GradingPeriodSimpleReference_type"
-                                             target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
-                                    <td></td>
-                                    <td>GradingPeriod</td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="BellSchedule_xsd.html">BellSchedule.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="BellSchedule"></a><div class="componentTitle">Element <span class="qname">BellSchedule</span></div>
       <table class="rt">
          <tr>
@@ -2131,7 +1840,7 @@
                                  <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
                                         class="preWrapContainer">
                                     <tr>
-                                       <td width="100%"><pre><span class="tT">The sessions associated with the session.</span></pre></td>
+                                       <td width="100%"><pre><span class="tT">The sessions associated with this bell schedule.</span></pre></td>
                                     </tr>
                                  </table>
                               </div>
@@ -2939,9 +2648,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_SectionBellScheduleAssoc_BellSchedule" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_BellSchedule_1.png"
-                                   usemap="#BellSchedule_xsd_Element_BellSchedule_1" /><map name="BellSchedule_xsd_Element_BellSchedule_1"
-                                   id="BellSchedule_xsd_Element_BellSchedule_1">
+                           <div id="diagram_SectionBellScheduleAssoc_BellSchedule" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_BellSchedule.png"
+                                   usemap="#BellSchedule_xsd_Element_BellSchedule" /><map name="BellSchedule_xsd_Element_BellSchedule"
+                                   id="BellSchedule_xsd_Element_BellSchedule">
                                  <area alt="ReferenceTypes_xsd.tmp#BellScheduleSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#BellScheduleSimpleReference_type"
                                        coords="173,157,234,181" />
@@ -3071,8 +2780,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_SectionBellScheduleAssoc_Section" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_Section.png"
-                                   usemap="#BellSchedule_xsd_Element_Section" /><map name="BellSchedule_xsd_Element_Section" id="BellSchedule_xsd_Element_Section">
+                           <div id="diagram_SectionBellScheduleAssoc_Section" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_Section_1.png"
+                                   usemap="#BellSchedule_xsd_Element_Section_1" /><map name="BellSchedule_xsd_Element_Section_1"
+                                   id="BellSchedule_xsd_Element_Section_1">
                                  <area alt="ReferenceTypes_xsd.tmp#SectionSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#SectionSimpleReference_type"
                                        coords="146,157,207,181" />
@@ -3320,9 +3030,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_EventBellScheduleAssoc_BellSchedule" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_BellSchedule.png"
-                                   usemap="#BellSchedule_xsd_Element_BellSchedule" /><map name="BellSchedule_xsd_Element_BellSchedule"
-                                   id="BellSchedule_xsd_Element_BellSchedule">
+                           <div id="diagram_EventBellScheduleAssoc_BellSchedule" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_BellSchedule_1.png"
+                                   usemap="#BellSchedule_xsd_Element_BellSchedule_1" /><map name="BellSchedule_xsd_Element_BellSchedule_1"
+                                   id="BellSchedule_xsd_Element_BellSchedule_1">
                                  <area alt="ReferenceTypes_xsd.tmp#BellScheduleSimpleReference_type"
                                        href="ReferenceTypes_xsd.html#BellScheduleSimpleReference_type"
                                        coords="173,157,234,181" />
@@ -3540,94 +3250,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="MiscellaneousEvent"></a><div class="componentTitle">Element <span class="qname">MiscellaneousEvent</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_MiscellaneousEvent" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('annotations_MiscellaneousEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_MiscellaneousEvent" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">A miscellaneous event, such as recess or lunch</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_MiscellaneousEvent" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_MiscellaneousEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_MiscellaneousEvent" style="display:block"><img alt="Diagram" border="0"
-                                   src="img/BellSchedule_xsd_Element_MiscellaneousEvent_1.png"
-                                   usemap="#BellSchedule_xsd_Element_MiscellaneousEvent_1" /><map name="BellSchedule_xsd_Element_MiscellaneousEvent_1"
-                                   id="BellSchedule_xsd_Element_MiscellaneousEvent_1">
-                                 <area alt="BellSchedule_xsd.tmp#MiscellaneousEvent_EventName"
-                                       href="BellSchedule_xsd.html#MiscellaneousEvent_EventName"
-                                       coords="254,2,344,26" />
-                                 <area alt="BellSchedule_xsd.tmp#MiscellaneousEvent_EventType"
-                                       href="BellSchedule_xsd.html#MiscellaneousEvent_EventType"
-                                       coords="254,36,340,60" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_MiscellaneousEvent" type="image" src="img/btM.gif"
-                                     value="-"
-                                     onclick="switchState('properties_MiscellaneousEvent');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_MiscellaneousEvent" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="BellSchedule_xsd.html">BellSchedule.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="MiscellaneousEvent_EventName"></a><div class="componentTitle">Element <span class="qname"><b><a href="BellSchedule_xsd.html#MiscellaneousEvent" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">MiscellaneousEvent</a></b> / EventName</span></div>
@@ -3797,9 +3419,8 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_Section" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_Section_1.png"
-                                   usemap="#BellSchedule_xsd_Element_Section_1" /><map name="BellSchedule_xsd_Element_Section_1"
-                                   id="BellSchedule_xsd_Element_Section_1">
+                           <div id="diagram_Section" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_Section.png"
+                                   usemap="#BellSchedule_xsd_Element_Section" /><map name="BellSchedule_xsd_Element_Section" id="BellSchedule_xsd_Element_Section">
                                  <area alt="BellSchedule_xsd.tmp#Section_UniqueSectionCode"
                                        href="BellSchedule_xsd.html#Section_UniqueSectionCode"
                                        coords="210,2,346,26" />
@@ -5409,95 +5030,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="Location"></a><div class="componentTitle">Element <span class="qname">Location</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_Location" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_Location');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_Location" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents the physical space where students gather for</span><span class="tI">
-</span><span class="tT">a particular class/section.  The location may be an indoor or outdoor area</span><span class="tI">
-</span><span class="tT">designated for the purpose of meeting the educational needs of students.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_Location" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_Location');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_Location" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Element_Location.png"
-                                   usemap="#BellSchedule_xsd_Element_Location" /><map name="BellSchedule_xsd_Element_Location" id="BellSchedule_xsd_Element_Location">
-                                 <area alt="BellSchedule_xsd.tmp#Location_ClassroomIdentificationCode"
-                                       href="BellSchedule_xsd.html#Location_ClassroomIdentificationCode"
-                                       coords="196,2,383,26" />
-                                 <area alt="BellSchedule_xsd.tmp#Location_MaximumNumberOfSeats"
-                                       href="BellSchedule_xsd.html#Location_MaximumNumberOfSeats"
-                                       coords="196,79,363,103" />
-                                 <area alt="BellSchedule_xsd.tmp#Location_OptimalNumberOfSeats"
-                                       href="BellSchedule_xsd.html#Location_OptimalNumberOfSeats"
-                                       coords="196,143,353,167" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_Location" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('properties_Location');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_Location" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="BellSchedule_xsd.html">BellSchedule.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="Location_ClassroomIdentificationCode"></a><div class="componentTitle">Element <span class="qname"><b><a href="BellSchedule_xsd.html#Location" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">Location</a></b> / ClassroomIdentificationCode</span></div>
@@ -5867,6 +5399,143 @@
                                  <area alt="BellSchedule_xsd.tmp#MeetingTime_OfficialAttendancePeriod"
                                        href="BellSchedule_xsd.html#MeetingTime_OfficialAttendancePeriod"
                                        coords="242,346,406,370" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="BellSchedule_xsd.html">BellSchedule.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="MiscellaneousEvent"></a><div class="componentTitle">Complex Type <span class="qname">MiscellaneousEvent</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_MiscellaneousEvent" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_MiscellaneousEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_MiscellaneousEvent" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A miscellaneous event, such as recess or lunch</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_MiscellaneousEvent" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_MiscellaneousEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_MiscellaneousEvent" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/BellSchedule_xsd_Complex_Type_MiscellaneousEvent.png"
+                                   usemap="#BellSchedule_xsd_Complex_Type_MiscellaneousEvent" /><map name="BellSchedule_xsd_Complex_Type_MiscellaneousEvent"
+                                   id="BellSchedule_xsd_Complex_Type_MiscellaneousEvent">
+                                 <area alt="BellSchedule_xsd.tmp#MiscellaneousEvent_EventName"
+                                       href="BellSchedule_xsd.html#MiscellaneousEvent_EventName"
+                                       coords="278,0,368,24" />
+                                 <area alt="BellSchedule_xsd.tmp#MiscellaneousEvent_EventType"
+                                       href="BellSchedule_xsd.html#MiscellaneousEvent_EventType"
+                                       coords="278,34,364,58" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="BellSchedule_xsd.html">BellSchedule.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Location"></a><div class="componentTitle">Complex Type <span class="qname">Location</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Location" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_Location');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Location" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the physical space where students gather for</span><span class="tI">
+</span><span class="tT">a particular class/section.  The location may be an indoor or outdoor area</span><span class="tI">
+</span><span class="tT">designated for the purpose of meeting the educational needs of students.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Location" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Location');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Location" style="display:block"><img alt="Diagram" border="0" src="img/BellSchedule_xsd_Complex_Type_Location.png"
+                                   usemap="#BellSchedule_xsd_Complex_Type_Location" /><map name="BellSchedule_xsd_Complex_Type_Location"
+                                   id="BellSchedule_xsd_Complex_Type_Location">
+                                 <area alt="BellSchedule_xsd.tmp#Location_ClassroomIdentificationCode"
+                                       href="BellSchedule_xsd.html#Location_ClassroomIdentificationCode"
+                                       coords="220,0,407,24" />
+                                 <area alt="BellSchedule_xsd.tmp#Location_MaximumNumberOfSeats"
+                                       href="BellSchedule_xsd.html#Location_MaximumNumberOfSeats"
+                                       coords="220,77,387,101" />
+                                 <area alt="BellSchedule_xsd.tmp#Location_OptimalNumberOfSeats"
+                                       href="BellSchedule_xsd.html#Location_OptimalNumberOfSeats"
+                                       coords="220,141,377,165" /></map></div>
                         </td>
                      </tr>
                      <tr>

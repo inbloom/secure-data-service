@@ -7,11 +7,14 @@
       <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
          <!--
         var propertiesBoxes= new Array('properties_Calendar.xsd', 
-				'properties_GradingPeriod', 
 				'properties_GradingPeriod_GradingPeriod', 
 				'properties_GradingPeriod_BeginDate', 
 				'properties_GradingPeriod_EndDate', 
-				'properties_GradingPeriod_TotalInstructionalDays');
+				'properties_GradingPeriod_TotalInstructionalDays', 
+				'properties_SchoolSessionAssociation', 
+				'properties_SchoolSessionAssociation_GradingPeriod', 
+				'properties_SchoolSessionAssociation_SchoolReference', 
+				'properties_SchoolSessionAssociation_SessionReference');
 
         var facetsBoxes= new Array('facets_GradingPeriod_GradingPeriod', 
 				'facets_GradingPeriod_TotalInstructionalDays');
@@ -19,19 +22,30 @@
         
         
         
-        var diagramBoxes= new Array('diagram_GradingPeriod', 
-				'diagram_GradingPeriod_GradingPeriod', 
+        var diagramBoxes= new Array('diagram_GradingPeriod_GradingPeriod', 
 				'diagram_GradingPeriod_BeginDate', 
 				'diagram_GradingPeriod_EndDate', 
-				'diagram_GradingPeriod_TotalInstructionalDays');
+				'diagram_GradingPeriod_TotalInstructionalDays', 
+				'diagram_SchoolSessionAssociation', 
+				'diagram_SchoolSessionAssociation_GradingPeriod', 
+				'diagram_SchoolSessionAssociation_SchoolReference', 
+				'diagram_SchoolSessionAssociation_SessionReference', 
+				'diagram_GradingPeriod');
 
-        var annotationBoxes= new Array('annotations_GradingPeriod', 
-				'annotations_GradingPeriod_GradingPeriod', 
+        var annotationBoxes= new Array('annotations_GradingPeriod_GradingPeriod', 
 				'annotations_GradingPeriod_BeginDate', 
 				'annotations_GradingPeriod_EndDate', 
-				'annotations_GradingPeriod_TotalInstructionalDays');
+				'annotations_GradingPeriod_TotalInstructionalDays', 
+				'annotations_SchoolSessionAssociation', 
+				'annotations_SchoolSessionAssociation_GradingPeriod', 
+				'annotations_SchoolSessionAssociation_SchoolReference', 
+				'annotations_SchoolSessionAssociation_SessionReference', 
+				'annotations_GradingPeriod');
 
-        var attributesBoxes= new Array('attributes_GradingPeriod');
+        var attributesBoxes= new Array('attributes_SchoolSessionAssociation_GradingPeriod', 
+				'attributes_SchoolSessionAssociation_SchoolReference', 
+				'attributes_SchoolSessionAssociation_SessionReference', 
+				'attributes_GradingPeriod');
 
         
         var button_prefix = 'button_';
@@ -366,156 +380,6 @@
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="GradingPeriod"></a><div class="componentTitle">Element <span class="qname">GradingPeriod</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_GradingPeriod" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('annotations_GradingPeriod');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_GradingPeriod" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                        class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">This entity represents the time span for which grades are reported.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_GradingPeriod" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('diagram_GradingPeriod');"
-                                     class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_GradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_GradingPeriod_1.png"
-                                   usemap="#Calendar_xsd_Element_GradingPeriod_1" /><map name="Calendar_xsd_Element_GradingPeriod_1"
-                                   id="Calendar_xsd_Element_GradingPeriod_1">
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
-                                       coords="184,80,256,104" />
-                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
-                                       href="ComplexTypes_xsd.html#ComplexObjectType"
-                                       coords="159,5,411,27" />
-                                 <area alt="Calendar_xsd.tmp#GradingPeriod_GradingPeriod"
-                                       href="Calendar_xsd.html#GradingPeriod_GradingPeriod"
-                                       coords="227,158,335,182" />
-                                 <area alt="Calendar_xsd.tmp#GradingPeriod_BeginDate"
-                                       href="Calendar_xsd.html#GradingPeriod_BeginDate"
-                                       coords="227,222,311,246" />
-                                 <area alt="Calendar_xsd.tmp#GradingPeriod_EndDate"
-                                       href="Calendar_xsd.html#GradingPeriod_EndDate"
-                                       coords="227,299,302,323" />
-                                 <area alt="Calendar_xsd.tmp#GradingPeriod_TotalInstructionalDays"
-                                       href="Calendar_xsd.html#GradingPeriod_TotalInstructionalDays"
-                                       coords="227,376,379,400" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type hierarchy</b></td>
-                        <td>
-                           <ul>
-                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
-                                       title="http://slc-sli/ed-org/0.1"
-                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b></li>
-                           </ul>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_GradingPeriod" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('properties_GradingPeriod');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_GradingPeriod" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn">content:
-                                       
-                                    </td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_GradingPeriod" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('attributes_GradingPeriod');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_GradingPeriod" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Type</th>
-                                       <th>Fixed</th>
-                                       <th>Default</th>
-                                       <th>Use</th>
-                                       <th>Annotation</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
-                                             title="No namespace"
-                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
-                                                 class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Schema</b></td>
-                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
       </table><a id="GradingPeriod_GradingPeriod"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#GradingPeriod" target="mainFrame"
                   title="http://slc-sli/ed-org/0.1"
                   onclick="updatePageTitle('Schema documentation for Calendar.xsd')">GradingPeriod</a></b> / GradingPeriod</span></div>
@@ -561,9 +425,9 @@
                                      class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_GradingPeriod_GradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_GradingPeriod.png"
-                                   usemap="#Calendar_xsd_Element_GradingPeriod" /><map name="Calendar_xsd_Element_GradingPeriod"
-                                   id="Calendar_xsd_Element_GradingPeriod">
+                           <div id="diagram_GradingPeriod_GradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_GradingPeriod_1.png"
+                                   usemap="#Calendar_xsd_Element_GradingPeriod_1" /><map name="Calendar_xsd_Element_GradingPeriod_1"
+                                   id="Calendar_xsd_Element_GradingPeriod_1">
                                  <area alt="SimpleTypes_xsd.tmp#GradingPeriodType"
                                        href="SimpleTypes_xsd.html#GradingPeriodType"
                                        coords="156,0,314,26" /></map></div>
@@ -1013,6 +877,663 @@
                                     <td width="30%"><b>0</b></td>
                                     <td>
                                        <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="SchoolSessionAssociation"></a><div class="componentTitle">Element <span class="qname">SchoolSessionAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_SchoolSessionAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_SchoolSessionAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_SchoolSessionAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the association of a school with all its sessions.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_SchoolSessionAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_SchoolSessionAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_SchoolSessionAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Calendar_xsd_Element_SchoolSessionAssociation.png"
+                                   usemap="#Calendar_xsd_Element_SchoolSessionAssociation" /><map name="Calendar_xsd_Element_SchoolSessionAssociation"
+                                   id="Calendar_xsd_Element_SchoolSessionAssociation">
+                                 <area alt="Calendar_xsd.tmp#SchoolSessionAssociation_GradingPeriod"
+                                       href="Calendar_xsd.html#SchoolSessionAssociation_GradingPeriod"
+                                       coords="290,2,398,26" />
+                                 <area alt="Calendar_xsd.tmp#SchoolSessionAssociation_SchoolReference"
+                                       href="Calendar_xsd.html#SchoolSessionAssociation_SchoolReference"
+                                       coords="290,66,410,90" />
+                                 <area alt="Calendar_xsd.tmp#SchoolSessionAssociation_SessionReference"
+                                       href="Calendar_xsd.html#SchoolSessionAssociation_SessionReference"
+                                       coords="290,130,415,154" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_SchoolSessionAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_SchoolSessionAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_SchoolSessionAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="SchoolSessionAssociation_GradingPeriod"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#SchoolSessionAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">SchoolSessionAssociation</a></b> / GradingPeriod</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_SchoolSessionAssociation_GradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_SchoolSessionAssociation_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_SchoolSessionAssociation_GradingPeriod" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Grading period dates and durations for the session.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_SchoolSessionAssociation_GradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_SchoolSessionAssociation_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_SchoolSessionAssociation_GradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_GradingPeriod.png"
+                                   usemap="#Calendar_xsd_Element_GradingPeriod" /><map name="Calendar_xsd_Element_GradingPeriod"
+                                   id="Calendar_xsd_Element_GradingPeriod">
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
+                                       coords="198,118,270,142" />
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType"
+                                       coords="173,43,425,65" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_GradingPeriod"
+                                       href="Calendar_xsd.html#GradingPeriod_GradingPeriod"
+                                       coords="241,196,349,220" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_BeginDate"
+                                       href="Calendar_xsd.html#GradingPeriod_BeginDate"
+                                       coords="241,260,325,284" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_EndDate"
+                                       href="Calendar_xsd.html#GradingPeriod_EndDate"
+                                       coords="241,337,316,361" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_TotalInstructionalDays"
+                                       href="Calendar_xsd.html#GradingPeriod_TotalInstructionalDays"
+                                       coords="241,414,393,438" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod" href="Calendar_xsd.html#GradingPeriod"
+                                       coords="159,3,287,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
+                                       title="http://slc-sli/ed-org/0.1"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
+                                    <li><b><a href="Calendar_xsd.html#GradingPeriod" target="mainFrame"
+                                             title="http://slc-sli/ed-org/0.1"
+                                             onclick="updatePageTitle('Schema documentation for Calendar.xsd')">GradingPeriod</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_SchoolSessionAssociation_GradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_SchoolSessionAssociation_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_SchoolSessionAssociation_GradingPeriod" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_SchoolSessionAssociation_GradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_SchoolSessionAssociation_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_SchoolSessionAssociation_GradingPeriod" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                                 class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="SchoolSessionAssociation_SchoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#SchoolSessionAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">SchoolSessionAssociation</a></b> / SchoolReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_SchoolSessionAssociation_SchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_SchoolSessionAssociation_SchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_SchoolSessionAssociation_SchoolReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Reference to the school associated with the session.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_SchoolSessionAssociation_SchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_SchoolSessionAssociation_SchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_SchoolSessionAssociation_SchoolReference" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_SchoolReference.png"
+                                   usemap="#Calendar_xsd_Element_SchoolReference" /><map name="Calendar_xsd_Element_SchoolReference"
+                                   id="Calendar_xsd_Element_SchoolReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference_type"
+                                       coords="196,157,257,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#SchoolSimpleReference"
+                                       href="ReferenceTypes_xsd.html#SchoolSimpleReference"
+                                       coords="171,3,346,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_SchoolSessionAssociation_SchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_SchoolSessionAssociation_SchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_SchoolSessionAssociation_SchoolReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_SchoolSessionAssociation_SchoolReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_SchoolSessionAssociation_SchoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_SchoolSessionAssociation_SchoolReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SchoolSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>School</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="SchoolSessionAssociation_SessionReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#SchoolSessionAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">SchoolSessionAssociation</a></b> / SessionReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_SchoolSessionAssociation_SessionReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_SchoolSessionAssociation_SessionReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_SchoolSessionAssociation_SessionReference"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Reference to the session offered at the school.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_SchoolSessionAssociation_SessionReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_SchoolSessionAssociation_SessionReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_SchoolSessionAssociation_SessionReference" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_SessionReference.png"
+                                   usemap="#Calendar_xsd_Element_SessionReference" /><map name="Calendar_xsd_Element_SessionReference"
+                                   id="Calendar_xsd_Element_SessionReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#SessionSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#SessionSimpleReference_type"
+                                       coords="201,157,262,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#SessionSimpleReference"
+                                       href="ReferenceTypes_xsd.html#SessionSimpleReference"
+                                       coords="176,3,356,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_SchoolSessionAssociation_SessionReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_SchoolSessionAssociation_SessionReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_SchoolSessionAssociation_SessionReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_SchoolSessionAssociation_SessionReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_SchoolSessionAssociation_SessionReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_SchoolSessionAssociation_SessionReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#SessionSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>Session</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="GradingPeriod"></a><div class="componentTitle">Complex Type <span class="qname">GradingPeriod</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_GradingPeriod" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_GradingPeriod" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the time span for which grades are reported.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_GradingPeriod" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_GradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Complex_Type_GradingPeriod.png"
+                                   usemap="#Calendar_xsd_Complex_Type_GradingPeriod" /><map name="Calendar_xsd_Complex_Type_GradingPeriod"
+                                   id="Calendar_xsd_Complex_Type_GradingPeriod">
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType_id"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType_id"
+                                       coords="208,78,280,102" />
+                                 <area alt="ComplexTypes_xsd.tmp#ComplexObjectType"
+                                       href="ComplexTypes_xsd.html#ComplexObjectType"
+                                       coords="183,3,435,25" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_GradingPeriod"
+                                       href="Calendar_xsd.html#GradingPeriod_GradingPeriod"
+                                       coords="251,156,359,180" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_BeginDate"
+                                       href="Calendar_xsd.html#GradingPeriod_BeginDate"
+                                       coords="251,220,335,244" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_EndDate"
+                                       href="Calendar_xsd.html#GradingPeriod_EndDate"
+                                       coords="251,297,326,321" />
+                                 <area alt="Calendar_xsd.tmp#GradingPeriod_TotalInstructionalDays"
+                                       href="Calendar_xsd.html#GradingPeriod_TotalInstructionalDays"
+                                       coords="251,374,403,398" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#ComplexObjectType" target="mainFrame"
+                                       title="http://slc-sli/ed-org/0.1"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexObjectType</a></b><ul>
+                                    <li><b><a href="Calendar_xsd.html#GradingPeriod" target="mainFrame"
+                                             title="http://slc-sli/ed-org/0.1"
+                                             onclick="updatePageTitle('Schema documentation for Calendar.xsd')">GradingPeriod</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_GradingPeriod" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('attributes_GradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_GradingPeriod" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ComplexTypes_xsd.html#ComplexObjectType_id" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                                 class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The XML ID associated with the complex object.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
