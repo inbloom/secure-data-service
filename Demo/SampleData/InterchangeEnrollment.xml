@@ -1325,7 +1325,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000001</StudentUniqueStateId>
+                <StudentUniqueStateId>900000061</StudentUniqueStateId>
                 <Name>
                     <FirstName>THOMAS</FirstName>
                     <LastSurname>RIVERA</LastSurname>
@@ -1347,7 +1347,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000001</StudentUniqueStateId>
+                <StudentUniqueStateId>900000062</StudentUniqueStateId>
                 <Name>
                     <FirstName>CHRISTOPHER</FirstName>
                     <LastSurname>COOPER</LastSurname>
@@ -1369,7 +1369,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000002</StudentUniqueStateId>
+                <StudentUniqueStateId>900000063</StudentUniqueStateId>
                 <Name>
                     <FirstName>DANIEL</FirstName>
                     <LastSurname>RICHARDSON</LastSurname>
@@ -1391,7 +1391,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000003</StudentUniqueStateId>
+                <StudentUniqueStateId>900000064</StudentUniqueStateId>
                 <Name>
                     <FirstName>PAUL</FirstName>
                     <LastSurname>COX</LastSurname>
@@ -1413,7 +1413,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000004</StudentUniqueStateId>
+                <StudentUniqueStateId>900000065</StudentUniqueStateId>
                 <Name>
                     <FirstName>MARK</FirstName>
                     <LastSurname>HOWARD</LastSurname>
@@ -1435,7 +1435,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000005</StudentUniqueStateId>
+                <StudentUniqueStateId>900000066</StudentUniqueStateId>
                 <Name>
                     <FirstName>DONALD</FirstName>
                     <LastSurname>WARD</LastSurname>
@@ -1457,7 +1457,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000006</StudentUniqueStateId>
+                <StudentUniqueStateId>900000067</StudentUniqueStateId>
                 <Name>
                     <FirstName>GEORGE</FirstName>
                     <LastSurname>TORRES</LastSurname>
@@ -1479,7 +1479,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000007</StudentUniqueStateId>
+                <StudentUniqueStateId>900000068</StudentUniqueStateId>
                 <Name>
                     <FirstName>KENNETH</FirstName>
                     <LastSurname>PETERSON</LastSurname>
@@ -1501,7 +1501,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000008</StudentUniqueStateId>
+                <StudentUniqueStateId>900000069</StudentUniqueStateId>
                 <Name>
                     <FirstName>STEVEN</FirstName>
                     <LastSurname>GRAY</LastSurname>
@@ -1523,7 +1523,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000009</StudentUniqueStateId>
+                <StudentUniqueStateId>900000070</StudentUniqueStateId>
                 <Name>
                     <FirstName>EDWARD</FirstName>
                     <LastSurname>RAMIREZ</LastSurname>
@@ -1545,7 +1545,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000010</StudentUniqueStateId>
+                <StudentUniqueStateId>900000071</StudentUniqueStateId>
                 <Name>
                     <FirstName>BRIAN</FirstName>
                     <LastSurname>JAMES</LastSurname>
@@ -1567,7 +1567,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000011</StudentUniqueStateId>
+                <StudentUniqueStateId>900000072</StudentUniqueStateId>
                 <Name>
                     <FirstName>RONALD</FirstName>
                     <LastSurname>WATSON</LastSurname>
@@ -1589,7 +1589,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000012</StudentUniqueStateId>
+                <StudentUniqueStateId>900000073</StudentUniqueStateId>
                 <Name>
                     <FirstName>ANTHONY</FirstName>
                     <LastSurname>BROOKS</LastSurname>
@@ -1611,7 +1611,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000013</StudentUniqueStateId>
+                <StudentUniqueStateId>900000074</StudentUniqueStateId>
                 <Name>
                     <FirstName>KEVIN</FirstName>
                     <LastSurname>KELLY</LastSurname>
@@ -1633,7 +1633,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000014</StudentUniqueStateId>
+                <StudentUniqueStateId>900000075</StudentUniqueStateId>
                 <Name>
                     <FirstName>JASON</FirstName>
                     <LastSurname>SANDERS</LastSurname>
@@ -1655,7 +1655,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000015</StudentUniqueStateId>
+                <StudentUniqueStateId>900000076</StudentUniqueStateId>
                 <Name>
                     <FirstName>MATTHEW</FirstName>
                     <LastSurname>PRICE</LastSurname>
@@ -1677,7 +1677,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                <StudentUniqueStateId>900000077</StudentUniqueStateId>
                 <Name>
                     <FirstName>GARY</FirstName>
                     <LastSurname>BENNETT</LastSurname>
@@ -1699,7 +1699,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000017</StudentUniqueStateId>
+                <StudentUniqueStateId>900000078</StudentUniqueStateId>
                 <Name>
                     <FirstName>TIMOTHY</FirstName>
                     <LastSurname>WOOD</LastSurname>
@@ -1721,7 +1721,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000018</StudentUniqueStateId>
+                <StudentUniqueStateId>900000079</StudentUniqueStateId>
                 <Name>
                     <FirstName>JOSE</FirstName>
                     <LastSurname>BARNES</LastSurname>
@@ -1743,7 +1743,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000019</StudentUniqueStateId>
+                <StudentUniqueStateId>900000080</StudentUniqueStateId>
                 <Name>
                     <FirstName>LARRY</FirstName>
                     <LastSurname>ROSS</LastSurname>
@@ -1765,7 +1765,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000020</StudentUniqueStateId>
+                <StudentUniqueStateId>900000081</StudentUniqueStateId>
                 <Name>
                     <FirstName>MARY</FirstName>
                     <LastSurname>HENDERSON</LastSurname>
@@ -1787,7 +1787,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                <StudentUniqueStateId>900000082</StudentUniqueStateId>
                 <Name>
                     <FirstName>PATRICIA</FirstName>
                     <LastSurname>COLEMAN</LastSurname>
@@ -1809,7 +1809,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000022</StudentUniqueStateId>
+                <StudentUniqueStateId>900000083</StudentUniqueStateId>
                 <Name>
                     <FirstName>LINDA</FirstName>
                     <LastSurname>JENKINS</LastSurname>
@@ -1831,7 +1831,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000023</StudentUniqueStateId>
+                <StudentUniqueStateId>900000084</StudentUniqueStateId>
                 <Name>
                     <FirstName>BARBARA</FirstName>
                     <LastSurname>PERRY</LastSurname>
@@ -1853,7 +1853,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000024</StudentUniqueStateId>
+                <StudentUniqueStateId>900000085</StudentUniqueStateId>
                 <Name>
                     <FirstName>ELIZABETH</FirstName>
                     <LastSurname>POWELL</LastSurname>
@@ -1875,7 +1875,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000025</StudentUniqueStateId>
+                <StudentUniqueStateId>900000086</StudentUniqueStateId>
                 <Name>
                     <FirstName>JENNIFER</FirstName>
                     <LastSurname>LONG</LastSurname>
@@ -1897,7 +1897,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000026</StudentUniqueStateId>
+                <StudentUniqueStateId>900000087</StudentUniqueStateId>
                 <Name>
                     <FirstName>MARIA</FirstName>
                     <LastSurname>PATTERSON</LastSurname>
@@ -1919,7 +1919,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000027</StudentUniqueStateId>
+                <StudentUniqueStateId>900000088</StudentUniqueStateId>
                 <Name>
                     <FirstName>SUSAN</FirstName>
                     <LastSurname>HUGHES</LastSurname>
@@ -1941,7 +1941,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000028</StudentUniqueStateId>
+                <StudentUniqueStateId>900000089</StudentUniqueStateId>
                 <Name>
                     <FirstName>MARGARET</FirstName>
                     <LastSurname>FLORES</LastSurname>
@@ -1963,7 +1963,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000029</StudentUniqueStateId>
+                <StudentUniqueStateId>900000090</StudentUniqueStateId>
                 <Name>
                     <FirstName>DOROTHY</FirstName>
                     <LastSurname>WASHINGTON</LastSurname>
@@ -1985,7 +1985,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000030</StudentUniqueStateId>
+                <StudentUniqueStateId>900000091</StudentUniqueStateId>
                 <Name>
                     <FirstName>LISA</FirstName>
                     <LastSurname>BUTLER</LastSurname>
@@ -2007,7 +2007,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000031</StudentUniqueStateId>
+                <StudentUniqueStateId>900000092</StudentUniqueStateId>
                 <Name>
                     <FirstName>NANCY</FirstName>
                     <LastSurname>SIMMONS</LastSurname>
@@ -2029,7 +2029,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000032</StudentUniqueStateId>
+                <StudentUniqueStateId>900000093</StudentUniqueStateId>
                 <Name>
                     <FirstName>KAREN</FirstName>
                     <LastSurname>FOSTER</LastSurname>
@@ -2051,7 +2051,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000033</StudentUniqueStateId>
+                <StudentUniqueStateId>900000094</StudentUniqueStateId>
                 <Name>
                     <FirstName>BETTY</FirstName>
                     <LastSurname>GONZALES</LastSurname>
@@ -2073,7 +2073,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000034</StudentUniqueStateId>
+                <StudentUniqueStateId>900000095</StudentUniqueStateId>
                 <Name>
                     <FirstName>HELEN</FirstName>
                     <LastSurname>BRYANT</LastSurname>
@@ -2095,7 +2095,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000035</StudentUniqueStateId>
+                <StudentUniqueStateId>900000096</StudentUniqueStateId>
                 <Name>
                     <FirstName>SANDRA</FirstName>
                     <LastSurname>ALEXANDER</LastSurname>
@@ -2117,7 +2117,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000036</StudentUniqueStateId>
+                <StudentUniqueStateId>900000097</StudentUniqueStateId>
                 <Name>
                     <FirstName>DONNA</FirstName>
                     <LastSurname>RUSSELL</LastSurname>
@@ -2139,7 +2139,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000037</StudentUniqueStateId>
+                <StudentUniqueStateId>900000098</StudentUniqueStateId>
                 <Name>
                     <FirstName>CAROL</FirstName>
                     <LastSurname>GRIFFIN</LastSurname>
@@ -2161,7 +2161,7 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000038</StudentUniqueStateId>
+                <StudentUniqueStateId>900000099</StudentUniqueStateId>
                 <Name>
                     <FirstName>RUTH</FirstName>
                     <LastSurname>DIAZ</LastSurname>
@@ -2183,32 +2183,10 @@
 <StudentSchoolAssociation>
         <StudentReference>
             <StudentIdentity>
-                <StudentUniqueStateId>900000039</StudentUniqueStateId>
+                <StudentUniqueStateId>900000100</StudentUniqueStateId>
                 <Name>
                     <FirstName>SHARON</FirstName>
                     <LastSurname>HAYES</LastSurname>
-                </Name>
-            </StudentIdentity>
-        </StudentReference>
-        <SchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>990000002</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </SchoolReference>
-        <EntryDate>2012-01-17</EntryDate>
-        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-        <GraduationPlan>Minimum</GraduationPlan>
-        <EducationalPlans>
-            <EducationalPlan>Full Time Employment</EducationalPlan>
-        </EducationalPlans>
-    </StudentSchoolAssociation>
-<StudentSchoolAssociation>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>900000040</StudentUniqueStateId>
-                <Name>
-                    <FirstName>MICHELLE</FirstName>
-                    <LastSurname>MYERS</LastSurname>
                 </Name>
             </StudentIdentity>
         </StudentReference>
