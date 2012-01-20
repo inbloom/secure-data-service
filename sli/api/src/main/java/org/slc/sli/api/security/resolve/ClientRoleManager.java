@@ -9,6 +9,13 @@ import java.util.List;
  * 
  */
 public interface ClientRoleManager {
+    
+    /**
+     * Given a list of client role names this returns the the corresponding SLI roles.
+     * @param realmId
+     * @param clientRoleNames
+     * @return
+     */
     public List<String> resolveRoles(String realmId, List<String> clientRoleNames);
     
     public void addClientRole(String realmId, String sliRoleName, String clientRoleName);

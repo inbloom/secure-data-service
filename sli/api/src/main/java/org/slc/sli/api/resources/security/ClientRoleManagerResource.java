@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.resolve.ClientRoleManager;
 
+/**
+ * Realm role mapping API.  Allows a user to definine mappings between SLI roles and
+ * client roles. 
+ * @author jnanney
+ *
+ */
 @Component
 @Path("/pub/roles")
 @Scope("request")

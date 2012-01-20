@@ -30,7 +30,7 @@ public class DefaultEntityContextResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        return Collections.<String> emptyList();
+        return Collections.<String>emptyList();
     }
     
 }

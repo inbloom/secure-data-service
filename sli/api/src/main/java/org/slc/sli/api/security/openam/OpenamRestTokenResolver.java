@@ -73,13 +73,13 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
                 
                 // Validate Session
                 ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class,
-                        Collections.<String, Object> emptyMap());
+                        Collections.<String, Object>emptyMap());
                 
                 if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                     
                     // Get session attributes
                     entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token,
-                            String.class, Collections.<String, Object> emptyMap());
+                            String.class, Collections.<String, Object>emptyMap());
                     LOG.debug("-------------------------------------");
                     LOG.debug(entity.getBody());
                     LOG.debug("-------------------------------------");

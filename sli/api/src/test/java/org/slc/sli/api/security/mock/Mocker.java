@@ -89,13 +89,13 @@ public class Mocker {
         
         when(
                 rest.getForEntity(MOCK_URL + "/identity/isTokenValid?tokenid=" + VALID_TOKEN, String.class,
-                        Collections.<String, Object> emptyMap())).thenReturn(validationOK);
+                        Collections.<String, Object>emptyMap())).thenReturn(validationOK);
         when(
                 rest.getForEntity(MOCK_URL + "/identity/isTokenValid?tokenid=" + INVALID_TOKEN, String.class,
-                        Collections.<String, Object> emptyMap())).thenReturn(validationFail);
+                        Collections.<String, Object>emptyMap())).thenReturn(validationFail);
         when(
                 rest.getForEntity(MOCK_URL + "/identity/attributes?subjectid=" + VALID_TOKEN, String.class,
-                        Collections.<String, Object> emptyMap())).thenReturn(attributesOK);
+                        Collections.<String, Object>emptyMap())).thenReturn(attributesOK);
         
         return rest;
     }

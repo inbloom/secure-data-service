@@ -1,15 +1,12 @@
 package org.slc.sli.api.security.resolve.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.resolve.ClientRoleManager;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
@@ -45,7 +42,6 @@ public class DefaultClientRoleManager implements ClientRoleManager {
         return result;
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void addClientRole(String realmId, String sliRoleName, String clientRoleName) {
         Role sliRole = roleRightAccess.findRoleByName(sliRoleName);
@@ -63,7 +59,6 @@ public class DefaultClientRoleManager implements ClientRoleManager {
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public String getSliRoleName(String realmId, String clientRoleName) {
         List<Role> allSliRoles = roleRightAccess.fetchAllRoles();
         for (Role role : allSliRoles) {
@@ -83,7 +78,6 @@ public class DefaultClientRoleManager implements ClientRoleManager {
         this.roleRightAccess = roleRightAccess;
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public List<String> getMappings(String realmId, String sliRoleName) {
         Role role = roleRightAccess.findRoleByName(sliRoleName);

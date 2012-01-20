@@ -36,7 +36,7 @@ public class AssociativeContextDefinitions {
     @PostConstruct
     public void init() {
         
-        List<EntityContextResolver> teacherResolvers = Arrays.<EntityContextResolver> asList(
+        List<EntityContextResolver> teacherResolvers = Arrays.<EntityContextResolver>asList(
                 
                 contextFactory.makeAssoc().setSource("teacher").setTarget("teacher")
                         .setAssociationPath("teacher-school-associations", "teacher-school-associations").build(),
