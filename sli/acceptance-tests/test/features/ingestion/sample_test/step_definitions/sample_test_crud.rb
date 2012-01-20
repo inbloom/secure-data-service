@@ -77,7 +77,7 @@ When /^zip file is scp to ingestion landing zone$/ do
 
   if (INGESTION_MODE == 'remote')
     # copy file from external path to landing zone
-    scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {}, {})
+    scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
 
     #check if file was copied to destination
     #sleep(Integer(3))
