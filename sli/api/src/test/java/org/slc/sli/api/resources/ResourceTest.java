@@ -363,12 +363,12 @@ public class ResourceTest {
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
         
-        Response createResponseAggregationDefinition = api.createEntity("aggregationdefinitions", new EntityBody(
+        Response createResponseAggregationDefinition = api.createEntity("aggregationDefinitions", new EntityBody(
                 createTestEntity()), uriInfo);
         assertNotNull(createResponseAggregationDefinition);
         assertEquals(Status.CREATED.getStatusCode(), createResponseAggregationDefinition.getStatus());
         String aggregationDefinitionId = parseIdFromLocation(createResponseAggregationDefinition);
-        ids.put(new TypeIdPair("aggregationdefinitions", aggregationDefinitionId),
+        ids.put(new TypeIdPair("aggregationDefinitions", aggregationDefinitionId),
                 (String) createResponseAggregationDefinition.getMetadata().get("Location").get(0));
         
         Response createResponseAggregation = api.createEntity("aggregations", new EntityBody(createTestEntity()),
