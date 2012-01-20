@@ -1,7 +1,7 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.Student;
-import org.slc.sli.entity.ProgramParticipation;
+import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.config.Field;
 
 import java.util.Arrays;
@@ -19,14 +19,14 @@ import java.util.List;
  */
 public class StudentResolver {
     List<Student> students;
-    List<ProgramParticipation> programs;
+    List<StudentProgramAssociation> programs;
     
     public static final String DATA_SET_TYPE = "studentInfo";
     
     /**
      * Constructor
      */
-    public StudentResolver(List<Student> s, List<ProgramParticipation> p) {
+    public StudentResolver(List<Student> s, List<StudentProgramAssociation> p) {
         students = s;
         programs = p;
     }
@@ -55,7 +55,7 @@ public class StudentResolver {
         // TODO: check student entity
         
         // Now check program participation
-        for (ProgramParticipation p : programs) {
+        for (StudentProgramAssociation p : programs) {
             if (p.getStudentId().equals(student.getId())) {
                 return Arrays.asList(p.getPrograms()).contains(code);
             }

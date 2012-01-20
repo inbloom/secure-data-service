@@ -4,7 +4,7 @@ package org.slc.sli.entity;
  * Represents the program participation of students
  *
  */
-public class ProgramParticipation {
+public class StudentProgramAssociation {
 
     private String studentId;
     private String[] programs;

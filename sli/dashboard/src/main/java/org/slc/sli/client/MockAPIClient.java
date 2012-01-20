@@ -15,7 +15,7 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.entity.ProgramParticipation;
+import org.slc.sli.entity.StudentProgramAssociation;
 import java.util.List;
 import java.util.Vector;
 
@@ -87,17 +87,17 @@ public class MockAPIClient implements APIClient {
     }
     
     @Override
-    public ProgramParticipation[] getProgramParticipation(final String token, List<String> studentIds) {
-        ProgramParticipation[] programs = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/program_participation.json"), ProgramParticipation[].class);
+    public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
+        StudentProgramAssociation[] programs = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student_program_association.json"), StudentProgramAssociation[].class);
         // perform the filtering. 
-        Vector<ProgramParticipation> filtered = new Vector<ProgramParticipation>();
+        Vector<StudentProgramAssociation> filtered = new Vector<StudentProgramAssociation>();
         if (studentIds != null)
-            for (ProgramParticipation program : programs) { 
+            for (StudentProgramAssociation program : programs) { 
                 if (studentIds.contains(program.getStudentId())) { 
                     filtered.add(program);
                 }
             }
-        ProgramParticipation[] retVal = new ProgramParticipation[filtered.size()];
+        StudentProgramAssociation[] retVal = new StudentProgramAssociation[filtered.size()];
         return filtered.toArray(retVal);
     }
 
