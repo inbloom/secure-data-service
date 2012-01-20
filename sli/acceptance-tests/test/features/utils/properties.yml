@@ -11,7 +11,7 @@ sli_idp_server_url: "http://devdanil.slidev.org:8080/idp"
 sea_idp_server_url: "http://devdanil.slidev.org:8080/idp"
 lea_idp_server_url: "http://devdanil.slidev.org:8080/idp"
 ingestion_landing_zone: "/home/ingestion/lz/inbound/"
-ingestion_db: "devdal1.slidev.org:27017"
+ingestion_db: "testdal1.slidev.org:27017"
 ingestion_server_url: "testing1.slidev.org:8080"
 
 DB_HOST: "localhost"
