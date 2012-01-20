@@ -45,7 +45,7 @@
         </SchoolCategories>
         <LocalEducationAgencyReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>900001</StateOrganizationId>
+                <StateOrganizationId>990000001</StateOrganizationId>
             </EducationalOrgIdentity>
         </LocalEducationAgencyReference>
     </School>
@@ -73,7 +73,7 @@
         </SchoolCategories>
         <LocalEducationAgencyReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>900002</StateOrganizationId>
+                <StateOrganizationId>990000002</StateOrganizationId>
             </EducationalOrgIdentity>
         </LocalEducationAgencyReference>
     </School>
