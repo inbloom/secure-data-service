@@ -11,9 +11,14 @@ else
   INGESTION_LANDING_ZONE = PropLoader.getProps['ingestion_landing_zone']
 end 
 
+if (ENV['ingestion_db'])
+  INGESTION_DB = ENV['ingestion_db']
+else
+  INGESTION_DB = PropLoader.getProps['ingestion_db']
+end 
 
 Given /^there are no students in DS$/ do
-  @conn = Mongo::Connection.new
+  @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[@database_name]
   @student_col = @db['student']
 
