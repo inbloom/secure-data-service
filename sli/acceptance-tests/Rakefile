@@ -310,7 +310,9 @@ task :importSandboxData do
     "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
     "student" => "smallville_students_fixture.json",
     "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
-    "teacher" => "smallville_teachers_fixture.json"
+    "teacher" => "smallville_teachers_fixture.json",
+    "educationOrganization" => "smallville_educationOrganization_fixture.json",
+    "educationOrganizationSchoolAssociation" => "smallville_school_educationOrganization_fixure.json"
   ]
   addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end
