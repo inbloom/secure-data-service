@@ -34,12 +34,14 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleType;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
+import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.slc.sli.validation.ListSchema;
 import org.slc.sli.validation.NeutralSchema;
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.TokenSchema;
 import org.springframework.util.ResourceUtils;
+import org.xml.sax.InputSource;
 
 /**
  * Generation tool used to convert XSD to SLI Neutral Schema.
@@ -281,7 +283,7 @@ public class XsdToNeutralSchema {
                     
                     log.info("Parsing Xml Schema: " + schemaResourcePath);
                     
-                    XmlSchema schema = this.parseXmlSchema(schemaResourcePath);
+                    XmlSchema schema = this.parseXmlSchema(xsdPath, schemaResourcePath);
                     
                     // Accumulate XML schemas
                     xmlSchemas.add(schema);
@@ -297,11 +299,18 @@ public class XsdToNeutralSchema {
         return xmlSchemas;
     }
     
-    private XmlSchema parseXmlSchema(String resourcePath) {
+    private XmlSchema parseXmlSchema(final String xsdPath, String resourcePath) {
         Reader reader = null;
         try {
             reader = new InputStreamReader(XsdToNeutralSchema.class.getResourceAsStream(resourcePath));
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
+            schemaCollection.setSchemaResolver(new URIResolver() {
+                @Override
+                public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
+                    return new InputSource(XsdToNeutralSchema.class.getResourceAsStream("/" + xsdPath + "/"
+                            + schemaLocation));
+                }
+            });
             return schemaCollection.read(reader, null);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
