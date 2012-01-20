@@ -22,7 +22,7 @@ public class ContextResolverFactory {
     private EntityDefinitionStore definitionStore;
     
     @Autowired
-    private EntityRepository      repository;
+    private EntityRepository repository;
     
     public AssociativeContextBuilder makeAssoc() {
         return new AssociativeContextBuilder();
@@ -35,11 +35,11 @@ public class ContextResolverFactory {
      * 
      */
     public class AssociativeContextBuilder {
-        private String                      source;
-        private String                      target;
+        private String source;
+        private String target;
         private List<AssociationDefinition> associationPath = new ArrayList<AssociationDefinition>();
-        private EntityDefinitionStore       entityDefs;
-        private EntityRepository            repo;
+        private EntityDefinitionStore entityDefs;
+        private EntityRepository repo;
         
         public AssociativeContextBuilder() {
             entityDefs = ContextResolverFactory.this.definitionStore;

@@ -14,16 +14,19 @@ import freemarker.ext.beans.BeansWrapper;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.ProgramParticipation;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.LozengeConfig;
 
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
 import org.slc.sli.view.AssessmentResolver;
+import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
 
@@ -57,6 +60,10 @@ public class StudentListContentController extends DashboardController {
         ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
+        // insert the lozenge config object into modelmap
+        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
+        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));  
+
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
         List<String> uids = null;
@@ -65,8 +72,9 @@ public class StudentListContentController extends DashboardController {
         }
 
         List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+        List<ProgramParticipation> programs = studentManager.getProgramParticipation(user.getUsername(), uids);
 
-        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students));
+        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);

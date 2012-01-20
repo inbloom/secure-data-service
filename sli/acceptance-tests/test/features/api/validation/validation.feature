@@ -105,4 +105,24 @@ Scenario: Fail when posting a date in the wrong format
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-	
+Scenario: Passing blank object to a valid entity with PUT should fail with validation error (not patch the existing object)
+	Given format "application/json"
+    When I navigate to GET "/teachers/<'Belle' ID>"
+    Then I should receive a return code of 200   
+    When I create a blank request body object
+      And I navigate to PUT "/teachers/<'Belle' ID>"
+    Then I should receive a return code of 400
+
+Scenario: Given a known school object, perform a PUT with a base school object to confirm option attributes are gone (test non-patching)
+	Given format "application/json"
+    When I navigate to GET "/schools/<'Apple Alternative Elementary School' ID>"
+    Then I should receive a return code of 200   
+    When I create a base school object
+      And I navigate to PUT "/schools/<'Apple Alternative Elementary School' ID>"
+    Then I should receive a return code of 204
+    When I navigate to GET "/schools/<'Apple Alternative Elementary School' ID>"
+    Then I should receive a return code of 200   
+      And "nameOfInstitution" should be "school name"
+      And "stateOrganizationId" should be "12345678"
+      And "gradesOffered" should contain "First_grade" and "Second_grade"
+      And there should be no other contents in the response body other than links

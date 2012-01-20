@@ -45,13 +45,6 @@ Scenario: Home URI returns valid links for user 'leader'
     And I should receive a link named "getEducationOrganizationsAssigned" with URI "/staff-educationOrganization-associations/<'leader' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'leader' ID>/targets"
 
-Scenario: Home URI gives error for user 'nouser'
-  Given I am logged in using "nouser" "nouser1234"
-    And I have access to all links
-    And format "application/json"
-  When I navigate to GET "/home"
-  Then I should receive a return code of 500
-
 Scenario: Home URI returns appropriate links for 'baduser'
   Given I am logged in using "baduser" "baduser1234"
     And I have access to all links

@@ -2,6 +2,19 @@ require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
 
+# transform <Place Holder Id>
+Transform /^<(.+)>$/ do |template|
+  id = template
+  id = "344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if template == "'Belle' ID"
+  id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
+  id
+end
+
+# transform /path/<Place Holder Id>
+Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
+  uri + Transform(template)
+end
+
 def createBaseStudent()
   data = Hash[
       "studentUniqueStateId" => 123456,
@@ -127,4 +140,38 @@ end
 Given /^I create a student object with "([^"]*)" set to MM\-DD\-YYYY$/ do |arg1|
   @object = createBaseStudent()
   @object['birthData'][arg1] = "01-01-2012"
+end
+
+When /^I navigate to PUT "([^\"]*)"$/ do |url|
+  @result = {} if !defined? @result 
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+When /^I create a blank request body object$/ do
+  @result = {}
+end
+
+When /^I create a base school object$/ do
+  @result = createBaseSchool()
+end
+
+Then /^"([^\"]*)" should be "([^\"]*)"$/ do |key, value|
+  @result[key].should_not == nil
+  @result[key].should == value
+  @result.delete(key)
+end
+
+Then /^"([^"]*)" should contain "([^"]*)" and "([^"]*)"$/ do |key, val1, val2|
+  @result[key].should_not == nil
+  assert(@result[key].find(val1) != nil, "School's gradesOffered does not contain #{val1}")
+  assert(@result[key].find(val2) != nil, "School's gradesOffered does not contain #{val2}")
+  @result.delete(key)
+end
+
+Then /^there should be no other contents in the response body other than links$/ do
+  @result.delete('links')
+  @result.delete('id')
+  assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data")
 end

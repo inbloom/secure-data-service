@@ -45,14 +45,6 @@
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
     </bean>
-    
-    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="locations">
-		    <list>
-			    <value>classpath:/filter-${env}.properties</value>
-		    </list>
-	    </property>
-    </bean>
 
     <bean id="restClient" class="org.slc.sli.client.RESTClient" />
     

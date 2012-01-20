@@ -1,5 +1,59 @@
 [
     {
+        "name": "ACT",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "ACT_READING" },
+                    { "name": "ACT_READING_SOC_SCI" },
+                    { "name": "ACT_READING_ARTS_LIT" },
+                    { "name": "ACT_ENGLISH" },
+                    { "name": "ACT_ENGLISH_UM" },
+                    { "name": "ACT_ENGLISH_RS" },
+                    { "name": "ACT_WRITING" },
+                    { "name": "ACT_WRITING_PLUS_ENG" }
+        ]
+    },
+    {
+        "name": "SAT",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "SAT_READING" },
+                    { "name": "SAT_WRITING" },
+                    { "name": "SAT_WRITING_ESSAY" },
+                    { "name": "SAT_WRITING_MC" }
+        ]
+    },
+    {
+        "name": "PSAT",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "PSAT_READING" },
+                    { "name": "PSAT_WRITING" }
+        ]
+
+    },
+    {
         "name": "AP_ENGLISH",
         "perfLevels": [
             {

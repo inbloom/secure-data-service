@@ -3,7 +3,6 @@ package org.slc.sli.admin.client;
 import org.slc.sli.admin.util.UrlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
@@ -22,16 +21,16 @@ import com.google.gson.JsonSyntaxException;
 @Component("RESTClient")
 public class RESTClient {
     
-    protected RestOperations template = new RestTemplate();
+    protected RestOperations    template        = new RestTemplate();
     
     /** Request parameter key used to pass sessionId to API **/
     private static final String API_SESSION_KEY = "sessionId";
     
-    private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
+    private static Logger       logger          = LoggerFactory.getLogger(RESTClient.class);
     
     /** URI for the API **/
     @Value("${apiServerUri}")
-    private String apiServerUri;
+    private String              apiServerUri;
     
     /**
      * Get the Roles and Rights information from the API

@@ -31,7 +31,13 @@
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
-      
+
+      <#-- lozenges in front -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_FRONT>
+        <#include "widget/lozenges.ftl">
+      </#if>
+  
       <#-- student info -->
       <#if field.getType() = constants.FIELD_TYPE_STUDENT_INFO>
         ${students.get(field, student)}
@@ -48,6 +54,13 @@
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.
       </#if>
+
+      <#-- lozenges at the back -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
+        <#include "widget/lozenges.ftl">
+      </#if>
+  
     </td>
   </#list>
 </#list>

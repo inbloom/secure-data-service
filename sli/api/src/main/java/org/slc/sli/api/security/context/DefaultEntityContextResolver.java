@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.context;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -29,8 +30,7 @@ public class DefaultEntityContextResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        // TODO Auto-generated method stub
-        return null;
+        return Collections.<String>emptyList();
     }
     
 }

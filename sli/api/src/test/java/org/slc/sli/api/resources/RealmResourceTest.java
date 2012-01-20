@@ -48,7 +48,7 @@ public class RealmResourceTest {
     
     @Autowired
     private RealmResource realmer;
-
+    
     @Autowired
     private SecurityContextInjector securityContextInjector;
     
