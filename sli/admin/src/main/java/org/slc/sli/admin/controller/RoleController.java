@@ -95,6 +95,8 @@ public class RoleController extends AdminController {
             return "student enrolled in my district(s) or school(s)";
         } else if (role.equalsIgnoreCase("Aggregate Viewer")) {
             return "None";
+        } else if (role.equals("SLI Administrator")) {
+            return "N/A";
         } else {
             return "student enrolled in my district(s) or school(s)";
         }

@@ -26,10 +26,12 @@ import org.slc.sli.dal.repository.EntityRepository;
  * @author dkornishev
  * 
  */
-@Ignore // Needs to be reworked with new querying structure/MockRepo
+@Ignore
+// Needs to be reworked with new querying structure/MockRepo
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class UserLocatorTest {
     
     @Autowired

@@ -18,14 +18,14 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ContextResolverStoreTest {
-
+    
     @Autowired
     private ContextResolverStore contextResolverStore;
     private String source;
     private String target;
     private EntityContextResolver resolverIn;
     private String nonExistingField;
-
+    
     @org.junit.Before
     public void setUp() throws Exception {
         source = "teacher";
@@ -36,42 +36,43 @@ public class ContextResolverStoreTest {
         nonExistingField = "nonExistingField";
         contextResolverStore.clearContexts();
     }
-
+    
     @Test
     public void testAddContextResolver() throws Exception {
-
+        
         try {
             contextResolverStore.addContext(resolverIn);
         } catch (EntityExistsException e) {
             assertTrue("add on empty contextResolver should not throw exception", false);
         }
-
+        
         try {
             contextResolverStore.addContext(resolverIn);
             Assert.fail("should throw EntityExistsException resolver already exists");
         } catch (EntityExistsException e) {
             Assert.assertNotNull(contextResolverStore);
         }
-
+        
     }
-
+    
     @Test
     public void testGetContextResolver() {
-
+        
         try {
             contextResolverStore.addContext(resolverIn);
         } catch (EntityExistsException e) {
             assertTrue("add on empty contextResolver should not throw exception", false);
         }
-
+        
         EntityContextResolver resolverOut = contextResolverStore.getContextResolver(source, target);
         Assert.assertNotNull(resolverOut);
         Assert.assertEquals(resolverIn, resolverOut);
-
-        EntityContextResolver defaultResolver = contextResolverStore.getContextResolver(nonExistingField, nonExistingField);
+        
+        EntityContextResolver defaultResolver = contextResolverStore.getContextResolver(nonExistingField,
+                nonExistingField);
         Assert.assertNotNull(defaultResolver);
         Assert.assertTrue(defaultResolver instanceof DefaultEntityContextResolver);
-
+        
     }
-
+    
 }

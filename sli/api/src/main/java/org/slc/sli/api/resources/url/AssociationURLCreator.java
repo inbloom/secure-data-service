@@ -42,13 +42,13 @@ public class AssociationURLCreator extends URLCreator {
         // remove user's type from map
         String userId = params.remove("id");
         String userType = params.remove("type");
-        //clear the map
+        // clear the map
         params.clear();
         
-        //get the userType entity definition
+        // get the userType entity definition
         EntityDefinition eDef = store.lookupByEntityType(userType);
         
-        //get the association links
+        // get the association links
         getAssociationUrls(eDef, userId, results, uriInfo);
         
         return results;
@@ -56,36 +56,47 @@ public class AssociationURLCreator extends URLCreator {
     
     /**
      * Builds the association urls for the given entity definition
-     * @param entityDef The definition to build the association urls
-     * @param entityId The id of the entity
-     * @param urls The association urls
-     * @param uriInfo The context
+     * 
+     * @param entityDef
+     *            The definition to build the association urls
+     * @param entityId
+     *            The id of the entity
+     * @param urls
+     *            The association urls
+     * @param uriInfo
+     *            The context
      */
-    protected void getAssociationUrls(EntityDefinition entityDef, String entityId, List<EmbeddedLink> urls, final UriInfo uriInfo) {          
-        //get the association definitions
+    protected void getAssociationUrls(EntityDefinition entityDef, String entityId, List<EmbeddedLink> urls,
+            final UriInfo uriInfo) {
+        // get the association definitions
         Collection<AssociationDefinition> associations = store.getLinked(entityDef);
         
-        for (AssociationDefinition assoc : associations) {            
+        for (AssociationDefinition assoc : associations) {
             if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
                 
-                //build the param map
+                // build the param map
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(ENTITY_ID_MAPPINGS.get(entityDef.getType()), entityId);
-             
+                
                 LOG.debug("entityDef type : " + entityDef.getType());
                 
-                //get the actual associations
-                Iterable<Entity> entityList = repo.findByFields(ASSOC_ENTITY_NAME_MAPPINGS.get(assoc.getType()), params);
+                // get the actual associations
+                Iterable<Entity> entityList = repo
+                        .findByFields(ASSOC_ENTITY_NAME_MAPPINGS.get(assoc.getType()), params);
                 LOG.debug("assoc type : " + assoc.getType());
                 
-                for (Entity e : entityList) { 
-                    //add the link to the list
-                    urls.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), 
-                            uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).path(RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType())).
-                            path((String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType()))).build().toString()));
+                for (Entity e : entityList) {
+                    // add the link to the list
+                    urls.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
+                            .path(RESOURCE_PATH_AGG)
+                            .path(RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
+                            .path((String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType())))
+                            .build().toString()));
                     
-                    //try and get the associations under the entity                    
-                    getAssociationUrls(assoc.getTargetEntity(), (String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType())), urls, uriInfo);
+                    // try and get the associations under the entity
+                    getAssociationUrls(assoc.getTargetEntity(),
+                            (String) e.getBody().get(ENTITY_ID_MAPPINGS.get(assoc.getTargetEntity().getType())), urls,
+                            uriInfo);
                 }
             }
         }

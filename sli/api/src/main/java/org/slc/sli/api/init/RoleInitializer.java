@@ -35,25 +35,24 @@ public class RoleInitializer {
     private static final String READ_RESTRICTED = "READ_RESTRICTED";
     private static final String WRITE_GENERAL = "WRITE_GENERAL";
     private static final String WRITE_RESTRICTED = "WRITE_RESTRICTED";
-
+    
     @Autowired
     private EntityRepository repository;
-
-
+    
     private void init() {
         buildRoles();
     }
-
+    
     public int buildRoles() {
         Iterable<Entity> subset = repository.findAll(ROLES);
         Set<Role> createdRoles = new HashSet<Role>();
-
+        
         boolean hasEducator = false;
         boolean hasLeader = false;
         boolean hasIT = false;
         boolean hasAggregate = false;
         boolean hasSLIAdmin = false;
-
+        
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
             if (body.get("name").equals(EDUCATOR)) {
@@ -76,33 +75,33 @@ public class RoleInitializer {
             createdRoles.add(buildIT());
         if (!hasEducator)
             createdRoles.add(buildEducator());
-
+        
         if (!hasSLIAdmin)
             createdRoles.add(buildSLIAdmin());
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
         }
         return createdRoles.size();
-
+        
     }
-
+    
     private Role buildAggregate() {
         LOG.info("Building Aggregate Viewer default role.");
         return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[] { Right.AGGREGATE_READ }).build();
     }
-
+    
     private Role buildEducator() {
         LOG.info("Building Educator default role.");
         return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL })
                 .build();
     }
-
+    
     private Role buildLeader() {
         LOG.info("Building Leader default role.");
         return RoleBuilder.makeRole(LEADER)
                 .addRights(new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }).build();
     }
-
+    
     private Role buildIT() {
         LOG.info("Building IT Administrator default role.");
         return RoleBuilder

@@ -35,24 +35,24 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityServiceAspectTest {
     
-    private static final String     ENTITY_TYPE_STUDENT            = "student";
-    private static final String     ENTITY_TYPE_REALM              = "realm";
-    private static final String     ROLE_SPRING_NAME_EDUCATOR      = "ROLE_EDUCATOR";
-    private static final String     ROLE_SPRING_NAME_ADMINISTRATOR = "ROLE_ADMINISTRATOR";
-    private static final String     ASPECT_FUNCTION_GET            = "get";
-    private static final String     ASPECT_FUNCTION_CREATE         = "create";
-    private static final String     ASPECT_FUNCTION_GETDEFN        = "getEntityDefinition";
+    private static final String ENTITY_TYPE_STUDENT = "student";
+    private static final String ENTITY_TYPE_REALM = "realm";
+    private static final String ROLE_SPRING_NAME_EDUCATOR = "ROLE_EDUCATOR";
+    private static final String ROLE_SPRING_NAME_ADMINISTRATOR = "ROLE_ADMINISTRATOR";
+    private static final String ASPECT_FUNCTION_GET = "get";
+    private static final String ASPECT_FUNCTION_CREATE = "create";
+    private static final String ASPECT_FUNCTION_GETDEFN = "getEntityDefinition";
     
-    private static Object           returnObj;
+    private static Object returnObj;
     
     @Autowired
-    private EntitySchemaRegistry    schemaRegistry;
+    private EntitySchemaRegistry schemaRegistry;
     
     @Autowired
     private SecurityContextInjector injector;
     
     @Autowired
-    private EntityServiceAspect     aspect;
+    private EntityServiceAspect aspect;
     
     @Before
     public void init() {
@@ -83,7 +83,8 @@ public class EntityServiceAspectTest {
     public void testGetEntityDefnStudentCallAsEducator() throws Throwable {
         injector.setEducatorContext();
         Entity mockStudent = new MongoEntity("student", null);
-        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GETDEFN, mockStudent, ROLE_SPRING_NAME_EDUCATOR);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GETDEFN, mockStudent,
+                ROLE_SPRING_NAME_EDUCATOR);
         
         try {
             Object resp = aspect.filterEntityRead(pjp);
@@ -111,7 +112,8 @@ public class EntityServiceAspectTest {
     public void testCreateStudentCallAsEducator() throws Throwable {
         injector.setEducatorContext();
         Entity mockStudent = new MongoEntity("student", null);
-        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_CREATE, mockStudent, ROLE_SPRING_NAME_EDUCATOR);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_CREATE, mockStudent,
+                ROLE_SPRING_NAME_EDUCATOR);
         
         @SuppressWarnings("unused")
         Object ret = aspect.authorizeWrite(pjp);
@@ -122,7 +124,8 @@ public class EntityServiceAspectTest {
     public void testFieldViewForEducator() throws Throwable {
         injector.setEducatorContext();
         
-        String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\"," + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
+        String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
+                + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
                 + "\"birthData\":{\"birthDate\":\"1999-07-12\"}}";
         
         Map<String, Object> map = new ObjectMapper().readValue(studentBody, Map.class);
@@ -130,8 +133,10 @@ public class EntityServiceAspectTest {
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent, ROLE_SPRING_NAME_EDUCATOR);
         Entity returnEntity = aspect.filterEntityRead(pjp);
         
-        Assert.assertEquals("Restricted field should have been filtered.", false, returnEntity.getBody().containsKey("economicDisadvantaged"));
-        Assert.assertEquals("General field shouldn't have been filtered.", true, returnEntity.getBody().containsKey("name"));
+        Assert.assertEquals("Restricted field should have been filtered.", false,
+                returnEntity.getBody().containsKey("economicDisadvantaged"));
+        Assert.assertEquals("General field shouldn't have been filtered.", true,
+                returnEntity.getBody().containsKey("name"));
     }
     
     @SuppressWarnings("unchecked")
@@ -140,20 +145,25 @@ public class EntityServiceAspectTest {
         
         injector.setAdminContext();
         
-        String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\"," + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
+        String studentBody = "{\"studentUniqueStateId\":231101422,\"name\":{\"firstName\":\"Alfonso\","
+                + "\"middleName\":\"Ora\",\"lastSurname\":\"Steele\"},\"sex\":\"Male\",\"economicDisadvantaged\":true,"
                 + "\"birthData\":{\"birthDate\":\"1999-07-12\"}}";
         
         Map<String, Object> map = new ObjectMapper().readValue(studentBody, Map.class);
         Entity mockedStudent = new MongoEntity("student", map);
-        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent, ROLE_SPRING_NAME_ADMINISTRATOR);
+        ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_GET, mockedStudent,
+                ROLE_SPRING_NAME_ADMINISTRATOR);
         Entity returnEntity = aspect.filterEntityRead(pjp);
         
-        Assert.assertEquals("Restricted field shouldn't have been filtered.", true, returnEntity.getBody().containsKey("economicDisadvantaged"));
-        Assert.assertEquals("General field shouldn't have been filtered.", true, returnEntity.getBody().containsKey("name"));
+        Assert.assertEquals("Restricted field shouldn't have been filtered.", true,
+                returnEntity.getBody().containsKey("economicDisadvantaged"));
+        Assert.assertEquals("General field shouldn't have been filtered.", true,
+                returnEntity.getBody().containsKey("name"));
     }
     
     // inserts mocked student entity into proceeding join point (for CoreEntityService unit testing)
-    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, Entity entity, String springRole) throws Throwable {
+    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, Entity entity, String springRole)
+            throws Throwable {
         ProceedingJoinPoint mockPjp = Mockito.mock(ProceedingJoinPoint.class);
         Mockito.when(mockPjp.proceed()).thenReturn(entity);
         Signature sig = createSignature(methodName);
@@ -162,7 +172,8 @@ public class EntityServiceAspectTest {
         return mockPjp;
     }
     
-    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, String entityType, String springRole) throws Throwable {
+    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, String entityType, String springRole)
+            throws Throwable {
         ProceedingJoinPoint pjp = Mockito.mock(ProceedingJoinPoint.class);
         GrantedAuthority auth = Mockito.mock(GrantedAuthority.class);
         EntityService es = Mockito.mock(EntityService.class);
