@@ -57,8 +57,6 @@ Given /^I have an aggregation definition for (<[^>]*>)$/ do |agg_def|
   
   @result = JSON.parse(@res.body)
   
-  puts @result
-  
   @map = getFuncByName(@result["map"])
   @reduce = getFuncByName(@result["reduce"])
   @finalize = getFuncByName(@result["finalize"])
@@ -86,7 +84,6 @@ Then /^I should receive a (teacher|district|school) performance level aggregatio
   @agg_res = coll.find_one( 
     { "body.groupBy" => 
       { "#{type}Id" => id, "assessmentType" => @name }})
-  puts @agg_res
 end
 
 Then /^there should be (\d+) (level \w+ performers)$/ do |count, level|
