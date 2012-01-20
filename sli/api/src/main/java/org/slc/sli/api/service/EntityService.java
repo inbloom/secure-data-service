@@ -25,7 +25,6 @@ public interface EntityService {
      * 
      * @param id
      *            the id of the entity to delete
-     * @return if the delete was successful
      */
     public void delete(String id);
     

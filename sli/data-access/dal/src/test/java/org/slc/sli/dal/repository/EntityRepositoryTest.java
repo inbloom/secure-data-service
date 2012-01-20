@@ -88,7 +88,7 @@ public class EntityRepositoryTest {
 
         // test update
         found.getBody().put("firstName", "Mandy");
-        repository.update("student", found);
+        assertTrue(repository.update("student", found));
         entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
@@ -100,8 +100,10 @@ public class EntityRepositoryTest {
         entities = repository.findAll("student", 0, 20);
         assertNotNull(entities.iterator().next());
         repository.delete("student", student2.getEntityId());
-        student2 = repository.find("student", student2.getEntityId());
-        assertNull(student2);
+        Entity zombieStudent = repository.find("student", student2.getEntityId());
+        assertNull(zombieStudent);
+        assertFalse(repository.update("student", student2));
+        assertFalse(repository.delete("student", student2.getEntityId()));
         
         // test deleteAll by entity type
         repository.deleteAll("student");

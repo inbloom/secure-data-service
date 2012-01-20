@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.WriteResult;
+
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 /**
@@ -35,34 +38,37 @@ public class MongoEntityRepository implements EntityRepository {
     private IdConverter idConverter;
     
     @Override
-    public Entity find(String entityType, String id) {
+    public Entity find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a entity in collection {} with id {}", new Object[] { entityType, id });
-        return template.findById(databaseId, MongoEntity.class, entityType);
+        LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
+        return template.findById(databaseId, MongoEntity.class, collectionName);
     }
     
     @Override
-    public Iterable<Entity> findAll(String entityType, int skip, int max) {
+    public Iterable<Entity> findAll(String collectionName, int skip, int max) {
         
         List<Entity> entities = new LinkedList<Entity>();
-        List<MongoEntity> results = template.find(new Query().skip(skip).limit(max), MongoEntity.class, entityType);
-        logResults(entityType, results);
+        List<MongoEntity> results = template.find(new Query().skip(skip).limit(max), MongoEntity.class, collectionName);
+        logResults(collectionName, results);
         entities.addAll(results);
         return entities;
     }
     
     @Override
-    public void update(String collection, Entity entity) {
+    public boolean update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
         String id = entity.getEntityId();
         if (id.equals(""))
-            return;
+            return false;
         
         Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 MongoEntity.class, collection);
         if (found != null)
             template.save(entity, collection);
+        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+                new Update().set("body", entity.getBody()), collection);
         LOG.info("update a entity in collection {} with id {}", new Object[] { collection, id });
+        return result.getN() == 1;
     }
     
     @Override
@@ -79,42 +85,44 @@ public class MongoEntityRepository implements EntityRepository {
         return entity;
     }
     
-    public void delete(String entityType, String id) {
+    public boolean delete(String collectionName, String id) {
         if (id.equals(""))
-            return;
-        template.remove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), entityType);
-        LOG.info("delete a entity in collection {} with id {}", new Object[] { entityType, id });
+            return false;
+        Entity deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+                MongoEntity.class, collectionName);
+        LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
+        return deleted != null;
     }
     
     @Override
-    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {
+    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
         Query query = new Query();
         query.skip(skip).limit(max);
-        List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, entityType);
-        logResults(entityType, results);
+        List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, collectionName);
+        logResults(collectionName, results);
         return new LinkedList<Entity>(results);
     }
     
     @Override
-    public void deleteAll(String entityType) {
-        template.remove(new Query(), entityType);
-        LOG.info("delete all entities in collection {}", entityType);
+    public void deleteAll(String collectionName) {
+        template.remove(new Query(), collectionName);
+        LOG.info("delete all entities in collection {}", collectionName);
     }
     
     @Override
-    public Iterable<Entity> findAll(String entityType) {
+    public Iterable<Entity> findAll(String collectionName) {
         List<Entity> entities = new LinkedList<Entity>();
-        List<MongoEntity> results = template.find(new Query(), MongoEntity.class, entityType);
-        logResults(entityType, results);
+        List<MongoEntity> results = template.find(new Query(), MongoEntity.class, collectionName);
+        logResults(collectionName, results);
         entities.addAll(results);
         return entities;
     }
     
     @Override
-    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
+    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
         Query query = new Query();
-        List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, entityType);
-        logResults(entityType, results);
+        List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, collectionName);
+        logResults(collectionName, results);
         return new LinkedList<Entity>(results);
     }
     
@@ -126,31 +134,30 @@ public class MongoEntityRepository implements EntityRepository {
         return query;
     }
     
-    @SuppressWarnings("rawtypes")
-    private void logResults(String entityType, List results) {
+    private void logResults(String collectioName, List<MongoEntity> results) {
         if (results == null)
-            LOG.info("find entities in collection {} with total numbers is {}", new Object[] { entityType, 0 });
+            LOG.info("find entities in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
         else
             LOG.info("find entities in collection {} with total numbers is {}",
-                    new Object[] { entityType, results.size() });
+                    new Object[] { collectioName, results.size() });
         
     }
     
     @Override
-    public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max) {
+    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         if (query == null)
             query = new Query();
         query.skip(skip).limit(max);
-        List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
-        logResults(entityType, results);
+        List<MongoEntity> results = template.find(query, MongoEntity.class, collectionName);
+        logResults(collectionName, results);
         return new LinkedList<Entity>(results);
     }
     
     @Override
-    public boolean matchQuery(String entityType, String id, Query query) {
+    public boolean matchQuery(String collectionName, String id, Query query) {
         boolean match = false;
         if (query != null) {
-            List<MongoEntity> results = template.find(query, MongoEntity.class, entityType);
+            List<MongoEntity> results = template.find(query, MongoEntity.class, collectionName);
             for (MongoEntity entity : results) {
                 if (entity.getEntityId().equals(id))
                     match = true;
