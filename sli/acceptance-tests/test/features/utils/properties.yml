@@ -1,4 +1,4 @@
-dashboard_server_address: "localhost:8080"
+dashboard_server_address: "dashtest1.sliderv.org:8080"
 dashboard_app_prefix: "/dashboard"
 dashboard_login_page: "/spring_security_login" 
 dashboard_logout_page: "/j_spring_security_logout"
