@@ -54,7 +54,8 @@ public class StudentIngestionTest {
 
     private static String studentEntityType = "student";
 
-    @Ignore// TODO integration tests will be moved out of this module soons
+    @Ignore
+    // TODO integration tests will be moved out of this module soons
     @Test
     public void testStudentIngestionPersistence() throws IOException, SAXException {
 
@@ -65,15 +66,14 @@ public class StudentIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(neutralRecordsFile);
 
         verifyStudents(studentRepository, numberOfStudents);
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soons
+    @Ignore
+    // TODO integration tests will be moved out of this module soons
     @Test
     public void testStudentInterchangeXmlParsing() throws IOException, SAXException {
 
@@ -92,16 +92,14 @@ public class StudentIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         verifyStudents(studentRepository, numberOfStudents);
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soons
+    @Ignore
+    // TODO integration tests will be moved out of this module soons
     @Test
     public void testStudentInterchangeCsvParsing() throws IOException, SAXException {
 
@@ -120,16 +118,14 @@ public class StudentIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         verifyStudents(studentRepository, numberOfStudents);
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testStudentInterchangeCsvFileParsing() throws IOException, SAXException {
 
@@ -144,10 +140,7 @@ public class StudentIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         assertEquals(100, IngestionTest.getTotalCountOfEntityInRepository(studentRepository, studentEntityType));
 

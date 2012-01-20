@@ -1,23 +1,24 @@
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.handler;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.FaultsReport;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.IngestionTest;
-import org.slc.sli.ingestion.handler.SmooksFileHandler;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.util.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.IngestionTest;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.MD5;
 
 /**
  * tests for SmooksFileHandler
@@ -70,8 +71,10 @@ public class SmooksFileHandlerTest {
      * XML TESTS
      */
 
-
     @Test
+    @Ignore
+    // we have removed the type information from the smooks mappings for this sprint.
+    // TODO: remove @Ignore when the smooks mappings once again contain type information
     public void valueTypeNotMatchAttributeType() throws IOException, SAXException {
 
         // Get Input File
@@ -93,8 +96,7 @@ public class SmooksFileHandlerTest {
     public void malformedXML() throws IOException, SAXException {
 
         // Get Input File
-        File inputFile = IngestionTest
-                .getFile("fileLevelTestData/invalidXML/malformedXML/student.xml");
+        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidXML/malformedXML/student.xml");
 
         // Create Ingestion File Entry
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,

@@ -7,12 +7,37 @@
     <param name="stream.filter.type">SAX</param>
     <param name="terminate.on.visitor.exception">false</param>
   </params>
-
-  <csv:reader
-    fields="StudentId,StudentUniqueStateId,$ignore$5,FirstName,MiddleName,LastSurname,$ignore$8,Sex,BirthDate,$ignore$+">
+<!-- missing information Address/BeginDate, Address/EndDate, and Name/PersonalInformationVerificationType missing-->
+<csv:reader
+    fields="StudentId,StudentUniqueStateId,
+    StudentIdentificationCode_IdentificationSystem,StudentIdentificationCode_AssigningOrganizationCode,StudentIdentificationCode_IdentificationCode,
+    Name_Verification,Name_PersonalTitlePrefixType,Name_FirstName,Name_MiddleName,Name_LastSurname,Name_GenerationCodeSuffix,Name_MaidenName,
+    OtherName_OtherNameType,OtherName_PersonalTitlePrefixType,OtherName_FirstName,OtherName_MiddleName,OtherName_LastSurname,OtherName_GenerationCodeSuffix,
+    Sex,
+    BirthData_BirthDate,BirthData_CityofBirth,BirthData_StateOfBirthAbbreviation,BirthData_CountryOfBirthCode,BirthData_DateEnteredUS,BirthData_MultipleBirthStatus,
+    Address_AddressType,Address_StreetNumberName,Address_ApartmentRoomSuiteNumber,Address_BuildingSiteNumber,Address_City,Address_StateAbbreviation,Address_PostalCode,Address_NameOfCounty,Address_CountyFIPSCode,Address_CountryCode,Address_Latitude,Address_Longitude,
+    Telephone_TelephoneNumberType,Telephone_TelephoneNumber,Telephone_PrimaryTelephoneNumberIndicator,
+    ElectronicMail_EmailAddressType,ElectronicMail_EmailAddress,
+    ProfileThumbnail,
+    HispanicLatinoEthnicity,
+    OldEthnicity,
+    Race_RacialCategory,
+    EconomicDisadvantaged,
+    SchoolFoodServicesEligibility,
+    StudentCharacteristics_Characteristic,StudentCharacteristics_BeginDate,StudentCharacteristics_EndDate,StudentCharacteristics_DesignatedBy,
+    LimitedEnglishProficiency,
+    Languages,
+    HomeLanguages,
+    Disabilities_Disability,Disabilities_DisabilityDiagnosis,Disabilities_OrderOfDisability,
+    Section504Disabilities,
+    DisplacementStatus,
+    ProgramParticipations_Program,ProgramParticipations_BeginDate,ProgramParticipations_EndDate,ProgramParticipations_DesignatedBy,
+    LearningStyles_VisualLearning,LearningStyles_AuditoryLearning,LearningStyles_TactileLearning,
+    CohortYears_CohortYearType,CohortYears_Year,
+    StudentIndicators_IndicatorName,StudentIndicators_Indicator,StudentIndicators_BeginDate,StudentIndicators_EndDate,StudentIndicators_DesignatedBy,$ignore$+">
   </csv:reader>
 
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
+<jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
 
     <jb:expression property="recordType">'student'</jb:expression>
     <jb:value property="localId" data="csv-record/StudentUniqueStateId" decoder="Long" />
@@ -21,17 +46,263 @@
 
   <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="csv-record">
 
-    <jb:value property="studentUniqueStateId" data="csv-record/StudentUniqueStateId" decoder="Long" />
-    <jb:value property="firstName" data="csv-record/FirstName" />
-    <jb:value property="middleName" data="csv-record/MiddleName" />
-    <jb:value property="lastSurname" data="csv-record/LastSurname" />
-    <jb:value property="birthDate" data="csv-record/BirthDate" decoder="SqlDate">
-      <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
-      <jb:decodeParam name="locale">en_US</jb:decodeParam>
-    </jb:value>
-    <jb:value property="sex" data="csv-record/Sex" decoder="Enum">
-      <jb:decodeParam name="enumType">org.slc.sli.domain.enums.SexType</jb:decodeParam>
-    </jb:value>
-  </jb:bean>
+	  <jb:value property="studentUniqueStateId" data="csv-record/StudentUniqueStateId"/>
+
+      <!-- StudentIdentificationCode -->
+      <jb:wiring property="studentIdentificationCode" beanIdRef="studentIdentificationCodeTypeArray" />
+
+	  <!-- Name -->
+	  <jb:wiring property="name" beanIdRef="nameType" />
+
+	  <!-- Other Name -->
+	  <jb:wiring property="otherName" beanIdRef="otherNameTypeArray" />
+
+      <!-- Sex -->
+      <jb:value property="sex" data="csv-record/Sex"/>
+
+      <!-- BirthData -->
+      <jb:wiring property="birthData" beanIdRef="birthDataType" />
+
+ 	  <!-- Address -->
+	  <jb:wiring property="address" beanIdRef="addressTypeArray" />
+
+      <!-- Telephone -->
+	  <jb:wiring property="telephone" beanIdRef="telephoneTypeArray" />
+
+	  <!-- ElectronicMail -->
+	  <jb:wiring property="electronicMail" beanIdRef="electronicMailTypeArray" />
+
+	  <!-- ProfileThumbnail -->
+	  <jb:value property="profileThumbnail" data="csv-record/ProfileThumbnail" />
+
+	  <!-- HispanicLatinoEthnicity -->
+	  <jb:value property="hispanicLatinoEthnicity" data="csv-record/HispanicLatinoEthnicity"/>
+
+	  <!-- OldEthnicity -->
+	  <jb:value property="oldEthnicity" data="csv-record/OldEthnicity" />
+
+	  <!-- Race -->
+	  <jb:wiring property="race" beanIdRef="raceItemTypeArray" />
+
+	  <!-- EconomicDisadvantaged -->
+	  <jb:value property="economicDisadvantaged" data="csv-record/EconomicDisadvantaged"/>
+
+	  <!-- SchoolFoodServicesEligibility -->
+	  <jb:value property="schoolFoodServicesEligibility" data="csv-record/SchoolFoodServicesEligibility" />
+
+	  <!-- StudentCharacteristics -->
+	  <jb:wiring property="studentCharacteristics" beanIdRef="studentCharacteristicTypeArray" />
+
+	  <!-- LimitedEnglishProficiency -->
+	  <jb:value property="limitedEnglishProficiency" data="csv-record/LimitedEnglishProficiency" />
+
+	  <!-- Languages -->
+	  <jb:wiring property="languages" beanIdRef="languageItemTypeArray" />
+
+	  <!-- HomeLanguages -->
+	  <jb:wiring property="homeLanguages" beanIdRef="homeLanguageItemTypeArray" />
+
+	  <!-- Disabilities -->
+	  <jb:wiring property="disabilities" beanIdRef="disabilityTypeArray" />
+
+	  <!-- Section504Disabilities -->
+	  <jb:wiring property="section504Disabilities" beanIdRef="section504DisabilitiesType" />
+
+	  <!-- DisplacementStatus -->
+	  <jb:value property="displacementStatus" data="csv-record/DisplacementStatus" />
+
+	  <!-- ProgramParticipations -->
+	  <jb:wiring property="programParticipations" beanIdRef="programParticipationTypeArray" />
+
+	  <!-- LearningStyles -->
+	  <jb:wiring property="learningStyles" beanIdRef="learningStylesType" />
+
+	  <!-- CohortYears -->
+	  <jb:wiring property="cohortYears" beanIdRef="cohortYearTypeArray" />
+
+	  <!-- StudentIndicators -->
+	  <jb:wiring property="studentIndicators" beanIdRef="studentIndicatorTypeArray" />
+
+
+   </jb:bean>
+
+   <!-- StudentIdentificationCodeType -->
+   <jb:bean beanId="studentIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="studentIdentificationCode">
+	  <jb:wiring beanIdRef="studentIdentificationCodeType" />
+   </jb:bean>
+
+   <jb:bean beanId="studentIdentificationCodeType" class="java.util.HashMap" createOnElement="studentIdentificationCode">
+	  <jb:value property="identificationSystem" data="csv-record/csv-record/StudentIdentificationCode_IdentificationSystem" />
+	  <jb:value property="assigningOrganizationCode" data="csv-record/StudentIdentificationCode_AssigningOrganizationCode" />
+	  <jb:value property="identificationCode" data="csv-record/StudentIdentificationCode_IdentificationCode" />
+   </jb:bean>
+
+   <!-- NameType -->
+   <jb:bean beanId="nameType" class="java.util.HashMap" createOnElement="csv-record">
+   	  <jb:value property="verification" data="csv-record/Name_Verification" />
+	  <!--<jb:value property="personalInformationVerificationType" data="csv-record/Name/PersonalInformationVerificationType" />-->
+	  <jb:value property="firstName" data="csv-record/Name_FirstName" />
+      <jb:value property="middleName" data="csv-record/Name_MiddleName" />
+      <jb:value property="lastSurname" data="csv-record/Name_LastSurname" />
+	  <jb:value property="personalTitlePrefix" data="csv-record/Name_PersonalTitlePrefixType" />
+      <jb:value property="generationCodeSuffix" data="csv-record/Name_GenerationCodeSuffix" />
+      <jb:value property="maidenName" data="csv-record/Name_MaidenName" />
+   </jb:bean>
+
+   <!-- OtherNameType -->
+   <jb:bean beanId="otherNameTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="otherNameType" />
+   </jb:bean>
+
+   <jb:bean beanId="otherNameType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="otherNameType" data="csv-record/OtherName_OtherNameType" />
+	  <jb:value property="personalTitlePrefix" data="csv-record/OtherName_PersonalTitlePrefixType" />
+      <jb:value property="firstName" data="csv-record/OtherName_FirstName" />
+      <jb:value property="middleName" data="csv-record/OtherName_MiddleName" />
+      <jb:value property="lastSurname" data="csv-record/OtherName_LastSurname" />
+      <jb:value property="generationCodeSuffix" data="csv-record/OtherName_GenerationCodeSuffix" />
+   </jb:bean>
+
+   <!-- BirthDataType -->
+   <jb:bean beanId="birthDataType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="birthDate" data="csv-record/BirthData_BirthDate" />
+      <jb:value property="cityOfBirth" data="csv-record/BirthData_CityOfBirth" />
+	  <jb:value property="stateOfBirthAbbreviation" data="csv-record/BirthData_StateOfBirthAbbreviation" />
+	  <jb:value property="countryOfBirthCode" data="csv-record/BirthData_CountryOfBirthCode" />
+	  <jb:value property="dateEnteredUS" data="csv-record/BirthData_DateEnteredUS"/>
+	  <jb:value property="multipleBirthStatus" data="csv-record/BirthData_MultipleBirthStatus"/>
+   </jb:bean>
+
+   <!-- AddressType -->
+   <jb:bean beanId="addressTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="addressType" />
+   </jb:bean>
+
+   <jb:bean beanId="addressType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="addressType" data="csv-record/Address_AddressType" />
+	  <jb:value property="streetNumberName" data="csv-record/Address_StreetNumberName" />
+	  <jb:value property="apartmentRoomSuiteNumber" data="csv-record/Address_ApartmentRoomSuiteNumber" />
+	  <jb:value property="buildingSiteNumber" data="csv-record/Address_BuildingSiteNumber" />
+	  <jb:value property="city" data="csv-record/Address_City" />
+	  <jb:value property="stateAbbreviation" data="csv-record/Address_StateAbbreviation" />
+	  <jb:value property="postalCode" data="csv-record/Address_PostalCode" />
+	  <jb:value property="nameOfCounty" data="csv-record/Address_NameOfCounty" />
+	  <jb:value property="countyFIPSCode" data="csv-record/Address_CountyFIPSCode" />
+	  <jb:value property="countryCode" data="csv-record/Address_CountryCode" />
+	  <jb:value property="latitude" data="csv-record/Address_Latitude" />
+	  <jb:value property="longitude" data="csv-record/Address_Longitude" />
+<!--	  <jb:value property="beginDate" data="csv-record/Address/BeginDate"/>
+	  <jb:value property="endDate" data="csv-record/Address/EndDate" />-->
+   </jb:bean>
+
+   <!-- TelephoneType -->
+   <jb:bean beanId="telephoneTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="telephoneType" />
+   </jb:bean>
+
+   <jb:bean beanId="telephoneType" class="java.util.HashMap" createOnElement="csv-record">
+       <jb:value property="telephoneNumberType" data="csv-record/Telephone_TelephoneNumberType" />
+	  <jb:value property="telephoneNumber" data="csv-record/Telephone_TelephoneNumber" />
+	  <jb:value property="primaryTelephoneNumberIndicator" data="csv-record/Telephone_PrimaryTelephoneNumberIndicator"/>
+   </jb:bean>
+
+   <!-- ElectronicMailType -->
+   <jb:bean beanId="electronicMailTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="electronicMailType" />
+   </jb:bean>
+
+   <jb:bean beanId="electronicMailType" class="java.util.HashMap" createOnElement="csv-record">
+   	  <jb:value property="emailAddressType" data="csv-record/ElectronicMail_EmailAddressType" />
+	  <jb:value property="emailAddress" data="csv-record/ElectronicMail_EmailAddress" />
+   </jb:bean>
+
+   <!-- RaceItemType **-->
+   <jb:bean beanId="raceItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  		<jb:value data="csv-record/Race_RacialCategory" />
+   </jb:bean>
+
+
+   <!-- StudentCharacteristicsType -->
+   <jb:bean beanId="studentCharacteristicTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="studentCharacteristicType" />
+   </jb:bean>
+
+   <jb:bean beanId="studentCharacteristicType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="characteristic" data="csv-record/StudentCharacteristics_Characteristic" />
+	  <jb:value property="beginDate" data="csv-record/StudentCharacteristics_BeginDate"/>
+	  <jb:value property="endDate" data="csv-record/StudentCharacteristics_EndDate" />
+	  <jb:value property="designatedBy" data="csv-record/StudentCharacteristics_DesignatedBy" />
+   </jb:bean>
+
+   <!-- LanguageItemType -->
+   <jb:bean beanId="languageItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  		<jb:value data="csv-record/Languages" />
+
+   </jb:bean>
+
+   <!-- HomeLanguageItemType -->
+   <jb:bean beanId="homeLanguageItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  		<jb:value data="csv-record/HomeLanguages" />
+   </jb:bean>
+
+	<!-- DisabilitiyType -->
+   <jb:bean beanId="disabilityTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="disabilityType" />
+   </jb:bean>
+   <jb:bean beanId="disabilityType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="disability" data="csv-record/Disabilities_Disability" />
+	  <jb:value property="disabilityDiagnosis" data="csv-record/Disabilities_DisabilityDiagnosis" />
+	  <jb:value property="orderOfDisability" data="csv-record/Disabilities_OrderOfDisability" />
+    </jb:bean>
+
+   <!-- Section504DisabilitiesType -->
+	<jb:bean beanId="section504DisabilitiesType" class="java.util.HashMap" createOnElement="csv-record">
+		<jb:wiring property="section504Disability" beanIdRef="section504DisabilitiesItemTypeArray" />
+	</jb:bean>
+
+   <jb:bean beanId="section504DisabilitiesItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  		<jb:value data="csv-record/Section504Disabilities" />
+   </jb:bean>
+
+   <!-- ProgramParticipationType -->
+   <jb:bean beanId="programParticipationTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="programParticipationType" />
+   </jb:bean>
+   <jb:bean beanId="programParticipationType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="program" data="csv-record/ProgramParticipations_Program" />
+	  <jb:value property="beginDate" data="csv-record/ProgramParticipations_BeginDate"/>
+	  <jb:value property="endDate" data="csv-record/ProgramParticipations_EndDate"/>
+	  <jb:value property="designatedBy" data="csv-record/ProgramParticipations_DesignatedBy" />
+    </jb:bean>
+
+    <!--LearningStylesType -->
+    <jb:bean beanId="learningStylesType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="visualLearning" data="csv-record/LearningStyles_VisualLearning" />
+	  <jb:value property="auditoryLearning" data="csv-record/LearningStyles_AuditoryLearning" />
+	  <jb:value property="tactileLearning" data="csv-record/LearningStyles_TactileLearning" />
+    </jb:bean>
+
+    <!-- CohortYearsType -->
+   <jb:bean beanId="cohortYearTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="cohortYearType" />
+   </jb:bean>
+
+   <jb:bean beanId="cohortYearType" class="java.util.HashMap" createOnElement="csv-record">
+	  <jb:value property="cohortYearType" data="csv-record/CohortYears_CohortYearType" />
+	  <jb:value property="year" data="csv-record/CohortYears_Year" />
+   </jb:bean>
+
+   <!--StudentIndicatorType -->
+   <jb:bean beanId="studentIndicatorTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+	  <jb:wiring beanIdRef="studentIndicatorType" />
+   </jb:bean>
+
+   <jb:bean beanId="studentIndicatorType" class="java.util.HashMap" createOnElement="csv-record">
+   	  <jb:value property="indicatorName" data="csv-record/StudentIndicators_IndicatorName" />
+	  <jb:value property="indicator" data="csv-record/StudentIndicators_Indicator" />
+	  <jb:value property="beginDate" data="csv-record/StudentIndicators_BeginDate" />
+	  <jb:value property="endDate" data="csv-record/StudentIndicators_EndDate" />
+	  <jb:value property="designatedBy" data="csv-record/StudentIndicators_DesignatedBy" />
+   </jb:bean>
 
 </smooks-resource-list>
