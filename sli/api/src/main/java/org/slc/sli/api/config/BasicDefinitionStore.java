@@ -128,7 +128,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         AssociationDefinition educationOrganizationAssociation = factory.makeAssoc("educationOrganizationAssociation")
                 .exposeAs("educationOrganization-associations").storeAs("educationOrganizationassociation")
-                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations").to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
+                .from(educationOrganization, "getEducationOrganizationSource", "getEducationOrganizations", "educationOrganizationIdSource")
+                .to(educationOrganization, "getEducationOrganizationTarget", "getEducationOrganizations", "educationOrganizationIdTarget")
                 .calledFromSource("getEducationOrganizationAssociations").calledFromTarget("getEducationOrganizationAssociations")
                 .build();
         addAssocDefinition(educationOrganizationAssociation);
