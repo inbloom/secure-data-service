@@ -14,7 +14,7 @@ mapSchoolPerf1to4 = function() {
     //create new result
     var values = {level1:level1,level2:level2,level3:level3,level4:level4};
 
-    db.studentschoolassociation.find({"body.studentId" : this.body.studentId}).forEach(
+    db.studentSchoolAssociation.find({"body.studentId" : this.body.studentId}).forEach(
         function(ssa) {
             emit({"schoolId" : ssa.body.schoolId, "assessmentType" : aggregation_name}, values);
         }

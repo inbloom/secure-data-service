@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BasicQueryConverter implements QueryConverter {
     
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
+    private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId" };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
     
     @Autowired
