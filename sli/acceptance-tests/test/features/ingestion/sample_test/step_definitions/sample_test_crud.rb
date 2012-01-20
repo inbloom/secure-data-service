@@ -17,6 +17,18 @@ else
   INGESTION_DB = PropLoader.getProps['ingestion_db']
 end 
 
+if (ENV['ingestion_server_url'])
+  INGESTION_SERVER_URL = ENV['ingestion_server_url']
+else
+  INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
+end 
+
+if (ENV['ingestion_mode'])
+  INGESTION_MODE = ENV['ingestion_mode']
+else
+  INGESTION_MODE = 'remote'
+end
+
 Given /^there are no students in DS$/ do
   @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[@database_name]
@@ -63,16 +75,18 @@ When /^zip file is scp to ingestion landing zone$/ do
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
-  # copy file from external path to landing zone
-  #scp_upload("http://localhost:8080", "username", @source_path, @destination_path, {}, {})
-  
-  # copy file from local filesystem to landing zone
-  FileUtils.cp @source_path, @destination_path
+  if (INGESTION_MODE == 'remote')
+    # copy file from external path to landing zone
+    scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {}, {})
 
-  #check if file was copied to destination
-  #sleep(Integer(3))
-  #aFile = File.new(@destination_path, "r")
-  #assert(aFile != nil, "File wasn't copied successfully to destination")
+    #check if file was copied to destination
+    #sleep(Integer(3))
+    #aFile = File.new(@destination_path, "r")
+    #assert(aFile != nil, "File wasn't copied successfully to destination")
+  else
+    # copy file from local filesystem to landing zone
+    FileUtils.cp @source_path, @destination_path
+  end
   
 end
 
