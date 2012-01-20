@@ -32,15 +32,6 @@ public class ResourceConstants {
     
     public static final String RESOURCE_PATH_AGG = "aggregation";
     
-    public static final Map<String, String> ENTITY_ID_MAPPINGS = new HashMap<String, String>();
-    static {
-        ENTITY_ID_MAPPINGS.put("staff", ENTITY_BODY_STAFF_ID);
-        ENTITY_ID_MAPPINGS.put("educationOrganization", ENTITY_BODY_EDORG_ID);
-        ENTITY_ID_MAPPINGS.put("school", ENTITY_BODY_SCHOOL_ID);
-        ENTITY_ID_MAPPINGS.put("teacher", "teacherId");
-        ENTITY_ID_MAPPINGS.put("section", "sectionId");
-    }
-    
     public static final Map<String, String> RESOURCE_PATH_MAPPINGS = new HashMap<String, String>();
     static {
         RESOURCE_PATH_MAPPINGS.put("educationOrganization", RESOURCE_PATH_DISTRICT);
@@ -50,7 +41,7 @@ public class ResourceConstants {
     /**
      * Need to move this to BasicDefinitionStore ??
      */
-    public static final Map<String, String> ASSOC_ENTITY_NAME_MAPPINGS = new HashMap<String, String>();
+    /*public static final Map<String, String> ASSOC_ENTITY_NAME_MAPPINGS = new HashMap<String, String>();
     static {
         ASSOC_ENTITY_NAME_MAPPINGS.put("educationOrganizationSchoolAssociation",
                 "educationOrganizationschoolassociation");
@@ -58,5 +49,5 @@ public class ResourceConstants {
                 .put("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation");
         ASSOC_ENTITY_NAME_MAPPINGS.put("teacherSchoolAssociation", "teacherschoolassociation");
         ASSOC_ENTITY_NAME_MAPPINGS.put("teacherSectionAssociation", "teachersectionassociation");
-    }
+    }*/
 }

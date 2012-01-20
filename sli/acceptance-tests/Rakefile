@@ -47,14 +47,26 @@ def runTests(testDirPath)
   end
 end
 
-def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data")
-  sh "#{MONGO_BIN}mongoimport --drop -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+def setFixtureWithDropOption(collectionName,fixtureFileName,fixtureFilePath,dropExistingCollection)
+  #turn true/false into command line option
+  dropOption = (dropExistingCollection) ? "--drop":"";
+  sh "#{MONGO_BIN}mongoimport #{dropOption} -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
     else
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
+  end
+end
+
+def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data")
+  setFixtureWithDropOption(collectionName,fixtureFileName,fixtureFilePath,true)
+end
+
+def addMultipleFixtureFiles(myHash, fixtureFilePath)
+  myHash.each do |key, value|
+    setFixtureWithDropOption(key,value,fixtureFilePath,false)
   end
 end
 
@@ -276,19 +288,33 @@ task :importSandboxData do
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
-    "studentschoolassociation" => "studentSchoolAssociation_fixture.json",
-    "teachersectionassociation" => "teacherSectionAssociation_fixture.json",
-    "studentassessmentassociation" => "studentAssessmentAssociation_fixture.json",
-    "studentsectionassociation" => "studentSectionAssociation_fixture.json",
-    "teacherschoolassociation" => "teacherSchoolAssociation_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json",
+    "teacherSectionAssociation" => "teacherSectionAssociation_fixture.json",
+    "studentAssessmentAssociation" => "studentAssessmentAssociation_fixture.json",
+    "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
-    "educationOrganizationschoolassociation" => "school_educationOrganization_fixture.json",
+    "educationOrganizationschoolassociation" => "school_educationOrganization_fixure.json",
     "educationOrganizationassociation" => "educationOrganizationAssociation_fixture.json",
-    "aggregationdefinition" => "aggregationdefinition_fixture.json",
-    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
+    "aggregationDefinition" => "aggregationdefinition_fixture.json",
+    "staffeducationOrganizationassociation" => "staffEducationOrganizationAssociation_fixture.json",
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
+  
+  smallvilleTestHash = Hash[
+    "assessment" => "smallville_assessment_fixture.json",
+    "school" => "smallville_schools_fixture.json",
+    "sectionAssessmentAssociation" => "smallville_section_assessment_fixture.json",
+    "section" => "smallville_sections_fixture.json",
+    "studentAssessmentAssociation" => "smallville_student_assessment_fixture.json",
+    "studentSchoolAssociation" => "smallville_student_school_association_fixture.json",
+    "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
+    "student" => "smallville_students_fixture.json",
+    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
+    "teacher" => "smallville_teachers_fixture.json"
+  ]
+  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end
 
 
