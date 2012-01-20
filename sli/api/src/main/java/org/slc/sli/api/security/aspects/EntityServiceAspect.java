@@ -1,15 +1,12 @@
 package org.slc.sli.api.security.aspects;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntitySchemaRegistry;
 
 
 // add this import if we move to CoreEntityService paradigm
