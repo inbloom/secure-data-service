@@ -25,20 +25,17 @@
 
         <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
 
-        <!--  override specific properties for testing -->
+        <!-- override specific properties for testing -->
         <value>classpath:/data-access/dal/config/${sli.env}/test.properties</value>
       </list>
     </property>
   </bean>
 
   <import resource="smooks-context.xml" />
-  <import resource="classpath:/spring/db.xml"/>
+  <import resource="classpath:/spring/db.xml" />
 
-<!--   <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest">
-    <property name="slienv" value="${sli.env}" />
-	<property name="testprop" value="${sli.test.prop}" />
-  </bean>
-   -->
+  <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
+    /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
@@ -131,5 +128,19 @@
       </map>
     </property>
   </bean>
+
+  <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
+    <property name="preValidator">
+      <bean class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
+    </property>
+  </bean>
+
+  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
+    <property name="entityPersistHandler">
+      <ref bean="entityPersistHandler" />
+    </property>
+  </bean>
+  
+  <bean id="testAvroRecordValidator" class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
 
 </beans>

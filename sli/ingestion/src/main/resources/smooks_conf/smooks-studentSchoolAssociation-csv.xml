@@ -8,8 +8,18 @@
 		<param name="stream.filter.type">SAX</param>
 		<param name="terminate.on.visitor.exception">false</param>
 	</params>
-
-	<csv:reader fields="AssociationId,$ignore$2,StudentUniqueStateId,$ignore$22,StateOrganizationId,$ignore$+">
+<!-- missing ClassOf-->
+	<csv:reader fields="AssociationId,$ignore$2,
+	StudentUniqueStateId,$ignore$22,StateOrganizationId,$ignore$2,
+	EntryDate,
+	EntryGradeLevel,
+	EntryType,
+	RepeatGradeIndicator,
+	SchoolChoiceTransfer,
+	ExitWithdrawDate,
+	ExitWithdrawType,$ignore$1,
+	EducationalPlans_EducationalPlan,
+	$ignore$+">
 	</csv:reader>
 
 	<!-- Student School Association mapping -->
@@ -27,9 +37,50 @@
 	<jb:bean beanId="studentSchoolAssociationParentIds" class="java.util.HashMap"
 		createOnElement="csv-record">
 
-		<jb:value property="Student" data="csv-record/StudentUniqueStateId" decoder="Long" />
-		<jb:value property="School" data="csv-record/StateOrganizationId" decoder="Long" />
+		<jb:value property="Student" data="csv-record/StudentUniqueStateId" />
+		<jb:value property="School" data="csv-record/StateOrganizationId" />
 	</jb:bean>
+
+	<jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap"
+      createOnElement="csv-record">
+
+    <jb:value property="schoolId" data="csv-record/StateOrganizationId"/>
+	<jb:value property="studentId" data="csv-record/StudentUniqueStateId"/>
+
+    <!-- EntryDate -->
+	<jb:value property="entryDate" data="csv-record/EntryDate" />
+
+	<!-- EntryGradeLevel-->
+	<jb:value property="entryGradeLevel" data="csv-record/EntryGradeLevel" />
+
+	<!-- EntryType -->
+	<jb:value property="entryType" data="csv-record/EntryType" />
+
+	<!-- RepeatGradeIndicator -->
+	<jb:value property="repeatGradeIndicator" data="csv-record/RepeatGradeIndicator"/>
+
+	<!-- ClassOf
+	<jb:value property="classOf" data="csv-record/ClassOf" />
+	-->
+
+	<!-- SchoolChoiceTransfer -->
+	<jb:value property="schoolChoiceTransfer" data="csv-record/SchoolChoiceTransfer"/>
+
+	<!-- exitWithdrawDate -->
+	<jb:value property="exitWithdrawDate" data="csv-record/ExitWithdrawDate" />
+
+	<!-- ExitWithdrawType -->
+	<jb:value property="exitWithdrawType" data="csv-record/ExitWithdrawType" />
+
+	<!-- EducationalPlans -->
+	<jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
+
+  </jb:bean>
+
+	<!-- EducationalPlanItemType -->
+   <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="educationalPlans">
+	  		<jb:value data="csv-record/EducationalPlans_EducationalPlan" />
+   </jb:bean>
 
 
 </smooks-resource-list>
