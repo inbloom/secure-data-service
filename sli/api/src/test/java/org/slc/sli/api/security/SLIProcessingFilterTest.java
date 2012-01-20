@@ -36,22 +36,24 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class SLIProcessingFilterTest {
     
     @Autowired
-    private SliRequestFilter        filter;
+    private SliRequestFilter filter;
     
-    private MockHttpServletRequest  request;
+    private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-    private MockFilterChain         chain;
+    private MockFilterChain chain;
     
     @Before
     public void init() {
         filter = new SliRequestFilter();
         SecurityTokenResolver resolver = mock(SecurityTokenResolver.class);
         
-        when(resolver.resolve(Mocker.VALID_TOKEN)).thenReturn(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
+        when(resolver.resolve(Mocker.VALID_TOKEN)).thenReturn(
+                new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
         
         filter.setResolver(resolver);
         filter.setRealmSelectionUrl("Valhala");

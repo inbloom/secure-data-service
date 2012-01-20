@@ -42,7 +42,8 @@ import org.springframework.stereotype.Component;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
+        Resource.SLC_JSON_MEDIA_TYPE })
 public class Resource {
     
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
@@ -131,7 +132,7 @@ public class Resource {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
                     }
-
+                    
                     // TODO: refactor common code for both GET methods
                     if (associationIds != null && associationIds.iterator().hasNext()) {
                         CollectionResponse collection = new CollectionResponse();
@@ -146,7 +147,7 @@ public class Resource {
             }
         });
     }
-
+    
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
@@ -187,7 +188,7 @@ public class Resource {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
                     }
-
+                    
                     // TODO: refactor common code for both Get methods
                     if (associationIds != null) {
                         CollectionResponse collection = new CollectionResponse();

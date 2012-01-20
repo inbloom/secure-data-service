@@ -17,44 +17,44 @@ import java.util.List;
 
 /**
  * A basic implementation of RoleRightAccess
- *
+ * 
  * @author rlatta
  */
 @Component
 public class DefaultRoleRightAccessImpl implements RoleRightAccess {
-
+    
     @Autowired
     private EntityDefinitionStore store;
-
+    
     @Autowired
     private EntityRepository repo;
-
+    
     private EntityService service;
-
+    
     public static final String EDUCATOR = "Educator";
     public static final String LEADER = "Leader";
     public static final String AGGREGATOR = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
-
+    
     @PostConstruct
     private void init() {
         EntityDefinition def = store.lookupByResourceName("roles");
         setService(def.getService());
     }
-
+    
     @Override
     public Role findRoleByName(String name) {
         Role found = null;
         Iterable<Entity> results = repo.findByQuery("roles", new Query(Criteria.where("body.name").is(name)), 0, 1);
-
+        
         if (results.iterator().hasNext()) {
             Entity e = results.iterator().next();
             found = getRoleWithBodyAndID(e.getEntityId(), new EntityBody(e.getBody()));
         }
-
+        
         return found;
     }
-
+    
     @Override
     public Role findRoleBySpringName(String springName) {
         Iterable<String> ids = service.list(0, 100);
@@ -66,11 +66,11 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
         }
         return null;
     }
-
+    
     private Role getRoleWithBodyAndID(String id, EntityBody body) {
         return RoleBuilder.makeRole(body).addId(id).build();
     }
-
+    
     @Override
     public List<Role> fetchAllRoles() {
         List<Role> roles = new ArrayList<Role>();
@@ -81,12 +81,12 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
         }
         return roles;
     }
-
+    
     @Override
     public boolean addRole(Role role) {
         return service.create(role.getRoleAsEntityBody()) != null;
     }
-
+    
     @Override
     public boolean deleteRole(Role role) {
         if (role.getId().length() > 0) {
@@ -96,11 +96,11 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
             } catch (Exception e) {
                 return false;
             }
-
+            
         }
         return false;
     }
-
+    
     @Override
     public boolean updateRole(Role role) {
         if (role.getId().length() > 0) {
@@ -113,19 +113,19 @@ public class DefaultRoleRightAccessImpl implements RoleRightAccess {
         }
         return false;
     }
-
-    //Injection method.
+    
+    // Injection method.
     public void setStore(EntityDefinitionStore store) {
         this.store = store;
     }
-
-    //Injection method.
+    
+    // Injection method.
     public void setService(EntityService service) {
         this.service = service;
     }
-
+    
     public Role getDefaultRole(String name) {
         return findRoleByName(name);
     }
-
+    
 }

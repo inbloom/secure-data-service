@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * The specified realm name is matched against a regexp pattern.
  * 
  * @author pwolf
- *
+ * 
  */
 public class DefaultSliAdminValidator implements SliAdminValidator {
     
@@ -21,8 +21,11 @@ public class DefaultSliAdminValidator implements SliAdminValidator {
     
     /**
      * Construct a validator.
-     * @param patternString a regex string to use for validation
-     * @throws IllegalArgumentException if the pattern is null or not valid regex
+     * 
+     * @param patternString
+     *            a regex string to use for validation
+     * @throws IllegalArgumentException
+     *             if the pattern is null or not valid regex
      */
     public DefaultSliAdminValidator(String patternString) {
         if (patternString == null) {
@@ -35,12 +38,12 @@ public class DefaultSliAdminValidator implements SliAdminValidator {
             throw new IllegalArgumentException("Invalid realm regex pattern specified: " + patternString, e);
         }
     }
-
+    
     /**
      * Determine if the specified realm matches the pattern that was given earlier.
      */
     @Override
-    public boolean isSliAdminRealm(String realm) {        
+    public boolean isSliAdminRealm(String realm) {
         boolean matches = false;
         if (realm != null) {
             matches = realmPattern.matcher(realm).matches();
@@ -48,5 +51,5 @@ public class DefaultSliAdminValidator implements SliAdminValidator {
         LOG.trace("isSliAdminRealm {} = {}", realm, matches);
         return matches;
     }
-
+    
 }

@@ -9,11 +9,9 @@ import java.util.HashMap;
 public class Associations extends HashMap<String, Object> {
     
     private static final long serialVersionUID = 3535181277131542612L;
-
+    
     public Associations(CollectionResponse collectionResponse) {
         super();
         this.put("Association", collectionResponse);
     }
 }
-
-

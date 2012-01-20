@@ -14,11 +14,12 @@ import org.slc.sli.api.service.EntityNotFoundException;
 @Provider
 @Component
 public class EntityNotFoundHandler implements ExceptionMapper<EntityNotFoundException> {
-
+    
     public Response toResponse(EntityNotFoundException e) {
         Response.Status errorStatus = Response.Status.NOT_FOUND;
-        return Response.status(errorStatus)
-            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+        return Response
+                .status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
                         "Entity not found: " + e.getId())).build();
     }
 }

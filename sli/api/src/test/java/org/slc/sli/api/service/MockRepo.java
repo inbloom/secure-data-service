@@ -258,7 +258,7 @@ public class MockRepo implements EntityRepository {
             compare = (Integer) entityValue - Integer.parseInt(value);
         return compare;
     }
-
+    
     private boolean matchQuery(String entityType, String id, String queryString) {
         boolean match = false;
         List<Entity> toReturn = new ArrayList<Entity>();
@@ -335,7 +335,7 @@ public class MockRepo implements EntityRepository {
                 queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-
+            
         } else if (dbObject.containsField("$gte")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");

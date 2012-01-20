@@ -16,22 +16,22 @@ import java.util.List;
 @Component
 public class SLIPrincipal implements Principal {
     
-    private String       id;
-    private String       name;
-    private String       realm;
-    private String       externalId;
+    private String id;
+    private String name;
+    private String realm;
+    private String externalId;
     private List<String> roles;
-
-    private Entity       entity;
+    
+    private Entity entity;
     
     public SLIPrincipal(String id) {
         this.id = id;
     }
-
+    
     public SLIPrincipal() {
-
+        
     }
-
+    
     @Override
     public String getName() {
         return this.name;
@@ -85,6 +85,5 @@ public class SLIPrincipal implements Principal {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
-
-
+    
 }
