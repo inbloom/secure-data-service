@@ -3,12 +3,12 @@
         "customData":
                 "[
                     {
-                        \"name\": \"ELL\",
+                        \"name\": \"limitedEnglishProficiency\",
                         \"label\": \"ELL\",
                         \"color\": \"#20c7c5\",
                         \"style\": \"solid\",
                         \"description\": \"English Language Learner\"
-                    }, 
+                    },
                     {
                         \"name\": \"504\",
                         \"label\": \"504\",
@@ -45,7 +45,7 @@
                         \"description\": \"Reduced Lunch\"
                     }, 
                     {
-                        \"name\": \"FRE\",
+                        \"name\": \"schoolFoodServiceEligibility\",
                         \"label\": \"FRE\",
                         \"color\": \"#8083fc\",
                         \"style\": \"solid\",
