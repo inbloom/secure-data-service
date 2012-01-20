@@ -26,15 +26,15 @@ import org.springframework.web.filter.GenericFilterBean;
 @Component
 public class SliRequestFilter extends GenericFilterBean {
     
-    private static final Logger   LOG                 = LoggerFactory.getLogger(SliRequestFilter.class);
-    private static final String   PARAM_SESSION       = "sessionId";
-    private static final String   HEADER_SESSION_NAME = "sessionId";
+    private static final Logger LOG = LoggerFactory.getLogger(SliRequestFilter.class);
+    private static final String PARAM_SESSION = "sessionId";
+    private static final String HEADER_SESSION_NAME = "sessionId";
     
     @Autowired
     private SecurityTokenResolver resolver;
     
     @Value("${sli.security.noSession.landing.url}")
-    private String                realmSelectionUrl;
+    private String realmSelectionUrl;
     
     /**
      * Intercepter method called by spring
@@ -42,13 +42,14 @@ public class SliRequestFilter extends GenericFilterBean {
      * If session does exist, resolution will be attempted
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
         
         String sessionId = getSessionIdFromRequest((HttpServletRequest) request);
         
         Authentication auth = resolver.resolve(sessionId);
         SecurityContextHolder.getContext().setAuthentication(auth);
-
+        
         if (auth != null || isPublicResource((HttpServletRequest) request)) {
             chain.doFilter(request, response);
         } else {
@@ -60,7 +61,8 @@ public class SliRequestFilter extends GenericFilterBean {
     }
     
     private boolean isPublicResource(HttpServletRequest request) {
-        return request.getRequestURI().startsWith("/api/rest/system/session/check") || request.getRequestURI().startsWith("/api/rest/pub/");
+        return request.getRequestURI().startsWith("/api/rest/system/session/check")
+                || request.getRequestURI().startsWith("/api/rest/pub/");
     }
     
     private String getSessionIdFromRequest(HttpServletRequest req) {

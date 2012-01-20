@@ -100,17 +100,6 @@ Scenario: Fail if going to the wrong URI
     When I navigate to GET "/teacher/<'Macey' ID>"
     Then I should receive a return code of 404
     
-@wip    
-Scenario: Passing blank object to a valid entity with PUT should wipe out the entity and not patch it
-	Given format "application/json"
-    When I navigate to GET "/teachers/<'Belle' ID>"
-    Then I should receive a return code of 200   
-    When I create a blank request body object
-      And I navigate to PUT "/teachers/<'Belle' ID>"
-    Then I should receive a return code of 204
-    When I navigate to GET "/teachers/<'Belle' ID>"
-    Then I should receive a return code of 200   
-       And the response body should be blank
        
 
        

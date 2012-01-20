@@ -21,8 +21,10 @@ public interface QueryConverter {
     public Query stringToQuery(String entityType, String queryString);
     
     /**
-     * @param entityType the entity type that query will be applied to
-     * @param queryParam the query parameter that received from http GET request
+     * @param entityType
+     *            the entity type that query will be applied to
+     * @param queryParam
+     *            the query parameter that received from http GET request
      * @return the type of query parameter that matches the entity avro schema
      */
     public String findParamType(String entityType, String queryParam);

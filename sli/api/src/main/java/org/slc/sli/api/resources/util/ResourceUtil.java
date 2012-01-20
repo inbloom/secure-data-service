@@ -10,8 +10,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.config.AssociationDefinition;
@@ -22,7 +20,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
-
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -108,48 +105,23 @@ public class ResourceUtil {
     
     /**
      * Returns the URI for aggregations
-     * @param uriInfo The base URI
+     * 
+     * @param uriInfo
+     *            The base URI
      * @return A list of links pointing to the base Url for aggregations
      */
     public static List<EmbeddedLink> getAggregateLink(final UriInfo uriInfo) {
         List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
         
-        links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).build().toString()));
+        links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder()
+                .path(RESOURCE_PATH_AGG).build().toString()));
         
         return links;
     }
     
     /**
-     * Analyzes security context to determine exposure type and ID of user.
-     * 
-     * @return deduced ID from available security context
-     */
-    // call with student id
-    public static Map<String, String> resolveUserDataFromSecurityContext() {
-        // map user fields to values
-        Map<String, String> map = new HashMap<String, String>();
-        
-        // lookup security/login information
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        
-        // TODO: extract userType and ID (in some way) from authentication value
-        //map.put("userType", "students");
-        //map.put("id", "714c1304-8a04-4e23-b043-4ad80eb60992");
-        
-        // map.put("userType", "teachers");
-        // map.put("id", "fa45033c-5517-b14b-1d39-c9442ba95782");
-        
-        map.put("userType", "staff");
-        //map.put("id", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");
-        map.put("id", "f0e41d87-92d4-4850-9262-ed2f2723159b");
-        //map.put("roleType", ROLE_TYPE_SUPERINTENDENT); //this would change
-        
-        return map;
-    }
-    
-    /**
      * Helper method to convert MultivaluedMap to a Map
+     * 
      * @param map
      * @return
      */

@@ -30,7 +30,7 @@ import java.util.TreeMap;
 public class SessionDebugResource {
     
     private static final Logger LOG = LoggerFactory.getLogger(SessionDebugResource.class);
-
+    
     @Autowired
     RoleRightAccess roleAccessor;
     

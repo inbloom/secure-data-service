@@ -1,8 +1,10 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.config.Field;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -17,14 +19,16 @@ import java.util.List;
  */
 public class StudentResolver {
     List<Student> students;
+    List<StudentProgramAssociation> programs;
     
     public static final String DATA_SET_TYPE = "studentInfo";
     
     /**
      * Constructor
      */
-    public StudentResolver(List<Student> s) {
+    public StudentResolver(List<Student> s, List<StudentProgramAssociation> p) {
         students = s;
+        programs = p;
     }
     
     public List<Student> list() {
@@ -44,4 +48,18 @@ public class StudentResolver {
         return "";
     }
 
+    /**
+     * returns true if the given lozenge code applies to the given student
+     */
+    public boolean lozengeApplies(Student student, String code) {
+        // TODO: check student entity
+        
+        // Now check program participation
+        for (StudentProgramAssociation p : programs) {
+            if (p.getStudentId().equals(student.getId())) {
+                return Arrays.asList(p.getPrograms()).contains(code);
+            }
+        }
+        return false;
+    }
 }

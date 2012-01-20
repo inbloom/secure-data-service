@@ -9,14 +9,17 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_SERVER_URI = "http://devapi1.slidev.org:8080/api/rest";
+    public static final String API_SERVER_URI = "https://devapp1.slidev.org:8080/api/rest";
     
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
     public static final String FIELD_TYPE_STUDENT_INFO = "studentInfo";
+    public static final String FIELD_LOZENGES_POSITION_FRONT = "pre";
+    public static final String FIELD_LOZENGES_POSITION_BACK = "post";
     
     // model map keys
+    public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs"; 
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig"; 
     public static final String MM_KEY_ASSESSMENTS = "assessments"; 
     public static final String MM_KEY_STUDENTS = "students"; 

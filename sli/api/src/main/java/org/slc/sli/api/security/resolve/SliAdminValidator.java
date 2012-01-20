@@ -5,10 +5,10 @@ package org.slc.sli.api.security.resolve;
  * an SLI Administrator.
  * 
  * @author pwolf
- *
+ * 
  */
 public interface SliAdminValidator {
     
     public boolean isSliAdminRealm(String realm);
-
+    
 }
