@@ -19,10 +19,10 @@ mapDistrictPerf1to4 = function() {
     var districts = new Array();
     
     //list schools for student
-    db.studentschoolassociation.find({"body.studentId":this.body.studentId}).forEach(
+    db.studentSchoolAssociation.find({"body.studentId":this.body.studentId}).forEach(
         function (ssa) {
             //list districts for school
-            db.educationOrganizationschoolassociation.find({"body.schoolId":ssa.body.schoolId}).forEach(
+            db.educationOrganizationSchoolAssociation.find({"body.schoolId":ssa.body.schoolId}).forEach(
                 function (eosa) {
                     //register district as associated
                     districts[eosa.body.educationOrganizationId] = eosa.body.educationOrganizationId;
