@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'mongo'
-
-include FileUtils
+require 'fileutils'
 
 require_relative '../../util/scp.rb'
 require_relative '../../../utils/sli_utils.rb'
