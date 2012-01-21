@@ -77,9 +77,20 @@ When /^zip file is scp to ingestion landing zone$/ do
 
   if (INGESTION_MODE == 'remote')
     # copy file from external path to landing zone
-    scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
+    @ingestion_server_string = "ingestion@" + INGESTION_SERVER_URL + ":" + @destination_path
+    
+    sh "scp #{source_path} #{ingestion_server_string}" do |success, exit_code|
+      if(success && block_given?)
+        yield
+      else
+        puts "Exited with code: #{exit_code.exitstatus}, please confirm that landing zone path is correct" unless success
+      end
+    end
+    
+    #doesn't work for some reason...
+    #scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
 
-    #check if file was copied to destination
+    #check if file was copied to destination.  This is not necessary on a working landingzone
     #sleep(Integer(3))
     #aFile = File.new(@destination_path, "r")
     #assert(aFile != nil, "File wasn't copied successfully to destination")
