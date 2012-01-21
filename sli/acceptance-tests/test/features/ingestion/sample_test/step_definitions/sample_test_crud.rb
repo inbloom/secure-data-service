@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'mongo'
 
+include Rake::DSL
+
 require_relative '../../util/scp.rb'
 require_relative '../../../utils/sli_utils.rb'
 
