@@ -81,6 +81,8 @@ When /^zip file is scp to ingestion landing zone$/ do
     ingestion_server_string = "ingestion@" + INGESTION_SERVER_URL + ":" + @destination_path
     local_source_path = @source_path
     
+    puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
+    
     sh "scp #{local_source_path} #{ingestion_server_string}" do |success, exit_code|
       if(success && block_given?)
         yield
