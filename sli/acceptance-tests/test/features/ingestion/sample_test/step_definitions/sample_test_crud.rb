@@ -82,14 +82,7 @@ When /^zip file is scp to ingestion landing zone$/ do
     local_source_path = @source_path
     
     puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    
-    sh "scp #{local_source_path} #{ingestion_server_string}" do |success, exit_code|
-      if(success && block_given?)
-        yield
-      else
-        puts "Exited with code: #{exit_code.exitstatus}, please confirm that landing zone path is correct" unless success
-      end
-    end
+    Kernel::system("scp #{local_source_path} #{ingestion_server_string}")
     
     #doesn't work for some reason...
     #scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
