@@ -105,7 +105,7 @@ end
 
 
 Then /^I should see "([^"]*)" entries in the student collection$/ do |record_count|
-  @conn = Mongo::Connection.new
+  @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[@database_name]
   @student_col = @db.collection('student')
   @student_count = @student_col.count().to_i
