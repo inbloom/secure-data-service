@@ -77,9 +77,10 @@ When /^zip file is scp to ingestion landing zone$/ do
 
   if (INGESTION_MODE == 'remote')
     # copy file from external path to landing zone
-    @ingestion_server_string = "ingestion@" + INGESTION_SERVER_URL + ":" + @destination_path
+    ingestion_server_string = "ingestion@" + INGESTION_SERVER_URL + ":" + @destination_path
+    local_source_path = @source_path
     
-    sh "scp #{source_path} #{ingestion_server_string}" do |success, exit_code|
+    sh "scp #{local_source_path} #{ingestion_server_string}" do |success, exit_code|
       if(success && block_given?)
         yield
       else
