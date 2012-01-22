@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.AssociationResponseObject;
 import org.slc.sli.entity.Course;
@@ -182,7 +184,7 @@ public class LiveAPIClient implements APIClient {
         
         Section[] sections2 = new Section[sections.size()];
         int index = 0;
-        for(Section s : sections) {
+        for (Section s : sections) {
         	sections2[index++] = s;
         }
         
@@ -191,32 +193,49 @@ public class LiveAPIClient implements APIClient {
 
     private Course[] getCoursesForSections(Section[] sections, String token) {
         
-        Course[] courses = new Course[sections.length];
+        //Course[] courses = new Course[sections.length];
+    	HashMap<String, Course> courseMap = new HashMap<String, Course>();
         int i = 0;
         // TODO: Make an actual api call to the courses service, when it comes up.
+        
+        // loop through sections, figure out course->section mappings
         for (Section section: sections) {
-            Course course = new Course();
-            Section[] sectionArray = {section};
-            course.setSections(sectionArray);
-            String sectionName = section.getSectionName();
-            if( sectionName.indexOf('-') > 0) {
-            	course.setCourse(sectionName.substring(0, sectionName.indexOf('-') - 1));
+        	
+        	// get course name
+        	String courseName; 
+        	String sectionName = section.getSectionName();
+            if (sectionName.indexOf('-') > 0) {
+            	courseName = sectionName.substring(0, sectionName.indexOf('-') - 1);
+            	section.setSectionName(sectionName.substring(sectionName.indexOf('-') + 2));
             } else {
-            	course.setCourse(sectionName);
-            }
+            	courseName = sectionName;
+            }	
+            
+        	// need to create new one?
+        	Course course;
+        	if (courseMap.containsKey(courseName)) {
+        	    course = courseMap.get(courseName);
+        	} else {
+        		course = new Course();
+        		course.setCourse(courseName);
+        		courseMap.put(courseName, course);
+        	}
+        	
+        	// add section to course
+            Section[] sectionArray = {section};
+            course.setSections((Section[]) ArrayUtils.addAll(course.getSections(), sectionArray));
             
             //TODO: Make a mapping between courses and schools 
             //course.setSchoolId("0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
-            if( SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
+            if (SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
             	course.setSchoolId("00000000-0000-0000-0000-000000000201");
-            }
-            else {
+            } else {
             	course.setSchoolId("00000000-0000-0000-0000-000000000202");
             }
-            courses[i++] = course;
+            
         }
 
-        return courses;
+        return (Course[]) courseMap.values().toArray(new Course[courseMap.size()]);
     }
     
     private School[] getSchoolsForCourses(Course[] courses, String token) {
