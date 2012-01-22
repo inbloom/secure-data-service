@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'active_resource/http_mock'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
@@ -20,6 +21,7 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/admin/roles/1?sessionId=", {"Accept" => "application/json"}, @role_fixtures["educator"].to_json
       mock.get "/api/rest/admin/roles/-123?sessionId=", {"Accept" => "application/json"}, nil, 404
       mock.get "/api/rest/admin/roles/#{@role_fixtures["admin"].to_param}?sessionId=", {"Accept" => "application/json"}, nil, 200
+      mock.put "/api/rest/admin/roles/0?sessionId=", {"Content-Type" => "application/json"}, {"role" => @role_fixtures["update"]}, 200, @role_fixtures["admin"]
     end
   end
 

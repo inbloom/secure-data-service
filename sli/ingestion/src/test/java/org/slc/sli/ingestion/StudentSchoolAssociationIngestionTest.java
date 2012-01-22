@@ -81,10 +81,7 @@ public class StudentSchoolAssociationIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -116,10 +113,7 @@ public class StudentSchoolAssociationIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -134,9 +128,7 @@ public class StudentSchoolAssociationIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(neutralRecordsFile);
 
     }
 
@@ -148,9 +140,7 @@ public class StudentSchoolAssociationIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(neutralRecordsFile);
 
     }
 

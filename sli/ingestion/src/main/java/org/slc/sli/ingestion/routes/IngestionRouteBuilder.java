@@ -157,9 +157,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         }
 
                         if (fr.hasErrors()) {
-                            jobLogger.info("Job rejected due to errors");
+                            jobLogger.info("Not all records were processed completely due to errors.");
                         } else {
-                            jobLogger.info("Job ready for processing");
+                            jobLogger.info("All records processed successfully.");
                         }
 
                         jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");

@@ -65,9 +65,7 @@ public class SchoolIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(neutralRecordsFile);
 
         verifySchools(repository, numberOfSchools);
 
@@ -91,10 +89,7 @@ public class SchoolIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         verifySchools(repository, 0);
 
@@ -119,10 +114,7 @@ public class SchoolIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         verifySchools(repository, numberOfSchools);
 
@@ -143,10 +135,7 @@ public class SchoolIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        File ingestionPersistenceProcessorOutputFile = IngestionTest.createTempFile();
-
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(),
-                ingestionPersistenceProcessorOutputFile);
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
 
         assertEquals(2, IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType));
 

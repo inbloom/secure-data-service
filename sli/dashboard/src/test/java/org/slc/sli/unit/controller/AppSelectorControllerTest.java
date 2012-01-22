@@ -29,7 +29,7 @@ public class AppSelectorControllerTest {
     public void testApplicationListNotEmpty() {
         ModelMap model = new ModelMap();
         
-        ModelAndView result = appSelector.returnApps("", model);
+        ModelAndView result = appSelector.returnApps(model);
         assertEquals(result.getViewName(), "SelectApp");
         HashMap<String, String> appToUrl = (HashMap<String, String>) model.get("appToUrl");
         assertTrue(appToUrl.size() > 0);

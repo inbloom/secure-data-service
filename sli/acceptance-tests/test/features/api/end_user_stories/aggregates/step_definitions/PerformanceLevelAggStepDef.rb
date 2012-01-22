@@ -12,10 +12,11 @@ end
 Transform /^<([^>]*)>$/ do |arg|
   ret = "d8db9f83-6bb1-4919-bb53-11e6e7fa9877" if arg == 'District Level 8th Grade EOG'
   ret = "bd9a323a-d6fd-454f-98d9-edf2702d31e1" if arg == 'School Level 8th Grade EOG'
-  ret = "4f0c9368-8488-7b01-0000-000059f9ba56" if arg == 'Smallville District'
-  ret = "67ce204b-9999-4a11-bfea-000000000006" if arg == 'Small Mouth Bass Middle School'
-  ret = "67ce204b-9999-4a11-bfea-000000000007" if arg == 'Don\'t Sweat the Small Stuff Middle School'
-  ret = "67ce204b-9999-4a11-bfea-000000000008" if arg == 'La Vie en Small French-Immersion K-8'
+  ret = "9471d57e-e1c8-4f10-8d52-8e422ba2f2ab" if arg == 'Teacher Level Math Scores'
+  ret = "1d303c61-88d4-404a-ba13-d7c5cc324bc5" if arg == 'Smallville District'
+  ret = "67ce204b-9999-4a11-aaab-000000000005" if arg == 'Small Mouth Bass Middle School'
+  ret = "67ce204b-9999-4a11-aaab-000000000006" if arg == 'Don\'t Sweat the Small Stuff Middle School'
+  ret = "67ce204b-9999-4a11-aaab-000000000007" if arg == 'La Vie en Small French-Immersion K-8'
   ret
 end
 
@@ -52,7 +53,7 @@ Given /^I am using the Smallville School District assessment scores$/ do
 end
 
 Given /^I have an aggregation definition for (<[^>]*>)$/ do |agg_def|
-  restHttpGet("/aggregationdefinitions/#{agg_def}")
+  restHttpGet("/aggregationDefinitions/#{agg_def}")
   
   @result = JSON.parse(@res.body)
   
@@ -79,10 +80,10 @@ When /^the aggregation is calculated$/ do
   run(cmd)
 end
 
-Then /^I should receive a (district|school) performance level aggregation for (<[^>]*>)/ do |type, id|
+Then /^I should receive a (teacher|district|school) performance level aggregation for (<[^>]*>)/ do |type, id|
   @agg_res = coll.find_one( 
     { "body.groupBy" => 
-      { "#{type}Id" => id, "assessmentType" => @name }});
+      { "#{type}Id" => id, "assessmentType" => @name }})
 end
 
 Then /^there should be (\d+) (level \w+ performers)$/ do |count, level|

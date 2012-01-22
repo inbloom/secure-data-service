@@ -2,6 +2,7 @@ package org.slc.sli.entity;
 
 /**
  * Represents the program participation of students
+ * Corresponds to the StudentProgramAssociation in Ed-fi schema. 
  *
  */
 public class StudentProgramAssociation {
