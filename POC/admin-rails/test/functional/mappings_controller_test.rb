@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class MappingsControllerTest < ActionController::TestCase
-  setup do
-    @mapping = mappings(:one)
-  end
+  # setup do
+  #   @mapping = mappings(:one)
+  # end
 
   test "should get index" do
     get :index
