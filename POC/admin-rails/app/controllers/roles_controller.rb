@@ -4,6 +4,8 @@ class RolesController < ApplicationController
   def index
     @roles = Role.all
     @roles.each do |role|
+      role.examples = nil
+      role.individual = nil
       case role.name
       when /Aggregator/
         role.examples = "State Data Analyst, State DOE Representative"
