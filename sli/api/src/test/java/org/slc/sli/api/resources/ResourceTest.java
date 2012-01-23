@@ -401,9 +401,6 @@ public class ResourceTest {
     
     @Test
     public void testEducationOrganizations() {
-        
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
         Response createResponseEdOrgSource = api.createEntity("educationOrganizations", new EntityBody(
                 createTestEntity()), uriInfo);
         assertNotNull(createResponseEdOrgSource);
@@ -421,7 +418,7 @@ public class ResourceTest {
                 new EntityBody(createTestEducationOrganizationAssociation(educationOrganizationIdSource,
                         educationOrganizationIdTarget)), uriInfo);
         assertNotNull(createResponseEOA);
-        String educationOrganizationAssocId = parseIdFromLocation(createResponseEOA);
+        parseIdFromLocation(createResponseEOA);
     }
     
     private void assertStudentCorrect(UriInfo info, TypeIdPair typeId) {

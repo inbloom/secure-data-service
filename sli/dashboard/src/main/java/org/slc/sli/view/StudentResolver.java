@@ -52,7 +52,13 @@ public class StudentResolver {
      * returns true if the given lozenge code applies to the given student
      */
     public boolean lozengeApplies(Student student, String code) {
-        // TODO: check student entity
+        
+        String[] studentProgramCodes = Student.getProgramCodesForStudent();
+        
+        // Check if program in student entity
+        if (Arrays.asList(studentProgramCodes).contains(code)) {
+            return student.getProgramParticipation(code);
+        } 
         
         // Now check program participation
         for (StudentProgramAssociation p : programs) {

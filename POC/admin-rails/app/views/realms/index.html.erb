@@ -1,0 +1,17 @@
+<h1>Listing realms</h1>
+
+<table>
+  <tr>
+    <th>Realm</th>
+    <th>Idp</th>
+  </tr>
+
+<% @realms.each do |realm| %>
+  <tr>
+	<td><%= realm.state %></td>
+	<td><%= realm.idp %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

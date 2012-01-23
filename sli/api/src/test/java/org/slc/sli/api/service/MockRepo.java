@@ -40,14 +40,14 @@ public class MockRepo implements EntityRepository {
         repo.put("teacherSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staff", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganization", new LinkedHashMap<String, Entity>());
-        repo.put("educationOrganizationschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganizationSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staffEducationOrganizationAssociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionAssessmentAssociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("aggregation", new LinkedHashMap<String, Entity>());
         repo.put("staffschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("aggregationDefinition", new LinkedHashMap<String, Entity>());
-        repo.put("educationOrganizationassociation", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganizationAssociation", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -70,8 +70,9 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void update(String type, Entity entity) {
+    public boolean update(String type, Entity entity) {
         repo.get(type).put(entity.getEntityId(), entity);
+        return true;
     }
     
     @Override
@@ -87,8 +88,8 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void delete(String entityType, String id) {
-        repo.get(entityType).remove(id);
+    public boolean delete(String entityType, String id) {
+        return repo.get(entityType).remove(id) != null;
     }
     
     @Override

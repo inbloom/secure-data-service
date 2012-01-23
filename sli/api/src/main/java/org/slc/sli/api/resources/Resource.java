@@ -52,7 +52,7 @@ public class Resource {
     public static final String SLC_JSON_MEDIA_TYPE = "application/vnd.slc+json";
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
-    final EntityDefinitionStore entityDefs;
+    private final EntityDefinitionStore entityDefs;
     
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and

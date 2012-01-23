@@ -79,15 +79,13 @@ public class BasicService implements EntityService {
     @Override
     public void delete(String id) {
         LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
-        Entity entity = repo.find(collectionName, id);
-        if (entity == null) {
+        if (!coreService.delete(id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        coreService.delete(entity);
         
         if (!(defn instanceof AssociationDefinition))
-            removeEntityWithAssoc(entity);
+            removeEntityWithAssoc(id);
     }
     
     @Override
@@ -172,11 +170,9 @@ public class BasicService implements EntityService {
         return sanitized;
     }
     
-    private void removeEntityWithAssoc(Entity entity) {
-        String sourceType = entity.getType();
-        String sourceId = entity.getEntityId();
+    private void removeEntityWithAssoc(String sourceId) {
         Map<String, String> fields = new HashMap<String, String>();
-        fields.put(sourceType + "Id", sourceId);
+        fields.put(defn.getType() + "Id", sourceId);
         
         for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
             String assocCollection = assocDef.getStoredCollectionName();
