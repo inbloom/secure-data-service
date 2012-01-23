@@ -293,9 +293,9 @@ task :importSandboxData do
     "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
-    "educationOrganizationschoolassociation" => "school_educationOrganization_fixure.json",
+    "educationOrganizationSchoolAssociation" => "school_educationOrganization_fixure.json",
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
-    "staffeducationOrganizationassociation" => "staffEducationOrganizationAssociation_fixture.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
