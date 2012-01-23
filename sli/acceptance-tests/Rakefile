@@ -119,6 +119,11 @@ end
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:sampleIngestionTests] do
   displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Sample Ingestion Tests"
