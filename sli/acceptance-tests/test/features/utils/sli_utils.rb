@@ -219,6 +219,19 @@ end
 
 ########################################################################
 ########################################################################
+
+def runShellCommand(command)
+  sh "#{command}" do |success, exit_code|
+    if(success && block_given?)
+      yield
+    else
+      puts "Exited with code: #{exit_code.exitstatus}" unless success
+    end
+  end
+end
+
+########################################################################
+########################################################################
 # Property Loader class
 
 class PropLoader
