@@ -1,3 +1,8 @@
+
+<h2> Mappings for <%= params[:id]%></h2>
 <p id="notice"><%= notice %></p>
-<%= link_to 'Edit', edit_mapping_path(@mapping) %> |
+<%= select_tag :mapping, options_for_select(@sli_roles)  %>
+<% @mapping.each do |mapping| %>
+<%= select_tag mapping[:name], options_for_select(mapping[:mappings])%>
+<% end %>
 <%= link_to 'Back', mappings_path %>

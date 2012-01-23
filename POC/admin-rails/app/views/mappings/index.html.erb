@@ -1,11 +1,9 @@
 <h1>Listing mappings</h1>
 
-<%= form_tag(mappings_path, :method => "get") do %>
-<%= label_tag :id, "Realm" %>
-<%= select_tag :id, options_from_collection_for_select(@realms, "state", "state")%>
-<%= label_tag :role, "SLI Role" %>
-<%= select_tag :role, options_from_collection_for_select(@mappings, "name", "name")%>
-<%= submit_tag "Show"%>
+<ul>
+<% @mappings.each do |mapping| %>
+<li><%= link_to mapping.state, :controller => "mappings", :action => "show", :id => mapping.state %></li>
 <% end %>
+</ul>
 
   

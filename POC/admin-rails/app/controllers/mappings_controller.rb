@@ -6,7 +6,7 @@ class MappingsController < ApplicationController
     roles.each do |role|
       map = {}
       map[:name] = role.name
-      map[:mappings] = nil
+      map[:mappings] = []
       if role.mappings.attributes[realm]
         map[:mappings] = role.mappings.attributes[realm]
       end
@@ -17,12 +17,11 @@ class MappingsController < ApplicationController
   # GET /mappings
   # GET /mappings.json
   def index
-    @mappings = Role.all
-    @realms = Realm.all
+    @mappings = Realm.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: [@realms, @mappings] }
+      format.json { render json: @mappings }
     end
   end
 
@@ -30,6 +29,10 @@ class MappingsController < ApplicationController
   # GET /mappings/1.json
   def show
     @mapping = get_mappings_from_realm params[:id]
+    @sli_roles = []
+    @mapping.each do |mapping|
+      @sli_roles.push mapping[:name]
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @mapping }
