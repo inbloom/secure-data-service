@@ -44,14 +44,14 @@ public class DurationSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
-        boolean isValid = false;
+        boolean isValid;
         try {
             javax.xml.datatype.DatatypeFactory.newInstance().newDuration((String) entity);
             isValid = true;
         } catch (IllegalArgumentException e2) {
-            // do nothing
+            isValid = false;
         } catch (DatatypeConfigurationException e) {
-            // do nothing
+            isValid = false;
         }
         return addError(isValid, fieldName, entity, "ISO 8601 Duration", ErrorType.INVALID_DATE_FORMAT, errors);
     }

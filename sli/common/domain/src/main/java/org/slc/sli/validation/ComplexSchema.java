@@ -49,7 +49,7 @@ public class ComplexSchema extends NeutralSchema {
         boolean isValid = true;
         
         if (entity instanceof Map) {
-            Map entityMap = (Map) entity;
+            Map<?, ?> entityMap = (Map<?, ?>) entity;
             for (String name : this.getFields().keySet()) {
                 boolean fieldRequired = true;
                 if (name.startsWith("*")) {

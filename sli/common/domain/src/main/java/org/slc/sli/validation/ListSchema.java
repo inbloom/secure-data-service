@@ -60,8 +60,7 @@ public class ListSchema extends NeutralSchema {
         boolean isValid = true;
         
         if (entity instanceof List) {
-            List entityList = (List) entity;
-            int index = 0;
+            List<?> entityList = (List<?>) entity;
             for (Object fieldEntity : entityList) {
                 
                 // Allow validation according to ANY item Schemas in the ListSchema list (xs:choice
@@ -82,8 +81,6 @@ public class ListSchema extends NeutralSchema {
                         return false;
                     }
                 }
-                
-                index++;
             }
         } else {
             return addError(false, fieldName, entity, "List", ErrorType.INVALID_DATATYPE, errors);

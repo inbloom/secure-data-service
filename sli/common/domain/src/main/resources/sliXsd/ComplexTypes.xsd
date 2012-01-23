@@ -439,28 +439,6 @@
 		</xs:attribute>
 	</xs:complexType>
 
-	<xs:complexType name="CompetencyLevelDescriptorType">
-		<xs:annotation>
-			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
-					<xs:element name="CodeValue" type="CodeValue">
-						<xs:annotation>
-							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Description" type="Description">
-						<xs:annotation>
-							<xs:documentation>The description of the competency level.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-    
     <xs:complexType name="CourseCode">
         <xs:annotation>
             <xs:documentation>A standard code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>

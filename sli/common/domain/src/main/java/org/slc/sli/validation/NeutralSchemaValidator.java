@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class NeutralSchemaValidator implements EntityValidator {
     
     // Logging
-    private static final Logger log = LoggerFactory.getLogger(NeutralSchemaValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralSchemaValidator.class);
     
     // Attributes
     @Autowired
@@ -47,6 +47,7 @@ public class NeutralSchemaValidator implements EntityValidator {
         List<ValidationError> errors = new LinkedList<ValidationError>();
         boolean valid = schema.validate("", entity.getBody(), errors);
         if (!valid) {
+            LOG.debug("Errors detected in {}, {}", new Object[]{entity.getEntityId(), errors});
             throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
         }
         

@@ -1,6 +1,5 @@
 package org.slc.sli.validation;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -9,14 +8,15 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * 
@@ -28,10 +28,10 @@ import org.springframework.stereotype.Component;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Scope("prototype")
 @Component
-public class NeutralSchema implements Serializable {
+public class NeutralSchema {
     
     // Logging
-    private static final Log log = LogFactory.getLog(NeutralSchema.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralSchema.class);
     
     // Constants
     public static final String JSON = "json";
@@ -280,7 +280,7 @@ public class NeutralSchema implements Serializable {
     }
     
     private String getJsonFields(String label, Map<String, Object> fields) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         
         buffer.append("," + "\n" + "   \"" + label + "\":{");
         
@@ -296,17 +296,19 @@ public class NeutralSchema implements Serializable {
                     try {
                         description = MAPPER.writeValueAsString(object);
                     } catch (Exception exception) {
+                        throw new RuntimeException(exception);
                     }
                 } else if (object instanceof NeutralSchema) {
                     if (object instanceof ListSchema) {
                         List<NeutralSchema> schemaList = ((ListSchema) object).getList();
-                        List list = new ArrayList();
+                        List<String> list = new ArrayList<String>();
                         for (NeutralSchema schema : schemaList) {
                             list.add(schema.getType());
                         }
                         try {
                             description = MAPPER.writeValueAsString(list);
                         } catch (Exception exception) {
+                            throw new RuntimeException(exception);
                         }
                     } else {
                         description = "\"" + ((NeutralSchema) object).getType() + "\"";
@@ -340,6 +342,7 @@ public class NeutralSchema implements Serializable {
                     try {
                         description = MAPPER.writeValueAsString(object);
                     } catch (Exception exception) {
+                        LOG.error("Error wring description for " + object, exception);
                     }
                 } else if (object instanceof String) {
                     description = "\"" + (String) object + "\"";
@@ -452,7 +455,7 @@ public class NeutralSchema implements Serializable {
             
             String description = "";
             if (object instanceof List) {
-                List list = (List) object;
+                List<?> list = (List<?>) object;
                 description = "[";
                 String separator = "";
                 for (Object listItem : list) {

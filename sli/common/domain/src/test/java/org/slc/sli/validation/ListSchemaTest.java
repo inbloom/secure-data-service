@@ -53,8 +53,8 @@ public class ListSchemaTest {
     public void testListOfBooleanValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(booleanSchema);
-        List listEntity = new ArrayList();
-        Boolean booleanEntity = new Boolean(true);
+        List<Boolean> listEntity = new ArrayList<Boolean>();
+        Boolean booleanEntity = true;
         listEntity.add(booleanEntity);
         assertTrue("List of boolean entity validation failed", schema.validate(listEntity));
     }
@@ -63,8 +63,8 @@ public class ListSchemaTest {
     public void testListOfBooleanFailureValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(booleanSchema);
-        List listEntity = new ArrayList();
-        String stringEntity = new String("test");
+        List<String> listEntity = new ArrayList<String>();
+        String stringEntity = "test";
         
         // Setup for failure
         listEntity.add(stringEntity);
@@ -76,8 +76,8 @@ public class ListSchemaTest {
     public void testListOfLongValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(longSchema);
-        List listEntity = new ArrayList();
-        Long longEntity = new Long(0);
+        List<Long> listEntity = new ArrayList<Long>();
+        Long longEntity = 0L;
         listEntity.add(longEntity);
         assertTrue("List entity long validation failed", schema.validate(listEntity));
     }
@@ -86,8 +86,8 @@ public class ListSchemaTest {
     public void testListOfLongFailureValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(longSchema);
-        List listEntity = new ArrayList();
-        String stringEntity = new String("test");
+        List<String> listEntity = new ArrayList<String>();
+        String stringEntity = "test";
         
         // Setup for failure
         listEntity.add(stringEntity);
@@ -99,8 +99,8 @@ public class ListSchemaTest {
     public void testListOfStringValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(stringSchema);
-        List listEntity = new ArrayList();
-        String stringEntity = new String("test");
+        List<String> listEntity = new ArrayList<String>();
+        String stringEntity = "test";
         listEntity.add(stringEntity);
         assertTrue("List entity string validation failed", schema.validate(listEntity));
     }
@@ -109,8 +109,8 @@ public class ListSchemaTest {
     public void testListOfStringFailureValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(stringSchema);
-        List listEntity = new ArrayList();
-        Double doubleEntity = new Double(0);
+        List<Double> listEntity = new ArrayList<Double>();
+        Double doubleEntity = 0.0;
         
         // Setup for failure
         listEntity.add(doubleEntity);
@@ -134,13 +134,13 @@ public class ListSchemaTest {
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
         tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-        Map complexEntity = new HashMap();
-        Boolean booleanEntity = new Boolean(true);
-        Long longEntity = new Long(0);
-        Double doubleEntity = new Double(0);
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        Boolean booleanEntity = true;
+        Long longEntity = 0L;
+        Double doubleEntity = 0.0;
         BigDecimal decimalEntity = new BigDecimal(0);
-        String stringEntity = new String("test");
-        String tokenEntity = new String("validToken");
+        String stringEntity = "test";
+        String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
@@ -149,7 +149,7 @@ public class ListSchemaTest {
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
-        List listEntity = new ArrayList();
+        List<Map<String, Object>> listEntity = new ArrayList<Map<String, Object>>();
         listEntity.add(complexEntity);
         assertTrue("List entity complex validation failed", schema.validate(listEntity));
     }
@@ -158,8 +158,8 @@ public class ListSchemaTest {
     public void testListOfComplexFailureValidation() throws IllegalArgumentException {
         schema.getFields().clear();
         schema.getList().add(complexSchema);
-        List listEntity = new ArrayList();
-        String stringEntity = new String("test");
+        List<String> listEntity = new ArrayList<String>();
+        String stringEntity = "test";
         
         // Setup for failure
         listEntity.add(stringEntity);

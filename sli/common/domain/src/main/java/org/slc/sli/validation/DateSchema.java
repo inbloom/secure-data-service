@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 @Component
 public class DateSchema extends NeutralSchema {
-    
+
     // Constructors
     public DateSchema() {
         this(NeutralSchemaType.DATE.getName());
@@ -42,13 +42,14 @@ public class DateSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
-        boolean isValid = false;
+        boolean isValid;
         try {
             javax.xml.bind.DatatypeConverter.parseDate((String) entity);
             isValid = true;
         } catch (IllegalArgumentException e2) {
+            isValid = false;
         }
-        return addError(isValid, fieldName, entity, "RFC 3339", ErrorType.INVALID_DATE_FORMAT, errors);
+        return addError(isValid, fieldName, entity, "RFC 3339 Date", ErrorType.INVALID_DATE_FORMAT, errors);
     }
     
 }

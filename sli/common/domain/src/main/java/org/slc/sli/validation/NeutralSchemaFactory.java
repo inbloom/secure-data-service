@@ -11,9 +11,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 public class NeutralSchemaFactory {
     
     // Logging
-    private static final Log log = LogFactory.getLog(NeutralSchemaFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralSchemaFactory.class);
     
     // Constants
     public static final String JSON = "json";
@@ -46,44 +46,44 @@ public class NeutralSchemaFactory {
         NeutralSchemaType schemaType = NeutralSchemaType.findByName(xsd);
         if (schemaType != null) {
             switch (schemaType) {
-            case BOOLEAN:
-                return new BooleanSchema(schemaType.getName());
-            case INT:
-                return new IntegerSchema(schemaType.getName());
-            case INTEGER:
-                return new IntegerSchema(schemaType.getName());
-            case LONG:
-                return new LongSchema(schemaType.getName());
-            case FLOAT:
-                return new FloatSchema(schemaType.getName());
-            case DOUBLE:
-                return new DoubleSchema(schemaType.getName());
-            case DECIMAL:
-                return new DecimalSchema(schemaType.getName());
-            case DATE:
-                return new DateSchema(schemaType.getName());
-            case TIME:
-                return new TimeSchema(schemaType.getName());
-            case DATETIME:
-                return new DateTimeSchema(schemaType.getName());
-            case DURATION:
-                return new DurationSchema(schemaType.getName());
-            case STRING:
-                return new StringSchema(schemaType.getName());
-            case ID:
-                return new StringSchema(schemaType.getName());
-            case IDREF:
-                return new StringSchema(schemaType.getName());
-            case RESTRICTED:
-                return new RestrictedSchema(schemaType.getName());
-            case TOKEN:
-                return new TokenSchema(schemaType.getName());
-            case LIST:
-                return new ListSchema(schemaType.getName());
-            case COMPLEX:
-                return new ComplexSchema(schemaType.getName());
-            default:
-                return null;
+                case BOOLEAN:
+                    return new BooleanSchema(schemaType.getName());
+                case INT:
+                    return new IntegerSchema(schemaType.getName());
+                case INTEGER:
+                    return new IntegerSchema(schemaType.getName());
+                case LONG:
+                    return new LongSchema(schemaType.getName());
+                case FLOAT:
+                    return new FloatSchema(schemaType.getName());
+                case DOUBLE:
+                    return new DoubleSchema(schemaType.getName());
+                case DECIMAL:
+                    return new DecimalSchema(schemaType.getName());
+                case DATE:
+                    return new DateSchema(schemaType.getName());
+                case TIME:
+                    return new TimeSchema(schemaType.getName());
+                case DATETIME:
+                    return new DateTimeSchema(schemaType.getName());
+                case DURATION:
+                    return new DurationSchema(schemaType.getName());
+                case STRING:
+                    return new StringSchema(schemaType.getName());
+                case ID:
+                    return new StringSchema(schemaType.getName());
+                case IDREF:
+                    return new StringSchema(schemaType.getName());
+                case RESTRICTED:
+                    return new RestrictedSchema(schemaType.getName());
+                case TOKEN:
+                    return new TokenSchema(schemaType.getName());
+                case LIST:
+                    return new ListSchema(schemaType.getName());
+                case COMPLEX:
+                    return new ComplexSchema(schemaType.getName());
+                default:
+                    return null;
             }
         } else {
             return new ComplexSchema(xsd);
@@ -120,7 +120,7 @@ public class NeutralSchemaFactory {
     
     public void toFile(String directoryPath, String fileName, List<NeutralSchema> schemaList, String representation,
             boolean overwrite) {
-        StringBuffer contents = new StringBuffer();
+        StringBuilder contents = new StringBuilder();
         
         if (representation.equalsIgnoreCase(XML)) {
             String xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
@@ -161,29 +161,33 @@ public class NeutralSchemaFactory {
     
     public void toFile(String directoryPath, String fileName, String fileContents, boolean overwrite) {
         
+        File directory = new File(directoryPath);
         try {
-            File directory = new File(directoryPath);
             directory.mkdirs();
             File file = new File(directory, fileName);
             boolean fileExists = !file.createNewFile();
             if (!fileExists || overwrite) {
                 if (fileExists) {
-                    // log.warn("Replacing existing file: " + file.getAbsolutePath());
+                    LOG.warn("Replacing existing file: " + file.getAbsolutePath());
                 }
                 FileWriter fileWriter = new FileWriter(file);
-                fileWriter.write(fileContents);
-                fileWriter.close();
+                try {
+                    fileWriter.write(fileContents);
+                } finally {
+                    fileWriter.close();
+                }
             }
         } catch (IOException ioException) {
-            log.error(ioException);
+            LOG.error("error in writing file", ioException);
         }
     }
     
-    public NeutralSchema fromFile(String directoryPath, String schemaType, String representation, Class schemaClass) {
+    public NeutralSchema fromFile(String directoryPath, String schemaType, String representation,
+            Class<NeutralSchema> schemaClass) {
         return fromFile(directoryPath, schemaType + "." + representation, schemaClass);
     }
     
-    public NeutralSchema fromFile(String directoryPath, String fileName, Class schemaClass) {
+    public NeutralSchema fromFile(String directoryPath, String fileName, Class<NeutralSchema> schemaClass) {
         
         File directory = new File(directoryPath);
         File file = new File(directory, fileName);
@@ -191,28 +195,28 @@ public class NeutralSchemaFactory {
         return fromFile(file, schemaClass);
     }
     
-    public NeutralSchema fromFile(File file, Class schemaClass) {
+    public NeutralSchema fromFile(File file, Class<? extends NeutralSchema> schemaClass) {
         NeutralSchema neutralSchema = null;
         
         BufferedReader fileReader = null;
         try {
             fileReader = new BufferedReader(new FileReader(file));
-            StringBuffer fileContents = new StringBuffer();
+            StringBuilder fileContents = new StringBuilder();
             String line;
             while ((line = fileReader.readLine()) != null) {
                 fileContents.append(line);
             }
-            neutralSchema = (NeutralSchema) MAPPER.readValue(fileContents.toString(), schemaClass);
+            neutralSchema = MAPPER.readValue(fileContents.toString(), schemaClass);
         } catch (IOException ioException) {
-            log.error(ioException);
+            LOG.error("error reading file " + file, ioException);
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error("error reading file " + file, exception);
         } finally {
             if (fileReader != null) {
                 try {
                     fileReader.close();
                 } catch (IOException ioException) {
-                    log.error(ioException);
+                    LOG.error("error closing file " + file, ioException);
                 }
             }
         }
@@ -220,29 +224,29 @@ public class NeutralSchemaFactory {
         return neutralSchema;
     }
     
-    public NeutralSchema fromResource(String resourcePath, Class schemaClass) {
+    public NeutralSchema fromResource(String resourcePath, Class<? extends NeutralSchema> schemaClass) {
         NeutralSchema neutralSchema = null;
         
         BufferedReader bufferedReader = null;
         try {
             Reader reader = new InputStreamReader(NeutralSchemaFactory.class.getResourceAsStream(resourcePath));
             bufferedReader = new BufferedReader(reader);
-            StringBuffer fileContents = new StringBuffer();
+            StringBuilder fileContents = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 fileContents.append(line);
             }
-            neutralSchema = (NeutralSchema) MAPPER.readValue(fileContents.toString(), schemaClass);
+            neutralSchema = MAPPER.readValue(fileContents.toString(), schemaClass);
         } catch (IOException ioException) {
-            log.error(ioException);
+            LOG.error("error reading file " + resourcePath, ioException);
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error("error reading file " + resourcePath, exception);
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch (IOException ioException) {
-                    log.error(ioException);
+                    LOG.error("error closing file " + resourcePath, ioException);
                 }
             }
         }
@@ -250,13 +254,13 @@ public class NeutralSchemaFactory {
         return neutralSchema;
     }
     
-    public NeutralSchema fromStringBuffer(StringBuffer schema, Class schemaClass) {
+    public NeutralSchema fromStringBuffer(StringBuilder schema, Class<? extends NeutralSchema> schemaClass) {
         NeutralSchema neutralSchema = null;
         
         try {
-            neutralSchema = (NeutralSchema) MAPPER.readValue(schema.toString(), schemaClass);
+            neutralSchema = MAPPER.readValue(schema.toString(), schemaClass);
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error("Error reading schema " + schema, exception);
         }
         
         return neutralSchema;

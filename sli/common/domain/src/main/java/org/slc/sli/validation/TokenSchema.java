@@ -63,6 +63,7 @@ public class TokenSchema extends NeutralSchema {
         return false;
     }
     
+    @SuppressWarnings("unchecked")
     protected List<String> getTokens() {
         return (List<String>) this.getProperties().get(TOKENS);
     }

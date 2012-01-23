@@ -16,12 +16,13 @@ import java.util.jar.JarFile;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * 
@@ -39,7 +40,7 @@ import org.springframework.util.ResourceUtils;
 public class NeutralSchemaRegistry {
     
     // Logging
-    private static final Log log = LogFactory.getLog(NeutralSchemaRegistry.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralSchemaRegistry.class);
     
     // Constants
     public static final String SCHEMA_PATH = "classpath:neutral-schemas";
@@ -117,20 +118,20 @@ public class NeutralSchemaRegistry {
                 this.registerSchemaEntries(jar, schemaRepresentation);
             } else if (protocol.equals("file")) {
                 File schemaResourcesDir = FileUtils.toFile(schemaResourcesUrl);
-                List<File> schemaFiles = new ArrayList(FileUtils.listFiles(schemaResourcesDir,
+                List<File> schemaFiles = new ArrayList<File>(FileUtils.listFiles(schemaResourcesDir,
                         new String[] { schemaRepresentation }, true));
                 this.registerSchemaFiles(schemaFiles);
             } else {
-                log.error("Unsupported schema registry protocol: " + protocol);
+                LOG.error("Unsupported schema registry protocol: " + protocol);
             }
             
             // Resolve Schema Dependencies
             this.resolveSchemaDependencies();
             
-            log.info("Total Registered Schemas: " + this.size());
+            LOG.info("Total Registered Schemas: " + this.size());
             
         } catch (IOException ioException) {
-            log.error("Unable to parse schema resources: " + schemaResourcesPath + ": " + ioException.getMessage());
+            LOG.error("Unable to parse schema resources: " + schemaResourcesPath + ": " + ioException.getMessage(), ioException);
         }
     }
     
@@ -148,7 +149,7 @@ public class NeutralSchemaRegistry {
             // Update Schema Registry Map
             if (specificSchema != null) {
                 
-                log.info("Registering Schema File: " + schemaFile.getName());
+                LOG.info("Registering Schema File: " + schemaFile.getName());
                 
                 schemaMap.put(specificSchema.getType(), specificSchema);
             }
@@ -156,20 +157,18 @@ public class NeutralSchemaRegistry {
     }
     
     protected void registerSchemaEntries(JarFile jar, String schemaRepresentation) {
-        List<StringBuffer> schemaEntries = new ArrayList<StringBuffer>();
         
         try {
             Enumeration<JarEntry> entries = jar.entries();
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
-                StringBuffer schemaEntry = new StringBuffer();
+                StringBuilder schemaEntry = new StringBuilder();
                 if (entry.getName().startsWith(SCHEMA_PATH.split(":")[1])
                         && entry.getName().endsWith(schemaRepresentation)) {
                     String schemaName = entry.getName().substring(entry.getName().lastIndexOf("/") + 1);
-                    int count;
                     byte[] data = new byte[BUFFER_SIZE];
                     InputStream entryInputStream = ResourceUtils.getURL(schemaName).openStream();
-                    while ((count = entryInputStream.read(data, 0, BUFFER_SIZE)) != -1) {
+                    while (entryInputStream.read(data, 0, BUFFER_SIZE) != -1) {
                         schemaEntry.append(data);
                     }
                     
@@ -183,14 +182,14 @@ public class NeutralSchemaRegistry {
                     // Update Schema Registry Map
                     if (specificSchema != null) {
                         
-                        log.info("Registering Schema Entry: " + specificSchema.getType());
+                        LOG.info("Registering Schema Entry: " + specificSchema.getType());
                         
                         schemaMap.put(specificSchema.getType(), specificSchema);
                     }
                 }
             }
         } catch (IOException ioException) {
-            log.error("Unable to parse schema resources archive: " + jar.getName() + ": " + ioException.getMessage());
+            LOG.error("Unable to parse schema resources archive: " + jar.getName() + ": " + ioException.getMessage(), ioException);
         }
     }
     
@@ -210,7 +209,7 @@ public class NeutralSchemaRegistry {
                     fieldSchema = schemaMap.get(schemaFieldType);
                     
                 } else if (schemaFieldObject instanceof List) {
-                    List list = (List) schemaFieldObject;
+                    List<?> list = (List<?>) schemaFieldObject;
                     
                     // List references
                     ListSchema listSchema = (ListSchema) schemaFactory.createSchema("list");
@@ -224,7 +223,7 @@ public class NeutralSchemaRegistry {
                     fieldSchema = listSchema;
                     
                 } else {
-                    log.error("Detected invalid object type during schema parsing: "
+                    LOG.error("Detected invalid object type during schema parsing: "
                             + schemaFieldObject.getClass().getName());
                 }
                 
@@ -244,13 +243,13 @@ public class NeutralSchemaRegistry {
     }
     
     protected void toFile(String directory, String fileName, String representation) {
-        List<NeutralSchema> list = new ArrayList(this.getSchemaMap().values());
+        List<NeutralSchema> list = new ArrayList<NeutralSchema>(this.getSchemaMap().values());
         schemaFactory.toFile(directory, fileName + "." + representation, list, representation, true);
     }
     
     public static void main(String[] args) {
         
-        log.info("Starting Schema Registration...");
+        LOG.info("Starting Schema Registration...");
         
         NeutralSchemaRegistry registry = new NeutralSchemaRegistry();
         
@@ -260,7 +259,7 @@ public class NeutralSchemaRegistry {
         
         registry.toFile("neutral-schemas/", "registry", XML);
         
-        log.info("Finished.");
+        LOG.info("Finished.");
     }
     
 }

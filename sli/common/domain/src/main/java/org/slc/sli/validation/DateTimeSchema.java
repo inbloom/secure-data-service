@@ -42,13 +42,14 @@ public class DateTimeSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
-        boolean isValid = false;
+        boolean isValid;
         try {
             javax.xml.bind.DatatypeConverter.parseDateTime((String) entity);
             isValid = true;
         } catch (IllegalArgumentException e2) {
+            isValid = false;
         }
-        return addError(isValid, fieldName, entity, "RFC 3339", ErrorType.INVALID_DATE_FORMAT, errors);
+        return addError(isValid, fieldName, entity, "RFC 3339 DateTime", ErrorType.INVALID_DATE_FORMAT, errors);
     }
     
 }
