@@ -41,6 +41,8 @@ public class PersistenceProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
     private EntityPersistHandler entityPersistHandler;
+    
+    private Exchange exchange;
 
     @Autowired
     private LocalFileSystemLandingZone lz;
@@ -58,6 +60,8 @@ public class PersistenceProcessor implements Processor {
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
+        this.exchange = exchange;
+        
         // Indicate Camel processing
         LOG.info("processing persistence: {}", job);
 
@@ -144,6 +148,12 @@ public class PersistenceProcessor implements Processor {
                 entityPersistHandler.handle(neutralRecordEntity, recordLevelErrorsInFile);
 
             }
+            
+            if (exchange != null) {
+            	LOG.info("Setting records.processed value on exchange header");
+                exchange.setProperty("records.processed", recordNumber);
+            }
+            
         } finally {
             nrFileReader.close();
             errorLogger.detachAndStopAllAppenders();
