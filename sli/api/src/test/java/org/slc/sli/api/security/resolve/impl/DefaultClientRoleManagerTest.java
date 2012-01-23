@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.roles.DefaultRoleRightAccessImpl;
+import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
@@ -34,7 +34,7 @@ public class DefaultClientRoleManagerTest {
     private DefaultClientRoleManager roleManager;
 
     @Autowired
-    private DefaultRoleRightAccessImpl mockAccess;
+    private InsecureRoleRightAccessImpl mockAccess;
 
     private static final String MOCK_REALM_ID = "mock_realm_id";
     private List<String> allRoles;
@@ -42,31 +42,31 @@ public class DefaultClientRoleManagerTest {
     @Before
     public void setUp() {
         allRoles = new ArrayList<String>();
-        allRoles.add(DefaultRoleRightAccessImpl.AGGREGATOR);
-        allRoles.add(DefaultRoleRightAccessImpl.EDUCATOR);
-        allRoles.add(DefaultRoleRightAccessImpl.IT_ADMINISTRATOR);
-        allRoles.add(DefaultRoleRightAccessImpl.LEADER);
+        allRoles.add(InsecureRoleRightAccessImpl.AGGREGATOR);
+        allRoles.add(InsecureRoleRightAccessImpl.EDUCATOR);
+        allRoles.add(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        allRoles.add(InsecureRoleRightAccessImpl.LEADER);
 
-        roleManager.addClientRole(MOCK_REALM_ID, DefaultRoleRightAccessImpl.EDUCATOR, "Coach");
-        roleManager.addClientRole(MOCK_REALM_ID, DefaultRoleRightAccessImpl.EDUCATOR, "Math Teacher");
+        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Coach");
+        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Math Teacher");
 
-        roleManager.addClientRole(MOCK_REALM_ID, DefaultRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
+        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
 
     }
 
     @Test
     public void testAddClientRole() {
-        roleManager.addClientRole(MOCK_REALM_ID, DefaultRoleRightAccessImpl.LEADER, "Superintendent");
+        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.LEADER, "Superintendent");
         String sliRole = roleManager.getSliRoleName(MOCK_REALM_ID, "Superintendent");
         Assert.assertNotNull(sliRole);
-        Assert.assertTrue(sliRole.equals(DefaultRoleRightAccessImpl.LEADER));
+        Assert.assertTrue(sliRole.equals(InsecureRoleRightAccessImpl.LEADER));
     }
 
     @Test
     public void testDeleteClientRole() {
-        Assert.assertEquals(DefaultRoleRightAccessImpl.EDUCATOR, roleManager.getSliRoleName(MOCK_REALM_ID, "Coach"));
+        Assert.assertEquals(InsecureRoleRightAccessImpl.EDUCATOR, roleManager.getSliRoleName(MOCK_REALM_ID, "Coach"));
         roleManager.deleteClientRole(MOCK_REALM_ID, "Coach");
-        List<String> mappings = roleManager.getMappings(MOCK_REALM_ID, DefaultRoleRightAccessImpl.EDUCATOR);
+        List<String> mappings = roleManager.getMappings(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR);
         Assert.assertNotNull(mappings);
         Assert.assertTrue(mappings.size() > 0);
     }

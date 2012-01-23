@@ -78,11 +78,11 @@ When /^zip file is scp to ingestion landing zone$/ do
 
   if (INGESTION_MODE == 'remote')
     # copy file from external path to landing zone
-    ingestion_server_string = "ingestion@" + INGESTION_SERVER_URL + ":" + @landing_zone_path
-    local_source_path = @source_path
+    ingestion_server_string = "\"" + ("ingestion@" + INGESTION_SERVER_URL + ":" + @landing_zone_path).to_s  + "\""
+    local_source_path = "\"" + @source_path.to_s + "\""
     
     puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    Kernel::system("scp #{local_source_path} #{ingestion_server_string}")
+    sh "scp #{local_source_path} #{ingestion_server_string}"
     
     #doesn't work for some reason...
     #scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})

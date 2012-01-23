@@ -37,10 +37,20 @@ public class QueryConverterTest {
     }
     
     @Test(expected = QueryParseException.class)
-    public void testStringToQueryException() {
+    public void testStringToQueryException1() {
         queryConverter.stringToQuery("studentAssessmentAssociation", "nonexist.field=test");
     }
     
+    @Test(expected = QueryParseException.class)
+    public void testStringToQueryException2() {
+        queryConverter.stringToQuery("studentAssessmentAssociation", "incomplete.field=");
+    }
+    
+    @Test(expected = QueryParseException.class)
+    public void testStringToQueryException3() {
+        queryConverter.stringToQuery("studentAssessmentAssociation", "incomplete.field");
+    }
+
     @Test
     public void testStringToQueryReservedKeys() {
         assertEquals(queryConverter.stringToQuery("student", "sessionId=12345678").getQueryObject(),

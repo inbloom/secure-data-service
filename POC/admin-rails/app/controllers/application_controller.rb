@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
-    super
+    raise exception
   end
   
   rescue_from ActiveResource::ServerError do |exception|
