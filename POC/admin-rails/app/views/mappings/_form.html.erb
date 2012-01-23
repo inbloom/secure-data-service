@@ -11,6 +11,7 @@
     </div>
   <% end %>
 
+  <%= select_tag :sli_role, options_from_collection_for_select(@mapping, "name", "name")%>
   <div class="actions">
     <%= f.submit %>
   </div>
