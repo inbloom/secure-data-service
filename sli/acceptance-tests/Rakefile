@@ -93,7 +93,7 @@ task :default => :production
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -310,7 +310,9 @@ task :importSandboxData do
     "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
     "student" => "smallville_students_fixture.json",
     "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
-    "teacher" => "smallville_teachers_fixture.json"
+    "teacher" => "smallville_teachers_fixture.json",
+    "educationOrganization" => "smallville_educationOrganization_fixture.json",
+    "educationOrganizationSchoolAssociation" => "smallville_school_educationOrganization_fixure.json"
   ]
   addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end

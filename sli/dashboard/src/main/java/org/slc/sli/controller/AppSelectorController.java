@@ -19,14 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class AppSelectorController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView returnApps(String username, ModelMap model) {
+    public ModelAndView returnApps(ModelMap model) {
         model.addAttribute("message", "Select an application");
         HashMap<String, String> appToUrlMap = new HashMap<String, String>();
 
         //TODO: Retrieve the applications from a service
         appToUrlMap.put("Dashboard", "studentlist");
-        appToUrlMap.put("FakeApp", "/fakeapp");
+        appToUrlMap.put("Dibels", "/fakeapp");
+        appToUrlMap.put("TRC", "/fakeapp");
         model.addAttribute("appToUrl", appToUrlMap);
-        return new ModelAndView("SelectApp").addObject("username", username);
+        return new ModelAndView("SelectApp");
     }
 }
