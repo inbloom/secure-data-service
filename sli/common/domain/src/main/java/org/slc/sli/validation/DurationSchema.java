@@ -2,6 +2,8 @@ package org.slc.sli.validation;
 
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.slc.sli.validation.ValidationError.ErrorType;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -43,10 +45,15 @@ public class DurationSchema extends NeutralSchema {
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
         boolean isValid = false;
-        
-        // TODO - Determine meaning and validation technique for XSD duration
-        
-        return addError(isValid, fieldName, entity, "RFC 3339", ErrorType.INVALID_DATE_FORMAT, errors);
+        try {
+            javax.xml.datatype.DatatypeFactory.newInstance().newDuration((String) entity);
+            isValid = true;
+        } catch (IllegalArgumentException e2) {
+            // do nothing
+        } catch (DatatypeConfigurationException e) {
+            // do nothing
+        }
+        return addError(isValid, fieldName, entity, "ISO 8601 Duration", ErrorType.INVALID_DATE_FORMAT, errors);
     }
     
 }
