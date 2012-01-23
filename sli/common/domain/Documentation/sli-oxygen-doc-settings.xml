@@ -26,13 +26,13 @@
 					<Boolean>true</Boolean>
 				</field>
 				<field name="includeGroups">
-					<Boolean>false</Boolean>
+					<Boolean>true</Boolean>
 				</field>
 				<field name="includeAttributesGroups">
-					<Boolean>false</Boolean>
+					<Boolean>true</Boolean>
 				</field>
 				<field name="includeRedefines">
-					<Boolean>false</Boolean>
+					<Boolean>true</Boolean>
 				</field>
 				<field name="includeReferencedSchemas">
 					<Boolean>true</Boolean>
@@ -101,7 +101,7 @@
 					<String>en</String>
 				</field>
 				<field name="unexpandedOutputFile">
-					<String>${pd}/html/index.html</String>
+					<String>/Users/asaarela/Projects/docs/SLI/sli/common/domain/Documentation/html/index.html</String>
 				</field>
 				<field name="splitMethod">
 					<Integer>3</Integer>
@@ -110,10 +110,10 @@
 					<Boolean>true</Boolean>
 				</field>
 				<field name="format">
-					<Integer>1</Integer>
+					<Integer>4</Integer>
 				</field>
 				<field name="customXSL">
-					<null/>
+					<URL>file:/Users/asaarela/Projects/schemas/sli/common/domain/Documentation/sli_XSDtoHTMLDocs.xsl</URL>
 				</field>
 				<field name="deleteXMLFiles">
 					<Boolean>true</Boolean>
