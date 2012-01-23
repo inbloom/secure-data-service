@@ -29,15 +29,15 @@ class RolesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @roles[0].id
-    assert_response :success
-  end
-
-  test "should update role" do
-    put :update, id:@roles[0].id, role: @role_fixtures["update"]
-    assert_redirected_to role_path(assigns(:role))
-  end
+  # test "should get edit" do
+  #   get :edit, id: @roles[0].id
+  #   assert_response :success
+  # end
+  # 
+  # test "should update role" do
+  #   put :update, id:@roles[0].id, role: @role_fixtures["update"]
+  #   assert_redirected_to role_path(assigns(:role))
+  # end
 
   # test "should destroy role" do
   #   assert_difference('Role.count', -1) do

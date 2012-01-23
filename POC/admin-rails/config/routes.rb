@@ -1,8 +1,4 @@
 SLIAdmin::Application.routes.draw do
-  resources :realms
-
-  resources :mappings
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -15,7 +11,7 @@ SLIAdmin::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-    resources :roles
+    resources :roles, :realms, :mappings
 
   # Sample resource route with options:
   #   resources :products do

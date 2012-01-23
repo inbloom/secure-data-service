@@ -64,7 +64,7 @@ def restHttpPost(id, data, format = @format, sessionId = @sessionId, passAsReque
   assert(sessionId != nil, "Session ID passed into POST was nil")
   
   urlHeader = makeUrlAndHeaders('post',passAsRequestParm,id,sessionId,format)
-  @res = RestClient.post(urlHeader[0], data, urlHeader[1]){|response, request, result| response }
+  @res = RestClient.post(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
   
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -86,7 +86,7 @@ def restHttpGet(id, format = @format, sessionId = @sessionId, passAsRequestParm 
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
   urlHeader = makeUrlAndHeaders('get',passAsRequestParm,id,sessionId,format)
-  @res = RestClient.get(urlHeader[0], urlHeader[1]){|response, request, result| response }
+  @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -109,7 +109,7 @@ def restHttpPut(id, data, format = @format, sessionId = @sessionId, passAsReques
   assert(sessionId != nil, "Session ID passed into PUT was nil")
   
   urlHeader = makeUrlAndHeaders('put',passAsRequestParm,id,sessionId,format)
-  @res = RestClient.put(urlHeader[0], data, urlHeader[1]){|response, request, result| response }
+  @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
   
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -131,7 +131,7 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId, passAsRequestPa
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
   
   urlHeader = makeUrlAndHeaders('delete',passAsRequestParm,id,sessionId,format)
-  @res = RestClient.delete(urlHeader[0], urlHeader[1]){|response, request, result| response }
+  @res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
   
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -155,7 +155,7 @@ def makeUrlAndHeaders(verb,passAsRequestParm,id,sessionId,format)
   end
   puts(url, headers) if $SLI_DEBUG
   
-  return [url,headers]
+  return {:url => url, :headers => headers}
 end
 
 ##############################################################################
