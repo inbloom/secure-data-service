@@ -296,6 +296,7 @@ public class NeutralSchema implements Serializable {
                     try {
                         description = MAPPER.writeValueAsString(object);
                     } catch (Exception exception) {
+                        throw new RuntimeException(exception);
                     }
                 } else if (object instanceof NeutralSchema) {
                     if (object instanceof ListSchema) {
@@ -307,6 +308,7 @@ public class NeutralSchema implements Serializable {
                         try {
                             description = MAPPER.writeValueAsString(list);
                         } catch (Exception exception) {
+                            throw new RuntimeException(exception);
                         }
                     } else {
                         description = "\"" + ((NeutralSchema) object).getType() + "\"";
@@ -340,6 +342,7 @@ public class NeutralSchema implements Serializable {
                     try {
                         description = MAPPER.writeValueAsString(object);
                     } catch (Exception exception) {
+                        throw new RuntimeException(exception);
                     }
                 } else if (object instanceof String) {
                     description = "\"" + (String) object + "\"";
