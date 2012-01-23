@@ -175,7 +175,7 @@ public class Resource {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
                     entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
-                    Entities entities = new Entities(entityBody, entityDef.getStoredCollectionName());
+                    Entities entities = new Entities(entityDef.getStoredCollectionName(), entityBody);
                     return Response.ok(entities).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
