@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.resources.Resource;
 
 /**
- * Provides a Jackson context resolver that Jersey uses for serializing to JSON.
+ * Provides a Jackson context resolver that Jersey uses for serializing to JSON or XML.
  * 
  * @author Sean Melody <smelody@wgen.net>
  * 
@@ -19,7 +19,7 @@ import org.slc.sli.api.resources.Resource;
 
 @Provider
 @Component
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE })
 public class CustomJacksonContextResolver implements ContextResolver<ObjectMapper> {
     
     private ObjectMapper mapper = new ObjectMapper();
