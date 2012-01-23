@@ -18,7 +18,7 @@ public class Home extends HashMap<String, Object> {
 
     public HashMap<String, Object> getLinksMap() {
         Entry<String, Object> collectionEntry = this.entrySet().iterator().next();
-        @SuppressWarnings (value="unchecked")
+        @SuppressWarnings(value = "unchecked")
         HashMap<String, Object> linksMap = (HashMap<String, Object>) collectionEntry.getValue();
         return linksMap;
     }

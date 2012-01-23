@@ -4,20 +4,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import com.fasterxml.jackson.xml.XmlMapper;
-
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.Entities;
@@ -55,11 +50,10 @@ public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
         if (type != null) {
             
             if (type.getName().equals("org.slc.sli.api.representation.Home")) {
-                Home home = (Home)t;
+                Home home = (Home) t;
                 jsonBody = home.getLinksMap();
-            }
-            else if (type.getName().equals("org.slc.sli.api.representation.Entities")) {
-                Entities entities = (Entities)t;
+            } else if (type.getName().equals("org.slc.sli.api.representation.Entities")) {
+                Entities entities = (Entities) t;
                 jsonBody = entities.getEntityBody();
             }
             

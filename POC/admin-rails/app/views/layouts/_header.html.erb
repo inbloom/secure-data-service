@@ -1,4 +1,5 @@
 <div style="text-align: right">
 	<span>Welcome <%= session[:full_name] %></span>
-	<span>| Logout</span>
+	<span>| </span>
+	<span><%= link_to "Sign out", "logout", :method => :delete %></span>
 </div>

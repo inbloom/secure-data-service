@@ -17,7 +17,7 @@ public class Entities extends HashMap<String, Object> {
 
     public HashMap<String, Object> getEntityBody() {
         Entry<String, Object> entityCollection = this.entrySet().iterator().next();
-        @SuppressWarnings (value="unchecked")
+        @SuppressWarnings(value = "unchecked")
         HashMap<String, Object> entityBody = (HashMap<String, Object>) entityCollection.getValue();
         return entityBody;
     }
