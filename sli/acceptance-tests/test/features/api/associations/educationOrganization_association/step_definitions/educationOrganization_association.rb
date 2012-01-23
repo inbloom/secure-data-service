@@ -16,6 +16,7 @@ Transform /^<.+>$/ do |template|
   id = "629fb175-bb41-4c5f-8e70-40617a71b541" if template == "<'GALACTICA-PICON' ID>"
   id = "4cb740aa-280f-4222-94ec-511b0c7dc1db" if template == "<'GALACTICA-SAGITTARON' ID>"
   id = "de12d34c-9595-443a-98cd-4810284e7c35" if template == "<'GALACTICA-VIRGON' ID>"
+  id = "11111111-1111-1111-1111-111111111111" if template == "<non-existant ID>"
   id = @newId if template == "<newly created ID>"
   id
 end
@@ -36,11 +37,23 @@ When /^I navigate to POST "([^\"]+)"$/ do |url|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
+When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
+  @result.update(@fields)
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
+end
+
 Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
   @fields[key] = value
+end
+
+When /^I set "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
+  step "\"#{arg1}\" is \"#{arg2}\""
 end
 
 Then /^I should receive a collection of (\d+) links$/ do |size|
