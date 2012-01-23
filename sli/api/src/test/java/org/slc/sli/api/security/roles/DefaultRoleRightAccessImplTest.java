@@ -42,7 +42,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 public class DefaultRoleRightAccessImplTest {
     
     @Autowired
-    private DefaultRoleRightAccessImpl access;
+    private InsecureRoleRightAccessImpl access;
     
     @Autowired
     private SecurityContextInjector securityContextInjector;
@@ -176,7 +176,7 @@ public class DefaultRoleRightAccessImplTest {
     @Test
     public void testGetDefaultRole() throws Exception {
         // Valid default role.
-        assertTrue(access.getDefaultRole(DefaultRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
+        assertTrue(access.getDefaultRole(InsecureRoleRightAccessImpl.EDUCATOR).getName().equals("Educator"));
         // Invalid default role.
         assertNull(access.getDefaultRole("Monkeys"));
     }

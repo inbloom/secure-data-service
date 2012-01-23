@@ -1,41 +1,48 @@
 class MappingsController < ApplicationController
+  
+  def get_mappings_from_realm(realm)
+    roles = Role.all
+    mapping = []
+    roles.each do |role|
+      map = {}
+      map[:name] = role.name
+      map[:mappings] = []
+      if role.mappings.attributes[realm]
+        map[:mappings] = role.mappings.attributes[realm]
+      end
+      mapping.push map
+    end
+    mapping
+  end
   # GET /mappings
   # GET /mappings.json
   def index
-    @mappings = Mapping.all
-    @realms = Realm.all
+    @mappings = Realm.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: [@mappings, @realms] }
+      format.json { render json: @mappings }
     end
   end
 
   # GET /mappings/1
   # GET /mappings/1.json
   def show
-    @mapping = Mapping.find(params[:id])
-
+    @mapping = get_mappings_from_realm params[:id]
+    @sli_roles = []
+    @mapping.each do |mapping|
+      @sli_roles.push mapping[:name]
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @mapping }
     end
   end
 
-  # GET /mappings/new
-  # GET /mappings/new.json
-  def new
-    @mapping = Mapping.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @mapping }
-    end
-  end
 
   # GET /mappings/1/edit
   def edit
-    @mapping = Mapping.find(params[:id])
+    @mapping = get_mappings_from_realm(params[:id])
   end
 
   # POST /mappings

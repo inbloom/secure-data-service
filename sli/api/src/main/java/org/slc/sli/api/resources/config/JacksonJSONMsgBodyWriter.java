@@ -4,21 +4,24 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.xml.XmlMapper;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.representation.Associations;
-import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.Entities;
+import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.Resource;
 
 /**
@@ -28,8 +31,8 @@ import org.slc.sli.api.resources.Resource;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML, Resource.SLC_XML_MEDIA_TYPE })
-public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
     
     @Override
     public boolean isWriteable(Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -45,21 +48,23 @@ public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
     public void writeTo(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
 
-        Object xmlBody = t;
+        Object jsonBody = t;
 
-        // check on the class type to see if we want to 
-        // pretty up the xmlBody by using a wrapper class
+        // check on the class type to see if we need 
+        // to strip off any extraneous wrapper classes 
         if (type != null) {
-            if (type.getName().equals("CollectionResponse")) {
-                // wrap the CollectionResponse in an Associations class
-                xmlBody = new Associations((CollectionResponse)t);
+            
+            if (type.getName().equals("org.slc.sli.api.representation.Home")) {
+                Home home = (Home)t;
+                jsonBody = home.getLinksMap();
             }
+            else if (type.getName().equals("org.slc.sli.api.representation.Entities")) {
+                Entities entities = (Entities)t;
+                jsonBody = entities.getEntityBody();
+            }
+            
         }
 
-        XmlMapper xmlMapper = new XmlMapper();
-        xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-        xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
-        xmlMapper.writeValue(entityStream, xmlBody);
-    }
-    
+        new ObjectMapper().writeValue(entityStream, jsonBody);
+    }    
 }
