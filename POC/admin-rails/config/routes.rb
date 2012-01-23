@@ -1,4 +1,6 @@
 SLIAdmin::Application.routes.draw do
+  get "sessions/new"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -12,6 +14,9 @@ SLIAdmin::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
     resources :roles, :realms, :mappings
+    resources :sessions
+    
+    match '/logout', :to => 'sessions#destroy'
 
   # Sample resource route with options:
   #   resources :products do
