@@ -56,10 +56,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     LocalFileSystemLandingZone tempLz;
 
     private @Value("${queues.workItem.queueURI}") String workItemQueue;
-    
+
     @Override
     public void configure() throws Exception {
- 	
+
         String inboundDir = lz.getDirectory().getPath();
 
         // routeId: ctlFilePoller
@@ -82,7 +82,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to("seda:assembledJobs")
                 .otherwise()
                     .to("direct:stop");
-        
+
         // routeId: zipFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
@@ -105,8 +105,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         }
                     }).process(new ControlFilePreProcessor(tempLz))
                     .to(workItemQueue);
-        
-        // routeId: jobDispatch  
+
+        // routeId: jobDispatch
         from("seda:assembledJobs")
                 .routeId("jobDispatch")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispathing jobs for file.")
@@ -115,7 +115,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to("direct:stop")
                 .otherwise()
                     .to("seda:acceptedJobs");
-        
+
         // routeId: jobReporting
         from("direct:jobReporting")
                 .routeId("jobReporting")
@@ -132,7 +132,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // add output as lines
                         jobLogger.info("jobId: " + job.getId());
-                        
+
                         for (IngestionFileEntry fileEntry : job.getFiles()) {
                             jobLogger.info("[file] " + fileEntry.getFileName()
                                     + " (" + fileEntry.getFileFormat() + "/"
@@ -162,8 +162,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             jobLogger.info("All records processed successfully.");
                         }
 
-                        jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
-                        
+                        // TODO: fix this - we are never setting this header.
+                        //jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
+
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
                     }
@@ -198,7 +199,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log("end of job: " + header("jobId").toString())
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
                 .stop();
-   
+
     }
 
 }

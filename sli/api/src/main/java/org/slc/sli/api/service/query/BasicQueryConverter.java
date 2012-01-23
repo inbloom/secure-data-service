@@ -77,7 +77,8 @@ public class BasicQueryConverter implements QueryConverter {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(convertToType(type, keyAndValue[1]));
                         }
-                    }
+                    } else
+                        throw new RuntimeException();
                     if (criteria != null)
                         mongoQuery.addCriteria(criteria);
                 }
@@ -156,7 +157,7 @@ public class BasicQueryConverter implements QueryConverter {
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator);
         if (keyAndValue.length != 2)
-            return null;
+            throw new RuntimeException();
         else
             return keyAndValue;
     }
