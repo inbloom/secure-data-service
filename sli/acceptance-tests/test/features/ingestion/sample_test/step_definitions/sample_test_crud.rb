@@ -82,7 +82,7 @@ When /^zip file is scp to ingestion landing zone$/ do
     local_source_path = @source_path
     
     puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    Kernel::system("scp #{local_source_path} #{ingestion_server_string}")
+    sh "scp #{local_source_path} #{ingestion_server_string}"
     
     #doesn't work for some reason...
     #scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
