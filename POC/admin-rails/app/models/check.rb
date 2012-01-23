@@ -1,10 +1,11 @@
 require "net/http"
 class Check
-  attr_accessor :full_name
+  attr_accessor :full_name, :authenticated
 
   def initialize(sessionId)
     json =  Check.json_http_req('https://testapi1.slidev.org/api/rest/system/session/check', sessionId)
     @full_name = json['full_name']
+    @authenticated = json['authenticated']
   end
 
 
