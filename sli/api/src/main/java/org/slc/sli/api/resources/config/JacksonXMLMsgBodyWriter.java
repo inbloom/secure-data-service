@@ -52,7 +52,7 @@ public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
         if (type != null) {
             if (type.getName().equals("CollectionResponse")) {
                 // wrap the CollectionResponse in an Associations class
-                xmlBody = new Associations((CollectionResponse)t);
+                xmlBody = new Associations((CollectionResponse) t);
             }
         }
 
