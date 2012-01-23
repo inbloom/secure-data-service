@@ -53,16 +53,29 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using POST to create a new object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpPost(id, data, format = @format, sessionId = @sessionId)
+def restHttpPost(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into POST was nil")
   
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.post(url, data, {:content_type => format, :sessionId => sessionId}){|response, request, result| response } 
+  if passAsRequestParm
+    #See if other request params exist in the URL
+    sessionParm = "?sessionId="+sessionId
+    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
+    
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
+    puts(url) if $SLI_DEBUG
+    @res = RestClient.post(url, data, {:content_type => format}){|response, request, result| response }
+  else
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+    @res = RestClient.post(url, data, {:content_type => format, :sessionId => sessionId}){|response, request, result| response }
+  end
+  
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -72,16 +85,29 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using GET to retrieve an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpGet(id, format = @format, sessionId = @sessionId)
+def restHttpGet(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.get(url,{:accept => format,  :sessionId => sessionId}){|response, request, result| response }
+  if passAsRequestParm
+    #See if other request params exist in the URL
+    sessionParm = "?sessionId="+sessionId
+    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
+    
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
+    puts(url) if $SLI_DEBUG
+    @res = RestClient.get(url,{:accept => format}){|response, request, result| response }
+  else
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+    @res = RestClient.get(url,{:accept => format,  :sessionId => sessionId}){|response, request, result| response }
+  end
+
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -92,16 +118,29 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using PUT to update an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpPut(id, data, format = @format, sessionId = @sessionId)
+def restHttpPut(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into PUT was nil")
   
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.put(url, data, {:content_type => format,  :sessionId => sessionId}){|response, request, result| response }
+  if passAsRequestParm
+    #See if other request params exist in the URL
+    sessionParm = "?sessionId="+sessionId
+    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
+    
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
+    puts(url) if $SLI_DEBUG
+    @res = RestClient.put(url, data, {:content_type => format}){|response, request, result| response }
+  else
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+    @res = RestClient.put(url, data, {:content_type => format,  :sessionId => sessionId}){|response, request, result| response }
+  end
+  
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -111,16 +150,29 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using DELETE to remove an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpDelete(id, format = @format, sessionId = @sessionId)
+def restHttpDelete(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
 
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.delete(url,{:accept => format,  :sessionId => sessionId}){|response, request, result| response }
+  if passAsRequestParm
+    #See if other request params exist in the URL
+    sessionParm = "?sessionId="+sessionId
+    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
+    
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
+    puts(url) if $SLI_DEBUG
+    @res = RestClient.delete(url,{:accept => format}){|response, request, result| response }
+  else
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+    @res = RestClient.delete(url,{:accept => format,  :sessionId => sessionId}){|response, request, result| response }
+  end
+  
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
