@@ -16,7 +16,6 @@ import java.util.List;
  *
  * @author rlatta
  */
-@Component
 public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
     @Autowired
