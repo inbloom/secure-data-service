@@ -183,9 +183,9 @@ public class XsdToNeutralSchema {
         List<XmlSchema> xmlSchemas = this.parseXmlSchemas(this.getXsdPath(), XSD);
         
         long totalSchemaCount = 0;
-        List primitiveList = new ArrayList();
-        List simpleList = new ArrayList();
-        List complexList = new ArrayList();
+        List<NeutralSchema> primitiveList = new ArrayList<NeutralSchema>();
+        List<NeutralSchema> simpleList = new ArrayList<NeutralSchema>();
+        List<NeutralSchema> complexList = new ArrayList<NeutralSchema>();
         
         try {
             
@@ -501,20 +501,6 @@ public class XsdToNeutralSchema {
         this.parseFields(schemaComplexType, complexSchema);
         
         return complexSchema;
-    }
-    
-    private XmlSchemaComplexContentExtension getComplexContent(XmlSchemaComplexType schemaComplexType) {
-        XmlSchemaComplexContentExtension schemaComplexContentExtension = null;
-        if (schemaComplexType.getContentModel() != null && schemaComplexType.getContentModel().getContent() != null) {
-            if (schemaComplexType.getContentModel().getContent() instanceof XmlSchemaComplexContentExtension) {
-                schemaComplexContentExtension = (XmlSchemaComplexContentExtension) schemaComplexType.getContentModel()
-                        .getContent();
-            } else {
-                LOG.error("Unsupported complex content model: "
-                        + schemaComplexType.getContentModel().getContent().getClass().getCanonicalName());
-            }
-        }
-        return schemaComplexContentExtension;
     }
     
     private XmlSchemaComplexType getComplexBaseType(XmlSchemaComplexContentExtension schemaComplexContent) {

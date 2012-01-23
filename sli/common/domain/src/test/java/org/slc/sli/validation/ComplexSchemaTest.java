@@ -63,13 +63,13 @@ public class ComplexSchemaTest {
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
         tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-        Map complexEntity = new HashMap();
-        Boolean booleanEntity = new Boolean(true);
-        Long longEntity = new Long(0);
-        Double doubleEntity = new Double(0);
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        Boolean booleanEntity = true;
+        Long longEntity = 0L;
+        Double doubleEntity = 0.0;
         BigDecimal decimalEntity = new BigDecimal(0);
-        String stringEntity = new String("test");
-        String tokenEntity = new String("validToken");
+        String stringEntity = "test";
+        String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
@@ -95,13 +95,12 @@ public class ComplexSchemaTest {
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
         tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-        Map complexEntity = new HashMap();
-        Boolean booleanEntity = new Boolean(true);
-        Long longEntity = new Long(0);
-        Double doubleEntity = new Double(0);
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        Long longEntity = 0L;
+        Double doubleEntity = 0.0;
         BigDecimal decimalEntity = new BigDecimal(0);
-        String stringEntity = new String("test");
-        String tokenEntity = new String("token");
+        String stringEntity = "test";
+        String tokenEntity = "token";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         
         // Setup for failure
@@ -132,14 +131,14 @@ public class ComplexSchemaTest {
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
         tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-        Map hierarchyEntity = new HashMap();
-        Map complexEntity = new HashMap();
-        Boolean booleanEntity = new Boolean(true);
-        Long longEntity = new Long(0);
-        Double doubleEntity = new Double(0);
+        Map<String, Object> hierarchyEntity = new HashMap<String, Object>();
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        Boolean booleanEntity = true;
+        Long longEntity = 0L;
+        Double doubleEntity = 0.0;
         BigDecimal decimalEntity = new BigDecimal(0);
-        String stringEntity = new String("test");
-        String tokenEntity = new String("validToken");
+        String stringEntity = "test";
+        String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         hierarchyEntity.put("schemaField", complexEntity);
         complexEntity.put("booleanField", booleanEntity);
@@ -168,14 +167,13 @@ public class ComplexSchemaTest {
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
         tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-        Map hierarchyEntity = new HashMap();
-        Map complexEntity = new HashMap();
-        Boolean booleanEntity = new Boolean(true);
-        Long longEntity = new Long(0);
-        Double doubleEntity = new Double(0);
+        Map<String, Object> hierarchyEntity = new HashMap<String, Object>();
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        Long longEntity = 0L;
+        Double doubleEntity = 0.0;
         BigDecimal decimalEntity = new BigDecimal(0);
-        String stringEntity = new String("test");
-        String tokenEntity = new String("validToken");
+        String stringEntity = "test";
+        String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         hierarchyEntity.put("schemaField", complexEntity);
         
@@ -208,14 +206,14 @@ public class ComplexSchemaTest {
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
         tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-        Map hierarchyEntity = new HashMap();
-        Map complexEntity = new HashMap();
-        Boolean booleanEntity = new Boolean(true);
-        Long longEntity = new Long(0);
-        Double doubleEntity = new Double(0);
+        Map<String, Object> hierarchyEntity = new HashMap<String, Object>();
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        Boolean booleanEntity = true;
+        Long longEntity = 0L;
+        Double doubleEntity = 0.0;
         BigDecimal decimalEntity = new BigDecimal(0);
-        String stringEntity = new String("test");
-        String tokenEntity = new String("validToken");
+        String stringEntity = "test";
+        String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         
         // Setup for map failure

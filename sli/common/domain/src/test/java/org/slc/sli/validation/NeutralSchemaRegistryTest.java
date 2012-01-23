@@ -37,7 +37,7 @@ public class NeutralSchemaRegistryTest {
         String schemaRepresentation = NeutralSchemaRegistry.JSON;
         URL schemaResourcesUrl = ResourceUtils.getURL(schemaPath);
         File schemaResourcesDir = FileUtils.toFile(schemaResourcesUrl);
-        List<File> schemaFiles = new ArrayList(FileUtils.listFiles(schemaResourcesDir,
+        List<File> schemaFiles = new ArrayList<File>(FileUtils.listFiles(schemaResourcesDir,
                 new String[] { schemaRepresentation }, true));
         
         for (File schemaFile : schemaFiles) {
