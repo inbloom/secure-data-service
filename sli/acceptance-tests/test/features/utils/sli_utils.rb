@@ -63,18 +63,8 @@ def restHttpPost(id, data, format = @format, sessionId = @sessionId, passAsReque
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into POST was nil")
   
-  if passAsRequestParm
-    #See if other request params exist in the URL
-    sessionParm = "?sessionId="+sessionId
-    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
-    
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
-    puts(url) if $SLI_DEBUG
-    @res = RestClient.post(url, data, {:content_type => format}){|response, request, result| response }
-  else
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-    @res = RestClient.post(url, data, {:content_type => format, :sessionId => sessionId}){|response, request, result| response }
-  end
+  urlHeader = makeUrlAndHeaders('post',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.post(urlHeader[0], data, urlHeader[1]){|response, request, result| response }
   
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -95,18 +85,8 @@ def restHttpGet(id, format = @format, sessionId = @sessionId, passAsRequestParm 
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  if passAsRequestParm
-    #See if other request params exist in the URL
-    sessionParm = "?sessionId="+sessionId
-    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
-    
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
-    puts(url) if $SLI_DEBUG
-    @res = RestClient.get(url,{:accept => format}){|response, request, result| response }
-  else
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-    @res = RestClient.get(url,{:accept => format,  :sessionId => sessionId}){|response, request, result| response }
-  end
+  urlHeader = makeUrlAndHeaders('get',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.get(urlHeader[0], urlHeader[1]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -128,18 +108,8 @@ def restHttpPut(id, data, format = @format, sessionId = @sessionId, passAsReques
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into PUT was nil")
   
-  if passAsRequestParm
-    #See if other request params exist in the URL
-    sessionParm = "?sessionId="+sessionId
-    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
-    
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
-    puts(url) if $SLI_DEBUG
-    @res = RestClient.put(url, data, {:content_type => format}){|response, request, result| response }
-  else
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-    @res = RestClient.put(url, data, {:content_type => format,  :sessionId => sessionId}){|response, request, result| response }
-  end
+  urlHeader = makeUrlAndHeaders('put',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.put(urlHeader[0], data, urlHeader[1]){|response, request, result| response }
   
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -159,21 +129,33 @@ end
 def restHttpDelete(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
+  
+  urlHeader = makeUrlAndHeaders('delete',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.delete(urlHeader[0], urlHeader[1]){|response, request, result| response }
+  
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
 
+def makeUrlAndHeaders(verb,passAsRequestParm,id,sessionId,format)
+  if(verb == 'put' || verb == 'post')
+    headers = {:content_type => format}
+  else
+    headers = {:accept => format}
+  end
+    
   if passAsRequestParm
     #See if other request params exist in the URL
     sessionParm = "?sessionId="+sessionId
     sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
     
     url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
-    puts(url) if $SLI_DEBUG
-    @res = RestClient.delete(url,{:accept => format}){|response, request, result| response }
   else
     url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-    @res = RestClient.delete(url,{:accept => format,  :sessionId => sessionId}){|response, request, result| response }
+    headers.store(:sessionId, sessionId)
   end
+  puts(url, headers) if $SLI_DEBUG
   
-  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return [url,headers]
 end
 
 ##############################################################################
