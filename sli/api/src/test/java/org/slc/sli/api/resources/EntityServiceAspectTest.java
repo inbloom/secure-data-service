@@ -13,14 +13,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.security.aspects.EntityServiceAspect;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.EntitySchemaRegistry;
@@ -43,8 +40,6 @@ public class EntityServiceAspectTest {
     private static final String ASPECT_FUNCTION_CREATE = "create";
     private static final String ASPECT_FUNCTION_GETDEFN = "getEntityDefinition";
     
-    private static Object returnObj;
-    
     @Autowired
     private EntitySchemaRegistry schemaRegistry;
     
@@ -56,7 +51,6 @@ public class EntityServiceAspectTest {
     
     @Before
     public void init() {
-        returnObj = new Object();
         aspect.setSchemaRegistry(schemaRegistry);
     }
     
@@ -115,8 +109,7 @@ public class EntityServiceAspectTest {
         ProceedingJoinPoint pjp = mockProceedingJoinPoint(ASPECT_FUNCTION_CREATE, mockStudent,
                 ROLE_SPRING_NAME_EDUCATOR);
         
-        @SuppressWarnings("unused")
-        Object ret = aspect.authorizeWrite(pjp);
+        aspect.authorizeWrite(pjp);
     }
     
     @SuppressWarnings("unchecked")
@@ -170,24 +163,6 @@ public class EntityServiceAspectTest {
         Mockito.when(mockPjp.getSignature()).thenReturn(sig);
         
         return mockPjp;
-    }
-    
-    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName, String entityType, String springRole)
-            throws Throwable {
-        ProceedingJoinPoint pjp = Mockito.mock(ProceedingJoinPoint.class);
-        GrantedAuthority auth = Mockito.mock(GrantedAuthority.class);
-        EntityService es = Mockito.mock(EntityService.class);
-        EntityDefinition ed = Mockito.mock(EntityDefinition.class);
-        Signature sig = createSignature(methodName);
-        
-        Mockito.when(ed.getType()).thenReturn(entityType);
-        Mockito.when(es.getEntityDefinition()).thenReturn(ed);
-        Mockito.when(auth.getAuthority()).thenReturn(springRole);
-        Mockito.when(pjp.getSignature()).thenReturn(sig);
-        Mockito.when(pjp.getTarget()).thenReturn(es);
-        Mockito.when(pjp.proceed()).thenReturn(returnObj);
-        
-        return pjp;
     }
     
     private Signature createSignature(String methodName) {
