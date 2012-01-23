@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 public class NeutralSchema implements Serializable {
     
     // Logging
-    private static final Log log = LogFactory.getLog(NeutralSchema.class);
+    static final Log LOG = LogFactory.getLog(NeutralSchema.class);
     
     // Constants
     public static final String JSON = "json";

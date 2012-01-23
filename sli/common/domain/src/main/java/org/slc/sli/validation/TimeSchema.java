@@ -47,6 +47,7 @@ public class TimeSchema extends NeutralSchema {
             javax.xml.bind.DatatypeConverter.parseTime((String) entity);
             isValid = true;
         } catch (IllegalArgumentException e2) {
+            isValid = false;
         }
         return addError(isValid, fieldName, entity, "RFC 3339", ErrorType.INVALID_DATE_FORMAT, errors);
     }

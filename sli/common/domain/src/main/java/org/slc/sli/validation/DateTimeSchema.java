@@ -47,8 +47,9 @@ public class DateTimeSchema extends NeutralSchema {
             javax.xml.bind.DatatypeConverter.parseDateTime((String) entity);
             isValid = true;
         } catch (IllegalArgumentException e2) {
+            isValid = false;
         }
-        return addError(isValid, fieldName, entity, "RFC 3339", ErrorType.INVALID_DATE_FORMAT, errors);
+        return addError(isValid, fieldName, entity, "RFC 3339 DateTime", ErrorType.INVALID_DATE_FORMAT, errors);
     }
     
 }
