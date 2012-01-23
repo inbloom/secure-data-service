@@ -31,7 +31,7 @@ $failures = Hash.new
 # Inputs: (String) collectionName = name of mongo collection to load fixture data to
 # Inputs: (String) fixtureFileName = name of json file in the test/data folder
 def runFixtureAndTests(testDirPath, collectionName, fixtureFileName)
-  setFixtureWithDropOption(collectionName,fixtureFileName, "test/data", true) {runTests(testDirPath)}
+  setFixture(collectionName,fixtureFileName) {runTests(testDirPath)}
 end
 
 # This method is to run a given test of set of test where a fixture is not needed
@@ -47,7 +47,7 @@ def runTests(testDirPath)
   end
 end
 
-def setFixtureWithDropOption(collectionName,fixtureFileName,fixtureFilePath,dropExistingCollection)
+def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":"";
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
@@ -60,13 +60,9 @@ def setFixtureWithDropOption(collectionName,fixtureFileName,fixtureFilePath,drop
   end
 end
 
-def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data")
-  setFixtureWithDropOption(collectionName,fixtureFileName,fixtureFilePath,true)
-end
-
-def addMultipleFixtureFiles(myHash, fixtureFilePath)
+def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
   myHash.each do |key, value|
-    setFixtureWithDropOption(key,value,fixtureFilePath,false)
+    setFixture(key,value,fixtureFilePath,false)
   end
 end
 
@@ -93,7 +89,7 @@ task :default => :production
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -191,6 +187,7 @@ end
 desc "Run Association Tests"
 task :associationTests do
   Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/associations/educationOrganization_association")
   runTests("test/features/api/associations/student_section_association")
   runTests("test/features/api/associations/student_assessment_association")
   runTests("test/features/api/associations/student_school_association")
@@ -293,9 +290,10 @@ task :importSandboxData do
     "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
-    "educationOrganizationschoolassociation" => "school_educationOrganization_fixure.json",
+    "educationOrganizationSchoolAssociation" => "school_educationOrganization_fixure.json",
+    "educationOrganizationAssociation" => "educationOrganizationAssociation_fixture.json",
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
-    "staffeducationOrganizationassociation" => "staffEducationOrganizationAssociation_fixture.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)

@@ -17,6 +17,17 @@ Transform /^<([^>]*)>$/ do |arg|
   ret = "67ce204b-9999-4a11-aaab-000000000005" if arg == 'Small Mouth Bass Middle School'
   ret = "67ce204b-9999-4a11-aaab-000000000006" if arg == 'Don\'t Sweat the Small Stuff Middle School'
   ret = "67ce204b-9999-4a11-aaab-000000000007" if arg == 'La Vie en Small French-Immersion K-8'
+  ret = "67ce204b-9999-4a11-aabc-000000000030" if arg == '8888031'
+  ret = "67ce204b-9999-4a11-aabc-000000000031" if arg == '8888032'
+  ret = "67ce204b-9999-4a11-aabc-000000000032" if arg == '8888033'
+  ret = "67ce204b-9999-4a11-aabc-000000000033" if arg == '8888034'
+  ret = "67ce204b-9999-4a11-aabc-000000000034" if arg == '8888035'
+  ret = "67ce204b-9999-4a11-aabc-000000000035" if arg == '8888036'
+  ret = "67ce204b-9999-4a11-aabc-000000000036" if arg == '8888037'
+  ret = "67ce204b-9999-4a11-aabc-000000000037" if arg == '8888038'
+  ret = "67ce204b-9999-4a11-aabc-000000000038" if arg == '8888039'
+  ret = "67ce204b-9999-4a11-aabc-000000000039" if arg == '8888040'
+  ret = "67ce204b-9999-4a11-aabc-000000000048" if arg == '8888049'
   ret
 end
 
@@ -50,6 +61,10 @@ end
 
 Given /^I am using the Smallville School District assessment scores$/ do
   #fixture data is loaded in by rake task
+end
+
+Given /^the aggregation table is clear$/ do
+  coll.drop
 end
 
 Given /^I have an aggregation definition for (<[^>]*>)$/ do |agg_def|

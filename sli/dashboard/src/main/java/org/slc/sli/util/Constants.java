@@ -11,6 +11,10 @@ public class Constants {
     // API related URLs
     public static final String API_SERVER_URI = "https://devapp1.slidev.org/api/rest";
 
+    
+    public static final String PROGRAM_ELL = "limitedEnglishProficiency";
+    public static final String PROGRAM_FRE = "schoolFoodServiceEligibility";
+    
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";

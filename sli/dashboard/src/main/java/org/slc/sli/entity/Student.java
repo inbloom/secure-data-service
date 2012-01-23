@@ -1,5 +1,6 @@
 package org.slc.sli.entity;
 
+import org.slc.sli.util.Constants;
 
 /**
  * 
@@ -18,7 +19,7 @@ public class Student {
         this.schoolFoodServiceEligibility = schoolFoodServiceEligibility;
     }
 
-    private static String[] studentEntityProgramCodes = {"limitedEnglishProficiency", "schoolFoodServiceEligibility"};
+    private static String[] studentEntityProgramCodes = {Constants.PROGRAM_ELL, Constants.PROGRAM_FRE};
     
     private NameData name;
     public NameData getName() {
@@ -101,10 +102,10 @@ public class Student {
 
     
     public boolean getProgramParticipation(String programCode) {
-        if (programCode.equals("limitedEnglishProficiency"))
+        if (programCode.equals(Constants.PROGRAM_ELL))
             return isLimitedEnglishProficient();
         
-        if (programCode.equals("schoolFoodServiceEligibility"))
+        if (programCode.equals(Constants.PROGRAM_FRE))
             return isSchoolFoodServiceEligile();
         
         return false;
