@@ -71,6 +71,7 @@ public final class RoleBuilder {
         role.setRealmRoleMappings(mappings);
     }
     
+    @SuppressWarnings("unchecked")
     public static RoleBuilder makeRole(EntityBody entityBody) {
         RoleBuilder resultRole = new RoleBuilder((String) entityBody.get("name"));
         resultRole.addRights((List<String>) entityBody.get("rights"));
