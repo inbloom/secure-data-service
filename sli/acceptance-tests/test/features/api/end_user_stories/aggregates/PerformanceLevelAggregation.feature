@@ -4,6 +4,7 @@ Background:
     Given I am connected to the sli database
     Given I am logged in using "demo" "demo1234"
     Given I have access to all aggregation definitions
+    Given the aggregation table is clear
 
 Scenario: District Level 8th Grade EOG
     Given I am using the Smallville School District assessment scores 
