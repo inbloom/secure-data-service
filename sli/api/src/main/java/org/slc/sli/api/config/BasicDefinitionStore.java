@@ -49,8 +49,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         
         // adding the entity definitions
-        EntityDefinition aggregation = this.makeExposeAndAddEntityDefinition("aggregation");
-        EntityDefinition aggregationDefinition = this.makeExposeAndAddEntityDefinition("aggregationDefinition");
+        this.makeExposeAndAddEntityDefinition("aggregation");
+        this.makeExposeAndAddEntityDefinition("aggregationDefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");

@@ -69,7 +69,7 @@ public class DefaultSliAdminValidatorTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testBadRegex() {
-        SliAdminValidator validator = new DefaultSliAdminValidator("(foo");
+        new DefaultSliAdminValidator("(foo");
     }
     
 }
