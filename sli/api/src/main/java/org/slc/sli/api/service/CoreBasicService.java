@@ -1,7 +1,5 @@
 package org.slc.sli.api.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -18,7 +16,6 @@ import org.slc.sli.validation.EntityValidator;
 @Scope("prototype")
 @Component("coreBasicService")
 public class CoreBasicService implements CoreEntityService {
-    private static final Logger LOG = LoggerFactory.getLogger(CoreBasicService.class);
     
     private String collectionName;
     
@@ -46,15 +43,16 @@ public class CoreBasicService implements CoreEntityService {
     }
     
     @Override
-    public void update(Entity entity, EntityBody updates) {
+    public boolean update(Entity entity, EntityBody updates) {
         Entity repoEntity = repo.find(collectionName, entity.getEntityId());
+        repoEntity.getBody().clear();
         repoEntity.getBody().putAll(updates);
         validator.validate(repoEntity);
-        repo.update(collectionName, repoEntity);
+        return repo.update(collectionName, repoEntity);
     }
     
     @Override
-    public void delete(Entity entity) {
-        repo.delete(collectionName, entity.getEntityId());
+    public boolean delete(String id) {
+        return repo.delete(collectionName, id);
     }
 }

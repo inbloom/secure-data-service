@@ -10,8 +10,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.config.AssociationDefinition;
@@ -22,7 +20,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
 import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
-
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -108,20 +105,23 @@ public class ResourceUtil {
     
     /**
      * Returns the URI for aggregations
-     * @param uriInfo The base URI
+     * 
+     * @param uriInfo
+     *            The base URI
      * @return A list of links pointing to the base Url for aggregations
      */
     public static List<EmbeddedLink> getAggregateLink(final UriInfo uriInfo) {
         List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
         
-        links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder().path(RESOURCE_PATH_AGG).build().toString()));
+        links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder()
+                .path(RESOURCE_PATH_AGG).build().toString()));
         
         return links;
     }
     
-
     /**
      * Helper method to convert MultivaluedMap to a Map
+     * 
      * @param map
      * @return
      */

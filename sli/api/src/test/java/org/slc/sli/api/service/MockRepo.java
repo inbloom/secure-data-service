@@ -31,23 +31,23 @@ public class MockRepo implements EntityRepository {
         repo.put("student", new LinkedHashMap<String, Entity>());
         repo.put("school", new LinkedHashMap<String, Entity>());
         repo.put("roles", new LinkedHashMap<String, Entity>());
-        repo.put("studentschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("teacher", new LinkedHashMap<String, Entity>());
         repo.put("section", new LinkedHashMap<String, Entity>());
         repo.put("assessment", new LinkedHashMap<String, Entity>());
-        repo.put("studentassessmentassociation", new LinkedHashMap<String, Entity>());
-        repo.put("studentsectionassociation", new LinkedHashMap<String, Entity>());
-        repo.put("teacherschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentAssessmentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentSectionAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("teacherSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staff", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganization", new LinkedHashMap<String, Entity>());
-        repo.put("educationOrganizationschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganizationSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staffEducationOrganizationAssociation", new LinkedHashMap<String, Entity>());
-        repo.put("sectionassessmentassociation", new LinkedHashMap<String, Entity>());
-        repo.put("sectionschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("sectionAssessmentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("sectionSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("aggregation", new LinkedHashMap<String, Entity>());
         repo.put("staffschoolassociation", new LinkedHashMap<String, Entity>());
-        repo.put("aggregationdefinition", new LinkedHashMap<String, Entity>());
-        repo.put("educationOrganizationassociation", new LinkedHashMap<String, Entity>());
+        repo.put("aggregationDefinition", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganizationAssociation", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -70,8 +70,9 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void update(String type, Entity entity) {
+    public boolean update(String type, Entity entity) {
         repo.get(type).put(entity.getEntityId(), entity);
+        return true;
     }
     
     @Override
@@ -87,8 +88,8 @@ public class MockRepo implements EntityRepository {
     }
     
     @Override
-    public void delete(String entityType, String id) {
-        repo.get(entityType).remove(id);
+    public boolean delete(String entityType, String id) {
+        return repo.get(entityType).remove(id) != null;
     }
     
     @Override
@@ -258,7 +259,7 @@ public class MockRepo implements EntityRepository {
             compare = (Integer) entityValue - Integer.parseInt(value);
         return compare;
     }
-
+    
     private boolean matchQuery(String entityType, String id, String queryString) {
         boolean match = false;
         List<Entity> toReturn = new ArrayList<Entity>();
@@ -335,7 +336,7 @@ public class MockRepo implements EntityRepository {
                 queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-
+            
         } else if (dbObject.containsField("$gte")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");

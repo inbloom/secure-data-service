@@ -12,6 +12,7 @@ import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.LozengeConfig;
 
 /**
  * Unit tests for the ConfigPersistor class.
@@ -41,7 +42,20 @@ public class ConfigPersistorTest {
         assertEquals(4, config.getDisplaySet().get(1).getField().size());
         assertEquals(2, config.getDisplaySet().get(2).getField().size());
     }
-    
+
+    @Test
+    public void testGetLozengeConfig() {
+        LozengeConfig[] lozengeConfigs = null;
+        try {
+            ConfigPersistor persistor = new ConfigPersistor();
+            persistor.setApiClient(new MockAPIClient());
+            lozengeConfigs = persistor.getLozengeConfig("lkim");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(10, lozengeConfigs.length);
+    }
+
     @Test
     public void testSaveConfigSet() {
         

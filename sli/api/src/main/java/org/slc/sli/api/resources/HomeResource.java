@@ -68,7 +68,7 @@ public class HomeResource {
             
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
-            linksMap.put(ResourceUtil.LINKS, links);            
+            linksMap.put(ResourceUtil.LINKS, links);
 
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
@@ -87,7 +87,7 @@ public class HomeResource {
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
         if (entity != null) {
-            EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());        
+            EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
             pair = Pair.of(entity.getEntityId(), entityDefinition);
         }
         

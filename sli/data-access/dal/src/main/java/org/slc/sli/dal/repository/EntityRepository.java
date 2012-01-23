@@ -15,42 +15,40 @@ import org.springframework.data.mongodb.core.query.Query;
 public interface EntityRepository {
     
     /**
-     * @param entityType
-     *            the entity type need to be retrieved, can be entity type for
-     *            core entity or association entity
+     * @param collectioName
+     *            the name of the collection to look in
      * @param id
      *            the global unique id of the entity
      * @return the entity retrieved
      */
-    public Entity find(String entityType, String id);
+    public Entity find(String collectioName, String id);
     
     /**
-     * @param entityType
-     *            the entity type need to be retrieved, can be entity type for
-     *            core entity or association entity
+     * @param collectionName
+     *            the name of the collection to look in
      * @param skip
      *            the beginning index of the entity that will be returned
      * @param max
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    public Iterable<Entity> findAll(String entityType, int skip, int max);
+    public Iterable<Entity> findAll(String collectionName, int skip, int max);
     
     /**
-     * @param entityType
-     *            the entity type need to be retrieved, can be entity type for
-     *            core entity or association entity
+     * @param collectioName
+     *            the name of the collection to look in
      * @return the collection of entities
      */
-    public Iterable<Entity> findAll(String entityType);
+    public Iterable<Entity> findAll(String collectioName);
     
     /**
      * @param collection
      *            the collection the entity is in
      * @param entity
      *            the entity that will be updated
+     * @return whether or not the entity was updated
      */
-    public void update(String collection, Entity entity);
+    public boolean update(String collection, Entity entity);
     
     /**
      * Create an entry with the collection set to the type name
@@ -62,7 +60,7 @@ public interface EntityRepository {
      * @return the entity that has been persisted
      */
     public Entity create(String type, Map<String, Object> body);
-
+    
     /**
      * @param type
      *            the type of entity to be persisted
@@ -75,25 +73,22 @@ public interface EntityRepository {
     public Entity create(String type, Map<String, Object> body, String collectionName);
     
     /**
-     * @param entityType
-     *            the entity type need to be deleted, can be entity type for
-     *            core entity or association entity
+     * @param collectionName
+     *            the name of the collection to delete from
      * @param id
      *            the global unique id of the entity
      */
-    public void delete(String entityType, String id);
+    public boolean delete(String collectionName, String id);
     
     /**
-     * @param entityType
-     *            the entity type need to be deleted, can be entity type for
-     *            core entity or association entity
+     * @param collectionName
+     *            the name of the collection to delete from
      */
-    public void deleteAll(String entityType);
+    public void deleteAll(String collectionName);
     
     /**
-     * @param entityType
-     *            the entity type need to be retrieved, can be entity type for
-     *            core entity or association entity
+     * @param collectionName
+     *            the name of the collection to look in
      * @param fields
      *            a map with key value pairs as string that define the search
      *            criteria for example: new HashMap().put("firstName","Jane")
@@ -103,25 +98,21 @@ public interface EntityRepository {
      *            the max number of entities that will be returned
      * @return the collection of entities
      */
-    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max);
+    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max);
     
     /**
-     * @param entityType
-     *            the entity type need to be retrieved, can be entity type for
-     *            core entity or association entity
+     * @param collectionName
+     *            the name of the collection to look in
      * @param fields
      *            a map with key value pairs as string that define the search
      *            criteria for example: new HashMap().put("firstName","Jane")
      * @return the collection of entities
      */
-    public Iterable<Entity> findByFields(String entityType, Map<String, String> fields);
+    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields);
     
-    
-
     /**
-     * @param entityType
-     *            the entity type need to be retrieved, can be entity type for
-     *            core entity or association entity
+     * @param collectionName
+     *            the name of the collection to look in
      * @param query
      *            the query to filter returned collection results
      * @param skip
@@ -131,8 +122,8 @@ public interface EntityRepository {
      * 
      * @return the collection of entities
      */
-    public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max);
-
+    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max);
+    
     /*
      * matchQuery method is a temporary solution for association/sourceGUID/targets type of
      * filtering as the current data model does not have any reference between source entity and
@@ -143,17 +134,16 @@ public interface EntityRepository {
      * entity has been retrieved by traversal from source entity -> association entity -> target
      * entity
      */
-
+    
     /**
-     * @param entityType
-     *            the entity type need to be checked, can be entity type for
-     *            core entity or association entity
+     * @param collectioName
+     *            the name of the collection to look in
      * @param id
      *            the global unique id of the entity
      * @param query
      *            the query for checking if specified entity matches
      * @return true if specified entity matches query, otherwise return false
      */
-    public boolean matchQuery(String entityType, String id, Query query);
-
+    public boolean matchQuery(String collectioName, String id, Query query);
+    
 }

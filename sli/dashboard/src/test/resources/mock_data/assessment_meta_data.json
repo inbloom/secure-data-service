@@ -1,5 +1,59 @@
 [
     {
+        "name": "ACT",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "ACT_READING" },
+                    { "name": "ACT_READING_SOC_SCI" },
+                    { "name": "ACT_READING_ARTS_LIT" },
+                    { "name": "ACT_ENGLISH" },
+                    { "name": "ACT_ENGLISH_UM" },
+                    { "name": "ACT_ENGLISH_RS" },
+                    { "name": "ACT_WRITING" },
+                    { "name": "ACT_WRITING_PLUS_ENG" }
+        ]
+    },
+    {
+        "name": "SAT",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "SAT_READING" },
+                    { "name": "SAT_WRITING" },
+                    { "name": "SAT_WRITING_ESSAY" },
+                    { "name": "SAT_WRITING_MC" }
+        ]
+    },
+    {
+        "name": "PSAT",
+        "periods" : [
+		{ 
+	           "name": "Annual",
+	           "windowStart": "01/01",
+	           "windowEnd": "12/31"
+		}
+	  ],
+        "period" : "Annual",
+        "children" : [
+                    { "name": "PSAT_READING" },
+                    { "name": "PSAT_WRITING" }
+        ]
+
+    },
+    {
         "name": "AP_ENGLISH",
         "perfLevels": [
             {
@@ -47,28 +101,28 @@
             {
                 "name": "1",
                 "code": "W",
-                "shortName": "1 / W",
+                "shortName": "1",
                 "longName": "Level 1: Academic Warning (W)",
                 "isReal": true
             },
             {
                 "name": "2",
                 "code": "B",
-                "shortName": "2 / B",
+                "shortName": "2",
                 "longName": "Level 2: Below Standards (B)",
                 "isReal": true
             },
             {
                 "name": "3",
                 "code": "M",
-                "shortName": "3 / M",
+                "shortName": "3",
                 "longName": "Level 3: Meets Standards (S)",
                 "isReal": true
             },
             {
                 "name": "4",
                 "code": "E",
-                "shortName": "4 / E",
+                "shortName": "4",
                 "longName": "Level 4: Exceeds Standards (E)",
                 "isReal": true
             },
@@ -106,9 +160,7 @@
                     { "name": "3",
                       "range": [191,227] },
                     { "name": "4",
-                      "range": [227,329] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [227,329] }
                 ],
                 "children": [
                     { "name": "ISAT_READING_GRADE_3_2010" },
@@ -125,9 +177,7 @@
                     { "name": "3",
                       "range": [203,237] },
                     { "name": "4",
-                      "range": [237,341] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [237,341] }
                 ],
                 "children": [
                     { "name": "ISAT_READING_GRADE_4_2010" },
@@ -144,9 +194,7 @@
                     { "name": "3",
                       "range": [215,247] },
                     { "name": "4",
-                      "range": [247,351] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [247,351] }
                 ],
                 "children": [
                     { "name": "ISAT_READING_GRADE_5_2010" },
@@ -163,9 +211,7 @@
                     { "name": "3",
                       "range": [220,257] },
                     { "name": "4",
-                      "range": [257,360] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [257,360] }
                 ],
                 "children": [
                     { "name": "ISAT_READING_GRADE_6_2010" },
@@ -182,9 +228,7 @@
                     { "name": "3",
                       "range": [226,267] },
                     { "name": "4",
-                      "range": [267,369] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [267,369] }
                 ],
                 "children": [
                     { "name": "ISAT_READING_GRADE_7_2010" },
@@ -201,9 +245,7 @@
                     { "name": "3",
                       "range": [231,278] },
                     { "name": "4",
-                      "range": [278,364] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [278,364] }
                 ],
                 "children": [
                     { "name": "ISAT_READING_GRADE_8_2010" },
@@ -219,28 +261,28 @@
             {
                 "name": "1",
                 "code": "W",
-                "shortName": "1 / W",
+                "shortName": "1",
                 "longName": "Level 1: Academic Warning (W)",
                 "isReal": true
             },
             {
                 "name": "2",
                 "code": "B",
-                "shortName": "2 / B",
+                "shortName": "2",
                 "longName": "Level 2: Below Standards (B)",
                 "isReal": true
             },
             {
                 "name": "3",
                 "code": "M",
-                "shortName": "3 / M",
+                "shortName": "3",
                 "longName": "Level 3: Meets Standards (S)",
                 "isReal": true
             },
             {
                 "name": "4",
                 "code": "E",
-                "shortName": "4 / E",
+                "shortName": "4",
                 "longName": "Level 4: Exceeds Standards (E)",
                 "isReal": true
             },
@@ -278,9 +320,7 @@
                     { "name": "3",
                       "range": [184,224] },
                     { "name": "4",
-                      "range": [224,341] }, 
-                    { "name": "I",
-                      "range": [] }
+                      "range": [224,341] }
                 ],
                 "children": [
                     { "name": "ISAT_WRITING_GRADE_3_2010" },
@@ -297,9 +337,7 @@
                     { "name": "3",
                       "range": [200,247] },
                     { "name": "4",
-                      "range": [247,355] }, 
-                    { "name": "I",
-                      "range": [] }
+                      "range": [247,355] }
                 ],
                 "children": [
                     { "name": "ISAT_WRITING_GRADE_4_2010" },
@@ -316,9 +354,7 @@
                     { "name": "3",
                       "range": [214,271] },
                     { "name": "4",
-                      "range": [271,369] }, 
-                    { "name": "I",
-                      "range": [] }
+                      "range": [271,369] }
                 ],
                 "children": [
                     { "name": "ISAT_WRITING_GRADE_5_2010" },
@@ -335,9 +371,7 @@
                     { "name": "3",
                       "range": [225,176] },
                     { "name": "4",
-                      "range": [176,379] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [176,379] }
                 ],
                 "children": [
                     { "name": "ISAT_WRITING_GRADE_6_2010" },
@@ -354,9 +388,7 @@
                     { "name": "3",
                       "range": [235,281] },
                     { "name": "4",
-                      "range": [281,392] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [281,392] }
                 ],
                 "children": [
                     { "name": "ISAT_WRITING_GRADE_7_2010" },
@@ -373,9 +405,7 @@
                     { "name": "3",
                       "range": [246,288] },
                     { "name": "4",
-                      "range": [288,410] },
-                    { "name": "I",
-                      "range": [] }
+                      "range": [288,410] }
                 ],
                 "children": [
                     { "name": "ISAT_WRITING_GRADE_8_2010" },

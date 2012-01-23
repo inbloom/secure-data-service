@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,11 +12,9 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-
 
 /**
- * Utility class for representation conversions routines.  Used to translate among
+ * Utility class for representation conversions routines. Used to translate among
  * the various object representations including XML, JSON, AVRO Neutral Record.
  *
  */
@@ -58,10 +55,11 @@ public class Translator {
 
     public static Entity mapFromNeutralRecord(String json) throws IOException, SAXException {
 
-        // Extract the Ingestion neutral record instance from the Ingestion file record/line using the JSON mapper
+        // Extract the Ingestion neutral record instance from the Ingestion file record/line using
+        // the JSON mapper
         NeutralRecord neutralRecord = jsonMapper.readValue(json, NeutralRecord.class);
 
-        return mapFromNeutralRecord(neutralRecord);
+        return mapToEntity(neutralRecord);
     }
 
     /**
@@ -70,11 +68,12 @@ public class Translator {
      * @param neutralRecord
      * @return
      */
-    public static Entity mapFromNeutralRecord(NeutralRecord neutralRecord) {
-        Map<String, Object> body = new HashMap<String, Object>();
-        body.putAll(neutralRecord.getAttributes());
+    public static Entity mapToEntity(NeutralRecord neutralRecord, int recordNumberInFile) {
+        return new NeutralRecordEntity(neutralRecord, recordNumberInFile);
+    }
 
-        return new MongoEntity(neutralRecord.getRecordType(), null, Collections.unmodifiableMap(body), null);
+    public static Entity mapToEntity(NeutralRecord neutralRecord) {
+        return new NeutralRecordEntity(neutralRecord);
     }
 
     /**
@@ -100,7 +99,8 @@ public class Translator {
     }
 
     /**
-     * Future Use - Converts the SLI Ingestion neutral record to a SLI Domain instance by leveraging a JSON mapper
+     * Future Use - Converts the SLI Ingestion neutral record to a SLI Domain instance by leveraging
+     * a JSON mapper
      *
      * @param neutralRecord
      * @return
@@ -156,7 +156,8 @@ public class Translator {
         return json;
     }
 
-    private static String mapNeutralRecordToJson(NeutralRecord neutralRecord, String coreIdentifier, Map<String, String> associationIdentifiers) {
+    private static String mapNeutralRecordToJson(NeutralRecord neutralRecord, String coreIdentifier,
+            Map<String, String> associationIdentifiers) {
         String json = "";
 
         json += "{";

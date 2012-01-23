@@ -71,6 +71,11 @@ h1
     font-size:24px;
 }
 
+#selectapp
+{
+    font-size:14px;
+}
+
 
 #container
 {
@@ -146,7 +151,6 @@ h1
 }
 .lozenge
 {
-    color: #20c7c5;
     font-size: 9px;
     height: 14px;
     width: 24px;

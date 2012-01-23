@@ -24,12 +24,21 @@
   <profiles>
     <profile>
       <id>default</id>
+      <!-- temporarily set test profile as default, for the PI 3 planning demo -->
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
+      <properties>
+	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
+	    <server.mode>live</server.mode>
+	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
+	    <apiclient>Live</apiclient>
+      </properties>
       <build>
         <filters>
+        <!-- 
           <filter>src/main/filters/server.properties</filter>
+           -->
         </filters>
       </build>
     </profile>
@@ -42,7 +51,15 @@
     </profile>
     <profile>
       <id>test</id>
+      <!-- temporarily set test profile as default, for the PI 3 planning demo -->
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
+	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
+	    <server.mode>test</server.mode>
+	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
+	    <apiclient>Mock</apiclient>
         <env>test</env>
       </properties>
     </profile>

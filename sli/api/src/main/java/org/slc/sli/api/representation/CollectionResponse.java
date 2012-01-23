@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CollectionResponse extends LinkedList<CollectionResponse.EntityReference> {
     
     private static final long serialVersionUID = -7328415047032909315L;
-
+    
     /**
      * Single reference to an entity.
      * 

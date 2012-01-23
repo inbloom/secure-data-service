@@ -31,12 +31,11 @@
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
     <td class="${field.getValue()}">
-    
+
       <#-- lozenges in front -->
       <#if field.getLozenges()?? &&
-           field.getLozenges().getPosition()?? && 
            field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_FRONT>
-<!--        ${field.getLozenges().getNames()} -->
+        <#include "widget/lozenges.ftl">
       </#if>
   
       <#-- student info -->
@@ -51,17 +50,17 @@
           ${assessments.get(field, student)}
         </#if>
         
-      <#-- lozenges at the back -->
-      <#if field.getLozenges()?? &&
-           field.getLozenges().getPosition()?? && 
-           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
-<!--        ${field.getLozenges().getNames()} -->
-      </#if>
-  
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.
       </#if>
+
+      <#-- lozenges at the back -->
+      <#if field.getLozenges()?? &&
+           field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
+        <#include "widget/lozenges.ftl">
+      </#if>
+  
     </td>
   </#list>
 </#list>

@@ -1,29 +1,6 @@
 package org.slc.sli.api.resources;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
 import com.sun.jersey.api.uri.UriBuilderImpl;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +19,27 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the generic Resource class.
@@ -151,18 +149,19 @@ public class ResourceTest {
         entity.put("schoolId", schoolId);
         return entity;
     }
-
-    public Map<String, Object> createTestEducationOrganizationAssociation(String educationOrganizationIdSource, String educationOrganizationIdTarget) {
+    
+    public Map<String, Object> createTestEducationOrganizationAssociation(String educationOrganizationIdSource,
+            String educationOrganizationIdTarget) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("educationOrganizationIdSource", educationOrganizationIdSource);
         entity.put("educationOrganizationIdTarget", educationOrganizationIdTarget);
         return entity;
     }
-
+    
     @Before
     public void setUp() throws Exception {
         // inject administrator security context for unit testing
-        injector.setAdminContext();
+        injector.setAdminContextWithElevatedRights();
         uriInfo = buildMockUriInfo(null);
     }
     
@@ -364,12 +363,12 @@ public class ResourceTest {
         assertEquals(studentId1, assocBody.get("studentId"));
         assertEquals(assessmentId1, assocBody.get("assessmentId"));
         
-        Response createResponseAggregationDefinition = api.createEntity("aggregationdefinitions", new EntityBody(
+        Response createResponseAggregationDefinition = api.createEntity("aggregationDefinitions", new EntityBody(
                 createTestEntity()), uriInfo);
         assertNotNull(createResponseAggregationDefinition);
         assertEquals(Status.CREATED.getStatusCode(), createResponseAggregationDefinition.getStatus());
         String aggregationDefinitionId = parseIdFromLocation(createResponseAggregationDefinition);
-        ids.put(new TypeIdPair("aggregationdefinitions", aggregationDefinitionId),
+        ids.put(new TypeIdPair("aggregationDefinitions", aggregationDefinitionId),
                 (String) createResponseAggregationDefinition.getMetadata().get("Location").get(0));
         
         Response createResponseAggregation = api.createEntity("aggregations", new EntityBody(createTestEntity()),
@@ -399,28 +398,29 @@ public class ResourceTest {
         assertNotNull(queryCollectionResponse);
         
     }
-
+    
     @Test
     public void testEducationOrganizations() {
-
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
-        Response createResponseEdOrgSource = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), uriInfo);
+        Response createResponseEdOrgSource = api.createEntity("educationOrganizations", new EntityBody(
+                createTestEntity()), uriInfo);
         assertNotNull(createResponseEdOrgSource);
         assertEquals(Status.CREATED.getStatusCode(), createResponseEdOrgSource.getStatus());
         String educationOrganizationIdSource = parseIdFromLocation(createResponseEdOrgSource);
-
-        Response createResponseEdOrgTarget = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), uriInfo);
+        
+        Response createResponseEdOrgTarget = api.createEntity("educationOrganizations", new EntityBody(
+                createTestEntity()), uriInfo);
         assertNotNull(createResponseEdOrgTarget);
         assertEquals(Status.CREATED.getStatusCode(), createResponseEdOrgTarget.getStatus());
         String educationOrganizationIdTarget = parseIdFromLocation(createResponseEdOrgTarget);
-
-        Response createResponseEOA = api.createEntity(EDUCATIONORGANIZATION_ASSOCIATION_URI, new EntityBody(
-                createTestEducationOrganizationAssociation(educationOrganizationIdSource, educationOrganizationIdTarget)), uriInfo);
+        
+        Response createResponseEOA = api.createEntity(
+                EDUCATIONORGANIZATION_ASSOCIATION_URI,
+                new EntityBody(createTestEducationOrganizationAssociation(educationOrganizationIdSource,
+                        educationOrganizationIdTarget)), uriInfo);
         assertNotNull(createResponseEOA);
-        String educationOrganizationAssocId = parseIdFromLocation(createResponseEOA);
+        parseIdFromLocation(createResponseEOA);
     }
-
+    
     private void assertStudentCorrect(UriInfo info, TypeIdPair typeId) {
         Response r = api.getEntity(typeId.type, typeId.id, 0, 100, info);
         EntityBody body = (EntityBody) r.getEntity();
@@ -450,11 +450,11 @@ public class ResourceTest {
         
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
-
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), 
-                        uriInfo);
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), 
-                        uriInfo);
+        
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)),
+                uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)),
+                uriInfo);
         
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
@@ -478,11 +478,11 @@ public class ResourceTest {
         
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
-
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), 
-                        uriInfo);
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), 
-                        uriInfo);
+        
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)),
+                uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)),
+                uriInfo);
         
         UriInfo queryInfo = buildMockUriInfo("studentUniqueStateId=1234");
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);

@@ -11,6 +11,7 @@ import org.slc.sli.api.representation.EntityBody;
  * 
  */
 public interface IdpResolver {
-    public Set<EntityBody> getRealms();    
-    public String getSsoInitUrl(String realmId);    
+    public Set<EntityBody> getRealms();
+    
+    public String getSsoInitUrl(String realmId);
 }

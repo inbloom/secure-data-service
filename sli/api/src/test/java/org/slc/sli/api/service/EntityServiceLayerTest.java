@@ -1,20 +1,5 @@
 package org.slc.sli.api.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +20,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Service layer tests for the API.
- * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -66,7 +65,7 @@ public class EntityServiceLayerTest {
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
-        securityContextInjector.setAdminContext();
+        securityContextInjector.setAdminContextWithElevatedRights();
         
         repo.deleteAll("student");
         repo.deleteAll("school");
@@ -94,16 +93,26 @@ public class EntityServiceLayerTest {
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         student = new EntityBody(student);
         student.put("sex", "Male");
+        student.put("otherName", "Ender");
         assertTrue(studentService.update(id, student));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        assertEquals(student.get("otherName"), retrievedEntity.get("otherName"));
         assertFalse(studentService.update(id, student));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        student = new EntityBody(student);
+        student.remove("otherName");
+        assertTrue(studentService.update(id, student));
+        retrievedEntity = studentService.get(id);
+        assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
+        assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
+        assertEquals(student.get("sex"), retrievedEntity.get("sex"));
+        assertEquals(null, retrievedEntity.get("otherName"));
         try {
             studentService.delete(id);
         } catch (EntityNotFoundException e) {

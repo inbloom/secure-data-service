@@ -25,22 +25,21 @@ public class RoleInitializerTest {
     private RoleInitializer roleInitializer;
     private EntityRepository mockRepo;
     
-
     @Before
     public void setUp() throws Exception {
         mockRepo = mock(EntityRepository.class);
         roleInitializer = new RoleInitializer();
         roleInitializer.setRepository(mockRepo);
     }
-
+    
     @Test
     public void testAllRolesCreated() throws Exception {
         when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
         
         assertTrue(roleInitializer.buildRoles() == 5);
-
+        
     }
-
+    
     @Test
     public void testNoRolesCreated() throws Exception {
         List<Entity> entities = new ArrayList<Entity>();
@@ -62,7 +61,7 @@ public class RoleInitializerTest {
         when(mockRepo.findAll("roles")).thenReturn(entities);
         assertTrue(roleInitializer.buildRoles() == 0);
     }
-
+    
     @Test
     public void testSomeRolesCreated() throws Exception {
         when(mockRepo.findAll("roles")).thenReturn(new Iterable<Entity>() {
@@ -79,6 +78,6 @@ public class RoleInitializerTest {
             }
         });
         assertTrue(roleInitializer.buildRoles() == 3);
-
+        
     }
 }

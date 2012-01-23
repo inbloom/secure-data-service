@@ -1,6 +1,10 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
@@ -10,9 +14,11 @@ import org.milyn.delivery.sax.annotation.StreamResultWriter;
 import org.milyn.javabean.context.BeanContext;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -66,6 +72,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
         BeanContext beanContext = executionContext.getBeanContext();
         NeutralRecord neutralRecord = (NeutralRecord) beanContext.getBean(beanId);
+        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
 
         if (executionContext.getTerminationError() != null) {
 
@@ -82,4 +89,5 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             nrfWriter.writeRecord(neutralRecord);
         }
     }
+
 }

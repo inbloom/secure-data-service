@@ -15,7 +15,7 @@ end
 # Function idpLogin
 # Inputs: (String) user = Username to login to the IDP with
 # Inputs: (String) passwd = Password associated with the username
-# Output: sets @sessionId, a cookie object that can be referenced throughout the Gherkin scenario
+# Output: sets @sessionId, a string containing the session from the IDP that can be referenced throughout the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that logs in to the IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
@@ -31,7 +31,7 @@ end
 # Inputs: (Enum/String) realm = ("sli" "idp1" or "idp2") Which IDP you want to login with
 # Inputs: (String) user = Username to login to the IDP with
 # Inputs: (String) passwd = Password associated with the username
-# Output: sets @sessionId, a cookie object that can be referenced throughout the Gherkin scenario
+# Output: sets @sessionId, a string containing the session from the IDP that can be referenced throughout the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that logs in to the specified IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
@@ -51,18 +51,21 @@ end
 # Inputs: (Object) data = Data object of type @format that you want to create
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
 #                               Can be manually overwritten
-# Opt. Input: (Cookie) cookie = defaults to @sessionId that was created from the idpLogin() function
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using POST to create a new object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpPost(id, data, format = @format, cookie = @sessionId)
-  # Validate Cookie is not nil
-  assert(cookie != nil, "Cookie passed into POST was nil")
+def restHttpPost(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into POST was nil")
   
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.post(url, data, {:content_type => format, :sessionId => cookie}){|response, request, result| response } 
+  urlHeader = makeUrlAndHeaders('post',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.post(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
+  
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -70,18 +73,21 @@ end
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
 #                               Can be manually overwritten
-# Opt. Input: (Cookie) cookie = defaults to @sessionId that was created from the idpLogin() function
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using GET to retrieve an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpGet(id, format = @format, cookie = @sessionId)
-  # Validate Cookie is not nil
-  assert(cookie != nil, "Cookie passed into GET was nil")
+def restHttpGet(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.get(url,{:accept => format,  :sessionId => cookie}){|response, request, result| response }
+  urlHeader = makeUrlAndHeaders('get',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -90,18 +96,21 @@ end
 # Inputs: (Object) data = Data object of type @format that you want to update
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
 #                               Can be manually overwritten
-# Opt. Input: (Cookie) cookie = defaults to @sessionId that was created from the idpLogin() function
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using PUT to update an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpPut(id, data, format = @format, cookie = @sessionId)
-  # Validate Cookie is not nil
-  assert(cookie != nil, "Cookie passed into PUT was nil")
+def restHttpPut(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into PUT was nil")
   
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.put(url, data, {:content_type => format,  :sessionId => cookie}){|response, request, result| response }
+  urlHeader = makeUrlAndHeaders('put',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
+  
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -109,19 +118,44 @@ end
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
 #                               Can be manually overwritten
-# Opt. Input: (Cookie) cookie = defaults to @sessionId that was created from the idpLogin() function
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
+# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
+#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using DELETE to remove an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpDelete(id, format = @format, cookie = @sessionId)
-  # Validate Cookie is not nil
-  assert(cookie != nil, "Cookie passed into DELETE was nil")
-
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  @res = RestClient.delete(url,{:accept => format,  :sessionId => cookie}){|response, request, result| response }
+def restHttpDelete(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into DELETE was nil")
+  
+  urlHeader = makeUrlAndHeaders('delete',passAsRequestParm,id,sessionId,format)
+  @res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+  
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
+def makeUrlAndHeaders(verb,passAsRequestParm,id,sessionId,format)
+  if(verb == 'put' || verb == 'post')
+    headers = {:content_type => format}
+  else
+    headers = {:accept => format}
+  end
+    
+  if passAsRequestParm
+    #See if other request params exist in the URL
+    sessionParm = "?sessionId="+sessionId
+    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
+    
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
+  else
+    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+    headers.store(:sessionId, sessionId)
+  end
+  puts(url, headers) if $SLI_DEBUG
+  
+  return {:url => url, :headers => headers}
 end
 
 ##############################################################################

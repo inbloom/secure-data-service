@@ -12,6 +12,7 @@ import org.slc.sli.entity.ResponseObject;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
@@ -121,6 +122,10 @@ public class LiveAPIClient implements APIClient {
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return mockClient.getAssessmentMetaData(token);
+    }
+    @Override
+    public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
+        return mockClient.getStudentProgramAssociation(token, studentIds);
     }
     
     private String getId(String token) {

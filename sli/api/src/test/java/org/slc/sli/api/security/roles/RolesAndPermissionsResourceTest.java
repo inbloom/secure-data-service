@@ -26,7 +26,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 /**
  * Simple test to test getting roles and permissions back.
- *
+ * 
  * Doesn't test posting new roles at this time, but you can create roles.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,15 +34,14 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class RolesAndPermissionsResourceTest {
-
+    
     @Autowired
     private RolesAndPermissionsResource api;
     private RoleRightAccess mockRoles;
-
+    
     @Autowired
     private SecurityContextInjector securityContextInjector;
-
-
+    
     private EntityBody createTestRole() {
         EntityBody role = new EntityBody();
         List<String> permissions = new ArrayList<String>();
@@ -65,7 +64,7 @@ public class RolesAndPermissionsResourceTest {
     public void tearDown() {
         SecurityContextHolder.clearContext();
     }
-
+    
     @Test
     public void testGetDefaultRoles() throws Exception {
         List<Role> roles = getRoles();
@@ -73,7 +72,7 @@ public class RolesAndPermissionsResourceTest {
         List<Map<String, Object>> result = api.getRolesAndPermissions();
         assertTrue(result.size() >= 4);
     }
-
+    
     private List<Role> getRoles() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(RoleBuilder.makeRole("Something").build());
@@ -82,18 +81,19 @@ public class RolesAndPermissionsResourceTest {
         roles.add(RoleBuilder.makeRole("Something even more").build());
         return roles;
     }
-
-//    @Test
-//    public void testCreateRole() {
-//        //Create a role.
-//        EntityBody role = createTestRole();
-//        assertNotNull(role);
-//        assertNotNull(api);
-//        assertNotNull(role.get("name"));
-//        assertNotNull(role.get("rights"));
-//        when(mockRoles.addRole(RoleBuilder.makeRole(role).build())).thenReturn(true);
-//
-//        boolean roleWithPermission = api.createRoleWithPermission((String) role.get("name"), (List<String>) role.get("rights"));
-//        assertTrue(roleWithPermission);
-//    }
+    
+    // @Test
+    // public void testCreateRole() {
+    // //Create a role.
+    // EntityBody role = createTestRole();
+    // assertNotNull(role);
+    // assertNotNull(api);
+    // assertNotNull(role.get("name"));
+    // assertNotNull(role.get("rights"));
+    // when(mockRoles.addRole(RoleBuilder.makeRole(role).build())).thenReturn(true);
+    //
+    // boolean roleWithPermission = api.createRoleWithPermission((String) role.get("name"),
+    // (List<String>) role.get("rights"));
+    // assertTrue(roleWithPermission);
+    // }
 }
