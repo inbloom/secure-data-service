@@ -4,7 +4,7 @@ import org.mockito.Mockito;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.DefaultRoleRightAccessImpl;
+import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class SecurityContextInjector {
     public void setAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";
-        List<String> roles = Arrays.asList(DefaultRoleRightAccessImpl.IT_ADMINISTRATOR);
+        List<String> roles = Arrays.asList(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
         
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
@@ -75,7 +75,7 @@ public class SecurityContextInjector {
     public void setEducatorContext() {
         String user = "educator";
         String fullName = "Educator";
-        List<String> roles = Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR);
+        List<String> roles = Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR);
         
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
