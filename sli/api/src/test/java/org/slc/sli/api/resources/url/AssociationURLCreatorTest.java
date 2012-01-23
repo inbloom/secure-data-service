@@ -58,7 +58,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
         DirtiesContextTestExecutionListener.class })
 public class AssociationURLCreatorTest {
     private static final String ENTITY_TYPE_STAFF_EDORG_ASSOC = "staffEducationOrganizationAssociation";
-    private static final String ENTITY_TYPE_EDORG_SCHOOL_ASSOC = "educationOrganizationschoolassociation";
+    private static final String ENTITY_TYPE_EDORG_SCHOOL_ASSOC = "educationOrganizationSchoolAssociation";
     
     @Autowired
     AssociationURLCreator associationURLCreator; // class under test
@@ -84,7 +84,7 @@ public class AssociationURLCreatorTest {
         
         // create the mock staffedorg association
         AssociationDefinition staffEdOrgAssoc = factory.makeAssoc("staffEducationOrganizationAssociation")
-                .exposeAs("staff-educationOrganization-associations").storeAs("staffEducationOrganizationAssociation")
+                .exposeAs("staff-educationOrganization-associations").storeAs(ENTITY_TYPE_STAFF_EDORG_ASSOC)
                 .from(staff, "getStaff", "getStaff")
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
                 .calledFromSource("getEducationOrganizationsAssigned").calledFromTarget("getStaffAssigned").build();
@@ -93,7 +93,7 @@ public class AssociationURLCreatorTest {
         AssociationDefinition educationOrganizationSchoolAssoc = factory
                 .makeAssoc("educationOrganizationSchoolAssociation")
                 .exposeAs("educationOrganization-school-associations")
-                .storeAs("educationOrganizationschoolassociation")
+                .storeAs(ENTITY_TYPE_EDORG_SCHOOL_ASSOC)
                 .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
                 .to(school, "getSchool", "getSchools").calledFromSource("getSchoolsAssigned")
                 .calledFromTarget("getEducationOrganizationsAssigned").build();
