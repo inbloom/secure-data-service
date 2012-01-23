@@ -31,7 +31,7 @@ $failures = Hash.new
 # Inputs: (String) collectionName = name of mongo collection to load fixture data to
 # Inputs: (String) fixtureFileName = name of json file in the test/data folder
 def runFixtureAndTests(testDirPath, collectionName, fixtureFileName)
-  setFixture(collectionName,fixtureFileName) {runTests(testDirPath)}
+  setFixtureWithDropOption(collectionName,fixtureFileName, "test/data", true) {runTests(testDirPath)}
 end
 
 # This method is to run a given test of set of test where a fixture is not needed
@@ -294,7 +294,7 @@ task :importSandboxData do
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
     "educationOrganizationschoolassociation" => "school_educationOrganization_fixure.json",
-    "aggregationdefinition" => "aggregationdefinition_fixture.json",
+    "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffeducationOrganizationassociation" => "staffEducationOrganizationAssociation_fixture.json",
     "realm" => "realm_fixture.json"
   ]
