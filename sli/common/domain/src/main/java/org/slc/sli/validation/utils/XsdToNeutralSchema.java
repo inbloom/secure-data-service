@@ -569,20 +569,13 @@ public class XsdToNeutralSchema {
         
         XmlSchemaType elementSchemaType = element.getSchemaType();
         
-        String elementName = element.getName();
-        
-        // Optional Elements
-        if (element.isNillable() || (element.getMinOccurs() <= 0)) {
-            elementName = "*" + elementName;
-        }
-        
         // Derive Element Schema
         NeutralSchema elementSchema = null;
         if (elementSchemaType != null) {
             if (elementSchemaType.getName() != null) {
                 elementSchema = this.parse(elementSchemaType);
             } else {
-                elementSchema = this.parse(elementSchemaType, elementName);
+                elementSchema = this.parse(elementSchemaType, element.getName());
             }
         } else if (elementTypeName != null) {
             elementSchema = this.getSchemaFactory().createSchema(elementTypeName);
@@ -609,8 +602,15 @@ public class XsdToNeutralSchema {
                 
                 NeutralSchema elementSchema = parseElement(element);
                 
+                String elementName = element.getName();
+                
+                // Optional Elements
+                if (element.isNillable() || (element.getMinOccurs() <= 0)) {
+                    elementName = "*" + elementName;
+                }
+                
                 // Update Neutral Schema Field
-                complexSchema.getFields().put(element.getName(), elementSchema);
+                complexSchema.getFields().put(elementName, elementSchema);
                 
             } else if (particle instanceof XmlSchemaSequence) {
                 XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
