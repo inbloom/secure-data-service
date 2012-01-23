@@ -19,6 +19,8 @@
         <property name="assessmentManager" ref="assessmentManager"/>
     </bean>
     
+    <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController" />
+    
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
         <property name="apiClient" ref="${apiclient}Client"/>
@@ -32,7 +34,7 @@
     
     <!-- Redirect view --> 
     <bean name="/" class="org.slc.sli.controller.LandingPageController">
-      <property name="url" value="studentlist" />
+      <property name="url" value="appselector" />
     </bean>
     
     <!-- freemarker config -->
