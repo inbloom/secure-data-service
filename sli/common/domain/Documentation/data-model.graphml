@@ -15,7 +15,7 @@
   <graph edgedefault="directed" id="G">
     <data key="d7"/>
     <node id="n0" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Enrollment_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -47,7 +47,7 @@
       <graph edgedefault="directed" id="n0:"/>
     </node>
     <node id="n1" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Program_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -93,7 +93,7 @@
       </graph>
     </node>
     <node id="n2" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Enrollment_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -125,7 +125,7 @@
       <graph edgedefault="directed" id="n2:"/>
     </node>
     <node id="n3" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Program_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -157,7 +157,7 @@
       <graph edgedefault="directed" id="n3:"/>
     </node>
     <node id="n4" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Program_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -189,7 +189,7 @@
       <graph edgedefault="directed" id="n4:"/>
     </node>
     <node id="n5" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/TeachingAndLearning_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -221,7 +221,7 @@
       <graph edgedefault="directed" id="n5:"/>
     </node>
     <node id="n6" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Staff_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -286,7 +286,7 @@
       </graph>
     </node>
     <node id="n7" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -351,7 +351,7 @@
       </graph>
     </node>
     <node id="n8" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -430,7 +430,7 @@
       </graph>
     </node>
     <node id="n9" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -509,7 +509,7 @@
       </graph>
     </node>
     <node id="n10" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -541,7 +541,7 @@
       <graph edgedefault="directed" id="n10:"/>
     </node>
     <node id="n11" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -573,7 +573,7 @@
       <graph edgedefault="directed" id="n11:"/>
     </node>
     <node id="n12" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -652,7 +652,7 @@
       </graph>
     </node>
     <node id="n13" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -684,7 +684,7 @@
       <graph edgedefault="directed" id="n13:"/>
     </node>
     <node id="n14" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/EducationalOrganization_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -763,7 +763,7 @@
       </graph>
     </node>
     <node id="n15" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/BellSchedule_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -822,7 +822,7 @@
       </graph>
     </node>
     <node id="n16" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/BellSchedule_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -854,7 +854,7 @@
       <graph edgedefault="directed" id="n16:"/>
     </node>
     <node id="n17" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Calendar_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -900,7 +900,7 @@
       </graph>
     </node>
     <node id="n18" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/StudentAcademicRecord_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -932,7 +932,7 @@
       <graph edgedefault="directed" id="n18:"/>
     </node>
     <node id="n19" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/StudentAcademicRecord_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -978,7 +978,7 @@
       </graph>
     </node>
     <node id="n20" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/StudentAcademicRecord_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1024,7 +1024,7 @@
       </graph>
     </node>
     <node id="n21" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/StudentAcademicRecord_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1083,7 +1083,7 @@
       </graph>
     </node>
     <node id="n22" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/StudentAcademicRecord_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1115,7 +1115,7 @@
       <graph edgedefault="directed" id="n22:"/>
     </node>
     <node id="n23" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/BellSchedule_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1147,7 +1147,7 @@
       <graph edgedefault="directed" id="n23:"/>
     </node>
     <node id="n24" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/BellSchedule_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1179,7 +1179,7 @@
       <graph edgedefault="directed" id="n24:"/>
     </node>
     <node id="n25" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Assessments_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1211,7 +1211,7 @@
       <graph edgedefault="directed" id="n25:"/>
     </node>
     <node id="n26" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Assessments_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1243,7 +1243,7 @@
       <graph edgedefault="directed" id="n26:"/>
     </node>
     <node id="n27" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Assessments_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1275,7 +1275,7 @@
       <graph edgedefault="directed" id="n27:"/>
     </node>
     <node id="n28" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/BellSchedule_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1322,7 +1322,7 @@
       </graph>
     </node>
     <node id="n29" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/BellSchedule_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -1368,7 +1368,7 @@
       </graph>
     </node>
     <node id="n30" yfiles.foldertype="group">
-      <data key="d4"/>
+      <data key="d4"><![CDATA[./sli/common/domain/Documentation/html/Staff_xsd.html]]></data>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
