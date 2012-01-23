@@ -61,7 +61,7 @@ public class ResourceTest {
     /**
      * Track an object type/id.
      */
-    final class TypeIdPair {
+    static final class TypeIdPair {
         protected TypeIdPair(Object type, String id) {
             this.type = (String) type;
             this.id = id;
