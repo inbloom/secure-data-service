@@ -79,7 +79,8 @@
     "read_enforcement" : "restricted"
   }, {
     "name" : "schoolFoodServicesEligibility",
-    "type" : [ "null", "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ]
+    "type" : [ "null", "org.slc.sli.domain.enum.SchoolFoodServicesEligibilityType" ],
+    "read_enforcement" : "restricted"
   }, {
     "name" : "studentCharacteristics",
     "type" : [ "null", {
