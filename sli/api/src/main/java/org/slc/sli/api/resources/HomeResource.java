@@ -50,8 +50,7 @@ public class HomeResource {
      */
     @GET
     public Response getHomeUri(@Context final UriInfo uriInfo) {
-        
-        // TODO: refactor common code from getHomeUri and GetHomeUriXML
+
         Home home = null; 
 
         // get the entity ID and EntityDefinition for user
