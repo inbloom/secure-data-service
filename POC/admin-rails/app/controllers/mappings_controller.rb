@@ -3,10 +3,11 @@ class MappingsController < ApplicationController
   # GET /mappings.json
   def index
     @mappings = Mapping.all
+    @realms = Realm.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @mappings }
+      format.json { render json: [@mappings, @realms] }
     end
   end
 

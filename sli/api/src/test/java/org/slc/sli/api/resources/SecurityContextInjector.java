@@ -75,7 +75,7 @@ public class SecurityContextInjector {
     public void setEducatorContext() {
         String user = "educator";
         String fullName = "Educator";
-        List roles = Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR);
+        List<String> roles = Arrays.asList(DefaultRoleRightAccessImpl.EDUCATOR);
         
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
