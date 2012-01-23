@@ -232,11 +232,6 @@
                             <xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="StudentTestAssessmentReference" type="ReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
