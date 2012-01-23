@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 public class NeutralSchemaFactory {
     
     // Logging
-    private static final Log log = LogFactory.getLog(NeutralSchemaFactory.class);
+    private static final Log LOG = LogFactory.getLog(NeutralSchemaFactory.class);
     
     // Constants
     public static final String JSON = "json";
@@ -168,14 +168,14 @@ public class NeutralSchemaFactory {
             boolean fileExists = !file.createNewFile();
             if (!fileExists || overwrite) {
                 if (fileExists) {
-                    // log.warn("Replacing existing file: " + file.getAbsolutePath());
+                    LOG.warn("Replacing existing file: " + file.getAbsolutePath());
                 }
                 FileWriter fileWriter = new FileWriter(file);
                 fileWriter.write(fileContents);
                 fileWriter.close();
             }
         } catch (IOException ioException) {
-            log.error(ioException);
+            LOG.error(ioException);
         }
     }
     
@@ -204,15 +204,15 @@ public class NeutralSchemaFactory {
             }
             neutralSchema = (NeutralSchema) MAPPER.readValue(fileContents.toString(), schemaClass);
         } catch (IOException ioException) {
-            log.error(ioException);
+            LOG.error(ioException);
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error(exception);
         } finally {
             if (fileReader != null) {
                 try {
                     fileReader.close();
                 } catch (IOException ioException) {
-                    log.error(ioException);
+                    LOG.error(ioException);
                 }
             }
         }
@@ -234,15 +234,15 @@ public class NeutralSchemaFactory {
             }
             neutralSchema = (NeutralSchema) MAPPER.readValue(fileContents.toString(), schemaClass);
         } catch (IOException ioException) {
-            log.error(ioException);
+            LOG.error(ioException);
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error(exception);
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch (IOException ioException) {
-                    log.error(ioException);
+                    LOG.error(ioException);
                 }
             }
         }
@@ -256,7 +256,7 @@ public class NeutralSchemaFactory {
         try {
             neutralSchema = (NeutralSchema) MAPPER.readValue(schema.toString(), schemaClass);
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error(exception);
         }
         
         return neutralSchema;

@@ -39,7 +39,7 @@ import org.springframework.util.ResourceUtils;
 public class NeutralSchemaRegistry {
     
     // Logging
-    private static final Log log = LogFactory.getLog(NeutralSchemaRegistry.class);
+    private static final Log LOG = LogFactory.getLog(NeutralSchemaRegistry.class);
     
     // Constants
     public static final String SCHEMA_PATH = "classpath:neutral-schemas";
@@ -121,16 +121,16 @@ public class NeutralSchemaRegistry {
                         new String[] { schemaRepresentation }, true));
                 this.registerSchemaFiles(schemaFiles);
             } else {
-                log.error("Unsupported schema registry protocol: " + protocol);
+                LOG.error("Unsupported schema registry protocol: " + protocol);
             }
             
             // Resolve Schema Dependencies
             this.resolveSchemaDependencies();
             
-            log.info("Total Registered Schemas: " + this.size());
+            LOG.info("Total Registered Schemas: " + this.size());
             
         } catch (IOException ioException) {
-            log.error("Unable to parse schema resources: " + schemaResourcesPath + ": " + ioException.getMessage());
+            LOG.error("Unable to parse schema resources: " + schemaResourcesPath + ": " + ioException.getMessage());
         }
     }
     
@@ -148,7 +148,7 @@ public class NeutralSchemaRegistry {
             // Update Schema Registry Map
             if (specificSchema != null) {
                 
-                log.info("Registering Schema File: " + schemaFile.getName());
+                LOG.info("Registering Schema File: " + schemaFile.getName());
                 
                 schemaMap.put(specificSchema.getType(), specificSchema);
             }
@@ -183,14 +183,14 @@ public class NeutralSchemaRegistry {
                     // Update Schema Registry Map
                     if (specificSchema != null) {
                         
-                        log.info("Registering Schema Entry: " + specificSchema.getType());
+                        LOG.info("Registering Schema Entry: " + specificSchema.getType());
                         
                         schemaMap.put(specificSchema.getType(), specificSchema);
                     }
                 }
             }
         } catch (IOException ioException) {
-            log.error("Unable to parse schema resources archive: " + jar.getName() + ": " + ioException.getMessage());
+            LOG.error("Unable to parse schema resources archive: " + jar.getName() + ": " + ioException.getMessage());
         }
     }
     
@@ -224,7 +224,7 @@ public class NeutralSchemaRegistry {
                     fieldSchema = listSchema;
                     
                 } else {
-                    log.error("Detected invalid object type during schema parsing: "
+                    LOG.error("Detected invalid object type during schema parsing: "
                             + schemaFieldObject.getClass().getName());
                 }
                 
@@ -250,7 +250,7 @@ public class NeutralSchemaRegistry {
     
     public static void main(String[] args) {
         
-        log.info("Starting Schema Registration...");
+        LOG.info("Starting Schema Registration...");
         
         NeutralSchemaRegistry registry = new NeutralSchemaRegistry();
         
@@ -260,7 +260,7 @@ public class NeutralSchemaRegistry {
         
         registry.toFile("neutral-schemas/", "registry", XML);
         
-        log.info("Finished.");
+        LOG.info("Finished.");
     }
     
 }

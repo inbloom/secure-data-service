@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class NeutralSchemaValidator implements EntityValidator {
     
     // Logging
-    private static final Logger log = LoggerFactory.getLogger(NeutralSchemaValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralSchemaValidator.class);
     
     // Attributes
     @Autowired

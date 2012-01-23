@@ -49,9 +49,9 @@ public class DurationSchema extends NeutralSchema {
             javax.xml.datatype.DatatypeFactory.newInstance().newDuration((String) entity);
             isValid = true;
         } catch (IllegalArgumentException e2) {
-            // do nothing
+            isValid = false;
         } catch (DatatypeConfigurationException e) {
-            // do nothing
+            isValid = false;
         }
         return addError(isValid, fieldName, entity, "ISO 8601 Duration", ErrorType.INVALID_DATE_FORMAT, errors);
     }
