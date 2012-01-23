@@ -68,9 +68,9 @@ class RolesController < ApplicationController
   # end
 
   # GET /roles/1/edit
-  def edit
-    @role = Role.find(params[:id])
-  end
+  # def edit
+  #   @role = Role.find(params[:id])
+  # end
 
   # POST /roles
   # POST /roles.json
@@ -90,19 +90,19 @@ class RolesController < ApplicationController
 
   # PUT /roles/1
   # PUT /roles/1.json
-  def update
-    @role = Role.find(params[:id])
-    puts "Role found (Update): #{@role.attributes}"
-    respond_to do |format|
-      if @role.update_attributes(params[:role])
-        format.html { redirect_to @role.id, notice: 'Role was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   @role = Role.find(params[:id])
+  #   puts "Role found (Update): #{@role.attributes}"
+  #   respond_to do |format|
+  #     if @role.update_attributes(params[:role])
+  #       format.html { redirect_to @role.id, notice: 'Role was successfully updated.' }
+  #       format.json { head :ok }
+  #     else
+  #       format.html { render action: "edit" }
+  #       format.json { render json: @role.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /roles/1
   # DELETE /roles/1.json
