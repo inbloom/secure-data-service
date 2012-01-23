@@ -15,7 +15,7 @@ public class Constants {
     public static final String GET_ROLES_URL = "admin/roles";
     
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
-    public static final String PROGRAM_FRE = "schoolFoodServiceEligibility";
+    public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
     
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
