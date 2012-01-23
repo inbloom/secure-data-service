@@ -1,0 +1,5 @@
+[
+    {
+        "customData": "<?xml version=\"1.0\" ?><viewConfigSet>  <viewConfig name=\"IL_K-3\" type=\"listOfStudents\">    <displaySet displayName=\"\">      <field displayName=\"Student\" format=\"firstLast\" type=\"studentInfo\" value=\"name\"> <lozenges names=\"504 limitedEnglishProficiency schoolFoodServiceEligibility IEP RPT LEA\" position=\"post\" maxCount=\"5\"/> </field> </displaySet>    <displaySet displayName=\"DIBELS Next\">      <field displayName=\"Perf. Lvl.\" timeSlot=\"MOST_RECENT_WINDOW\" type=\"assessment\" value=\"DIBELS_NEXT.perfLevel\" visual=\"fuelGauge\"/>    </displaySet> <displaySet displayName=\"Reading\">      <field displayName=\"RL\" timeSlot=\"MOST_RECENT_WINDOW\" type=\"assessment\" value=\"TRC.lexileScore\" visual=\"colorByPerf\"/>    <field displayName=\"Prof. Level\" timeSlot=\"MOST_RECENT_WINDOW\" type=\"assessment\" value=\"TRC.null\" visual=\"fuelGauge\"/>    </displaySet>       </viewConfig></viewConfigSet>"
+    }
+]

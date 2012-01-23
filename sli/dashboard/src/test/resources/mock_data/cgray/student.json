@@ -1,704 +1,578 @@
 [
     {
-        "nameSuffix": "",
-        "uid": "525878920",
-        "stateId": "525878920",
-        "sex": "Female",
-        "birthDate": "2004-12-04",
-        "firstName": "Delilah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "D",
-        "racialCategory": "",
-        "lastName": "Sims"
-    },
+        "studentUniqueStateId": "525878920", 
+        "name": {
+            "middleName": "D", 
+            "lastSurname": "Sims", 
+            "firstName": "Delilah"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2004-12-04"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "525878920"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "510152105",
-        "stateId": "510152105",
-        "sex": "Female",
-        "birthDate": "1997-06-01",
-        "firstName": "TaShya",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Nicole",
-        "racialCategory": "",
-        "lastName": "Alston"
-    },
+        "studentUniqueStateId": "802709591", 
+        "name": {
+            "middleName": "Sydnee", 
+            "lastSurname": "Lindsey", 
+            "firstName": "Imelda"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1997-03-07"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "802709591"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "802709591",
-        "stateId": "802709591",
-        "sex": "Female",
-        "birthDate": "1997-03-07",
-        "firstName": "Imelda",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Sydnee",
-        "racialCategory": "",
-        "lastName": "Lindsey"
-    },
+        "studentUniqueStateId": "437680177", 
+        "name": {
+            "middleName": "Yuli", 
+            "lastSurname": "Pennington", 
+            "firstName": "Kimberley"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2000-04-23"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "437680177"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "437680177",
-        "stateId": "437680177",
-        "sex": "Female",
-        "birthDate": "2000-04-23",
-        "firstName": "Kimberley",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Yuli",
-        "racialCategory": "",
-        "lastName": "Pennington"
-    },
+        "studentUniqueStateId": "170011136", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Durham", 
+            "firstName": "Arsenio"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2001-01-23"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "170011136"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "170011136",
-        "stateId": "170011136",
-        "sex": "Male",
-        "birthDate": "2001-01-23",
-        "firstName": "Arsenio",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Durham"
-    },
+        "studentUniqueStateId": "547028299", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Swanson", 
+            "firstName": "Alec"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1999-11-15"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "547028299"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "547028299",
-        "stateId": "547028299",
-        "sex": "Male",
-        "birthDate": "1999-11-15",
-        "firstName": "Alec",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Swanson"
-    },
+        "studentUniqueStateId": "178875887", 
+        "name": {
+            "middleName": "Deirdre", 
+            "lastSurname": "Vincent", 
+            "firstName": "Astra"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2000-10-14"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "178875887"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "258392050",
-        "stateId": "258392050",
-        "sex": "Female",
-        "birthDate": "1994-01-09",
-        "firstName": "Patricia",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Harper"
-    },
+        "studentUniqueStateId": "376191021", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Graves", 
+            "firstName": "Jeanette"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1994-08-30"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"Reduced",
+        "id": "376191021"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "178875887",
-        "stateId": "178875887",
-        "sex": "Female",
-        "birthDate": "2000-10-14",
-        "firstName": "Astra",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Deirdre",
-        "racialCategory": "",
-        "lastName": "Vincent"
-    },
+        "studentUniqueStateId": "670703438", 
+        "name": {
+            "middleName": "Melvin", 
+            "lastSurname": "Patton", 
+            "firstName": "Zachary"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2002-04-10"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "670703438"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "100644447",
-        "stateId": "100644447",
-        "sex": "Female",
-        "birthDate": "2006-06-02",
-        "firstName": "Brielle",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "W",
-        "racialCategory": "",
-        "lastName": "Klein"
-    },
+        "studentUniqueStateId": "851123275", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Hicks", 
+            "firstName": "Hoyt"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1999-06-13"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"Reduced",
+        "id": "851123275"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "376191021",
-        "stateId": "376191021",
-        "sex": "Female",
-        "birthDate": "1994-08-30",
-        "firstName": "Jeanette",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Graves"
-    },
+        "studentUniqueStateId": "250918988", 
+        "name": {
+            "middleName": "W", 
+            "lastSurname": "Jordan", 
+            "firstName": "Uriah"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2005-04-06"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "250918988"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "336344132",
-        "stateId": "336344132",
-        "sex": "Male",
-        "birthDate": "2003-03-25",
-        "firstName": "Odysseus",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Merrill"
-    },
+        "studentUniqueStateId": "421216329", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Hinton", 
+            "firstName": "Madeline"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1994-03-17"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "421216329"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "711411586",
-        "stateId": "711411586",
-        "sex": "Male",
-        "birthDate": "2006-01-08",
-        "firstName": "Rafael",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Kirk"
-    },
+        "studentUniqueStateId": "746199592", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Mckenzie", 
+            "firstName": "James"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2001-01-16"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "746199592"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "131758477",
-        "stateId": "131758477",
-        "sex": "Female",
-        "birthDate": "1997-07-22",
-        "firstName": "Deirdre",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Tashya",
-        "racialCategory": "",
-        "lastName": "Gentry"
-    },
+        "studentUniqueStateId": "323538529", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Marks", 
+            "firstName": "Hector"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2004-03-30"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "323538529"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "670703438",
-        "stateId": "670703438",
-        "sex": "Male",
-        "birthDate": "2002-04-10",
-        "firstName": "Zachary",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Melvin",
-        "racialCategory": "",
-        "lastName": "Patton"
-    },
+        "studentUniqueStateId": "428250371", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Pierce", 
+            "firstName": "K"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1996-09-23"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "428250371"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "851123275",
-        "stateId": "851123275",
-        "sex": "Male",
-        "birthDate": "1999-06-13",
-        "firstName": "Hoyt",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Hicks"
-    },
+        "studentUniqueStateId": "114989598", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Kim", 
+            "firstName": "Trevor"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2005-07-16"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "114989598"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "423037202",
-        "stateId": "423037202",
-        "sex": "Male",
-        "birthDate": "1999-06-05",
-        "firstName": "Nomlanga",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Deacon",
-        "racialCategory": "",
-        "lastName": "Mccormick"
-    },
+        "studentUniqueStateId": "558780133", 
+        "name": {
+            "middleName": "Troy", 
+            "lastSurname": "Harris", 
+            "firstName": "Galena"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1995-10-15"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "558780133"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "250918988",
-        "stateId": "250918988",
-        "sex": "Male",
-        "birthDate": "2005-04-06",
-        "firstName": "Uriah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "W",
-        "racialCategory": "",
-        "lastName": "Jordan"
-    },
+        "studentUniqueStateId": "196038854", 
+        "name": {
+            "middleName": "Zane", 
+            "lastSurname": "Hopkins", 
+            "firstName": "Isaiah"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1999-06-27"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "196038854"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "421216329",
-        "stateId": "421216329",
-        "sex": "Female",
-        "birthDate": "1994-03-17",
-        "firstName": "Madeline",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Hinton"
-    },
+        "studentUniqueStateId": "992193581", 
+        "name": {
+            "middleName": "D", 
+            "lastSurname": "Hebert", 
+            "firstName": "Keaton"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2001-01-25"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "992193581"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "746199592",
-        "stateId": "746199592",
-        "sex": "Male",
-        "birthDate": "2001-01-16",
-        "firstName": "James",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Mckenzie"
-    },
+        "studentUniqueStateId": "541397175", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Glass", 
+            "firstName": "Lunea"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1996-10-24"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "541397175"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "323538529",
-        "stateId": "323538529",
-        "sex": "Male",
-        "birthDate": "2004-03-30",
-        "firstName": "Hector",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Marks"
-    },
+        "studentUniqueStateId": "555685100", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Patel", 
+            "firstName": "Johnny"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2006-02-13"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "555685100"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "428250371",
-        "stateId": "428250371",
-        "sex": "Female",
-        "birthDate": "1996-09-23",
-        "firstName": "K",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Pierce"
-    },
+        "studentUniqueStateId": "453827023", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Ortiz", 
+            "firstName": "Carmen"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2002-07-05"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "453827023"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "114989598",
-        "stateId": "114989598",
-        "sex": "Female",
-        "birthDate": "2005-07-16",
-        "firstName": "Trevor",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Kim"
-    },
+        "studentUniqueStateId": "555685177", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Lowery", 
+            "firstName": "Charde"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2006-02-13"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "555685177"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "558780133",
-        "stateId": "558780133",
-        "sex": "Female",
-        "birthDate": "1995-10-15",
-        "firstName": "Galena",
-        "nameVerification": "Parents affidavit",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Troy",
-        "racialCategory": "",
-        "lastName": "Harris"
-    },
+        "studentUniqueStateId": "453827070", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Miller", 
+            "firstName": "Marvin"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2002-07-05"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "453827070"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "196038854",
-        "stateId": "196038854",
-        "sex": "Male",
-        "birthDate": "1999-06-27",
-        "firstName": "Isaiah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Zane",
-        "racialCategory": "",
-        "lastName": "Hopkins"
-    },
+        "studentUniqueStateId": "943715230", 
+        "name": {
+            "middleName": "Colt", 
+            "lastSurname": "Ashley", 
+            "firstName": "Jolene"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2000-12-20"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "943715230"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "992193581",
-        "stateId": "992193581",
-        "sex": "Male",
-        "birthDate": "2001-01-25",
-        "firstName": "Keaton",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "D",
-        "racialCategory": "",
-        "lastName": "Hebert"
-    },
+        "studentUniqueStateId": "164420088", 
+        "name": {
+            "middleName": "Kellie", 
+            "lastSurname": "Oconnor", 
+            "firstName": "Ursa"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1995-06-25"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "164420088"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "541397175",
-        "stateId": "541397175",
-        "sex": "Female",
-        "birthDate": "1996-10-24",
-        "firstName": "Lunea",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Glass"
-    },
+        "studentUniqueStateId": "505331723", 
+        "name": {
+            "middleName": "Eric", 
+            "lastSurname": "Roman", 
+            "firstName": "Gannon"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2004-08-22"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "505331723"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "555685100",
-        "stateId": "555685100",
-        "sex": "Female",
-        "birthDate": "2006-02-13",
-        "firstName": "Johnny",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Patel"
-    },
+        "studentUniqueStateId": "530425896", 
+        "name": {
+            "middleName": "Shannon", 
+            "lastSurname": "Delgado", 
+            "firstName": "Rhonda"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2006-07-02"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "530425896"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "453827023",
-        "stateId": "453827023",
-        "sex": "Female",
-        "birthDate": "2002-07-05",
-        "firstName": "Carmen",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Ortiz"
-    },
+        "studentUniqueStateId": "429526969", 
+        "name": {
+            "middleName": "A", 
+            "lastSurname": "Burks", 
+            "firstName": "Nicholas"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1999-12-17"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "429526969"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "555685177",
-        "stateId": "555685177",
-        "sex": "Female",
-        "birthDate": "2006-02-13",
-        "firstName": "Charde",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Lowery"
-    },
+        "studentUniqueStateId": "178828452", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Burnett Jones", 
+            "firstName": "Tyrone"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2001-10-04"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "178828452"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "453827070",
-        "stateId": "453827070",
-        "sex": "Male",
-        "birthDate": "2002-07-05",
-        "firstName": "Marvin",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Miller"
-    },
+        "studentUniqueStateId": "510152105", 
+        "name": {
+            "middleName": "Nicole", 
+            "lastSurname": "Alston", 
+            "firstName": "TaShya"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1997-06-01"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "510152105"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "943715230",
-        "stateId": "943715230",
-        "sex": "Female",
-        "birthDate": "2000-12-20",
-        "firstName": "Jolene",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Colt",
-        "racialCategory": "",
-        "lastName": "Ashley"
-    },
+        "studentUniqueStateId": "258392050", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Harper", 
+            "firstName": "Patricia"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1994-01-09"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "258392050"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "164420088",
-        "stateId": "164420088",
-        "sex": "Female",
-        "birthDate": "1995-06-25",
-        "firstName": "Ursa",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Kellie",
-        "racialCategory": "",
-        "lastName": "Oconnor"
-    },
+        "studentUniqueStateId": "100644447", 
+        "name": {
+            "middleName": "W", 
+            "lastSurname": "Klein", 
+            "firstName": "Brielle"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2006-06-02"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"None",
+        "id": "100644447"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "505331723",
-        "stateId": "505331723",
-        "sex": "Male",
-        "birthDate": "2004-08-22",
-        "firstName": "Gannon",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Eric",
-        "racialCategory": "",
-        "lastName": "Roman"
-    },
+        "studentUniqueStateId": "336344132", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Merrill", 
+            "firstName": "Odysseus"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "2003-03-25"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"No",
+        "schoolFoodServiceEligibility":"None",
+        "id": "336344132"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "530425896",
-        "stateId": "530425896",
-        "sex": "Female",
-        "birthDate": "2006-07-02",
-        "firstName": "Rhonda",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Shannon",
-        "racialCategory": "",
-        "lastName": "Delgado"
-    },
+        "studentUniqueStateId": "711411586", 
+        "name": {
+            "middleName": "", 
+            "lastSurname": "Kirk", 
+            "firstName": "Rafael"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "2006-01-08"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "711411586"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "429526969",
-        "stateId": "429526969",
-        "sex": "Male",
-        "birthDate": "1999-12-17",
-        "firstName": "Nicholas",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "A",
-        "racialCategory": "",
-        "lastName": "Burks"
-    },
+        "studentUniqueStateId": "131758477", 
+        "name": {
+            "middleName": "Tashya", 
+            "lastSurname": "Gentry", 
+            "firstName": "Deirdre"
+        }, 
+        "economicDisadvantaged": true, 
+        "birthData": {
+            "birthDate": "1997-07-22"
+        }, 
+        "sex": "Female", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "131758477"
+    }, 
     {
-        "nameSuffix": "",
-        "uid": "178828452",
-        "stateId": "178828452",
-        "sex": "Male",
-        "birthDate": "2001-10-04",
-        "firstName": "Tyrone",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Burnett Jones"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "525878920",
-        "stateId": "525878920",
-        "sex": "Female",
-        "birthDate": "2004-12-04",
-        "firstName": "Delilah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "D",
-        "racialCategory": "",
-        "lastName": "Sims"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "510152105",
-        "stateId": "510152105",
-        "sex": "Female",
-        "birthDate": "1997-06-01",
-        "firstName": "TaShya",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Nicole",
-        "racialCategory": "",
-        "lastName": "Alston"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "802709591",
-        "stateId": "802709591",
-        "sex": "Female",
-        "birthDate": "1997-03-07",
-        "firstName": "Imelda",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Sydnee",
-        "racialCategory": "",
-        "lastName": "Lindsey"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "437680177",
-        "stateId": "437680177",
-        "sex": "Female",
-        "birthDate": "2000-04-23",
-        "firstName": "Kimberley",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Yuli",
-        "racialCategory": "",
-        "lastName": "Pennington"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "170011136",
-        "stateId": "170011136",
-        "sex": "Male",
-        "birthDate": "2001-01-23",
-        "firstName": "Arsenio",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Durham"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "547028299",
-        "stateId": "547028299",
-        "sex": "Male",
-        "birthDate": "1999-11-15",
-        "firstName": "Alec",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Swanson"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "258392050",
-        "stateId": "258392050",
-        "sex": "Female",
-        "birthDate": "1994-01-09",
-        "firstName": "Patricia",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Harper"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "178875887",
-        "stateId": "178875887",
-        "sex": "Female",
-        "birthDate": "2000-10-14",
-        "firstName": "Astra",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Deirdre",
-        "racialCategory": "",
-        "lastName": "Vincent"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "100644447",
-        "stateId": "100644447",
-        "sex": "Female",
-        "birthDate": "2006-06-02",
-        "firstName": "Brielle",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "W",
-        "racialCategory": "",
-        "lastName": "Klein"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "376191021",
-        "stateId": "376191021",
-        "sex": "Female",
-        "birthDate": "1994-08-30",
-        "firstName": "Jeanette",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Graves"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "336344132",
-        "stateId": "336344132",
-        "sex": "Male",
-        "birthDate": "2003-03-25",
-        "firstName": "Odysseus",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Merrill"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "711411586",
-        "stateId": "711411586",
-        "sex": "Male",
-        "birthDate": "2006-01-08",
-        "firstName": "Rafael",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Kirk"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "131758477",
-        "stateId": "131758477",
-        "sex": "Female",
-        "birthDate": "1997-07-22",
-        "firstName": "Deirdre",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Tashya",
-        "racialCategory": "",
-        "lastName": "Gentry"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "670703438",
-        "stateId": "670703438",
-        "sex": "Male",
-        "birthDate": "2002-04-10",
-        "firstName": "Zachary",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Melvin",
-        "racialCategory": "",
-        "lastName": "Patton"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "851123275",
-        "stateId": "851123275",
-        "sex": "Male",
-        "birthDate": "1999-06-13",
-        "firstName": "Hoyt",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Hicks"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "423037202",
-        "stateId": "423037202",
-        "sex": "Male",
-        "birthDate": "1999-06-05",
-        "firstName": "Nomlanga",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "Deacon",
-        "racialCategory": "",
-        "lastName": "Mccormick"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "250918988",
-        "stateId": "250918988",
-        "sex": "Male",
-        "birthDate": "2005-04-06",
-        "firstName": "Uriah",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "W",
-        "racialCategory": "",
-        "lastName": "Jordan"
-    },
-    {
-        "nameSuffix": "",
-        "uid": "421216329",
-        "stateId": "421216329",
-        "sex": "Female",
-        "birthDate": "1994-03-17",
-        "firstName": "Madeline",
-        "nameVerification": "",
-        "hispanicLatinoEthnicity": "",
-        "middleName": "",
-        "racialCategory": "",
-        "lastName": "Hinton"
+        "studentUniqueStateId": "423037202", 
+        "name": {
+            "middleName": "Deacon", 
+            "lastSurname": "Mccormick", 
+            "firstName": "Nomlanga"
+        }, 
+        "economicDisadvantaged": false, 
+        "birthData": {
+            "birthDate": "1999-06-05"
+        }, 
+        "sex": "Male", 
+        "limitedEnglishProficiency":"Yes",
+        "schoolFoodServiceEligibility":"Free",
+        "id": "423037202"
     }
 ]

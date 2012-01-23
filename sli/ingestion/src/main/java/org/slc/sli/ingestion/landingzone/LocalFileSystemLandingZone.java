@@ -3,16 +3,19 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 /**
- * 
+ *
  */
-public class LocalFileSystemLandingZone implements LandingZone {
+public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
+    private static final long serialVersionUID = 7441095255253233611L;
+    
     protected File directory;
 
     /**
@@ -53,11 +56,21 @@ public class LocalFileSystemLandingZone implements LandingZone {
         f.createNewFile();
         return f;
     }
-    
+
+    /**
+     * load file to local landing zone
+     */
+    public void loadFile(File file) throws IOException {
+
+        File dest = FileUtils.getFile(this.directory, file.getName());
+        // will overwrite if destination file exists
+        FileUtils.copyFile(file, dest);
+    }
+
     /**
      * Returns a java.io.File for a log file to be used to report BatchJob
      * status/progress.  The file will be created if it does not yet exist.
-     * 
+     *
      * @return File object
      */
     public File getLogFile(String jobId) throws IOException {

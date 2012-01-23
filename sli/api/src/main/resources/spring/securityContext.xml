@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:util="http://www.springframework.org/schema/util"
-   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd
                            http://www.springframework.org/schema/security
-                           http://www.springframework.org/schema/security/spring-security.xsd">
+                           http://www.springframework.org/schema/security/spring-security.xsd
+                           ">
 
+    <!-- Configure security -->
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-   <!-- Configure security -->
-   <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
-      <security:expression-handler ref="expressionHandler" />
-   </security:global-method-security>
+    <security:http entry-point-ref="sliEntryPoint">
+        <security:request-cache ref="nullCache"/>
+        <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter"/>
+        <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
+        <security:remember-me token-validity-seconds="0" />
+    </security:http>
 
-   <security:http auto-config="true" entry-point-ref="entryPoint">
-      <security:intercept-url pattern="/pub/**" filters="none"/>
-      <security:intercept-url pattern="/rest/system/session/check**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR,ROLE_LEADER,ROLE_AGGREGATE_VIEWER,ROLE_ANONYMOUS"/>
-      <security:intercept-url pattern="/**" access="ROLE_IT_ADMINISTRATOR,ROLE_EDUCATOR, ROLE_LEADER,ROLE_AGGREGATE_VIEWER" />
-      <security:request-cache ref="nullCache"/>
-      <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliFilter" />
+    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg index="0" value="/rest/system/session/check"/>
+        <constructor-arg index="1">
+            <list>
+                <ref bean="sliLogoutHandler"/>
+                <ref bean="securityContextLogoutHandler"/>
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/rest/system/session/logout"/>
+    </bean>
 
-      <security:anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
-   </security:http>
+    <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+    
 
-   <security:authentication-manager alias="authenticationManager">
-      <security:authentication-provider>
-         <security:user-service>
-            <security:user name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" />
-            <security:user name="bob" password="bob" authorities="ROLE_USER" />
-         </security:user-service>
-      </security:authentication-provider>
+    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache"/>
 
-   </security:authentication-manager>
+    <bean id="securityContextLogoutHandler"
+          class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
 
-   <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect"
+          factory-method="aspectOf">
+        <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
+    </bean>
 
-   <bean id="openamTokenResolver"
-         class="org.slc.sli.api.security.openam.OpenamRestTokenResolver"
-         p:tokenServiceUrl="http://devdanil.slidev.org:8080/idp"
-         p:rest-ref="restTemplate" />
+    <!-- Default role initializer -->
+    <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
 
-   <bean id="expressionHandler"
-         class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"
-         p:permissionEvaluator-ref="dynamicPermissionEvaluator" />
-
-   <bean id="sliFilter"
-         class="org.slc.sli.api.security.SLIProcessingFilter"
-         p:resolver-ref="openamTokenResolver" />
-
-   <bean id="entryPoint"
-         class="org.slc.sli.api.security.SLIAuthenticationEntryPoint"
-         p:authUrl="/pub/realm.jsp" />
-
-   <bean id="sessisonDebugResource"
-         class="org.slc.sli.api.resources.SessionDebugResource"
-         p:authPathUrl="/api/pub/realm.jsp" />
-
-   <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache" />
-
+    <bean id="sliAdminValidator" class="org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator">
+    	<constructor-arg index="0" type="String" value="${sli.security.admin.realm}"/>
+    </bean>
 </beans>
-        

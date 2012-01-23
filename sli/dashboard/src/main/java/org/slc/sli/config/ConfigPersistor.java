@@ -1,7 +1,9 @@
 package org.slc.sli.config;
 
-import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.CustomData;
+
+import com.google.gson.Gson;
 
 /**
  * 
@@ -11,18 +13,27 @@ import org.slc.sli.entity.CustomData;
  */
 public class ConfigPersistor {
 
-    // get the view configuration for an entity
-    public static ViewConfigSet getConfigSet(String entityId) throws Exception {
+    private static final String VIEW_CONFIG_API_KEY = "view_config";
+    private static final String LOZENGE_CONFIG_API_KEY = "lozenge_config";
     
-        // TODO: implement mock/real switch
+    private APIClient apiClient;
+    
+    /**
+     * Get the view configuration for an entity
+     * 
+     * @param entityId
+     * @return ViewConfigSet
+     * @throws Exception
+     */
+    public ViewConfigSet getConfigSet(String entityId) throws Exception {
     
         // make API call with entity id
-        MockAPIClient mockClient = new MockAPIClient();
-        CustomData[] customData = mockClient.getCustomData(entityId, "view_config");
+        CustomData[] customData = apiClient.getCustomData(entityId, VIEW_CONFIG_API_KEY);
         
         // extract data block from custom data field
-        if (customData == null || customData.length == 0)
+        if (customData == null || customData.length == 0) {
             return null;
+        }
         
         String configStr = customData[0].getCustomData();
         
@@ -31,9 +42,15 @@ public class ConfigPersistor {
         
         return configSet;
     }
-    
-    // save the view configurations for an entity
-    public static void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
+
+    /**
+     * Save the view configurations for an entity
+     * 
+     * @param entityId
+     * @param configSet
+     * @throws Exception
+     */
+    public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     
         // convert POJO to serialized format
         String configStr = ConfigUtil.toXMLString(configSet);
@@ -45,8 +62,42 @@ public class ConfigPersistor {
         // make API call
         CustomData[] customDataSet = new CustomData[1];
         customDataSet[0] = customData;
-        MockAPIClient mockClient = new MockAPIClient();
-        mockClient.saveCustomData(customDataSet, entityId, "view_config");
+        apiClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG_API_KEY);
     }
     
+    /**
+     * Get the lozenges display configuration for an entity
+     * 
+     * @param entityId
+     * @return LozengeConfig
+     * @throws Exception
+     */
+    public LozengeConfig[] getLozengeConfig(String entityId) throws Exception {
+        // make API call with entity id
+        CustomData[] customData = apiClient.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
+        
+        // extract data block from custom data field
+        if (customData == null || customData.length == 0) {
+            return null;
+        }
+        
+        String configStr = customData[0].getCustomData();
+        
+        // convert data block to POJO
+        Gson gson = new Gson();        
+        LozengeConfig[] retVal = gson.fromJson(configStr, LozengeConfig[].class);
+        
+        return retVal;
+    }
+    
+    /*
+     * Getters and setters
+     */
+    public APIClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
+    }
 }

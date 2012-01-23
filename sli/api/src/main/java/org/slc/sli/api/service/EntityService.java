@@ -1,5 +1,6 @@
 package org.slc.sli.api.service;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 
 /**
@@ -24,7 +25,6 @@ public interface EntityService {
      * 
      * @param id
      *            the id of the entity to delete
-     * @return if the delete was successful
      */
     public void delete(String id);
     
@@ -72,5 +72,12 @@ public interface EntityService {
      * @return true iff there is an entity with this id
      */
     public boolean exists(String id);
-
+    
+    /**
+     * Retrieve entity definition
+     * 
+     * @return the definition of the entity
+     */
+    public EntityDefinition getEntityDefinition();
+    
 }

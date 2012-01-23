@@ -6,38 +6,54 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of EntityService that can be used for most entities.
  * 
+ * It is very important this bean prototype scope, since one service is needed per
+ * entity/association.
  */
+@Scope("prototype")
+@Component("basicService")
 public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
-    private final String collectionName;
-    private final List<Treatment> treatments;
-    private final List<Validator> validators;
-    private final EntityRepository repo;
+    private String collectionName;
+    private List<Treatment> treatments;
     private EntityDefinition defn;
+    private CoreEntityService coreService;
     
-    public BasicService(String collectionName, List<Treatment> treatments, List<Validator> validators,
-            EntityRepository repo) {
-        super();
+    @Autowired
+    private EntityRepository repo;
+    
+    public BasicService(String collectionName, List<Treatment> treatments, CoreBasicService coreService) {
         this.collectionName = collectionName;
         this.treatments = treatments;
-        this.validators = validators;
-        this.repo = repo;
+        this.coreService = coreService;
     }
     
+    /**
+     * Set the entity definition for this service.
+     * There is a circular dependency between BasicService and EntityDefinition, so they both can't
+     * have it be a constructor arg.
+     */
     public void setDefn(EntityDefinition defn) {
         this.defn = defn;
+    }
+    
+    public EntityDefinition getEntityDefinition() {
+        return defn;
     }
     
     protected String getCollectionName() {
@@ -48,49 +64,34 @@ public class BasicService implements EntityService {
         return treatments;
     }
     
-    protected List<Validator> getValidators() {
-        return validators;
-    }
-    
     protected EntityRepository getRepo() {
         return repo;
     }
     
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {collectionName, content});
-        if (!validate(content)) {
-            LOG.info("validation failed for {}", content);
-            throw new ValidationException();
-        }
-        if (defn instanceof AssociationDefinition && !createAssocValidate(content)) {
-            LOG.info("create association validation failed for {}", content);
-            throw new ValidationException();
-        }
-        return getRepo().create(collectionName, sanitizeEntityBody(content)).getEntityId();
+        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
+        String type = defn.getType();
+        EntityBody body = sanitizeEntityBody(content);
+        return coreService.create(body, type);
     }
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] {id, collectionName});
-        Entity entity = getRepo().find(collectionName, id);
-        if (entity == null) {
+        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        if (!coreService.delete(id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        getRepo().delete(collectionName, id);
+        
         if (!(defn instanceof AssociationDefinition))
-            removeEntityWithAssoc(entity);
+            removeEntityWithAssoc(id);
     }
     
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {}", new String[] {id, collectionName});
-        if (!validate(content)) {
-            LOG.info("Validation failed for {}", content);
-            throw new ValidationException();
-        }
-        Entity entity = getRepo().find(collectionName, id);
+        LOG.debug("Updating {} in {}", new String[] { id, collectionName });
+        Entity entity = repo.find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -101,17 +102,17 @@ public class BasicService implements EntityService {
             return false;
         }
         LOG.info("new body is {}", sanitized);
-        entity.getBody().putAll(sanitized);
-        getRepo().update(collectionName, entity);
+        coreService.update(entity, sanitized);
         return true;
     }
     
     @Override
     public EntityBody get(String id) {
-        Entity entity = getRepo().find(collectionName, id);
+        Entity entity = coreService.get(id);
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
+        
         return makeEntityBody(entity);
     }
     
@@ -119,7 +120,7 @@ public class BasicService implements EntityService {
     public Iterable<EntityBody> get(Iterable<String> ids) {
         List<EntityBody> results = new ArrayList<EntityBody>();
         for (String id : ids) {
-            Entity entity = getRepo().find(collectionName, id);
+            Entity entity = coreService.get(id);
             if (entity != null) {
                 results.add(makeEntityBody(entity));
             }
@@ -140,7 +141,7 @@ public class BasicService implements EntityService {
     public boolean exists(String id) {
         return getRepo().find(collectionName, id) != null;
     }
-
+    
     /**
      * given an entity, make the entity body to expose
      * 
@@ -168,50 +169,22 @@ public class BasicService implements EntityService {
         }
         return sanitized;
     }
-
-    private boolean validate(EntityBody body) {
-        for (Validator v : validators) {
-            if (!v.validate(body)) {
-                LOG.info("Validator {} reported failure", v);
-                return false;
-            }
-        }
-        return true;
-    }
     
-    private boolean createAssocValidate(EntityBody body) {
-        try {
-            EntityDefinition sourceEntityDefn = ((AssociationDefinition) defn).getSourceEntity();
-            EntityDefinition targetEntityDefn = ((AssociationDefinition) defn).getTargetEntity();
-            String sourceType = sourceEntityDefn.getType();
-            String targetType = targetEntityDefn.getType();
-            String sourceId = (String) body.get(sourceType + "Id");
-            String targetId = (String) body.get(targetType + "Id");
-            Entity sourceEntity = repo.find(sourceEntityDefn.getStoredCollectionName(), sourceId);
-            Entity targetEntity = repo.find(targetEntityDefn.getStoredCollectionName(), targetId);
-            if (sourceEntity == null || targetEntity == null)
-                return false;
-        } catch (RuntimeException e) {
-            return false;
-        }
-        return true;
-    }
-    
-    private void removeEntityWithAssoc(Entity entity) {
-        String sourceType = entity.getType();
-        String sourceId = entity.getEntityId();
+    private void removeEntityWithAssoc(String sourceId) {
         Map<String, String> fields = new HashMap<String, String>();
-        fields.put(sourceType + "Id", sourceId);
+        fields.put(defn.getType() + "Id", sourceId);
         
         for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
             String assocCollection = assocDef.getStoredCollectionName();
-            Iterator<Entity> foundEntities = repo.findByFields(assocCollection, fields, 0, 1)
-                    .iterator();
-            if (foundEntities.hasNext()) {
-                Entity assocEntity = foundEntities.next();
-                repo.delete(assocCollection, assocEntity.getEntityId());
+            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
+            Iterator<Entity> foundEntities;
+            if (iterable != null) {
+                foundEntities = iterable.iterator();
+                while (foundEntities.hasNext()) {
+                    Entity assocEntity = foundEntities.next();
+                    repo.delete(assocCollection, assocEntity.getEntityId());
+                }
             }
         }
     }
-
 }

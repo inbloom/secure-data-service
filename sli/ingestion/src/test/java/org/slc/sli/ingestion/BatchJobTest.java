@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,10 +35,13 @@ public class BatchJobTest {
 
     @Test
     public void testCreateId() {
-        String id1 = BatchJob.createId();
-        String id2 = BatchJob.createId();
-        assertEquals(id1.length(), 36);
-        assertEquals(id2.length(), 36);
+        String id1 = BatchJob.createId(null);
+        String id2 = BatchJob.createId(null);
+        
+        //batch job id's are now dynamic - they depend on incoming file size
+        //assertEquals(id1.length(), 36);
+        //assertEquals(id2.length(), 36);
+        
         assertFalse(id1.equals(id2));
     }
 
@@ -75,14 +79,14 @@ public class BatchJobTest {
 
     @Test
     public void testFaults() {
-        BatchJob job = BatchJob.createDefault();
-        assertEquals(0, job.getFaults().size());
-        job.addFault(Fault.createWarning("this is a warning"));
-        assertEquals(1, job.getFaults().size());
-        assertFalse(job.hasErrors());
-        job.addFault(Fault.createError("this is an error"));
-        assertEquals(2, job.getFaults().size());
-        assertTrue(job.hasErrors());
+        FaultsReport fr = new FaultsReport();
+        assertEquals(0, fr.getFaults().size());
+        fr.warning("this is a warning", this);
+        assertEquals(1, fr.getFaults().size());
+        assertFalse(fr.hasErrors());
+        fr.error("this is an error", this);
+        assertEquals(2, fr.getFaults().size());
+        assertTrue(fr.hasErrors());
     }
 
     @Test
@@ -96,7 +100,9 @@ public class BatchJobTest {
         System.out.println(System.getProperty("java.class.path"));
 
         String id = job.getId();
-        assertEquals(id.length(), 36);
+
+        //batch job id's are now dynamic - they depend on incoming file size
+        //assertEquals(id.length(), 36);
 
         Date jobDate = job.getCreationDate();
         assertTrue(jobDate.after(new Date(now.getTime() - 1)));
@@ -105,7 +111,7 @@ public class BatchJobTest {
         ArrayList<IngestionFileEntry> files = (ArrayList<IngestionFileEntry>) job.getFiles();
         assertEquals(files.size(), 0);
 
-        ArrayList<Fault> faults = (ArrayList<Fault>) job.getFaults();
+        List<Fault> faults = job.getFaultsReport().getFaults();
         assertEquals(faults.size(), 0);
 
     }

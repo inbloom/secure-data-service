@@ -1,10 +1,11 @@
 package org.slc.sli.manager;
 
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.StudentProgramAssociation;
+import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.DataSet;
+import org.slc.sli.config.Field;
 import org.slc.sli.config.ConfigUtil;
-import org.slc.sli.client.MockAPIClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,37 +19,28 @@ import java.util.ArrayList;
  * @author dwu
  *
  */
-public class StudentManager {
+public class StudentManager extends Manager {
     
-    private static StudentManager instance = null;
-    
-    protected StudentManager() {        
-    }
-    
-    public static StudentManager getInstance() {
-        if (instance == null) {
-            instance = new StudentManager();
-        }
-        return instance;
-    }
     
     public List<Student> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
-        // extract the studentInfo data set configs
-        List<DataSet> dataSets = ConfigUtil.getDataSets(config, "studentInfo");
+        // extract the studentInfo data fields
+        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
         
         // call the api
-        // TODO: mock/real api switch
-        // TODO: do we need more logic to grab the correct data sets and fields? right now, not using info in DataSet.
+        // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
-        if (dataSets.size() > 0) {
-            MockAPIClient apiClient = new MockAPIClient();
-            studentInfo.addAll(Arrays.asList(apiClient.getStudents(username, studentIds)));
+        if (dataFields.size() > 0) {
+            studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
         }
         
         // return the results
         return studentInfo;
     }
     
-    
+    public List<StudentProgramAssociation> getStudentProgramAssociations(String username, List<String> studentIds) {
+        List<StudentProgramAssociation> programs = new ArrayList<StudentProgramAssociation>();
+        programs.addAll(Arrays.asList(apiClient.getStudentProgramAssociation(SecurityUtil.getToken(), studentIds)));
+        return programs;
+    }
 }

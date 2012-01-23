@@ -9,6 +9,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.repository.StudentRepository;
+import org.slc.sli.dal.repository.EntityRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -36,12 +37,15 @@ public class StudentIngestionCamelTest {
     private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    private StudentRepository studentRepository;
+    private EntityRepository studentRepository;
 
+    private static String studentEntityType = "student";
+
+    @Ignore// TODO integration tests will be moved out of this module soon
     @Test
     public void testDirectRoute() throws Exception {
 
-        studentRepository.deleteAll();
+        studentRepository.deleteAll(studentEntityType);
 
         int numberOfStudents = 2;
 

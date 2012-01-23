@@ -22,10 +22,15 @@ import org.milyn.payload.JavaResult;
 import org.springframework.util.ResourceUtils;
 import org.xml.sax.SAXException;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
-
+/**
+ * Test for SmooksEdFiVisitor
+ *
+ */
+// @RunWith(SpringJUnit4ClassRunner.class)
+// @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 public class SmooksEdFiVisitorTest {
+
+    private static final String SMOOKS_CONFIG = "smooks_conf/smooks-config.xml";
 
     @Test
     public void testJavaResult() throws IOException, SAXException {
@@ -35,12 +40,11 @@ public class SmooksEdFiVisitorTest {
 
         try {
 
-            File inFile = ResourceUtils
-                    .getFile("classpath:smooks/InterchangeStudent.xml");
+            File inFile = ResourceUtils.getFile("classpath:smooks/InterchangeStudent.xml");
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
 
-            Smooks smooks = new Smooks("smooks-config.xml");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
             // smooks.addVisitor(new SmooksEdFiVisitor("student"),
             // "InterchangeStudent/Student");
 
@@ -48,8 +52,7 @@ public class SmooksEdFiVisitorTest {
 
             smooks.filterSource(new StreamSource(messageIn), result);
 
-            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result
-                    .getBean("records");
+            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
             assertEquals(records.size(), 100);
 
             // TODO assert for a few entries that all values got successfully
@@ -70,18 +73,15 @@ public class SmooksEdFiVisitorTest {
 
         try {
 
-            File inFile = ResourceUtils
-                    .getFile("classpath:smooks/InterchangeStudent.xml");
+            File inFile = ResourceUtils.getFile("classpath:smooks/InterchangeStudent.xml");
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
             File outputFile = File.createTempFile("test", ".dat");
             outputFile.deleteOnExit();
-            NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
-                    outputFile);
+            NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputFile);
 
-            Smooks smooks = new Smooks("smooks-config.xml");
-            smooks.addVisitor(new SmooksEdFiVisitor("record", nrfWriter),
-                    "InterchangeStudent/Student");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
+            smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter), "InterchangeStudent/Student");
 
             try {
                 smooks.filterSource(new StreamSource(messageIn));
@@ -90,8 +90,7 @@ public class SmooksEdFiVisitorTest {
             }
 
             int c = 0;
-            NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
-                    new File(outputFile.getAbsolutePath()));
+            NeutralRecordFileReader nrfr = new NeutralRecordFileReader(new File(outputFile.getAbsolutePath()));
             try {
                 while (nrfr.hasNext()) {
                     NeutralRecord value = nrfr.next();
@@ -118,12 +117,11 @@ public class SmooksEdFiVisitorTest {
 
         try {
 
-            File inFile = ResourceUtils
-                    .getFile("classpath:smooks/InterchangeSchool.xml");
+            File inFile = ResourceUtils.getFile("classpath:smooks/InterchangeSchool.xml");
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
 
-            Smooks smooks = new Smooks("smooks-config.xml");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
             // smooks.addVisitor(new SmooksEdFiVisitor("student"),
             // "InterchangeStudent/Student");
 
@@ -131,8 +129,7 @@ public class SmooksEdFiVisitorTest {
 
             smooks.filterSource(new StreamSource(messageIn), result);
 
-            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result
-                    .getBean("records");
+            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
             assertEquals(records.size(), 2);
 
             // TODO assert for a few entries that all values got successfully
@@ -153,12 +150,11 @@ public class SmooksEdFiVisitorTest {
 
         try {
 
-            File inFile = ResourceUtils
-                    .getFile("classpath:smooks/InterchangeEnrollment.xml");
+            File inFile = ResourceUtils.getFile("classpath:smooks/InterchangeEnrollment.xml");
 
             messageIn = new BufferedInputStream(new FileInputStream(inFile));
 
-            Smooks smooks = new Smooks("smooks-config.xml");
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
             // smooks.addVisitor(new SmooksEdFiVisitor("student"),
             // "InterchangeStudent/Student");
 
@@ -166,8 +162,7 @@ public class SmooksEdFiVisitorTest {
 
             smooks.filterSource(new StreamSource(messageIn), result);
 
-            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result
-                    .getBean("records");
+            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
             assertEquals(records.size(), 100);
 
             // TODO assert for a few entries that all values got successfully

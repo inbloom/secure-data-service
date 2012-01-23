@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>sli</artifactId>
+		<groupId>org.slc.sli</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>admin</artifactId>
+	<packaging>war</packaging>
+	<name>Admin Webapp</name>
+
+	<properties>
+		<restclientclass>org.slc.sli.admin.client.RESTClient</restclientclass>
+		<gson.version>2.0</gson.version>
+	</properties>
+
+	<!-- Environment profiles. A profile encapsulates a set of properties and 
+		filters for a particular build configuration. The profiles are specified here,
+		in addition to the parent POM file, to avoid profile inheritance issues in Maven
+		(see MNG-5127 on jira.codehaus.org). The profile inheritance should not be an
+		issue when building from sli/pom.xml, however, more localized builds of admin,
+		api, and disco will require explicit profiles to appropriately set environment
+		variables (sli.env). -->
+	<profiles>
+		<!-- A local dev profile -->
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sli.env>local</sli.env>
+			</properties>
+		</profile>
+
+
+		<!-- Remote dev/demo database profile -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<sli.env>dev</sli.env>
+			</properties>
+		</profile>
+
+		<!-- Profile to use during continuous integration -->
+		<profile>
+			<id>ci</id>
+			<properties>
+				<sli.env>ci</sli.env>
+			</properties>
+		</profile>
+
+		<!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
+		<profile>
+			<id>devApps</id>
+			<properties>
+				<sli.env>devApps</sli.env>
+			</properties>
+		</profile>
+
+		<!-- Add additional profiles here. For example: integration, production, 
+			multishard, ... -->
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Spring Web MVC dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<!-- standard.jar -->
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>admin</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<configuration>
+					<systemProperties>
+						<systemProperty>
+							<name>sli.env</name>
+							<value>${sli.env}</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -16,6 +16,10 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Zip File utility class.
+ *
+ */
 public class ZipFileUtil {
 
     static Logger log = LoggerFactory.getLogger(ZipFileUtil.class);

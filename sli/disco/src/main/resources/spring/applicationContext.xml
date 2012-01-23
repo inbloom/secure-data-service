@@ -4,14 +4,23 @@
    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
    <context:component-scan base-package="org.slc.sli" />
    <mvc:annotation-driven />
 
    <mvc:resources mapping="/resources/**" location="/resources/" />
 
-   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-      <property name="prefix" value="/WEB-INF/views/" />
-      <property name="suffix" value=".jsp" />
-   </bean>
+ 	<bean id="DiscoProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:/spring/${sli.env}.properties</value>
+		</property>
+	</bean>
+	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 </beans>

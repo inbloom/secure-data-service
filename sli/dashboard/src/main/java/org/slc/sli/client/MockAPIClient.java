@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,7 +14,8 @@ import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
-
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.StudentProgramAssociation;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,44 +25,54 @@ import java.util.Vector;
  */
 public class MockAPIClient implements APIClient {
 
+    private ClassLoader classLoader;
+
+    public MockAPIClient() {
+        this.classLoader = Thread.currentThread().getContextClassLoader();
+    }
+    
+
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-        String filename = "src/test/resources/mock_data/" + token + "/student.json";
-        Student[] students = fromFile(filename, Student[].class);
+        Student[] students = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student.json"), Student[].class);
         // perform the filtering. 
         Vector<Student> filtered = new Vector<Student>();
-        for (Student student : students) { 
-            if (studentIds.contains(student.getUid())) { 
-                filtered.add(student);
+        if (studentIds != null)
+            for (Student student : students) { 
+                if (studentIds.contains(student.getId())) { 
+                    filtered.add(student);
+                }
             }
-        }
         Student[] retVal = new Student[filtered.size()];
         return filtered.toArray(retVal);
     }
+    
     @Override
     public School[] getSchools(final String token) {
-        String filename = "src/test/resources/mock_data/" + token + "/school.json";
-        return fromFile(filename, School[].class);
+        return fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/school.json"), School[].class);
     }
+    
     @Override
-    public Assessment[] getAssessments(final String token, 
-                                       List<String> studentIds) {
+    public Assessment[] getAssessments(final String token, List<String> studentIds) {
         String filename = "src/test/resources/mock_data/" + token + "/assessment.json";
-        Assessment[] assessments = fromFile(filename, Assessment[].class);
+        Assessment[] assessments = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/assessment.json"), Assessment[].class);
         Vector<Assessment> filtered = new Vector<Assessment>();
         // perform the filtering. 
+        /* TODO: Start filtering again, when we actually get student uids from a list
         for (Assessment assessment : assessments) { 
             if (studentIds.contains(assessment.getStudentId())) { 
                 filtered.add(assessment);
             }
         }
-        Assessment[] retVal = new Assessment[filtered.size()];
+        Assessment[] retVal = new Assessment[filtered.size()]; 
         return filtered.toArray(retVal);
+        */
+        return assessments;
     }
+
     @Override
     public CustomData[] getCustomData(String token, String key) {
-        String filename = "src/test/resources/mock_data/" + token + "/custom_" + key + ".json";
-        return fromFile(filename, CustomData[].class);
+        return fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/custom_" + key + ".json"), CustomData[].class);
     }
     
     @Override
@@ -68,8 +81,28 @@ public class MockAPIClient implements APIClient {
         toFile(src, filename, CustomData[].class);
     }
     
+    @Override
+    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
+        return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentMetaData[].class);
+    }
+    
+    @Override
+    public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
+        StudentProgramAssociation[] programs = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/student_program_association.json"), StudentProgramAssociation[].class);
+        // perform the filtering. 
+        Vector<StudentProgramAssociation> filtered = new Vector<StudentProgramAssociation>();
+        if (studentIds != null)
+            for (StudentProgramAssociation program : programs) { 
+                if (studentIds.contains(program.getStudentId())) { 
+                    filtered.add(program);
+                }
+            }
+        StudentProgramAssociation[] retVal = new StudentProgramAssociation[filtered.size()];
+        return filtered.toArray(retVal);
+    }
+
     // Helper function to translate a .json file into object. 
-    private static <T> T[] fromFile(String fileName, Class<T[]> c) {
+    public static <T> T[] fromFile(String fileName, Class<T[]> c) {
     
         BufferedReader bin = null;
     
@@ -129,4 +162,9 @@ public class MockAPIClient implements APIClient {
         }
     }
     
+    public String getFilename(String filename) {
+        URL url = classLoader.getResource(filename);
+        return url.getFile();
+    }
+
 }

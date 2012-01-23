@@ -12,19 +12,15 @@ Given /^I login with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
     idpLogin(@user, @passwd)
 end
 
-Given /^I get an authentication cookie from the gatekeeper$/ do
-    assert(@cookie != nil, "Cookie retrieved was nil")
+Given /^I get an authentication session ID from the gatekeeper$/ do
+    assert(@sessionId != nil, "Session returned was nil")
 end
 
-When /^I GET the url "([^"]*)" using that cookie$/ do |arg1|
+When /^I GET the url "([^"]*)" using that session ID$/ do |arg1|
     restHttpGet(arg1, "application/json")
     assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I should receive a return code of "([^"]*)"$/ do |arg1|
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == Integer(arg1), "Return code was not expected: '"+@res.code.to_s+"' but expected '" + arg1 + "'")
-end
 
 Then /^I should see the session debug context in the response body$/ do
     assert(@res != nil, "Response is nil")
@@ -39,11 +35,11 @@ Then /^I should see the session debug context in the response body$/ do
            "Session debug context 'authentication.authenticated' is not true")
 end
 
-When /^I GET the url "([^"]*)" using a blank cookie$/ do |arg1|
+When /^I GET the url "([^"]*)" using a blank session ID$/ do |arg1|
     restHttpGet(arg1, "application/json", "")
 end
 
-When /^I GET the url "([^"]*)" using an invalid cookie$/ do |arg1|
+When /^I GET the url "([^"]*)" using an invalid session ID$/ do |arg1|
     restHttpGet(arg1, "application/json", "invalid")
 end
 

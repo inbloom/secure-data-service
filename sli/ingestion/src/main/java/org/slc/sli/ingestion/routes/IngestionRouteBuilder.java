@@ -1,19 +1,24 @@
 package org.slc.sli.ingestion.routes;
 
+import static org.apache.camel.builder.PredicateBuilder.or;
+
 import java.io.File;
 import java.util.Enumeration;
 
 import ch.qos.logback.classic.Logger;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
@@ -21,6 +26,7 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Ingestion route builder.
@@ -32,7 +38,7 @@ import org.slc.sli.ingestion.processors.ZipFileProcessor;
 public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
-    EdFiProcessor xmlProcessor;
+    EdFiProcessor edFiProcessor;
 
     @Autowired
     ControlFileProcessor ctlFileProcessor;
@@ -49,6 +55,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
+    private @Value("${queues.workItem.queueURI}") String workItemQueue;
+
     @Override
     public void configure() throws Exception {
 
@@ -60,22 +68,28 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
                 .routeId("ctlFilePoller")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(new ControlFilePreProcessor(lz))
-                .to("seda:CtrlFilePreProcessor");
+                .to(workItemQueue);
 
         // routeId: ctlFilePreprocessor
-        from("seda:CtrlFilePreProcessor")
+        from(workItemQueue)
                 .routeId("ctlFilePreprocessor")
-                .process(ctlFileProcessor)
-                .to("seda:assembledJobs");
-        
+                .choice()
+                    .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
+                    .process(ctlFileProcessor)
+                    .to("seda:assembledJobs")
+                .otherwise()
+                    .to("direct:stop");
 
         // routeId: zipFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.zip$&move="
+                "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
                         + "/.error")
                 .routeId("zipFilePoller")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor)
                 .choice()
                     .when(body().isInstanceOf(BatchJob.class))
@@ -90,21 +104,22 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             tempLz.setDirectory(ctlFile.getParentFile());
                         }
                     }).process(new ControlFilePreProcessor(tempLz))
-                    .to("seda:CtrlFilePreProcessor");
+                    .to(workItemQueue);
 
         // routeId: jobDispatch
         from("seda:assembledJobs")
                 .routeId("jobDispatch")
-                .wireTap("direct:jobReporting")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispathing jobs for file.")
                 .choice()
                     .when(header("hasErrors").isEqualTo(true))
-                    .stop()
+                    .to("direct:stop")
                 .otherwise()
                     .to("seda:acceptedJobs");
 
         // routeId: jobReporting
         from("direct:jobReporting")
                 .routeId("jobReporting")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Reporting on jobs for file.")
                 .process(new Processor() {
 
                     @Override
@@ -131,7 +146,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                                     + job.getProperty(key));
                         }
 
-                        for (Fault fault: job.getFaults()) {
+                        FaultsReport fr = job.getFaultsReport();
+
+                        for (Fault fault: fr.getFaults()) {
                             if (fault.isError()) {
                                 jobLogger.error(fault.getMessage());
                             } else {
@@ -139,12 +156,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             }
                         }
 
-                        if (job.hasErrors()) {
-                            jobLogger.info("Job rejected due to errors");
+                        if (fr.hasErrors()) {
+                            jobLogger.info("Not all records were processed completely due to errors.");
                         } else {
-                            jobLogger.info("Job ready for processing");
+                            jobLogger.info("All records processed successfully.");
                         }
-                        
+
+                        // TODO: fix this - we are never setting this header.
+                        //jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
+
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
                     }
@@ -154,19 +174,32 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: jobPipeline
         from("seda:acceptedJobs")
                 .routeId("jobPipeline")
-                .process(xmlProcessor)
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
+                .process(edFiProcessor)
                 .to("seda:persist");
 
         // routeId: persistencePipeline
         from("seda:persist")
                 .routeId("persistencePipeline")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
                 .log("persist: jobId: " + header("jobId").toString())
                 .choice()
-                    .when(header("dry-run").isEqualTo(true))
-                        .log("dry-run specified; data will not be published")
+                    .when(or(header("dry-run").isEqualTo(true), header("hasErrors").isEqualTo(true)))
+                        .log("job has errors or dry-run specified; data will not be published")
+                        .to("direct:stop")
                     .otherwise()
                         .log("publishing data now!")
-                        .process(persistenceProcessor);
+                        .process(persistenceProcessor)
+                        .to("direct:stop");
+
+        // end of routing
+        from("direct:stop")
+                .routeId("stop")
+                .wireTap("direct:jobReporting")
+                .log("end of job: " + header("jobId").toString())
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
+                .stop();
+
     }
 
 }

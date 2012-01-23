@@ -1,25 +1,31 @@
 package org.slc.sli.ingestion.processors;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.core.FileAppender;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.InterchangeAssociation;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
+import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.LoggingErrorReport;
 
 /**
  * Ingestion Persistence Processor.
@@ -32,14 +38,12 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 @Component
 public class PersistenceProcessor implements Processor {
 
-    Logger log = LoggerFactory.getLogger(PersistenceProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
+
+    private EntityPersistHandler entityPersistHandler;
 
     @Autowired
-    private ContextManager contextManager;
-
-    public ContextManager getContextManager() {
-        return this.contextManager;
-    }
+    private LocalFileSystemLandingZone lz;
 
     /**
      * Camel Exchange process callback method
@@ -47,120 +51,134 @@ public class PersistenceProcessor implements Processor {
      * @param exchange
      */
     @Override
-    public void process(Exchange exchange) throws IOException, SAXException {
+    @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
+    public void process(Exchange exchange) {
 
         long startTime = System.currentTimeMillis();
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
         // Indicate Camel processing
-        log.info("processing: {}", job);
+        LOG.info("processing persistence: {}", job);
 
         for (IngestionFileEntry fe : job.getFiles()) {
 
-            // Setup Ingestion processor output file
-            File ingestionOutputFile = File.createTempFile("camel_", ".tmp");
-            ingestionOutputFile.deleteOnExit();
+            ErrorReport errorReportForFile = null;
+            try {
 
-            // Allow Ingestion processor to process Camel exchange file
-            this.processIngestionStream(fe.getNeutralRecordFile(), ingestionOutputFile);
+                errorReportForFile = processIngestionStream(fe);
+
+            } catch (IOException e) {
+                job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
+            }
+
+            // Inform user if there were any record-level errors encountered
+            if (errorReportForFile!= null && errorReportForFile.hasErrors()) {
+                job.getFaultsReport().error(
+                        "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
+                                + "\" for details.", this);
+            }
+
         }
 
         // Update Camel Exchange processor output result
         exchange.getIn().setBody(job);
 
+
+
+
         long endTime = System.currentTimeMillis();
 
         // Log statistics
-        log.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
+        LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
 
     }
 
     /**
-     * Consumes the SLI Neutral records file, parses, and persists the SLI Ingestion instances
+     * Consumes the SLI Neutral records file contained by ingestionFileEntry, parses, and persists
+     * the SLI Ingestion instances. Validation errors will go to an error file that corresponds with
+     * the original input file for this IngestionFileEntry.
      *
-     * @param inputFile
-     * @param outputFile
+     * @param ingestionFileEntry
+     * @throws IOException
+
      */
-    public void processIngestionStream(File inputFile, File outputFile) throws IOException, SAXException {
+    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry) throws IOException {
 
-        // Create Ingestion Neutral record reader
-        NeutralRecordFileReader fileReader = new NeutralRecordFileReader(inputFile);
+        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName());
+    }
 
-        // Ingestion Neutral record
-        NeutralRecord ingestionRecord;
+    /**
+     * Consumes the SLI Neutral records file, parses, and persists the SLI Ingestion instances.
+     * Validation errors will go to an error file that corresponds with the file passed in.
+     *
+     * @param neutralRecordsFile
+     * @throws IOException
+     */
+    public ErrorReport processIngestionStream(File neutralRecordsFile) throws IOException {
 
-        // Ingestion counter
-        int ingestionCounter = 0;
+        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName());
+    }
 
+    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName)
+            throws IOException {
+
+        int recordNumber = 0;
+
+        ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
+        ErrorReport recordLevelErrorsInFile = new LoggingErrorReport(errorLogger);
+
+        NeutralRecordFileReader nrFileReader = new NeutralRecordFileReader(neutralRecordsFile);
         try {
+            while (nrFileReader.hasNext()) {
 
-            // Iterate Ingestion neutral records/lines
-            while (fileReader.hasNext()) {
+                recordNumber++;
 
-                // Read next Ingestion neutral record/line
-                ingestionRecord = fileReader.next();
+                NeutralRecord neutralRecord = nrFileReader.next();
 
-                log.debug("processing " + ingestionRecord);
+                LOG.debug("processing " + neutralRecord);
 
-                // Map Ingestion Neutral JSON format into instance
-                Object ingestionInstance = Translator.mapFromNeutralRecord(ingestionRecord);
+                // map NeutralRecord to Entity
+                Entity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
-                // Initialize Ingestion association instances
-                if (ingestionInstance instanceof InterchangeAssociation) {
+                entityPersistHandler.handle(neutralRecordEntity, recordLevelErrorsInFile);
 
-                    // Init Ingestion association instance
-                    ((InterchangeAssociation) ingestionInstance).init(this.getContextManager());
-
-                    // Persist Ingestion association instance
-                    this.persist(((InterchangeAssociation) ingestionInstance).getAssociation());
-                } else {
-
-                    // Persist Ingestion instance
-                    this.persist(ingestionInstance);
-                }
-
-                // Update Ingestion counter
-                ingestionCounter++;
             }
         } finally {
-            fileReader.close();
+            nrFileReader.close();
+            errorLogger.detachAndStopAllAppenders();
         }
 
-        String status = "processed " + ingestionCounter + " records.";
-
-        BufferedOutputStream outputStream = null;
-        try {
-
-            // Setup Ingestion processor output stream for Camel Exchange
-            outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
-
-            // Output Ingestion processor results
-            outputStream.write(status.getBytes());
-
-        } finally {
-            outputStream.close();
-        }
-
-        // Indicate processor status
-        log.info(status);
-
+        return recordLevelErrorsInFile;
     }
 
-    /**
-     * Persists the SLI Ingestion instance using the appropriate SLI repository.
-     *
-     * @param instance
-     * @return
-     */
-    public Object persist(Object instance) {
+    public void setEntityPersistHandler(EntityPersistHandler entityPersistHandler) {
+        this.entityPersistHandler = entityPersistHandler;
+    }
 
-        // Lookup Repository for Ingestion instance class
-        PagingAndSortingRepository repository = this.getContextManager().getRepository(
-                instance.getClass().getName());
+    private ch.qos.logback.classic.Logger createErrorLoggerForFile(String fileName) throws IOException {
 
-        // Persist the Ingestion instance
-        return repository.save(instance);
+        final String loggerName = "error." + fileName;
+
+        File logFile = lz.createFile(loggerName);
+
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+        PatternLayout patternLayout = new PatternLayout();
+        patternLayout.setContext(lc);
+        patternLayout.setPattern("%msg%n");
+        patternLayout.start();
+
+        FileAppender appender = new FileAppender();
+        appender.setContext(lc);
+        appender.setFile(logFile.getAbsolutePath()); // tricky if we're not localFS...
+        appender.setLayout(patternLayout);
+        appender.start();
+
+        ch.qos.logback.classic.Logger logger = lc.getLogger(loggerName);
+        logger.addAppender(appender);
+
+        return logger;
     }
 
 }

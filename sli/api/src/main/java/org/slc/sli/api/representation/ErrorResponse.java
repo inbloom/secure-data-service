@@ -34,4 +34,16 @@ public class ErrorResponse {
     public ErrorResponse() {
     }
     
+    public int getStatusCode() {
+        return statusCode;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public String getMessage() {
+        return message;
+    }
+    
 }

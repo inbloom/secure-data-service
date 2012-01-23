@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,16 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
 
+/**
+ * Zip file handler.
+ *
+ * @author okrook
+ *
+ */
 @Component
 public class ZipFileProcessor implements Processor, MessageSourceAware {
 
@@ -28,6 +35,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
     private MessageSource messageSource;
 
     @Override
+    @Profiled(tag = "ZipFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
 
         log.info("Received zip file: " + exchange.getIn());
@@ -35,7 +43,9 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
         BatchJob job = BatchJob.createDefault();
 
-        if (validator.isValid(zipFile, job.getFaults())) {
+        FaultsReport fr = job.getFaultsReport();
+
+        if (validator.isValid(zipFile, fr)) {
 
             // extract the zip file
             File dir = ZipFileUtil.extract(zipFile);
@@ -50,14 +60,12 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
                 return;
             } catch (IOException ex) {
-                job.getFaults().add(
-                        Fault.createError(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() },
-                                null)));
+                fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
             }
         }
 
-        exchange.getOut().setBody(job, BatchJob.class);
-        exchange.getOut().setHeader("hasErrors", job.hasErrors());
+        exchange.getIn().setBody(job, BatchJob.class);
+        exchange.getIn().setHeader("hasErrors", fr.hasErrors());
     }
 
     public ZipFileValidator getValidator() {

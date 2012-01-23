@@ -1,10 +1,13 @@
 package org.slc.sli.manager;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.slc.sli.client.APIClient;
 import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
+import org.slc.sli.config.LozengeConfig;
 
 /**
  * 
@@ -14,18 +17,17 @@ import org.slc.sli.config.ViewConfigSet;
  * 
  * @author dwu
  */
-public class ConfigManager {
+public class ConfigManager extends Manager {
     
-    private static ConfigManager instance = null;
+    ConfigPersistor persistor;
     
-    protected ConfigManager() {        
+    public ConfigManager() {
+        persistor = new ConfigPersistor();
     }
     
-    public static ConfigManager getInstance() {
-        if (instance == null) {
-            instance = new ConfigManager();
-        }
-        return instance;
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
+        persistor.setApiClient(apiClient);
     }
     
     /**
@@ -40,9 +42,8 @@ public class ConfigManager {
         // TODO: call ConfigPersistor with entity ids, not user id
         ViewConfigSet userViewConfigSet = null;
         try {
-            userViewConfigSet = ConfigPersistor.getConfigSet(userId);
+            userViewConfigSet = persistor.getConfigSet(userId);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
                 
@@ -63,13 +64,15 @@ public class ConfigManager {
         
         ViewConfigSet config = getConfigSet(userId);
         
-        if (config == null)
+        if (config == null) {
             return null;
+        }
         
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
-            if (view.getName().equals(viewName))
+            if (view.getName().equals(viewName)) {
                 return view;
+            }
         }
         return null;
     }
@@ -81,20 +84,46 @@ public class ConfigManager {
      * @param viewName
      * @return ViewConfig
      */
-    public ViewConfig getConfigWithType(String userId, String typeName) {
+    public List<LozengeConfig> getLozengeConfig(String userId) {
+        
+        // get lozenge configs for user's hierarchy (state, district, etc)
+        // TODO: call ConfigPersistor with entity ids, not user id
+        LozengeConfig[] userLozengeConfig = null;
+        try {
+            userLozengeConfig = persistor.getLozengeConfig(userId);
+        } catch (Exception e) {
+            return null;
+        }
+        return Arrays.asList(userLozengeConfig);
+    }
+    
+    /**
+     * Get the configuration for one particular view, for a user
+     * 
+     * @param userId
+     * @param type - e.g. studentList, studentProfile, etc.
+     * @return ViewConfig
+     */
+    // TODO: should return a list of ViewConfigs, once User-Based View logic is complete.
+    public ViewConfig getConfigWithType(String userId, String type) {
         
         ViewConfigSet config = getConfigSet(userId);
         
+        if (config == null) {
+            return null;
+        }
+        
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
-            if (view.getType().equals(typeName))
+            if (view.getType().equals(type)) {
                 return view;
+            }
         }
         return null;
     }
     
     /**
-     * Merges a hierarchy of config sets into one set
+     * Merges a hierarchy of configuration sets into one set
      * 
      * @param configSets
      * @return ViewConfigSet
@@ -113,7 +142,7 @@ public class ConfigManager {
      */
     public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
     
-        ConfigPersistor.saveConfigSet(entityId, configSet);
+        persistor.saveConfigSet(entityId, configSet);
     
     }
     

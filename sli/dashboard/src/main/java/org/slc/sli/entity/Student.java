@@ -1,5 +1,6 @@
 package org.slc.sli.entity;
-import com.google.gson.Gson;
+
+import org.slc.sli.util.Constants;
 
 /**
  * 
@@ -8,166 +9,117 @@ import com.google.gson.Gson;
  */
 public class Student {
 
-    private String nameSuffix, uid, stateId, sex, birthDate, firstName, nameVerification, hispanicLatinoEthnicity, 
-                   middleName, racialCategory, lastName;
+    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServiceEligibility;
+    
+    public void setLimitedEnglishProficiency(String limitedEnglishProficiency) {
+        this.limitedEnglishProficiency = limitedEnglishProficiency;
+    }
 
+    public void setSchoolFoodServiceEligibility(String schoolFoodServiceEligibility) {
+        this.schoolFoodServiceEligibility = schoolFoodServiceEligibility;
+    }
 
+    private static String[] studentEntityProgramCodes = {Constants.PROGRAM_ELL, Constants.PROGRAM_FRE};
+    
+    private NameData name;
+    public NameData getName() {
+        return name;
+    }
+
+    public void setName(NameData name) {
+        this.name = name;
+        
+    }
+
+    public BirthData getBirthData() {
+        return birthData;
+    }
+
+    public void setBirthData(BirthData birthData) {
+        this.birthData = birthData;
+    }
+
+    private BirthData birthData;
+    
+    private class BirthData {
+        String birthDate;
+        
+        @Override
+        public String toString() {
+            return birthDate;
+        }
+    }
+    
+    
     public String getFirstName() {
-        return firstName;
+        return name.getFirstName();
+    }
+    
+    public String getId() {
+        return id;
     }
 
-
-
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setId(String id) {
+        this.id = id;
     }
-
-
-
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-
-
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-
-
 
     public String getLastName() {
-        return lastName;
+        return name.getLastSurname();
+    }
+    
+    private class NameData {
+        private String firstName, middleName, lastSurname;
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getMiddleName() {
+            return middleName;
+        }
+
+        public void setMiddleName(String middleName) {
+            this.middleName = middleName;
+        }
+
+        public String getLastSurname() {
+            return lastSurname;
+        }
+
+        public void setLastSurname(String lastSurname) {
+            this.lastSurname = lastSurname;
+        }
+    
+    }
+    
+    public static String[] getProgramCodesForStudent() {
+        return studentEntityProgramCodes;
     }
 
-
-
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    
+    public boolean getProgramParticipation(String programCode) {
+        if (programCode.equals(Constants.PROGRAM_ELL))
+            return isLimitedEnglishProficient();
+        
+        if (programCode.equals(Constants.PROGRAM_FRE))
+            return isSchoolFoodServiceEligile();
+        
+        return false;
     }
-
-
-
-
-    public String getStateId() {
-        return stateId;
+    
+    private boolean isLimitedEnglishProficient() {
+        return limitedEnglishProficiency.equals("Yes");
     }
-
-
-
-
-    public void setStateId(String stateId) {
-        this.stateId = stateId;
+    
+    
+    private boolean isSchoolFoodServiceEligile() {
+        return schoolFoodServiceEligibility.equals("Free");
     }
-
-
-
-
-    public String getUid() {
-        return uid;
-    }
-
-
-
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-
-
-
-    public String getSex() {
-        return sex;
-    }
-
-
-
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-
-
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-
-
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-
-
-
-    public String getNameVerification() {
-        return nameVerification;
-    }
-
-
-
-
-    public void setNameVerification(String nameVerification) {
-        this.nameVerification = nameVerification;
-    }
-
-
-
-
-    public String getHispanicLatinoEthnicity() {
-        return hispanicLatinoEthnicity;
-    }
-
-
-
-
-    public void setHispanicLatinoEthnicity(String hispanicLatinoEthnicity) {
-        this.hispanicLatinoEthnicity = hispanicLatinoEthnicity;
-    }
-
-
-
-
-    public String getRacialCategory() {
-        return racialCategory;
-    }
-
-
-
-
-    public void setRacialCategory(String racialCategory) {
-        this.racialCategory = racialCategory;
-    }
-
-
-    public static Student fromJson(String json) {
-        Gson gson = new Gson();
-        Student student = gson.fromJson(json, Student.class);
-        return student;
-    }
-
-
-
-
-    public String getNameSuffix() {
-        return nameSuffix;
-    }
-
-
-
-
-    public void setNameSuffix(String nameSuffix) {
-        this.nameSuffix = nameSuffix;
-    }
-
+    
+    
+    
 }

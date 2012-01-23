@@ -1,814 +1,830 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.slc.sli</groupId>
-  <artifactId>sli</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>SLI</name>
-  <description>Shared Learning Infrastructure</description>
-  <url>http://sli.wgen.net</url>
-
-  <scm>
-    <connection>git@github.com:WGEN-SLI/SLI.git</connection>
-    <developerConnection>git@github.com:WGEN-SLI/SLI.git</developerConnection>
-    <url>https://github.com/WGEN-SLI/SLI</url>
-  </scm>
-
-  <properties>
-    <java.version>1.6</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
-    <wgen.build.tools>1.0-SNAPSHOT</wgen.build.tools>
-
-    <!-- Maven Plugin Versions -->
-    <maven.compiler.version>2.3.2</maven.compiler.version>
-    <maven.jar.version>2.3.2</maven.jar.version>
-    <maven.checkstyle.version>2.6</maven.checkstyle.version>
-    <maven.findbugs.version>2.3.2</maven.findbugs.version>
-    <maven.surefire.version>2.10</maven.surefire.version>
-    <maven.eclipse.version>2.8</maven.eclipse.version>
-    <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
-    <maven.tomcat.version>1.1</maven.tomcat.version>
-    <maven.jetty.version>6.1.10</maven.jetty.version>
-
-    <!-- Spring Framework Versions -->
-    <spring.version>3.0.6.RELEASE</spring.version>
-    <springdata.version>1.2.0.M1</springdata.version>
-    <springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
-
-    <!-- Java EE Versions -->
-    <javax.validation.version>1.0.0.GA</javax.validation.version>
-    <javax.el.version>2.2</javax.el.version>
-    <javax.servlet.version>2.4</javax.servlet.version>
-    <javax.jstl.version>1.2</javax.jstl.version>
-    <taglibs.version>1.1.2</taglibs.version>
-
-    <!-- Apache Versions -->
-    <commons.lang.version>3.0.1</commons.lang.version>
-    <commons.io.version>2.1</commons.io.version>
-    <commons.codec.version>1.5</commons.codec.version>
-    <xerces.version>2.4.0</xerces.version>
-    <avro.version>1.6.1</avro.version>
-
-    <!-- Rest Services (JAX-RS) Framework Versions -->
-    <jersey.version>1.9.1</jersey.version>
-    <jackson.version>1.8.5</jackson.version>
-
-    <!-- Persistence Framework Versions -->
-    <commons.dbcp.version>20030825.184428</commons.dbcp.version>
-    <commons.pool.version>20030825.183949</commons.pool.version>
-    <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
-    <hibernate.entity.version>3.6.0.Final</hibernate.entity.version>
-    <hibernate.validator.version>4.0.0.GA</hibernate.validator.version>
-    <mysql.connector.version>5.1.18</mysql.connector.version>
-    <hsqldb.version>1.8.0.10</hsqldb.version>
-
-    <!-- Logging Framework Versions -->
-    <slf4j.version>1.6.2</slf4j.version>
-    <logback.version>0.9.29</logback.version>
-
-    <!-- Testing Framework Versions -->
-    <junit.version>4.9</junit.version>
-    <mockito.version>1.8.5</mockito.version>
-
-  </properties>
-
-  <!-- 
-       Environment profiles.  
-       
-       A profile encapsulates a set of properties and filters for a particular build configuration.
-       
-       Per profile properties and filters can be set at an individual project basis to specify
-       variables used within that environment.  For example, specifying different database 
-       connection strings for 'local' and 'ci' builds.  
-       
-       From the command line, add the -P and specify the profile name you want to use.  
-       
-       If no profile is specified, the 'sli.env' value specified in the above properties section 
-       is used by default. 
-       
-       Note that this POM only defines what the profile name is and the 'sli.env' value for that profile.  
-       It is up to individual projects to identify resources required per profile. 
-  -->
-  <profiles>  
-      <!-- A local dev profile -->
-      <profile>
-          <id>local</id>
-          <activation>
-              <activeByDefault>true</activeByDefault>
-          </activation>
-		  <properties>
-			  <sli.env>local</sli.env>
-		  </properties>
-      </profile>
-
-
-     <!-- Remote dev/demo database profile -->
-     <profile>
-          <id>dev</id>
-          <properties>
-             <sli.env>dev</sli.env>
-          </properties>
-     </profile>
-      
-      <!-- Profile to use during continuous integration -->
-      <profile>
-          <id>ci</id>
-          <properties>
-              <sli.env>ci</sli.env>
-          </properties>
-      </profile>
-
-      <!-- Add additional profiles here. For example: integration, production, multishard, ... -->
-  </profiles>    
-
-  <modules>
-    <module>sli-configuration</module>
-    <module>common</module>
-    <module>api</module>
-    <module>data-access</module>
-    <module>ingestion</module>
-    <module>dashboard</module>
-  </modules>
-
-  <dependencyManagement>
-    <dependencies>
-
-      <!-- WGEN dependencies -->
-      <dependency>
-      	<groupId>org.slc.sli</groupId>
-      	<artifactId>sli-configuration</artifactId>
-      	<version>${project.version}</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>org.slc.sli.common</groupId>
-        <artifactId>common</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>api</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>databrowser</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli.dal</groupId>
-        <artifactId>dal</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli.dal</groupId>
-        <artifactId>mock-dal</artifactId>
-        <version>${project.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>build-tools</artifactId>
-        <version>${wgen.build.tools}</version>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli.common</groupId>
-        <artifactId>domain</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>dashboard</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>client</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>cucumber-tests</artifactId>
-        <version>${project.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- Spring Framework -->
-
-      <!-- Spring Core dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring AOP dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-aop</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring TX dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-tx</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Context dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${spring.version}</version>
-        <exclusions>
-          <!-- Exclude Commons Logging in favor of SLF4J -->
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <!-- Spring Beans dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Expression dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-expression</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Data Core dependency -->
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-commons-core</artifactId>
-        <version>${springdata.version}</version>
-      </dependency>
-
-      <!-- Spring Data JPA dependency -->
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-        <version>${springdata.jpa.version}</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>spring-core</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-context</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-beans</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-web</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-aop</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-asm</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-tx</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-web</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-expression</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-orm</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <!-- Spring ORM dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-orm</artifactId>
-        <version>${spring.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- Spring Web MVC dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-webmvc</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Security Core dependency -->
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-core</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Security Config dependency -->
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-config</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Security Web dependency -->
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-web</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-taglibs</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-
-      <!-- Spring Test dependency -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
-        <version>${spring.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-
-      <!-- Java EE Framework -->
-
-      <!-- Java Validation dependency -->
-      <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>${javax.validation.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- Java EL dependency -->
-      <dependency>
-        <groupId>javax.el</groupId>
-        <artifactId>el-api</artifactId>
-        <version>${javax.el.version}</version>
-        <scope>provided</scope>
-      </dependency>
-
-      <!-- Java Servlet dependency -->
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${javax.servlet.version}</version>
-        <scope>provided</scope>
-      </dependency>
-
-      <!-- Java Servlet JSTL dependency -->
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jstl</artifactId>
-        <version>${javax.jstl.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-
-      <!-- Java Servlet Taglibs dependency -->
-      <dependency>
-        <groupId>taglibs</groupId>
-        <artifactId>standard</artifactId>
-        <version>${taglibs.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-
-      <!-- Apache Framework -->
-
-      <!-- Apache Commons Lang dependency -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>${commons.lang.version}</version>
-      </dependency>
-
-      <!-- Apache Commons IO dependency -->
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${commons.io.version}</version>
-      </dependency>
-
-      <!-- Apache Commons Codec dependency -->
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>${commons.codec.version}</version>
-      </dependency>
-
-      <!-- Apache Xerces dependency -->
-      <dependency>
-        <groupId>xerces</groupId>
-        <artifactId>xerces</artifactId>
-        <version>${xerces.version}</version>
-      </dependency>
-
-
-      <!-- Rest Services (JAX-RS) Framework -->
-
-      <!-- Jersey (JAX-RS) Server dependency -->
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-server</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-
-      <!-- Jersey (JAX-RS) Server Linking dependency -->
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-server-linking</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-
-      <!-- Jersey (JAX-RS) JSON dependency -->
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-json</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-
-      <!-- Jersey (JAX-RS) Spring dependency -->
-      <dependency>
-        <groupId>com.sun.jersey.contribs</groupId>
-        <artifactId>jersey-spring</artifactId>
-        <version>${jersey.version}</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>spring-core</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-context</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-beans</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-web</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>spring-aop</artifactId>
-            <groupId>org.springframework</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <!-- Jersey (JAX-RS) Client dependency -->
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-client</artifactId>
-        <version>${jersey.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- Codehaus Jackson Core dependency -->
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-core-asl</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-
-      <!-- Codehaus Jackson Mapper dependency -->
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-asl</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-
-      <!-- Codehaus Jackson XML Compatibility dependency -->
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-xc</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-
-      <!-- Codehaus Jackson JAX-RS dependency -->
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-jaxrs</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-
-
-      <!-- Persistence Framework -->
-
-      <!-- Apache Commons DBCP dependency -->
-      <dependency>
-        <groupId>commons-dbcp</groupId>
-        <artifactId>commons-dbcp</artifactId>
-        <version>${commons.dbcp.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- Apache Commons Pool dependency -->
-      <dependency>
-        <groupId>commons-pool</groupId>
-        <artifactId>commons-pool</artifactId>
-        <version>${commons.pool.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- Hibernate JPA dependency -->
-      <dependency>
-        <groupId>org.hibernate.javax.persistence</groupId>
-        <artifactId>hibernate-jpa-2.0-api</artifactId>
-        <version>${hibernate.jpa.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- Hibernate EntityManager dependency -->
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate.entity.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- Hibernate Validator dependency -->
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>${hibernate.validator.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- MySQL Connector dependency -->
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>${mysql.connector.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- HSQLDB dependency -->
-      <dependency>
-        <groupId>hsqldb</groupId>
-        <artifactId>hsqldb</artifactId>
-        <version>${hsqldb.version}</version>
-      </dependency>
-
-
-      <!-- Logging Framework -->
-
-      <!-- SLF4J dependency -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-
-      <!-- SLF4J JCL dependency -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-
-      <!-- SLF4J Log4J dependency -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>log4j-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-
-      <!-- Logback(Log4J) Core dependency -->
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-core</artifactId>
-        <version>${logback.version}</version>
-      </dependency>
-
-      <!-- Logback(Log4J) Classic dependency -->
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${logback.version}</version>
-      </dependency>
-
-
-      <!-- Testing Framework -->
-
-      <!-- JUnit dependency -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- Mockito dependency -->
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-        <version>${mockito.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
-
-  <dependencies>
-
-    <!-- Logging Framework -->
-
-    <!-- SLF4J dependency -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <!-- SLF4J JCL dependency -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-    </dependency>
-
-    <!-- SLF4J Log4J dependency -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-    </dependency>
-
-    <!-- Logback(Log4J) Core dependency -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-core</artifactId>
-    </dependency>
-
-    <!-- Logback(Log4J) Classic dependency -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-
-
-    <!-- Testing Framework -->
-
-    <!-- JUnit dependency -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-
-    <!-- Mockito dependency -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-    </dependency>
-
-  </dependencies>
-
-  <build>
-
-    <pluginManagement>
-      <plugins>
-      
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.version}</version>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-            <encoding>${project.build.sourceEncoding}</encoding>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven.checkstyle.version}</version>
-          <configuration>
-            <configLocation>checkstyle/checkstyle.xml</configLocation>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            <linkXRef>false</linkXRef>
-            <failsOnError>false</failsOnError>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.slc.sli</groupId>
-              <artifactId>build-tools</artifactId>
-              <version>${wgen.build.tools}</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>validate</id>
-              <phase>validate</phase>
-              <goals>
-                <goal>checkstyle</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-eclipse-plugin</artifactId>
-          <version>${maven.eclipse.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.slc.sli</groupId>
-              <artifactId>build-tools</artifactId>
-              <version>${wgen.build.tools}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>${lifecycle.mapping.version}</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <versionRange>[2.7,)</versionRange>
-                    <goals>
-                      <goal>checkstyle</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-          <workspace>${eclipse.workspace}</workspace>
-          <workspaceCodeStylesURL>file:etc/eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
-          <downloadSources>false</downloadSources>
-          <downloadJavadocs>false</downloadJavadocs>
-          <wtpversion>2.0</wtpversion>
-          <additionalConfig>
-            <file>
-              <name>.settings/checkstyle.xml</name>
-              <location>checkstyle/checkstyle.xml</location>
-            </file>
-            <file>
-              <name>.checkstyle</name>
-              <location>eclipse/eclipse-sli-checkstyle.xml</location>
-            </file>
-            <file>
-              <name>.settings/org.eclipse.wst.validation.prefs</name>
-              <content>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.slc.sli</groupId>
+	<artifactId>sli</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>SLI</name>
+	<description>Shared Learning Infrastructure</description>
+	<url>http://sli.wgen.net</url>
+
+	<scm>
+		<connection>git@github.com:WGEN-SLI/SLI.git</connection>
+		<developerConnection>git@github.com:WGEN-SLI/SLI.git</developerConnection>
+		<url>https://github.com/WGEN-SLI/SLI</url>
+	</scm>
+
+	<properties>
+		<java.version>1.6</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
+		<wgen.build.tools>1.0-SNAPSHOT</wgen.build.tools>
+
+		<!-- Maven Plugin Versions -->
+		<maven.compiler.version>2.3.2</maven.compiler.version>
+		<maven.jar.version>2.3.2</maven.jar.version>
+		<maven.checkstyle.version>2.8</maven.checkstyle.version>
+		<maven.findbugs.version>2.3.2</maven.findbugs.version>
+		<maven.surefire.version>2.10</maven.surefire.version>
+		<maven.eclipse.version>2.8</maven.eclipse.version>
+		<maven.jaxb2.version>1.3.1</maven.jaxb2.version>
+		<maven.tomcat.version>1.1</maven.tomcat.version>
+		<maven.jetty.version>6.1.10</maven.jetty.version>
+
+		<!-- Spring Framework Versions -->
+		<spring.version>3.0.6.RELEASE</spring.version>
+		<springdata.version>1.2.0.M1</springdata.version>
+		<springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
+
+		<!-- Java EE Versions -->
+		<javax.validation.version>1.0.0.GA</javax.validation.version>
+		<javax.el.version>2.2</javax.el.version>
+		<javax.servlet.version>2.4</javax.servlet.version>
+		<javax.jstl.version>1.2</javax.jstl.version>
+		<taglibs.version>1.1.2</taglibs.version>
+
+		<!-- Apache Versions -->
+		<commons.lang.version>3.0.1</commons.lang.version>
+		<commons.io.version>2.1</commons.io.version>
+		<commons.codec.version>1.5</commons.codec.version>
+		<xerces.version>2.4.0</xerces.version>
+		<avro.version>1.6.1</avro.version>
+
+		<!-- Rest Services (JAX-RS) Framework Versions -->
+		<jersey.version>1.9.1</jersey.version>
+		<jackson.version>1.8.5</jackson.version>
+
+		<!-- Persistence Framework Versions -->
+		<commons.dbcp.version>20030825.184428</commons.dbcp.version>
+		<commons.pool.version>20030825.183949</commons.pool.version>
+		<hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
+		<hibernate.entity.version>3.6.0.Final</hibernate.entity.version>
+		<hibernate.validator.version>4.0.0.GA</hibernate.validator.version>
+		<mysql.connector.version>5.1.18</mysql.connector.version>
+		<hsqldb.version>1.8.0.10</hsqldb.version>
+
+		<!-- Logging Framework Versions -->
+		<slf4j.version>1.6.2</slf4j.version>
+		<logback.version>0.9.29</logback.version>
+
+		<!-- Testing Framework Versions -->
+		<junit.version>4.9</junit.version>
+		<mockito.version>1.8.5</mockito.version>
+
+	</properties>
+
+	<!-- Environment profiles. A profile encapsulates a set of properties and 
+		filters for a particular build configuration. Per profile properties and 
+		filters can be set at an individual project basis to specify variables used 
+		within that environment. For example, specifying different database connection 
+		strings for 'local' and 'ci' builds. From the command line, add the -P and 
+		specify the profile name you want to use. If no profile is specified, the 
+		'sli.env' value specified in the above properties section is used by default. 
+		Note that this POM only defines what the profile name is and the 'sli.env' 
+		value for that profile. It is up to individual projects to identify resources 
+		required per profile. -->
+	<profiles>
+		<!-- A local dev profile -->
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sli.env>local</sli.env>
+			</properties>
+		</profile>
+
+
+		<!-- Remote dev/demo database profile -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<sli.env>dev</sli.env>
+			</properties>
+		</profile>
+
+		<!-- Profile to use during continuous integration -->
+		<profile>
+			<id>ci</id>
+			<properties>
+				<sli.env>ci</sli.env>
+			</properties>
+		</profile>
+
+		<!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
+		<profile>
+			<id>devApps</id>
+			<properties>
+				<sli.env>devApps</sli.env>
+			</properties>
+		</profile>
+
+		<!-- Add additional profiles here. For example: integration, production, 
+			multishard, ... -->
+	</profiles>
+
+	<modules>
+		<module>sli-configuration</module>
+		<module>common</module>
+		<module>api</module>
+		<module>data-access</module>
+		<module>ingestion</module>
+		<module>dashboard</module>
+		<module>admin</module>
+		<module>disco</module>
+		<module>acceptance-tests</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- WGEN dependencies -->
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>sli-configuration</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.common</groupId>
+				<artifactId>common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>databrowser</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.dal</groupId>
+				<artifactId>dal</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.dal</groupId>
+				<artifactId>mock-dal</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>build-tools</artifactId>
+				<version>${wgen.build.tools}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.common</groupId>
+				<artifactId>domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>dashboard</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.ingestion</groupId>
+				<artifactId>ingestion</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.admin</groupId>
+				<artifactId>admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>cucumber-tests</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Spring Framework -->
+
+			<!-- Spring Core dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring AOP dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring TX dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Context dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<!-- Exclude Commons Logging in favor of SLF4J -->
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Spring Beans dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Expression dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Data Core dependency -->
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-commons-core</artifactId>
+				<version>${springdata.version}</version>
+			</dependency>
+
+			<!-- Spring Data JPA dependency -->
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${springdata.jpa.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>spring-core</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-context</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-beans</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-web</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-aop</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-asm</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-tx</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-web</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-expression</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-orm</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Spring ORM dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Spring Web MVC dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Security Core dependency -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Security Config dependency -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Security Web dependency -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Spring Test dependency -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+
+			<!-- Java EE Framework -->
+
+			<!-- Java Validation dependency -->
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${javax.validation.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Java EL dependency -->
+			<dependency>
+				<groupId>javax.el</groupId>
+				<artifactId>el-api</artifactId>
+				<version>${javax.el.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Java Servlet dependency -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>${javax.servlet.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Java Servlet JSTL dependency -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${javax.jstl.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- Java Servlet Taglibs dependency -->
+			<dependency>
+				<groupId>taglibs</groupId>
+				<artifactId>standard</artifactId>
+				<version>${taglibs.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+
+			<!-- Apache Framework -->
+
+			<!-- Apache Commons Lang dependency -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons.lang.version}</version>
+			</dependency>
+
+			<!-- Apache Commons IO dependency -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons.io.version}</version>
+			</dependency>
+
+			<!-- Apache Commons Codec dependency -->
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons.codec.version}</version>
+			</dependency>
+
+			<!-- Apache Xerces dependency -->
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xerces</artifactId>
+				<version>${xerces.version}</version>
+			</dependency>
+
+
+			<!-- Rest Services (JAX-RS) Framework -->
+
+			<!-- Jersey (JAX-RS) Server dependency -->
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-server</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<!-- Jersey (JAX-RS) Server Linking dependency -->
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-server-linking</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<!-- Jersey (JAX-RS) JSON dependency -->
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-json</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<!-- Jersey (JAX-RS) Spring dependency -->
+			<dependency>
+				<groupId>com.sun.jersey.contribs</groupId>
+				<artifactId>jersey-spring</artifactId>
+				<version>${jersey.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>spring-core</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-context</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-beans</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-web</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-aop</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Jersey (JAX-RS) Client dependency -->
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${jersey.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Codehaus Jackson Core dependency -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- Codehaus Jackson Mapper dependency -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- Codehaus Jackson XML Compatibility dependency -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-xc</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- Codehaus Jackson JAX-RS dependency -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-jaxrs</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+
+			<!-- Persistence Framework -->
+
+			<!-- Apache Commons DBCP dependency -->
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>${commons.dbcp.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Apache Commons Pool dependency -->
+			<dependency>
+				<groupId>commons-pool</groupId>
+				<artifactId>commons-pool</artifactId>
+				<version>${commons.pool.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Hibernate JPA dependency -->
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>${hibernate.jpa.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Hibernate EntityManager dependency -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.entity.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Hibernate Validator dependency -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate.validator.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- MySQL Connector dependency -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.connector.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- HSQLDB dependency -->
+			<dependency>
+				<groupId>hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+			</dependency>
+
+
+			<!-- Logging Framework -->
+
+			<!-- SLF4J dependency -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+			<!-- SLF4J JCL dependency -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- SLF4J Log4J dependency -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- Logback(Log4J) Core dependency -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<!-- Logback(Log4J) Classic dependency -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+
+			<!-- Testing Framework -->
+
+			<!-- JUnit dependency -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Mockito dependency -->
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+
+		<!-- Logging Framework -->
+
+		<!-- SLF4J dependency -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- SLF4J JCL dependency -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+		<!-- SLF4J Log4J dependency -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+
+		<!-- Logback(Log4J) Core dependency -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<!-- Logback(Log4J) Classic dependency -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+
+		<!-- Testing Framework -->
+
+		<!-- JUnit dependency -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- Mockito dependency -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.version}</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${maven.checkstyle.version}</version>
+					<configuration>
+						<configLocation>checkstyle/checkstyle.xml</configLocation>
+						<includeTestSourceDirectory>true</includeTestSourceDirectory>
+						<linkXRef>false</linkXRef>
+						<failsOnError>false</failsOnError>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.slc.sli</groupId>
+							<artifactId>build-tools</artifactId>
+							<version>${wgen.build.tools}</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<id>validate</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>checkstyle</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>${maven.eclipse.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.slc.sli</groupId>
+							<artifactId>build-tools</artifactId>
+							<version>${wgen.build.tools}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle.mapping.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-checkstyle-plugin</artifactId>
+										<versionRange>[2.7,)</versionRange>
+										<goals>
+											<goal>checkstyle</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.0-beta-3</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<workspace>${eclipse.workspace}</workspace>
+					<workspaceCodeStylesURL>file:etc/eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
+					<downloadSources>false</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+					<additionalConfig>
+						<file>
+							<name>.settings/checkstyle.xml</name>
+							<location>checkstyle/checkstyle.xml</location>
+						</file>
+						<file>
+							<name>.checkstyle</name>
+							<location>eclipse/eclipse-sli-checkstyle.xml</location>
+						</file>
+						<file>
+							<name>.settings/org.eclipse.wst.validation.prefs</name>
+							<content>
                   <![CDATA[
 DELEGATES_PREFERENCE=delegateValidatorList
 USER_BUILD_PREFERENCE=enabledBuildValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;
@@ -830,11 +846,11 @@ vals/org.eclipse.wst.xsl.core.xsl/groups=0107include0207fileext03xslF111contentT
 vf.version=3
 
                   ]]>
-              </content>
-            </file>
-            <file>
-              <name>.gitignore</name>
-              <content>
+							</content>
+						</file>
+						<file>
+							<name>.gitignore</name>
+							<content>
                   <![CDATA[
 .settings
 .project
@@ -846,11 +862,11 @@ target
 .pydevproject
 
                   ]]>
-              </content>
-            </file>
-            <file>
-              <name>.settings/org.eclipse.jdt.ui.prefs</name>
-              <content>
+							</content>
+						</file>
+						<file>
+							<name>.settings/org.eclipse.jdt.ui.prefs</name>
+							<content>
                   <![CDATA[
 eclipse.preferences.version=1
 org.eclipse.jdt.ui.ignorelowercasenames=true
@@ -859,108 +875,145 @@ org.eclipse.jdt.ui.ondemandthreshold=99
 org.eclipse.jdt.ui.staticondemandthreshold=99
 
                   ]]>
-              </content>
-            </file>
-          </additionalConfig>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.slc.sli</groupId>
-            <artifactId>build-tools</artifactId>
-            <version>${wgen.build.tools}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+							</content>
+						</file>
+					</additionalConfig>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.slc.sli</groupId>
+						<artifactId>build-tools</artifactId>
+						<version>${wgen.build.tools}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <inherited>true</inherited>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-	<version>2.3.2</version>
-	<configuration>
-	  <findbugsXmlOutput>true</findbugsXmlOutput>
-	  <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-	  <xmlOutput>true</xmlOutput>
-	</configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.slc.sli</groupId>
-            <artifactId>build-tools</artifactId>
-            <version>${wgen.build.tools}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.version}</version>
-        <configuration>
-          <systemPropertyVariables>
-            <sli.env>${sli.env}</sli.env>
-          </systemPropertyVariables>          
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-	<artifactId>maven-jetty-plugin</artifactId>
-	<version>${maven.jetty.version}</version>
-        <configuration>
-          <systemPropertyVariables>
-            <sli.env>${sli.env}</sli.env>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-    </plugins>
-    
-  </build>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+					<xmlOutput>true</xmlOutput>
+				</configuration>
+			</plugin>
 
-  <repositories>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.slc.sli</groupId>
+						<artifactId>build-tools</artifactId>
+						<version>${wgen.build.tools}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 
-    <!-- Spring Milestone repository -->
-    <repository>
-      <id>spring-milestone</id>
-      <name>Spring Maven MILESTONE Repository</name>
-      <url>http://maven.springframework.org/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+				<configuration>
+					<systemPropertyVariables>
+						<emma.rt.control>false</emma.rt.control>
+						<sli.env>${sli.env}</sli.env>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
 
-    <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>${maven.jetty.version}</version>
+				<configuration>
+					<systemPropertyVariables>
+						<sli.env>${sli.env}</sli.env>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
 
-  </repositories>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.4</version>
+							<reports>
+								<report>dependencies</report>
+								<report>dependency-management</report>
+								<report>dependency-convergence</report>
+								<report>project-team</report>
+								<report>mailing-list</report>
+								<report>cim</report>
+								<report>issue-tracking</report>
+								<report>license</report>
+								<report>index</report>
+								<report>summary</report>
+								<report>plugins</report>
+								<report>plugin-management</report>
+							</reports>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+				<!-- uncomment this execution block if you want to generate the site 
+					reports in conjunction with the regular build -->
+				<!--executions> <execution> <id>site</id> <phase>compile</phase> <goals> 
+					<goal>stage</goal> </goals> </execution> </executions -->
+			</plugin>
+		</plugins>
 
-  <distributionManagement>
-    <repository>
-      <id>sli-releases</id>
-      <name>SLI Repository</name>
-      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Releases/</url>
-    </repository>
-    <snapshotRepository>
-        <id>sli-snapshots</id>
-      <name>SLI Repository</name>
-      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
+	</build>
 
+	<repositories>
+
+		<!-- Spring Milestone repository -->
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Maven MILESTONE Repository</name>
+			<url>http://maven.springframework.org/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>sonatype-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>sli-releases</id>
+			<name>SLI Repository</name>
+			<url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>sli-snapshots</id>
+			<name>SLI Repository</name>
+			<url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
+		</snapshotRepository>
+		<site>
+			<id>site</id>
+			<name>SLI Site</name>
+			<url>stage</url>
+		</site>
+	</distributionManagement>
 </project>

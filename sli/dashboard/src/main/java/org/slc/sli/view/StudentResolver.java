@@ -1,12 +1,12 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.Student;
+import org.slc.sli.entity.StudentProgramAssociation;
+import org.slc.sli.config.Field;
 
-import org.slc.sli.config.ViewConfig;
-
+import java.util.Arrays;
 import java.util.List;
-import org.slc.sli.config.DataPoint;
-import org.slc.sli.config.DataSet;
+
 
 //Hopefully there will be one for each of dataSet types
 
@@ -19,16 +19,16 @@ import org.slc.sli.config.DataSet;
  */
 public class StudentResolver {
     List<Student> students;
-    ViewConfig viewConfig;
+    List<StudentProgramAssociation> programs;
     
     public static final String DATA_SET_TYPE = "studentInfo";
     
     /**
      * Constructor
      */
-    public StudentResolver(List<Student> s, ViewConfig v) {
+    public StudentResolver(List<Student> s, List<StudentProgramAssociation> p) {
         students = s;
-        viewConfig = v;
+        programs = p;
     }
     
     public List<Student> list() {
@@ -38,8 +38,8 @@ public class StudentResolver {
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      */
-    public String get(String dataPointId, Student student) {
-        String dataPointName = extractDataPointName(dataPointId);
+    public String get(Field field, Student student) {
+        String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals("name")) {
             // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
@@ -48,36 +48,24 @@ public class StudentResolver {
         return "";
     }
 
-    // returns true iff this resolver's view config can resolve the data point 
-    public boolean canResolve(String dataPointId) {
-        return getDataPoint(dataPointId) != null;
-    }
-
-    // Helper functions. 
-    private String extractDataPointName(String dataPointId) {
-        DataPoint dp = getDataPoint(dataPointId);
-        return dp == null ? null : dp.getId(); // Assume data point's name is identical to id
-    }
-    private DataSet getDataSet(String dataPointId) {
-        String [] dataPointPath = dataPointId.split("\\.");
-        String dataSetName = dataPointPath[0];
-        for (DataSet ds : viewConfig.getDataSet()) {
-            if (ds.getType().equals(DATA_SET_TYPE) && ds.getId().equals(dataSetName)) {
-                return ds;
+    /**
+     * returns true if the given lozenge code applies to the given student
+     */
+    public boolean lozengeApplies(Student student, String code) {
+        
+        String[] studentProgramCodes = Student.getProgramCodesForStudent();
+        
+        // Check if program in student entity
+        if (Arrays.asList(studentProgramCodes).contains(code)) {
+            return student.getProgramParticipation(code);
+        } 
+        
+        // Now check program participation
+        for (StudentProgramAssociation p : programs) {
+            if (p.getStudentId().equals(student.getId())) {
+                return Arrays.asList(p.getPrograms()).contains(code);
             }
         }
-        return null;
-    }
-    private DataPoint getDataPoint(String dataPointId) {
-        String [] dataPointPath = dataPointId.split("\\.");
-        String dataPointName = dataPointPath[1];
-        DataSet ds = getDataSet(dataPointId);
-        if (ds == null) { return null; }
-        for (DataPoint dp : ds.getDataPoint()) {
-            if (dp.getId().equals(dataPointName)) {
-                return dp;
-            }
-        }
-        return null;
+        return false;
     }
 }

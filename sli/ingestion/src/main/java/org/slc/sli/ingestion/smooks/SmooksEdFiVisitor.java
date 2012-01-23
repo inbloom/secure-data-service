@@ -1,6 +1,10 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
@@ -8,68 +12,82 @@ import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
 import org.milyn.javabean.context.BeanContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 /**
-* Basic transformer that simply renames an element.
-*
-* @author <a href="mailto:tom.fennelly@gmail.com">tom.fennelly@gmail.com</a>
-*/
-
+ * Visitor that writes a neutral record or reports errors encountered.
+ *
+ * @author dduran
+ *
+ */
 @StreamResultWriter
-public class SmooksEdFiVisitor implements SAXElementVisitor {
+public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     // Logging
-    Logger log = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
-    
-    protected String beanId;
-    protected NeutralRecordFileWriter nrfWriter;
-    
-    public SmooksEdFiVisitor(String beanId, 
-            NeutralRecordFileWriter nrfWriter) {
+    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
+
+    private final String beanId;
+    private final NeutralRecordFileWriter nrfWriter;
+    private final ErrorReport errorReport;
+
+    private SmooksEdFiVisitor(String beanId, NeutralRecordFileWriter nrfWriter, ErrorReport errorReport) {
         this.beanId = beanId;
         this.nrfWriter = nrfWriter;
+        this.errorReport = errorReport;
     }
-    
+
+    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter,
+            ErrorReport errorReport) {
+        return new SmooksEdFiVisitor(beanId, nrfWriter, errorReport);
+    }
+
+    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter) {
+        return new SmooksEdFiVisitor(beanId, nrfWriter, null);
+    }
+
     @Override
-    public void visitBefore(SAXElement element, 
-            ExecutionContext executionContext) {
+    public void visitBefore(SAXElement element, ExecutionContext executionContext) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onChildElement(SAXElement element, SAXElement childElement,
-            ExecutionContext executionContext) {
+    public void onChildElement(SAXElement element, SAXElement childElement, ExecutionContext executionContext) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onChildText(SAXElement element, SAXText childText, 
-            ExecutionContext executionContext) {
+    public void onChildText(SAXElement element, SAXText childText, ExecutionContext executionContext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
-    public void visitAfter(SAXElement element, 
-            ExecutionContext executionContext)
-            throws IOException {
+    public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
         BeanContext beanContext = executionContext.getBeanContext();
         NeutralRecord neutralRecord = (NeutralRecord) beanContext.getBean(beanId);
-        
+        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
+
         if (executionContext.getTerminationError() != null) {
-            
+
             // Indicate Smooks Validation Failure
-            log.error(executionContext.getTerminationError().getMessage());
-            log.error("Invalid Neutral Record: " + neutralRecord.toString());
+            LOG.error(executionContext.getTerminationError().getMessage());
+            LOG.error("Invalid Neutral Record: " + neutralRecord.toString());
+
+            if (errorReport != null) {
+                errorReport.error(executionContext.getTerminationError().getMessage(), SmooksEdFiVisitor.class);
+            }
         } else {
-            
+
             // Write Neutral Record
             nrfWriter.writeRecord(neutralRecord);
         }
     }
+
 }

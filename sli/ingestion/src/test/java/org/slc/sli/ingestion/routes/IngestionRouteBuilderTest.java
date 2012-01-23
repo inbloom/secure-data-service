@@ -1,113 +1,116 @@
 package org.slc.sli.ingestion.routes;
 
-import static org.junit.Assert.*;
-
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.model.RouteDefinition;
 import org.apache.camel.test.junit4.CamelSpringTestSupport;
-
-//import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.Fault;
 
 /**
- * 
+ *
  * @author jsa
  *
  */
 public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
 
-        
     @Override
     protected AbstractApplicationContext createApplicationContext() {
-        AbstractApplicationContext context = new ClassPathXmlApplicationContext(
-                "spring/applicationContext-test.xml");
+        AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext-test.xml");
         return context;
     }
-    
+
     @Test
     public void testBatchJobWithFaultsIsNotProcessed() throws Exception {
 
         // create a mock endpoint against which we can set expectations
         // it will be swapped in for the seda:acceptedJobs queue later
-        final MockEndpoint mock = getMockEndpoint("mock:acceptedJobs");
-        
+        final MockEndpoint mockAcceptedJobsEndpoint = getMockEndpoint("mock:acceptedJobs");
+
+        final MockEndpoint mockStopEndpoint = getMockEndpoint("mock:stop");
+
         // look up a specific route by id and get a reference to it
         RouteDefinition route = context.getRouteDefinition("jobDispatch");
-        
+
         // use adviceWith to override the route config, intercepting messages
-        // to the acceptedJobs queue and instead diverting them to our mock 
+        // to the acceptedJobs queue and instead diverting them to our mock
         // endpoint
         route.adviceWith(context, new RouteBuilder() {
-            
+
             @Override
             public void configure() throws Exception {
-                interceptSendToEndpoint("seda:acceptedJobs")
-                .skipSendToOriginalEndpoint()
-                .to(mock);
+                interceptSendToEndpoint("seda:acceptedJobs").skipSendToOriginalEndpoint().to(mockAcceptedJobsEndpoint);
+                interceptSendToEndpoint("direct:stop").skipSendToOriginalEndpoint().to(mockStopEndpoint);
             }
-            
+
         });
 
-        // expect 0 messages (BatchJobs) to passed along to the acceptedJobs q
-        mock.expectedMessageCount(0);
+        // we expect the message to hit the mockStopEndpoint and not mockAccepted
+        mockAcceptedJobsEndpoint.expectedMessageCount(0);
+        mockStopEndpoint.expectedMessageCount(1);
 
-        // create a BatchJob and make it have an error
+        // send job to aseembled jobs with hasErrors header
         BatchJob job = BatchJob.createDefault();
-        job.addFault(Fault.createError("I have an error"));
+        template.sendBodyAndHeader("seda:assembledJobs", job, "hasErrors", true);
 
-        // put it on the assembledJobs queue
-        template.sendBody("seda:assembledJobs", job);
+        // we are sending to SEDA which is a different thread so there is a race condition when we
+        // check for our expectation
+        // sleep so that we know parallel thread executes before we check
+        Thread.sleep(500);
 
-        // check it did NOT make it downstream to acceptedJobs q 
-        mock.assertIsSatisfied();
+        // check it did NOT make it downstream to acceptedJobs q but did make it to stop q
+        mockAcceptedJobsEndpoint.assertIsSatisfied();
+        mockStopEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testBatchJobWithoutFaultsIsProcessed() throws Exception {
 
-        // TODO boilerplate code - looks simple enough to factor out, but 
+        // TODO boilerplate code - looks simple enough to factor out, but
         // so far all attempts have resulted in obscure camel/spring config
-        // problems.  needs further investigation.
-        
+        // problems. needs further investigation.
+
         // create a mock endpoint against which we can set expectations
         // it will be swapped in for the seda:acceptedJobs queue later
-        final MockEndpoint mock = getMockEndpoint("mock:acceptedJobs");
-        
+        final MockEndpoint mockAcceptedJobsEndpoint = getMockEndpoint("mock:acceptedJobs");
+
+        final MockEndpoint mockStopEndpoint = getMockEndpoint("mock:stop");
+
         // look up a specific route by id and get a reference to it
         RouteDefinition route = context.getRouteDefinition("jobDispatch");
-        
+
         // use adviceWith to override the route config, intercepting messages
-        // to the acceptedJobs queue and instead diverting them to our mock 
+        // to the acceptedJobs queue and instead diverting them to our mock
         // endpoint
         route.adviceWith(context, new RouteBuilder() {
-            
+
             @Override
             public void configure() throws Exception {
-                interceptSendToEndpoint("seda:acceptedJobs")
-                .skipSendToOriginalEndpoint()
-                .to(mock);
+                interceptSendToEndpoint("seda:acceptedJobs").skipSendToOriginalEndpoint().to(mockAcceptedJobsEndpoint);
+                interceptSendToEndpoint("direct:stop").skipSendToOriginalEndpoint().to(mockStopEndpoint);
             }
-            
+
         });
 
-        // expect 1 message (BatchJob) to pass to the acceptedJobs q
-        mock.expectedMessageCount(1);
+        // expect 1 message (BatchJob) to pass to the acceptedJobs q and 0 to stop q
+        mockAcceptedJobsEndpoint.expectedMessageCount(1);
+        mockStopEndpoint.expectedMessageCount(0);
 
-        // create a BatchJob, give it a warning, not an error
+        // send job to aseembled jobs with hasErrors header
         BatchJob job = BatchJob.createDefault();
-        job.addFault(Fault.createWarning("Just a warning"));
+        template.sendBodyAndHeader("seda:assembledJobs", job, "hasErrors", false);
 
-        // put it on the assembledJobs queue
-        template.sendBody("seda:assembledJobs", job);
+        // we are sending to SEDA which is a different thread so there is a race condition when we
+        // check for our expectation
+        // sleep so that we know parallel thread executes before we check
+        Thread.sleep(500);
 
         // check the job was passed along to the acceptedJobs queue
-        mock.assertIsSatisfied();
+        mockAcceptedJobsEndpoint.assertIsSatisfied();
+        mockStopEndpoint.assertIsSatisfied();
     }
 
 }

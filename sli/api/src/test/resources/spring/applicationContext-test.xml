@@ -15,10 +15,11 @@
          <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
          <property name="locations">
              <list>
-                 <value>classpath*:data-access/dal/config/${sli.env}/project.properties</value>
-                 
+                 <value>classpath*:/config/${sli.env}/data-access/db.properties</value>
+                 <value>classpath*:/config/${sli.env}/api/security/security.properties</value>
+
                  <!--  override specific properties for testing -->
-                 <value>classpath*:data-access/dal/config/${sli.env}/test.properties</value>
+                 <value>classpath*:/config/${sli.env}/data-access/test.properties</value>
              </list>
          </property>
      </bean>
@@ -33,8 +34,29 @@
 			expression=".*CustomImpl" />
 			<context:exclude-filter type="regex"
 			expression=".*MongoEntityRepository" />
+			<context:exclude-filter type="regex"
+			expression=".*AvroEntityValidator" />
+			<context:exclude-filter type="regex"
+			expression=".*AggregationLoader" />
 	</context:component-scan>
 
 
 	<context:annotation-config />
+
+    <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
+
+    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect" factory-method="aspectOf">
+        <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
+    </bean>
+    
+    <bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
+	</bean>
+	
+	<bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
+    </bean>
+
+    <bean id="sliAdminValidator" class="org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator">
+    	<constructor-arg index="0" type="String" value="test"/>
+    </bean>
 </beans>
+

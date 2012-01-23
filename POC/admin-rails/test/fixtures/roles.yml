@@ -1,0 +1,30 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+admin:
+  id: "0"
+  name: IT Administrator
+  rights:
+    - Admin Right 1
+    - Admin Right 2
+    - Admin Right 3
+  mappings:
+
+educator:
+  id: "1"
+  name: Educator
+  rights:
+      - Educator Right 1
+      - Educator Right 2
+      - Educator Right 3
+  mappings:
+      - teacher
+      - Teacher
+      - NC Teacher
+      
+update:
+    name: IT Administrator
+    rights:
+        - Admin Right 1
+    mappings:
+        - admin
+        - Super Duper Admin
+        - dude guy

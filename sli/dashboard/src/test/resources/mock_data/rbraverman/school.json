@@ -1,21 +1,27 @@
 [
     {
-        "schoolId": "South Daybreak Elementary",
+        "nameOfInstitution": "South Daybreak Elementary",
         "courses": [
             {
                 "course": "Reading Group",
                 "sections": [
                     {
-                        "section": "Reading Group - Red",
+                        "uniqueSectionCode": "Reading Group - Red",
                         "studentUIDs": []
                     },
                     {
-                        "section": "Reading Group - Blue",
+                        "uniqueSectionCode": "Reading Group - Blue",
                         "studentUIDs": []
                     },
                     {
-                        "section": "Reading Group - Green",
+                        "uniqueSectionCode": "Reading Group - Green",
                         "studentUIDs": []
+                    },
+                    {
+                        "uniqueSectionCode": "Reading Group - Grey",
+                        "studentUIDs": [
+                                     "111111111"
+                     ]
                     }
                 ]
             },
@@ -23,7 +29,7 @@
                 "course": "1st Grade Homeroom",
                 "sections": [
                     {
-                        "section": "Mrs. Braverman's Homeroom #38",
+                        "uniqueSectionCode": "Mrs. Braverman's Homeroom #38",
                         "studentUIDs": [
                                      "530425896",
                                      "429526969",

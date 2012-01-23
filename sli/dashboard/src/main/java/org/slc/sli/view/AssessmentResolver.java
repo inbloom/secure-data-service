@@ -1,16 +1,15 @@
 package org.slc.sli.view;
 
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.assessmentmetadata.PerfLevel;
 import org.slc.sli.entity.Student;
 
-import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.Field;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
-import org.slc.sli.config.DataPoint;
-import org.slc.sli.config.DataSet;
+
 
 //Hopefully there will be one for each of dataSet types
 
@@ -23,109 +22,130 @@ import org.slc.sli.config.DataSet;
  */
 public class AssessmentResolver {
     List<Assessment> assessments;
-    ViewConfig viewConfig;
+    AssessmentMetaDataResolver metaDataResolver;
     
     public static final String DATA_SET_TYPE = "assessment";
+
     public static final String DATA_POINT_NAME_PERFLEVEL = "perfLevel";
     public static final String DATA_POINT_NAME_SCALESCORE = "scaleScore";
     public static final String DATA_POINT_NAME_PERCENTILE = "percentile";
     public static final String DATA_POINT_NAME_LEXILESCORE = "lexileScore";
+    
+    public static final String TIMESLOT_MOSTRECENTWINDOW = "MOST_RECENT_WINDOW";
+    public static final String TIMESLOT_MOSTRECENTRESULT = "MOST_RECENT_RESULT";
+    public static final String TIMESLOT_HIGHESTEVER = "HIGHEST_EVER";
 
     /**
      * Constructor
      */
-    public AssessmentResolver(List<Assessment> a, ViewConfig v) {
+    public AssessmentResolver(List<Assessment> a, List<AssessmentMetaData> md) {
         assessments = a;
-        viewConfig = v;
+        metaDataResolver = new AssessmentMetaDataResolver(md);
+        
     }
     
     /**
      * Looks up a representation for the result of the assessment, taken by the student 
-     * Returns the string representation of the result, identified by the datapoint ID
+     * Returns the string representation of the result, identified by the Field
      */
-    public String get(String dataPointId, Student student) {
+    public String get(Field field, Student student) {
+        // look up the assessment. 
+        Assessment chosenAssessment = resolveAssessment(field, student);
+        // get the data point
+        String dataPointName = extractDataPointName(field.getValue());
+        if (chosenAssessment == null) { return ""; }
+        if (dataPointName == null) { return ""; }
+        if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getPercentileAsString(); }
+        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScore(); }
+
+        // return shortname for perf levels?? 
+        if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { 
+            String perfLevel = chosenAssessment.getPerfLevelAsString(); 
+            List<PerfLevel> perfLevels = metaDataResolver.findPerfLevelsForFamily(chosenAssessment.getAssessmentName());
+            if (perfLevels == null) { return ""; }
+            for (PerfLevel pl : perfLevels) {
+                if (perfLevel.equals(pl.getName())) {
+                    return pl.getShortName();
+                }
+            }
+        }
+
+        return ""; 
+    }
+
+    /**
+     * Looks up the cutpoints for the result returned by get(field, student);
+     * (used by fuel gauge visualization widget)
+     */
+    public List<Integer> getCutpoints(Field field, Student student) {
+        // look up the assessment. 
+        Assessment chosenAssessment = resolveAssessment(field, student);
+        if (chosenAssessment == null) { return null; }
+        // get the cutpoints
+        return metaDataResolver.findCutpointsForFamily(chosenAssessment.getAssessmentName());
+    }
+    
+    public AssessmentMetaDataResolver getMetaData() { 
+        return metaDataResolver;
+    }
+    
+    // ---------------------- Helper functions -------------------------
+    /*
+     * Looks up a representation for the result of the assessment, taken by the student 
+     */
+    public Assessment resolveAssessment(Field field, Student student) {
 
         // This first implementation is gruelingly inefficient. But, whateves... it's gonna be 
         // thrown away. 
 
         // A) filter out students first
-        List<Assessment> studentFiltered = new ArrayList();
+        List<Assessment> studentFiltered = new ArrayList<Assessment>();
         for (Assessment a : assessments) {
-            if (a.getStudentId().equals(student.getUid())) {
+            if (a.getStudentId().equals(student.getId())) {
                 studentFiltered.add(a);
             }
         }
-        if (studentFiltered.isEmpty()) { return ""; }
+        if (studentFiltered.isEmpty()) { return null; }
 
         // B) filter out assessments based on dataset path
-        String assessmentName = extractAssessmentName(dataPointId);
-        List<Assessment> studentAssessmentFiltered = new ArrayList();
+        String assessmentName = extractAssessmentName(field.getValue());
+        List<Assessment> studentAssessmentFiltered = new ArrayList<Assessment>();
         for (Assessment a : studentFiltered) {
-            if (a.getAssessmentName().equals(assessmentName)) {
+            if (metaDataResolver.isAncestor(assessmentName, a.getAssessmentName())) {
                 studentAssessmentFiltered.add(a);
             }
         }
-        if (studentAssessmentFiltered.isEmpty()) { return ""; }
+        if (studentAssessmentFiltered.isEmpty()) { return null; }
 
-        // C) Apply time logic. For now, just get the latest... there should be some 
-        //    classes that actually implement various timed logics. 
-        String timeSlot = extractTimeSlot(dataPointId);
-        Collections.sort(studentAssessmentFiltered, new Comparator<Assessment>() {
-            public int compare(Assessment o1, Assessment o2) {
-                return o1.getYear() - o2.getYear();
-            }
-        });
-
-        // D) get the data point
-        Assessment chosenAssessment = studentAssessmentFiltered.get(0);
-        String dataPointName = extractDataPointName(dataPointId);
-        if (dataPointName == null) { return ""; }
-        if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { return chosenAssessment.getPerfLevelAsString(); }
-        if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }
-        if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getPercentileAsString(); }
-        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScoreAsString(); }
-
-        return ""; 
+        // C) Apply time logic. 
+        Assessment chosenAssessment = null;
+        String timeSlot = field.getTimeSlot();
+        if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, 
+                                                                        metaDataResolver, 
+                                                                        assessmentName);
+        } else if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
+            chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
+        } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
+            chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
+        } else {
+            // Decide whether to throw runtime exception here. Should timed logic default @@@
+            chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
+        }
+        
+        return chosenAssessment;
     }
-
-    // returns true iff this resolver's view config can resolve the data point 
-    public boolean canResolve(String dataPointId) {
-        return getDataPoint(dataPointId) != null;
-    }
-
+    
     // helper functions to extract names from the view config using the datapointid 
     private String extractAssessmentName(String dataPointId) {
-        DataSet ds = getDataSet(dataPointId);
-        return ds == null ? null : ds.getName();
+        String [] strs = dataPointId.split("\\.");
+        return strs[0];
     }
-    private String extractTimeSlot(String dataPointId) {
-        DataSet ds = getDataSet(dataPointId);
-        return ds == null ? null : ds.getTimeSlot();
-    }
+
     private String extractDataPointName(String dataPointId) {
-        DataPoint dp = getDataPoint(dataPointId);
-        return dp == null ? null : dp.getId(); // Assume data point's name is identical to id
+        String [] strs = dataPointId.split("\\.");
+        return strs[1];
     }
-    private DataSet getDataSet(String dataPointId) {
-        String [] dataPointPath = dataPointId.split("\\.");
-        String dataSetName = dataPointPath[0];
-        for (DataSet ds : viewConfig.getDataSet()) {
-            if (ds.getType().equals(DATA_SET_TYPE) && ds.getId().equals(dataSetName)) {
-                return ds;
-            }
-        }
-        return null;
-    }
-    private DataPoint getDataPoint(String dataPointId) {
-        String [] dataPointPath = dataPointId.split("\\.");
-        String dataPointName = dataPointPath[1];
-        DataSet ds = getDataSet(dataPointId);
-        if (ds == null) { return null; }
-        for (DataPoint dp : ds.getDataPoint()) {
-            if (dp.getId().equals(dataPointName)) {
-                return dp;
-            }
-        }
-        return null;
-    }
+
 }

@@ -1,23 +1,32 @@
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
+import java.io.Serializable;
 
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.ErrorReportSupport;
 
 /**
- * Represents an Ingestion File Entry which includes the file to ingest along with its metainformation.
+ * Represents an Ingestion File Entry which includes the file to ingest along with its
+ * metainformation.
  *
  */
-public class IngestionFileEntry {
+public class IngestionFileEntry implements Serializable, ErrorReportSupport {
 
+    private static final long serialVersionUID = 8326156381009199389L;
+    
     // Attributes
     private FileFormat fileFormat;
     private FileType fileType;
     private String fileName;
     private File file;
     private File neutralRecordFile;
+    private File deltaNeutralRecordFile;
     private String checksum;
+    private FaultsReport faultsReport;
 
     // Constructors
     public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
@@ -25,6 +34,7 @@ public class IngestionFileEntry {
         this.fileType = fileType;
         this.fileName = fileName;
         this.checksum = checksum;
+        this.faultsReport = new FaultsReport();
     }
 
     // Methods
@@ -32,7 +42,8 @@ public class IngestionFileEntry {
     /**
      * Set the Ingestion file format.
      *
-     * @param fileFormat to set
+     * @param fileFormat
+     *            to set
      */
     public void setFileFormat(FileFormat fileFormat) {
         this.fileFormat = fileFormat;
@@ -50,7 +61,8 @@ public class IngestionFileEntry {
     /**
      * Set the Ingestion file type.
      *
-     * @param fileType to set
+     * @param fileType
+     *            to set
      */
     public void setFileType(FileType fileType) {
         this.fileType = fileType;
@@ -68,7 +80,8 @@ public class IngestionFileEntry {
     /**
      * Set the Ingestion file name.
      *
-     * @param fileName to set
+     * @param fileName
+     *            to set
      */
     public void setFileName(String fileName) {
         this.fileName = fileName;
@@ -86,7 +99,8 @@ public class IngestionFileEntry {
     /**
      * Set the Ingestion file.
      *
-     * @param file to set
+     * @param file
+     *            to set
      */
     public void setFile(File file) {
         this.file = file;
@@ -104,7 +118,8 @@ public class IngestionFileEntry {
     /**
      * Set the Ingestion file checksum.
      *
-     * @param checksum to set
+     * @param checksum
+     *            to set
      */
     public void setChecksum(String checksum) {
         this.checksum = checksum;
@@ -125,6 +140,23 @@ public class IngestionFileEntry {
 
     public void setNeutralRecordFile(File neutralRecordFile) {
         this.neutralRecordFile = neutralRecordFile;
+    }
+
+    public File getDeltaNeutralRecordFile() {
+        return deltaNeutralRecordFile;
+    }
+
+    public void setDeltaNeutralRecordFile(File deltaNeutralRecordFile) {
+        this.deltaNeutralRecordFile = deltaNeutralRecordFile;
+    }
+
+    public FaultsReport getFaultsReport() {
+        return this.faultsReport;
+    }
+
+    @Override
+    public ErrorReport getErrorReport() {
+        return getFaultsReport();
     }
 
 }

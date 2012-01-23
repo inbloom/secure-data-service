@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,12 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 
+/**
+ * Control file processor.
+ *
+ * @author okrook
+ *
+ */
 @Component
 public class ControlFileProcessor implements Processor {
 
@@ -20,13 +27,15 @@ public class ControlFileProcessor implements Processor {
     private BatchJobAssembler jobAssembler;
 
     @Override
+    @Profiled(tag = "ControlFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
 
         long startTime = System.currentTimeMillis();
 
         ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-        BatchJob job = this.getJobAssembler().assembleJob(cfd);
+        BatchJob job = this.getJobAssembler()
+                .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
         long endTime = System.currentTimeMillis();
         log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
@@ -36,7 +45,7 @@ public class ControlFileProcessor implements Processor {
 
         // set the exchange outbound message to the value of the job
         exchange.getIn().setBody(job, BatchJob.class);
-        exchange.getIn().setHeader("hasErrors", job.hasErrors());
+        exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
 
     }
 

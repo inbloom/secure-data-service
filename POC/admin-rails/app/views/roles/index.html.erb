@@ -1,0 +1,26 @@
+<h1>Default SLI Roles</h1>
+
+<table>
+  <tr>
+    <th>SLI Role</th>
+    <th>Examples</th>
+    <th>Aggregate</th>
+    <th>Individual Record Data</th>
+	<th>General Student Data</th>
+	<th>Restricted Student Data</th>
+	<th>Actions</th>
+  </tr>
+
+<% @roles.each do |role| %>
+  <tr>
+    <td><%= role.name %></td>
+    <td><%= role.examples %></td>
+	<td><%= role.aggregate %></td>
+	<td><%= role.individual %></td>
+	<td><%= role.general %></td>
+	<td><%= role.restricted %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

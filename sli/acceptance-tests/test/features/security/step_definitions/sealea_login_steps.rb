@@ -56,7 +56,3 @@ Then /^I am informed that "([^"]*)" is an invalid user$/ do |arg1|
   @driver.get @apiUrl
   assert(@driver.current_url != @apiUrl, "Successfully to navigate to "+@apiUrl+" in a negative test")
 end
-
-After do |scenario|
-  @driver.quit if @driver
-end

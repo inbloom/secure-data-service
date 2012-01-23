@@ -20,5 +20,13 @@ public interface EntitySchemaRegistry {
      * @return
      */
     public Schema findSchemaForType(Entity entity);
-    
+
+    /**
+     * Returns the schema for the given type, or null if this schema has not been registered.
+     *
+     * @param entityType
+     * @return
+     */
+    public Schema findSchemaForName(String entityType);
+
 }
