@@ -3,25 +3,6 @@
 <!-- no namespace defined here - this file is intended to be included into higher level XSD files -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
-    <xs:complexType name="ReferenceType">
-        <xs:annotation>
-            <xs:documentation>This is the base type for association references.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:ID">
-            <xs:annotation>
-                <xs:documentation>The XML ID associated with this complex object object.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="ref" type="xs:IDREF">
-            <xs:annotation>
-                <xs:documentation>The XML IDREF that references the object associated with this
-                    object.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
     <xs:simpleType name="IdentificationCode">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
