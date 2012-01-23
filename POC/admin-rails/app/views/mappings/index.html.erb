@@ -1,0 +1,21 @@
+<h1>Listing mappings</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mappings.each do |mapping| %>
+  <tr>
+    <td><%= link_to 'Show', mapping %></td>
+    <td><%= link_to 'Edit', edit_mapping_path(mapping) %></td>
+    <td><%= link_to 'Destroy', mapping, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mapping', new_mapping_path %>

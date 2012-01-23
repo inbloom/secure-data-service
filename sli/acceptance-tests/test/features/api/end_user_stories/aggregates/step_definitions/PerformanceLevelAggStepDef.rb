@@ -63,6 +63,10 @@ Given /^I am using the Smallville School District assessment scores$/ do
   #fixture data is loaded in by rake task
 end
 
+Given /^the aggregation table is clear$/ do
+  coll.drop
+end
+
 Given /^I have an aggregation definition for (<[^>]*>)$/ do |agg_def|
   restHttpGet("/aggregationDefinitions/#{agg_def}")
   
