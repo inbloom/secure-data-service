@@ -54,7 +54,7 @@ import org.xml.sax.InputSource;
 public class XsdToNeutralSchema {
     
     // Logging
-    private static final Log log = LogFactory.getLog(XsdToNeutralSchema.class);
+    private static final Log LOG = LogFactory.getLog(XsdToNeutralSchema.class);
     
     // Constants
     public static final String PARAM_INPUT_PATH = "-i";
@@ -174,10 +174,10 @@ public class XsdToNeutralSchema {
     
     public void generateSchemas() throws IOException {
         
-        log.info("Starting XSD -> NeutralSchema Generator...");
-        log.info("Using XML Schema Directory Path: " + this.getXsdPath());
-        log.info("Using SLI Schema Directory Path: " + this.getSchemaPath());
-        log.info("Generating Schema Representation: " + this.getRepresentation());
+        LOG.info("Starting XSD -> NeutralSchema Generator...");
+        LOG.info("Using XML Schema Directory Path: " + this.getXsdPath());
+        LOG.info("Using SLI Schema Directory Path: " + this.getSchemaPath());
+        LOG.info("Generating Schema Representation: " + this.getRepresentation());
         
         // Scan XML Schemas on path
         List<XmlSchema> xmlSchemas = this.parseXmlSchemas(this.getXsdPath(), XSD);
@@ -228,6 +228,23 @@ public class XsdToNeutralSchema {
                             this.getSchemaFactory().toFile(currentSchemaDirectory, neutralSchema, representation, true);
                             totalSchemaCount++;
                         }
+                    } else if (schemaObject instanceof XmlSchemaElement) {
+                        NeutralSchema neutralSchema = parseElement((XmlSchemaElement) schemaObject);
+                        // copy and paste. sweeeet.
+                        if (neutralSchema.isPrimitive()) {
+                            currentSchemaDirectory = primitiveDirectory;
+                            primitiveList.add(neutralSchema);
+                        } else if (neutralSchema.isSimple()) {
+                            currentSchemaDirectory = simpleDirectory;
+                            simpleList.add(neutralSchema);
+                        } else if (!(neutralSchema.isPrimitive() || neutralSchema.isSimple())) {
+                            currentSchemaDirectory = complexDirectory;
+                            complexList.add(neutralSchema);
+                        }
+                        
+                        // Create individual Schema file
+                        this.getSchemaFactory().toFile(currentSchemaDirectory, neutralSchema, representation, true);
+                        totalSchemaCount++;
                     }
                 }
             }
@@ -242,17 +259,17 @@ public class XsdToNeutralSchema {
             }
             
         } catch (Exception exception) {
-            log.error(exception);
+            LOG.error(exception);
         }
         
-        log.info("Statistics:");
-        log.info("Xml Total Schema Files Parsed: " + xmlSchemas.size());
-        log.info("Xml Total Schema Count: " + totalSchemaCount);
-        log.info("Xml Primitive Schema Count: " + primitiveList.size());
-        log.info("Xml Simple Schema Count: " + simpleList.size());
-        log.info("Xml Complex Schema Count: " + complexList.size());
+        LOG.info("Statistics:");
+        LOG.info("Xml Total Schema Files Parsed: " + xmlSchemas.size());
+        LOG.info("Xml Total Schema Count: " + totalSchemaCount);
+        LOG.info("Xml Primitive Schema Count: " + primitiveList.size());
+        LOG.info("Xml Simple Schema Count: " + simpleList.size());
+        LOG.info("Xml Complex Schema Count: " + complexList.size());
         
-        log.info("Finished.");
+        LOG.info("Finished.");
     }
     
     private List<XmlSchema> parseXmlSchemas(String xsdPath, String schemaRepresentation) {
@@ -281,7 +298,7 @@ public class XsdToNeutralSchema {
                     }
                     schemaResourcePath += schemaFile.getName();
                     
-                    log.info("Parsing Xml Schema: " + schemaResourcePath);
+                    LOG.info("Parsing Xml Schema: " + schemaResourcePath);
                     
                     XmlSchema schema = this.parseXmlSchema(xsdPath, schemaResourcePath);
                     
@@ -289,11 +306,11 @@ public class XsdToNeutralSchema {
                     xmlSchemas.add(schema);
                 }
             } else {
-                log.error("Unsupported schema protocol: " + protocol);
+                LOG.error("Unsupported schema protocol: " + protocol);
             }
             
         } catch (IOException ioException) {
-            log.error("Unable to parse XML schema resources: " + xsdPath + ": " + ioException.getMessage());
+            LOG.error("Unable to parse XML schema resources: " + xsdPath + ": " + ioException.getMessage());
         }
         
         return xmlSchemas;
@@ -326,8 +343,12 @@ public class XsdToNeutralSchema {
     }
     
     private NeutralSchema parse(XmlSchemaType type) {
+        return parse(type, type.getName());
+    }
+    
+    private NeutralSchema parse(XmlSchemaType type, String name) {
         if (type instanceof XmlSchemaComplexType) {
-            NeutralSchema complexSchema = this.getSchemaFactory().createSchema(type.getName());
+            NeutralSchema complexSchema = this.getSchemaFactory().createSchema(name);
             return parseComplexType((XmlSchemaComplexType) type, complexSchema);
         } else if (type instanceof XmlSchemaSimpleType) {
             return parseSimpleType((XmlSchemaSimpleType) type);
@@ -437,8 +458,7 @@ public class XsdToNeutralSchema {
                             + baseType.getClass().getCanonicalName());
                 }
             } else {
-                log.warn("Schema simple base type not found: " + simpleBaseTypeName);
-//                throw new RuntimeException("Schema simple base type not found: " + simpleBaseTypeName);
+                LOG.error("Schema simple base type not found: " + simpleBaseTypeName);
             }
         }
         return simpleBaseType;
@@ -452,23 +472,30 @@ public class XsdToNeutralSchema {
                     .getContent();
             simpleContentTypeName = simpleContent.getBaseTypeName();
         } else {
-            log.warn("Unsupported simple content model: "
+            LOG.error("Unsupported simple content model: "
                     + schemaSimpleType.getContent().getClass().getCanonicalName());
-//            throw new RuntimeException("Unsupported simple content model: "
-//                    + schemaSimpleType.getContent().getClass().getCanonicalName());
         }
         return simpleContentTypeName;
     }
     
     private NeutralSchema parseComplexType(XmlSchemaComplexType schemaComplexType, NeutralSchema complexSchema) {
-        
-        XmlSchemaComplexContentExtension schemaComplexContent = getComplexContent(schemaComplexType);
-        if (schemaComplexContent != null) {
-            XmlSchemaComplexType complexBaseType = this.getComplexBaseType(schemaComplexContent);
-            if (complexBaseType != null) {
-                complexSchema = this.parseComplexType(complexBaseType, complexSchema);
+        if (schemaComplexType.getContentModel() != null && schemaComplexType.getContentModel().getContent() != null) {
+            XmlSchemaContent content = schemaComplexType.getContentModel().getContent();
+            if (content instanceof XmlSchemaComplexContentExtension) {
+                XmlSchemaComplexContentExtension schemaComplexContent = (XmlSchemaComplexContentExtension) content;
+                XmlSchemaComplexType complexBaseType = this.getComplexBaseType(schemaComplexContent);
+                if (complexBaseType != null) {
+                    complexSchema = this.parseComplexType(complexBaseType, complexSchema);
+                }
+                this.parseFields(schemaComplexContent, complexSchema);
+                
+            } else if (content instanceof XmlSchemaSimpleContentExtension) {
+                QName baseTypeName = ((XmlSchemaSimpleContentExtension) content).getBaseTypeName();
+                NeutralSchema simpleContentSchema = this.schemaFactory.createSchema(baseTypeName);
+                complexSchema.getFields().put(complexSchema.getType(), simpleContentSchema);
+                
+                parseAttributes(((XmlSchemaSimpleContentExtension) content).getAttributes(), complexSchema);
             }
-            this.parseFields(schemaComplexContent, complexSchema);
         }
         
         this.parseFields(schemaComplexType, complexSchema);
@@ -483,10 +510,8 @@ public class XsdToNeutralSchema {
                 schemaComplexContentExtension = (XmlSchemaComplexContentExtension) schemaComplexType.getContentModel()
                         .getContent();
             } else {
-                log.warn("Unsupported complex content model: "
+                LOG.error("Unsupported complex content model: "
                         + schemaComplexType.getContentModel().getContent().getClass().getCanonicalName());
-//                throw new RuntimeException("Unsupported complex content model: "
-//                        + schemaComplexType.getContentModel().getContent().getClass().getCanonicalName());
             }
         }
         return schemaComplexContentExtension;
@@ -503,8 +528,7 @@ public class XsdToNeutralSchema {
                 throw new RuntimeException("Unsupported complex base type: " + baseType.getClass().getCanonicalName());
             }
         } else {
-            log.warn("Schema complex base type not found: " + baseTypeName);
-//            throw new RuntimeException("Schema complex base type not found: " + baseTypeName);
+            LOG.error("Schema complex base type not found: " + baseTypeName);
         }
         return complexBaseType;
     }
@@ -554,46 +578,53 @@ public class XsdToNeutralSchema {
         }
     }
     
+    private NeutralSchema parseElement(XmlSchemaElement element) {
+        QName elementTypeName = element.getSchemaTypeName();
+        
+        XmlSchemaType elementSchemaType = element.getSchemaType();
+        
+        String elementName = element.getName();
+        
+        // Optional Elements
+        if (element.isNillable() || (element.getMinOccurs() <= 0)) {
+            elementName = "*" + elementName;
+        }
+        
+        // Derive Element Schema
+        NeutralSchema elementSchema = null;
+        if (elementSchemaType != null) {
+            if (elementSchemaType.getName() != null) {
+                elementSchema = this.parse(elementSchemaType);
+            } else {
+                elementSchema = this.parse(elementSchemaType, elementName);
+            }
+        } else if (elementTypeName != null) {
+            elementSchema = this.getSchemaFactory().createSchema(elementTypeName);
+        }
+        
+        if (elementSchema != null) {
+            
+            // List Schema
+            if (element.getMaxOccurs() > 1) {
+                ListSchema listSchema = (ListSchema) this.getSchemaFactory().createSchema("list");
+                listSchema.getList().add(elementSchema);
+                elementSchema = listSchema;
+            }
+        }
+        
+        return elementSchema;
+    }
+    
     private void parseParticle(XmlSchemaParticle particle, NeutralSchema complexSchema) {
         
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
                 XmlSchemaElement element = (XmlSchemaElement) particle;
-                QName elementTypeName = element.getSchemaTypeName();
                 
-                XmlSchemaType elementSchemaType = element.getSchemaType();
+                NeutralSchema elementSchema = parseElement(element);
                 
-                if (element.getName() != null) {
-                    
-                    String elementName = element.getName();
-                    
-                    // Optional Elements
-                    if (element.isNillable() || (element.getMinOccurs() <= 0)) {
-                        elementName = "*" + elementName;
-                    }
-                    
-                    // Derive Element Schema
-                    NeutralSchema elementSchema = null;
-                    if (elementSchemaType != null) {
-                        elementSchema = this.parse(elementSchemaType);
-                    } else if (elementTypeName != null) {
-                        elementSchema = this.getSchemaFactory().createSchema(elementTypeName);
-                    }
-                    
-                    if (elementSchema != null) {
-                        
-                        // List Schema
-                        if (element.getMaxOccurs() > 1) {
-                            ListSchema listSchema = (ListSchema) this.getSchemaFactory().createSchema("list");
-                            listSchema.getList().add(elementSchema);
-                            elementSchema = listSchema;
-                        }
-                        
-                        // Update Neutral Schema Field
-                        complexSchema.getFields().put(elementName, elementSchema);
-                    }
-                    
-                }
+                // Update Neutral Schema Field
+                complexSchema.getFields().put(element.getName(), elementSchema);
                 
             } else if (particle instanceof XmlSchemaSequence) {
                 XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
@@ -607,14 +638,11 @@ public class XsdToNeutralSchema {
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
-                
-                // TODO - Determine necessary support for XmlSchemaChoice
+                LOG.error("Unhandled XmlSchemaChoice element: " + particle + " " + complexSchema.getType());
                 
             } else {
-                throw new RuntimeException("Unsupported XmlSchemaParticle item: "
-                        + particle.getClass().getCanonicalName());
+                LOG.error("Unsupported XmlSchemaParticle item: " + particle.getClass().getCanonicalName());
             }
         }
     }
-    
 }
