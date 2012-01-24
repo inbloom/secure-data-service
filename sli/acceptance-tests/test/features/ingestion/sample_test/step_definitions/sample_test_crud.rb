@@ -109,30 +109,32 @@ end
 
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
-  @job_status_filename_component = "job-" + @source_file_name + "-"
-
-  @job_status_filename = ""
-  Dir.foreach(@landing_zone_path) do |entry|
-    if (entry.rindex(@job_status_filename_component))
-      # LAST ENTRY IS OUR FILE
-      @job_status_filename = entry
-    end
-  end
-
-  aFile = File.new(@landing_zone_path + @job_status_filename, "r")
-  puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
-  assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+  if (INGESTION_MODE == 'remote')
+    @job_status_filename_component = "job-" + @source_file_name + "-"
   
-  if aFile
-    file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
-    puts "FILE CONTENTS = " + file_contents
-    
-    if (file_contents.rindex(message) == nil)
-      assert(false, "File doesn't contain correct processing message")
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(@job_status_filename_component))
+        # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
     end
+  
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
     
-  else
-     raise "File " + @job_status_filename + "can't be opened"
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      puts "FILE CONTENTS = " + file_contents
+      
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+      
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
   end
 end
 
