@@ -110,6 +110,8 @@ end
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   if (INGESTION_MODE == 'remote')
+    #TODO - remote check of file
+  else
     @job_status_filename_component = "job-" + @source_file_name + "-"
   
     @job_status_filename = ""
