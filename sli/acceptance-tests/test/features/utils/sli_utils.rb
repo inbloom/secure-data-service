@@ -229,7 +229,8 @@ def runShellCommand(command)
   #  end
   #end
   
-  Kernel::system(command)
+  #Kernel::system(command)
+  `{command}`
   
 end
 
