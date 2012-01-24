@@ -163,7 +163,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         }
 
                         // This header is set in PersistenceProcessor
-                        jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
+                        if (exchange.getProperty("records.processed") != null) {
+                        	jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
+                        }
 
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();

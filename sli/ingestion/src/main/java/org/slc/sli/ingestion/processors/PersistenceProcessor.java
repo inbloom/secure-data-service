@@ -70,6 +70,8 @@ public class PersistenceProcessor implements Processor {
             ErrorReport errorReportForFile = null;
             try {
 
+            	exchange.setProperty("records.processed", 0);
+            	
                 errorReportForFile = processIngestionStream(fe);
 
             } catch (IOException e) {
