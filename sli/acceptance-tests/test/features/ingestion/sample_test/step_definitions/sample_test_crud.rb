@@ -82,16 +82,7 @@ When /^zip file is scp to ingestion landing zone$/ do
     local_source_path = "\"" + @source_path.to_s + "\""
     
     puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    #sh "scp #{local_source_path} #{ingestion_server_string}"
     runShellCommand("scp " + local_source_path + " " + ingestion_server_string)
-    
-    #doesn't work for some reason...
-    #scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
-
-    #check if file was copied to destination.  This is not necessary on a working landingzone
-    #sleep(Integer(3))
-    #aFile = File.new(@destination_path, "r")
-    #assert(aFile != nil, "File wasn't copied successfully to destination")
   else
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
