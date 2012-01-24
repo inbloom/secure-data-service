@@ -230,7 +230,7 @@ def runShellCommand(command)
   #end
   
   #Kernel::system(command)
-  `{command}`
+  `#{command}`
   
 end
 
