@@ -65,10 +65,13 @@ public class HomeResource {
             // add links for all of the entity's associations for this ID
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, userId, uriInfo));
             
+            //add the aggregation link
+            links.addAll(ResourceUtil.getAggregateLink(uriInfo));
+            
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
             linksMap.put(ResourceUtil.LINKS, links);
-
+            
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
         }
