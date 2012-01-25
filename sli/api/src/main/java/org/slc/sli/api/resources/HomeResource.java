@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 @Path("home")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
 public class HomeResource {
     
     private static final Logger LOG = LoggerFactory.getLogger(HomeResource.class);
@@ -49,14 +49,10 @@ public class HomeResource {
      * 
      */
     @GET
-    @Produces({ Resource.JSON_MEDIA_TYPE })
     public Response getHomeUri(@Context final UriInfo uriInfo) {
-        
-        // TODO: refactor common code from getHomeUri and GetHomeUriXML
-        
-        // create a final map of links to relevant links
-        HashMap<String, Object> linksMap = new HashMap<String, Object>();
-        
+
+        Home home = null; 
+
         // get the entity ID and EntityDefinition for user
         Pair<String, EntityDefinition> pair = this.getEntityInfoForUser();
         if (pair != null) {
@@ -69,44 +65,15 @@ public class HomeResource {
             // add links for all of the entity's associations for this ID
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, userId, uriInfo));
             
-            // add the aggregate link
+            //add the aggregation link
             links.addAll(ResourceUtil.getAggregateLink(uriInfo));
-            linksMap.put(ResourceUtil.LINKS, links);
-        }
-        
-        // return as browser response
-        return Response.ok(linksMap).build();
-    }
-    
-    /**
-     * Returns the initial information when a user logs in.
-     * 
-     */
-    @GET
-    @Produces({ Resource.XML_MEDIA_TYPE })
-    public Response getHomeUriXML(@Context final UriInfo uriInfo) {
-        
-        // TODO: refactor common code from getHomeUri and GetHomeUriXML
-        Home home = null;
-        
-        // get the entity ID and EntityDefinition for user
-        Pair<String, EntityDefinition> pair = this.getEntityInfoForUser();
-        if (pair != null) {
-            String userId = pair.getLeft();
-            EntityDefinition defn = pair.getRight();
-            
-            // prepare a list of links with the self link
-            List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, userId, defn);
-            
-            // add links for all of the entity's associations for this ID
-            links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, userId, uriInfo));
             
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
             linksMap.put(ResourceUtil.LINKS, links);
             
             // return as browser response
-            home = new Home(linksMap, defn.getStoredCollectionName());
+            home = new Home(defn.getStoredCollectionName(), linksMap);
         }
         return Response.ok(home).build();
     }
@@ -118,7 +85,7 @@ public class HomeResource {
      */
     private Pair<String, EntityDefinition> getEntityInfoForUser() {
         Pair<String, EntityDefinition> pair = null;
-        
+                
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
         if (entity != null) {

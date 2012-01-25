@@ -21,7 +21,7 @@ import java.util.List;
  * @author rlatta
  */
 @Component
-public class DefaultRoleRightAccessImpl implements RoleRightAccess {
+public class InsecureRoleRightAccessImpl implements RoleRightAccess {
     
     @Autowired
     private EntityDefinitionStore store;
