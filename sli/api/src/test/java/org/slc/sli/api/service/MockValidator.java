@@ -2,6 +2,7 @@ package org.slc.sli.api.service;
 
 import java.util.ArrayList;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -13,6 +14,7 @@ import org.slc.sli.validation.ValidationError;
  * Mock validator for the dal
  */
 @Component
+@Primary
 public class MockValidator implements EntityValidator {
     
     @Override

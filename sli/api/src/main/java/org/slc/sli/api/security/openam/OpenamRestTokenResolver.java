@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,30 +41,31 @@ import org.slc.sli.api.security.resolve.UserLocator;
 @Primary
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
     
-    private static final Logger LOG = LoggerFactory.getLogger(SliEntryPoint.class);
+    private static final Logger   LOG  = LoggerFactory.getLogger(SliEntryPoint.class);
     
-    private RestTemplate rest = new RestTemplate();
+    private RestTemplate          rest = new RestTemplate();
     
     @Value("${sli.security.tokenService.url}")
-    private String tokenServiceUrl;
+    private String                tokenServiceUrl;
     
     @Autowired
     private RolesToRightsResolver resolver;
     
     @Autowired
-    private UserLocator locator;
+    private UserLocator           locator;
     
     /**
      * Populates Authentication object by calling openAM with given token id
      * 
      * @param token
      *            sessionId to use in lookups
-     * @return populated Authentication or null if sessionId isn't valid
+     * @return populated Authentication or Anonymous Authentication if sessionId isn't valid
      */
     @Override
     public Authentication resolve(String token) {
         
-        Authentication auth = null;
+        String time = String.valueOf(System.currentTimeMillis());
+        Authentication auth = new AnonymousAuthenticationToken(time, time, Collections.<GrantedAuthority>emptyList());
         
         if (token != null && !"".equals(token)) {
             
@@ -72,14 +74,12 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
                 String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
                 
                 // Validate Session
-                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class,
-                        Collections.<String, Object>emptyMap());
+                ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
                 
                 if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
                     
                     // Get session attributes
-                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token,
-                            String.class, Collections.<String, Object>emptyMap());
+                    entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object>emptyMap());
                     LOG.debug("-------------------------------------");
                     LOG.debug(entity.getBody());
                     LOG.debug("-------------------------------------");
@@ -101,10 +101,8 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));
         
-        SecurityContextHolder.getContext().setAuthentication(
-                new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.READ_GENERAL)));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(),
-                principal.getRoles());
+        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.READ_GENERAL)));
+        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
         SecurityContextHolder.clearContext();
         return new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
         
@@ -146,8 +144,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     private String extractValue(String valueName, String payload) {
         String result = "";
         
-        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName
-                + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
         
         if (m.find()) {
