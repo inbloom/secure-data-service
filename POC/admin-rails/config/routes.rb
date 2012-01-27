@@ -1,7 +1,9 @@
 SLIAdmin::Application.routes.draw do
+  get "sessions/new"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
-
+  
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
@@ -9,9 +11,19 @@ SLIAdmin::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-
+    # match 'mappings/:id/add' => 'mappings#add'
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-    resources :roles, :realms, :mappings
+
+    resources :roles, :realms
+    resources :sessions
+    
+    resources :mappings do
+      member do
+        post :add
+      end
+    end
+    
+    match '/logout', :to => 'sessions#destroy'
 
   # Sample resource route with options:
   #   resources :products do

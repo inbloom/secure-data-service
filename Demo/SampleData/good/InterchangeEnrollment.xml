@@ -1,0 +1,3505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentEnrollment.xsd" xmlns="http://ed-fi.org/0100RFC062811">
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000001</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARY</FirstName>
+                    <LastSurname>SMITH</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Distinguished</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000002</StudentUniqueStateId>
+                <Name>
+                    <FirstName>PATRICIA</FirstName>
+                    <LastSurname>JOHNSON</LastSurname>
+                    <GenerationCodeSuffix>III</GenerationCodeSuffix>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000003</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LINDA</FirstName>
+                    <LastSurname>WILLIAMS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000004</StudentUniqueStateId>
+                <Name>
+                    <FirstName>BARBARA</FirstName>
+                    <LastSurname>JONES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000005</StudentUniqueStateId>
+                <Name>
+                    <FirstName>ELIZABETH</FirstName>
+                    <LastSurname>BROWN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000006</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JENNIFER</FirstName>
+                    <LastSurname>DAVIS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000007</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARIA</FirstName>
+                    <LastSurname>MILLER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000008</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SUSAN</FirstName>
+                    <LastSurname>WILSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000009</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARGARET</FirstName>
+                    <LastSurname>MOORE</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000010</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DOROTHY</FirstName>
+                    <LastSurname>TAYLOR</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000011</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LISA</FirstName>
+                    <LastSurname>ANDERSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000012</StudentUniqueStateId>
+                <Name>
+                    <FirstName>NANCY</FirstName>
+                    <LastSurname>THOMAS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000013</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KAREN</FirstName>
+                    <LastSurname>JACKSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000014</StudentUniqueStateId>
+                <Name>
+                    <FirstName>BETTY</FirstName>
+                    <LastSurname>WHITE</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000015</StudentUniqueStateId>
+                <Name>
+                    <FirstName>HELEN</FirstName>
+                    <LastSurname>HARRIS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SANDRA</FirstName>
+                    <LastSurname>MARTIN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Recommended</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000017</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DONNA</FirstName>
+                    <LastSurname>THOMPSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000018</StudentUniqueStateId>
+                <Name>
+                    <FirstName>CAROL</FirstName>
+                    <LastSurname>GARCIA</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000019</StudentUniqueStateId>
+                <Name>
+                    <FirstName>RUTH</FirstName>
+                    <LastSurname>MARTINEZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000020</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SHARON</FirstName>
+                    <LastSurname>ROBINSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MICHELLE</FirstName>
+                    <LastSurname>CLARK</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000022</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LAURA</FirstName>
+                    <LastSurname>RODRIGUEZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000023</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SARAH</FirstName>
+                    <LastSurname>LEWIS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000024</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KIMBERLY</FirstName>
+                    <LastSurname>LEE</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000025</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DEBORAH</FirstName>
+                    <LastSurname>WALKER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000026</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JESSICA</FirstName>
+                    <LastSurname>HALL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000027</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SHIRLEY</FirstName>
+                    <LastSurname>ALLEN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000028</StudentUniqueStateId>
+                <Name>
+                    <FirstName>CYNTHIA</FirstName>
+                    <LastSurname>YOUNG</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000029</StudentUniqueStateId>
+                <Name>
+                    <FirstName>ANGELA</FirstName>
+                    <LastSurname>HERNANDEZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Distinguished</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000030</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MELISSA</FirstName>
+                    <LastSurname>KING</LastSurname>
+                    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000031</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JAMES</FirstName>
+                    <LastSurname>WRIGHT</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000032</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JOHN</FirstName>
+                    <LastSurname>LOPEZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000033</StudentUniqueStateId>
+                <Name>
+                    <FirstName>ROBERT</FirstName>
+                    <LastSurname>HILL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000034</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MICHAEL</FirstName>
+                    <LastSurname>SCOTT</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000035</StudentUniqueStateId>
+                <Name>
+                    <FirstName>WILLIAM</FirstName>
+                    <LastSurname>GREEN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000036</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DAVID</FirstName>
+                    <LastSurname>ADAMS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000037</StudentUniqueStateId>
+                <Name>
+                    <FirstName>RICHARD</FirstName>
+                    <LastSurname>BAKER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000038</StudentUniqueStateId>
+                <Name>
+                    <FirstName>CHARLES</FirstName>
+                    <LastSurname>GONZALEZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000039</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JOSEPH</FirstName>
+                    <LastSurname>NELSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Recommended</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000040</StudentUniqueStateId>
+                <Name>
+                    <FirstName>THOMAS</FirstName>
+                    <LastSurname>CARTER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000041</StudentUniqueStateId>
+                <Name>
+                    <FirstName>CHRISTOPHER</FirstName>
+                    <LastSurname>MITCHELL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000042</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DANIEL</FirstName>
+                    <LastSurname>PEREZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000043</StudentUniqueStateId>
+                <Name>
+                    <FirstName>PAUL</FirstName>
+                    <LastSurname>ROBERTS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000044</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARK</FirstName>
+                    <LastSurname>TURNER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000045</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DONALD</FirstName>
+                    <LastSurname>PHILLIPS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000046</StudentUniqueStateId>
+                <Name>
+                    <FirstName>GEORGE</FirstName>
+                    <LastSurname>CAMPBELL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000047</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KENNETH</FirstName>
+                    <LastSurname>PARKER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000048</StudentUniqueStateId>
+                <Name>
+                    <FirstName>STEVEN</FirstName>
+                    <LastSurname>EVANS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000049</StudentUniqueStateId>
+                <Name>
+                    <FirstName>EDWARD</FirstName>
+                    <LastSurname>EDWARDS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000050</StudentUniqueStateId>
+                <Name>
+                    <FirstName>BRIAN</FirstName>
+                    <LastSurname>COLLINS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000051</StudentUniqueStateId>
+                <Name>
+                    <FirstName>RONALD</FirstName>
+                    <LastSurname>STEWART</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000052</StudentUniqueStateId>
+                <Name>
+                    <FirstName>ANTHONY</FirstName>
+                    <LastSurname>SANCHEZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000053</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KEVIN</FirstName>
+                    <LastSurname>MORRIS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000054</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JASON</FirstName>
+                    <LastSurname>ROGERS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000055</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MATTHEW</FirstName>
+                    <LastSurname>REED</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000056</StudentUniqueStateId>
+                <Name>
+                    <FirstName>GARY</FirstName>
+                    <LastSurname>COOK</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000057</StudentUniqueStateId>
+                <Name>
+                    <FirstName>TIMOTHY</FirstName>
+                    <LastSurname>MORGAN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000058</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JOSE</FirstName>
+                    <LastSurname>BELL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000059</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LARRY</FirstName>
+                    <LastSurname>MURPHY</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Recommended</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000060</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JEFFREY</FirstName>
+                    <LastSurname>BAILEY</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000061</StudentUniqueStateId>
+                <Name>
+                    <FirstName>THOMAS</FirstName>
+                    <LastSurname>RIVERA</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Distinguished</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000062</StudentUniqueStateId>
+                <Name>
+                    <FirstName>CHRISTOPHER</FirstName>
+                    <LastSurname>COOPER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000063</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DANIEL</FirstName>
+                    <LastSurname>RICHARDSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000064</StudentUniqueStateId>
+                <Name>
+                    <FirstName>PAUL</FirstName>
+                    <LastSurname>COX</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000065</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARK</FirstName>
+                    <LastSurname>HOWARD</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000066</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DONALD</FirstName>
+                    <LastSurname>WARD</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000067</StudentUniqueStateId>
+                <Name>
+                    <FirstName>GEORGE</FirstName>
+                    <LastSurname>TORRES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000068</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KENNETH</FirstName>
+                    <LastSurname>PETERSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000069</StudentUniqueStateId>
+                <Name>
+                    <FirstName>STEVEN</FirstName>
+                    <LastSurname>GRAY</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000070</StudentUniqueStateId>
+                <Name>
+                    <FirstName>EDWARD</FirstName>
+                    <LastSurname>RAMIREZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000071</StudentUniqueStateId>
+                <Name>
+                    <FirstName>BRIAN</FirstName>
+                    <LastSurname>JAMES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000072</StudentUniqueStateId>
+                <Name>
+                    <FirstName>RONALD</FirstName>
+                    <LastSurname>WATSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000073</StudentUniqueStateId>
+                <Name>
+                    <FirstName>ANTHONY</FirstName>
+                    <LastSurname>BROOKS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000074</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KEVIN</FirstName>
+                    <LastSurname>KELLY</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000075</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JASON</FirstName>
+                    <LastSurname>SANDERS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000076</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MATTHEW</FirstName>
+                    <LastSurname>PRICE</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Recommended</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000077</StudentUniqueStateId>
+                <Name>
+                    <FirstName>GARY</FirstName>
+                    <LastSurname>BENNETT</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000078</StudentUniqueStateId>
+                <Name>
+                    <FirstName>TIMOTHY</FirstName>
+                    <LastSurname>WOOD</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000079</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JOSE</FirstName>
+                    <LastSurname>BARNES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000080</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LARRY</FirstName>
+                    <LastSurname>ROSS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000081</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARY</FirstName>
+                    <LastSurname>HENDERSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000082</StudentUniqueStateId>
+                <Name>
+                    <FirstName>PATRICIA</FirstName>
+                    <LastSurname>COLEMAN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000083</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LINDA</FirstName>
+                    <LastSurname>JENKINS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000084</StudentUniqueStateId>
+                <Name>
+                    <FirstName>BARBARA</FirstName>
+                    <LastSurname>PERRY</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000085</StudentUniqueStateId>
+                <Name>
+                    <FirstName>ELIZABETH</FirstName>
+                    <LastSurname>POWELL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000086</StudentUniqueStateId>
+                <Name>
+                    <FirstName>JENNIFER</FirstName>
+                    <LastSurname>LONG</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000087</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARIA</FirstName>
+                    <LastSurname>PATTERSON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000088</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SUSAN</FirstName>
+                    <LastSurname>HUGHES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000089</StudentUniqueStateId>
+                <Name>
+                    <FirstName>MARGARET</FirstName>
+                    <LastSurname>FLORES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Distinguished</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000090</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DOROTHY</FirstName>
+                    <LastSurname>WASHINGTON</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000091</StudentUniqueStateId>
+                <Name>
+                    <FirstName>LISA</FirstName>
+                    <LastSurname>BUTLER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000092</StudentUniqueStateId>
+                <Name>
+                    <FirstName>NANCY</FirstName>
+                    <LastSurname>SIMMONS</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000093</StudentUniqueStateId>
+                <Name>
+                    <FirstName>KAREN</FirstName>
+                    <LastSurname>FOSTER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000094</StudentUniqueStateId>
+                <Name>
+                    <FirstName>BETTY</FirstName>
+                    <LastSurname>GONZALES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000095</StudentUniqueStateId>
+                <Name>
+                    <FirstName>HELEN</FirstName>
+                    <LastSurname>BRYANT</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000096</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SANDRA</FirstName>
+                    <LastSurname>ALEXANDER</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000097</StudentUniqueStateId>
+                <Name>
+                    <FirstName>DONNA</FirstName>
+                    <LastSurname>RUSSELL</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000098</StudentUniqueStateId>
+                <Name>
+                    <FirstName>CAROL</FirstName>
+                    <LastSurname>GRIFFIN</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000099</StudentUniqueStateId>
+                <Name>
+                    <FirstName>RUTH</FirstName>
+                    <LastSurname>DIAZ</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Recommended</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000100</StudentUniqueStateId>
+                <Name>
+                    <FirstName>SHARON</FirstName>
+                    <LastSurname>HAYES</LastSurname>
+                </Name>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>990000002</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-17</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <GraduationPlan>Minimum</GraduationPlan>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>231101422</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>993553490</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>827417277</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>775598719</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>951251506</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>956938770</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>597265825</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>706692817</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>977663267</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>134184811</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>494964533</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>815512379</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>605319827</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>319459855</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>318780241</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>579449070</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>963794630</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>625156035</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>159217151</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>259255524</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>198051567</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>270786717</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>433548564</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>126535430</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>697315394</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>965608963</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>810222985</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>529488210</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>759145615</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>512803826</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>224667616</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>537413437</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>909550740</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>223746212</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>174627479</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>712502457</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>532645029</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>650857220</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>167038298</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>534287452</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>954919905</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>737743447</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>366110649</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>494599081</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>172555230</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>674311022</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>196925484</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>493590746</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>469337768</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901001</SchoolOrganizationID>
+                <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>871180783</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>422861110</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>395922865</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>631529637</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>715157334</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>555685177</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>453827070</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>943715230</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>164420088</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>505331723</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>530425896</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>429526969</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178828452</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>525878920</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>510152105</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>802709591</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>437680177</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>170011136</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>547028299</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>258392050</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100644447</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>376191021</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>336344132</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>711411586</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>131758477</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>670703438</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>851123275</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>423037202</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-ELA6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>250918988</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>421216329</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>746199592</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>323538529</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>428250371</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>114989598</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>558780133</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>196038854</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>992193581</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>541397175</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-MATH6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>288598192</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>978367577</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>936070219</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>927436385</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>204492239</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>187780388</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>419301055</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>784204643</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>977876544</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>683314355</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>560029459</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>814202099</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <SchoolOrganizationID>152901002</SchoolOrganizationID>
+                <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </StudentSectionAssociation>
+</InterchangeStudentEnrollment>

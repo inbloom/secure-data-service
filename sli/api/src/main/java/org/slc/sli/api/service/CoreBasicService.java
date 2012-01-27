@@ -1,14 +1,12 @@
 package org.slc.sli.api.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Core operations of the Basic Service.
@@ -22,8 +20,9 @@ public class CoreBasicService implements CoreEntityService {
     @Autowired
     private EntityRepository repo;
     
-    @Autowired
-    private EntityValidator validator;
+    // TODO repalce old avro validator with neutral validator
+    // @Autowired
+    // private EntityValidator validator;
     
     public CoreBasicService(String collectionName) {
         this.collectionName = collectionName;
@@ -32,7 +31,9 @@ public class CoreBasicService implements CoreEntityService {
     @Override
     public String create(EntityBody body, String type) {
         MongoEntity entity = MongoEntity.create(type, body);
-        validator.validate(entity);
+        
+        // TODO repalce old avro validator with neutral validator
+        // validator.validate(entity);
         return repo.create(type, body, collectionName).getEntityId();
     }
     
@@ -47,7 +48,8 @@ public class CoreBasicService implements CoreEntityService {
         Entity repoEntity = repo.find(collectionName, entity.getEntityId());
         repoEntity.getBody().clear();
         repoEntity.getBody().putAll(updates);
-        validator.validate(repoEntity);
+        // TODO repalce old avro validator with neutral validator
+        // validator.validate(repoEntity);
         return repo.update(collectionName, repoEntity);
     }
     

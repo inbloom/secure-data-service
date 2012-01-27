@@ -33,6 +33,8 @@ class ApplicationController < ActionController::Base
       logger.debug 'We have a cookie set.'
       SessionResource.auth_id = cookies['iPlanetDirectoryPro']
       Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
+      # Get the state unique id and state to identify and key logging
+      session[:full_name] = Check.new(SessionResource.auth_id).full_name
     else
       logger.debug { "No cookie set" }
     end

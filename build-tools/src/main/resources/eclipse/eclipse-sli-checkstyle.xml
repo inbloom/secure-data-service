@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
-   <local-check-config name="sli" location=".settings/checkstyle.xml" type="remote" description="maven-checkstyle-plugin configuration">
+   <local-check-config name="sli" location=".settings/checkstyle.xml" type="project" description="maven-checkstyle-plugin configuration">
     <property name="checkstyle.cache.file" value="${project_loc}/target/checkstyle-cachefile"/>
   </local-check-config>
   <fileset name="java-sources" enabled="true" check-config-name="sli" local="true">

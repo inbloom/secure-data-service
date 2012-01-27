@@ -131,17 +131,19 @@ public class Resource {
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
+                    } else {
+                        return Response.status(Status.NOT_FOUND).build();
                     }
                     
                     // TODO: refactor common code for both GET methods
+                    CollectionResponse collection = new CollectionResponse();
                     if (associationIds != null && associationIds.iterator().hasNext()) {
-                        CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
                             String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
                             collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
                         }
-                        return Response.ok(collection).build();
                     }
+                    return Response.ok(collection).build();
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
@@ -176,7 +178,7 @@ public class Resource {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
                     entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
-                    Entities entities = new Entities(entityBody, entityDef.getStoredCollectionName());
+                    Entities entities = new Entities(entityDef.getStoredCollectionName(), entityBody);
                     return Response.ok(entities).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
@@ -187,18 +189,20 @@ public class Resource {
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
+                    } else {
+                        return Response.status(Status.NOT_FOUND).build();
                     }
                     
                     // TODO: refactor common code for both Get methods
+                    CollectionResponse collection = new CollectionResponse();
                     if (associationIds != null) {
-                        CollectionResponse collection = new CollectionResponse();
                         for (String id : associationIds) {
                             String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
                             collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
                         }
-                        Associations associations = new Associations(collection);
-                        return Response.ok(associations).build();
                     }
+                    Associations associations = new Associations(collection);
+                    return Response.ok(associations).build();
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }

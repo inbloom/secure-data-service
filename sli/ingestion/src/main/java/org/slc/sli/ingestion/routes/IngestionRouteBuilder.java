@@ -55,7 +55,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
-    private @Value("${queues.workItem.queueURI}") String workItemQueue;
+    @Value("${queues.workItem.queueURI}")
+    private String workItemQueue;
 
     @Override
     public void configure() throws Exception {
@@ -162,8 +163,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             jobLogger.info("All records processed successfully.");
                         }
 
-                        // TODO: fix this - we are never setting this header.
-                        //jobLogger.info("Ingested " + exchange.getProperty("records.processed") + " records into datastore.");
+                        // This header is set in PersistenceProcessor
+                        if (exchange.getProperty("records.processed") != null) {
+                            jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
+                        }
 
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();

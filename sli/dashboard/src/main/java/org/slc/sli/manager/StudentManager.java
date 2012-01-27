@@ -37,7 +37,10 @@ public class StudentManager extends Manager {
         // return the results
         return studentInfo;
     }
-    
+
+    /**
+     * Returns the student program association data for the giving list of students
+     */    
     public List<StudentProgramAssociation> getStudentProgramAssociations(String username, List<String> studentIds) {
         List<StudentProgramAssociation> programs = new ArrayList<StudentProgramAssociation>();
         programs.addAll(Arrays.asList(apiClient.getStudentProgramAssociation(SecurityUtil.getToken(), studentIds)));

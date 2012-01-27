@@ -3,10 +3,8 @@ package org.slc.sli.ingestion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.avro.Schema;
@@ -15,8 +13,6 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,8 +140,7 @@ public class NeutralRecordFileWriter {
         this.avroDataFileWriter.append(avroRecord);
     }
 
-    private String maptoJson(Map<String, Object> attributes) throws JsonGenerationException, JsonMappingException,
-            IOException {
+    private String maptoJson(Map<String, Object> attributes) throws IOException {
         String jsonVal = jsonObjectMapper.writeValueAsString(attributes);
         LOG.debug("encoded attributes map to json: " + jsonVal);
         return jsonVal;
