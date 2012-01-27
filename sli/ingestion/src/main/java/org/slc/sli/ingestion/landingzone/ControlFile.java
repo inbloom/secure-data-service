@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.processors.ControlFileProcessor;
 
 /**
  * Represents control file information.
