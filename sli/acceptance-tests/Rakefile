@@ -1,4 +1,3 @@
-
 ###################################################
 # Section to setup necessary env vars and overrides
 if(ENV['DB_HOST'])
@@ -19,12 +18,11 @@ else
   EXPAND = "--expand"
 end
 
-if(ENV['CUKE_FORCE_COLOR'])
-  FORCE_COLOR="-c"
+if(ENV['FORCE_COLOR'])
+  COLOR = "-c"
 else
-  FORCE_COLOR=""
+  COLOR = ""
 end
-
 #######################################################
 
 $SUCCESS=true
@@ -44,7 +42,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{FORCE_COLOR} -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{COLOR} -f junit --out . -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else

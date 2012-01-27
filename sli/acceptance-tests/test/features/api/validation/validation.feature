@@ -1,3 +1,4 @@
+@wip
 Feature: Test schema based validation on entities/associations
 
 
