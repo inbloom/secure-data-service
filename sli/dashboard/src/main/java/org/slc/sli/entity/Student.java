@@ -102,12 +102,12 @@ public class Student {
 
     
     public boolean getProgramParticipation(String programCode) {
-        if (programCode.equals(Constants.PROGRAM_ELL))
+        if (programCode.equals(Constants.PROGRAM_ELL)) {
             return isLimitedEnglishProficient();
-        
-        if (programCode.equals(Constants.PROGRAM_FRE))
+        }
+        if (programCode.equals(Constants.PROGRAM_FRE)) {
             return isSchoolFoodServiceEligile();
-        
+        }
         return false;
     }
     
