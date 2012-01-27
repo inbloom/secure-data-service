@@ -104,7 +104,7 @@ def listContains(desiredContent)
 
   desiredContentArray = desiredContent.split(";")
   # Find all student names based on their class attribute
-  studentNames = @driver.find_elements(:xpath, "//td[@class='studentInfo.name']")
+  studentNames = @driver.find_elements(:xpath, "//td[@class='name']")
   puts "num of studs = "+ studentNames.length.to_s
   
   nonFoundItems = desiredContentArray.length
