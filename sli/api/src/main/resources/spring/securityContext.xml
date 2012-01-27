@@ -36,11 +36,11 @@
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
             <security:user-service>
-                <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR"/>
+                <security:user name="noauth" authorities=""/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
-    
+
 
     <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache"/>
 
