@@ -6,70 +6,75 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.StringUtils;
-
+/**
+ *A utility class to process a neutral record
+ * @author ablum
+ *
+ */
 public class NeutralRecordUtils {
-	   @SuppressWarnings("unchecked")
-		public static <T> T scrubEmptyStrings(T obj){
-	    	if (Map.class.isInstance(obj)) {
-	    		return (T) process((Map<?, ?>) obj);
-	    	} else if(List.class.isInstance(obj)){
-	    		return (T) process((List<?>) obj);
-	    	} else if(String.class.isInstance(obj)){
-	    		return (T) process((String) obj);
-	    	} else {
-	    		return obj;
-	    	}
-	    }
 
-		private static List<Object> process(List<?> value) {
-			List<Object> newList = new ArrayList<Object>();
+   @SuppressWarnings("unchecked")
+   public static <T> T scrubEmptyStrings(T obj) {
+        if (Map.class.isInstance(obj)) {
+            return (T) process((Map<?, ?>) obj);
+        } else if (List.class.isInstance(obj)) {
+            return (T) process((List<?>) obj);
+        } else if (String.class.isInstance(obj)) {
+            return (T) process((String) obj);
+        } else {
+            return obj;
+        }
+   }
 
-			boolean isEmpty = true;
-			for (Object record : value) {
-				record = scrubEmptyStrings(record);
+   private static List<Object> process(List<?> value) {
+        List<Object> newList = new ArrayList<Object>();
 
-				if (record != null) {
-					isEmpty = false;
-				}
+        boolean isEmpty = true;
+        for (Object record : value) {
+            record = scrubEmptyStrings(record);
 
-				newList.add(record);
-			}
+            if (record != null) {
+                   isEmpty = false;
+            }
 
-			if (isEmpty) {
-				newList = new ArrayList<Object>();
-			}
+            newList.add(record);
+        }
 
-			return newList;
-		}
+        if (isEmpty) {
+            newList = new ArrayList<Object>();
+        }
 
-		private static Map<Object,Object> process(Map<?,?> value) {
-			Map<Object, Object> newMap = new HashMap<Object,Object>();
+        return newList;
+   }
 
-			boolean isEmpty = true;
-			for(Map.Entry<?, ?> item : value.entrySet()){
-				Object newValue = scrubEmptyStrings(item.getValue());
+   private static Map<Object, Object> process(Map<?, ?> value) {
+      Map<Object, Object> newMap = new HashMap<Object, Object>();
 
-				if (newValue != null) {
-					isEmpty = false;
-				}
+      boolean isEmpty = true;
+      for (Map.Entry<?, ?> item : value.entrySet()) {
+           Object newValue = scrubEmptyStrings(item.getValue());
 
-				newMap.put(item.getKey(), newValue);
-			}
+           if (newValue != null) {
+                isEmpty = false;
+           }
 
-			if(isEmpty){
-				newMap = null;
-			}
+               newMap.put(item.getKey(), newValue);
+       }
 
-			return newMap;
-		}
+      if (isEmpty) {
+           newMap = null;
+      }
 
-		private static String process(String value) {
-			String cmp = value;
+      return newMap;
+   }
 
-			if (!StringUtils.hasText(cmp)) {
-				value = null;
-			}
+   private static String process(String value) {
+       String cmp = value;
 
-			return value;
-		}
+       if (!StringUtils.hasText(cmp)) {
+             value = null;
+       }
+
+       return value;
+   }
 }

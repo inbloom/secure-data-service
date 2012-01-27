@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-Student.xsd" xmlns="http://ed-fi.org/0100RFC062811">
-<Student>
+    <Student>
         <StudentUniqueStateId>900000001</StudentUniqueStateId>
         <Name Verification="Birth certificate">
             <FirstName>MARY</FirstName>
@@ -36,7 +36,7 @@
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
     </Student>
-<Student>
+    <Student>
         <StudentUniqueStateId>900000002</StudentUniqueStateId>
         <Name Verification="Birth certificate">
             <FirstName>PATRICIA</FirstName>
@@ -3590,26 +3590,26 @@
             <Program>Special Education</Program>
         </ProgramParticipations>
     </Student>
-<Student>
+    <Student>
         <StudentUniqueStateId>900000101</StudentUniqueStateId>
         <Name Verification="Birth certificate">
-            <FirstName>MICHELLE</FirstName>
+            <FirstName>MICHAEL</FirstName>
             <LastSurname>MYERS</LastSurname>
         </Name>
-        <Sex>Female</Sex>
+        <Sex>Boy</Sex>
         <BirthData>
             <BirthDate>1999-04-08</BirthDate>
-            <CityOfBirth>Dansville </CityOfBirth>
+            <CityOfBirth>New York</CityOfBirth>
             <StateOfBirthAbbreviation>NY</StateOfBirthAbbreviation>
             <CountryOfBirthCode>US</CountryOfBirthCode>
         </BirthData>
         <Address>
-            <StreetNumberName>99 East 82 Street</StreetNumberName>
+            <StreetNumberName>132 West 33rd Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>150</ApartmentRoomSuiteNumber>
             <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
-            <PostalCode>10265</PostalCode>
-            <NameOfCounty>QUEENS</NameOfCounty>
+            <PostalCode>12416</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">

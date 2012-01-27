@@ -20,7 +20,7 @@
   <!-- TODO in production mode disable the scan -->
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <File>target/ingestion.log</File>
+    <File>logs/ingestion.log</File>
     <Append>true</Append>
 
     <encoder>
@@ -30,7 +30,7 @@
   </appender>
 
   <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
-    <File>performance.log</File>
+    <File>logs/performance.log</File>
     <Append>true</Append>
 
     <encoder>
@@ -58,6 +58,21 @@
 
   <logger name="Job.PerformanceMonitor" level="INFO">
     <appender-ref ref="PERF_FILE" />
+  </logger>
+
+  <appender name="PERF_4J" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<File>logs/performanceStatistics.log</File>
+	<encoder>
+		<Pattern>%date %-5level [%thread] - %msg%n</Pattern>
+	</encoder>
+	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		<FileNamePattern>target/performanceStatistics.%d{yyyy-MM-dd}.log</FileNamePattern>
+	</rollingPolicy>
+  </appender>
+  
+  <logger name="org.perf4j.TimingLogger" additivity="false">
+    <level value="info"/>
+    <appender-ref ref="PERF_4J"/>
   </logger>
 
 </configuration>

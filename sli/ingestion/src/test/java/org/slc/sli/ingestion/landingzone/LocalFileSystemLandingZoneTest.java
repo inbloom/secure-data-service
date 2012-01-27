@@ -15,6 +15,10 @@ import org.junit.Test;
 
 import org.slc.sli.ingestion.util.MD5;
 
+/**
+ * Test for the LocalFileSystemlandingZone
+ *
+ */
 public class LocalFileSystemLandingZoneTest {
 
     LocalFileSystemLandingZone lz;
@@ -39,20 +43,20 @@ public class LocalFileSystemLandingZoneTest {
 
     @Test
     public void testGetSetDirectory() {
-        
+
         lz.directory = new File(".");
-        assertEquals("directory does not contain expected value", 
+        assertEquals("directory does not contain expected value",
                 new File("."), lz.getDirectory());
-        
+
         lz.directory = new File(DUMMY_DIR);
-        assertEquals("directory does not contain expected value (2)", 
+        assertEquals("directory does not contain expected value (2)",
                 new File(DUMMY_DIR), lz.getDirectory());
     }
 
     @Test
     public void testGetFile() throws IOException {
         File f = lz.getFile(DUMMY_FILE_CTL);
-        assertEquals("file does not contain expected value", 
+        assertEquals("file does not contain expected value",
                 new File(DUMMY_DIR + File.separator + DUMMY_FILE_CTL), f);
     }
 
