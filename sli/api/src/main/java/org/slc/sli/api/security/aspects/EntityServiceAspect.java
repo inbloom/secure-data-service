@@ -37,7 +37,7 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Aspect
 public class EntityServiceAspect {
     
-    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
+    private static final Logger  LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
     @Autowired
     private EntitySchemaRegistry schemaRegistry;
@@ -54,9 +54,7 @@ public class EntityServiceAspect {
      * @throws Throwable
      *             AccessDeniedException (HTTP 403).
      */
-    @Around("call(* org.slc.sli.api.service.CoreEntityService.create(..)) || "
-            + "call(* org.slc.sli.api.service.CoreEntityService.update(..)) || "
-            + "call(* org.slc.sli.api.service.CoreEntityService.delete(..))")
+    @Around("call(* org.slc.sli.api.service.CoreEntityService.create(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.update(..)) || " + "call(* org.slc.sli.api.service.CoreEntityService.delete(..))")
     public Object authorizeWrite(ProceedingJoinPoint pjp) throws Throwable {
         if (hasElevatedAccess()) {
             return pjp.proceed();
@@ -93,8 +91,7 @@ public class EntityServiceAspect {
         if (entity != null && !isPublicContext()) {
             
             // determine if principal entity is valid
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (principal == null || principal.getEntity() == null) {
                 LOG.error("Security Context does not contain a principal entity");
                 throwAccessDeniedException();
@@ -128,10 +125,6 @@ public class EntityServiceAspect {
         return entity;
     }
     
-    private boolean hasElevatedAccess() {
-        return getGrantedRights().contains(Right.FULL_ACCESS);
-    }
-    
     /**
      * Controls access to functions in the EntityService class.
      * 
@@ -141,8 +134,7 @@ public class EntityServiceAspect {
      * @throws Throwable
      *             AccessDeniedException (HTTP 403).
      */
-    @Around("call(* org.slc.sli.api.service.EntityService.list(..)) || "
-            + "call(* org.slc.sli.api.service.EntityService.exists(..))")
+    @Around("call(* org.slc.sli.api.service.EntityService.list(..)) || " + "call(* org.slc.sli.api.service.EntityService.exists(..))")
     public Object authorizeExists(ProceedingJoinPoint pjp) throws Throwable {
         if (hasElevatedAccess()) {
             return pjp.proceed();
@@ -181,6 +173,10 @@ public class EntityServiceAspect {
                 keyIter.remove();
             }
         }
+    }
+    
+    private boolean hasElevatedAccess() {
+        return getGrantedRights().contains(Right.FULL_ACCESS);
     }
     
     private boolean isReadGeneral(Schema.Field field) {

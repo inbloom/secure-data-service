@@ -34,6 +34,7 @@ public class DefaultSliAdminValidator implements SliAdminValidator {
     
     public DefaultSliAdminValidator(String patternString) {
         this.patternString = patternString;
+        this.init();
     }
     
     /**

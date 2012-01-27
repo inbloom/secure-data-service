@@ -7,9 +7,6 @@ import java.util.Map;
 
 import com.mongodb.WriteResult;
 
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
+
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -32,10 +33,10 @@ public class MongoEntityRepository implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
     
     @Autowired
-    private MongoTemplate template;
+    private MongoTemplate       template;
     
     @Autowired
-    private IdConverter idConverter;
+    private IdConverter         idConverter;
     
     @Override
     public Entity find(String collectionName, String id) {
@@ -61,12 +62,10 @@ public class MongoEntityRepository implements EntityRepository {
         if (id.equals(""))
             return false;
         
-        Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                MongoEntity.class, collection);
+        Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), MongoEntity.class, collection);
         if (found != null)
             template.save(entity, collection);
-        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                new Update().set("body", entity.getBody()), collection);
+        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), new Update().set("body", entity.getBody()), collection);
         LOG.info("update a entity in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
     }
@@ -85,11 +84,11 @@ public class MongoEntityRepository implements EntityRepository {
         return entity;
     }
     
+    @Override
     public boolean delete(String collectionName, String id) {
         if (id.equals(""))
             return false;
-        Entity deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                MongoEntity.class, collectionName);
+        Entity deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), MongoEntity.class, collectionName);
         LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
     }
@@ -126,23 +125,6 @@ public class MongoEntityRepository implements EntityRepository {
         return new LinkedList<Entity>(results);
     }
     
-    private Query addSearchFieldsToQuery(Query query, Map<String, String> searchFields) {
-        for (Map.Entry<String, String> field : searchFields.entrySet()) {
-            Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
-            query.addCriteria(criteria);
-        }
-        return query;
-    }
-    
-    private void logResults(String collectioName, List<MongoEntity> results) {
-        if (results == null)
-            LOG.info("find entities in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
-        else
-            LOG.info("find entities in collection {} with total numbers is {}",
-                    new Object[] { collectioName, results.size() });
-        
-    }
-    
     @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         if (query == null)
@@ -164,5 +146,22 @@ public class MongoEntityRepository implements EntityRepository {
             }
         }
         return match;
+    }
+    
+    private Query addSearchFieldsToQuery(Query query, Map<String, String> searchFields) {
+        for (Map.Entry<String, String> field : searchFields.entrySet()) {
+            Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
+            query.addCriteria(criteria);
+        }
+        return query;
+    }
+    
+    private void logResults(String collectioName, List<MongoEntity> results) {
+        if (results == null) {
+            LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
+        } else {
+            LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collectioName, results.size() });
+        }
+        
     }
 }

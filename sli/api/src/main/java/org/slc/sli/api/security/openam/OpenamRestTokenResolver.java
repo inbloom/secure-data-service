@@ -65,7 +65,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     public Authentication resolve(String token) {
         
         String time = String.valueOf(System.currentTimeMillis());
-        Authentication auth = new AnonymousAuthenticationToken(time, time, Collections.<GrantedAuthority>emptyList());
+        Authentication auth = new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS));
         
         if (token != null && !"".equals(token)) {
             
@@ -84,7 +84,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
                     LOG.debug(entity.getBody());
                     LOG.debug("-------------------------------------");
                     
-                    // Create Authentication object and cram it into SCH
+                    // Create Authentication object
                     auth = buildAuthentication(token, entity.getBody());
                 }
             } catch (RestClientException e) {

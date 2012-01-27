@@ -46,21 +46,16 @@ public class SliRequestFilter extends GenericFilterBean {
     
     private String getSessionIdFromRequest(HttpServletRequest req) {
         
-        String sessionId = "";
+        String sessionId = req.getParameter(PARAM_SESSION);
         
-        if (requestContainsSessionParam(req)) {
-            sessionId = req.getParameter(PARAM_SESSION);
-        } else {
+        // Allow for sessionId to come in both request or header
+        if (sessionId == null) {
             sessionId = req.getHeader(HEADER_SESSION_NAME);
         }
         
         LOG.info("Session Id: " + sessionId);
         
         return sessionId;
-    }
-    
-    private boolean requestContainsSessionParam(HttpServletRequest req) {
-        return req.getParameter(PARAM_SESSION) != null;
     }
     
     public void setResolver(SecurityTokenResolver resolver) {
