@@ -6,9 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -35,13 +33,14 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.resolver.URIResolver;
+import org.springframework.util.ResourceUtils;
+import org.xml.sax.InputSource;
+
 import org.slc.sli.validation.ListSchema;
 import org.slc.sli.validation.NeutralSchema;
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.TokenSchema;
-import org.springframework.util.ResourceUtils;
-import org.xml.sax.InputSource;
 
 /**
  * Generation tool used to convert XSD to SLI Neutral Schema.
@@ -57,9 +56,6 @@ public class XsdToNeutralSchema {
     private static final Log LOG = LogFactory.getLog(XsdToNeutralSchema.class);
     
     // Constants
-    public static final String PARAM_INPUT_PATH = "-i";
-    public static final String PARAM_OUTPUT_PATH = "-o";
-    public static final String PARAM_REPRESENTATION = "-r";
     public static final String DEFAULT_INPUT_XSD_PATH = "xsd";
     public static final String DEFAULT_OUTPUT_SCHEMA_PATH = "neutral-schemas/";
     public static final String XSD = "xsd";
@@ -68,50 +64,6 @@ public class XsdToNeutralSchema {
     public static final String DEFAULT_REPRESENTATION = JSON;
     public static final boolean GENERATE_COMBINED_FILES = false;
     
-    // XSD to SLI Neutral Schema Generation Tool
-    public static void main(String[] args) throws IOException {
-        Map<String, String> argumentsMap = parseArguments(args);
-        if (argumentsMap == null) {
-            System.out
-                    .println("Usage: XsdToNeutralSchema [-i xmlInputDirectory] [-o schemaOutputDirectory] [-r schemaRepresentation [json | xml]]");
-            System.out.println("Defaults: XsdToNeutralSchema [-i " + DEFAULT_INPUT_XSD_PATH + "] [-o "
-                    + DEFAULT_OUTPUT_SCHEMA_PATH + "] [-r " + DEFAULT_REPRESENTATION + " [json | xml]]");
-        } else {
-            XsdToNeutralSchema tool = new XsdToNeutralSchema();
-            if (argumentsMap.containsKey(PARAM_INPUT_PATH)) {
-                tool.setXsdPath(argumentsMap.get(PARAM_INPUT_PATH));
-            }
-            if (argumentsMap.containsKey(PARAM_OUTPUT_PATH)) {
-                tool.setSchemaPath(argumentsMap.get(PARAM_OUTPUT_PATH));
-            }
-            if (argumentsMap.containsKey(PARAM_REPRESENTATION)) {
-                tool.setRepresentation(argumentsMap.get(PARAM_REPRESENTATION));
-            }
-            tool.generateSchemas();
-        }
-    }
-    
-    private static Map<String, String> parseArguments(String[] args) {
-        Map<String, String> argumentsMap = new HashMap<String, String>();
-        
-        int index = 0;
-        while (index < args.length) {
-            if (((index % 1) == 0) && (args[index].startsWith("-")) && ((index + 1) < args.length)) {
-                String key = args[index++];
-                String value = args[index];
-                if (value != null) {
-                    argumentsMap.put(key, value);
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-            index++;
-        }
-        
-        return argumentsMap;
-    }
     
     // Attributes
     private String xsdPath;
