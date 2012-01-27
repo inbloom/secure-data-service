@@ -14,9 +14,10 @@
     <!-- Configure security -->
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-    <security:http auto-config="true" entry-point-ref="sliEntryPoint">
+    <security:http entry-point-ref="sliEntryPoint">
         <security:request-cache ref="nullCache"/>
-        <security:custom-filter after="SERVLET_API_SUPPORT_FILTER" ref="sliRequestFilter"/>
+        <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter"/>
+        <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
         <security:remember-me token-validity-seconds="0" />
     </security:http>
 

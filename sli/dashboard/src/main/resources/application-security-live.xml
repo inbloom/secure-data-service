@@ -12,8 +12,9 @@
     <intercept-url pattern="/static/**" filters="none"/>    
     <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
     <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
+    <intercept-url pattern="/" access="hasRole('Educator')"/>
     <intercept-url pattern="/**" access="denyAll" />
-    <anonymous username="anonymous" granted-authority="ROLE_ANONNYMOUS" />
+    <anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
     <logout/>
 </http>
 

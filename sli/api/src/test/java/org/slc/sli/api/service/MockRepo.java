@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.mongodb.DBObject;
@@ -40,14 +41,14 @@ public class MockRepo implements EntityRepository {
         repo.put("teacherSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staff", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganization", new LinkedHashMap<String, Entity>());
-        repo.put("educationOrganizationschoolassociation", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganizationSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staffEducationOrganizationAssociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionAssessmentAssociation", new LinkedHashMap<String, Entity>());
         repo.put("sectionSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("aggregation", new LinkedHashMap<String, Entity>());
         repo.put("staffschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("aggregationDefinition", new LinkedHashMap<String, Entity>());
-        repo.put("educationOrganizationassociation", new LinkedHashMap<String, Entity>());
+        repo.put("educationOrganizationAssociation", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -224,10 +225,11 @@ public class MockRepo implements EntityRepository {
     
     private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
         boolean match = true;
-        for (String[] keyAndValue : queryMap.keySet()) {
+        for (Entry<String[], String> keyAndValueEntries : queryMap.entrySet()) {
+            String[] keyAndValue = keyAndValueEntries.getKey();
             String key = keyAndValue[0];
             String value = keyAndValue[1];
-            String operator = queryMap.get(keyAndValue);
+            String operator = keyAndValueEntries.getValue();
             if (operator.equals(">=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0)))
                     match = false;

@@ -1,0 +1,6 @@
+<h1>Editing mapping</h1>
+
+<%= render 'form' %>
+
+<%= link_to params[:id], :controller => "mappings", :action => "show", :id => params[:id] %> |
+<%= link_to 'Back', mappings_path %>

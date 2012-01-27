@@ -49,8 +49,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         
         // adding the entity definitions
-        EntityDefinition aggregation = this.makeExposeAndAddEntityDefinition("aggregation");
-        EntityDefinition aggregationDefinition = this.makeExposeAndAddEntityDefinition("aggregationDefinition");
+        this.makeExposeAndAddEntityDefinition("aggregation");
+        this.makeExposeAndAddEntityDefinition("aggregationDefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
@@ -98,7 +98,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition educationOrganizationSchoolAssociation = factory
                 .makeAssoc("educationOrganizationSchoolAssociation")
                 .exposeAs("educationOrganization-school-associations")
-                .storeAs("educationOrganizationschoolassociation")
+                .storeAs("educationOrganizationSchoolAssociation")
                 .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
                 .to(school, "getSchool", "getSchools").calledFromSource("getSchoolsAssigned")
                 .calledFromTarget("getEducationOrganizationsAssigned").build();
@@ -106,7 +106,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         AssociationDefinition staffEducationOrganizationAssociation = factory
                 .makeAssoc("staffEducationOrganizationAssociation")
-                .exposeAs("staff-educationOrganization-associations").storeAs("staffeducationOrganizationassociation")
+                .exposeAs("staff-educationOrganization-associations").storeAs("staffEducationOrganizationAssociation")
                 .from(staff, "getStaff", "getStaff")
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
                 .calledFromSource("getEducationOrganizationsAssigned").calledFromTarget("getStaffAssigned").build();
@@ -127,9 +127,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addAssocDefinition(sectionSchoolAssociation);
         
         AssociationDefinition educationOrganizationAssociation = factory.makeAssoc("educationOrganizationAssociation")
-                .exposeAs("educationOrganization-associations").storeAs("educationOrganizationassociation")
-                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
-                .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
+                .exposeAs("educationOrganization-associations").storeAs("educationOrganizationAssociation")
+                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationIdSource")
+                .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationIdTarget")
                 .calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addAssocDefinition(educationOrganizationAssociation);

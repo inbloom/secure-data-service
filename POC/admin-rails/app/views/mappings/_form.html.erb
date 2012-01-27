@@ -1,0 +1,46 @@
+<%= select_tag :mapping, options_for_select(@sli_roles)  %>
+<div class="client-roles">
+<% @mapping.each do |mapping| %>
+<%= select_tag mapping[:name], options_for_select(mapping[:mappings])%>
+<% end %>
+</div>
+<div id="new-role">
+	<%=label_tag :new_role, "New role: " %>
+	<%=text_field_tag :new_role %>
+	<button id="add-button">Add</button>
+</div>
+<button id="remove-button">-</button>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		hideAll();
+		$('select#mapping').change(function() {
+			var $option = $(this).val();
+			$option = $option.replace(' ', '_');
+			console.log($option);
+			hideAll();
+			$("#" + $option).fadeIn();
+
+		});
+		$('button#add-button').click(function() {
+			var sli_role = $('select#mapping').val();
+			var new_role = $('input#new_role').val();
+			alert("Add clicked: " + sli_role + "/" + new_role);
+			//$.post('add', {"sli_role": sli_role, "new_role": })
+		});
+		// $('button#add-button').click(function() {
+		// 	alert("Add button clicked");
+		// 	$('div#new-role').show();
+		// });
+		$('button#remove-button').click(function() {
+			var $sliRole = $('select#mapping').val();
+			var $clientRole = $('div#client-roles').find('select:visible').val();
+			alert("Remove Button Clicked: " + $sliRole + "/" + $clientRole);
+		});
+
+		function hideAll() {
+			$('div.client-roles').find('select').hide();
+		}
+	});
+
+</script>

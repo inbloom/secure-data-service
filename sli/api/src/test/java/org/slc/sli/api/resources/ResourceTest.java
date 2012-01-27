@@ -61,7 +61,7 @@ public class ResourceTest {
     /**
      * Track an object type/id.
      */
-    final class TypeIdPair {
+    static final class TypeIdPair {
         protected TypeIdPair(Object type, String id) {
             this.type = (String) type;
             this.id = id;
@@ -387,11 +387,11 @@ public class ResourceTest {
         queryInfo = buildMockUriInfo("administrationLanguage=FRENCH");
         queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
         queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
-        assertNull(queryCollectionResponse);
+        assertEquals(0, queryCollectionResponse.size());
         queryInfo = buildMockUriInfo("administrationDate>=2011-12-01");
         queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
         queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
-        assertNull(queryCollectionResponse);
+        assertEquals(0, queryCollectionResponse.size());
         queryInfo = buildMockUriInfo("administrationDate<=2011-12-01");
         queryResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, queryInfo);
         queryCollectionResponse = (CollectionResponse) queryResponse.getEntity();
@@ -510,6 +510,26 @@ public class ResourceTest {
         hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);
         assertEquals(2, hopCollection.size());
+    }
+    
+    @Test
+    public void testEmptyList() {
+        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        String studentId1 = parseIdFromLocation(createResponse);
+        Response listResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, studentId1, 0, 10, uriInfo);
+        assertEquals(200, listResponse.getStatus());
+        assertEquals(0, ((CollectionResponse) listResponse.getEntity()).size());
+    }
+    
+    @Test
+    public void testBadEntity() {
+        Response listResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, Integer.valueOf(Integer.MAX_VALUE)
+                .toString(), 0, 10, uriInfo);
+        assertEquals(404, listResponse.getStatus());
+        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        String studentId1 = parseIdFromLocation(createResponse);
+        Response listResponse2 = api.getEntity(TEACHER_SCHOOL_ASSOCIATION_URI, studentId1, 0, 10, uriInfo);
+        assertEquals(404, listResponse2.getStatus());
     }
     
     private static String parseIdFromLocation(Response response) {

@@ -4,6 +4,7 @@ Background:
     Given I am connected to the sli database
     Given I am logged in using "demo" "demo1234"
     Given I have access to all aggregation definitions
+    Given the aggregation table is clear
 
 Scenario: District Level 8th Grade EOG
     Given I am using the Smallville School District assessment scores 
@@ -34,12 +35,12 @@ Scenario: School Level 8th Grade EOG
       And there should be 5 level two performers
       And there should be 14 level three performers
       And there should be 2 level four performers
-@wip  
+  
 Scenario Outline: Teacher level math section aggregation
     Given I am using the Smallville School District assessment scores
     Given I have an aggregation definition for <Teacher Level Math Scores>
     When the aggregation is calculated
-    Then I should receive a teacher performance level aggregation for <teacher>
+    Then I should receive a teacher performance level aggregation for <<teacher>> 
       And there should be <level1> level one performers
       And there should be <level2> level two performers
       And there should be <level3> level three performers

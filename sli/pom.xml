@@ -74,15 +74,15 @@
 
 	</properties>
 
-	<!-- Environment profiles. A profile encapsulates a set of properties and 
-		filters for a particular build configuration. Per profile properties and 
-		filters can be set at an individual project basis to specify variables used 
-		within that environment. For example, specifying different database connection 
-		strings for 'local' and 'ci' builds. From the command line, add the -P and 
-		specify the profile name you want to use. If no profile is specified, the 
-		'sli.env' value specified in the above properties section is used by default. 
-		Note that this POM only defines what the profile name is and the 'sli.env' 
-		value for that profile. It is up to individual projects to identify resources 
+	<!-- Environment profiles. A profile encapsulates a set of properties and
+		filters for a particular build configuration. Per profile properties and
+		filters can be set at an individual project basis to specify variables used
+		within that environment. For example, specifying different database connection
+		strings for 'local' and 'ci' builds. From the command line, add the -P and
+		specify the profile name you want to use. If no profile is specified, the
+		'sli.env' value specified in the above properties section is used by default.
+		Note that this POM only defines what the profile name is and the 'sli.env'
+		value for that profile. It is up to individual projects to identify resources
 		required per profile. -->
 	<profiles>
 		<!-- A local dev profile -->
@@ -121,7 +121,7 @@
 			</properties>
 		</profile>
 
-		<!-- Add additional profiles here. For example: integration, production, 
+		<!-- Add additional profiles here. For example: integration, production,
 			multishard, ... -->
 	</profiles>
 
@@ -813,6 +813,12 @@
 					<downloadSources>false</downloadSources>
 					<downloadJavadocs>false</downloadJavadocs>
 					<wtpversion>2.0</wtpversion>
+					<additionalProjectnatures>
+						<projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+					</additionalBuildcommands>
 					<additionalConfig>
 						<file>
 							<name>.settings/checkstyle.xml</name>
@@ -971,9 +977,9 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 						</plugin>
 					</reportPlugins>
 				</configuration>
-				<!-- uncomment this execution block if you want to generate the site 
+				<!-- uncomment this execution block if you want to generate the site
 					reports in conjunction with the regular build -->
-				<!--executions> <execution> <id>site</id> <phase>compile</phase> <goals> 
+				<!--executions> <execution> <id>site</id> <phase>compile</phase> <goals>
 					<goal>stage</goal> </goals> </execution> </executions -->
 			</plugin>
 		</plugins>

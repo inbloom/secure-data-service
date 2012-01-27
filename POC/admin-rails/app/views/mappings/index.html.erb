@@ -1,0 +1,9 @@
+<h1>Listing mappings</h1>
+
+<ul>
+<% @mappings.each do |mapping| %>
+<li><%= link_to mapping.state, :controller => "mappings", :action => "show", :id => mapping.state %></li>
+<% end %>
+</ul>
+
+  
