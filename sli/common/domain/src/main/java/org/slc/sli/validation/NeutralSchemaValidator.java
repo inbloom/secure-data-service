@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.domain.Entity;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     
     // Attributes
     @Autowired
-    private NeutralSchemaRegistry entitySchemaRegistry;
+    private SchemaRepository entitySchemaRegistry;
     
     // Constructors
     public NeutralSchemaValidator() {
@@ -39,7 +40,7 @@ public class NeutralSchemaValidator implements EntityValidator {
      */
     public boolean validate(Entity entity) throws EntityValidationException {
         
-        NeutralSchema schema = entitySchemaRegistry.findSchemaForType(entity);
+        NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema == null) {
             throw new RuntimeException("No schema associated for type: " + entity.getType());
         }
@@ -53,9 +54,6 @@ public class NeutralSchemaValidator implements EntityValidator {
         
         return true;
     }
-    
-    public void setSchemaRegistry(NeutralSchemaRegistry schemaRegistry) {
-        this.entitySchemaRegistry = schemaRegistry;
-    }
+
     
 }
