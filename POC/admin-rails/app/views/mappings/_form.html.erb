@@ -30,12 +30,22 @@
 		$('button#add-button').click(function() {
 			var sli_role = $('select#mapping').val();
 			var new_role = $('input#new_role').val();
-			$("#" + sli_role.replace(' ', '_')).append($("<option></option>", {value: new_role}).text(new_role));
-			$.post('add', {"sli_role": sli_role, "new_role": new_role});
+			$.post('add', {"sli_role": sli_role, "new_role": new_role})
+			.success( function() { $("#" + sli_role.replace(' ', '_')).append($("<option></option>", {value: new_role}).text(new_role))} )
+			.error( function(){alert("error")} );
 		});
 		$('button#remove-button').click(function() {
 			var sli_role = $('select#mapping').val();
-			$("#" + sli_role.replace(' ', '_') + " option:selected").remove();
+			var client_role = $("#" + sli_role.replace(' ', '_') + " option:selected");
+			$.ajax({
+    				url: 'remove',
+    				type: 'DELETE',
+    				contentType: 'application/json',
+    				data: JSON.stringify({ "client_role": client_role.val()}),
+    				dataType: 'json'
+			})
+			.success( function() {client_role.remove();} )
+			.error( function(){alert("error")} );
 		});
 
 		function hideAll() {

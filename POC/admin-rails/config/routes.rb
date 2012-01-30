@@ -20,6 +20,7 @@ SLIAdmin::Application.routes.draw do
     resources :mappings do
       member do
         post :add
+        delete :remove
       end
     end
     
