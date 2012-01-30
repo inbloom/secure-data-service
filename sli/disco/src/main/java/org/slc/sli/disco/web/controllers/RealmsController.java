@@ -92,7 +92,10 @@ public class RealmsController {
     public String ssoInit(@RequestParam(value = "realmId", required = false) String realmId, @RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
         try {
             ResponseEntity<String> redirect = rest.getForEntity(this.ssoInitUrl, String.class, realmId);
-            return "redirect:" + redirect.getBody() + "&RelayState=" + relayState;
+            
+            String body = redirect.getBody().replaceAll("\"", "");
+            
+            return "redirect:" + body + "&RelayState=" + relayState;
         } catch (RestClientException e) {
             LOG.error("Error Calling API", e);
             

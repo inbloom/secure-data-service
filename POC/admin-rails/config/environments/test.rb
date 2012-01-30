@@ -36,4 +36,9 @@ SLIAdmin::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  # config.gem "rspec", :lib=> false
+  # config.gem "rspec-rails", :lib=> false
+  # config.gem "webrat", :lib=> false
+  # config.gem "cucumber", :lib=> false
 end

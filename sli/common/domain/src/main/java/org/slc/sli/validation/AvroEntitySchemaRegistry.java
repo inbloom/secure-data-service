@@ -37,6 +37,7 @@ import org.slc.sli.domain.Entity;
  * @author Sean Melody <smelody@wgen.net>
  */
 @Component
+@Deprecated
 public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private static final Logger LOG = LoggerFactory.getLogger(AvroEntitySchemaRegistry.class);
     

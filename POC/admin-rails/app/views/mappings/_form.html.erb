@@ -1,23 +1,28 @@
 <%= select_tag :mapping, options_for_select(@sli_roles)  %>
 <div class="client-roles">
 <% @mapping.each do |mapping| %>
-<%= select_tag mapping[:name], options_for_select(mapping[:mappings])%>
+<%= select_tag mapping[:name], options_for_select(mapping[:mappings]), :size => mapping.length, :style => "min-width: 100px"%>
 <% end %>
+</div>
+<div>
+	<button id="remove-button" style="">-</button>
 </div>
 <div id="new-role">
 	<%=label_tag :new_role, "New role: " %>
 	<%=text_field_tag :new_role %>
 	<button id="add-button">Add</button>
 </div>
-<button id="remove-button">-</button>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		hideAll();
+		
+		//make options of default select item visible
+		$("#" + $('select#mapping').val().replace(' ', '_')).fadeIn();
+
 		$('select#mapping').change(function() {
 			var $option = $(this).val();
 			$option = $option.replace(' ', '_');
-			console.log($option);
 			hideAll();
 			$("#" + $option).fadeIn();
 
@@ -25,17 +30,22 @@
 		$('button#add-button').click(function() {
 			var sli_role = $('select#mapping').val();
 			var new_role = $('input#new_role').val();
-			alert("Add clicked: " + sli_role + "/" + new_role);
-			//$.post('add', {"sli_role": sli_role, "new_role": })
+			$.post('add', {"sli_role": sli_role, "new_role": new_role})
+			.success( function() { $("#" + sli_role.replace(' ', '_')).append($("<option></option>", {value: new_role}).text(new_role))} )
+			.error( function(){alert("error")} );
 		});
-		// $('button#add-button').click(function() {
-		// 	alert("Add button clicked");
-		// 	$('div#new-role').show();
-		// });
 		$('button#remove-button').click(function() {
-			var $sliRole = $('select#mapping').val();
-			var $clientRole = $('div#client-roles').find('select:visible').val();
-			alert("Remove Button Clicked: " + $sliRole + "/" + $clientRole);
+			var sli_role = $('select#mapping').val();
+			var client_role = $("#" + sli_role.replace(' ', '_') + " option:selected");
+			$.ajax({
+    				url: 'remove',
+    				type: 'DELETE',
+    				contentType: 'application/json',
+    				data: JSON.stringify({ "client_role": client_role.val()}),
+    				dataType: 'json'
+			})
+			.success( function() {client_role.remove();} )
+			.error( function(){alert("error")} );
 		});
 
 		function hideAll() {
