@@ -37,7 +37,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
     @Override
     @Profiled(tag = "ZipFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
-
+    	
         log.info("Received zip file: " + exchange.getIn());
         File zipFile = exchange.getIn().getBody(File.class);
 
