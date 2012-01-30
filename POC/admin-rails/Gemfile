@@ -37,4 +37,18 @@ gem 'jquery-rails'
 
 # Lets use SimpleCov for Ruby > 1.9
 gem 'simplecov', :require=>false, :group=>:test
+gem 'simplecov-rcov', :require=>false, :group=>:test
+# gem 'rspec', :require=>false, :group=>:test
+# gem 'rspec-rails', :require=>false, :group=>:test
+# gem 'webrat', :require=>false, :group=>:test
+
+#Cucumber
+gem 'cucumber'
+gem 'cucumber-rails'
+
+#Use Roodi for style check
+gem 'roodi', :require=>false
+
+#Use rails_best_practices to check your design
+gem 'rails_best_practices', :require=>false
 

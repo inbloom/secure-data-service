@@ -1,5 +1,9 @@
 <div style="text-align: right">
+	<% puts "ddsfads" %>
+	<% puts session[:full_name] %>
+	<% unless session[:full_name] == nil %>
 	<span>Welcome <%= session[:full_name] %></span>
 	<span>| </span>
-	<span><%= link_to "Sign out", "logout", :method => :delete %></span>
+	<span><%= link_to "Sign out", "/logout", :method => :delete %></span>
+	<% end %>
 </div>
