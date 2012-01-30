@@ -52,7 +52,7 @@ class MappingsController < ApplicationController
   # POST /mappings/1/add
   def add
     require 'net/http'
-    url = URI.parse('https://testapi1.slidev.org/api/rest/pub/roles/mappings')
+    url = URI.parse("#{APP_CONFIG['api_base']}/pub/roles/mappings")
     req = Net::HTTP::Post.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&sliRole=#{URI.escape(params[:sli_role])}&clientRole=#{URI.escape(params[:new_role])}")
     #req.set_form_data( {:sessionId => cookies['iPlanetDirectoryPro'], :realmId => params[:id], :sliRole => params[:sli_role], :clientRole => params[:new_role]})
     http = Net::HTTP.new(url.host, url.port)
@@ -67,7 +67,7 @@ class MappingsController < ApplicationController
 
   def remove 
     require 'net/http'
-    url = URI.parse('https://testapi1.slidev.org/api/rest/pub/roles/mappings')
+    url = URI.parse("#{APP_CONFIG['api_base']}/pub/roles/mappings")
     req = Net::HTTP::Delete.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&clientRole=#{URI.escape(params[:client_role])}")
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
