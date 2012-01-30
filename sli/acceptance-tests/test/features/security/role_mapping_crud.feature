@@ -9,7 +9,7 @@ Scenario: Unauthenticated users can access a list of realms
 	When I make a call to get the list of realms
 	Then I should see a response that contains the list of realms
 	And I should see a URL for each realm that links to their IDP
-	And I should not see any data about any realm's role-mapping'
+	And I should not see any data about any realm's role-mapping
 
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
@@ -26,26 +26,26 @@ Scenario: Create a custom role mapping
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
 	When I POST a mapping between default role "Educator" and custom role "blah" for realm "SLI"
-	Then I should see the POST operation is successful
+	Then I should receive a return code of 201
 	
 Scenario: Read an existing role mapping
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
 	When I GET a list of role mappings for realm "SLI"
-	Then I should see the GET operation is successful
+	Then I should receive a return code of 200
 	And I should see a valid object returned
 
 Scenario: Update an existing role mapping
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
 	When I PUT to change the mapping between default role "Educator" and custom role "blah" to role "Blah" for realm "SLI"
-	Then I should see the PUT operaion is successful
+	Then I should receive a return code of 204
 	
 Scenario: Delete an existing role mapping
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
 	When I DELETE a mapping between the default role "Educator" and custom role "Blah"
-	Then I should see the DELETE operation is successful
+	Then I should receive a return code of 204
 
 Scenario: Deny duplicated creations
 
