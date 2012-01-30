@@ -17,10 +17,17 @@ When /^I navigate to the SLI Role Mapping Admin Page$/ do
 end
 
 When /^I map the default SLI role "([^"]*)" to the custom role "([^"]*)"$/ do |arg1, arg2|
+  @driver.find_element(:name, arg1).click
+  @driver.find_element(:id, "roletext").send_keys arg2
+  @driver.find_element(:id, "addrole").click
+  
   pending # express the regexp above with the code you wish you had
 end
 
 Then /^I see that "([^"]*)" is now mapped to the "([^"]*)" role$/ do |arg1, arg2|
+  @driver.find_element(:name, arg1).click
+  @driver.find_element(:name, arg2)
+  
   pending # express the regexp above with the code you wish you had
 end
 
@@ -51,10 +58,20 @@ Given /^a "([^"]*)" has been mapped to the "([^"]*)" default role$/ do |arg1, ar
 end
 
 When /^I remove the map from the default SLI role "([^"]*)" to the custom role "([^"]*)"$/ do |arg1, arg2|
+  @driver.find_element(:name, arg1).click
+  @driver.find_element(:name, arg2).click
+  @driver.find_element(:id, "removerole").click
+  
   pending # express the regexp above with the code you wish you had
 end
 
 Then /^I see that "([^"]*)" is no longer mapped to the "([^"]*)" role$/ do |arg1, arg2|
+  begin
+    @driver.find_element(:id, "mapping")
+    assert(false, "Should not get this far")
+  rescue
+  end
+
   pending # express the regexp above with the code you wish you had
 end
 
@@ -77,5 +94,11 @@ Then /^The user "([^"]*)" who is a "([^"]*)" can not access SLI as a "([^"]*)" f
 end
 
 Then /^I should not see the mapping from the other realm$/ do
+  begin
+    @driver.find_element(:id, "mapping")
+    assert(false, "Should not get this far")
+  rescue
+  end
+  
   pending # express the regexp above with the code you wish you had
 end

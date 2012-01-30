@@ -5,5 +5,7 @@ package org.slc.sli.ingestion.queues;
  * Message type enumerator.
  */
 public enum MessageType {
-    BATCH_REQUEST;
+    BATCH_REQUEST,
+    BULK_TRANSFORM_REQUEST,
+    PERSIST_REQUEST;
 }
