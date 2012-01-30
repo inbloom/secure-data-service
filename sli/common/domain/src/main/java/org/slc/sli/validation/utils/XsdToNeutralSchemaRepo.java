@@ -1,7 +1,9 @@
 package org.slc.sli.validation.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
@@ -10,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.io.FileUtils;
@@ -36,7 +37,7 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.resolver.URIResolver;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.xml.sax.InputSource;
 
@@ -55,6 +56,7 @@ import org.slc.sli.validation.TokenSchema;
  * @author Robert Bloh <rbloh@wgen.net>
  * 
  */
+@Component
 public class XsdToNeutralSchemaRepo implements SchemaRepository {
     
     // Logging
@@ -62,19 +64,19 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
     
     // Constants
     public static final String DEFAULT_INPUT_XSD_PATH = "xsd";
-    public static final String DEFAULT_OUTPUT_SCHEMA_PATH = "neutral-schemas/";
     public static final String XSD = "xsd";
-    public static final String JSON = "json";
-    public static final String XML = "xml";
-    public static final String DEFAULT_REPRESENTATION = JSON;
-    public static final boolean GENERATE_COMBINED_FILES = false;
     
     // Attributes
-    private String xsdPath;
-    @Autowired
-    private SchemaFactory schemaFactory;
+    private final String xsdPath;
+    private final SchemaFactory schemaFactory;
     
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
+    
+    public XsdToNeutralSchemaRepo(String xsdPath, SchemaFactory schemaFactory) throws IOException {
+        this.xsdPath = xsdPath;
+        this.schemaFactory = schemaFactory;
+        generateSchemas();
+    }
     
     @Override
     public NeutralSchema getSchema(String type) {
@@ -89,8 +91,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         return this.schemaFactory;
     }
     
-    @PostConstruct
-    public void generateSchemas() throws IOException {
+    private void generateSchemas() throws IOException {
         
         LOG.info("Starting XSD -> NeutralSchema Generator...");
         LOG.info("Using XML Schema Directory Path: " + this.getXsdPath());
@@ -134,11 +135,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         List<XmlSchema> xmlSchemas = new ArrayList<XmlSchema>();
         
         try {
-            String xsdClassPath = xsdPath;
-            if (!xsdClassPath.startsWith("classpath:")) {
-                xsdClassPath = "classpath:" + xsdClassPath;
-            }
-            URL schemaResourcesUrl = ResourceUtils.getURL(xsdClassPath);
+            URL schemaResourcesUrl = ResourceUtils.getURL(xsdPath);
             String protocol = schemaResourcesUrl.getProtocol();
             
             // Process XML schema files found on the file system
@@ -149,15 +146,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
                 for (File schemaFile : schemaFiles) {
                     
                     // Parse XML schema file
-                    String schemaResourcePath = "/" + xsdPath;
-                    if (!schemaResourcePath.endsWith("/")) {
-                        schemaResourcePath += "/";
-                    }
-                    schemaResourcePath += schemaFile.getName();
+                    String schemaResourcePath = xsdPath + (xsdPath.endsWith("/") ? "" : "/") + schemaFile.getName();
                     
                     LOG.info("Parsing Xml Schema: " + schemaResourcePath);
                     
-                    XmlSchema schema = this.parseXmlSchema(xsdPath, schemaResourcePath);
+                    XmlSchema schema = this.parseXmlSchema(xsdPath, new FileInputStream(schemaResourcePath));
                     
                     // Accumulate XML schemas
                     xmlSchemas.add(schema);
@@ -173,10 +166,10 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         return xmlSchemas;
     }
     
-    private XmlSchema parseXmlSchema(final String xsdPath, String resourcePath) {
+    XmlSchema parseXmlSchema(final String xsdPath, InputStream resource) {
         Reader reader = null;
         try {
-            reader = new InputStreamReader(XsdToNeutralSchemaRepo.class.getResourceAsStream(resourcePath));
+            reader = new InputStreamReader(resource);
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
