@@ -10,7 +10,10 @@ var finalizeFunction = db.system.js.findOne({"_id":"finalizePerf1to4"}).value;
 var cleanupFunction = db.system.js.findOne({"_id":"cleanupBodyAndId"}).value;
 var outputCollectionName = "aggregation";
 var aggregationName = "8th Grade EOG";
-var assessmentIds = ["67ce204b-9999-4a11-aaaa-000000000002", "67ce204b-9999-4a11-aaaa-000000000001","67ce204b-9999-4a11-aaaa-000000000000"];
+var params = ["67ce204b-9999-4a11-aaaa-000000000002", "67ce204b-9999-4a11-aaaa-000000000001","67ce204b-9999-4a11-aaaa-000000000000"];
+var queryField = "body.assessmentId";
+var query = {};
+query[queryField] = {$in:params};
 
 //execute aggregation
 db.runCommand( { 
@@ -18,7 +21,7 @@ db.runCommand( {
     map:mapFunction,
     reduce:reduceFunction,
     finalize:finalizeFunction,
-    query: {"body.assessmentId":{$in: assessmentIds}},
+    query: query,
     scope: { aggregation_name : aggregationName, execution_time : new Date() },
     out: { reduce: outputCollectionName }
 });

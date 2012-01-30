@@ -60,7 +60,7 @@ Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
   if !defined? @data
     @data = {}
   end
-  value = convert(value)
+  value = convert(value) if key != "staffUniqueStateId"
   @data[key] = value
 end
 
@@ -100,7 +100,7 @@ Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first, mid, l
 end
 
 Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |key, value|
-  value = convert(value)
+  value = convert(value) if key != "staffUniqueStateId"
   @result[key].should_not == nil
   @result[key].should == value
 end

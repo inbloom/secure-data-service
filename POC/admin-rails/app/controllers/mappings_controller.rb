@@ -52,10 +52,31 @@ class MappingsController < ApplicationController
   # POST /mappings/1/add
   def add
     require 'net/http'
-    url = URI.parse('https://testap1.slidev.org/api/rest/pub/roles/mappings')
-    post = {:sessionId => cookies['iPlanetDirectoryPro'], :realmId => params[:id], :sliRole => params[:sli_role], :clientRole => params[:new_role]}
-    #make an ajax request to the mapping url.
-    resp, data = Net::HTTP.post_form(url, post);
+    url = URI.parse('https://testapi1.slidev.org/api/rest/pub/roles/mappings')
+    req = Net::HTTP::Post.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&sliRole=#{URI.escape(params[:sli_role])}&clientRole=#{URI.escape(params[:new_role])}")
+    #req.set_form_data( {:sessionId => cookies['iPlanetDirectoryPro'], :realmId => params[:id], :sliRole => params[:sli_role], :clientRole => params[:new_role]})
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    resp = http.request(req)
+    resp.value()
+    respond_to do |format|
+      format.json { render json: resp   }
+    end
+  end
+
+  def remove 
+    require 'net/http'
+    url = URI.parse('https://testapi1.slidev.org/api/rest/pub/roles/mappings')
+    req = Net::HTTP::Delete.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&clientRole=#{URI.escape(params[:client_role])}")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    resp = http.request(req)
+    resp.value()
+    respond_to do |format|
+      format.json { render json: resp   }
+    end
   end
 
   # # POST /mappings
