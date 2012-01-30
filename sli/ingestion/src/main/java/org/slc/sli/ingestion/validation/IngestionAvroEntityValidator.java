@@ -21,7 +21,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  */
 public class IngestionAvroEntityValidator extends AvroEntityValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IngestionAvroEntityValidator.class);
+   private static final Logger LOG = LoggerFactory.getLogger(IngestionAvroEntityValidator.class);
 
     @Override
     protected void runValidation(Entity entity, Schema schema) {
@@ -33,6 +33,10 @@ public class IngestionAvroEntityValidator extends AvroEntityValidator {
         }
     }
 
+    /**
+     *Validates a single entity
+     *@author dduran
+     */
     protected static class IngestionValidatorInstance extends ValidatorInstance {
 
         @Override

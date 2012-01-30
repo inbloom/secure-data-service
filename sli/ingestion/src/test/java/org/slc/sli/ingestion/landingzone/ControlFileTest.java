@@ -14,6 +14,9 @@ import org.junit.Test;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 
+/**
+ * Test for ControlFile
+ */
 public class ControlFileTest {
 
     @Test

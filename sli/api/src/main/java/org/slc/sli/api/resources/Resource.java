@@ -232,16 +232,15 @@ public class Resource {
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
+                    
+                    CollectionResponse collection = new CollectionResponse();
                     if (relatives != null && relatives.iterator().hasNext()) {
-                        CollectionResponse collection = new CollectionResponse();
                         for (String id : relatives) {
                             String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
                             collection.add(id, ResourceUtil.SELF, relative.getType(), href);
                         }
-                        return Response.ok(collection).build();
-                    } else {
-                        return Response.status(Status.NOT_FOUND).build();
-                    }
+                    } 
+                    return Response.ok(collection).build();
                 } else {
                     return Response.status(Status.NOT_FOUND).build();
                 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd
@@ -11,51 +11,61 @@
                            http://www.springframework.org/schema/security/spring-security.xsd
                            ">
 
-    <!-- Configure security -->
-    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+	<!-- Configure security -->
+	<security:global-method-security
+		secured-annotations="enabled" pre-post-annotations="enabled" />
 
-    <security:http entry-point-ref="sliEntryPoint">
-        <security:request-cache ref="nullCache"/>
-        <security:custom-filter before="LOGOUT_FILTER" ref="sliRequestFilter"/>
-        <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
-        <security:remember-me token-validity-seconds="0" />
-    </security:http>
+	<security:http entry-point-ref="sliEntryPoint">
+		<security:request-cache ref="nullCache" />
+		<security:custom-filter before="LOGOUT_FILTER"
+			ref="sliRequestFilter" />
+		<security:custom-filter position="LOGOUT_FILTER"
+			ref="logoutFilter" />
+		<security:remember-me token-validity-seconds="0" />
+	</security:http>
 
-    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg index="0" value="/rest/system/session/check"/>
-        <constructor-arg index="1">
-            <list>
-                <ref bean="sliLogoutHandler"/>
-                <ref bean="securityContextLogoutHandler"/>
-            </list>
-        </constructor-arg>
-        <property name="filterProcessesUrl" value="/rest/system/session/logout"/>
-    </bean>
+	<bean id="logoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg index="0" value="/rest/system/session/check" />
+		<constructor-arg index="1">
+			<list>
+				<ref bean="sliLogoutHandler" />
+				<ref bean="securityContextLogoutHandler" />
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/rest/system/session/logout" />
+	</bean>
 
-    <!-- Spring Demands explicit declaration of authmanager with at least one provider with at least one user -->
-    <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="jimi" password="jimi" authorities="ROLE_IT_ADMINISTRATOR"/>
-            </security:user-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
-    
+	<!-- Spring Demands explicit declaration of authmanager with at least one 
+		provider with at least one user -->
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="noauth" authorities="" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
 
-    <bean id="nullCache" class="org.springframework.security.web.savedrequest.NullRequestCache"/>
 
-    <bean id="securityContextLogoutHandler"
-          class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+	<bean id="nullCache"
+		class="org.springframework.security.web.savedrequest.NullRequestCache" />
 
-    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect"
-          factory-method="aspectOf">
-        <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
-    </bean>
+	<bean id="securityContextLogoutHandler"
+		class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
 
-    <!-- Default role initializer -->
-    <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
+	<bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect"
+		factory-method="aspectOf">
+		<!-- need to be replaced with neutral schema -->
+		<!-- <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/> -->
+	</bean>
 
-    <bean id="sliAdminValidator" class="org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator">
-    	<constructor-arg index="0" type="String" value="${sli.security.admin.realm}"/>
-    </bean>
+	<!-- Default role initializer -->
+	<bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer"
+		init-method="init"></bean>
+
+	<bean id="sliAdminValidator"
+		class="org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator">
+		<constructor-arg index="0" type="String"
+			value="${sli.security.admin.realm}" />
+	</bean>
 </beans>

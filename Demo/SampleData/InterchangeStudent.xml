@@ -31,6 +31,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
@@ -101,6 +102,9 @@
         <Section504Disabilities>
             <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -134,6 +138,10 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -200,6 +208,9 @@
         <Section504Disabilities>
             <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -232,9 +243,13 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Motor Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -267,6 +282,9 @@
         <Race>
             <RacialCategory>White</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -333,9 +351,13 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Medical Condition</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -468,9 +490,13 @@
         <Race>
             <RacialCategory>Black - African American</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -502,6 +528,9 @@
         <Race>
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -534,6 +563,9 @@
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -566,9 +598,13 @@
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -603,6 +639,9 @@
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -669,9 +708,13 @@
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -704,6 +747,7 @@
             <RacialCategory>Asian</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -736,9 +780,13 @@
             <RacialCategory>Asian</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Motor Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -836,6 +884,9 @@
         <Race>
             <RacialCategory>Asian</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000026</StudentUniqueStateId>
@@ -867,6 +918,10 @@
         <Race>
             <RacialCategory>Asian</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000027</StudentUniqueStateId>
@@ -929,6 +984,7 @@
         <Race>
             <RacialCategory>Asian</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Motor Impairment</Section504Disability>
         </Section504Disabilities>
@@ -965,6 +1021,10 @@
             <RacialCategory>Asian</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000030</StudentUniqueStateId>
@@ -1065,6 +1125,9 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000033</StudentUniqueStateId>
@@ -1097,6 +1160,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000034</StudentUniqueStateId>
@@ -1129,6 +1193,9 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000035</StudentUniqueStateId>
@@ -1161,9 +1228,13 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000036</StudentUniqueStateId>
@@ -1196,6 +1267,7 @@
         <Race>
             <RacialCategory>White</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000037</StudentUniqueStateId>
@@ -1228,9 +1300,13 @@
         <Race>
             <RacialCategory>White</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000038</StudentUniqueStateId>
@@ -1365,6 +1441,10 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000042</StudentUniqueStateId>
@@ -1428,6 +1508,10 @@
         <Race>
             <RacialCategory>White</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000044</StudentUniqueStateId>
@@ -1530,6 +1614,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000047</StudentUniqueStateId>
@@ -1563,6 +1648,9 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000048</StudentUniqueStateId>
@@ -1596,6 +1684,9 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000049</StudentUniqueStateId>
@@ -1630,6 +1721,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000050</StudentUniqueStateId>
@@ -1664,6 +1758,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000051</StudentUniqueStateId>
@@ -1696,6 +1793,10 @@
             <RacialCategory>Black - African American</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000052</StudentUniqueStateId>
@@ -1731,6 +1832,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000053</StudentUniqueStateId>
@@ -1766,6 +1870,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000054</StudentUniqueStateId>
@@ -1801,6 +1908,9 @@
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000055</StudentUniqueStateId>
@@ -1870,6 +1980,9 @@
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000057</StudentUniqueStateId>
@@ -1901,6 +2014,7 @@
         <Race>
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
@@ -1968,6 +2082,9 @@
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000060</StudentUniqueStateId>
@@ -2000,6 +2117,7 @@
             <RacialCategory>Asian</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000061</StudentUniqueStateId>
@@ -2017,9 +2135,10 @@
         <Address>
             <StreetNumberName>11 East 36 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2331</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11794</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2050,9 +2169,10 @@
         <Address>
             <StreetNumberName>34 East 146 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2740</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10614</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2083,9 +2203,10 @@
         <Address>
             <StreetNumberName>120 West 2 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3158</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10671</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2102,6 +2223,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000064</StudentUniqueStateId>
@@ -2119,9 +2243,10 @@
         <Address>
             <StreetNumberName>116 East 134 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2544</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10076</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2155,9 +2280,10 @@
         <Address>
             <StreetNumberName>112 East 94 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3666</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12366</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2171,6 +2297,10 @@
             <RacialCategory>Asian</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000066</StudentUniqueStateId>
@@ -2188,9 +2318,10 @@
         <Address>
             <StreetNumberName>112 West 73 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>614</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10325</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2207,6 +2338,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000067</StudentUniqueStateId>
@@ -2226,9 +2360,10 @@
         <Address>
             <StreetNumberName>50 West 77 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2879</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10694</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2259,9 +2394,10 @@
         <Address>
             <StreetNumberName>126 West 29 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3461</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11359</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2277,6 +2413,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000069</StudentUniqueStateId>
@@ -2294,9 +2433,10 @@
         <Address>
             <StreetNumberName>121 West 82 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2026</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12884</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2326,9 +2466,10 @@
         <Address>
             <StreetNumberName>63 East 2 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3603</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12989</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2342,9 +2483,13 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000071</StudentUniqueStateId>
@@ -2362,9 +2507,10 @@
         <Address>
             <StreetNumberName>45 West 34 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>236</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11986</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2378,6 +2524,9 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000072</StudentUniqueStateId>
@@ -2395,9 +2544,10 @@
         <Address>
             <StreetNumberName>71 East 137 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3465</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11739</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2414,6 +2564,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000073</StudentUniqueStateId>
@@ -2431,9 +2584,10 @@
         <Address>
             <StreetNumberName>21 East 112 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1281</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12683</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2447,6 +2601,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000074</StudentUniqueStateId>
@@ -2464,9 +2619,10 @@
         <Address>
             <StreetNumberName>46 West 65 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1338</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11908</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2499,9 +2655,10 @@
         <Address>
             <StreetNumberName>144 West 49 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2938</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10925</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2534,9 +2691,10 @@
         <Address>
             <StreetNumberName>8 West 125 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3718</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10341</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2552,6 +2710,9 @@
         <Section504Disabilities>
             <Section504Disability>Motor Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000077</StudentUniqueStateId>
@@ -2569,9 +2730,10 @@
         <Address>
             <StreetNumberName>59 West 55 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1254</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12462</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2587,6 +2749,9 @@
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000078</StudentUniqueStateId>
@@ -2605,9 +2770,10 @@
         <Address>
             <StreetNumberName>103 West 46 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1862</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10934</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2638,9 +2804,10 @@
         <Address>
             <StreetNumberName>24 West 51 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>951</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10826</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2673,9 +2840,10 @@
         <Address>
             <StreetNumberName>132 West 122 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1914</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12553</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2689,6 +2857,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
@@ -2709,9 +2878,10 @@
         <Address>
             <StreetNumberName>54 East 78 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3456</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10196</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2745,9 +2915,10 @@
         <Address>
             <StreetNumberName>150 East 100 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1283</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11352</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2763,6 +2934,9 @@
         <Section504Disabilities>
             <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000083</StudentUniqueStateId>
@@ -2780,9 +2954,10 @@
         <Address>
             <StreetNumberName>3 West 57 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3880</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11008</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2816,9 +2991,10 @@
         <Address>
             <StreetNumberName>38 West 67 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2313</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12189</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2831,6 +3007,9 @@
         <Race>
             <RacialCategory>White</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000085</StudentUniqueStateId>
@@ -2848,9 +3027,10 @@
         <Address>
             <StreetNumberName>88 East 73 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2824</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11706</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2864,6 +3044,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000086</StudentUniqueStateId>
@@ -2881,9 +3062,10 @@
         <Address>
             <StreetNumberName>31 West 42 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3910</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11676</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2897,6 +3079,7 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
         <Section504Disabilities>
             <Section504Disability>Sensory Impairment</Section504Disability>
         </Section504Disabilities>
@@ -2917,9 +3100,10 @@
         <Address>
             <StreetNumberName>32 East 124 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2467</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12634</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2932,6 +3116,9 @@
         <Race>
             <RacialCategory>White</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000088</StudentUniqueStateId>
@@ -2949,9 +3136,10 @@
         <Address>
             <StreetNumberName>38 East 134 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2059</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12119</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -2965,6 +3153,9 @@
             <RacialCategory>White</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000089</StudentUniqueStateId>
@@ -2982,9 +3173,10 @@
         <Address>
             <StreetNumberName>81 West 109 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>241</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10093</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3018,9 +3210,10 @@
         <Address>
             <StreetNumberName>17 West 108 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>1532</ApartmentRoomSuiteNumber>
-            <City>BROOKLYN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10825</PostalCode>
+            <NameOfCounty>BROOKLYN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3051,9 +3244,10 @@
         <Address>
             <StreetNumberName>52 West 61 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2899</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11657</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3067,6 +3261,7 @@
             <RacialCategory>Black - African American</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000092</StudentUniqueStateId>
@@ -3084,9 +3279,10 @@
         <Address>
             <StreetNumberName>100 East 128 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3410</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12327</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3099,6 +3295,9 @@
         <Race>
             <RacialCategory>Black - African American</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000093</StudentUniqueStateId>
@@ -3116,9 +3315,10 @@
         <Address>
             <StreetNumberName>25 West 146 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3394</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11465</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3152,9 +3352,10 @@
         <Address>
             <StreetNumberName>125 East 145 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>507</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10694</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3184,9 +3385,10 @@
         <Address>
             <StreetNumberName>68 East 25 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3761</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10937</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3200,6 +3402,9 @@
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000096</StudentUniqueStateId>
@@ -3217,9 +3422,10 @@
         <Address>
             <StreetNumberName>109 East 109 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2629</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10401</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3236,6 +3442,9 @@
         <Section504Disabilities>
             <Section504Disability>Other</Section504Disability>
         </Section504Disabilities>
+        <ProgramParticipations>
+            <Program>English as a Second Language (ESL)</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000097</StudentUniqueStateId>
@@ -3253,9 +3462,10 @@
         <Address>
             <StreetNumberName>20 West 57 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>662</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12227</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3288,9 +3498,10 @@
         <Address>
             <StreetNumberName>61 West 111 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>2471</ApartmentRoomSuiteNumber>
-            <City>QUEENS</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>11641</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3304,6 +3515,7 @@
             <RacialCategory>American Indian - Alaskan Native</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
     </Student>
 <Student>
         <StudentUniqueStateId>900000099</StudentUniqueStateId>
@@ -3321,9 +3533,10 @@
         <Address>
             <StreetNumberName>79 West 23 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>3762</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12038</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3336,6 +3549,9 @@
         <Race>
             <RacialCategory>Asian</RacialCategory>
         </Race>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
     </Student>
 <Student>
         <StudentUniqueStateId>900000100</StudentUniqueStateId>
@@ -3353,9 +3569,10 @@
         <Address>
             <StreetNumberName>73 West 41 Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>525</ApartmentRoomSuiteNumber>
-            <City>MANHATTAN</City>
+            <City>New York</City>
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>12416</PostalCode>
+            <NameOfCounty>MANHATTAN</NameOfCounty>
             <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
@@ -3369,5 +3586,46 @@
             <RacialCategory>Asian</RacialCategory>
         </Race>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <ProgramParticipations>
+            <Program>Special Education</Program>
+        </ProgramParticipations>
+    </Student>
+<Student>
+        <StudentUniqueStateId>900000101</StudentUniqueStateId>
+        <Name Verification="Birth certificate">
+            <FirstName>MICHELLE</FirstName>
+            <LastSurname>MYERS</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>1999-04-08</BirthDate>
+            <CityOfBirth>Dansville </CityOfBirth>
+            <StateOfBirthAbbreviation>NY</StateOfBirthAbbreviation>
+            <CountryOfBirthCode>US</CountryOfBirthCode>
+        </BirthData>
+        <Address>
+            <StreetNumberName>99 East 82 Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>150</ApartmentRoomSuiteNumber>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10265</PostalCode>
+            <NameOfCounty>QUEENS</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>(123) 456-7990</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>mmyers@test.slidev.org</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race>
+            <RacialCategory>Asian</RacialCategory>
+        </Race>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Yes</LimitedEnglishProficiency>
+        <Section504Disabilities>
+            <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+        </Section504Disabilities>
     </Student>
 </InterchangeStudent>

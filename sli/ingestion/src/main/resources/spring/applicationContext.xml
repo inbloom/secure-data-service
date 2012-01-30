@@ -11,6 +11,9 @@
     <context:component-scan base-package="org.slc.sli" />
 	<context:annotation-config />
 	
+	<bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean>
+	<bean id="entityValidator" class = "org.slc.sli.validation.AvroEntityValidator"/>
+	
   <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
     <!-- this avoids errors with *other* property placeholders -->

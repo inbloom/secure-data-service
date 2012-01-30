@@ -1,3 +1,8 @@
+require 'simplecov'
+require 'simplecov-rcov'
+SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+SimpleCov.start 'rails'
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -20,16 +25,13 @@ class ActiveSupport::TestCase
   setup do
     @role_fixtures = load_fixture("roles")
     @realm_fixtures = load_fixture("realms")
-    @mapping_fixtures = load_fixture("mappings")
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/admin/roles?sessionId=", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
       mock.get "/api/rest/admin/roles/0?sessionId=", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json
       mock.get "/api/rest/admin/roles/1?sessionId=", {"Accept" => "application/json"}, @role_fixtures["educator"].to_json
       mock.get "/api/rest/admin/roles/-123?sessionId=", {"Accept" => "application/json"}, nil, 404
-      # mock.get "/api/rest/admin/roles/#{@role_fixtures["admin"].to_param}?sessionId=", {"Accept" => "application/json"}, nil, 200
-      # mock.put "/api/rest/admin/roles/0?sessionId=", {"Content-Type" => "application/json"}, {"role" => @role_fixtures["update"]}, 200, @role_fixtures["admin"]
-      
-      mock.get "/api/rest/pub/realms?sessionId=", {"Accept" => "application/json"}, @realm_fixtures.to_json
+      #Realms
+      mock.get "/api/rest/pub/realms?sessionId=", {"Accept" => "application/json"}, [@realm_fixtures['one'], @realm_fixtures['two']].to_json
     end
   end
 

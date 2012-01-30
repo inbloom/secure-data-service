@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJob;
@@ -41,7 +40,7 @@ public class PersistenceProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
     private EntityPersistHandler entityPersistHandler;
-    
+
     private Exchange exchange;
 
     @Autowired
@@ -55,13 +54,13 @@ public class PersistenceProcessor implements Processor {
     @Override
     @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) {
-
+    	
         long startTime = System.currentTimeMillis();
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
         this.exchange = exchange;
-        
+
         // Indicate Camel processing
         LOG.info("processing persistence: {}", job);
 
@@ -70,8 +69,8 @@ public class PersistenceProcessor implements Processor {
             ErrorReport errorReportForFile = null;
             try {
 
-            	exchange.setProperty("records.processed", 0);
-            	
+                exchange.setProperty("records.processed", 0);
+
                 errorReportForFile = processIngestionStream(fe);
 
             } catch (IOException e) {
@@ -79,7 +78,7 @@ public class PersistenceProcessor implements Processor {
             }
 
             // Inform user if there were any record-level errors encountered
-            if (errorReportForFile!= null && errorReportForFile.hasErrors()) {
+            if (errorReportForFile != null && errorReportForFile.hasErrors()) {
                 job.getFaultsReport().error(
                         "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
                                 + "\" for details.", this);
@@ -90,8 +89,7 @@ public class PersistenceProcessor implements Processor {
         // Update Camel Exchange processor output result
         exchange.getIn().setBody(job);
 
-
-
+        exchange.getIn().setHeader("IngestionMessageType", "");
 
         long endTime = System.currentTimeMillis();
 
@@ -150,12 +148,12 @@ public class PersistenceProcessor implements Processor {
                 entityPersistHandler.handle(neutralRecordEntity, recordLevelErrorsInFile);
 
             }
-            
+
             if (exchange != null) {
-            	LOG.info("Setting records.processed value on exchange header");
+                LOG.info("Setting records.processed value on exchange header");
                 exchange.setProperty("records.processed", recordNumber);
             }
-            
+
         } finally {
             nrFileReader.close();
             errorLogger.detachAndStopAllAppenders();

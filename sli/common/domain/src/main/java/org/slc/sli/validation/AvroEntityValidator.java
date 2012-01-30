@@ -7,13 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.avro.Schema;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Validates an Entity body against an Avro schema.
@@ -22,7 +20,8 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  * @author Ryan Farris <rfarris@wgen.net>
  *
  */
-@Component
+// @Component
+@Deprecated
 public class AvroEntityValidator implements EntityValidator {
     private static final Logger LOG = LoggerFactory.getLogger(AvroEntityValidator.class);
 

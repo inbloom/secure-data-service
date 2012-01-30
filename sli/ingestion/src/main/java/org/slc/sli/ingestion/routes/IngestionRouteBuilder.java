@@ -55,11 +55,16 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
-    private @Value("${queues.workItem.queueURI}") String workItemQueue;
+    @Value("${queues.workItem.queueURI}")
+    private String workItemQueue;
+    
+    private @Value("${queues.workItem.concurrentConsumers}") int concurrentConsumers;
 
     @Override
     public void configure() throws Exception {
 
+    	String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
+    	
         String inboundDir = lz.getDirectory().getPath();
 
         // routeId: ctlFilePoller
@@ -70,18 +75,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("ctlFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(new ControlFilePreProcessor(lz))
-                .to(workItemQueue);
-
-        // routeId: ctlFilePreprocessor
-        from(workItemQueue)
-                .routeId("ctlFilePreprocessor")
-                .choice()
-                    .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
-                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
-                    .process(ctlFileProcessor)
-                    .to("seda:assembledJobs")
-                .otherwise()
-                    .to("direct:stop");
+                .to(workItemQueueUri);
 
         // routeId: zipFilePoller
         from(
@@ -104,17 +98,35 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             tempLz.setDirectory(ctlFile.getParentFile());
                         }
                     }).process(new ControlFilePreProcessor(tempLz))
-                    .to(workItemQueue);
+                    .to(workItemQueueUri);
 
+       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
+        from(workItemQueueUri)
+            .routeId("workItemRoute")
+            .choice()
+                .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                	.log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
+                    .process(ctlFileProcessor)
+                    .to("direct:assembledJobs")
+                .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
+                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
+                    .process(edFiProcessor)
+                    .to(workItemQueueUri)
+                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                    .to("direct:persist")
+                .otherwise()
+                    .to("direct:stop");
+        
+        
         // routeId: jobDispatch
-        from("seda:assembledJobs")
+        from("direct:assembledJobs")
                 .routeId("jobDispatch")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispathing jobs for file.")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispatching jobs for file.")
                 .choice()
                     .when(header("hasErrors").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
-                    .to("seda:acceptedJobs");
+                    .to(workItemQueueUri);
 
         // routeId: jobReporting
         from("direct:jobReporting")
@@ -164,7 +176,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // This header is set in PersistenceProcessor
                         if (exchange.getProperty("records.processed") != null) {
-                        	jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
+                            jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
                         }
 
                         // clean up after ourselves
@@ -173,15 +185,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 });
 
-        // routeId: jobPipeline
-        from("seda:acceptedJobs")
-                .routeId("jobPipeline")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process(edFiProcessor)
-                .to("seda:persist");
-
         // routeId: persistencePipeline
-        from("seda:persist")
+        from("direct:persist")
                 .routeId("persistencePipeline")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
                 .log("persist: jobId: " + header("jobId").toString())

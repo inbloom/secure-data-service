@@ -18,7 +18,7 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
  * @author okrook
  *
  */
-public class BatchJob implements  Serializable, ErrorReportSupport{
+public final class BatchJob implements Serializable, ErrorReportSupport {
 
     private static final long serialVersionUID = -340538024579162600L;
 
@@ -62,7 +62,7 @@ public class BatchJob implements  Serializable, ErrorReportSupport{
         return BatchJob.createDefault(null);
     }
 
-    
+
     /**
      * Initialize a BatchJob with default settings for initialization
      *
@@ -83,12 +83,12 @@ public class BatchJob implements  Serializable, ErrorReportSupport{
      * generates a new unique ID
      */
     protected static String createId(String filename) {
-    	if (filename == null)
-    		return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-    	else
-    		return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        if (filename == null)
+            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        else
+            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
     }
-    
+
     /**
      * Adds a file.
      *

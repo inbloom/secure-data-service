@@ -13,8 +13,6 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.util.Utf8;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +80,7 @@ public class NeutralRecordFileReader implements Iterator {
         return nr;
     }
 
-    private Map<String, Object> jsonToMap(Object object) throws JsonParseException, JsonMappingException, IOException {
+    private Map<String, Object> jsonToMap(Object object) throws IOException {
         Map<String, Object> attributesMap = jsonObjectMapper.readValue(object.toString(), Map.class);
         LOG.debug("decoded json to map: " + attributesMap);
         return attributesMap;

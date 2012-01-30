@@ -11,8 +11,8 @@ Scenario: Read an Education Organization Association by ID
   When I navigate to GET "/educationOrganization-associations/<'GALACTICA-CAPRICA' ID>"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/educationOrganization-associations/<'GALACTICA-CAPRICA' ID>"
-    And I should receive a link named "getEducationOrganization" with URI "/educationOrganizations/<'GALACTICA' ID>"
-    And I should receive a link named "getEducationOrganization" with URI "/educationOrganizations/<'CAPRICA' ID>"
+    And I should receive a link named "getEducationOrganizationParent" with URI "/educationOrganizations/<'GALACTICA' ID>"
+    And I should receive a link named "getEducationOrganizationChild" with URI "/educationOrganizations/<'CAPRICA' ID>"
 
 Scenario: Read an Education Organization's list of Education Organization Associations
   Given format "application/json"
@@ -25,8 +25,8 @@ Scenario: Read an Education Organization's list of Education Organization Associ
 
 Scenario: Create an association between Education Organizations
   Given format "application/json"
-    And "educationOrganizationIdSource" is "<'GALACTICA' ID>"
-    And "educationOrganizationIdTarget" is "<'VIRGON' ID>"
+    And "educationOrganizationParentId" is "<'GALACTICA' ID>"
+    And "educationOrganizationChildId" is "<'VIRGON' ID>"
   When I navigate to POST "/educationOrganization-associations"
   Then I should receive a return code of 201
     And I should receive an ID for the newly created educationOrganizatino-association
@@ -37,13 +37,13 @@ Scenario: Update an existing association between Education Organizations
   Given format "application/json"
   When I navigate to GET "/educationOrganization-associations/<'GALACTICA-CAPRICA' ID>"
   Then I should receive a return code of 200
-  When I set "educationOrganizationIdSource" to "<'PICON' ID>"
+  When I set "educationOrganizationParentId" to "<'PICON' ID>"
     And I navigate to PUT "/educationOrganization-associations/<'GALACTICA-CAPRICA' ID>"
   Then I should receive a return code of 204
   When I navigate to GET "/educationOrganization-associations/<'GALACTICA-CAPRICA' ID>"
   Then I should receive a link named "self" with URI "/educationOrganization-associations/<'GALACTICA-CAPRICA' ID>"
-    And I should receive a link named "getEducationOrganization" with URI "/educationOrganizations/<'PICON' ID>"
-    And I should receive a link named "getEducationOrganization" with URI "/educationOrganizations/<'CAPRICA' ID>"
+    And I should receive a link named "getEducationOrganizationParent" with URI "/educationOrganizations/<'PICON' ID>"
+    And I should receive a link named "getEducationOrganizationChild" with URI "/educationOrganizations/<'CAPRICA' ID>"
 
 Scenario: Delete an existing association between Education Organizations
   Given format "application/json"

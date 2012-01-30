@@ -5,6 +5,11 @@ import static org.junit.Assert.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+/**
+ * Test for NeutralRecord
+ *
+ *
+ */
 public class NeutralRecordTest {
 
     @Test
