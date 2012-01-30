@@ -498,12 +498,14 @@ public class ResourceTest {
         queryInfo = buildMockUriInfo("studentUniqueStateId=1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
-        assertNull(hopCollection);
+        assertNotNull(hopCollection);
+        assertEquals(0, hopCollection.size());
         
         queryInfo = buildMockUriInfo("studentUniqueStateId>1234");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
-        assertNull(hopCollection);
+        assertNotNull(hopCollection);
+        assertEquals(0, hopCollection.size());
         
         queryInfo = buildMockUriInfo("studentUniqueStateId<1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
