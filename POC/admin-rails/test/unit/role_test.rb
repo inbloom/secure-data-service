@@ -5,7 +5,7 @@ class RoleTest < ActiveSupport::TestCase
     returned_roles = Role.all
     assert_not_nil(returned_roles)
     puts "Returned #{returned_roles.size}/#{@role_fixtures.size}"
-    assert_equal(returned_roles.size, @role_fixtures.size-1)
+    assert_equal(returned_roles.size, @role_fixtures.size)
   end
   
   test "find admin" do
