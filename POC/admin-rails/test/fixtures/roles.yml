@@ -16,6 +16,7 @@ educator:
       - Educator Right 2
       - Educator Right 3
   mappings:
-      - teacher
-      - Teacher
-      - NC Teacher
+        Shared Learning Initiative:
+          - teacher
+          - Teacher
+          - NC Teacher
