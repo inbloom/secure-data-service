@@ -33,4 +33,12 @@ gem 'jquery-rails'
 
 # Lets use SimpleCov for Ruby > 1.9
 gem 'simplecov', :require=>false, :group=>:test
+gem 'simplecov-rcov', :require=>false, :group=>:test
+# gem 'rspec', :require=>false, :group=>:test
+# gem 'rspec-rails', :require=>false, :group=>:test
+# gem 'webrat', :require=>false, :group=>:test
+
+#Cucumber
+gem 'cucumber'
+gem 'cucumber-rails'
 
