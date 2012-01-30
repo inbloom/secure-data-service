@@ -22,14 +22,14 @@ public interface ClientRoleManager {
      * @param sliRoleName
      * @param clientRoleName
      */
-    public void addClientRole(String realmId, String sliRoleName, String clientRoleName);
+    public boolean addClientRole(String realmId, String sliRoleName, String clientRoleName) throws RealmRoleMappingException;
     
     /**
      * Deletes a mapping between a client role and an SLI role.
      * @param realmId
      * @param clientRoleName
      */
-    public void deleteClientRole(String realmId, String clientRoleName);
+    public boolean deleteClientRole(String realmId, String clientRoleName) throws RealmRoleMappingException;
     
     /**
      * Given a client role this will return the SLI role that it maps to or null if

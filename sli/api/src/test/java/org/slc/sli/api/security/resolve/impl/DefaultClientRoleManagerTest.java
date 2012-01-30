@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.security.resolve.RealmRoleMappingException;
 import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -47,16 +48,25 @@ public class DefaultClientRoleManagerTest {
         allRoles.add(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
         allRoles.add(InsecureRoleRightAccessImpl.LEADER);
 
-        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Coach");
-        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Math Teacher");
-
-        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
+        try {
+            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Coach");
+            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Math Teacher");
+            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
+        } catch (RealmRoleMappingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
     @Test
     public void testAddClientRole() {
-        roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.LEADER, "Superintendent");
+        try {
+            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.LEADER, "Superintendent");
+        } catch (RealmRoleMappingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         String sliRole = roleManager.getSliRoleName(MOCK_REALM_ID, "Superintendent");
         Assert.assertNotNull(sliRole);
         Assert.assertTrue(sliRole.equals(InsecureRoleRightAccessImpl.LEADER));

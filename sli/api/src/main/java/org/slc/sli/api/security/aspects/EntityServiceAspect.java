@@ -1,13 +1,19 @@
 package org.slc.sli.api.security.aspects;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.avro.Schema;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.AssociativeContextResolver;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +22,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.AssociativeContextResolver;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntitySchemaRegistry;
 
 // add this import if we move to CoreEntityService paradigm
 // import org.slc.sli.api.service.CoreEntityService;
@@ -39,8 +37,9 @@ public class EntityServiceAspect {
     
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceAspect.class);
     
-    @Autowired
-    private EntitySchemaRegistry schemaRegistry;
+    // TODO avro schema need to be replaced with neutral schema
+    // @Autowired
+    // private EntitySchemaRegistry schemaRegistry;
     
     @Autowired
     private ContextResolverStore contextResolverStore;
@@ -167,20 +166,22 @@ public class EntityServiceAspect {
     private void removeReadGeneralAttributes(Entity entity) {
         if (entity.getBody() == null)
             return;
-        
-        Schema schema = schemaRegistry.findSchemaForType(entity);
-        LOG.debug("schema fields {}", schema.getFields());
-        Iterator<String> keyIter = entity.getBody().keySet().iterator();
-        
-        while (keyIter.hasNext()) {
-            String fieldName = keyIter.next();
-            
-            Schema.Field field = schema.getField(fieldName);
-            LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
-            if (isReadGeneral(field)) {
-                keyIter.remove();
-            }
-        }
+        // TODO avro schema need to be replaced with neutral schema
+        /*
+         * Schema schema = schemaRegistry.findSchemaForType(entity);
+         * LOG.debug("schema fields {}", schema.getFields());
+         * Iterator<String> keyIter = entity.getBody().keySet().iterator();
+         * 
+         * while (keyIter.hasNext()) {
+         * String fieldName = keyIter.next();
+         * 
+         * Schema.Field field = schema.getField(fieldName);
+         * LOG.debug("Field {} is general {}", fieldName, isReadGeneral(field));
+         * if (isReadGeneral(field)) {
+         * keyIter.remove();
+         * }
+         * }
+         */
     }
     
     private boolean isReadGeneral(Schema.Field field) {
@@ -195,19 +196,21 @@ public class EntityServiceAspect {
     private void removeReadRestrictedAttributes(Entity entity) {
         if (entity.getBody() == null)
             return;
-        
-        Schema schema = schemaRegistry.findSchemaForType(entity);
-        Iterator<String> keyIter = entity.getBody().keySet().iterator();
-        
-        while (keyIter.hasNext()) {
-            String fieldName = keyIter.next();
-            
-            Schema.Field field = schema.getField(fieldName);
-            LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
-            if (isRestrictedField(field)) {
-                keyIter.remove();
-            }
-        }
+        // TODO avro schema need to be replaced with neutral schema
+        /*
+         * Schema schema = schemaRegistry.findSchemaForType(entity);
+         * Iterator<String> keyIter = entity.getBody().keySet().iterator();
+         * 
+         * while (keyIter.hasNext()) {
+         * String fieldName = keyIter.next();
+         * 
+         * Schema.Field field = schema.getField(fieldName);
+         * LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
+         * if (isRestrictedField(field)) {
+         * keyIter.remove();
+         * }
+         * }
+         */
     }
     
     /**
@@ -232,7 +235,8 @@ public class EntityServiceAspect {
     }
     
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
-        this.schemaRegistry = schemaRegistry;
+        // TODO avro schema need to be replaced with neutral schema
+        // this.schemaRegistry = schemaRegistry;
     }
     
     public void setContextResolverStore(ContextResolverStore contextResolverStore) {

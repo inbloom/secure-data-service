@@ -1,5 +1,5 @@
 class Role < SessionResource
-  self.site = "https://testapi1.slidev.org/api/rest/admin"
+  self.site = "#{APP_CONFIG['api_base']}/admin/"
   
   def self.get_static_information
     @roles = Role.all

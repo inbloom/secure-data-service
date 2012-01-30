@@ -115,9 +115,9 @@
 
 		<!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
 		<profile>
-			<id>devApps</id>
+			<id>devapp1</id>
 			<properties>
-				<sli.env>devApps</sli.env>
+				<sli.env>devapp1</sli.env>
 			</properties>
 		</profile>
 

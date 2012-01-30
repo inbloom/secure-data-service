@@ -4,6 +4,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.model.RouteDefinition;
 import org.apache.camel.test.junit4.CamelSpringTestSupport;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -23,6 +24,7 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
         return context;
     }
 
+    @Ignore
     @Test
     public void testBatchJobWithFaultsIsNotProcessed() throws Exception {
 
@@ -66,6 +68,7 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
         mockStopEndpoint.assertIsSatisfied();
     }
 
+    @Ignore
     @Test
     public void testBatchJobWithoutFaultsIsProcessed() throws Exception {
 
