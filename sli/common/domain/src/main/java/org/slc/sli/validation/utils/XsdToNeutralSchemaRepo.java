@@ -37,6 +37,8 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.resolver.URIResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.xml.sax.InputSource;
@@ -72,7 +74,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
     
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
     
-    public XsdToNeutralSchemaRepo(String xsdPath, SchemaFactory schemaFactory) throws IOException {
+    @Autowired
+    public XsdToNeutralSchemaRepo(@Value("classpath:sliXsd") String xsdPath, SchemaFactory schemaFactory) throws IOException {
         this.xsdPath = xsdPath;
         this.schemaFactory = schemaFactory;
         generateSchemas();
