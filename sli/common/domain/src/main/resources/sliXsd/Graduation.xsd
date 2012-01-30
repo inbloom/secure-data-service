@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
+	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:include schemaLocation="ReferenceTypes.xsd" />
+
+	<xs:complexType name="PostSecondaryEvent">
+		<xs:annotation>
+			<xs:documentation>
+				This entity captures significant postsecondary events during a student's high school tenure (e.g.,
+				FASFSA application, or college application, acceptance, and enrollment).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="EventDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The date the event occurred or was recorded.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PostSecondaryEventCategory" type="PostSecondaryEventCategoryType">
+						<xs:annotation>
+							<xs:documentation>
+								The postsecondary event that is logged (e.g., FAFSA application, college
+								application, college acceptance).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="NameOfInstitution" type="NameOfInstitution" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The postsecondary institution associated with the event.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="InstitutionId" type="InstitutionId" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The ID of the postsecondary institution.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentReference" type="StudentSimpleReference">
+						<xs:annotation>
+							<xs:documentation>
+								The student associated with the postsecondary event.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Diploma">
+		<xs:annotation>
+			<xs:documentation>
+				This educational entity represents the conferring or certification by an educational organization that
+				the student has successfully completed a particular course of study.  It represents the electronic
+				version of its physical document counterpart.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="DiplomaAwardDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>
+								The month, day, and year on which the student met graduation requirements and was
+								awarded a diploma.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DiplomaLevel" type="DiplomaLevelType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The level of diploma/credential that is awarded to a student in recognition of
+								his/her completion of the curricular requirements.
+									Minimum high school program
+									Recommended high school program
+									Distinguished Achievement Program
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DiplomaType" type="DiplomaType">
+						<xs:annotation>
+							<xs:documentation>
+								The type of diploma/credential that is awarded to a student in recognition of
+								his/her completion of the curricular requirements.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CTECompleter" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Indicated a student who reached a state–defined threshold of vocational education
+								and who attained a high school diploma or its recognized state equivalent or GED.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AcademicHonors" type="AcademicHonor" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Academic distinctions earned by or awarded to the student.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Recognitions" type="Recognition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Recognitions given to the student for accomplishments in a co-curricular, or
+								extra-curricular activity.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SchoolReference" type="EducationalOrgSimpleReference">
+						<xs:annotation>
+							<xs:documentation>The school that offers the diploma.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>
