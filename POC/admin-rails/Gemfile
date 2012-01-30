@@ -31,3 +31,6 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug'
 
+# Lets use SimpleCov for Ruby > 1.9
+gem 'simplecov', :require=>false, :group=>:test
+

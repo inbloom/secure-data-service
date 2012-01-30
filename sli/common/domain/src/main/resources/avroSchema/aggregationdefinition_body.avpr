@@ -58,5 +58,13 @@
       "max-length" : "60",
       "min-length" : "1"
     }
+  }, {
+    "name" : "queryField",
+    "doc" : "The field on the collection to query on.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
   }]
 }
