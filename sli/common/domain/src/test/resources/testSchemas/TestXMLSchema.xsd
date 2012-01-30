@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/TestXMLSchema"
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://slc-sli/ed-org/0.1" 
 	xmlns:tns="http://www.example.org/TestXMLSchema" elementFormDefault="qualified">
+	<include schemaLocation="TestBasicSchema.xsd" />
 
-	<complexType name="TestComplexType"></complexType>
+	<complexType name="TestComplexType">
+		<sequence>
+			<element name="testString" type="string">
+				<annotation>
+					<documentation>A test String
+					</documentation>
+				</annotation>
+			</element>
+			<element name="testSimpleReference" type="SimpleType">
+				<annotation>
+					<documentation>A reference to another type
+					</documentation>
+				</annotation>
+			</element>
+			<element name="testDate" type="date">
+				<annotation>
+					<documentation>A test date
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
 </schema>

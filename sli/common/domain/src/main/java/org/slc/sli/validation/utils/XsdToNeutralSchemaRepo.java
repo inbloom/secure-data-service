@@ -166,16 +166,15 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         return xmlSchemas;
     }
     
-    XmlSchema parseXmlSchema(final String xsdPath, InputStream resource) {
+    XmlSchema parseXmlSchema(final String xsdPath, final InputStream schema) {
         Reader reader = null;
         try {
-            reader = new InputStreamReader(resource);
+            reader = new InputStreamReader(schema);
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
                 public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
-                    return new InputSource(XsdToNeutralSchemaRepo.class.getResourceAsStream("/" + xsdPath + "/"
-                            + schemaLocation));
+                    return new InputSource(xsdPath + "/" + schemaLocation);
                 }
             });
             return schemaCollection.read(reader, null);
