@@ -44,12 +44,4 @@ public class ClientRoleManagerResource {
     public Object getMappings(@QueryParam("realmId") String realmId, @QueryParam("sliRole") String sliRoleName) {
         return roleManager.getMappings(realmId, sliRoleName);
     }
-    
-    @GET
-    @Path("getSliRoleName")
-    public String getSliRoleName(@QueryParam("realmId") String realmId, @QueryParam("clientRole") String clientRoleName) {
-        return roleManager.getSliRoleName(realmId, clientRoleName);
-        
-    }
-    
 }
