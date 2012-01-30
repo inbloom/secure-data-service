@@ -1,0 +1,8 @@
+
+{
+   "type":"ProgramIdentityType",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{}
+}

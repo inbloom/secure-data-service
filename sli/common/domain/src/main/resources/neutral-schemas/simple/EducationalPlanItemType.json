@@ -1,0 +1,9 @@
+
+{
+   "type":"EducationalPlanItemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["504 Plan","Career Pathways","Career Suggestions","Completion and Reach Age 22","Full Time Employment","Employability Skills","High School Education Plan","IDEA IEP","Outside Service Access","Personal Graduation Plan","Student Success Plan"]}
+}

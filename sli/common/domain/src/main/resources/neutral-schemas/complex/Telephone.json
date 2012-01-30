@@ -1,0 +1,11 @@
+
+{
+   "type":"Telephone",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*TelephoneNumberType":"TelephoneNumberType",
+      "*PrimaryTelephoneNumberIndicator":"boolean",
+      "TelephoneNumber":"TelephoneNumber"},
+   "properties":{}
+}

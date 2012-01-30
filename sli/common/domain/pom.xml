@@ -14,17 +14,44 @@
 	<properties>
 		<!-- Maven Plugin Versions -->
 		<maven.jaxb2.version>0.8.0</maven.jaxb2.version>
+		<commons.schema.version>1.4.7</commons.schema.version>
 		<avro.version>1.6.1</avro.version>
 	</properties>
 
 	<dependencies>
+	
+    	<!--  Apache Commons IO Dependency -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        
+    	<!--  Apache Commons Lang Dependency -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        
+    	<!--  Apache Commons XmlSchema Dependency -->
+        <dependency>
+            <groupId>org.apache.ws.commons.schema</groupId>
+            <artifactId>XmlSchema</artifactId>
+            <version>${commons.schema.version}</version>
+        </dependency>
+
+		<!-- Spring Core dependency -->
+		<dependency>
+        	<groupId>org.springframework</groupId>
+        	<artifactId>spring-core</artifactId>
+		</dependency>
+		
 		<!-- Spring Context dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 		</dependency>
 
-		<!-- Spring test dependency -->
+		<!-- Spring Test dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -36,12 +63,6 @@
 			<artifactId>avro</artifactId>
 			<version>${avro.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-
 
 	</dependencies>
 

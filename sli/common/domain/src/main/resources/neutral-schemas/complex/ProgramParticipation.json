@@ -1,0 +1,12 @@
+
+{
+   "type":"ProgramParticipation",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "Program":"ProgramType",
+      "*BeginDate":"date",
+      "*EndDate":"date",
+      "*DesignatedBy":"DesignatedBy"},
+   "properties":{}
+}

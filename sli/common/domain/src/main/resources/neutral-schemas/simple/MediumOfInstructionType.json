@@ -1,0 +1,9 @@
+
+{
+   "type":"MediumOfInstructionType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Televised","Telepresence/video conference","Videotaped/prerecorded video","Other technology-based instruction","Technology-based instruction in classroom","Correspondence instruction","Face-to-face instruction","Virtual/On-line Distance learning","Center-based instruction","Independent study","Internship","Other"]}
+}
