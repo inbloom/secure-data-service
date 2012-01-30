@@ -40,7 +40,6 @@ Scenario: Update an existing role mapping
 	Given I am a valid "sli" end user "demo" with password "demo1234"
 	When I PUT to change the mapping between default role "Educator" and custom role "blah" to role "Blah" for realm "SLI"
 	Then I should see the PUT operaion is successful
-	And I should see a valid object returned
 	
 Scenario: Delete an existing role mapping
 
