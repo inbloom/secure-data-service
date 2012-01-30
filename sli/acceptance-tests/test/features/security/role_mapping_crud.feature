@@ -1,3 +1,4 @@
+@wip
 Feature: Role mapping functions for Custom Role Mapping
 As an administrator tool application, I should have access to API calls to perform CRUD operations to allow custom role mapping
 
