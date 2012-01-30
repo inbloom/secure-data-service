@@ -7,7 +7,7 @@ class MappingsController < ApplicationController
       map = {}
       map[:name] = role.name
       map[:mappings] = []
-      if role.mappings.attributes[realm]
+      if !role.mappings.nil? and role.mappings.attributes[realm]
         map[:mappings] = role.mappings.attributes[realm]
       end
       mapping.push map
@@ -59,9 +59,8 @@ class MappingsController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     resp = http.request(req)
-    resp.value()
     respond_to do |format|
-      format.json { render json: resp   }
+      format.json { render json: resp.value }
     end
   end
 
@@ -73,9 +72,9 @@ class MappingsController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     resp = http.request(req)
-    resp.value()
+    resp.value
     respond_to do |format|
-      format.json { render json: resp   }
+      format.json { render json: resp }
     end
   end
 
@@ -97,30 +96,30 @@ class MappingsController < ApplicationController
 
   # PUT /mappings/1
   # PUT /mappings/1.json
-  def update
-    @realm_id = params[:id]
-    @mapping = Mapping.find(params[:id])
-  
-    respond_to do |format|
-      if @mapping.update_attributes(params[:mapping])
-        format.html { redirect_to @mapping, notice: 'Mapping was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @mapping.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   @realm_id = params[:id]
+  #   @mapping = Mapping.find(params[:id])
   # 
-  # # DELETE /mappings/1
-  # # DELETE /mappings/1.json
-  def destroy
-    @mapping = Mapping.find(params[:id])
-    @mapping.destroy
-  
-    respond_to do |format|
-      format.html { redirect_to mappings_url }
-      format.json { head :ok }
-    end
-  end
+  #   respond_to do |format|
+  #     if @mapping.update_attributes(params[:mapping])
+  #       format.html { redirect_to @mapping, notice: 'Mapping was successfully updated.' }
+  #       format.json { head :ok }
+  #     else
+  #       format.html { render action: "edit" }
+  #       format.json { render json: @mapping.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+  # # 
+  # # # DELETE /mappings/1
+  # # # DELETE /mappings/1.json
+  # def destroy
+  #   @mapping = Mapping.find(params[:id])
+  #   @mapping.destroy
+  # 
+  #   respond_to do |format|
+  #     format.html { redirect_to mappings_url }
+  #     format.json { head :ok }
+  #   end
+  # end
 end
