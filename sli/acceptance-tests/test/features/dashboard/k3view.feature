@@ -16,19 +16,16 @@ And I select course "Reading Group"
 And I select section "Reading Group - Grey"
 And I wait for "2" seconds
 Then the fuel gauge label for the assessment "DIBELS_NEXT.perfLevel" and student "111111111" is "@B"
-And the fuel gauge label for the assessment "TRC.lexileScore" and student "111111111" is "K"
 
-# TODO: Enable when the student name test works (on population widget) 
-#
-#Scenario: Check student name
-#Given I have an open web browser
-#And I am authenticated to SLI as "rbraverman" password "rbraverman"
-#When I access "/studentlist"
-#And I wait for "1" seconds
-#When I select school "South Daybreak Elementary"
-#And I select course "Reading Group"
-#And I select section "Reading Group - Grey"
-#And I wait for "2" seconds
-#Then I see a list of 1 students
-#And the list includes: "Student Fake"
-#
+Scenario: Check student name
+Given I have an open web browser
+And I am authenticated to SLI as "rbraverman" password "rbraverman"
+When I access "/studentlist"
+And I wait for "1" seconds
+When I select school "South Daybreak Elementary"
+And I select course "Reading Group"
+And I select section "Reading Group - Grey"
+And I wait for "2" seconds
+Then I see a list of 1 students
+And the list includes: "Student Fake"
+

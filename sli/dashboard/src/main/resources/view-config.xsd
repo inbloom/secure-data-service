@@ -41,8 +41,21 @@
   <xs:element name="lozenges">
     <xs:complexType>
       <xs:attribute name="names" use="required"/>
-      <xs:attribute name="position" use="required" type="xs:NCName"/>
-      <xs:attribute name="maxCount" type="xs:NCName"/>
+      <xs:attribute name="position" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="pre"/>
+            <xs:enumeration value="post"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="maxCount">
+        <xs:simpleType>
+          <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
 </xs:schema>

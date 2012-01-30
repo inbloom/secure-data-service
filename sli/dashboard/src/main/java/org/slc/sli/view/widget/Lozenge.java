@@ -18,16 +18,19 @@ public class Lozenge {
     // list of lozenges that need to be displayed
     private List<LozengeConfig> lozenges;
 
+    // Constructor: process the field and determine which lozenge needs to be displayed. 
     public Lozenge(Field field, Student student, StudentResolver students, LozengeConfigResolver lozengeConfigs) {
         lozenges = new ArrayList<LozengeConfig>();
 
         int maxCount = Integer.MAX_VALUE;
-        try {
-            maxCount = Integer.parseInt(field.getLozenges().getMaxCount());
-        } catch (Exception e) { 
-            // lozenges and max count are not required fields, so it is possible to not have them defined.
-            e.printStackTrace();
-        }  
+
+        // it is possible for a field not to have lozenges. 
+        if (field.getLozenges() == null) { return; }
+        
+        // check the max count, if it exists. 
+        if (field.getLozenges().getMaxCount() != null) { 
+            maxCount = field.getLozenges().getMaxCount().intValue();
+        }
         
         // Find the lozenges that needs to be displayed and put them into a list 
         if (field.getLozenges() != null 
