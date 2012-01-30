@@ -59,7 +59,21 @@ class MappingsController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     resp = http.request(req)
-    puts resp.code
+    resp.value()
+    respond_to do |format|
+      format.json { render json: resp   }
+    end
+  end
+
+  def remove 
+    require 'net/http'
+    url = URI.parse('https://testapi1.slidev.org/api/rest/pub/roles/mappings')
+    req = Net::HTTP::Delete.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&clientRole=#{URI.escape(params[:client_role])}")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    resp = http.request(req)
+    resp.value()
     respond_to do |format|
       format.json { render json: resp   }
     end
