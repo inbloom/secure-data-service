@@ -73,7 +73,7 @@ Then /^The user "([^"]*)" who is a "([^"]*)" can not access SLI as a "([^"]*)" f
 
   # Validate the user has proper rights according to the role
   assert(result["authenticated"] == true, "User "+arg1+" did not successfully authenticate to SLI")
-  assert(result["authorities"].size == 0, "User "+arg1+" was granted permissions: "+result["authorities"])
+  assert(result["authorities"].size == 0, "User "+arg1+" was granted permissions when they should have none: "+result["authorities"])
 end
 
 Then /^I should not see the mapping from the other realm$/ do
