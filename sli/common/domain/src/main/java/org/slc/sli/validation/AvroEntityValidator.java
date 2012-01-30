@@ -12,7 +12,6 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates an Entity body against an Avro schema.
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @author Ryan Farris <rfarris@wgen.net>
  *
  */
-@Component
+// @Component
 @Deprecated
 public class AvroEntityValidator implements EntityValidator {
     private static final Logger LOG = LoggerFactory.getLogger(AvroEntityValidator.class);
