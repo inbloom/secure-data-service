@@ -1,9 +1,0 @@
-
-{
-   "type":"AssessmentIdentificationSystemType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["School","District","State","Federal","Other Federal","Test Contractor","Other"]}
-}
