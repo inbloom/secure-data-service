@@ -24,7 +24,6 @@ class Role < SessionResource
       role.restricted = []
       role.aggregate = nil
       role.rights.each do |right|
-        puts "Right: #{right}"
         case right
         when /AGGREGATE_READ/
           role.aggregate = "yes"
