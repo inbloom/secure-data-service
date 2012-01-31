@@ -44,16 +44,10 @@ public class ClientRoleManagerResourceTest {
     public void setUp() throws Exception {
 
         injector.setAdminContext();
-        List<String> ids = new ArrayList<String>();
-        ids.add("1234");
-        ids.add("-1");
-        
+
         mapping = new EntityBody();
         mapping.put("id", "123567324");
         mapping.put("realm_name", "Waffles");
-        
-        List<EntityBody> maps = new ArrayList<EntityBody>();
-        maps.add(mapping);
 
         service = mock(EntityService.class);
 
@@ -61,8 +55,8 @@ public class ClientRoleManagerResourceTest {
 
         when(service.update("-1", mapping)).thenReturn(true);
         when(service.update("1234", mapping)).thenReturn(true);
-        when(service.list(0, 100)).thenReturn(ids);
-        when(service.get(ids)).thenReturn(maps);
+        when(service.get("-1")).thenReturn(null);
+        when(service.get("1234")).thenReturn(mapping);
     }
 
     @After
@@ -73,18 +67,18 @@ public class ClientRoleManagerResourceTest {
     @Test
     public void testAddClientRole() throws Exception {
         try {
-            resource.addClientRole("Peanuts", "-1", null);
+            resource.updateClientRole("-1", null);
             assertFalse(false);
         } catch (EntityNotFoundException e)
         {
             assertTrue(true);
         }
-        assertTrue(resource.addClientRole("Waffles", "1234", mapping));
+        assertTrue(resource.updateClientRole("1234", mapping));
     }
 
     @Test
     public void testGetMappings() throws Exception {
-        assertNotNull(resource.getMappings("Waffles"));
-        assertNull(resource.getMappings("Invalid"));
+        assertNotNull(resource.getMappings("1234"));
+        assertNull(resource.getMappings("-1"));
     }
 }
