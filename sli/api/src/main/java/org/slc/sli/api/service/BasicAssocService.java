@@ -3,12 +3,6 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +10,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 
 /**
  * Implementation of AssociationService.
@@ -27,16 +28,15 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
     @Autowired
-    QueryConverter queryConverter;
+    QueryConverter              queryConverter;
     
-    private EntityDefinition sourceDefn;
-    private EntityDefinition targetDefn;
-    private String sourceKey;
-    private String targetKey;
+    private EntityDefinition    sourceDefn;
+    private EntityDefinition    targetDefn;
+    private String              sourceKey;
+    private String              targetKey;
     
-    public BasicAssocService(String collectionName, List<Treatment> treatments, CoreBasicService coreService,
-            EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String targetKey) {
-        super(collectionName, treatments, coreService);
+    public BasicAssocService(String collectionName, List<Treatment> treatments, EntityDefinition sourceDefn, String sourceKey, EntityDefinition targetDefn, String targetKey) {
+        super(collectionName, treatments);
         this.sourceDefn = sourceDefn;
         this.targetDefn = targetDefn;
         this.sourceKey = sourceKey;
@@ -86,8 +86,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults,
-            String queryString) {
+    private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults, String queryString) {
         LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryString);
@@ -114,18 +113,14 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
-            int start, int numResults, String queryString) {
+    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey, int start, int numResults, String queryString) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, null);
         for (Entity entity : entityObjects) {
             Object other = entity.getBody().get(otherEntityKey);
-            if (other != null
-                    && other instanceof String
-                    && getRepo().matchQuery(otherEntityDefn.getStoredCollectionName(), (String) other,
-                            queryConverter.stringToQuery(otherEntityDefn.getType(), queryString))) {
+            if (other != null && other instanceof String && getRepo().matchQuery(otherEntityDefn.getStoredCollectionName(), (String) other, queryConverter.stringToQuery(otherEntityDefn.getType(), queryString))) {
                 results.add((String) other);
             } else {
                 LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
@@ -151,8 +146,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<Entity> getAssociationObjects(EntityDefinition type, String id, String key, int start,
-            int numResults, String queryString) {
+    private Iterable<Entity> getAssociationObjects(EntityDefinition type, String id, String key, int start, int numResults, String queryString) {
         EntityBody existingEntity = type.getService().get(id);
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);
@@ -190,15 +184,13 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<ValidationError> errors = new ArrayList<ValidationError>();
         
         if (!checkEntityExist(sourceCollectionName, sourceId)) {
-            sourceError = new ValidationError(ValidationError.ErrorType.REFERENTIAL_INFO_MISSING, sourceDefn.getType()
-                    + "Id", sourceId, null);
+            sourceError = new ValidationError(ValidationError.ErrorType.REFERENTIAL_INFO_MISSING, sourceDefn.getType() + "Id", sourceId, null);
             errors.add(sourceError);
         }
         String targetCollectionName = targetDefn.getStoredCollectionName();
         
         if (!checkEntityExist(targetCollectionName, targetId)) {
-            targetError = new ValidationError(ValidationError.ErrorType.REFERENTIAL_INFO_MISSING, targetDefn.getType()
-                    + "Id", targetId, null);
+            targetError = new ValidationError(ValidationError.ErrorType.REFERENTIAL_INFO_MISSING, targetDefn.getType() + "Id", targetId, null);
             errors.add(targetError);
         }
         
