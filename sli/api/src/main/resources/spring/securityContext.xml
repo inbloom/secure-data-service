@@ -47,11 +47,6 @@
     <bean id="securityContextLogoutHandler"
           class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
 
-    <bean id="entityServiceAspect" class="org.slc.sli.api.security.aspects.EntityServiceAspect"
-          factory-method="aspectOf">
-        <property name="schemaRegistry" ref="avroEntitySchemaRegistry"/>
-    </bean>
-
     <!-- Default role initializer -->
     <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
 
