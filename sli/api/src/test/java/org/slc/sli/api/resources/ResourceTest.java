@@ -150,10 +150,10 @@ public class ResourceTest {
         return entity;
     }
     
-    public Map<String, Object> createTestEducationOrganizationAssociation(String educationOrganizationIdSource, String educationOrganizationIdTarget) {
+    public Map<String, Object> createTestEducationOrganizationAssociation(String educationOrganizationParentId, String educationOrganizationChildId) {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("educationOrganizationIdSource", educationOrganizationIdSource);
-        entity.put("educationOrganizationIdTarget", educationOrganizationIdTarget);
+        entity.put("educationOrganizationParentId", educationOrganizationParentId);
+        entity.put("educationOrganizationChildId", educationOrganizationChildId);
         return entity;
     }
     
@@ -390,19 +390,22 @@ public class ResourceTest {
     
     @Test
     public void testEducationOrganizations() {
-        Response createResponseEdOrgSource = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), uriInfo);
-        assertNotNull(createResponseEdOrgSource);
-        assertEquals(Status.CREATED.getStatusCode(), createResponseEdOrgSource.getStatus());
-        String educationOrganizationIdSource = parseIdFromLocation(createResponseEdOrgSource);
         
-        Response createResponseEdOrgTarget = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), uriInfo);
-        assertNotNull(createResponseEdOrgTarget);
-        assertEquals(Status.CREATED.getStatusCode(), createResponseEdOrgTarget.getStatus());
-        String educationOrganizationIdTarget = parseIdFromLocation(createResponseEdOrgTarget);
+        Response createEdOrgParentResponse = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), uriInfo);
+        assertNotNull(createEdOrgParentResponse);
+        assertEquals(Status.CREATED.getStatusCode(), createEdOrgParentResponse.getStatus());
+        String educationOrganizationParentId = parseIdFromLocation(createEdOrgParentResponse);
         
-        Response createResponseEOA = api.createEntity(EDUCATIONORGANIZATION_ASSOCIATION_URI, new EntityBody(createTestEducationOrganizationAssociation(educationOrganizationIdSource, educationOrganizationIdTarget)), uriInfo);
+        Response createEdOrgChildResponse = api.createEntity("educationOrganizations", new EntityBody(createTestEntity()), uriInfo);
+        assertNotNull(createEdOrgChildResponse);
+        assertEquals(Status.CREATED.getStatusCode(), createEdOrgChildResponse.getStatus());
+        String educationOrganizationChildId = parseIdFromLocation(createEdOrgChildResponse);
+        
+        Response createResponseEOA = api.createEntity(EDUCATIONORGANIZATION_ASSOCIATION_URI, new EntityBody(createTestEducationOrganizationAssociation(educationOrganizationParentId, educationOrganizationChildId)), uriInfo);
+        
         assertNotNull(createResponseEOA);
         parseIdFromLocation(createResponseEOA);
+        
     }
     
     private void assertStudentCorrect(UriInfo info, TypeIdPair typeId) {
@@ -476,12 +479,14 @@ public class ResourceTest {
         queryInfo = buildMockUriInfo("studentUniqueStateId=1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
-        assertNull(hopCollection);
+        assertNotNull(hopCollection);
+        assertEquals(0, hopCollection.size());
         
         queryInfo = buildMockUriInfo("studentUniqueStateId>1234");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);
         hopCollection = (CollectionResponse) hopResponse.getEntity();
-        assertNull(hopCollection);
+        assertNotNull(hopCollection);
+        assertEquals(0, hopCollection.size());
         
         queryInfo = buildMockUriInfo("studentUniqueStateId<1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);

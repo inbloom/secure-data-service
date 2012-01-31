@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Control file processor.
- *
+ * 
  * @author okrook
- *
+ * 
  */
 @Component
 public class ControlFileProcessor implements Processor {
@@ -29,12 +30,11 @@ public class ControlFileProcessor implements Processor {
     @Override
     @Profiled(tag = "ControlFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
-
         long startTime = System.currentTimeMillis();
 
         ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-        BatchJob job = this.getJobAssembler()
+        BatchJob job = getJobAssembler()
                 .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
         long endTime = System.currentTimeMillis();
@@ -46,6 +46,7 @@ public class ControlFileProcessor implements Processor {
         // set the exchange outbound message to the value of the job
         exchange.getIn().setBody(job, BatchJob.class);
         exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
 
     }
 

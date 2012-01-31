@@ -1,0 +1,9 @@
+
+{
+   "type":"AcademicHonorsType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Honor roll","Honor society","Honorable mention","Honors program","Prize awards","Scholarships","Awarding of units of value","Citizenship award/recognition","Completion of requirement, but no units of value awarded","Attendance award","Certificate","Honor award","Letter of student commendation","Medals","National Merit scholar","Points","Promotion or advancement","Other"]}
+}

@@ -1,28 +1,14 @@
 ###################################################
 # Section to setup necessary env vars and overrides
-if(ENV['DB_HOST'])
-  DB_HOST=ENV['DB_HOST']
-else
-  DB_HOST = "localhost"
-end
 
-if(ENV['MONGO_HOME'])
-  MONGO_BIN = ENV['MONGO_HOME']+"/bin/"
-else
-  MONGO_BIN = ""
-end
+DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
-if(ENV['NO_EXPAND'])
-  EXPAND = ""
-else
-  EXPAND = "--expand"
-end
+MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
-if(ENV['FORCE_COLOR'])
-  COLOR = "-c"
-else
-  COLOR = ""
-end
+EXPAND = ENV['NO_EXPAND'] ? "" : "--expand"
+
+COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
+
 #######################################################
 
 $SUCCESS=true
@@ -54,7 +40,7 @@ end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   #turn true/false into command line option
-  dropOption = (dropExistingCollection) ? "--drop":"";
+  dropOption = (dropExistingCollection) ? "--drop":""
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
@@ -274,6 +260,11 @@ end
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
   runTests("test/features/dashboard/k3view.feature")
+end
+
+desc "Run Dashboard Program Participation and Student Info Tests"
+task :dashboardLozengesTests do
+  runTests("test/features/dashboard/lozenges.feature")
 end
 
 desc "Run Dashboard YY Tests"

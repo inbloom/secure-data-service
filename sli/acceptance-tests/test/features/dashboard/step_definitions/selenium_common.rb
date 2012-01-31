@@ -19,6 +19,10 @@ When /^I click the Go button$/ do
   clickButton("submit")
 end
 
+Given /^the server is in "([^"]*)" mode$/ do |serverMode|
+  @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
+end
+
 def localLogin (username, password)
   puts "SLI_DEBUG = " + $SLI_DEBUG.to_s
   puts "localLogin" if $SLI_DEBUG
@@ -26,7 +30,7 @@ def localLogin (username, password)
     @driver = Selenium::WebDriver.for :firefox
   end
   baseUrl = "http://"+PropLoader.getProps['dashboard_server_address']+ 
-          PropLoader.getProps['dashboard_app_prefix'] 
+          PropLoader.getProps[@appPrefix] 
   url = baseUrl + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
@@ -104,16 +108,24 @@ def listContains(desiredContent)
 
   desiredContentArray = desiredContent.split(";")
   # Find all student names based on their class attribute
-  studentNames = @driver.find_elements(:xpath, "//td[@class='studentInfo.name']")
+  studentNames = @driver.find_elements(:xpath, "//td[@class='name']")
   puts "num of studs = "+ studentNames.length.to_s
   
   nonFoundItems = desiredContentArray.length
   
+  
   desiredContentArray.each do |searchValue|
+    
+    puts "in 1st loop, searchValue = " + searchValue
     studentNames.each do |student|
-      if student.attribute("innerHTML").to_s.include?(searchValue)
-        puts "Found desired item '" + searchValue + "'"
+      # puts "in 2st loop, student.attribute('innerHTML').to_s = " + student.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
+      # puts "student.attribute('innerHTML').to_s.include?(searchValue) = " + student.attribute("innerHTML").to_s.include?(searchValue).to_s
+      
+      if student.attribute("innerHTML").to_s.lstrip.rstrip.include?(searchValue)
         nonFoundItems -= 1
+        puts "Found desired item '" + searchValue + "', " + nonFoundItems.to_s + " more items to find"
+        # Stop searching for this searchValue and move to the next one
+        break
       end
     end
   end

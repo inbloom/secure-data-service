@@ -1,0 +1,9 @@
+
+{
+   "type":"CreditType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Carnegie unit","Semester hour credit","Trimester hour credit","Quarter hour credit","Nine month year hour credit","Twelve month year hour credit","Other"]}
+}

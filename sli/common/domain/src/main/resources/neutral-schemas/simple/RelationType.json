@@ -1,0 +1,9 @@
+
+{
+   "type":"RelationType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Adopted daughter","Adopted son","Adoptive parents","Advisor","Agency representative","Aunt","Brother, half","Brother, natural/adoptive","Brother, step","Brother-in-law","Case Worker, CPS","Court appointed guardian","Cousin","Daughter","Daughter-in-law","Dependent","Doctor","Employer","Emergency Contact","Family member","Father's significant other","Father, foster","Father","Father, step","Father-in-law","Fiance","Fiancee","Former husband","Former wife","Foster daughter","Foster parent","Foster son","Friend","Granddaughter","Grandparent","Great Grandparent","Grandson","Great aunt","Great uncle","Guardian","Husband","Life partner","Life partner of parent","Minister or priest","Mother's significant other","Mother, foster","Mother","Mother, step","Mother-in-law","Nephew","Niece","None","Other","Parent","Partner","Partner of parent","Probation officer","Sibling","Sister, half","Sister, natural/adoptive","Sister, step","Sister-in-law","Son","Son-in-law","Spouse","Stepdaughter","Stepson","Stepsibling","Uncle","Ward","Wife"]}
+}

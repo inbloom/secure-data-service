@@ -1,0 +1,9 @@
+
+{
+   "type":"RepeatIdentifierType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Repeated, counted in grade point average","Repeated, not counted in grade point average","Not repeated","Other"]}
+}

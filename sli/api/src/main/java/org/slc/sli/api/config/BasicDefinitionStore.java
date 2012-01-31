@@ -128,8 +128,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         AssociationDefinition educationOrganizationAssociation = factory.makeAssoc("educationOrganizationAssociation")
                 .exposeAs("educationOrganization-associations").storeAs("educationOrganizationAssociation")
-                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationIdSource")
-                .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationIdTarget")
+                .from(educationOrganization, "getEducationOrganizationParent", "getEducationOrganizationParents", "educationOrganizationParentId")
+                .to(educationOrganization, "getEducationOrganizationChild", "getEducationOrganizationChilds", "educationOrganizationChildId")
                 .calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addAssocDefinition(educationOrganizationAssociation);
@@ -137,7 +137,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
-        addDefinition(factory.makeEntity("realm").build());
+        addDefinition(factory.makeEntity("realm").storeAs("realm").build());
     }
     
     /**

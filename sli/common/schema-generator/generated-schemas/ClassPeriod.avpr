@@ -1,0 +1,30 @@
+{
+  "type" : "record",
+  "name" : "ClassPeriod",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents the designation of regularly scheduled series of class meetings at designated times and days of the week.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "classPeriodName",
+    "doc" : "An indication of the portion of a typical daily session in which students receive instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).",
+    "type" : {
+      "type" : "string",
+      "max-length" : "30",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "meetingTimes",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.MeetingTime"
+    } ]
+  }, {
+    "name" : "bellScheduleReference",
+    "type" : "org.slc.sli.domain.BellScheduleReferenceType"
+  } ]
+}

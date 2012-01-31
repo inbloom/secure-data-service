@@ -1,0 +1,22 @@
+
+{
+   "type":"Address",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*AddressType":"AddressType",
+      "StreetNumberName":"StreetNumberName",
+      "*ApartmentRoomSuiteNumber":"ApartmentRoomSuiteNumber",
+      "*BuildingSiteNumber":"BuildingSiteNumber",
+      "City":"City",
+      "StateAbbreviation":"StateAbbreviationType",
+      "PostalCode":"PostalCode",
+      "*NameOfCounty":"NameOfCounty",
+      "*CountyFIPSCode":"CountyFIPSCode",
+      "*CountryCode":"CountryCodeType",
+      "*Latitude":"Coordinate",
+      "*Longitude":"Coordinate",
+      "*OpenDate":"date",
+      "*CloseDate":"date"},
+   "properties":{}
+}

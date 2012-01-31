@@ -1,0 +1,10 @@
+
+{
+   "type":"CountyFIPSCode",
+   "validatorClass":"org.slc.sli.validation.RestrictedSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "min-length":"3",
+      "max-length":"5"}
+}

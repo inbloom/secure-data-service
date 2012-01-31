@@ -1,0 +1,10 @@
+
+{
+   "type":"ElectronicMail",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*EmailAddressType":"ElectronicMailAddressType",
+      "EmailAddress":"ElectronicMailAddress"},
+   "properties":{}
+}

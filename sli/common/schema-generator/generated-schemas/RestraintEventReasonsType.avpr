@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "RestraintEventReasonsType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The categorization of the circumstances or reason for the restraint.",
+  "fields" : [ {
+    "name" : "retraintEventReason",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.RestraintEventReasonItemType"
+    } ]
+  } ]
+}

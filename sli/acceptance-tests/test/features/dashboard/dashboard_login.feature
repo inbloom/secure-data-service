@@ -8,6 +8,7 @@ on SLI, so I could use the Dashboard application.
 Scenario: Go to Dashboard page when not authenticated to SLI
 
 Given I have an open web browser
+Given the server is in "live" mode
 And I am not authenticated to SLI
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page

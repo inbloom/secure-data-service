@@ -1,0 +1,34 @@
+{
+  "type" : "record",
+  "name" : "GraduationPlan",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "A plan outlining the required credits, credits by subject, credits by course, and other criteria required for graduation.  A graduation plan may be one or more standard plans defined by an education organization and/or individual plans for some or all students.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "graduationPlanType",
+    "type" : "org.slc.sli.domain.enum.GraduationPlanType"
+  }, {
+    "name" : "individualPlan",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "totalCreditsRequired",
+    "type" : "org.slc.sli.domain.Credits"
+  }, {
+    "name" : "creditsBySubject",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.CreditsBySubject"
+    } ]
+  }, {
+    "name" : "creditsByCourse",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.CreditsByCourse"
+    } ]
+  } ]
+}
