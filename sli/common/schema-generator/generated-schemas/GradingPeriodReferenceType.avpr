@@ -1,0 +1,22 @@
+{
+  "type" : "record",
+  "name" : "GradingPeriodReferenceType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Provides alternative references for grading periodss. Use XML IDREF to reference a program record that is included in the interchange",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "ref",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "IDREF"
+    } ]
+  }, {
+    "name" : "gradingPeriodIdentity",
+    "type" : [ "null", "org.slc.sli.domain.GradingPeriodIdentityType" ]
+  } ]
+}

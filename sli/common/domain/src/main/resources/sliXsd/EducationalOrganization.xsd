@@ -384,7 +384,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:element name="LocalEducationAgency">
+    <xs:element name="localEducationAgency">
         <xs:annotation>
             <xs:documentation>This entity represents an administrative unit at the local level which
                 exists primarily to operate schools or to contract for educational services. It
@@ -418,7 +418,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="School">
+    <xs:element name="school">
         <xs:annotation>
             <xs:documentation>This entity represents an educational organization that includes staff
                 and students who participate in classes and educational activity groups.
@@ -521,7 +521,7 @@
         </xs:sequence>
     </xs:complexType>
     
-    <xs:element name="EducationOrgAssociation">
+    <xs:element name="educationOrgAssociation">
         <xs:annotation>
             <xs:documentation>The association denoting a hierarchical relationship among  Educational Organizations.
             </xs:documentation>

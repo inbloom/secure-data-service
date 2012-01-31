@@ -1,0 +1,100 @@
+{
+  "type" : "record",
+  "name" : "Course",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "courseTitle",
+    "doc" : "The descriptive name given to a course of study offered in a school or other institution or organization. In departmentalized classes at the elementary, secondary, and postsecondary levels (and for staff development activities), this refers to the name by which a course is identified (e.g., American History, English III). For elementary and other non-departmentalized classes, it refers to any portion of the instruction for which a grade or report is assigned (e.g., reading, composition, spelling, and language arts).",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "numberOfParts",
+    "type" : {
+      "type" : "int",
+      "min" : "1",
+      "max" : "8"
+    }
+  }, {
+    "name" : "courseCode",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.CourseCode"
+    }
+  }, {
+    "name" : "courseLevel",
+    "type" : [ "null", "org.slc.sli.domain.enum.CourseLevelType" ]
+  }, {
+    "name" : "courseLevelCharacteristics",
+    "type" : [ "null", "org.slc.sli.domain.CourseLevelCharacteristicsType" ]
+  }, {
+    "name" : "gradesOffered",
+    "type" : [ "null", "org.slc.sli.domain.GradeLevelsType" ]
+  }, {
+    "name" : "subjectArea",
+    "type" : [ "null", "org.slc.sli.domain.enum.SubjectAreaType" ]
+  }, {
+    "name" : "courseDescription",
+    "doc" : "A detailed description of the entity.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "1024",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "dateCourseAdopted",
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "highSchoolCourseRequirement",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "courseGPAApplicability",
+    "type" : [ "null", "org.slc.sli.domain.enum.CourseGPAApplicabilityType" ]
+  }, {
+    "name" : "courseDefinedBy",
+    "type" : [ "null", "org.slc.sli.domain.enum.CourseDefinedByType" ]
+  }, {
+    "name" : "minimumAvailableCredit",
+    "type" : [ "null", "org.slc.sli.domain.Credits" ]
+  }, {
+    "name" : "maximumAvailableCredit",
+    "type" : [ "null", "org.slc.sli.domain.Credits" ]
+  }, {
+    "name" : "careerPathway",
+    "type" : [ "null", "org.slc.sli.domain.enum.CareerPathwayType" ]
+  }, {
+    "name" : "educationOrganizationReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  }, {
+    "name" : "learningStandardReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningStandardReferenceType"
+    } ]
+  }, {
+    "name" : "learningObjectiveReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningObjectiveReferenceType"
+    } ]
+  }, {
+    "name" : "competencyLevelReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.CompetencyLevelReferenceType"
+    } ]
+  } ]
+}

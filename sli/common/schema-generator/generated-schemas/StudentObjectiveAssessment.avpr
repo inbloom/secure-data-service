@@ -1,0 +1,34 @@
+{
+  "type" : "record",
+  "name" : "StudentObjectiveAssessment",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The raw score for the objective assessment for the student.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "rawScoreResult",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "scoreResults",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ScoreResult"
+    } ]
+  }, {
+    "name" : "performanceLevelReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.PerformanceLevelReferenceType"
+    } ]
+  }, {
+    "name" : "studentTestAssessmentReference",
+    "type" : "org.slc.sli.domain.ReferenceType"
+  }, {
+    "name" : "objectiveAssessmentReference",
+    "type" : "org.slc.sli.domain.ObjectiveAssessmentReferenceType"
+  } ]
+}

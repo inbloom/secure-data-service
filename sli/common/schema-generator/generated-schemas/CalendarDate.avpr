@@ -1,0 +1,23 @@
+{
+  "type" : "record",
+  "name" : "CalendarDate",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents a day in the school calendar.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "date",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "calendarEvent",
+    "type" : "org.slc.sli.domain.enum.CalendarEventType"
+  } ]
+}
