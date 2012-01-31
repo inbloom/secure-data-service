@@ -23,6 +23,8 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.resolve.IdpResolver;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
 /**
  * Realm handling api
@@ -39,15 +41,14 @@ import org.slc.sli.api.service.EntityService;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class RealmResource implements IdpResolver {
     
-    private static final Logger LOG = LoggerFactory.getLogger(RealmResource.class);
-    private static final int MAX_REALMS = 9999;
+    private static final Logger   LOG        = LoggerFactory.getLogger(RealmResource.class);
+    private static final int      MAX_REALMS = 9999;
     
     @Autowired
     private EntityDefinitionStore store;
     @Autowired
     @Value("${sli.security.sso.url}")
-    
-    private String ssoInitUrl;
+    private String                ssoInitUrl;
     
     /**
      * Provides a list of all available realms
@@ -57,10 +58,14 @@ public class RealmResource implements IdpResolver {
     @Override
     public Set<EntityBody> getRealms() {
         
-        Iterable<EntityBody> entities = getService().get(getService().list(0, MAX_REALMS));
+        Iterable<EntityBody> entities = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
+            @Override
+            public Iterable<EntityBody> execute() {
+                return getService().get(getService().list(0, MAX_REALMS));
+            }
+        });
         
         Set<EntityBody> set = new HashSet<EntityBody>();
-        
         for (EntityBody eb : entities) {
             set.add(eb);
         }
@@ -77,14 +82,21 @@ public class RealmResource implements IdpResolver {
     @GET
     @Path("ssoInit")
     @Override
-    public String getSsoInitUrl(@QueryParam("id") String realmId) {
-        EntityBody eb = getService().get(realmId);
+    public String getSsoInitUrl(@QueryParam("id") final String realmId) {
         
-        if (eb == null) {
-            throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
-        }
-        
-        String idp = (String) eb.get("idp");
+        String idp = SecurityUtil.sudoRun(new SecurityTask<String>() {
+            
+            @Override
+            public String execute() {
+                EntityBody eb = getService().get(realmId);
+                
+                if (eb == null) {
+                    throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
+                }
+                
+                return (String) eb.get("idp");
+            }
+        });
         
         if (idp == null) {
             throw new IllegalArgumentException("Realm " + realmId + " doesn't have an idp");
