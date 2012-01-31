@@ -60,7 +60,7 @@ class MappingsController < ApplicationController
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     resp = http.request(req)
     respond_to do |format|
-      format.json { render json: resp.value }
+    format.json { render json: resp, status: resp.code }
     end
   end
 
@@ -74,7 +74,7 @@ class MappingsController < ApplicationController
     resp = http.request(req)
     resp.value
     respond_to do |format|
-      format.json { render json: resp }
+      format.json { render json: resp, status: resp.code }
     end
   end
 

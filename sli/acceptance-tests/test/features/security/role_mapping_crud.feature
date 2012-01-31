@@ -14,7 +14,7 @@ Scenario: Unauthenticated users can access a list of realms
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
 	Given I am a valid "sli" end user <Username> with password <Password>
-	When I try to access the URI "/pub/roles/mapping/" with operation <Operation>
+	When I try to access the URI "/realm" with operation <Operation>
 	Then I should be denied access
 	Examples:
 	| Username        | Password            | Operation |

@@ -16,7 +16,6 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		hideAll();
-		
 		//make options of default select item visible
 		$("#" + $('select#mapping').val().replace(' ', '_')).fadeIn();
 
@@ -32,7 +31,7 @@
 			var new_role = $('input#new_role').val();
 			$.post('add', {"sli_role": sli_role, "new_role": new_role})
 			.success( function() { $("#" + sli_role.replace(' ', '_')).append($("<option></option>", {value: new_role}).text(new_role))} )
-			.error( function(){alert("error")} );
+			.error( function(resp){notifyError("Could not add role.", resp.responseText);} );
 		});
 		$('button#remove-button').click(function() {
 			var sli_role = $('select#mapping').val();
@@ -45,7 +44,7 @@
     				dataType: 'json'
 			})
 			.success( function() {client_role.remove();} )
-			.error( function(){alert("error")} );
+			.error( function(resp){notifyError("Could not delete role.", resp.responseText);} );
 		});
 
 		function hideAll() {
