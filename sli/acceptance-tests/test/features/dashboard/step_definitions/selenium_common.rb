@@ -19,14 +19,18 @@ When /^I click the Go button$/ do
   clickButton("submit")
 end
 
-def localLogin (username, password)
+Given /^the server is in "([^"]*)" mode$/ do |serverMode|
+  @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
+end
+
+def localLogin (serverMode, username, password)
   puts "SLI_DEBUG = " + $SLI_DEBUG.to_s
   puts "localLogin" if $SLI_DEBUG
   if @driver == nil 
     @driver = Selenium::WebDriver.for :firefox
   end
   baseUrl = "http://"+PropLoader.getProps['dashboard_server_address']+ 
-          PropLoader.getProps['dashboard_app_prefix'] 
+          PropLoader.getProps[@appPrefix] 
   url = baseUrl + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
