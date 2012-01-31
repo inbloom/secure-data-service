@@ -8,6 +8,7 @@ on SLI, so I could see elementary school students results
 Scenario: Check assessment result
 
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
 When I access "/studentlist"
 And I wait for "1" seconds
@@ -19,6 +20,7 @@ Then the fuel gauge label for the assessment "DIBELS_NEXT.perfLevel" and student
 
 Scenario: Check student name
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
 When I access "/studentlist"
 And I wait for "1" seconds

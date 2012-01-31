@@ -4,12 +4,12 @@ require_relative '../../utils/sli_utils.rb'
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG'] 
 
 Given /^I am not authenticated to SLI$/ do
-  url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps['dashboard_app_prefix'] + PropLoader.getProps['dashboard_logout_page']
+  url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps[@appPrefix] + PropLoader.getProps['dashboard_logout_page']
   @driver.get url
 end
 
 When /^I navigate to the Dashboard home page$/ do
-  url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps['dashboard_app_prefix']
+  url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps[@appPrefix]
   @driver.get url
   # There's a redirect to the realm page, so this assert should fail
   # assert(@driver.current_url == url, "Failed to navigate to "+url)
@@ -18,7 +18,7 @@ end
 Then /^I should be redirected to the Realm page$/ do
   # TODO
   # Change to actual realm page url when it is integrated
-  @realmPageUrl = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps['dashboard_app_prefix'] + PropLoader.getProps['dashboard_login_page']
+  @realmPageUrl = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps[@appPrefix] + PropLoader.getProps['dashboard_login_page']
   assert(@driver.current_url == @realmPageUrl, "Failed to navigate to "+@realmPageUrl)
 end
 
@@ -27,7 +27,7 @@ Given /^I am authenticated to SLI as "([^"]*)" password "([^"]*)"$/ do |username
 end
 
 Then /^I should be redirected to the Dashboard landing page$/ do
-  @expected_url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps['dashboard_app_prefix']+PropLoader.getProps['dashboard_landing_page'];
+  @expected_url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps[@appPrefix]+PropLoader.getProps['dashboard_landing_page'];
   assert(@driver.current_url == @expected_url, "Failed to navigate to "+@expected_url)
 end
 
@@ -73,12 +73,12 @@ end
 Then /^I am redirected to the SLI\-IDP Login page$/ do
   # We don't have true integration yet
   # TODO: 
-  @realmPageUrl = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps['dashboard_app_prefix'] + PropLoader.getProps['dashboard_login_page']
+  @realmPageUrl = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps[@appPrefix] + PropLoader.getProps['dashboard_login_page']
   assert(@driver.current_url.start_with?(@realmPageUrl), "Failed to navigate to "+@realmPageUrl)
 end
 
 When /^I access "([^"]*)"$/ do |path|
-  url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps['dashboard_app_prefix'] + path
+  url = "http://"+PropLoader.getProps['dashboard_server_address']+PropLoader.getProps[@appPrefix] + path
   @driver.get url
 end
 
