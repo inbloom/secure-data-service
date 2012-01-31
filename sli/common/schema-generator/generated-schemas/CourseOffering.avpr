@@ -1,0 +1,38 @@
+{
+  "type" : "record",
+  "name" : "CourseOffering",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "An offering of a course by school during a session, representing the course catalog of available courses.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "localCourseCode",
+    "doc" : "The local code assigned by the LEA that identifies the organization of subject matter and related learning experiences provided for the instruction of students.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "30",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "localCourseTitle",
+    "doc" : "The descriptive name given to a course of study offered in a school or other institution or organization. In departmentalized classes at the elementary, secondary, and postsecondary levels (and for staff development activities), this refers to the name by which a course is identified (e.g., American History, English III). For elementary and other non-departmentalized classes, it refers to any portion of the instruction for which a grade or report is assigned (e.g., reading, composition, spelling, and language arts).",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "schoolReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  }, {
+    "name" : "sessionReference",
+    "type" : "org.slc.sli.domain.SessionReferenceType"
+  }, {
+    "name" : "courseReference",
+    "type" : "org.slc.sli.domain.CourseReferenceType"
+  } ]
+}

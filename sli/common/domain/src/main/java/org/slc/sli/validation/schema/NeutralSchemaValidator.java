@@ -3,15 +3,16 @@ package org.slc.sli.validation.schema;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidator;
-import org.slc.sli.validation.NeutralSchemaRegistry;
-import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidator;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.ValidationError;
 
 /**
  * Validates an Entity body against the appropriate SLI neutral schema.
@@ -29,7 +30,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     
     // Attributes
     @Autowired
-    private NeutralSchemaRegistry entitySchemaRegistry;
+    private SchemaRepository entitySchemaRegistry;
     
     // Constructors
     public NeutralSchemaValidator() {
@@ -43,7 +44,7 @@ public class NeutralSchemaValidator implements EntityValidator {
      */
     public boolean validate(Entity entity) throws EntityValidationException {
         
-        NeutralSchema schema = entitySchemaRegistry.findSchemaForType(entity);
+        NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema == null) {
             throw new RuntimeException("No schema associated for type: " + entity.getType());
         }
@@ -58,7 +59,7 @@ public class NeutralSchemaValidator implements EntityValidator {
         return true;
     }
     
-    public void setSchemaRegistry(NeutralSchemaRegistry schemaRegistry) {
+    public void setSchemaRegistry(SchemaRepository schemaRegistry) {
         this.entitySchemaRegistry = schemaRegistry;
     }
     

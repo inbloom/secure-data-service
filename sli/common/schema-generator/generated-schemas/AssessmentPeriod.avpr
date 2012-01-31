@@ -1,0 +1,45 @@
+{
+  "type" : "record",
+  "name" : "AssessmentPeriod",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The period or window in which an assessment is supposed to be administered.",
+  "fields" : [ {
+    "name" : "codeValue",
+    "doc" : "A code or abbreviation for an element.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "description",
+    "doc" : "A detailed description of the entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "1024",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "shortDescription",
+    "doc" : "A shortened description for reference.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "50",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "beginDate",
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "endDate",
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  } ]
+}

@@ -1,0 +1,25 @@
+{
+  "type" : "record",
+  "name" : "CourseCode",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "A standard code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.",
+  "fields" : [ {
+    "name" : "identificationSystem",
+    "type" : "org.slc.sli.domain.enum.CourseCodeSystemType"
+  }, {
+    "name" : "assigningOrganizationCode",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "id",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  } ]
+}

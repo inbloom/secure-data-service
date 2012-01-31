@@ -13,6 +13,7 @@ import org.apache.ws.commons.schema.XmlSchemaMinInclusiveFacet;
 import org.apache.ws.commons.schema.XmlSchemaMinLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaPatternFacet;
 import org.apache.ws.commons.schema.XmlSchemaTotalDigitsFacet;
+
 import org.slc.sli.validation.schema.Restriction;
 
 /**
