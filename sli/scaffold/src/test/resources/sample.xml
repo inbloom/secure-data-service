@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:resources base="http://www.example.com/api/rest">
+    <ns2:resource path="/pub/realms">
+        <ns2:doc><![CDATA[Some data]]></ns2:doc>
+        <ns2:method name="GET" id="getRealms">
+            <ns2:doc><![CDATA[Some data]]></ns2:doc>
+            <ns2:response>
+                <ns2:representation mediaType="application/json"/>
+             </ns2:response>
+        </ns2:method>
+     </ns2:resource>
+</ns2:resources>
+     
