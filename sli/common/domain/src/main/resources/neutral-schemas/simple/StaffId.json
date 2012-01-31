@@ -1,0 +1,10 @@
+
+{
+   "type":"StaffId",
+   "validatorClass":"org.slc.sli.validation.RestrictedSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "min-length":"9",
+      "max-length":"9"}
+}

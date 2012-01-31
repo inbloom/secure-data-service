@@ -1,0 +1,9 @@
+
+{
+   "type":"SeparationType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Voluntary separation","Involuntary separation","Mutual agreement","Other"]}
+}

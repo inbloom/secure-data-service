@@ -1,0 +1,11 @@
+
+{
+   "type":"CourseCode",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "IdentificationSystem":"CourseCodeSystemType",
+      "*AssigningOrganizationCode":"IdentificationCode",
+      "ID":"IdentificationCode"},
+   "properties":{}
+}

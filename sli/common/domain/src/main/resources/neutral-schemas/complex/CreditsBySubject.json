@@ -1,0 +1,10 @@
+
+{
+   "type":"CreditsBySubject",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "SubjectArea":"AcademicSubjectType",
+      "Credits":"Credits"},
+   "properties":{}
+}

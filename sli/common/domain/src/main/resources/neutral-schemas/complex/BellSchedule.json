@@ -1,0 +1,11 @@
+
+{
+   "type":"BellSchedule",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "BellScheduleName":"string",
+      "WeeksInCycle":"restricted",
+      "SessionsOffered":["SessionSimpleReference"]},
+   "properties":{}
+}

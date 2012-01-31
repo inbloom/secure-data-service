@@ -1,0 +1,11 @@
+
+{
+   "type":"AcademicHonor",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "AcademicHonorsType":"AcademicHonorsType",
+      "*HonorsDescription":"HonorsDescription",
+      "*HonorAwardDate":"date"},
+   "properties":{}
+}

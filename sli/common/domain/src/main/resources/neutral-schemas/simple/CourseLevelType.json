@@ -1,0 +1,9 @@
+
+{
+   "type":"CourseLevelType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Basic or remedial","Enriched or advanced","General or regular","Honors"]}
+}

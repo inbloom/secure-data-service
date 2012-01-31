@@ -1,0 +1,9 @@
+
+{
+   "type":"MethodCreditEarnedType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Adult education credit","Classroom credit","Converted occupational experience credit","Correspondence credit","Credit by examination","Credit recovery","Online credit","Transfer credit ","Vocational credit"]}
+}
