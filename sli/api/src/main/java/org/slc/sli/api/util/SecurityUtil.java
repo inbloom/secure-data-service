@@ -18,15 +18,11 @@ public class SecurityUtil {
     
     private static final Authentication FULL_ACCESS_AUTH = new PreAuthenticatedAuthenticationToken("SYSTEM", "API", Arrays.asList(Right.FULL_ACCESS));
     
-    public static Authentication getFullAccess() {
-        return FULL_ACCESS_AUTH;
-    }
-    
     public static void sudoRun(SecurityTask task) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
         try {
-            SecurityContextHolder.getContext().setAuthentication(SecurityUtil.getFullAccess());
+            SecurityContextHolder.getContext().setAuthentication(FULL_ACCESS_AUTH);
             task.execute();
         } finally {
             SecurityContextHolder.getContext().setAuthentication(auth);

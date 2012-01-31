@@ -39,9 +39,14 @@ public class SliRequestFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         
-        String sessionId = getSessionIdFromRequest((HttpServletRequest) request);
+        HttpServletRequest http = (HttpServletRequest) request;
+        String sessionId = getSessionIdFromRequest(http);
         
         SecurityContextHolder.getContext().setAuthentication(resolver.resolve(sessionId));
+        
+        LOG.debug("Request URL: " + http.getRequestURL() + (http.getQueryString() == null ? "" : http.getQueryString()));
+        
+        chain.doFilter(request, response);
     }
     
     private String getSessionIdFromRequest(HttpServletRequest req) {
@@ -53,7 +58,7 @@ public class SliRequestFilter extends GenericFilterBean {
             sessionId = req.getHeader(HEADER_SESSION_NAME);
         }
         
-        LOG.info("Session Id: " + sessionId);
+        LOG.debug("Session Id: " + sessionId);
         
         return sessionId;
     }

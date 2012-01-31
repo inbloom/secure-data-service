@@ -7,11 +7,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -31,13 +31,11 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Produces("application/json")
 public class SessionDebugResource {
     
-    private static final Logger LOG = LoggerFactory.getLogger(SessionDebugResource.class);
-    
     @Autowired
-    RoleRightAccess             roleAccessor;
+    private RoleRightAccess roleAccessor;
     
     @Value("${sli.security.noSession.landing.url}")
-    private String              realmPage;
+    private String          realmPage;
     
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
@@ -48,6 +46,9 @@ public class SessionDebugResource {
     @GET
     @Path("debug")
     public SecurityContext getSecurityContext() {
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("User must be logged in");
+        }
         return SecurityContextHolder.getContext();
     }
     
@@ -71,6 +72,7 @@ public class SessionDebugResource {
             sessionDetails.put("redirect_user", realmPage);
         }
         
+        // Get all roles via security-elevated call
         SecurityUtil.sudoRun(new SecurityTask() {
             
             @Override
