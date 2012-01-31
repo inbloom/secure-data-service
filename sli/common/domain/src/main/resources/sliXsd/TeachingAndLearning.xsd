@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ReferenceTypes.xsd"/>
 
-	<xs:element name="TeacherSectionAssociation">
+	<xs:element name="teacherSectionAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the class sections to which a teacher is
 				assigned to. </xs:documentation>

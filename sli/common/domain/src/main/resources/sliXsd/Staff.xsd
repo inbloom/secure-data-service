@@ -304,7 +304,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:element name="Teacher">
+    <xs:element name="teacher">
         <xs:annotation>
             <xs:documentation>This entity represents a person that is employed by an LEA or other
                 educational unit engaged in student instruction. These persons are
@@ -566,7 +566,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="TeacherSchoolAssociation">
+    <xs:element name="teacherSchoolAssociation">
         <xs:annotation>
             <xs:documentation>This association indicates the school(s) to which a teacher provides
                 instructional services to.</xs:documentation>

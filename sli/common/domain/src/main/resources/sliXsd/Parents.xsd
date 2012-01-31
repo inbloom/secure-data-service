@@ -4,7 +4,7 @@
 	attributeFormDefault="unqualified">
 
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
-	<xs:element name="Parent">
+	<xs:element name="parent">
 		<xs:annotation>
 			<xs:documentation>
 				This entity represents a parent or guardian of a student, such as mother, father, or caretaker.
@@ -66,7 +66,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="StudentParentAssociation">
+	<xs:element name="studentParentAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				This association relates students to their parents, guardians, or caretakers.
