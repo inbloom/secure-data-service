@@ -11,14 +11,15 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.NeutralSchemaType;
-import org.slc.sli.validation.ValidationError;
-import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * 
@@ -261,8 +262,9 @@ public class NeutralSchema {
         
         if (!this.isPrimitive()) {
             buffer.append(this.getJsonFields("fields", this.getFields()));
-            buffer.append(this.getJsonProperties("properties", this.getProperties()));
         }
+        
+        buffer.append(this.getJsonProperties("properties", this.getProperties()));
         
         buffer.append(this.getJsonFooter());
         

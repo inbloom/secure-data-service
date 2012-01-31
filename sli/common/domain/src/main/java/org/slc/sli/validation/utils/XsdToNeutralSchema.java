@@ -35,13 +35,14 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.resolver.URIResolver;
+import org.springframework.util.ResourceUtils;
+import org.xml.sax.InputSource;
+
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.TokenSchema;
-import org.springframework.util.ResourceUtils;
-import org.xml.sax.InputSource;
 
 /**
  * Generation tool used to convert XSD to SLI Neutral Schema.
@@ -426,16 +427,8 @@ public class XsdToNeutralSchema {
             }
             
             if (tokens.size() > 0) {
-                
                 // Token Schema
                 simpleSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-            } else if ((simpleSchema.getProperties() != null) && (simpleSchema.getProperties().size() > 0)) {
-                
-                // Restricted Schema
-                NeutralSchema restrictedSchema = this.getSchemaFactory().createSchema(
-                        NeutralSchemaType.RESTRICTED.getName());
-                restrictedSchema.setProperties(simpleSchema.getProperties());
-                simpleSchema = restrictedSchema;
             }
         }
         
