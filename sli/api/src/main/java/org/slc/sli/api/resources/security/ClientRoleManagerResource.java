@@ -10,6 +10,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -83,13 +85,13 @@ public class ClientRoleManagerResource {
     }
     
     @GET
-    public List<EntityBody> getRealms() {
+    public List<EntityBody> getRealms(@Context UriInfo info) {
         List<EntityBody> result = new ArrayList<EntityBody>();
         Iterable<String> realmList = service.list(0, 100);
         for (String id : realmList) {
             EntityBody curEntity = getMappings(id);
             curEntity.remove("mappings");
-//            curEntity.put("link", info.getBaseUri());
+            curEntity.put("link", info.getRequestUri() + "/" + id);
             result.add(curEntity);
         }
         return result;
