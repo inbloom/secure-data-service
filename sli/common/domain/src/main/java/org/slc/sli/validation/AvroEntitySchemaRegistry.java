@@ -24,32 +24,33 @@ import org.apache.avro.Schema;
 import org.apache.avro.Schema.Parser;
 import org.apache.avro.SchemaParseException;
 import org.apache.commons.io.FileUtils;
-import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
+import org.slc.sli.domain.Entity;
+
 /**
  * Provides a registry for retrieving Avro schema
- *
+ * 
  * @author Sean Melody <smelody@wgen.net>
  */
 // @Component
 @Deprecated
 public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private static final Logger LOG = LoggerFactory.getLogger(AvroEntitySchemaRegistry.class);
-
+    
     private Map<String, Schema> entityTypeToSchemaMap = new HashMap<String, Schema>();
     private final String baseDir = "classpath:avroSchema";
     private final String enumBaseDir = baseDir + "/enum";
-
+    
     @PostConstruct
     public void init() {
         List<String> enumTypes = getResourceNames(enumBaseDir);
         List<String> recordTypes = getResourceNames(baseDir);
         loadSchemas(enumTypes, recordTypes);
     }
-
+    
     private static List<String> getResourceNames(String baseDir) {
         List<String> list = new LinkedList<String>();
         try {
@@ -57,7 +58,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
             LOG.debug("base schema url is {}", baseURL.toString());
             String protocol = baseURL.getProtocol();
             LOG.debug("base schema url protocol is {}", protocol);
-
+            
             // check if the schema files are archived in jar or in file system
             if (protocol.equals("jar")) {
                 String jarPath = baseURL.getPath().substring(5, baseURL.getPath().indexOf("!"));
@@ -75,7 +76,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
             } else if (protocol.equals("file")) {
                 File schemaDir = FileUtils.toFile(baseURL);
                 LOG.debug("base schema directory is {}", schemaDir);
-                Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[]{"avpr"}, false);
+                Iterator<File> it = FileUtils.iterateFiles(schemaDir, new String[] { "avpr" }, false);
                 while (it.hasNext()) {
                     String schemaName = it.next().getName();
                     LOG.debug("schema file name is {}", schemaName);
@@ -89,6 +90,7 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
         }
         return list;
     }
+    
 
     private void loadSchemas(List<String> enumTypes, List<String> recordTypes) {
         try {
@@ -176,12 +178,12 @@ public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
                     }
                 }
             }
-
+            
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
+    
     @Override
     public Schema findSchemaForType(Entity entity) {
         if (entity != null) {

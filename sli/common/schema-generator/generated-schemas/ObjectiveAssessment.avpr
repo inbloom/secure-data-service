@@ -1,0 +1,62 @@
+{
+  "type" : "record",
+  "name" : "ObjectiveAssessment",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents subtests that assess specific learning objectves.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "identificationCode",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "maxRawScore",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "nomenclature",
+    "doc" : "Reflects the common nomenclature for an element.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "35",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "assessmentItemReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  }, {
+    "name" : "learningObjectiveReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningObjectiveReferenceType"
+    } ]
+  }, {
+    "name" : "learningStandardReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.LearningStandardReferenceType"
+    } ]
+  }, {
+    "name" : "objectAssessmentReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  }, {
+    "name" : "performanceLevelReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.PerformanceLevelReferenceType"
+    } ]
+  } ]
+}

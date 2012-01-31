@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
 
-	<xs:element name="Session">
+	<xs:element name="session">
 		<xs:annotation>
 			<xs:documentation>This entity represents the prescribed span of time
 				when an education institution is open, instruction is provided, and
@@ -57,7 +57,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="BellSchedule">
+	<xs:element name="bellSchedule">
 		<xs:annotation>
 			<xs:documentation>This entity represents the schedule of class period meeting times.
 			</xs:documentation>
@@ -164,7 +164,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="SectionBellScheduleAssoc">
+	<xs:element name="sectionBellScheduleAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				An association between the section and bell schedule.
@@ -194,7 +194,7 @@
 	</xs:complexType>
 	</xs:element>
 
-	<xs:element name="EventBellScheduleAssoc">
+	<xs:element name="eventBellScheduleAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				An association between the section and bell schedule.
@@ -237,7 +237,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="Section">
+	<xs:element name="section">
 		<xs:annotation>
 			<xs:documentation>This educational entity represents a setting in
 				which organized instruction of course content is provided to one or

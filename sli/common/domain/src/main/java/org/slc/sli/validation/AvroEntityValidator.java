@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.avro.Schema;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Validates an Entity body against an Avro schema.
@@ -31,6 +32,7 @@ public class AvroEntityValidator implements EntityValidator {
     /**
      * Validates the given entity using its Avro schema.
      */
+    @Override
     public boolean validate(Entity entity) throws EntityValidationException {
         LOG.debug("validating entity {}", entity.getBody());
         Schema schema = entitySchemaRegistry.findSchemaForType(entity);
@@ -53,7 +55,7 @@ public class AvroEntityValidator implements EntityValidator {
     }
     
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
-        this.entitySchemaRegistry = schemaRegistry;
+        entitySchemaRegistry = schemaRegistry;
     }
     
     /**
@@ -63,7 +65,6 @@ public class AvroEntityValidator implements EntityValidator {
      * 
      */
     protected static class ValidatorInstance {
-        
         protected final List<ValidationError> errors = new LinkedList<ValidationError>();
         
         private boolean matchesNull(String dataName, Object dataValue, boolean captureErrors) {
@@ -98,8 +99,7 @@ public class AvroEntityValidator implements EntityValidator {
         }
         
         private boolean matchesMap(Schema map, String dataName, Object dataValue, boolean captureErrors) {
-            // throw new UnsupportedOperationException("Map value validation not implemented");
-            return true; // XXX - hack. Fix later
+            return true; // TODO - hack. Fix later
         }
         
         private boolean matchesFixed(Schema fixed, String dataName, Object dataValue, boolean captureErrors) {
