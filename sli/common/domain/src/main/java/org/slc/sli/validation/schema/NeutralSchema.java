@@ -53,7 +53,7 @@ public class NeutralSchema {
     // Constructors
     public NeutralSchema() {
     }
-
+    
     public NeutralSchema(String type) {
         this.type = type;
     }
