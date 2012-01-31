@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.avro.Schema;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Validates an Entity body against an Avro schema.
@@ -24,25 +25,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Deprecated
 public class AvroEntityValidator implements EntityValidator {
     private static final Logger LOG = LoggerFactory.getLogger(AvroEntityValidator.class);
-
+    
     @Autowired
     private EntitySchemaRegistry entitySchemaRegistry;
-
+    
     /**
      * Validates the given entity using its Avro schema.
      */
+    @Override
     public boolean validate(Entity entity) throws EntityValidationException {
         LOG.debug("validating entity {}", entity.getBody());
         Schema schema = entitySchemaRegistry.findSchemaForType(entity);
         if (schema == null) {
             throw new RuntimeException("No schema associated for type: " + entity.getType());
         }
-
+        
         runValidation(entity, schema);
-
+        
         return true;
     }
-
+    
     protected void runValidation(Entity entity, Schema schema) {
         ValidatorInstance vi = new ValidatorInstance();
         boolean valid = vi.matchesSchema(schema, "", entity.getBody(), true);
@@ -51,11 +53,11 @@ public class AvroEntityValidator implements EntityValidator {
             throw new EntityValidationException(entity.getEntityId(), entity.getType(), vi.errors);
         }
     }
-
+    
     public void setSchemaRegistry(EntitySchemaRegistry schemaRegistry) {
-        this.entitySchemaRegistry = schemaRegistry;
+        entitySchemaRegistry = schemaRegistry;
     }
-
+    
     /**
      * Validates a single entity. Not thread safe or reusable.
      *
@@ -63,9 +65,9 @@ public class AvroEntityValidator implements EntityValidator {
      *
      */
     protected static class ValidatorInstance {
-
-        final protected List<ValidationError> errors = new LinkedList<ValidationError>();
-
+        
+        protected final List<ValidationError> errors = new LinkedList<ValidationError>();
+        
         private boolean matchesNull(String dataName, Object dataValue, boolean captureErrors) {
             boolean isNull = dataValue == null;
             if (captureErrors) {
@@ -73,11 +75,11 @@ public class AvroEntityValidator implements EntityValidator {
             }
             return isNull;
         }
-
+        
         private boolean matchesField(Schema.Field field, String dataName, Object dataValue, boolean captureErrors) {
             return matchesSchema(field.schema(), dataName, dataValue, captureErrors);
         }
-
+        
         @SuppressWarnings("unchecked")
         private boolean matchesArray(Schema array, String dataName, Object dataValue, boolean captureErrors) {
             if (!List.class.isInstance(dataValue)) {
@@ -96,16 +98,16 @@ public class AvroEntityValidator implements EntityValidator {
             }
             return allMatch;
         }
-
+        
         private boolean matchesMap(Schema map, String dataName, Object dataValue, boolean captureErrors) {
-//            throw new UnsupportedOperationException("Map value validation not implemented");
-        	return true; //XXX - hack.  Fix later
+            //            throw new UnsupportedOperationException("Map value validation not implemented");
+            return true; // TODO - hack. Fix later
         }
-
+        
         private boolean matchesFixed(Schema fixed, String dataName, Object dataValue, boolean captureErrors) {
             throw new UnsupportedOperationException("Fixed value validation not implemented");
         }
-
+        
         protected boolean matchesEnum(Schema enumNum, String dataName, Object dataValue, boolean captureErrors) {
             if (!String.class.isInstance(dataValue)) {
                 if (captureErrors) {
@@ -114,7 +116,7 @@ public class AvroEntityValidator implements EntityValidator {
                 }
                 return false;
             }
-
+            
             for (String possibleValue : enumNum.getEnumSymbols()) {
                 // TODO remove ignoresCase. Pending all the schemas being updated
                 if (possibleValue.equalsIgnoreCase(dataValue.toString())) {
@@ -127,7 +129,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             return false;
         }
-
+        
         private boolean matchesRecord(Schema record, String dataName, Object dataValue, boolean captureErrors) {
             if ("java.util.Calendar".equals(record.getFullName())) {
                 if (String.class.isInstance(dataValue)) {
@@ -148,7 +150,7 @@ public class AvroEntityValidator implements EntityValidator {
                     }
                 }
             }
-
+            
             if (!Map.class.isInstance(dataValue)) {
                 if (captureErrors) {
                     errors.add(new ValidationError(ErrorType.INVALID_DATATYPE, dataName, dataValue,
@@ -156,10 +158,10 @@ public class AvroEntityValidator implements EntityValidator {
                 }
                 return false;
             }
-
+            
             boolean matchesAllFields = true;
             Set<String> fieldsSeen = new HashSet<String>();
-
+            
             @SuppressWarnings("unchecked")
             Map<String, Object> map = (Map<String, Object>) dataValue;
             for (Schema.Field field : record.getFields()) {
@@ -169,7 +171,7 @@ public class AvroEntityValidator implements EntityValidator {
                 }
                 fieldsSeen.add(field.name());
             }
-
+            
             Set<String> dataFields = new HashSet<String>(map.keySet());
             dataFields.removeAll(fieldsSeen);
             if (dataFields.size() > 0) {
@@ -180,7 +182,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             return matchesAllFields && dataFields.size() == 0;
         }
-
+        
         protected boolean matchesPrimitive(Schema primitive, String dataName, Object dataValue, boolean captureErrors) {
             switch (primitive.getType()) {
                 case STRING:
@@ -204,7 +206,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             throw new RuntimeException("Is not a primitive type: " + primitive.getName() + ", " + primitive.getType());
         }
-
+        
         private boolean matchesUnion(Schema union, String dataName, Object dataValue, boolean captureErrors) {
             boolean nullable = false;
             if (union.getTypes().size() == 2 && containsNull(union.getTypes())) {
@@ -257,10 +259,10 @@ public class AvroEntityValidator implements EntityValidator {
                     }
                 }
             }
-
+            
             return false;
         }
-
+        
         protected boolean matchesSchema(Schema schema, String dataName, Object data, boolean captureErrors) {
             switch (schema.getType()) {
                 case NULL:
@@ -290,7 +292,7 @@ public class AvroEntityValidator implements EntityValidator {
                 }
             }
         }
-
+        
         private static boolean containsNull(List<Schema> schemas) {
             for (Schema s : schemas) {
                 if (Schema.Type.NULL.equals(s.getType())) {
@@ -299,7 +301,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             return false;
         }
-
+        
         protected boolean wrapError(boolean isMatch, boolean captureErrors, String dataName, Object dataValue,
                 String expectedType) {
             if (!isMatch && captureErrors) {
@@ -308,7 +310,7 @@ public class AvroEntityValidator implements EntityValidator {
             }
             return isMatch;
         }
-
+        
         private static String buildName(String parent, String name) {
             if (!parent.equals("")) {
                 return parent + "." + name;
@@ -316,10 +318,10 @@ public class AvroEntityValidator implements EntityValidator {
                 return name;
             }
         }
-
+        
         private static String buildName(String parent, int index) {
             return parent + "[" + index + "]";
         }
     }
-
+    
 }
