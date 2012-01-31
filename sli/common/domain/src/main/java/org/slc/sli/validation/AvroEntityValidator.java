@@ -16,10 +16,10 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Validates an Entity body against an Avro schema.
- *
+ * 
  * @author Sean Melody <smelody@wgen.net>
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 // @Component
 @Deprecated
@@ -60,12 +60,11 @@ public class AvroEntityValidator implements EntityValidator {
     
     /**
      * Validates a single entity. Not thread safe or reusable.
-     *
+     * 
      * @author Ryan Farris <rfarris@wgen.net>
-     *
+     * 
      */
     protected static class ValidatorInstance {
-        
         protected final List<ValidationError> errors = new LinkedList<ValidationError>();
         
         private boolean matchesNull(String dataName, Object dataValue, boolean captureErrors) {
@@ -100,7 +99,7 @@ public class AvroEntityValidator implements EntityValidator {
         }
         
         private boolean matchesMap(Schema map, String dataName, Object dataValue, boolean captureErrors) {
-            //            throw new UnsupportedOperationException("Map value validation not implemented");
+            // throw new UnsupportedOperationException("Map value validation not implemented");
             return true; // TODO - hack. Fix later
         }
         

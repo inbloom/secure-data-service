@@ -104,7 +104,7 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:element name="Assessment">
+    <xs:element name="assessment">
         <xs:annotation>
             <xs:documentation>This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</xs:documentation>
         </xs:annotation>
@@ -280,7 +280,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:element name="StudentAssessment">
+    <xs:element name="studentAssessmentAssociation">
         <xs:annotation>
             <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</xs:documentation>
         </xs:annotation>
@@ -403,7 +403,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="SectionAssessmentAssociation">
+    <xs:element name="sectionAssessmentAssociation">
         <xs:annotation>
             <xs:documentation>This entity represents the association of a section with an administered assessment.</xs:documentation>
         </xs:annotation>

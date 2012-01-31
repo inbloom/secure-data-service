@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "SpecialEdServicesType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Special education services provided to student",
+  "fields" : [ {
+    "name" : "specialEdService",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.SpecialEdServiceItemType"
+    }
+  } ]
+}

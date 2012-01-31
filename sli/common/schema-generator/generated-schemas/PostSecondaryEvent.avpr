@@ -1,0 +1,42 @@
+{
+  "type" : "record",
+  "name" : "PostSecondaryEvent",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity captures significant postsecondary events during a student's high school tenure (e.g., FASFSA application, or college application, acceptance, and enrollment.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "eventDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "postSecondaryEventDescriptor",
+    "type" : "org.slc.sli.domain.enum.PostSecondaryEventDescriptorType"
+  }, {
+    "name" : "nameOfInstitution",
+    "doc" : "The full, legally accepted name of the institution.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "institutionId",
+    "doc" : "A unique number or alphanumeric code assigned to the postsecondary organization.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "30",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "studentReference",
+    "type" : "org.slc.sli.domain.StudentReferenceType"
+  } ]
+}

@@ -1,0 +1,28 @@
+{
+  "type" : "record",
+  "name" : "StudentDisciplineIncidentAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This association indicates those students related to a discipline incident who were victims, perpetrators, witnesses, and/or reporters.",
+  "fields" : [ {
+    "name" : "studentReference",
+    "type" : "org.slc.sli.domain.StudentReferenceType"
+  }, {
+    "name" : "disciplineIncidentReference",
+    "type" : "org.slc.sli.domain.ReferenceType"
+  }, {
+    "name" : "studentParticipationCode",
+    "type" : "org.slc.sli.domain.enum.StudentParticipationCodeType"
+  }, {
+    "name" : "studentBehaviors",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.IncidentBehavior"
+    } ]
+  }, {
+    "name" : "secondaryStudentBehaviors",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.SecondaryIncidentBehavior"
+    } ]
+  } ]
+}

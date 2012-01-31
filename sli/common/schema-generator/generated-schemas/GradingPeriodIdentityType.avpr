@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "GradingPeriodIdentityType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Encapsulates the possible attributes that can be used to lookup the grading period.",
+  "fields" : [ {
+    "name" : "schoolYear",
+    "type" : "org.slc.sli.domain.enum.SchoolYearType"
+  }, {
+    "name" : "gradingPeriod",
+    "type" : "org.slc.sli.domain.enum.GradingPeriodType"
+  } ]
+}

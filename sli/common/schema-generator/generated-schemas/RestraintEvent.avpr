@@ -1,0 +1,46 @@
+{
+  "type" : "record",
+  "name" : "RestraintEvent",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "restraintEventIdentifier",
+    "doc" : "A unique number or alphanumeric code assigned to a restraint event by a school, school system, a state, or other agency or entity.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "eventDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "educationalEnvironment",
+    "type" : [ "null", "org.slc.sli.domain.enum.EducationalEnvironmentType" ]
+  }, {
+    "name" : "restraintEventReasons",
+    "type" : "org.slc.sli.domain.RestraintEventReasonsType"
+  }, {
+    "name" : "studentReference",
+    "type" : "org.slc.sli.domain.StudentReferenceType"
+  }, {
+    "name" : "programReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ProgramReferenceType"
+    } ]
+  }, {
+    "name" : "schoolReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  } ]
+}
