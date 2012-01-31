@@ -23,7 +23,7 @@ Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
 end
 
-def localLogin (serverMode, username, password)
+def localLogin (username, password)
   puts "SLI_DEBUG = " + $SLI_DEBUG.to_s
   puts "localLogin" if $SLI_DEBUG
   if @driver == nil 

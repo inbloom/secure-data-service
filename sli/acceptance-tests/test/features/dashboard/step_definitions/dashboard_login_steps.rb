@@ -22,10 +22,6 @@ Then /^I should be redirected to the Realm page$/ do
   assert(@driver.current_url == @realmPageUrl, "Failed to navigate to "+@realmPageUrl)
 end
 
-Given /^I am authenticated to SLI \(in "([^"]*)" mode\) as "([^"]*)" password "([^"]*)"$/ do  |serverMode, username, password|
-  localLogin(serverMode, username, password)
-end
-
 Given /^I am authenticated to SLI as "([^"]*)" password "([^"]*)"$/ do |username, password|
   localLogin(username, password)
 end

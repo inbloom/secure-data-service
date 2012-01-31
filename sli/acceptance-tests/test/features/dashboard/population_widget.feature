@@ -4,7 +4,7 @@ Scenario: Selecting classes on LOS
 
 Given the server is in "test" mode
 Given I have an open web browser
-And I am authenticated to SLI (in "test" mode) as "cgray" password "cgray"
+And I am authenticated to SLI as "cgray" password "cgray"
 When I look in the school drop-down
 Then I only see "Daybreak Central High"
 
