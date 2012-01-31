@@ -7,19 +7,26 @@ Given /^I have not yet authenticated$/ do
 end
 
 When /^I make a call to get the list of realms$/ do
-  pending # express the regexp above with the code you wish you had
+  restHttpGet("/pub/realms","application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I should see a response that contains the list of realms$/ do
-  pending # express the regexp above with the code you wish you had
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Result of JSON parsing is nil")
 end
 
 Then /^I should see a URL for each realm that links to their IDP$/ do
-  pending # express the regexp above with the code you wish you had
+  @result.each do |item|
+    assert(item[url] != nil, "Realm "+item[name]+" URL was not found.")
+  end
 end
 
 Then /^I should not see any data about any realm's role\-mapping$/ do
-  pending # express the regexp above with the code you wish you had
+  @result.each do |item|
+    assert(item[role_map] == nil, "Realm "+item[name]+" Role mapping info was found.")
+  end
 end
 
 When /^I try to access the URI "([^"]*)" with operation "([^"]*)"$/ do |arg1, arg2|
@@ -45,7 +52,8 @@ When /^I GET a list of role mappings for realm "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should see a valid object returned$/ do
-  pending # express the regexp above with the code you wish you had
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
 end
 
 When /^I PUT to change the mapping between default role "([^"]*)" and custom role "([^"]*)" to role "([^"]*)" for realm "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
@@ -57,9 +65,9 @@ When /^I DELETE a mapping between the default role "([^"]*)" and custom role "([
 end
 
 When /^I duplicate the previous POST request to map the default role "([^"]*)" to custom role "([^"]*)" for realm "([^"]*)"$/ do |arg1, arg2, arg3|
-  pending # express the regexp above with the code you wish you had
+  step "I POST a mapping between default role \"#{arg1}\" and custom role \"#{arg2}\" for realm \"#{arg3}\""
 end
 
 When /^I duplicate the previous DELETE request to unmap the default role "([^"]*)" to custom role "([^"]*)" for realm "([^"]*)"$/ do |arg1, arg2, arg3|
-  pending # express the regexp above with the code you wish you had
+  step "I DELETE a mapping between the default role \"#{arg1}\" and custom role \"#{arg2}\" for realm \"#{arg3}\""
 end
