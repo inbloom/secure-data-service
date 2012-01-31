@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://slc-sli/ed-org/0.1" 
-	xmlns:tns="http://www.example.org/TestBasicSchema" elementFormDefault="qualified">
-	<simpleType name="SimpleType">
-	        <restriction base="string">
-            <minLength value="1" />
-            <maxLength value="30" />
-        </restriction>
-	</simpleType>
-</schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified">
+    
+	<xs:simpleType name="BaseSimpleType">
+	        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="30" />
+        </xs:restriction>
+	</xs:simpleType>
+    
+</xs:schema>
