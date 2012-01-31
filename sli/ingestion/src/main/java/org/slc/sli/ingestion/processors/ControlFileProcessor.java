@@ -15,9 +15,9 @@ import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Control file processor.
- *
+ * 
  * @author okrook
- *
+ * 
  */
 @Component
 public class ControlFileProcessor implements Processor {
@@ -29,12 +29,12 @@ public class ControlFileProcessor implements Processor {
 
     @Override
     @Profiled(tag = "ControlFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
-    public void process(Exchange exchange) throws Exception {    	
+    public void process(Exchange exchange) throws Exception {
         long startTime = System.currentTimeMillis();
 
         ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-        BatchJob job = this.getJobAssembler()
+        BatchJob job = getJobAssembler()
                 .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
         long endTime = System.currentTimeMillis();
