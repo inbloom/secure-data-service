@@ -48,7 +48,7 @@
 			expression=".*MongoEntityRepository" />
 	</context:component-scan>
 
-	<bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean>
+	<!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
 	<bean id="entityValidator" class="org.slc.sli.validation.AvroEntityValidator" />
 
 	<context:annotation-config />
