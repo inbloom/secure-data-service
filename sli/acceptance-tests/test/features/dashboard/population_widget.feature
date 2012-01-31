@@ -28,5 +28,6 @@ Then I see these values in the section drop-down: "Sec 923"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
+And I wait for "2" seconds
 Then I see a list of 28 students
 And the list includes: "Johnny Patel;Carmen Ortiz"

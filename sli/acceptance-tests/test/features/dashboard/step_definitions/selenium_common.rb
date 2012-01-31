@@ -109,11 +109,19 @@ def listContains(desiredContent)
   
   nonFoundItems = desiredContentArray.length
   
+  
   desiredContentArray.each do |searchValue|
+    
+    puts "in 1st loop, searchValue = " + searchValue
     studentNames.each do |student|
-      if student.attribute("innerHTML").to_s.include?(searchValue)
-        puts "Found desired item '" + searchValue + "'"
+      # puts "in 2st loop, student.attribute('innerHTML').to_s = " + student.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
+      # puts "student.attribute('innerHTML').to_s.include?(searchValue) = " + student.attribute("innerHTML").to_s.include?(searchValue).to_s
+      
+      if student.attribute("innerHTML").to_s.lstrip.rstrip.include?(searchValue)
         nonFoundItems -= 1
+        puts "Found desired item '" + searchValue + "', " + nonFoundItems.to_s + " more items to find"
+        # Stop searching for this searchValue and move to the next one
+        break
       end
     end
   end
