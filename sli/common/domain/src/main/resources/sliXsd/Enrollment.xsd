@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    xmlns="http://slc-sli/ed-org/0.1" targetNamespace="http://slc-sli/ed-org/0.1"
-    attributeFormDefault="unqualified"
->
+    xmlns:sli="http://slc-sli/ed-org/0.1"
+    attributeFormDefault="qualified"
+    xmlns:p="http://schemas.xmlsoap.org/wsdl/">
+    
     <xs:include schemaLocation="ReferenceTypes.xsd" />
 
     <xs:complexType name="StudentIdentificationCode">
@@ -345,6 +346,9 @@
                 <xs:element name="Name" type="Name">
                     <xs:annotation>
                         <xs:documentation>Full legal name of the person.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:pii>true</sli:pii>
+                        </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="OtherName" type="OtherName" minOccurs="0"
@@ -796,5 +800,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
 
 </xs:schema>
