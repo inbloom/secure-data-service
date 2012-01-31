@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- no namespace defined here - this file is intended to be included into higher level XSD files -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+elementFormDefault="qualified" attributeFormDefault="qualified"
+xmlns:sli="http://slc-sli/ed-org/0.1">
 
     <xs:include schemaLocation="SimpleTypes.xsd" />
 
