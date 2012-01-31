@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.BasicService;
-import org.slc.sli.api.service.CoreBasicService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.dal.repository.EntityRepository;
 
@@ -28,10 +27,10 @@ import org.slc.sli.dal.repository.EntityRepository;
 public class DefinitionFactory {
     
     @Autowired
-    private EntityRepository defaultRepo;
+    private EntityRepository   defaultRepo;
     
     @Autowired
-    private IdTreatment idTreatment;
+    private IdTreatment        idTreatment;
     
     @Autowired
     private ApplicationContext beanFactory;
@@ -53,10 +52,10 @@ public class DefinitionFactory {
      * 
      */
     public class EntityBuilder {
-        protected String type;
-        protected String collectionName;
-        protected String resourceName;
-        protected List<Treatment> treatments = new ArrayList<Treatment>();
+        protected String           type;
+        protected String           collectionName;
+        protected String           resourceName;
+        protected List<Treatment>  treatments = new ArrayList<Treatment>();
         protected EntityRepository repo;
         
         /**
@@ -130,11 +129,8 @@ public class DefinitionFactory {
          * @return the entity definition
          */
         public EntityDefinition build() {
-            CoreBasicService coreService = (CoreBasicService) DefinitionFactory.this.beanFactory.getBean(
-                    "coreBasicService", collectionName);
             
-            BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
-                    collectionName, treatments, coreService);
+            BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService", collectionName, treatments);
             
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);
@@ -148,8 +144,8 @@ public class DefinitionFactory {
     public class AssocBuilder extends EntityBuilder {
         private EntityInfo source;
         private EntityInfo target;
-        private String relNameFromSource;
-        private String relNameFromTarget;
+        private String     relNameFromSource;
+        private String     relNameFromTarget;
         
         /**
          * Create a builder for an association definition
@@ -171,8 +167,7 @@ public class DefinitionFactory {
          * @return the builder
          */
         public AssocBuilder from(EntityDefinition source) {
-            this.source = new EntityInfo(source, "get" + StringUtils.capitalize(source.getType()), source.getType()
-                    + "Id");
+            this.source = new EntityInfo(source, "get" + StringUtils.capitalize(source.getType()), source.getType() + "Id");
             return this;
         }
         
@@ -184,8 +179,7 @@ public class DefinitionFactory {
          * @return the builder
          */
         public AssocBuilder to(EntityDefinition target) {
-            this.target = new EntityInfo(target, "get" + StringUtils.capitalize(target.getType()), target.getType()
-                    + "Id");
+            this.target = new EntityInfo(target, "get" + StringUtils.capitalize(target.getType()), target.getType() + "Id");
             return this;
         }
         
@@ -317,17 +311,12 @@ public class DefinitionFactory {
         
         @Override
         public AssociationDefinition build() {
-            CoreBasicService coreService = (CoreBasicService) DefinitionFactory.this.beanFactory.getBean(
-                    "coreBasicService", collectionName);
             
-            BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory.getBean(
-                    "basicAssociationService", collectionName, treatments, coreService, source.getDefn(),
-                    source.getKey(), target.getDefn(), target.getKey());
+            BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory.getBean("basicAssociationService", collectionName, treatments, source.getDefn(), source.getKey(), target.getDefn(), target.getKey());
             
             source.setLinkToAssociation(this.relNameFromSource);
             target.setLinkToAssociation(this.relNameFromTarget);
-            AssociationDefinition associationDefinition = new AssociationDefinition(super.type, super.resourceName,
-                    super.collectionName, service, source, target);
+            AssociationDefinition associationDefinition = new AssociationDefinition(super.type, super.resourceName, super.collectionName, service, source, target);
             service.setDefn(associationDefinition);
             return associationDefinition;
         }
@@ -343,10 +332,10 @@ public class DefinitionFactory {
      */
     public static class EntityInfo {
         private final EntityDefinition defn;
-        private final String linkName;
-        private final String key;
-        private final String hopLinkName;
-        private String linkToAssociation;
+        private final String           linkName;
+        private final String           key;
+        private final String           hopLinkName;
+        private String                 linkToAssociation;
         
         public EntityInfo(EntityDefinition defn, String linkName, String hopLinkName, String key) {
             super();

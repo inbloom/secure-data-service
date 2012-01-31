@@ -101,23 +101,28 @@ public class Student {
     }
 
     
-    public boolean getProgramParticipation(String programCode) {
-        if (programCode.equals(Constants.PROGRAM_ELL))
-            return isLimitedEnglishProficient();
-        
-        if (programCode.equals(Constants.PROGRAM_FRE))
-            return isSchoolFoodServiceEligile();
-        
+    public boolean hasProgramParticipation(String programCode) {
+        if (programCode.equals(Constants.PROGRAM_ELL)) {
+            return hasLimitedEnglishProficiency();
+        }
+        if (programCode.equals(Constants.PROGRAM_FRE)) {
+            return hasSchoolFoodServiceEligibility();
+        }
         return false;
     }
     
-    private boolean isLimitedEnglishProficient() {
-        return limitedEnglishProficiency.equals("Yes");
+    private boolean hasLimitedEnglishProficiency() {
+        return limitedEnglishProficiency.equals(Constants.SHOW_ELL_LOZENGE);
     }
     
     
-    private boolean isSchoolFoodServiceEligile() {
-        return schoolFoodServiceEligibility.equals("Free");
+    private boolean hasSchoolFoodServiceEligibility() {
+        for (Constants.FREParticipation part : Constants.FREParticipation.values()) {
+            if (schoolFoodServiceEligibility.equals(part.getValue())) {
+                return true;
+            }
+        }
+        return false;
     }
     
     

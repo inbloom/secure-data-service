@@ -2,6 +2,7 @@ package org.slc.sli.api.service.query;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class QueryConverterTest {
     QueryConverter queryConverter;
     
     @Test
+    @Ignore("need to be replaced with neutral schema")
     public void testfindParamType() {
         assertEquals(queryConverter.findParamType("studentAssessmentAssociation", "performanceLevel"), "STRING");
         assertEquals(queryConverter.findParamType("studentAssessmentAssociation", "scoreResults.result"), "STRING");
@@ -31,22 +33,26 @@ public class QueryConverterTest {
     }
     
     @Test
+    @Ignore("need to be replaced with neutral schema")
     public void testStringToQuery() {
         assertEquals(queryConverter.stringToQuery("studentAssessmentAssociation", "performanceLevel=4")
                 .getQueryObject(), new Query(Criteria.where("body.performanceLevel").is("4")).getQueryObject());
     }
     
     @Test(expected = QueryParseException.class)
+    @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException1() {
         queryConverter.stringToQuery("studentAssessmentAssociation", "nonexist.field=test");
     }
     
     @Test(expected = QueryParseException.class)
+    @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException2() {
         queryConverter.stringToQuery("studentAssessmentAssociation", "incomplete.field=");
     }
     
     @Test(expected = QueryParseException.class)
+    @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException3() {
         queryConverter.stringToQuery("studentAssessmentAssociation", "incomplete.field");
     }

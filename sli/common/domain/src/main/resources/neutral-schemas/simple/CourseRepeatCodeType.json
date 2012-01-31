@@ -1,0 +1,9 @@
+
+{
+   "type":"CourseRepeatCodeType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["RepeatCounted","RepeatNotCounted","ReplacementCounted","ReplacedNotCounted","RepeatOtherInstitution","NotCountedOther"]}
+}

@@ -1,0 +1,9 @@
+
+{
+   "type":"StudentIdentificationSystemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Canadian SIN","District","Family","Federal","Local","National Migrant","Other","School","SSN","State","State Migrant"]}
+}

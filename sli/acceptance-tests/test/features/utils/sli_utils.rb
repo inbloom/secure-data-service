@@ -256,3 +256,29 @@ class PropLoader
     @@modified=true
   end
 end
+
+module CreateEntityHash
+  def CreateEntityHash.createBaseStudent()
+    data = Hash[
+        "studentUniqueStateId" => 123456,
+        "name" => Hash[
+          "firstName" => "fname",
+          "lastSurname" => "lname",
+          "middleName" => "mname"],
+        "sex" => "Male",
+        "birthData" => Hash[
+          "birthDate" => "2012-01-01"
+          ]
+        ]
+    return data
+  end
+  
+  def CreateEntityHash.createBaseSchool()
+    data = Hash[
+        "nameOfInstitution" => "school name",
+        "stateOrganizationId" => "12345678",
+        "gradesOffered" => [ "First_grade", "Second_grade" ],
+        ]
+    return data
+  end
+end

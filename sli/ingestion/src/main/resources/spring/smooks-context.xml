@@ -7,10 +7,6 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        ">
 
-  <bean id="smooks" class="org.milyn.Smooks" destroy-method="close">
-    <constructor-arg index="0" value="smooks_conf/smooks-config.xml"></constructor-arg>
-  </bean>
-
   <bean id="smooksConfigMap" class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="targetMapClass">
       <value>java.util.HashMap</value>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified">
+    
+	<xs:include schemaLocation="TestBasicSchema.xsd" />
+
+	<xs:complexType name="TestComplexType">
+		<xs:sequence>
+			<xs:element name="testString" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A test String
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="testSimpleReference" type="BaseSimpleType">
+				<xs:annotation>
+					<xs:documentation>A reference to another type
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="testDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>A test date
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

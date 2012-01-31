@@ -1,0 +1,29 @@
+{
+  "type" : "record",
+  "name" : "ContractedStaff",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This financial entity represents the sum of the financal transactions to date for contracted staff.  Contracted staff includes \"contractors\" or \"consultants\" who perform services for an agreed upon fee, or an employee of a management service contracted to work on site.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "fiscalYear",
+    "type" : "int"
+  }, {
+    "name" : "amountToDate",
+    "doc" : "US currency in dollars and cents.",
+    "type" : {
+      "type" : "double",
+      "xsd-type" : "decimal"
+    }
+  }, {
+    "name" : "accountReference",
+    "type" : "org.slc.sli.domain.AccountReferenceType"
+  }, {
+    "name" : "staffReference",
+    "type" : "org.slc.sli.domain.StaffReferenceType"
+  } ]
+}

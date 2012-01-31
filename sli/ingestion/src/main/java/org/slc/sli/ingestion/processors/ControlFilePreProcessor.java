@@ -35,9 +35,8 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
 
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-        
         exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
     }
 
 }

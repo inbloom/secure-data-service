@@ -7,7 +7,7 @@ class MappingsController < ApplicationController
       map = {}
       map[:name] = role.name
       map[:mappings] = []
-      if role.mappings.attributes[realm]
+      if !role.mappings.nil? and role.mappings.attributes[realm]
         map[:mappings] = role.mappings.attributes[realm]
       end
       mapping.push map
@@ -52,10 +52,30 @@ class MappingsController < ApplicationController
   # POST /mappings/1/add
   def add
     require 'net/http'
-    url = URI.parse('https://testap1.slidev.org/api/rest/pub/roles/mappings')
-    post = {:sessionId => cookies['iPlanetDirectoryPro'], :realmId => params[:id], :sliRole => params[:sli_role], :clientRole => params[:new_role]}
-    #make an ajax request to the mapping url.
-    resp, data = Net::HTTP.post_form(url, post);
+    url = URI.parse("#{APP_CONFIG['api_base']}/pub/roles/mappings")
+    req = Net::HTTP::Post.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&sliRole=#{URI.escape(params[:sli_role])}&clientRole=#{URI.escape(params[:new_role])}")
+    #req.set_form_data( {:sessionId => cookies['iPlanetDirectoryPro'], :realmId => params[:id], :sliRole => params[:sli_role], :clientRole => params[:new_role]})
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    resp = http.request(req)
+    respond_to do |format|
+    format.json { render json: resp, status: resp.code }
+    end
+  end
+
+  def remove 
+    require 'net/http'
+    url = URI.parse("#{APP_CONFIG['api_base']}/pub/roles/mappings")
+    req = Net::HTTP::Delete.new("#{url.request_uri}?realmId=#{URI.escape(params[:id])}&clientRole=#{URI.escape(params[:client_role])}")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    resp = http.request(req)
+    resp.value
+    respond_to do |format|
+      format.json { render json: resp, status: resp.code }
+    end
   end
 
   # # POST /mappings
@@ -76,30 +96,30 @@ class MappingsController < ApplicationController
 
   # PUT /mappings/1
   # PUT /mappings/1.json
-  def update
-    @realm_id = params[:id]
-    @mapping = Mapping.find(params[:id])
-  
-    respond_to do |format|
-      if @mapping.update_attributes(params[:mapping])
-        format.html { redirect_to @mapping, notice: 'Mapping was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @mapping.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   @realm_id = params[:id]
+  #   @mapping = Mapping.find(params[:id])
   # 
-  # # DELETE /mappings/1
-  # # DELETE /mappings/1.json
-  def destroy
-    @mapping = Mapping.find(params[:id])
-    @mapping.destroy
-  
-    respond_to do |format|
-      format.html { redirect_to mappings_url }
-      format.json { head :ok }
-    end
-  end
+  #   respond_to do |format|
+  #     if @mapping.update_attributes(params[:mapping])
+  #       format.html { redirect_to @mapping, notice: 'Mapping was successfully updated.' }
+  #       format.json { head :ok }
+  #     else
+  #       format.html { render action: "edit" }
+  #       format.json { render json: @mapping.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+  # # 
+  # # # DELETE /mappings/1
+  # # # DELETE /mappings/1.json
+  # def destroy
+  #   @mapping = Mapping.find(params[:id])
+  #   @mapping.destroy
+  # 
+  #   respond_to do |format|
+  #     format.html { redirect_to mappings_url }
+  #     format.json { head :ok }
+  #   end
+  # end
 end

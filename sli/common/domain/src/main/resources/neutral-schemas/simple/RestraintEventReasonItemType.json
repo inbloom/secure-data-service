@@ -1,0 +1,9 @@
+
+{
+   "type":"RestraintEventReasonItemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Imminent Serious Physical Harm To Themselves","Imminent Serious Physical Harm To Others","Imminent Serious Property Destruction"]}
+}

@@ -1,146 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:util="http://www.springframework.org/schema/util"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd   
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd ">
 
-  <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+	<bean id="ingestionPropertiesPlaceholder"
+		class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
-    <!-- this avoids errors with *other* property placeholders -->
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
+		<!-- this avoids errors with *other* property placeholders -->
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 
-    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
-    <property name="ignoreResourceNotFound" value="true" />
+		<!-- this allows using an optional local properties file (ingestion-dev.properties) -->
+		<property name="ignoreResourceNotFound" value="true" />
 
-    <property name="locations">
-      <list>
-        <value>classpath:ingestion.properties</value>
-        <!-- create this file with custom settings for your dev environment -->
-        <value>classpath:ingestion-dev.properties</value>
+		<property name="locations">
+			<list>
+				<value>classpath:ingestion.properties</value>
+				<!-- create this file with custom settings for your dev environment -->
+				<value>classpath:ingestion-dev.properties</value>
 
 
-        <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
+				<value>classpath:/data-access/dal/config/${sli.env}/project.properties
+				</value>
 
-        <!-- override specific properties for testing -->
-        <value>classpath:/data-access/dal/config/${sli.env}/test.properties</value>
-      </list>
-    </property>
-  </bean>
+				<!-- override specific properties for testing -->
+				<value>classpath:/data-access/dal/config/${sli.env}/test.properties
+				</value>
+			</list>
+		</property>
+	</bean>
 
-  <import resource="smooks-context.xml" />
-  <import resource="classpath:/spring/db.xml" />
+	<import resource="smooks-context.xml" />
+	<import resource="classpath:/spring/db.xml" />
 
-  <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
-    /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
+	<!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> 
+		<property name="slienv" value="${sli.env}" /> <property name="testprop" value="${sli.test.prop}" 
+		/> </bean> -->
 
-  <context:component-scan base-package="org.slc.sli">
-    <context:exclude-filter type="regex" expression=".*CustomImpl" />
-    <context:exclude-filter type="regex" expression=".*MongoEntityRepository" />
-  </context:component-scan>
+	<context:component-scan base-package="org.slc.sli">
+		<context:exclude-filter type="regex"
+			expression=".*CustomImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*MongoEntityRepository" />
+	</context:component-scan>
 
-  <context:annotation-config />
+	<!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
+	<bean id="entityValidator" class="org.slc.sli.validation.AvroEntityValidator" />
 
-  <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
-    <property name="directory" value="src/test/resources/dummylz"></property>
-  </bean>
+	<context:annotation-config />
 
-  <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
+	<bean id="lz"
+		class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
+		<property name="directory" value="src/test/resources/dummylz"></property>
+	</bean>
 
-  <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
-    <property name="connectionFactory">
-  	  <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
-  	    <constructor-arg>
-  		  <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF"/>
-  		</constructor-arg>
-  		<constructor-arg>
-  		  <bean class="org.hornetq.api.core.TransportConfiguration" >
-		    <constructor-arg index="0">
-              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
-	        </constructor-arg>
-            <constructor-arg index="1">
-              <map>
-                <entry key="host" value="${queues.workItem.host}"/>
-                <entry key="port" value="${queues.workItem.port}"/>
-              </map>
-            </constructor-arg>
-          </bean>
-        </constructor-arg>
-      </bean>
-    </property>
-  </bean>
+	<bean id="tempLz"
+		class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
 
-  <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
-    <property name="ingestionFileValidators">
-      <list>
-        <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
-        <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
-        <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
-      </list>
-    </property>
-  </bean>
+	<bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory">
+			<bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
+				<constructor-arg>
+					<util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF" />
+				</constructor-arg>
+				<constructor-arg>
+					<bean class="org.hornetq.api.core.TransportConfiguration">
+						<constructor-arg index="0">
+							<value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory
+							</value>
+						</constructor-arg>
+						<constructor-arg index="1">
+							<map>
+								<entry key="host" value="${queues.workItem.host}" />
+								<entry key="port" value="${queues.workItem.port}" />
+							</map>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 
-  <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
-  </bean>
+	<bean id="controlFileValidator"
+		class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
+		<property name="ingestionFileValidators">
+			<list>
+				<bean
+					class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
+				<bean
+					class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
+				<bean
+					class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-    <property name="basenames">
-      <list>
-        <value>messages</value>
-      </list>
-    </property>
-  </bean>
+	<bean id="zipFileValidator"
+		class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
+	</bean>
 
-  <camelContext xmlns="http://camel.apache.org/schema/spring">
-    <contextScan></contextScan>
-  </camelContext>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+			</list>
+		</property>
+	</bean>
 
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
-    <property name="sliSmooksFactory">
-      <ref bean="sliSmooksFactory" />
-    </property>
-  </bean>
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<contextScan></contextScan>
+	</camelContext>
 
-  <bean id="xmlFileHandler" parent="smooksFileHandler">
-    <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-    </property>
-  </bean>
+	<bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+		<property name="sliSmooksFactory">
+			<ref bean="sliSmooksFactory" />
+		</property>
+	</bean>
 
-  <bean id="csvFileHandler" parent="smooksFileHandler">
-    <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
-    </property>
-  </bean>
+	<bean id="xmlFileHandler" parent="smooksFileHandler">
+		<property name="preValidator">
+			<bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+		</property>
+	</bean>
 
-  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
-    <property name="fileHandlerMap">
-      <map>
-        <entry key="#{T(org.slc.sli.ingestion.FileFormat).CSV}">
-          <ref bean="csvFileHandler" />
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileFormat).EDFI_XML}">
-          <ref bean="xmlFileHandler" />
-        </entry>
-      </map>
-    </property>
-  </bean>
+	<bean id="csvFileHandler" parent="smooksFileHandler">
+		<property name="preValidator">
+			<bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
+		</property>
+	</bean>
 
-  <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
-    <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
-    </property>
-  </bean>
+	<bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
+		<property name="fileHandlerMap">
+			<map>
+				<entry key="#{T(org.slc.sli.ingestion.FileFormat).CSV}">
+					<ref bean="csvFileHandler" />
+				</entry>
+				<entry key="#{T(org.slc.sli.ingestion.FileFormat).EDFI_XML}">
+					<ref bean="xmlFileHandler" />
+				</entry>
+			</map>
+		</property>
+	</bean>
 
-  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="entityPersistHandler">
-      <ref bean="entityPersistHandler" />
-    </property>
-  </bean>
-  
-  <bean id="testAvroRecordValidator" class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
+	<bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
+		<property name="preValidator">
+			<bean
+				class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
+		</property>
+	</bean>
+
+	<bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
+		<property name="entityPersistHandler">
+			<ref bean="entityPersistHandler" />
+		</property>
+	</bean>
+
+	<bean id="testAvroRecordValidator"
+		class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
 
 </beans>

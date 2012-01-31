@@ -1,0 +1,9 @@
+
+{
+   "type":"CohortType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Academic Intervention","Attendance Intervention","Discipline Intervention","Classroom Pullout","Extracurricular Activity","Field Trip","Principal Watch List","Counselor List","In-school Suspension","Study Hall","Other"]}
+}
