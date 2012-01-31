@@ -41,7 +41,7 @@
   <xs:element name="lozenges">
     <xs:complexType>
       <xs:attribute name="names" use="required"/>
-      <xs:attribute name="position" use="required">
+      <xs:attribute name="position" use="optional" default="post">
         <xs:simpleType>
           <xs:restriction base="xs:string">
             <xs:enumeration value="pre"/>

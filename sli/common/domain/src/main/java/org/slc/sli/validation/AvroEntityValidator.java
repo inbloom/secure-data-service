@@ -99,7 +99,6 @@ public class AvroEntityValidator implements EntityValidator {
         }
         
         private boolean matchesMap(Schema map, String dataName, Object dataValue, boolean captureErrors) {
-            // throw new UnsupportedOperationException("Map value validation not implemented");
             return true; // TODO - hack. Fix later
         }
         
@@ -184,24 +183,23 @@ public class AvroEntityValidator implements EntityValidator {
         
         protected boolean matchesPrimitive(Schema primitive, String dataName, Object dataValue, boolean captureErrors) {
             switch (primitive.getType()) {
-                case STRING:
-                    return wrapError(String.class.isInstance(dataValue), captureErrors, dataName, dataValue, "String");
-                case BYTES:
-                    return wrapError(byte[].class.isInstance(dataValue), captureErrors, dataName, dataValue, "Bytes");
-                case INT:
-                    return wrapError(Integer.class.isInstance(dataValue), captureErrors, dataName, dataValue,
-                            "32bit Number");
-                case LONG:
-                    return wrapError(Long.class.isInstance(dataValue), captureErrors, dataName, dataValue,
-                            "64bit Number");
-                case DOUBLE:
-                    return wrapError(Double.class.isInstance(dataValue), captureErrors, dataName, dataValue,
-                            "64bit Floating Point Number");
-                case FLOAT:
-                    return wrapError(Float.class.isInstance(dataValue), captureErrors, dataName, dataValue,
-                            "32bit Floating Point Number");
-                case BOOLEAN:
-                    return wrapError(Boolean.class.isInstance(dataValue), captureErrors, dataName, dataValue, "Boolean");
+            case STRING:
+                return wrapError(String.class.isInstance(dataValue), captureErrors, dataName, dataValue, "String");
+            case BYTES:
+                return wrapError(byte[].class.isInstance(dataValue), captureErrors, dataName, dataValue, "Bytes");
+            case INT:
+                return wrapError(Integer.class.isInstance(dataValue), captureErrors, dataName, dataValue,
+                        "32bit Number");
+            case LONG:
+                return wrapError(Long.class.isInstance(dataValue), captureErrors, dataName, dataValue, "64bit Number");
+            case DOUBLE:
+                return wrapError(Double.class.isInstance(dataValue), captureErrors, dataName, dataValue,
+                        "64bit Floating Point Number");
+            case FLOAT:
+                return wrapError(Float.class.isInstance(dataValue), captureErrors, dataName, dataValue,
+                        "32bit Floating Point Number");
+            case BOOLEAN:
+                return wrapError(Boolean.class.isInstance(dataValue), captureErrors, dataName, dataValue, "Boolean");
             }
             throw new RuntimeException("Is not a primitive type: " + primitive.getName() + ", " + primitive.getType());
         }
@@ -264,31 +262,31 @@ public class AvroEntityValidator implements EntityValidator {
         
         protected boolean matchesSchema(Schema schema, String dataName, Object data, boolean captureErrors) {
             switch (schema.getType()) {
-                case NULL:
-                    return matchesNull(dataName, data, captureErrors);
-                case UNION:
-                    return matchesUnion(schema, dataName, data, captureErrors);
-                case STRING:
-                case BYTES:
-                case INT:
-                case LONG:
-                case FLOAT:
-                case DOUBLE:
-                case BOOLEAN:
-                    return matchesPrimitive(schema, dataName, data, captureErrors);
-                case RECORD:
-                    return matchesRecord(schema, dataName, data, captureErrors);
-                case ENUM:
-                    return matchesEnum(schema, dataName, data, captureErrors);
-                case ARRAY:
-                    return matchesArray(schema, dataName, data, captureErrors);
-                case MAP:
-                    return matchesMap(schema, dataName, data, captureErrors);
-                case FIXED:
-                    return matchesFixed(schema, dataName, data, captureErrors);
-                default: {
-                    throw new RuntimeException("Unknown Avro Schema Type: " + schema.getType());
-                }
+            case NULL:
+                return matchesNull(dataName, data, captureErrors);
+            case UNION:
+                return matchesUnion(schema, dataName, data, captureErrors);
+            case STRING:
+            case BYTES:
+            case INT:
+            case LONG:
+            case FLOAT:
+            case DOUBLE:
+            case BOOLEAN:
+                return matchesPrimitive(schema, dataName, data, captureErrors);
+            case RECORD:
+                return matchesRecord(schema, dataName, data, captureErrors);
+            case ENUM:
+                return matchesEnum(schema, dataName, data, captureErrors);
+            case ARRAY:
+                return matchesArray(schema, dataName, data, captureErrors);
+            case MAP:
+                return matchesMap(schema, dataName, data, captureErrors);
+            case FIXED:
+                return matchesFixed(schema, dataName, data, captureErrors);
+            default: {
+                throw new RuntimeException("Unknown Avro Schema Type: " + schema.getType());
+            }
             }
         }
         

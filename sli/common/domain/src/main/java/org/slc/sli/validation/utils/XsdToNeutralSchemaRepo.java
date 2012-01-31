@@ -43,11 +43,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.xml.sax.InputSource;
 
-import org.slc.sli.validation.schema.ListSchema;
-import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaFactory;
 import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.ListSchema;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.TokenSchema;
 
 /**
@@ -75,7 +75,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
     
     @Autowired
-    public XsdToNeutralSchemaRepo(@Value("classpath:sliXsd") String xsdPath, SchemaFactory schemaFactory) throws IOException {
+    public XsdToNeutralSchemaRepo(@Value("classpath:sliXsd") String xsdPath, SchemaFactory schemaFactory)
+            throws IOException {
         this.xsdPath = xsdPath;
         this.schemaFactory = schemaFactory;
         generateSchemas();
@@ -203,13 +204,13 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
             NeutralSchema complexSchema = this.getSchemaFactory().createSchema(name);
             return parseComplexType((XmlSchemaComplexType) type, complexSchema, schema);
         } else if (type instanceof XmlSchemaSimpleType) {
-            return parseSimpleType((XmlSchemaSimpleType) type, schema);
+            return parseSimpleType((XmlSchemaSimpleType) type, schema, name);
         } else {
             throw new RuntimeException("Unsupported schema type: " + type.getClass().getCanonicalName());
         }
     }
     
-    private NeutralSchema parseSimpleType(XmlSchemaSimpleType schemaSimpleType, XmlSchema schema) {
+    private NeutralSchema parseSimpleType(XmlSchemaSimpleType schemaSimpleType, XmlSchema schema, String name) {
         NeutralSchema simpleSchema = null;
         
         String simpleTypeName = schemaSimpleType.getName();
@@ -235,7 +236,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
             XmlSchemaSimpleTypeList content = (XmlSchemaSimpleTypeList) schemaSimpleType.getContent();
             NeutralSchema listContentSchema = null;
             if (content.getItemType() != null) {
-                listContentSchema = parseSimpleType(content.getItemType(), schema);
+                listContentSchema = parseSimpleType(content.getItemType(), schema, null);
             } else {
                 QName itemTypeName = content.getItemTypeName();
                 listContentSchema = this.getSchemaFactory().createSchema(itemTypeName.getLocalPart());
@@ -279,21 +280,20 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
             }
             
             if (tokens.size() > 0) {
-                
                 // Token Schema
                 simpleSchema.getProperties().put(TokenSchema.TOKENS, tokens);
-            } else if ((simpleSchema.getProperties() != null) && (simpleSchema.getProperties().size() > 0)) {
-                
-                // Restricted Schema
-                NeutralSchema restrictedSchema = this.getSchemaFactory().createSchema(
-                        NeutralSchemaType.RESTRICTED.getName());
-                restrictedSchema.setProperties(simpleSchema.getProperties());
-                simpleSchema = restrictedSchema;
             }
         }
         
         if ((simpleSchema != null) && (simpleTypeName != null)) {
             simpleSchema.setType(simpleTypeName);
+        } else if (simpleSchema != null && simpleTypeName == null && name != null
+                && simpleSchema.getProperties().size() > 0) {
+            /*
+             * If we hit this conditional block, it means we need to create a new NeutralSchema to
+             * represent this XML element that is defined in-line.
+             */
+            simpleSchema.setType(name);
         }
         
         return simpleSchema;
