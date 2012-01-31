@@ -19,10 +19,10 @@ import org.slc.sli.domain.Entity;
 @Component
 public class AssociativeContextResolver implements EntityContextResolver {
     
-    private EntityRepository repository;
+    private EntityRepository            repository;
     
-    private String sourceType;
-    private String targetType;
+    private String                      sourceType;
+    private String                      targetType;
     private List<AssociationDefinition> associativeContextPath;
     
     /**
@@ -40,8 +40,7 @@ public class AssociativeContextResolver implements EntityContextResolver {
             List<String> keys = getAssocKeys(searchType, ad);
             String sourceKey = keys.get(0);
             String targetKey = keys.get(1);
-            Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), new Query(Criteria
-                    .where("body." + sourceKey).in(ids)), 0, 9999);
+            Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), new Query(Criteria.where("body." + sourceKey).in(ids)), 0, 9999);
             
             ids.clear();
             for (Entity e : entities) {
@@ -59,8 +58,7 @@ public class AssociativeContextResolver implements EntityContextResolver {
         } else if (ad.getTargetEntity().getType().equals(searchEntityType)) {
             return ad.getSourceEntity().getType();
         } else {
-            throw new IllegalArgumentException("Entity is not a member of association " + searchEntityType + " "
-                    + ad.getType());
+            throw new IllegalArgumentException("Entity is not a member of association " + searchEntityType + " " + ad.getType());
         }
         
     }
@@ -72,14 +70,8 @@ public class AssociativeContextResolver implements EntityContextResolver {
         } else if (ad.getTargetEntity().getType().equals(entityType)) {
             return Arrays.asList(ad.getTargetKey(), ad.getSourceKey());
         } else {
-            throw new IllegalArgumentException("Entity is not a member of association " + entityType + " "
-                    + ad.getType());
+            throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
         }
-    }
-    
-    @Override
-    public boolean hasPermission(Entity principal, Entity resource) {
-        return true;  // TODO stub. traverse associative context path
     }
     
     @Override

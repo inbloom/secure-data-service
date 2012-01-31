@@ -23,7 +23,7 @@ Then /^I should be redirected to the Realm page$/ do
 end
 
 Given /^I am authenticated to SLI as "([^"]*)" password "([^"]*)"$/ do |username, password|
-  sleep 1
+  sleep 4
   localLogin(username, password)
 end
 
