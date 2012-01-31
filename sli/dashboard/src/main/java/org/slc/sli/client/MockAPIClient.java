@@ -54,11 +54,10 @@ public class MockAPIClient implements APIClient {
     
     @Override
     public Assessment[] getAssessments(final String token, List<String> studentIds) {
-        String filename = "src/test/resources/mock_data/" + token + "/assessment.json";
         Assessment[] assessments = fromFile(getFilename("mock_data/" + token.replaceAll("\\W", "") + "/assessment.json"), Assessment[].class);
         Vector<Assessment> filtered = new Vector<Assessment>();
         // perform the filtering. 
-        /* TODO: Start filtering again, when we actually get student uids from a list
+        
         for (Assessment assessment : assessments) { 
             if (studentIds.contains(assessment.getStudentId())) { 
                 filtered.add(assessment);
@@ -66,8 +65,6 @@ public class MockAPIClient implements APIClient {
         }
         Assessment[] retVal = new Assessment[filtered.size()]; 
         return filtered.toArray(retVal);
-        */
-        return assessments;
     }
 
     @Override
