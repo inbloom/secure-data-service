@@ -54,7 +54,7 @@ public class PersistenceProcessor implements Processor {
     @Override
     @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) {
-
+    	
         long startTime = System.currentTimeMillis();
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
@@ -89,8 +89,7 @@ public class PersistenceProcessor implements Processor {
         // Update Camel Exchange processor output result
         exchange.getIn().setBody(job);
 
-
-
+        exchange.getIn().setHeader("IngestionMessageType", "");
 
         long endTime = System.currentTimeMillis();
 

@@ -7,6 +7,7 @@ each student, to inform instruction.
 
 Scenario: Check no lozenges
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
 And I wait for "1" seconds
 When I select school "South Daybreak Elementary"
@@ -17,6 +18,7 @@ Then there is no lozenges for student "Student Fake"
 
 Scenario: Check program participation lozenges
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "lkim" password "lkim"
 When I access "/studentlist"
 And I wait for "1" seconds
@@ -28,6 +30,7 @@ Then the lozenge for student "Bacon Burger" include "504"
 
 Scenario: Check student attribute lozenges
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "lkim" password "lkim"
 When I access "/studentlist"
 And I wait for "1" seconds

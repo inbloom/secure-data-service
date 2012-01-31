@@ -1,0 +1,9 @@
+
+{
+   "type":"CourseLevelCharacteristicItemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Advanced","Advanced Placement","Core Subject","Correspondence","CTE","Distance Learning","Dual Credit","Graduation Credit","Honors","IB Course","Magnet","Pre-AP","Pre-IB","Remedial","Students with disabilities","Basic","General","Gifted and Talented","College level","English Language Learner","Untracked","Accepted as high school equivalent","Other"]}
+}

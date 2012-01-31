@@ -1,0 +1,9 @@
+
+{
+   "type":"IncidentLocationType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["On School","Administrative offices area","Cafeteria area","Classroom","Hallway or stairs","Locker room or gym areas","Restroom","Library/media center","Computer lab","Auditorium","On-School other inside area","Athletic field or playground","Stadium","Parking lot","On-School other outside area","Off School","Bus stop","School bus","Walking to or from school","Off-School at other school","Off-School at other school district facility","Online","Unknown"]}
+}

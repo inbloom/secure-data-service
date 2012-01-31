@@ -1,0 +1,15 @@
+
+{
+   "type":"LeaveEvent",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*id":"ID",
+      "EventDate":"date",
+      "LeaveEventCategory":"LeaveEventCategoryType",
+      "*LeaveEventReason":"LeaveEventReason",
+      "*HoursOnLeave":"decimal",
+      "*SubstituteAssigned":"boolean",
+      "StaffReference":"StaffSimpleReference"},
+   "properties":{}
+}

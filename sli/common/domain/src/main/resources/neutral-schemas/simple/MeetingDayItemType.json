@@ -1,0 +1,9 @@
+
+{
+   "type":"MeetingDayItemType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]}
+}
