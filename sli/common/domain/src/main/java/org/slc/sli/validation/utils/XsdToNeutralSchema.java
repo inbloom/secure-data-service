@@ -352,13 +352,13 @@ public class XsdToNeutralSchema {
             NeutralSchema complexSchema = this.getSchemaFactory().createSchema(name);
             return parseComplexType((XmlSchemaComplexType) type, complexSchema);
         } else if (type instanceof XmlSchemaSimpleType) {
-            return parseSimpleType((XmlSchemaSimpleType) type);
+            return parseSimpleType((XmlSchemaSimpleType) type, name);
         } else {
             throw new RuntimeException("Unsupported schema type: " + type.getClass().getCanonicalName());
         }
     }
     
-    private NeutralSchema parseSimpleType(XmlSchemaSimpleType schemaSimpleType) {
+    private NeutralSchema parseSimpleType(XmlSchemaSimpleType schemaSimpleType, String name) {
         NeutralSchema simpleSchema = null;
         
         String simpleTypeName = schemaSimpleType.getName();
@@ -384,7 +384,7 @@ public class XsdToNeutralSchema {
             XmlSchemaSimpleTypeList content = (XmlSchemaSimpleTypeList) schemaSimpleType.getContent();
             NeutralSchema listContentSchema = null;
             if (content.getItemType() != null) {
-                listContentSchema = parseSimpleType(content.getItemType());
+                listContentSchema = parseSimpleType(content.getItemType(), null);
             } else {
                 QName itemTypeName = content.getItemTypeName();
                 listContentSchema = this.getSchemaFactory().createSchema(itemTypeName.getLocalPart());
@@ -434,6 +434,13 @@ public class XsdToNeutralSchema {
         
         if ((simpleSchema != null) && (simpleTypeName != null)) {
             simpleSchema.setType(simpleTypeName);
+        } else if (simpleSchema != null && simpleTypeName == null && name != null
+                && simpleSchema.getProperties().size() > 0) {
+            /*
+             * If we hit this conditional block, it means we need to create a new NeutralSchema to
+             * represent this XML element that is defined in-line.
+             */
+            simpleSchema.setType(name);
         }
         
         return simpleSchema;
