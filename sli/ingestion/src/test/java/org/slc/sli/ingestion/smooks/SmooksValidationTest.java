@@ -194,6 +194,56 @@ public class SmooksValidationTest {
     }
 
     @Test
+    public void testValidSectionCSV() throws Exception {
+         InputStream messageIn = null;
+         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
+
+         try {
+             IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
+             validator.setSchemaRegistry(schemaReg);
+             File inFile = ResourceUtils
+                     .getFile("classpath:smooks/InterchangeSection.csv");
+
+             messageIn = new BufferedInputStream(new FileInputStream(inFile));
+             File outputFile = File.createTempFile("test", ".dat");
+             outputFile.deleteOnExit();
+             NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
+                     outputFile);
+
+             Smooks smooks = new Smooks(smooksConfig);
+             smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
+                     "csv-record");
+
+             try {
+                 smooks.filterSource(new StreamSource(messageIn));
+             } finally {
+                 nrfWriter.close();
+             }
+
+             NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
+                     new File(outputFile.getAbsolutePath()));
+
+             assertTrue(nrfr.hasNext());
+
+             try {
+                 while (nrfr.hasNext()) {
+                     NeutralRecord record = nrfr.next();
+                     Map<String, Object> entity = record.getAttributes();
+                     mapValidation(entity, "section", validator);
+
+                 }
+             } finally {
+                 nrfr.close();
+             }
+
+         } finally {
+
+             IOUtils.closeQuietly(messageIn);
+         }
+
+    }
+
+    @Test
     public void testValidStudentXML() throws Exception {
          InputStream messageIn = null;
          String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -348,6 +398,58 @@ public class SmooksValidationTest {
         }
 
    }
+
+    @Test
+    public void testValidSectionXML() throws Exception {
+        InputStream messageIn = null;
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+
+        try {
+            IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
+            validator.setSchemaRegistry(schemaReg);
+            File inFile = ResourceUtils
+                    .getFile("classpath:smooks/InterchangeSchool.xml");
+
+            messageIn = new BufferedInputStream(new FileInputStream(inFile));
+            File outputFile = File.createTempFile("test", ".dat");
+            outputFile.deleteOnExit();
+            NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
+                        outputFile);
+
+            Smooks smooks = new Smooks(smooksConfig);
+
+            smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
+                    "InterchangeEducationOrganization/Section");
+
+            try {
+                smooks.filterSource(new StreamSource(messageIn));
+            } finally {
+                nrfWriter.close();
+            }
+
+            NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
+                    new File(outputFile.getAbsolutePath()));
+
+            assertTrue(nrfr.hasNext());
+            try {
+                while (nrfr.hasNext()) {
+                    NeutralRecord record = nrfr.next();
+                    Map<String, Object> entity = record.getAttributes();
+                    mapValidation(entity, "section", validator);
+
+                }
+            } finally {
+                nrfr.close();
+            }
+
+
+        } finally {
+
+            IOUtils.closeQuietly(messageIn);
+        }
+
+   }
+
 
     private void mapValidation(Map<String, Object> obj, String schemaName, IngestionAvroEntityValidator validator) {
 
