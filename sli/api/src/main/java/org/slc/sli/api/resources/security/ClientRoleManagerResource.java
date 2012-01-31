@@ -91,7 +91,7 @@ public class ClientRoleManagerResource {
         for (String id : realmList) {
             EntityBody curEntity = getMappings(id);
             curEntity.remove("mappings");
-            curEntity.put("link", info.getRequestUri() + "/" + id);
+            curEntity.put("link", info.getBaseUri() + info.getPath() + "/" + id  + "?sessionId=" + info.getQueryParameters().getFirst("sessionId"));
             result.add(curEntity);
         }
         return result;
