@@ -205,6 +205,12 @@ public class ResourceTest {
         Response createResponse5 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), uriInfo);
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
+
+        Response createResponse6 = api.createEntity("sessions", new EntityBody(createTestEntity()), uriInfo);
+        assertNotNull(createResponse6);
+        assertEquals(Status.CREATED.getStatusCode(), createResponse6.getStatus());
+        String sessionId = parseIdFromLocation(createResponse6);
+        ids.put(new TypeIdPair("sessions", sessionId), (String) createResponse6.getMetadata().get("Location").get(0));
         
         // test get
         for (TypeIdPair typeId : ids.keySet()) {
