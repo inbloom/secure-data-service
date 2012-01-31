@@ -1,18 +1,14 @@
 package org.slc.sli.validation.schema;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -33,15 +29,12 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class NeutralSchema {
     
-    // Logging
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralSchema.class);
-    
     // Constants
     public static final String JSON = "json";
     public static final String XML = "xml";
     
     // Jackson Mapper
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
     
     // Attributes
     private String type = "";
@@ -128,7 +121,7 @@ public class NeutralSchema {
     // Future Methods
     @JsonIgnore
     public void setDocProperties(Properties properties) {
-        this.docProperties = properties;
+        docProperties = properties;
     }
     
     @JsonIgnore
@@ -138,7 +131,7 @@ public class NeutralSchema {
     
     @JsonIgnore
     public void setCustomProperties(Properties properties) {
-        this.customProperties = properties;
+        customProperties = properties;
     }
     
     @JsonIgnore
@@ -252,248 +245,19 @@ public class NeutralSchema {
         return isValid;
     }
     
-    /**
-     * @return JSON representation of this SLI schema
-     */
     public String toJson() {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append(this.getJsonHeader());
-        
-        if (!this.isPrimitive()) {
-            buffer.append(this.getJsonFields("fields", this.getFields()));
-        }
-        
-        buffer.append(this.getJsonProperties("properties", this.getProperties()));
-        
-        buffer.append(this.getJsonFooter());
-        
-        return buffer.toString();
+        NeutralSchemaStringWriter t = new NeutralSchemaJSONStringWriter();
+        return t.transform(this);
     }
     
-    private String getJsonHeader() {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("\n");
-        buffer.append("{");
-        buffer.append("" + "\n" + "   \"type\":\"" + this.getType() + "\"");
-        buffer.append("," + "\n" + "   \"validatorClass\":\"" + this.getValidatorClass() + "\"");
-        buffer.append("," + "\n" + "   \"version\":\"" + this.getVersion() + "\"");
-        
-        return buffer.toString();
-    }
-    
-    private String getJsonFields(String label, Map<String, Object> fields) {
-        StringBuilder buffer = new StringBuilder();
-        
-        buffer.append("," + "\n" + "   \"" + label + "\":{");
-        
-        if ((this.fields != null) && (this.getFields().size() > 0)) {
-            String separator = "";
-            for (String name : fields.keySet()) {
-                Object object = fields.get(name);
-                
-                String description = "";
-                if (object instanceof String) {
-                    description = "\"" + object + "\"";
-                } else if (object instanceof List) {
-                    try {
-                        description = MAPPER.writeValueAsString(object);
-                    } catch (Exception exception) {
-                        throw new RuntimeException(exception);
-                    }
-                } else if (object instanceof NeutralSchema) {
-                    if (object instanceof ListSchema) {
-                        List<NeutralSchema> schemaList = ((ListSchema) object).getList();
-                        List<String> list = new ArrayList<String>();
-                        for (NeutralSchema schema : schemaList) {
-                            list.add(schema.getType());
-                        }
-                        try {
-                            description = MAPPER.writeValueAsString(list);
-                        } catch (Exception exception) {
-                            throw new RuntimeException(exception);
-                        }
-                    } else {
-                        description = "\"" + ((NeutralSchema) object).getType() + "\"";
-                    }
-                }
-                
-                buffer.append(separator + "\n" + "      \"" + name + "\":" + description);
-                
-                separator = ",";
-            }
-        }
-        
-        buffer.append("}");
-        
-        return buffer.toString();
-    }
-    
-    private String getJsonProperties(String label, Map<String, Object> properties) {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("," + "\n" + "   \"" + label + "\":{");
-        
-        if ((properties != null) && (properties.size() > 0)) {
-            
-            String separator = "";
-            for (String name : properties.keySet()) {
-                Object object = properties.get(name);
-                
-                String description = "";
-                if (object instanceof List) {
-                    try {
-                        description = MAPPER.writeValueAsString(object);
-                    } catch (Exception exception) {
-                        LOG.error("Error wring description for " + object, exception);
-                    }
-                } else if (object instanceof String) {
-                    description = "\"" + (String) object + "\"";
-                }
-                
-                buffer.append(separator + "\n" + "      \"" + name + "\":" + description);
-                
-                separator = ",";
-            }
-        }
-        
-        buffer.append("}");
-        
-        return buffer.toString();
-    }
-    
-    private String getJsonFooter() {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("\n");
-        buffer.append("}" + "\n");
-        
-        return buffer.toString();
-    }
-    
-    /**
-     * @return XML representation of this SLI schema
-     */
     public String toXml(boolean enableHierarchy) {
-        StringBuffer buffer = new StringBuffer();
-        
-        if (this.isPrimitive()) {
-            buffer.append("<primitive>" + escape(this.getType()) + "</primitive>" + "\n");
-        } else {
-            buffer.append(this.getXmlHeader());
-            
-            if (!this.isPrimitive()) {
-                buffer.append(this.getXmlFields("fields", this.getFields(), enableHierarchy));
-                buffer.append(this.getXmlProperties("properties", this.getProperties()));
-            }
-            
-            buffer.append(this.getXmlFooter());
-        }
-        
-        return buffer.toString();
+        NeutralSchemaStringWriter t = new NeutralSchemaXMLStringWriter(enableHierarchy);
+        return t.transform(this);
     }
     
-    private String getXmlHeader() {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("\n");
-        buffer.append("<" + escape(this.getType()) + " version=\"" + escape(this.getVersion()) + "\" validatorClass=\""
-                + escape(this.getValidatorClass()) + "\">" + "\n");
-        
-        return buffer.toString();
-    }
-    
-    private String getXmlFields(String label, Map<String, Object> fields, boolean enableHierarchy) {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("<fields>" + "\n");
-        
-        for (String name : this.getFields().keySet()) {
-            Object object = this.getFields().get(name);
-            String fieldName = name;
-            if (fieldName.startsWith("*")) {
-                fieldName = fieldName.substring(1);
-            }
-            if (object instanceof NeutralSchema) {
-                buffer.append("<" + escape(fieldName) + ">" + "\n");
-                if (object instanceof ListSchema) {
-                    
-                    // Generate readable List element name
-                    String listElementName = ((ListSchema) object).getType();
-                    
-                    List<NeutralSchema> schemaList = ((ListSchema) object).getList();
-                    buffer.append("<" + escape(listElementName) + ">" + "\n");
-                    for (NeutralSchema listItemSchema : schemaList) {
-                        if (enableHierarchy) {
-                            buffer.append(listItemSchema.toXml(enableHierarchy));
-                        } else {
-                            buffer.append("<" + escape(listItemSchema.getType()) + "/>" + "\n");
-                        }
-                    }
-                    buffer.append("</" + escape(listElementName) + ">" + "\n");
-                } else {
-                    NeutralSchema schema = (NeutralSchema) object;
-                    if (enableHierarchy) {
-                        buffer.append(schema.toXml(enableHierarchy));
-                    } else {
-                        buffer.append("<" + escape(schema.getType()) + "/>" + "\n");
-                    }
-                }
-                buffer.append("</" + escape(fieldName) + ">" + "\n");
-            }
-        }
-        
-        buffer.append("</fields>" + "\n");
-        
-        return buffer.toString();
-    }
-    
-    private String getXmlProperties(String label, Map<String, Object> properties) {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("<properties>" + "\n");
-        
-        for (String name : this.getProperties().keySet()) {
-            Object object = this.getProperties().get(name);
-            
-            String description = "";
-            if (object instanceof List) {
-                List<?> list = (List<?>) object;
-                description = "[";
-                String separator = "";
-                for (Object listItem : list) {
-                    description += separator + " '" + listItem.toString() + "'";
-                    separator = ",";
-                }
-                description += "]";
-            } else if (object instanceof String) {
-                description = object.toString();
-            }
-            
-            buffer.append("<property name=\"" + escape(name) + "\" value=\"" + escape(description) + "\"/>" + "\n");
-        }
-        
-        buffer.append("</properties>" + "\n");
-        
-        return buffer.toString();
-    }
-    
-    private String getXmlFooter() {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("\n");
-        buffer.append("</" + escape(this.getType()) + ">" + "\n");
-        
-        return buffer.toString();
-    }
-    
-    private String escape(String input) {
-        return StringEscapeUtils.escapeXml(input);
-    }
-    
+    @Override
     public String toString() {
-        return this.toJson();
+        return toJson();
     }
     
 }

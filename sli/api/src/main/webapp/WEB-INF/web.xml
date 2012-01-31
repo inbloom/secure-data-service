@@ -44,19 +44,16 @@
 <!-- Enables Spring Security -->
 
 <filter>
-    <filter-name>springSecurityFilterChain</filter-name>
-    <filter-class>
-        org.springframework.web.filter.DelegatingFilterProxy
-    </filter-class>
+    <filter-name>authenticationFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     <init-param>
         <param-name>targetBeanName</param-name>
-        <param-value>springSecurityFilterChain</param-value>
+        <param-value>sliRequestFilter</param-value>
     </init-param>
 </filter>
 
 <filter-mapping>
-    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-name>authenticationFilter</filter-name>
     <url-pattern>/*</url-pattern>
-
 </filter-mapping>
 </web-app>

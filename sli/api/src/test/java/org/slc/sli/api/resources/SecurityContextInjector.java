@@ -1,11 +1,10 @@
 package org.slc.sli.api.resources;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import org.mockito.Mockito;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
-import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
+import org.slc.sli.domain.Entity;
 
 /**
  * Simple class for injecting a security context for unit tests. Future implementations will allow
@@ -28,8 +29,8 @@ import java.util.Set;
 
 @Component
 public class SecurityContextInjector {
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityContextInjector.class);
-    private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
+    private static final Logger   LOG              = LoggerFactory.getLogger(SecurityContextInjector.class);
+    private static final String   DEFAULT_REALM_ID = "dc=slidev,dc=net";
     
     @Autowired
     private RolesToRightsResolver resolver;
@@ -40,6 +41,7 @@ public class SecurityContextInjector {
         List<String> roles = Arrays.asList(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
         
         Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         setSecurityContext(principal);
     }
@@ -47,9 +49,8 @@ public class SecurityContextInjector {
     public void setAdminContextWithElevatedRights() {
         setAdminContext();
         
-        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
-                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
-                .getAuthentication().getCredentials(), Arrays.asList(Right.FULL_ACCESS));
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext().getAuthentication().getCredentials(),
+                Arrays.asList(Right.FULL_ACCESS));
         
         LOG.debug("elevating rights to {}", Right.FULL_ACCESS);
         SecurityContextHolder.getContext().setAuthentication(token);
@@ -61,14 +62,11 @@ public class SecurityContextInjector {
     }
     
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
-        SecurityContextHolder.getContext().setAuthentication(
-                new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(),
-                principal.getRoles());
+        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
+        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
         SecurityContextHolder.clearContext();
         
-        PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(
-                principal, token, grantedAuthorities);
+        PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
         return preAuthenticatedAuthenticationToken;
     }
     
@@ -93,8 +91,7 @@ public class SecurityContextInjector {
         return principal;
     }
     
-    private SLIPrincipal buildPrincipal(String user, String fullName, String realmId, List<String> roles,
-            Entity principalEntity) {
+    private SLIPrincipal buildPrincipal(String user, String fullName, String realmId, List<String> roles, Entity principalEntity) {
         SLIPrincipal principal = new SLIPrincipal(user);
         principal.setId(user);
         principal.setName(fullName);
