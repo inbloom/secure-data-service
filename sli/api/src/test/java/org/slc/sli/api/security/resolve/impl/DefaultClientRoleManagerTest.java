@@ -54,7 +54,7 @@ public class DefaultClientRoleManagerTest {
             roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
         } catch (RealmRoleMappingException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }
@@ -65,7 +65,7 @@ public class DefaultClientRoleManagerTest {
             roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.LEADER, "Superintendent");
         } catch (RealmRoleMappingException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         String sliRole = roleManager.getSliRoleName(MOCK_REALM_ID, "Superintendent");
         Assert.assertNotNull(sliRole);

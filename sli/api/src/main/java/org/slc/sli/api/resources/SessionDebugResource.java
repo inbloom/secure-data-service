@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
@@ -72,14 +74,14 @@ public class SessionDebugResource {
             sessionDetails.put("redirect_user", realmPage);
         }
         
-        // Get all roles via security-elevated call
-        SecurityUtil.sudoRun(new SecurityTask() {
-            
+        List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
             @Override
-            public void execute() {
-                sessionDetails.put("all_roles", roleAccessor.fetchAllRoles());
+            public List<Role> execute() {
+                return roleAccessor.fetchAllRoles();
             }
         });
+        
+        sessionDetails.put("all_roles", allRoles);
         
         return sessionDetails;
     }

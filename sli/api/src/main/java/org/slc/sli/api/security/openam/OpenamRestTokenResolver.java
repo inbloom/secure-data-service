@@ -3,7 +3,6 @@ package org.slc.sli.api.security.openam;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -101,11 +100,10 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));
         
-        final Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
-        SecurityUtil.sudoRun(new SecurityTask() {
+        Set<GrantedAuthority> grantedAuthorities = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {
             @Override
-            public void execute() {
-                grantedAuthorities.addAll(resolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+            public Set<GrantedAuthority> execute() {
+                return resolver.resolveRoles(principal.getRealm(), principal.getRoles());
             }
         });
         

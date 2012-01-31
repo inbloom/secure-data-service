@@ -1,7 +1,6 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,29 +48,27 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Component("basicService")
 public class BasicService implements EntityService {
     
-    private static final Logger       LOG                    = LoggerFactory.getLogger(BasicService.class);
+    private static final Logger  LOG                    = LoggerFactory.getLogger(BasicService.class);
     
-    private static final String       READ_ENFORCEMENT_VALUE = "restricted";
-    private static final String       READ_ENFORCEMENT       = "read_enforcement";
-    private static final int          MAX_RESULT_SIZE        = 9999;
+    private static final String  READ_ENFORCEMENT_VALUE = "restricted";
+    private static final String  READ_ENFORCEMENT       = "read_enforcement";
+    private static final int     MAX_RESULT_SIZE        = 9999;
     
-    private static final List<String> PUBLIC_ENTITIES        = Arrays.asList("realm");
-    
-    private String                    collectionName;
-    private List<Treatment>           treatments;
-    private EntityDefinition          defn;
+    private String               collectionName;
+    private List<Treatment>      treatments;
+    private EntityDefinition     defn;
     
     @Autowired
-    private EntityRepository          repo;
+    private EntityRepository     repo;
     
     @Autowired
-    private ContextResolverStore      contextResolverStore;
+    private ContextResolverStore contextResolverStore;
     
     @Autowired
-    private EntitySchemaRegistry      schemaRegistry;
+    private EntitySchemaRegistry schemaRegistry;
     
     @Autowired
-    private IdConverter               idConverter;
+    private IdConverter          idConverter;
     
     public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
@@ -292,8 +289,7 @@ public class BasicService implements EntityService {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
-        // User not logged in, trying to access protected resources
-        if (auth instanceof AnonymousAuthenticationToken && !PUBLIC_ENTITIES.contains(defn.getType())) {
+        if (auth instanceof AnonymousAuthenticationToken) {
             throw new InsufficientAuthenticationException("Login Required");
         }
         
@@ -327,16 +323,19 @@ public class BasicService implements EntityService {
         
         if (!auths.contains(Right.READ_RESTRICTED)) {
             Schema schema = schemaRegistry.findSchemaForName(defn.getType());
-            Iterator<String> keyIter = eb.keySet().iterator();
             
-            while (keyIter.hasNext()) {
-                String fieldName = keyIter.next();
+            if (schema != null) {
+                Iterator<String> keyIter = eb.keySet().iterator();
                 
-                Schema.Field field = schema.getField(fieldName);
-                LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
-                
-                if (isRestrictedField(field)) {
-                    keyIter.remove();
+                while (keyIter.hasNext()) {
+                    String fieldName = keyIter.next();
+                    
+                    Schema.Field field = schema.getField(fieldName);
+                    LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
+                    
+                    if (isRestrictedField(field)) {
+                        keyIter.remove();
+                    }
                 }
             }
         }
