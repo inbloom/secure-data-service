@@ -211,7 +211,7 @@
         </configuration>
        </plugin>
       
-      <plugin>
+      <!--  <plugin>
         <groupId>com.sun.jersey.contribs</groupId>
         <artifactId>maven-wadl-plugin</artifactId>
         <version>${jersey.version}</version>
@@ -241,15 +241,6 @@
                         </property>
                     </properties>
                 </wadlGeneratorDescription> 
-                <!-- <wadlGeneratorDescription>
-                    <className>com.sun.jersey.server.wadl.generators.WadlGeneratorGrammarsSupport</className>
-                    <properties>
-                        <property>
-                            <name>grammarsFile</name>
-                            <value>${project.build.outputDirectory}/application-grammars.xml</value>
-                        </property>
-                    </properties>
-                </wadlGeneratorDescription> -->
                 <wadlGeneratorDescription>
                     <className>com.sun.jersey.server.wadl.generators.resourcedoc.WadlGeneratorResourceDocSupport</className>
                     <properties>
@@ -262,9 +253,9 @@
               
             </wadlGenerators>
         </configuration>
-       </plugin>
+       </plugin> -->
 
-       <plugin>
+       <!--  <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.1</version>
@@ -281,7 +272,7 @@
                 </configuration>
             </execution>
         </executions>
-       </plugin>
+       </plugin> -->
 
     </plugins>
   </build>
