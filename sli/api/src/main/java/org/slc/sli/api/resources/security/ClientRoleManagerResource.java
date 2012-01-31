@@ -3,6 +3,7 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
@@ -60,6 +61,22 @@ public class ClientRoleManagerResource {
     @PUT
     @Path("{realmId}")
     public boolean updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
+        EntityBody oldRealm = service.get(realmId);
+        Map<String, List<String>> updatedMappings = (Map<String, List<String>>) updatedRealm.get("mappings");
+        //A crappy, inefficient way to ensure uniqueness of mappings.
+        for (String key : updatedMappings.keySet()) {
+            List<String> clientRoles = updatedMappings.get(key);
+            for (String clientRole : clientRoles) {
+                for (String secondKey : updatedMappings.keySet()) {
+                    if (!secondKey.equals(key)) {
+                        List<String> secondClientRoles = updatedMappings.get(secondKey);
+                        if (secondClientRoles.contains(clientRole)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
         return service.update(realmId, updatedRealm);
     }
 
