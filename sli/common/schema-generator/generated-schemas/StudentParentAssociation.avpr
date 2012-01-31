@@ -1,0 +1,36 @@
+{
+  "type" : "record",
+  "name" : "StudentParentAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This association relates students to their parents, guradians, or caretakers.",
+  "fields" : [ {
+    "name" : "studentReference",
+    "type" : "org.slc.sli.domain.StudentReferenceType"
+  }, {
+    "name" : "parentReference",
+    "type" : "org.slc.sli.domain.ReferenceType"
+  }, {
+    "name" : "relation",
+    "type" : [ "null", "org.slc.sli.domain.enum.RelationType" ]
+  }, {
+    "name" : "primaryContactStatus",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "livesWith",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "emergencyContactStatus",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "contactPriority",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "contactRestrictions",
+    "doc" : "Restrictions for student and/or teacher contact with the individual (e.g., the student may not be picked up by the individual)",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "250",
+      "min-length" : "1"
+    } ]
+  } ]
+}

@@ -4,7 +4,7 @@
 	attributeFormDefault="unqualified">
 
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
-	<xs:element name="Cohort">
+	<xs:element name="cohort">
 		<xs:annotation>
 			<xs:documentation>
 				This entity represents any type of list of designated students for tracking, analysis, or intervention.
@@ -60,7 +60,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="StudentCohortAssociation">
+	<xs:element name="studentCohortAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				This association represents the cohort(s) that a student is designated for.
@@ -95,7 +95,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="StaffCohortAssociation">
+	<xs:element name="staffCohortAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				This association indicates the staff associated with a cohort of students.

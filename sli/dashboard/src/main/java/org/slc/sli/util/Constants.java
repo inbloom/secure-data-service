@@ -29,5 +29,30 @@ public class Constants {
     public static final String MM_KEY_STUDENTS = "students"; 
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
+    
+    //Program Participation Constants
+    public static final String SHOW_ELL_LOZENGE = "Yes";
+    
+    
+    /**
+     * Contains the possible values for FRE participation
+     */
+    public static enum FREParticipation {
+        FREE("Free"),
+        REDUCED_PRICE("Reduced Price");
+        
+        private final String value;
+        
+        FREParticipation(String value) {
+            this.value = value;
+        }
 
+        
+        public String getValue() {
+            return value;
+        }
+        
+    }
+    
+    
 }
