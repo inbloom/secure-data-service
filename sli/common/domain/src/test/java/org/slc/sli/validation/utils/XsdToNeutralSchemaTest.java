@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import org.slc.sli.validation.NeutralSchema;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.NeutralSchemaFactory;
 
 /**

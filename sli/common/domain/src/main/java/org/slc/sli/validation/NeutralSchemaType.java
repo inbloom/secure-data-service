@@ -13,7 +13,8 @@ import org.apache.ws.commons.schema.XmlSchemaMinInclusiveFacet;
 import org.apache.ws.commons.schema.XmlSchemaMinLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaPatternFacet;
 import org.apache.ws.commons.schema.XmlSchemaTotalDigitsFacet;
-import org.apache.ws.commons.schema.XmlSchemaWhiteSpaceFacet;
+
+import org.slc.sli.validation.schema.Restriction;
 
 /**
  * 
@@ -105,27 +106,25 @@ public enum NeutralSchemaType {
         String propertyName = "";
         
         if (facet instanceof XmlSchemaPatternFacet) {
-            propertyName = RestrictedSchema.PATTERN;
+            propertyName = Restriction.PATTERN.getValue();
         } else if (facet instanceof XmlSchemaLengthFacet) {
-            propertyName = RestrictedSchema.LENGTH;
+            propertyName = Restriction.LENGTH.getValue();
         } else if (facet instanceof XmlSchemaMinLengthFacet) {
-            propertyName = RestrictedSchema.MIN_LENGTH;
+            propertyName = Restriction.MIN_LENGTH.getValue();
         } else if (facet instanceof XmlSchemaMaxLengthFacet) {
-            propertyName = RestrictedSchema.MAX_LENGTH;
+            propertyName = Restriction.MAX_LENGTH.getValue();
         } else if (facet instanceof XmlSchemaMinInclusiveFacet) {
-            propertyName = RestrictedSchema.MIN_INCLUSIVE;
+            propertyName = Restriction.MIN_INCLUSIVE.getValue();
         } else if (facet instanceof XmlSchemaMaxInclusiveFacet) {
-            propertyName = RestrictedSchema.MAX_INCLUSIVE;
+            propertyName = Restriction.MAX_INCLUSIVE.getValue();
         } else if (facet instanceof XmlSchemaMinExclusiveFacet) {
-            propertyName = RestrictedSchema.MIN_EXCLUSIVE;
+            propertyName = Restriction.MIN_EXCLUSIVE.getValue();
         } else if (facet instanceof XmlSchemaMaxExclusiveFacet) {
-            propertyName = RestrictedSchema.MAX_EXCLUSIVE;
+            propertyName = Restriction.MAX_EXCLUSIVE.getValue();
         } else if (facet instanceof XmlSchemaTotalDigitsFacet) {
-            propertyName = RestrictedSchema.TOTAL_DIGITS;
+            propertyName = Restriction.TOTAL_DIGITS.getValue();
         } else if (facet instanceof XmlSchemaFractionDigitsFacet) {
-            propertyName = RestrictedSchema.FRACTION_DIGITS;
-        } else if (facet instanceof XmlSchemaWhiteSpaceFacet) {
-            propertyName = RestrictedSchema.WHITE_SPACE;
+            propertyName = Restriction.FRACTION_DIGITS.getValue();
         } else {
             propertyName = "TODO_" + facet.getClass().getName();
         }

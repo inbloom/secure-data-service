@@ -2,6 +2,8 @@ package org.slc.sli.validation;
 
 import javax.xml.namespace.QName;
 
+import org.slc.sli.validation.schema.NeutralSchema;
+
 /**
  * @author nbrown
  *

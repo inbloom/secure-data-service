@@ -18,9 +18,10 @@ Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 	Then I should be denied access
 	Examples:
 	| Username        | Password            | Operation |
-	| "leader"        | "leader1234"        | POST      |
-	| "educator"      | "educator1234"      | GET       |
-	| "administrator" | "administrator1234" | DELETE    |
+	| "leader"        | "leader1234"        | "POST"    |
+	| "educator"      | "educator1234"      | "GET"     |
+	| "leader"        | "leader1234"        | "PUT"     |
+	| "administrator" | "administrator1234" | "DELETE"  |
 
 Scenario: Create a custom role mapping
 
@@ -44,17 +45,35 @@ Scenario: Update an existing role mapping
 Scenario: Delete an existing role mapping
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I DELETE a mapping between the default role "Educator" and custom role "Blah"
+	When I DELETE a mapping between the default role "Educator" and custom role "Blah" for realm "SLI"
 	Then I should receive a return code of 204
 
 Scenario: Deny duplicated creations
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When something
-	Then something
+	When I POST a mapping between default role "Educator" and custom role "blah" for realm "SLI"
+	Then I should receive a return code of 201
+	When I duplicate the previous POST request to map the default role "Educator" to custom role "blah" for realm "SLI"
+	Then I should receive a return code of 400
 	
 Scenario: Deny duplicated deletions
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When something
-	Then something
+	When I DELETE a mapping between the default role "Educator" and custom role "Blah" for realm "SLI"
+	Then I should receive a return code of 201
+	When I duplicate the previous DELETE request to unmap the default role "Educator" to custom role "blah" for realm "SLI"
+	Then I should receive a return code of 400
+
+Scenario: Deny mappings from non-SLI Default roles to custom roles
+
+	Given I am a valid "sli" end user "demo" with password "demo1234"
+	When I POST a mapping between default role "Governator" and custom role "blah" for realm "SLI"
+	Then I should receive a return code of 400
+
+Scenario: Deny mapping the same custom role to multiple default SLI roles
+
+	Given I am a valid "sli" end user "demo" with password "demo1234"
+	When I POST a mapping between default role "Educator" and custom role "blah" for realm "SLI"
+	Then I should receive a return code of 201
+	When I POST a mapping between default role "Leader" and custom role "blah" for realm "SLI"
+	Then I should receive a return code of 400

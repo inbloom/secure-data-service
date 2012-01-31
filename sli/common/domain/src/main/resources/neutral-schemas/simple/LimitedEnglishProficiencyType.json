@@ -1,0 +1,9 @@
+
+{
+   "type":"LimitedEnglishProficiencyType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["NotLimited","Limited","Limited Monitored 1","Limited Monitored 2"]}
+}

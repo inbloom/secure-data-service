@@ -1,0 +1,9 @@
+
+{
+   "type":"ProgramSponsorType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Federal","State Education Agency","Education Service Center","Local Education Agency","School","Private Organization"]}
+}

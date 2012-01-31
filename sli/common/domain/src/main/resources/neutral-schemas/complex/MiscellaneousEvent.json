@@ -1,0 +1,10 @@
+
+{
+   "type":"MiscellaneousEvent",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "EventName":"string",
+      "EventType":"string"},
+   "properties":{}
+}

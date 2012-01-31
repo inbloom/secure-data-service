@@ -1,5 +1,7 @@
 package org.slc.sli.validation;
 
+import org.slc.sli.validation.schema.NeutralSchema;
+
 
 /**
  * Interface for reading schemas from XSD and converting them into neutral schema objects

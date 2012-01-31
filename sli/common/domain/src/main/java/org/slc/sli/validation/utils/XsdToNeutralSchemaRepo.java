@@ -43,12 +43,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.xml.sax.InputSource;
 
-import org.slc.sli.validation.ListSchema;
-import org.slc.sli.validation.NeutralSchema;
+import org.slc.sli.validation.schema.ListSchema;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaFactory;
 import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.TokenSchema;
+import org.slc.sli.validation.schema.TokenSchema;
 
 /**
  * Generation tool used to convert XSD to SLI Neutral Schema.

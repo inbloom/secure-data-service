@@ -4,6 +4,23 @@ import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.validation.schema.BooleanSchema;
+import org.slc.sli.validation.schema.ComplexSchema;
+import org.slc.sli.validation.schema.DateSchema;
+import org.slc.sli.validation.schema.DateTimeSchema;
+import org.slc.sli.validation.schema.DecimalSchema;
+import org.slc.sli.validation.schema.DoubleSchema;
+import org.slc.sli.validation.schema.DurationSchema;
+import org.slc.sli.validation.schema.FloatSchema;
+import org.slc.sli.validation.schema.IntegerSchema;
+import org.slc.sli.validation.schema.ListSchema;
+import org.slc.sli.validation.schema.LongSchema;
+import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.validation.schema.RestrictedSchema;
+import org.slc.sli.validation.schema.StringSchema;
+import org.slc.sli.validation.schema.TimeSchema;
+import org.slc.sli.validation.schema.TokenSchema;
+
 /**
  * 
  * SLI Schema Factory which creates Schema instances based upon Ed-Fi type.

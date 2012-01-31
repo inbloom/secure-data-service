@@ -1,0 +1,9 @@
+
+{
+   "type":"RecognitionType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Athletic awards","Awarding of units of value","Citizenship award/recognition","Completion of requirement, but no units of value awarded","Certificate","Honor award","Letter of commendation","Medals","Monogram/letter","Points","Promotion or advancement","Other"]}
+}

@@ -1,0 +1,9 @@
+
+{
+   "type":"ProgramType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Adult/Continuing Education","Alternative Education","Athletics","Bilingual","Bilingual Summer","Career and Technical Education","Cocurricular Programs","College Preparatory","Community Service Program","Community/Junior College Education Program","Compensatory Services for Disadvantaged Students","Counseling Services","English as a Second Language (ESL)","Even Start","Extended Day/Child Care Services","Gifted and Talented","Head Start","Health Services Program","High School Equivalency Program (HSEP)","IDEA","Immigrant Education","Indian Education","International Baccalaureate","Library/Media Services Program","Magnet/Special Program Emphasis","Migrant Education","Neglected and Delinquent Program","Optional Flexible School Day Program (OFSDP)","Other","Regular Education","Remedial Education","Section 504 Placement","Service Learning","Special Education","Student Retention/Dropout Prevention","Substance Abuse Education/Prevention","Teacher Professional Development/Mentoring","Technical Preparatory","Title I Part A","Vocational Education"]}
+}

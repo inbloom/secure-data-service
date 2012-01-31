@@ -1,0 +1,14 @@
+
+{
+   "type":"BirthData",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "BirthDate":"date",
+      "*CityOfBirth":"City",
+      "*StateOfBirthAbbreviation":"StateAbbreviationType",
+      "*CountryOfBirthCode":"CountryCodeType",
+      "*DateEnteredUS":"date",
+      "*MultipleBirthStatus":"boolean"},
+   "properties":{}
+}

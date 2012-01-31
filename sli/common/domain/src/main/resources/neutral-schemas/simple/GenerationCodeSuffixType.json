@@ -1,0 +1,9 @@
+
+{
+   "type":"GenerationCodeSuffixType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Jr","Sr","II","III","IV","V","VI","VII","VIII"]}
+}
