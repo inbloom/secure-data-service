@@ -43,8 +43,9 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
         
         if (!schema.isPrimitive()) {
             buffer.append(getJsonFields("fields", schema.getFields()));
-            buffer.append(getJsonProperties("properties", schema.getProperties()));
         }
+        
+        buffer.append(getJsonProperties("properties", schema.getProperties()));
         
         buffer.append(getJsonFooter());
         

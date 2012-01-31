@@ -19,11 +19,11 @@ public enum Restriction {
      */
     LENGTH("length"),
     /**
-     * minimum length of a string
+     * minimum length of a string or list
      */
     MIN_LENGTH("min-length"),
     /**
-     * max length of a string
+     * max length of a string or list
      */
     MAX_LENGTH("max-length"),
     /**
