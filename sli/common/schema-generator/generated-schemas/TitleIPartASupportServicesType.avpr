@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "TitleIPartASupportServicesType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The type of support services offered to students in Title I programs.",
+  "fields" : [ {
+    "name" : "titleIPartASupportService",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.TitleIPartASupportServiceItemType"
+    } ]
+  } ]
+}

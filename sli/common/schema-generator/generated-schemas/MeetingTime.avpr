@@ -1,0 +1,42 @@
+{
+  "type" : "record",
+  "name" : "MeetingTime",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "The set of elements defining the meeting time for a class period.",
+  "fields" : [ {
+    "name" : "weekNumber",
+    "type" : {
+      "type" : "int",
+      "min" : "1",
+      "max" : "52"
+    }
+  }, {
+    "name" : "meetingDays",
+    "type" : "org.slc.sli.domain.MeetingDaysType"
+  }, {
+    "name" : "alternateDayName",
+    "doc" : "used for the bell schedule, another name for day (e.g., Blue day,Red day)",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "startTime",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d:\\d\\d:\\d\\d(\\.\\d+)?(Z|[+-]\\d\\d:\\d\\d)?",
+      "xsd-type" : "time"
+    }
+  }, {
+    "name" : "endTime",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d:\\d\\d:\\d\\d(\\.\\d+)?(Z|[+-]\\d\\d:\\d\\d)?",
+      "xsd-type" : "time"
+    }
+  }, {
+    "name" : "officialAttendancePeriod",
+    "type" : [ "null", "boolean" ]
+  } ]
+}

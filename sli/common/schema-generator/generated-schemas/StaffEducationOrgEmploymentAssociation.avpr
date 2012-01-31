@@ -1,0 +1,31 @@
+{
+  "type" : "record",
+  "name" : "StaffEducationOrgEmploymentAssociation",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This association indicates the education organization an employee, contractor, volunteer or other service provider is formally associated with, typically indicated by which organization the staff member has a services contract with or receives their compensation.",
+  "fields" : [ {
+    "name" : "staffReference",
+    "type" : "org.slc.sli.domain.StaffReferenceType"
+  }, {
+    "name" : "educationOrganizationReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  }, {
+    "name" : "employmentStatus",
+    "type" : "org.slc.sli.domain.enum.EmploymentStatusType"
+  }, {
+    "name" : "employmentPeriod",
+    "type" : "org.slc.sli.domain.EmploymentPeriod"
+  }, {
+    "name" : "department",
+    "doc" : "The department or suborganization the employee/contractor is associated with in the Education Organization.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "3",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "fullTimeEquivalency",
+    "doc" : "A proportion in relation to the whole (as measured in parts per one hundred).",
+    "type" : [ "null", "int" ]
+  } ]
+}

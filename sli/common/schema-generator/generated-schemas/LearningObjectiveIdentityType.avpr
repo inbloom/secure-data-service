@@ -1,0 +1,23 @@
+{
+  "type" : "record",
+  "name" : "LearningObjectiveIdentityType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Encapsulates the possible attributes that can be used to lookup the identity of the Learning Objectives.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "ref",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "IDREF"
+    } ]
+  }, {
+    "name" : "TODO_XmlSchemaChoice",
+    "doc" : "Cannot handle element.",
+    "type" : "null"
+  } ]
+}

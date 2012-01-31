@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "LanguagesType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Language the individual uses to communicate.",
+  "fields" : [ {
+    "name" : "language",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.LanguageItemType"
+    } ]
+  } ]
+}

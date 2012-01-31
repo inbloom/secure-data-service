@@ -1,0 +1,32 @@
+{
+  "type" : "record",
+  "name" : "BellSchedule",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents the schedule of class period meeting times.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "gradeLevels",
+    "type" : "org.slc.sli.domain.GradeLevelsType"
+  }, {
+    "name" : "schoolYear",
+    "type" : "org.slc.sli.domain.enum.SchoolYearType"
+  }, {
+    "name" : "weeksInCycle",
+    "type" : {
+      "type" : "int",
+      "min" : "1",
+      "max" : "52"
+    }
+  }, {
+    "name" : "schoolReference",
+    "type" : {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.EducationalOrgReferenceType"
+    }
+  } ]
+}
