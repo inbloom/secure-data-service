@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,11 @@ public class ClientRoleManagerResourceTest {
         maps.add(mapping);
 
         service = mock(EntityService.class);
+
+        resource.setService(service);
+
         when(service.update("-1", mapping)).thenReturn(true);
-        when(service.update("1234", new EntityBody())).thenReturn(true);
+        when(service.update("1234", mapping)).thenReturn(true);
         when(service.list(0, 100)).thenReturn(ids);
         when(service.get(ids)).thenReturn(maps);
     }
@@ -68,7 +72,13 @@ public class ClientRoleManagerResourceTest {
 
     @Test
     public void testAddClientRole() throws Exception {
-        assertFalse(resource.addClientRole("Peanuts", "-1", null));
+        try {
+            resource.addClientRole("Peanuts", "-1", null);
+            assertFalse(false);
+        } catch (EntityNotFoundException e)
+        {
+            assertTrue(true);
+        }
         assertTrue(resource.addClientRole("Waffles", "1234", mapping));
     }
 

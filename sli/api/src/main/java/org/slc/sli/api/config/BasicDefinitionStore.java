@@ -137,7 +137,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
-        addDefinition(factory.makeEntity("realm").build());
+        addDefinition(factory.makeEntity("realm").storeAs("realm").build());
     }
     
     /**

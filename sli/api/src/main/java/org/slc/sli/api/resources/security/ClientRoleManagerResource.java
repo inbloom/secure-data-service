@@ -42,7 +42,7 @@ public class ClientRoleManagerResource {
 
     @PostConstruct
     private void init() {
-        EntityDefinition def = store.lookupByResourceName("roles");
+        EntityDefinition def = store.lookupByResourceName("realm");
         setService(def.getService());
     }
 
