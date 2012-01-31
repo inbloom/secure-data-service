@@ -87,7 +87,10 @@ public class ClientRoleManagerResource {
         List<EntityBody> result = new ArrayList<EntityBody>();
         Iterable<String> realmList = service.list(0, 100);
         for (String id : realmList) {
-            result.add(getMappings(id));
+            EntityBody curEntity = getMappings(id);
+            curEntity.remove("mappings");
+//            curEntity.put("link", info.getBaseUri());
+            result.add(curEntity);
         }
         return result;
     }
