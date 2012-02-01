@@ -1,10 +1,9 @@
 package org.slc.sli.api.security.roles;
 
+import java.util.List;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.enums.Right;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * A simple class to help build a Role in terms of their associated rights.
@@ -67,18 +66,11 @@ public final class RoleBuilder {
         }
     }
     
-    public void setRealmRoleMappings(Map<String, List<String>> mappings) {
-        role.setRealmRoleMappings(mappings);
-    }
     
     @SuppressWarnings("unchecked")
     public static RoleBuilder makeRole(EntityBody entityBody) {
         RoleBuilder resultRole = new RoleBuilder((String) entityBody.get("name"));
         resultRole.addRights((List<String>) entityBody.get("rights"));
-        Map<String, List<String>> mappings = (Map<String, List<String>>) entityBody.get("mappings");
-        if (mappings != null) {
-            resultRole.setRealmRoleMappings(mappings);
-        }
         return resultRole;
         
     }

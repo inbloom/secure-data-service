@@ -388,12 +388,12 @@
                         <xs:documentation>This entity represents the student's responses to assessment items.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="StudentReference" type="StudentSimpleReference">
+                <xs:element name="studentId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the student associated with the assessment.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="AssessmentReference" type="AssessmentSimpleReference">
+                <xs:element name="assessmentId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the assessment taken by the student.</xs:documentation>
                     </xs:annotation>
@@ -408,12 +408,12 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="SectionReference" type="SectionSimpleReference">
+                <xs:element name="sectionId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the section associated with the assessment.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="AssessmentReference" type="AssessmentSimpleReference">
+                <xs:element name="assessmentId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the assessment taken by the section.</xs:documentation>
                     </xs:annotation>

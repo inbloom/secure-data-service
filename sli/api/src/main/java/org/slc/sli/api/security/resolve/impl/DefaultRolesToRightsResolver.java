@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.resolve.ClientRoleManager;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.SliAdminValidator;
 import org.slc.sli.api.security.roles.Role;
@@ -28,7 +28,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultRolesToRightsResolver.class);
     
     @Autowired
-    private ClientRoleManager roleMapper;
+    private ClientRoleResolver roleMapper;
     
     @Autowired
     private RoleRightAccess roleRightAccess;
@@ -65,7 +65,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         this.roleRightAccess = roleRightAccess;
     }
     
-    public void setRoleMapper(ClientRoleManager roleMapper) {
+    public void setRoleMapper(ClientRoleResolver roleMapper) {
         this.roleMapper = roleMapper;
     }
     

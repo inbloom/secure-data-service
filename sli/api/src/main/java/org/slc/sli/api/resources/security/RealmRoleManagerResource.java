@@ -117,7 +117,7 @@ public class RealmRoleManagerResource {
         for (String id : realmList) {
             EntityBody curEntity = getMappings(id);
             curEntity.remove("mappings");
-            curEntity.put("link", info.getBaseUri() + info.getPath() + "/" + id  + "?sessionId=" + info.getQueryParameters().getFirst("sessionId"));
+            curEntity.put("link", info.getBaseUri() + info.getPath() + "/" + id);
             result.add(curEntity);
         }
         return result;

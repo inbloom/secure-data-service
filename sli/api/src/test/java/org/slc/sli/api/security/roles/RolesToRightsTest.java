@@ -21,7 +21,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.security.resolve.ClientRoleManager;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -41,14 +41,14 @@ public class RolesToRightsTest {
     @Autowired
     private RoleRightAccess mockAccess;
     @Autowired
-    private ClientRoleManager mockRoleManager;
+    private ClientRoleResolver mockRoleManager;
     
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     
     @Before
     public void setUp() throws Exception {
         mockAccess = mock(RoleRightAccess.class);
-        mockRoleManager = mock(ClientRoleManager.class);
+        mockRoleManager = mock(ClientRoleResolver.class);
         
         resolver.setRoleRightAccess(mockAccess);
         resolver.setRoleMapper(mockRoleManager);

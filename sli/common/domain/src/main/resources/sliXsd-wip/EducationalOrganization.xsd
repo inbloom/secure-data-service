@@ -529,12 +529,12 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="ParentAgencyReference" type="EducationalOrgSimpleReference">
+                <xs:element name="parentAgencyId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the parent Education Organization in a hierarchy.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="ChildAgencyReference" type="EducationalOrgSimpleReference">
+                <xs:element name="childAgencyId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the child Education Organization in a hierarchy.</xs:documentation>
                     </xs:annotation>
