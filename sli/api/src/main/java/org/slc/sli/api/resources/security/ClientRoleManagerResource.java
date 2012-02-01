@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -58,24 +59,28 @@ public class ClientRoleManagerResource {
         this.service = service;
     }
 
+    @SuppressWarnings("unchecked")
     @PUT
     @Path("{realmId}")
+    @Consumes("application/json")
     public boolean updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
-        EntityBody oldRealm = service.get(realmId);
-        Map<String, List<String>> updatedMappings = (Map<String, List<String>>) updatedRealm.get("mappings");
-        //A crappy, inefficient way to ensure uniqueness of mappings.
-        for (String key : updatedMappings.keySet()) {
-            List<String> clientRoles = updatedMappings.get(key);
-            for (String clientRole : clientRoles) {
-                for (String secondKey : updatedMappings.keySet()) {
-                    if (!secondKey.equals(key)) {
-                        List<String> secondClientRoles = updatedMappings.get(secondKey);
-                        if (secondClientRoles.contains(clientRole)) {
-                            return false;
-                        }
-                    }
-                }
-            }
+        Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
+		if (mappings != null) {
+			// A crappy, inefficient way to ensure uniqueness of mappings.
+			for (String key : mappings.keySet()) {
+				List<String> clientRoles = mappings.get(key);
+				for (String clientRole : clientRoles) {
+					for (String secondKey : mappings.keySet()) {
+						if (!secondKey.equals(key)) {
+							List<String> secondClientRoles = mappings
+									.get(secondKey);
+							if (secondClientRoles.contains(clientRole)) {
+								return false;
+							}
+						}
+					}
+				}
+			}
         }
         return service.update(realmId, updatedRealm);
     }
