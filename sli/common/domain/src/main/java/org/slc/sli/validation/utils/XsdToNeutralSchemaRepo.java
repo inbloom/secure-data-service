@@ -173,7 +173,6 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
                     
                     LOG.info("xsd schema file name is {}", schemaFile.getName());
                     
-                    
                     XmlSchema schema = processXsdSchemaFile(xsdPath, schemaFile.getName());
                     
                     // Accumulate XML schemas
