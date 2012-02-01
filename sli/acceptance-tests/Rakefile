@@ -134,6 +134,11 @@ task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :a
   displayFailureReport()
 end
 
+desc "Run Session Tests"
+task :sessionTests do
+  runFixtureAndTests("test/features/api/entities/session", "session", "session_fixture.json")
+end
+
 desc "Run Section Tests"
 task :sectionTests do
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
