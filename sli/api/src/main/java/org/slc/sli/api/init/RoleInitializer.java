@@ -111,7 +111,7 @@ public class RoleInitializer {
     
     private Role buildSLIAdmin() {
         LOG.info("Building SLI Administrator default role.");
-        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.READ_ROLES }).build();
+        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).build();
     }
     
     public void setRepository(EntityRepository repo) {

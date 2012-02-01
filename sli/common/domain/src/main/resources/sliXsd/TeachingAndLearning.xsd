@@ -12,12 +12,12 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="TeacherReference" type="StaffSimpleReference">
+				<xs:element name="teacherId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The teacher assigned to the section.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SectionReference" type="SectionSimpleReference">
+				<xs:element name="sectionId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The section the teacher is assigned to.</xs:documentation>
 					</xs:annotation>

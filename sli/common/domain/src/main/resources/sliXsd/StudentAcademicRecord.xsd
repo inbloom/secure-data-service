@@ -117,12 +117,12 @@
                         <xs:documentation>The descriptive name given to a course of study offered in the school, if different from the CourseTitle. </xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="CourseReference" type="CourseSimpleReference">
+                <xs:element name="courseId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the course that is offered.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="SessionReference" type="SessionSimpleReference">
+                <xs:element name="sessionId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Reference to the session the course is offered.</xs:documentation>
                     </xs:annotation>
@@ -233,12 +233,12 @@
                         <xs:documentation>A conversion of the level to a standard set of performance levels.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="CourseReference" type="CourseSimpleReference">
+                <xs:element name="courseId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The course recorded in the Course transcript entry,</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="StudentReference" type="StudentSimpleReference">
+                <xs:element name="studentId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The Student that took the reported instruction.</xs:documentation>
                     </xs:annotation>
@@ -323,12 +323,12 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="StudentReference" type="StudentSimpleReference">
+                <xs:element name="studentId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The student enrolled in the section.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="SectionReference" type="SectionSimpleReference">
+                <xs:element name="sectionId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The section the student is enrolled in.</xs:documentation>
                     </xs:annotation>
@@ -380,17 +380,17 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="StudentReference" type="StudentSimpleReference">
+                <xs:element name="studentId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The student who was enrolled for the session.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="SessionReference" type="SessionSimpleReference">
+                <xs:element name="SessionId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The session the student was enrolled in.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="StudentTranscriptReference" type="StudentTranscriptsAssociationSimpleReference">
+                <xs:element name="studentTranscriptAssociationId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Grades for the classes attended by the student for this grading period.</xs:documentation>
                     </xs:annotation>

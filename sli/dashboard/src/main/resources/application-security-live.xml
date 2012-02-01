@@ -8,11 +8,11 @@
 
 <http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
 
-    <intercept-url pattern="/login" access="permitAll"/>
     <intercept-url pattern="/static/**" filters="none"/>    
+    <intercept-url pattern="/" access="hasRole('Educator')"/>
+    <intercept-url pattern="/appselector" access="hasRole('Educator')"/>
     <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
     <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
-    <intercept-url pattern="/" access="hasRole('Educator')"/>
     <intercept-url pattern="/**" access="denyAll" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
     <logout/>

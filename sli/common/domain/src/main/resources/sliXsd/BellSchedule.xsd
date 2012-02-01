@@ -173,14 +173,14 @@
 		<xs:complexContent>
 			<xs:extension base="MeetingTime">
 				<xs:sequence>
-					<xs:element name="BellSchedule" type="BellScheduleSimpleReference">
+					<xs:element name="bellScheduleId" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>
 								The bell schedule the section is scheduled in
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Section" type="SectionSimpleReference">
+					<xs:element name="sectionId" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>
 								The section being offered
@@ -203,14 +203,14 @@
 			<xs:complexContent>
 				<xs:extension base="MeetingTime">
 					<xs:sequence>
-						<xs:element name="BellSchedule" type="BellScheduleSimpleReference">
+						<xs:element name="bellScheduleId" type="xs:string">
 							<xs:annotation>
 								<xs:documentation>
 									The bell schedule the event is scheduled in
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="MiscellaneousEvent" type="MiscellaneousEventSimpleReference">
+						<xs:element name="miscellaneousEventId" type="xs:string">
 							<xs:annotation>
 								<xs:documentation>
 									The section being offered

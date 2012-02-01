@@ -51,9 +51,9 @@ public class AggregateResource {
      * Returns the uppermost associations for the logged in user
      * i.e For a staff(superintendent) it'll return a list of associated educationalOrganizations
      * 
-     * @entity.tag EmbeddedLink
+     * @entity.type Home
      * @response.representation.200.mediaType application/json
-     * 
+     * @response.representation.200.qname Home
      *
      * @param uriInfo
      * @return

@@ -2,11 +2,12 @@ package org.slc.sli.validation.schema;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -28,6 +29,11 @@ public class BooleanSchema extends NeutralSchema {
         super(xsdType);
     }
     
+    @Override
+    public NeutralSchemaType getSchemaType() {
+        return NeutralSchemaType.BOOLEAN;
+    }
+
     // Methods
     
     /**

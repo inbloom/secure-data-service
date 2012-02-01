@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
 import org.slc.sli.validation.schema.IntegerSchema;
@@ -31,7 +32,7 @@ import org.slc.sli.validation.schema.StringSchema;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdToNeutralSchemaTest {
     @Autowired
-    XsdToNeutralSchemaRepo schemaRepo;
+    SchemaRepository schemaRepo;
     
     @Test
     public void testSchema() throws IOException {
@@ -103,8 +104,7 @@ public class XsdToNeutralSchemaTest {
         for (String testSchema : testSchemas) {
             assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
             assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
+            assertEquals(schemaRepo.getSchema(testSchema).getSchemaType(), NeutralSchemaType.COMPLEX);
         }
-        
     }
-    
 }

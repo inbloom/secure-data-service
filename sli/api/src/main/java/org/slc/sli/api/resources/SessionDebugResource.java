@@ -37,7 +37,7 @@ public class SessionDebugResource {
     private RoleRightAccess roleAccessor;
     
     @Value("${sli.security.noSession.landing.url}")
-    private String          realmPage;
+    private String realmPage;
     
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
@@ -64,29 +64,33 @@ public class SessionDebugResource {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
             
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
+            
+            List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
+                @Override
+                public List<Role> execute() {
+                    return roleAccessor.fetchAllRoles();
+                }
+            });
+            
+            sessionDetails.put("all_roles", allRoles);
+            
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", realmPage);
         }
         
-        List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
-            @Override
-            public List<Role> execute() {
-                return roleAccessor.fetchAllRoles();
-            }
-        });
-        
-        sessionDetails.put("all_roles", allRoles);
-        
         return sessionDetails;
     }
     
     private boolean isAuthenticated(SecurityContext securityContext) {
-        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
+        return !(securityContext == null || securityContext.getAuthentication() == null
+                || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication()
+                .getCredentials().equals(""));
     }
 }

@@ -25,8 +25,8 @@ public class AppSelectorController {
 
         //TODO: Retrieve the applications from a service
         appToUrlMap.put("Dashboard", "studentlist");
-        appToUrlMap.put("Dibels", "/fakeapp");
-        appToUrlMap.put("TRC", "/fakeapp");
+        appToUrlMap.put("Learning Map", "/fakeapp");
+        appToUrlMap.put("Administration Tools", "/fakeapp");
         model.addAttribute("appToUrl", appToUrlMap);
         return new ModelAndView("SelectApp");
     }
