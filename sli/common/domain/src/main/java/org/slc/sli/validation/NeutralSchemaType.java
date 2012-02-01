@@ -1,5 +1,10 @@
 package org.slc.sli.validation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaFacet;
@@ -25,27 +30,29 @@ import org.slc.sli.validation.schema.Restriction;
  */
 public enum NeutralSchemaType {
     
-    BOOLEAN("boolean", true), INT("int", true), INTEGER("integer", true), LONG("long", true), DOUBLE("double", true), DATE(
-            "date", true), TIME("time", true), DATETIME("datetime", true), DURATION("duration", true), STRING("string",
-            true), ID("ID", true), IDREF("IDREF", true), TOKEN("token", false), LIST("list", false), COMPLEX("complex",
-            false);
+    BOOLEAN("boolean"), INT("int"), INTEGER("integer"), LONG("long"), DOUBLE("double", "float"), DATE("date"), TIME(
+            "time"), DATETIME("datetime"), DURATION("duration"), STRING("string", "decimal"), ID("id"), IDREF(
+            "IDREF"), TOKEN("token"), LIST("list"), COMPLEX("complex");
     
     // Attributes
     private final String name;
-    private final boolean isPrimitive = true;
+    private final List<String> mappedXsdTypes;
     
     // Constructors
-    NeutralSchemaType(String name, boolean isPrimitive) {
+    NeutralSchemaType(String name) {
+        this(name, name);
+    }
+    
+    NeutralSchemaType(String name, String... extraTypes) {
         this.name = name;
+        List<String> xsdTypes = new ArrayList<String>(Arrays.asList(extraTypes));
+        xsdTypes.add(name);
+        mappedXsdTypes = Collections.unmodifiableList(xsdTypes);
     }
     
     // Methods
     public String getName() {
         return name;
-    }
-    
-    public boolean isPrimitive() {
-        return isPrimitive;
     }
     
     public static boolean exists(QName qName) {
@@ -60,19 +67,12 @@ public enum NeutralSchemaType {
     }
     
     public static boolean isPrimitive(QName qName) {
-        boolean isPrimitive = false;
-        
-        NeutralSchemaType schemaType = findByName(qName);
-        if (schemaType != null) {
-            isPrimitive = schemaType.isPrimitive();
-        }
-        
-        return isPrimitive;
+        return findByName(qName) != null;
     }
     
     public static NeutralSchemaType findByName(String name) {
         for (NeutralSchemaType neutralSchemaType : NeutralSchemaType.values()) {
-            if (neutralSchemaType.getName().toLowerCase().equals(name.toLowerCase())) {
+            if (neutralSchemaType.getMappedXsdTypes().contains(name.toLowerCase())) {
                 return neutralSchemaType;
             }
         }
@@ -82,11 +82,7 @@ public enum NeutralSchemaType {
     public static NeutralSchemaType findByName(QName qName) {
         if (qName != null) {
             String name = qName.getLocalPart();
-            for (NeutralSchemaType neutralSchemaType : NeutralSchemaType.values()) {
-                if (neutralSchemaType.getName().toLowerCase().equals(name.toLowerCase())) {
-                    return neutralSchemaType;
-                }
-            }
+            return findByName(name);
         }
         return null;
     }
@@ -119,6 +115,10 @@ public enum NeutralSchemaType {
         }
         
         return propertyName;
+    }
+    
+    private List<String> getMappedXsdTypes() {
+        return mappedXsdTypes;
     }
     
 }
