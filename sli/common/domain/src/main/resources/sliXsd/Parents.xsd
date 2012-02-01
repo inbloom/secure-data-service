@@ -74,12 +74,12 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="StudentReference" type="StudentSimpleReference">
+				<xs:element name="studentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The student associated with parent.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ParentReference" type="ParentReference">
+				<xs:element name="parentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The parent associated with the student.</xs:documentation>
 					</xs:annotation>
