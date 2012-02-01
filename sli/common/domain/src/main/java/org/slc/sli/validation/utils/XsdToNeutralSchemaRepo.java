@@ -91,6 +91,10 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         return schemas.get(type);
     }
     
+    public List<NeutralSchema> getSchemas() {
+        return new ArrayList<NeutralSchema>(schemas.values());
+    }
+    
     @Override
     public void setApplicationContext(ApplicationContext appContext) throws BeansException {
         try {
@@ -328,6 +332,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
              * represent this XML element that is defined in-line.
              */
             simpleSchema.setType(name);
+            NeutralSchema old = this.schemas.put(name, simpleSchema);
+            if (old != null) {
+                LOG.warn("Anonymous type added multiple times. Ensure usage is exactly the same or issues will occur: "
+                        + name);
+            }
         }
         
         return simpleSchema;
