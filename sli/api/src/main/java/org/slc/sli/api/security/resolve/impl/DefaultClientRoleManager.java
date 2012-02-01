@@ -1,8 +1,6 @@
 package org.slc.sli.api.security.resolve.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -53,24 +51,27 @@ public class DefaultClientRoleManager implements ClientRoleManager {
     /**
      */
     public List<String> resolveRoles(String realmId, List<String> clientRoleNames) {
-        System.out.println("In resolveRoles()");
-        List<String> result = new ArrayList<String>();
-        for (String clientRoleName : clientRoleNames) {
-            if (roleRightAccess.findRoleByName(clientRoleName) != null) {
-                result.add(clientRoleName);
-            } else {
-                @SuppressWarnings("unchecked")
-                Map<String, List<String>> mappings = (Map<String, List<String>>) service.get(realmId).get("mappings");
-                System.out.println("--- Mappings are " + mappings + " and client role is " + clientRoleName);
-                for (String key : mappings.keySet()) {
-                    if (mappings.get(key).contains(clientRoleName)) {
-                        result.add(clientRoleName);
-                    }
-                }
-                
-            }
-        }
-        return result;
+        return clientRoleNames;
+//        System.out.println("In resolveRoles()");
+//        List<String> result = new ArrayList<String>();
+//        for (String clientRoleName : clientRoleNames) {
+//            if (roleRightAccess.findRoleByName(clientRoleName) != null) {
+//                result.add(clientRoleName);
+//            } else {
+//                @SuppressWarnings("unchecked")
+//                Map<String, List<String>> mappings = (Map<String, List<String>>) service.get(realmId).get("mappings");
+//                System.out.println("--- Mappings are " + mappings + " and client role is " + clientRoleName);
+//                if (mappings != null) {
+//                    for (String key : mappings.keySet()) {
+//                        if (mappings.get(key).contains(clientRoleName)) {
+//                            result.add(clientRoleName);
+//                        }
+//                    }
+//                }
+//                
+//            }
+//        }
+//        return result;
     }
     
 }
