@@ -156,18 +156,16 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
                 Enumeration<JarEntry> entries = jar.entries();
                 while (entries.hasMoreElements()) {
                     String name = entries.nextElement().getName();
-                    if (name.matches(xsdPath.split(":")[1] + "/\\w+\\."+schemaRepresentation)) {
+                    if (name.matches(xsdPath.split(":")[1] + "/\\w+\\." + schemaRepresentation)) {
                         String schemaName = name.substring(name.lastIndexOf("/") + 1);
                         LOG.info("xsd schema file name is {}", schemaName);
-                        XmlSchema schema = processXsdSchemaFile(xsdPath,schemaName);
-                     // Accumulate XML schemas
+                        XmlSchema schema = processXsdSchemaFile(xsdPath, schemaName);
+                        // Accumulate XML schemas
                         xmlSchemas.add(schema);
                     }
                 }
-            }
-            
-            // Process XML schema files found on the file system
-            else if (protocol.equals("file")) {
+                // Process XML schema files found on the file system
+            } else if (protocol.equals("file")) {
                 File schemaResourcesDir = FileUtils.toFile(schemaResourcesUrl);
                 List<File> schemaFiles = new ArrayList<File>(FileUtils.listFiles(schemaResourcesDir,
                         new String[] { schemaRepresentation }, true));
@@ -176,9 +174,9 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
                     LOG.info("xsd schema file name is {}", schemaFile.getName());
                     
                     
-                    XmlSchema schema = processXsdSchemaFile(xsdPath,schemaFile.getName());
+                    XmlSchema schema = processXsdSchemaFile(xsdPath, schemaFile.getName());
                     
-                 // Accumulate XML schemas
+                    // Accumulate XML schemas
                     xmlSchemas.add(schema);
                 }
             } else {
@@ -192,7 +190,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         return xmlSchemas;
     }
     
-    private XmlSchema processXsdSchemaFile(String xsdPath,String schemaName)throws IOException{
+    private XmlSchema processXsdSchemaFile(String xsdPath, String schemaName) throws IOException {
         
         // Parse XML schema file
         String schemaResourcePath = xsdPath + (xsdPath.endsWith("/") ? "" : "/") + schemaName;
