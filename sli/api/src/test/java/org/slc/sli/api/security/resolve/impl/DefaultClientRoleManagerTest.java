@@ -16,7 +16,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.security.resolve.RealmRoleMappingException;
-import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
@@ -40,15 +40,15 @@ public class DefaultClientRoleManagerTest {
     @Before
     public void setUp() {
         allRoles = new ArrayList<String>();
-        allRoles.add(InsecureRoleRightAccessImpl.AGGREGATOR);
-        allRoles.add(InsecureRoleRightAccessImpl.EDUCATOR);
-        allRoles.add(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
-        allRoles.add(InsecureRoleRightAccessImpl.LEADER);
+        allRoles.add(SecureRoleRightAccessImpl.AGGREGATOR);
+        allRoles.add(SecureRoleRightAccessImpl.EDUCATOR);
+        allRoles.add(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        allRoles.add(SecureRoleRightAccessImpl.LEADER);
         
         try {
-            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Coach");
-            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Math Teacher");
-            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
+            roleManager.addClientRole(MOCK_REALM_ID, SecureRoleRightAccessImpl.EDUCATOR, "Coach");
+            roleManager.addClientRole(MOCK_REALM_ID, SecureRoleRightAccessImpl.EDUCATOR, "Math Teacher");
+            roleManager.addClientRole(MOCK_REALM_ID, SecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
         } catch (RealmRoleMappingException e) {
             // TODO Auto-generated catch block
             return;
@@ -59,21 +59,21 @@ public class DefaultClientRoleManagerTest {
     @Test
     public void testAddClientRole() {
         try {
-            roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.LEADER, "Superintendent");
+            roleManager.addClientRole(MOCK_REALM_ID, SecureRoleRightAccessImpl.LEADER, "Superintendent");
         } catch (RealmRoleMappingException e) {
             // TODO Auto-generated catch block
             return;
         }
         String sliRole = roleManager.getSliRoleName(MOCK_REALM_ID, "Superintendent");
         Assert.assertNotNull(sliRole);
-        Assert.assertTrue(sliRole.equals(InsecureRoleRightAccessImpl.LEADER));
+        Assert.assertTrue(sliRole.equals(SecureRoleRightAccessImpl.LEADER));
     }
     
     @Test
     public void testDeleteClientRole() {
-        Assert.assertEquals(InsecureRoleRightAccessImpl.EDUCATOR, roleManager.getSliRoleName(MOCK_REALM_ID, "Coach"));
+        Assert.assertEquals(SecureRoleRightAccessImpl.EDUCATOR, roleManager.getSliRoleName(MOCK_REALM_ID, "Coach"));
         roleManager.deleteClientRole(MOCK_REALM_ID, "Coach");
-        List<String> mappings = roleManager.getMappings(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR);
+        List<String> mappings = roleManager.getMappings(MOCK_REALM_ID, SecureRoleRightAccessImpl.EDUCATOR);
         Assert.assertNotNull(mappings);
         Assert.assertTrue(mappings.size() > 0);
     }
