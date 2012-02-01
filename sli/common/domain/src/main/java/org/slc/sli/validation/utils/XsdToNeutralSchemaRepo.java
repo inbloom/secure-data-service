@@ -164,10 +164,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
                         xmlSchemas.add(schema);
                     }
                 }
-            }
-            
-            // Process XML schema files found on the file system
-            else if (protocol.equals("file")) {
+                // Process XML schema files found on the file system
+            } else if (protocol.equals("file")) {
                 File schemaResourcesDir = FileUtils.toFile(schemaResourcesUrl);
                 List<File> schemaFiles = new ArrayList<File>(FileUtils.listFiles(schemaResourcesDir,
                         new String[] { schemaRepresentation }, true));
