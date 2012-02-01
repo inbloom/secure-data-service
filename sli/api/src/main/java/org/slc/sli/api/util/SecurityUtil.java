@@ -2,15 +2,14 @@ package org.slc.sli.api.util;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Holder for security utilities
@@ -20,9 +19,9 @@ import org.slc.sli.domain.MongoEntity;
  */
 public class SecurityUtil {
     
-    private static final Authentication              FULL_ACCESS_AUTH;
+    private static final Authentication        FULL_ACCESS_AUTH;
     
-    private static final Map<String, Authentication> AUTH_CACHE = new HashMap<String, Authentication>();
+    private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
     
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -34,15 +33,13 @@ public class SecurityUtil {
     public static <T> T sudoRun(SecurityTask<T> task) {
         T toReturn = null;
         
-        synchronized (SecurityUtil.class) {
-            AUTH_CACHE.put(Thread.currentThread().getName(), SecurityContextHolder.getContext().getAuthentication());
-        }
+        cachedAuth.set(SecurityContextHolder.getContext().getAuthentication());
         
         try {
             SecurityContextHolder.getContext().setAuthentication(FULL_ACCESS_AUTH);
             toReturn = task.execute();
         } finally {
-            SecurityContextHolder.getContext().setAuthentication(AUTH_CACHE.get(Thread.currentThread().getName()));
+            SecurityContextHolder.getContext().setAuthentication(cachedAuth.get());
         }
         
         return toReturn;

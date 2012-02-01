@@ -19,19 +19,19 @@
 	</properties>
 
 	<dependencies>
-	
+
     	<!--  Apache Commons IO Dependency -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
-        
+
     	<!--  Apache Commons Lang Dependency -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        
+
     	<!--  Apache Commons XmlSchema Dependency -->
         <dependency>
             <groupId>org.apache.ws.commons.schema</groupId>
@@ -44,7 +44,7 @@
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-core</artifactId>
 		</dependency>
-		
+
 		<!-- Spring Context dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -55,6 +55,13 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
+		</dependency>
+
+		<!-- Spring Security Core dependency -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- Apache Avro -->

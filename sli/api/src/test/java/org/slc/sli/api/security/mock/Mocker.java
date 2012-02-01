@@ -8,9 +8,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.api.security.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +23,7 @@ import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Generates mocked objects for unit tests

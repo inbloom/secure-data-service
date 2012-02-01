@@ -9,7 +9,8 @@
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and
 				record-keeping
-				purposes by schools, social services, or other agencies to refer to a
+				purposes by schools, social services, or other
+				agencies to refer to a
 				student.
 			</xs:documentation>
 		</xs:annotation>
@@ -18,7 +19,8 @@
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a student by
-						a school, school system, a state, or other agency or entity.
+						a school, school system, a state, or other agency or
+						entity.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -26,7 +28,8 @@
 				<xs:annotation>
 					<xs:documentation>A coding scheme that is used for identification
 						and record-keeping
-						purposes by schools, social services, or other agencies to refer to a
+						purposes by schools, social services, or other
+						agencies to refer to a
 						student.
 					</xs:documentation>
 				</xs:annotation>
@@ -48,7 +51,8 @@
 		<xs:annotation>
 			<xs:documentation>Reflects important characteristics of the student's
 				home situation:
-				Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent,
+				Displaced Homemaker, Homeless, Immigrant, Migratory,
+				Military Parent,
 				Pregnant Teen,
 				Single Parent, Unaccompanied Youth
 			</xs:documentation>
@@ -110,7 +114,8 @@
 				<xs:annotation>
 					<xs:documentation>The abbreviation for the name of the state
 						(within the United
-						States) or extra-state jurisdiction in which an individual was born.
+						States) or extra-state jurisdiction in which an
+						individual was born.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -119,7 +124,8 @@
 				<xs:annotation>
 					<xs:documentation>The unique two digit International Organization
 						for
-						Standardization (ISO) code for the country in which an individual is born.
+						Standardization (ISO) code for the country in which an
+						individual is born.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -158,7 +164,8 @@
 		<xs:annotation>
 			<xs:documentation>This type represents an impairment of body
 				structure or function, a
-				limitation in activities, or a restriction in participation, as ordered by
+				limitation in activities, or a restriction
+				in participation, as ordered by
 				severity
 				of impairment.
 			</xs:documentation>
@@ -286,6 +293,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
+
 	<xs:complexType name="CohortYear">
 		<xs:annotation>
 			<xs:documentation>The type and year of a cohort (e.g., 9th grade) the
@@ -303,60 +311,6 @@
 			<xs:element name="CohortYearType" type="CohortYearType">
 				<xs:annotation>
 					<xs:documentation>The type of cohort year (9th grade, graduation)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-
-	</xs:complexType>
-
-	<xs:complexType name="StudentIndicator">
-		<xs:annotation>
-			<xs:documentation>An indicator or metric computed for the student
-				(e.g., at risk) to
-				influence more effective education or direct specific interventions.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="IndicatorGroup" type="IndicatorName"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The name for a group of indicators.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="IndicatorName" type="IndicatorName">
-				<xs:annotation>
-					<xs:documentation>The name of the indicator or metric.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Indicator" type="Indicator">
-				<xs:annotation>
-					<xs:documentation>The value of the indicator or metric.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The date when the indicator was assigned or
-						computed.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The date the indicator or metric was sunset or
-						removed.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="DesignatedBy" type="DesignatedBy"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The person, organization, or department that
-						designated the
-						program association.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -511,6 +465,9 @@
 							programs, and/or other characteristics considered relevant by
 							federal, state, and local policy.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="SchoolFoodServicesEligibility" type="SchoolFoodServicesEligibilityType"
@@ -532,6 +489,9 @@
 							Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth,
 							etc.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="LimitedEnglishProficiency" type="LimitedEnglishProficiencyType"
@@ -638,6 +598,60 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:complexType name="StudentIndicator">
+		<xs:annotation>
+			<xs:documentation>An indicator or metric computed for the student
+				(e.g., at risk) to
+				influence more effective education or direct
+				specific interventions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IndicatorGroup" type="IndicatorName"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name for a group of indicators.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IndicatorName" type="IndicatorName">
+				<xs:annotation>
+					<xs:documentation>The name of the indicator or metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Indicator" type="Indicator">
+				<xs:annotation>
+					<xs:documentation>The value of the indicator or metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date when the indicator was assigned or
+						computed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the indicator or metric was sunset or
+						removed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DesignatedBy" type="DesignatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						program association.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="EducationalPlansType">
 		<xs:annotation>
 			<xs:documentation>The type of education plan(s) the student is
@@ -690,7 +704,8 @@
 					<xs:annotation>
 						<xs:documentation>The grade level or primary instructional level
 							at which a
-							student enters and receives services in a school or an educational
+							student enters and receives services in a school or an
+							educational
 							institution during a given academic session.
 						</xs:documentation>
 					</xs:annotation>
@@ -708,7 +723,8 @@
 					<xs:annotation>
 						<xs:documentation>An indicator of whether the student is enrolling
 							to repeat a
-							grade level, either by failure or an agreement to hold the student
+							grade level, either by failure or an agreement to hold
+							the student
 							back.
 						</xs:documentation>
 					</xs:annotation>
@@ -725,9 +741,11 @@
 					<xs:annotation>
 						<xs:documentation>An indication of whether students transferred in
 							or out of the
-							school did so during the school year under the provisions for public
+							school did so during the school year under the
+							provisions for public
 							school
-							choice in accordance with Title I, Part A, Section 1116.
+							choice in accordance with Title I,
+							Part A, Section 1116.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
@@ -736,8 +754,10 @@
 					<xs:annotation>
 						<xs:documentation>The month, day, and year of the first day after
 							the date of an
-							individual's last attendance at a school (if known), the day on which an
-							individual graduated, or the date on which it becomes known
+							individual's last attendance at a school (if
+							known), the day on which an
+							individual graduated, or the date on
+							which it becomes known
 							officially that
 							an individual left school.
 						</xs:documentation>
@@ -780,7 +800,8 @@
 		<xs:annotation>
 			<xs:documentation>The total credits required in subject to graduate.
 				Only those courses
-				identified as a high school course requirement are eligible to meet subject
+				identified as a high school course requirement are
+				eligible to meet subject
 				credit
 				requirements.
 			</xs:documentation>
@@ -816,7 +837,8 @@
 				<xs:annotation>
 					<xs:documentation>The code that identifies the organization of
 						subject matter
-						and related learning experiences provided for the instruction of
+						and related learning experiences provided for the
+						instruction of
 						students.
 					</xs:documentation>
 				</xs:annotation>
@@ -845,11 +867,14 @@
 		<xs:annotation>
 			<xs:documentation>This entity is a plan outlining the required
 				credits, credits by
-				subject, credits by course, and other criteria required for graduation. A
+				subject, credits by course, and other criteria
+				required for graduation. A
 				graduation
-				plan may be one or more standard plans defined by an education
+				plan may be one or more standard
+				plans defined by an education
 				organization and/or
-				individual plans for some or all students.
+				individual plans for
+				some or all students.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -859,7 +884,8 @@
 						<xs:annotation>
 							<xs:documentation>The type of academic plan the student is
 								following for
-								graduation: for example, Minimum, Recommended, Distinguished, or
+								graduation: for example, Minimum, Recommended,
+								Distinguished, or
 								Standard.
 							</xs:documentation>
 						</xs:annotation>
@@ -888,7 +914,8 @@
 						<xs:annotation>
 							<xs:documentation>The total credits required in subject to
 								graduate.
-								Only those courses identified as a high school course requirement
+								Only those courses identified as a high school course
+								requirement
 								are eligible to meet subject credit requirements.
 							</xs:documentation>
 						</xs:annotation>
@@ -898,7 +925,8 @@
 						<xs:annotation>
 							<xs:documentation>The total credits required to graduation by
 								taking a
-								specific course, or by taking one or more from a set of courses.
+								specific course, or by taking one or more from a set of
+								courses.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>

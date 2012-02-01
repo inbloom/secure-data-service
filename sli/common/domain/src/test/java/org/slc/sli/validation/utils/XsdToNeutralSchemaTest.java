@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,8 +34,35 @@ import org.slc.sli.validation.schema.StringSchema;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdToNeutralSchemaTest {
+    
     @Autowired
     SchemaRepository schemaRepo;
+    
+    ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
+            new String[] { "spring/applicationContext-test.xml" });
+    
+    @Test
+    public void testSimpleType() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema baseSimpleType = repo.getSchema("BaseSimpleType");
+        assertNotNull(baseSimpleType);
+        assertEquals("BaseSimpleType", baseSimpleType.getType());
+    }
+    
+    @Test
+    public void testSchemaDocumentation() throws IOException {
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema schema = repo.getSchema("TestPersonallyIdentifiableInfoSimple");
+        assertNotNull(schema);
+        
+        schema = repo.getSchema("TestSecuritySimple");
+        assertNotNull(schema);
+    }
     
     @Test
     public void testSchema() throws IOException {
@@ -119,4 +147,7 @@ public class XsdToNeutralSchemaTest {
             assertEquals(schemaRepo.getSchema(testSchema).getSchemaType(), NeutralSchemaType.COMPLEX);
         }
     }
+    
+    
+    
 }
