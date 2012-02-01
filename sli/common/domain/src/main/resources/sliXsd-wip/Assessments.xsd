@@ -1,425 +1,604 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    xmlns:sli="http://slc-sli/ed-org/0.1"
-    attributeFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" xmlns:sli="http://slc-sli/ed-org/0.1"
+	attributeFormDefault="qualified">
 
-    <xs:include schemaLocation="ReferenceTypes.xsd"/>
+	<xs:include schemaLocation="ReferenceTypes.xsd" />
 
-    <xs:complexType name="AssessmentIdentificationCode">
-        <xs:annotation>
-            <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="ID" type="IdentificationCode">
-                <xs:annotation>
-                    <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="IdentificationSystem" type="AssessmentIdentificationSystemType" use="required">
-            <xs:annotation>
-                <xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to an assessment.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
-            <xs:annotation>
-                <xs:documentation>The organization code or name assigning the assessment identification code.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
+	<xs:complexType name="AssessmentIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code assigned to an
+				assessment by a school, school system, a state, or other agency or
+				entity.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to
+						an assessment by a school, school system, a state, or other agency
+						or entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdentificationSystem" type="AssessmentIdentificationSystemType">
+				<xs:annotation>
+					<xs:documentation>A coding scheme that is used for identification
+						and record-keeping purposes by schools, social services, or other
+						agencies to refer to an assessment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssigningOrganizationCode" type="IdentificationCode"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The organization code or name assigning the
+						assessment identification code.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="AssessmentPerformanceLevel">
-        <xs:annotation>
-            <xs:documentation>Definition of the performance levels and the associated cut scores.  Three styles are supported:
-                1. Specification of performance level by min and max score
-                2. Specification of performance level by cut score - min only
-                3. Specification of performance level without any mapping to scores</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="PerformanceLevel" type="Description">
-                <xs:annotation>
-                    <xs:documentation>The performance level(s) defined for the assessment.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="AssessmentReportingMethod" type="AssessmentReportingMethodType">
-                <xs:annotation>
-                    <xs:documentation>The method that the administrator of the assessment uses to report the performance and achievement of all students. It may be a qualitative method such as performance level descriptors or a quantitative method such as a numerical grade or cut score.  More than one type of reporting method may be used.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="MinimumScore" type="xs:int" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The minimum score required to make the indicated level of performance.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="MaximumScore" type="xs:int" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The maximum score to make the indicated level of performance.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="AssessmentPerformanceLevel">
+		<xs:annotation>
+			<xs:documentation>Definition of the performance levels and the
+				associated cut scores. Three styles are supported:
+				1. Specification
+				of performance level by min and max score
+				2. Specification of
+				performance level by cut score - min only
+				3. Specification of
+				performance level without any mapping to scores
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PerformanceLevel" type="Description">
+				<xs:annotation>
+					<xs:documentation>The performance level(s) defined for the
+						assessment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssessmentReportingMethod" type="AssessmentReportingMethodType">
+				<xs:annotation>
+					<xs:documentation>The method that the administrator of the
+						assessment uses to report the performance and achievement of all
+						students. It may be a qualitative method such as performance level
+						descriptors or a quantitative method such as a numerical grade or
+						cut score. More than one type of reporting method may be used.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MinimumScore" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The minimum score required to make the indicated
+						level of performance.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaximumScore" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The maximum score to make the indicated level of
+						performance.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="SpecialAccommodationsType">
-        <xs:annotation>
-            <xs:documentation>The specific type of special variation used in how an examination is presented, how it is administered, or how the test taker is allowed to respond. This generally refers to changes that do not substantially alter what the examination measures. The proper use of accommodations does not substantially change academic level or performance criteria. </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SpecialAccommodation" type="SpecialAccommodationItemType" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The specific type of special variation used in how an examination is presented, how it is administered, or how the test taker is allowed to respond. This generally refers to changes that do not substantially alter what the examination measures. The proper use of accommodations does not substantially change academic level or performance criteria.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="SpecialAccommodationsType">
+		<xs:annotation>
+			<xs:documentation>The specific type of special variation used in how
+				an examination is presented, how it is administered, or how the test
+				taker is allowed to respond. This generally refers to changes that
+				do not substantially alter what the examination measures. The proper
+				use of accommodations does not substantially change academic level
+				or performance criteria.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SpecialAccommodation" type="SpecialAccommodationItemType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The specific type of special variation used in
+						how an examination is presented, how it is administered, or how
+						the test taker is allowed to respond. This generally refers to
+						changes that do not substantially alter what the examination
+						measures. The proper use of accommodations does not substantially
+						change academic level or performance criteria.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="LinguisticAccommodationsType">
-        <xs:annotation>
-            <xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="LinguisticAccommodation" type="LinguisticAccommodationItemType" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="LinguisticAccommodationsType">
+		<xs:annotation>
+			<xs:documentation>Linguistic accommodations used with the student for
+				the test.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LinguisticAccommodation" type="LinguisticAccommodationItemType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Linguistic accommodations used with the student
+						for the test.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="ScoreResult">
-        <xs:annotation>
-            <xs:documentation>A meaningful raw score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Result" type="Result">
-                <xs:annotation>
-                    <xs:documentation>The value of a meaningful raw score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="AssessmentReportingMethod" type="AssessmentReportingMethodType" use="required">
-            <xs:annotation>
-                <xs:documentation>The method that the administrator of the assessment uses to report the performance and achievement of all students. It may be a qualitative method such as performance level descriptors or a quantitative method such as a numerical grade or cut score.  More than one type of reporting method may be used.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
+	<xs:complexType name="ScoreResult">
+		<xs:annotation>
+			<xs:documentation>A meaningful raw score or statistical expression of
+				the performance of an individual. The results can be expressed as a
+				number, percentile, range, level, etc.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Result" type="Result">
+				<xs:annotation>
+					<xs:documentation>The value of a meaningful raw score or
+						statistical expression of the performance of an individual. The
+						results can be expressed as a number, percentile, range, level,
+						etc.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssessmentReportingMethod" type="AssessmentReportingMethodType">
+				<xs:annotation>
+					<xs:documentation>The method that the administrator of the
+						assessment uses to report the performance and achievement of all
+						students. It may be a qualitative method such as performance level
+						descriptors or a quantitative method such as a numerical grade or
+						cut score. More than one type of reporting method may be used.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:element name="assessment">
-        <xs:annotation>
-            <xs:documentation>This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="AssessmentTitle" type="AssessmentTitle">
-                    <xs:annotation>
-                        <xs:documentation>The title or name of the assessment.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AssessmentFamilyHierarchyName" type="xs:string" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>A hierarchical name for the Assessment using '.' separators.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The category of an assessment based on format and content. For example:
-                            Achievement test
-                            Advanced placement test
-                            Alternate assessment/grade-level standards
-                            Attitudinal test
-                            Cognitive and perceptual skills test
-                            ...
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The description of the content or subject area (e.g., arts, mathematics, reading, stenography, or a foreign language) of an assessment.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The typical grade level for which an assessment is designed. If the assessment spans a range of grades, then this attribute holds the highest grade assessed. If only one grade level is assessed then only this attribute is used. For example:
-                            Adult
-                            Prekindergarten
-                            First grade
-                            Second grade
-                            ...</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>If the assessment spans a range of grades, then this attribute holds the lowest grade assessed.  If only one grade level is assessed, then this attribute is omitted. For example:
-                            Adult
-                            Prekindergarten
-                            First grade
-                            Second grade
-                            ...</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>Definition of the performance levels and the associated cut scores.  Three styles are supported:
-                            1. Specification of performance level by min and max score
-                            2. Specification of performance level by cut score - min only
-                            3. Specification of performance level without any mapping to scores</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>An indication as to whether an assessment conforms to a standard. For example:
-                            Local standard
-                            Statewide standard
-                            Regional standard
-                            Association standard
-                            School standard
-                            ...
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AssessmentForm" type="AssessmentForm" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Identifies the form of the assessment, for example a regular versus makeup form, multiple choice versus constructed response, etc.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="Version" type="Version" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The version identifier for the assessment.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="RevisionDate" type="xs:date" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The month, day, and year that the conceptual design for the assessment was most recently revised substantially.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="MaxRawScore" type="xs:int" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The maximum raw score achievable across all assessment items that are correct and scored at the maximum.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Reflects the specific nomenclature used for Assessment.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+	<xs:element name="assessment">
+		<xs:annotation>
+			<xs:documentation>This entity represents a tool, instrument, process,
+				or exhibition composed of a systematic sampling of behavior for
+				measuring a student's competence, knowledge, skills or behavior. An
+				assessment can be used to measure differences in individuals or
+				groups and changes in performance from one occasion to the next.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AssessmentTitle" type="AssessmentTitle">
+					<xs:annotation>
+						<xs:documentation>The title or name of the assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AssessmentFamilyHierarchyName" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A hierarchical name for the Assessment using '.'
+							separators.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode"
+					maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A unique number or alphanumeric code assigned to
+							an assessment by a school, school system, a state, or other
+							agency or entity.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AssessmentCategory" type="AssessmentCategoryType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The category of an assessment based on format
+							and content. For example:
+							Achievement test
+							Advanced placement test
+							Alternate assessment/grade-level standards
+							Attitudinal test
+							Cognitive and perceptual skills test
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AcademicSubject" type="AcademicSubjectType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The description of the content or subject area
+							(e.g., arts, mathematics, reading, stenography, or a foreign
+							language) of an assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GradeLevelAssessed" type="GradeLevelType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The typical grade level for which an assessment
+							is designed. If the assessment spans a range of grades, then this
+							attribute holds the highest grade assessed. If only one grade
+							level is assessed then only this attribute is used. For example:
+							Adult
+							Prekindergarten
+							First grade
+							Second grade
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="LowestGradeLevelAssessed" type="GradeLevelType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If the assessment spans a range of grades, then
+							this attribute holds the lowest grade assessed. If only one grade
+							level is assessed, then this attribute is omitted. For example:
+							Adult
+							Prekindergarten
+							First grade
+							Second grade
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Definition of the performance levels and the
+							associated cut scores. Three styles are supported:
+							1.
+							Specification of performance level by min and max score
+							2.
+							Specification of performance level by cut score - min only
+							3.
+							Specification of performance level without any mapping to scores
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ContentStandard" type="ContentStandardType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>An indication as to whether an assessment
+							conforms to a standard. For example:
+							Local standard
+							Statewide
+							standard
+							Regional standard
+							Association standard
+							School standard
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AssessmentForm" type="AssessmentForm"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Identifies the form of the assessment, for
+							example a regular versus makeup form, multiple choice versus
+							constructed response, etc.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Version" type="Version" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The version identifier for the assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RevisionDate" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The month, day, and year that the conceptual
+							design for the assessment was most recently revised
+							substantially.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaxRawScore" type="xs:int" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The maximum raw score achievable across all
+							assessment items that are correct and scored at the maximum.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Nomenclature" type="Nomenclature"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reflects the specific nomenclature used for
+							Assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
-    <xs:complexType name="StudentObjectiveAssessment">
-        <xs:annotation>
-            <xs:documentation>This entity holds the score and or performance levels earned for an objective assessment by a student.</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>A meaningful score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="PerformanceLevels" type="Description" minOccurs="0" maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+	<xs:complexType name="StudentObjectiveAssessment">
+		<xs:annotation>
+			<xs:documentation>This entity holds the score and or performance
+				levels earned for an objective assessment by a student.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="ScoreResults" type="ScoreResult"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A meaningful score or statistical expression of
+								the performance of an individual. The results can be expressed
+								as a number, percentile, range, level, etc.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PerformanceLevels" type="Description"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The performance level(s) achieved for the
+								objective assessment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-    <xs:complexType name="StudentAssessmentItem">
-        <xs:annotation>
-            <xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="AssessmentResponse" type="AssessmentResponse" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>A student's response to a stimulus on a test.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Indicator of the response.  For example:
-                                Nonscorable response
-                                Ineffective response
-                                Effective response
-                                Partial response
-                                ...</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AssessmentItemResult" type="AssessmentItemResultType">
-                        <xs:annotation>
-                            <xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
-                                Correct
-                                Incorrect
-                                Met standard
-                                ...</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="RawScoreResult" type="xs:int" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>A meaningful raw score of the performance of an individual on an assessment item.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+	<xs:complexType name="StudentAssessmentItem">
+		<xs:annotation>
+			<xs:documentation>This entity represents the student's response to an
+				assessment item and the item-level scores such as correct,
+				incorrect, or met standard.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="AssessmentResponse" type="AssessmentResponse"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A student's response to a stimulus on a test.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ResponseIndicator" type="ResponseIndicatorType"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicator of the response. For example:
+								Nonscorable response
+								Ineffective response
+								Effective response
+								Partial response
+								...
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AssessmentItemResult" type="AssessmentItemResultType">
+						<xs:annotation>
+							<xs:documentation>The analyzed result of a student's response to
+								an assessment item.. For example:
+								Correct
+								Incorrect
+								Met standard
+								...
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RawScoreResult" type="xs:int"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A meaningful raw score of the performance of an
+								individual on an assessment item.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-    <xs:element name="studentAssessmentAssociation">
-        <xs:annotation>
-            <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="AdministrationDate" type="xs:date">
-                    <xs:annotation>
-                        <xs:documentation>The month(s), day(s), and year on which an assessment is administered or first day of administration if over multiple days.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Assessment Administration End Date, if administered over multiple days.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The unique number for the assessment form or answer document.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The language in which an assessment is written and/or administered.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The environment in which the test was administered.  For example:
-                            Electronic
-                            Classroom
-                            Testing Center
-                            ....</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>The specific type of special variation used in how an examination is presented, how it is administered, or how the test taker is allowed to respond. This generally refers to changes that do not substantially alter what the examination measures. The proper use of accommodations does not substantially change academic level or performance criteria.  For example:
-                            Braille
-                            Enlarged monitor view
-                            Extra time
-                            Large Print
-                            Setting
-                            Oral Administration
-                            ...
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="LinguisticAccommodations" type="LinguisticAccommodationsType" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>Linguistic accommodations used with the student for the test.  For example:
-                            Bilingual dictionary
-                            English dictionary
-                            Reading Aloud - Word or Phrase
-                            Reading Aloud - Entire Test Item
-                            Oral Translation - Word or phrase
-                            Clarification - Word or phrase
-                            ...</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="RetestIndicator" type="RetestIndicatorType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Indicator if the test was retaken.  For example:
-                            Primary administration
-                            First retest
-                            Second retest
-                            ...</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="ReasonNotTested" type="ReasonNotTestedType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The primary reason student is not tested. For example:
-                            Absent
-                            Refusal by parent
-                            Refusal by student
-                            Medical waiver
-                            Illness
-                            Disruptive behavior
-                            LEP Exempt
-                            ...</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="ScoreResults" type="ScoreResult" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>A meaningful score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="GradeLevelWhenAssessed" type="GradeLevelType" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The grade level of a student when assessed.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="PerformanceLevels" type="Description" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>The performance level(s) achieved for the assessment.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="StudentObjectiveAssessments" type="StudentObjectiveAssessment" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>The score and or performance level(s) earned for each objective assessment by the student.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="StudentAssessmentItems" type="StudentAssessmentItem" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>This entity represents the student's responses to assessment items.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="studentId" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Reference to the student associated with the assessment.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="assessmentId" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Reference to the assessment taken by the student.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+	<xs:element name="studentAssessmentAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity represents the analysis or scoring of a
+				student's response on an assessment. The analysis results in a value
+				that represents a student's performance on a set of items on a test.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AdministrationDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>The month(s), day(s), and year on which an
+							assessment is administered or first day of administration if over
+							multiple days.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AdministrationEndDate" type="xs:date"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Assessment Administration End Date, if
+							administered over multiple days.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SerialNumber" type="IdentificationCode"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The unique number for the assessment form or
+							answer document.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AdministrationLanguage" type="LanguageItemType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The language in which an assessment is written
+							and/or administered.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The environment in which the test was
+							administered. For example:
+							Electronic
+							Classroom
+							Testing Center
+							....
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The specific type of special variation used in
+							how an examination is presented, how it is administered, or how
+							the test taker is allowed to respond. This generally refers to
+							changes that do not substantially alter what the examination
+							measures. The proper use of accommodations does not substantially
+							change academic level or performance criteria. For example:
+							Braille
+							Enlarged monitor view
+							Extra time
+							Large Print
+							Setting
+							Oral
+							Administration
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="LinguisticAccommodations" type="LinguisticAccommodationsType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Linguistic accommodations used with the student
+							for the test. For example:
+							Bilingual dictionary
+							English dictionary
+							Reading Aloud - Word or Phrase
+							Reading Aloud - Entire Test Item
+							Oral Translation - Word or phrase
+							Clarification - Word or phrase
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RetestIndicator" type="RetestIndicatorType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Indicator if the test was retaken. For example:
+							Primary administration
+							First retest
+							Second retest
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ReasonNotTested" type="ReasonNotTestedType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The primary reason student is not tested. For
+							example:
+							Absent
+							Refusal by parent
+							Refusal by student
+							Medical waiver
+							Illness
+							Disruptive behavior
+							LEP Exempt
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ScoreResults" type="ScoreResult"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A meaningful score or statistical expression of
+							the performance of an individual. The results can be expressed as
+							a number, percentile, range, level, etc.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GradeLevelWhenAssessed" type="GradeLevelType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The grade level of a student when assessed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PerformanceLevels" type="Description"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The performance level(s) achieved for the
+							assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="StudentObjectiveAssessments" type="StudentObjectiveAssessment"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The score and or performance level(s) earned for
+							each objective assessment by the student.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="StudentAssessmentItems" type="StudentAssessmentItem"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>This entity represents the student's responses
+							to assessment items.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the student associated with the
+							assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="assessmentId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the assessment taken by the
+							student.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
-    <xs:element name="sectionAssessmentAssociation">
-        <xs:annotation>
-            <xs:documentation>This entity represents the association of a section with an administered assessment.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="sectionId" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Reference to the section associated with the assessment.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="assessmentId" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Reference to the assessment taken by the section.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+	<xs:element name="sectionAssessmentAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity represents the association of a section
+				with an administered assessment.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="sectionId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the section associated with the
+							assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="assessmentId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the assessment taken by the
+							section.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>
