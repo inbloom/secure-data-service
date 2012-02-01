@@ -1,0 +1,2889 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for Cohort.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Cohort.xsd', 
+				'properties_Cohort', 
+				'properties_Cohort_CohortIdentifier', 
+				'properties_Cohort_CohortDescription', 
+				'properties_Cohort_CohortType', 
+				'properties_Cohort_CohortScope', 
+				'properties_Cohort_AcademicSubject', 
+				'properties_Cohort_EducationOrgReference', 
+				'properties_Cohort_ProgramReference', 
+				'properties_StudentCohortAssociation', 
+				'properties_StudentCohortAssociation_StudentReference', 
+				'properties_StudentCohortAssociation_CohortReference', 
+				'properties_StudentCohortAssociation_BeginDate', 
+				'properties_StudentCohortAssociation_EndDate', 
+				'properties_StaffCohortAssociation', 
+				'properties_StaffCohortAssociation_StaffReference', 
+				'properties_StaffCohortAssociation_CohortReference', 
+				'properties_StaffCohortAssociation_BeginDate', 
+				'properties_StaffCohortAssociation_EndDate', 
+				'properties_StaffCohortAssociation_StudentRecordAccess');
+
+        var facetsBoxes= new Array('facets_Cohort_CohortIdentifier', 
+				'facets_Cohort_CohortDescription', 
+				'facets_Cohort_CohortType', 
+				'facets_Cohort_CohortScope', 
+				'facets_Cohort_AcademicSubject');
+
+        
+        
+        
+        var diagramBoxes= new Array('diagram_Cohort', 
+				'diagram_Cohort_CohortIdentifier', 
+				'diagram_Cohort_CohortDescription', 
+				'diagram_Cohort_CohortType', 
+				'diagram_Cohort_CohortScope', 
+				'diagram_Cohort_AcademicSubject', 
+				'diagram_Cohort_EducationOrgReference', 
+				'diagram_Cohort_ProgramReference', 
+				'diagram_StudentCohortAssociation', 
+				'diagram_StudentCohortAssociation_StudentReference', 
+				'diagram_StudentCohortAssociation_CohortReference', 
+				'diagram_StudentCohortAssociation_BeginDate', 
+				'diagram_StudentCohortAssociation_EndDate', 
+				'diagram_StaffCohortAssociation', 
+				'diagram_StaffCohortAssociation_StaffReference', 
+				'diagram_StaffCohortAssociation_CohortReference', 
+				'diagram_StaffCohortAssociation_BeginDate', 
+				'diagram_StaffCohortAssociation_EndDate', 
+				'diagram_StaffCohortAssociation_StudentRecordAccess');
+
+        var annotationBoxes= new Array('annotations_Cohort', 
+				'annotations_Cohort_CohortIdentifier', 
+				'annotations_Cohort_CohortDescription', 
+				'annotations_Cohort_CohortType', 
+				'annotations_Cohort_CohortScope', 
+				'annotations_Cohort_AcademicSubject', 
+				'annotations_Cohort_EducationOrgReference', 
+				'annotations_Cohort_ProgramReference', 
+				'annotations_StudentCohortAssociation', 
+				'annotations_StudentCohortAssociation_StudentReference', 
+				'annotations_StudentCohortAssociation_CohortReference', 
+				'annotations_StudentCohortAssociation_BeginDate', 
+				'annotations_StudentCohortAssociation_EndDate', 
+				'annotations_StaffCohortAssociation', 
+				'annotations_StaffCohortAssociation_StaffReference', 
+				'annotations_StaffCohortAssociation_CohortReference', 
+				'annotations_StaffCohortAssociation_BeginDate', 
+				'annotations_StaffCohortAssociation_EndDate', 
+				'annotations_StaffCohortAssociation_StudentRecordAccess');
+
+        var attributesBoxes= new Array('attributes_Cohort_EducationOrgReference', 
+				'attributes_Cohort_ProgramReference', 
+				'attributes_StudentCohortAssociation_StudentReference', 
+				'attributes_StudentCohortAssociation_CohortReference', 
+				'attributes_StaffCohortAssociation_StaffReference', 
+				'attributes_StaffCohortAssociation_CohortReference');
+
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, annotationBoxes);"
+                                     class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, attributesBoxes);"
+                                     class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, diagramBoxes);"
+                                     class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, facetsBoxes);"
+                                     class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, propertiesBoxes);"
+                                     class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button"
+                               onclick="getElementObject('global_controls').style.display = 'none';"
+                               value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Cohort.xsd"></a><div class="componentTitle">Included schema <span class="qname">Cohort.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort.xsd" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Cohort.xsd');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">attribute form default:
+                                       
+                                    </td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">element form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort"></a><div class="componentTitle">Element <span class="qname">Cohort</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_Cohort');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents any type of list of designated students for tracking, analysis, or intervention.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Cohort');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_Cohort.png"
+                                   usemap="#Cohort_xsd_Element_Cohort" /><map name="Cohort_xsd_Element_Cohort" id="Cohort_xsd_Element_Cohort">
+                                 <area alt="Cohort_xsd.tmp#Cohort_CohortIdentifier"
+                                       href="Cohort_xsd.html#Cohort_CohortIdentifier"
+                                       coords="209,2,326,26" />
+                                 <area alt="Cohort_xsd.tmp#Cohort_CohortDescription"
+                                       href="Cohort_xsd.html#Cohort_CohortDescription"
+                                       coords="209,66,340,90" />
+                                 <area alt="Cohort_xsd.tmp#Cohort_CohortType" href="Cohort_xsd.html#Cohort_CohortType"
+                                       coords="209,130,304,154" />
+                                 <area alt="Cohort_xsd.tmp#Cohort_CohortScope"
+                                       href="Cohort_xsd.html#Cohort_CohortScope"
+                                       coords="209,207,310,231" />
+                                 <area alt="Cohort_xsd.tmp#Cohort_AcademicSubject"
+                                       href="Cohort_xsd.html#Cohort_AcademicSubject"
+                                       coords="209,284,331,308" />
+                                 <area alt="Cohort_xsd.tmp#Cohort_EducationOrgReference"
+                                       href="Cohort_xsd.html#Cohort_EducationOrgReference"
+                                       coords="209,361,367,385" />
+                                 <area alt="Cohort_xsd.tmp#Cohort_ProgramReference"
+                                       href="Cohort_xsd.html#Cohort_ProgramReference"
+                                       coords="209,438,339,462" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Cohort');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_CohortIdentifier"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / CohortIdentifier</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_CohortIdentifier" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_CohortIdentifier');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_CohortIdentifier" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The name or ID for the cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_CohortIdentifier" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_Cohort_CohortIdentifier');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_CohortIdentifier" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_CohortIdentifier.png"
+                                   usemap="#Cohort_xsd_Element_CohortIdentifier" /><map name="Cohort_xsd_Element_CohortIdentifier"
+                                   id="Cohort_xsd_Element_CohortIdentifier">
+                                 <area alt="SimpleTypes_xsd.tmp#CohortIdentifier"
+                                       href="SimpleTypes_xsd.html#CohortIdentifier"
+                                       coords="165,0,306,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_CohortIdentifier" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_CohortIdentifier');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_CohortIdentifier" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_Cohort_CohortIdentifier" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_Cohort_CohortIdentifier');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_Cohort_CohortIdentifier" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>20</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_CohortDescription"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / CohortDescription</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_CohortDescription" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_CohortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_CohortDescription" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The description of he cohort and its purpose.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_CohortDescription" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_Cohort_CohortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_CohortDescription" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_CohortDescription.png"
+                                   usemap="#Cohort_xsd_Element_CohortDescription" /><map name="Cohort_xsd_Element_CohortDescription"
+                                   id="Cohort_xsd_Element_CohortDescription">
+                                 <area alt="SimpleTypes_xsd.tmp#CohortDescription"
+                                       href="SimpleTypes_xsd.html#CohortDescription"
+                                       coords="179,0,334,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_CohortDescription" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_CohortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_CohortDescription" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_Cohort_CohortDescription" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_Cohort_CohortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_Cohort_CohortDescription" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>1024</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_CohortType"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / CohortType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_CohortType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_CohortType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_CohortType" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The type of cohort (e.g., academic intervention, classroom breakout)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_CohortType" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Cohort_CohortType');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_CohortType" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_CohortType.png"
+                                   usemap="#Cohort_xsd_Element_CohortType" /><map name="Cohort_xsd_Element_CohortType" id="Cohort_xsd_Element_CohortType">
+                                 <area alt="SimpleTypes_xsd.tmp#CohortType" href="SimpleTypes_xsd.html#CohortType"
+                                       coords="143,0,262,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_CohortType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_CohortType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_CohortType" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_Cohort_CohortType" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_Cohort_CohortType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_Cohort_CohortType" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Academic Intervention</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Attendance Intervention</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Discipline Intervention</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Classroom Pullout</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Extracurricular Activity</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Field Trip</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Principal Watch List</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Counselor List</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>In-school Suspension</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Study Hall</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_CohortScope"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / CohortScope</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_CohortScope" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_CohortScope');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_CohortScope" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The scope of cohort (e.g., school, district, classroom, etc.)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_CohortScope" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_Cohort_CohortScope');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_CohortScope" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_CohortScope.png"
+                                   usemap="#Cohort_xsd_Element_CohortScope" /><map name="Cohort_xsd_Element_CohortScope" id="Cohort_xsd_Element_CohortScope">
+                                 <area alt="SimpleTypes_xsd.tmp#CohortScopeType"
+                                       href="SimpleTypes_xsd.html#CohortScopeType"
+                                       coords="149,0,300,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_CohortScope" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_CohortScope');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_CohortScope" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_Cohort_CohortScope" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_Cohort_CohortScope');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_Cohort_CohortScope" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>District</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>School</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Classroom</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Teacher</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Principal</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Counselor</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Statewide</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_AcademicSubject"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / AcademicSubject</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_AcademicSubject" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_AcademicSubject');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_AcademicSubject" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The academic subject associated with an academic intervention.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_AcademicSubject" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_Cohort_AcademicSubject');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_AcademicSubject" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_AcademicSubject.png"
+                                   usemap="#Cohort_xsd_Element_AcademicSubject" /><map name="Cohort_xsd_Element_AcademicSubject"
+                                   id="Cohort_xsd_Element_AcademicSubject">
+                                 <area alt="SimpleTypes_xsd.tmp#AcademicSubjectType"
+                                       href="SimpleTypes_xsd.html#AcademicSubjectType"
+                                       coords="170,0,342,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_AcademicSubject" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_AcademicSubject');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_AcademicSubject" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_Cohort_AcademicSubject" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_Cohort_AcademicSubject');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_Cohort_AcademicSubject" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>English Language and Literature</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>English</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ELA</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Reading</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Mathematics</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Life and Physical Sciences</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Social Sciences and History</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Social Studies</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Science</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Fine and Performing Arts</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Foreign Language and Literature</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Religious Education and Theology</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Physical, Health, and Safety Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Military Science</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Computer and Information Sciences</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Communication and Audio/Visual Technology</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Composite</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Critical Reading</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Business and Marketing</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Manufacturing</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Health Care Sciences</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Public, Protective, and Government Service</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Hospitality and Tourism</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Architecture and Construction</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Agriculture, Food, and Natural Resources</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Human Services</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Transportation, Distribution and Logistics</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Engineering and Technology</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Writing</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Miscellaneous</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_EducationOrgReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / EducationOrgReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_EducationOrgReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_EducationOrgReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_EducationOrgReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The education organization associated with and owner of the cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_EducationOrgReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_Cohort_EducationOrgReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_EducationOrgReference" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_EducationOrgReference.png"
+                                   usemap="#Cohort_xsd_Element_EducationOrgReference" /><map name="Cohort_xsd_Element_EducationOrgReference"
+                                   id="Cohort_xsd_Element_EducationOrgReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
+                                       coords="234,157,295,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#EducationalOrgSimpleReference"
+                                       href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference"
+                                       coords="209,3,431,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_EducationOrgReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_EducationOrgReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_EducationOrgReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_Cohort_EducationOrgReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_Cohort_EducationOrgReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_Cohort_EducationOrgReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#EducationalOrgSimpleReference_type"
+                                             target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>EducationalOrg</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Cohort_ProgramReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#Cohort" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort</a></b> / ProgramReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Cohort_ProgramReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_Cohort_ProgramReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Cohort_ProgramReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The (optional) program associated with this cohort (e.g., special education)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Cohort_ProgramReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_Cohort_ProgramReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Cohort_ProgramReference" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_ProgramReference.png"
+                                   usemap="#Cohort_xsd_Element_ProgramReference" /><map name="Cohort_xsd_Element_ProgramReference"
+                                   id="Cohort_xsd_Element_ProgramReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#ProgramSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#ProgramSimpleReference_type"
+                                       coords="206,157,267,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#ProgramSimpleReference"
+                                       href="ReferenceTypes_xsd.html#ProgramSimpleReference"
+                                       coords="181,3,366,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Cohort_ProgramReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_Cohort_ProgramReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Cohort_ProgramReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_Cohort_ProgramReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_Cohort_ProgramReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_Cohort_ProgramReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#ProgramSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>ProgramReference</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StudentCohortAssociation"></a><div class="componentTitle">Element <span class="qname">StudentCohortAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StudentCohortAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StudentCohortAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StudentCohortAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This association represents the cohort(s) that a student is designated for.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StudentCohortAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StudentCohortAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StudentCohortAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Cohort_xsd_Element_StudentCohortAssociation.png"
+                                   usemap="#Cohort_xsd_Element_StudentCohortAssociation" /><map name="Cohort_xsd_Element_StudentCohortAssociation"
+                                   id="Cohort_xsd_Element_StudentCohortAssociation">
+                                 <area alt="Cohort_xsd.tmp#StudentCohortAssociation_StudentReference"
+                                       href="Cohort_xsd.html#StudentCohortAssociation_StudentReference"
+                                       coords="292,2,417,26" />
+                                 <area alt="Cohort_xsd.tmp#StudentCohortAssociation_CohortReference"
+                                       href="Cohort_xsd.html#StudentCohortAssociation_CohortReference"
+                                       coords="292,66,414,90" />
+                                 <area alt="Cohort_xsd.tmp#StudentCohortAssociation_BeginDate"
+                                       href="Cohort_xsd.html#StudentCohortAssociation_BeginDate"
+                                       coords="292,130,376,154" />
+                                 <area alt="Cohort_xsd.tmp#StudentCohortAssociation_EndDate"
+                                       href="Cohort_xsd.html#StudentCohortAssociation_EndDate"
+                                       coords="292,207,367,231" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StudentCohortAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StudentCohortAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StudentCohortAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StudentCohortAssociation_StudentReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StudentCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StudentCohortAssociation</a></b> / StudentReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StudentCohortAssociation_StudentReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StudentCohortAssociation_StudentReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StudentCohortAssociation_StudentReference"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The student associated with the cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StudentCohortAssociation_StudentReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StudentCohortAssociation_StudentReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StudentCohortAssociation_StudentReference" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_StudentReference.png"
+                                   usemap="#Cohort_xsd_Element_StudentReference" /><map name="Cohort_xsd_Element_StudentReference"
+                                   id="Cohort_xsd_Element_StudentReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#StudentSimpleReference_type"
+                                       coords="201,157,262,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#StudentSimpleReference"
+                                       href="ReferenceTypes_xsd.html#StudentSimpleReference"
+                                       coords="176,3,356,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StudentCohortAssociation_StudentReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StudentCohortAssociation_StudentReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StudentCohortAssociation_StudentReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_StudentCohortAssociation_StudentReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_StudentCohortAssociation_StudentReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_StudentCohortAssociation_StudentReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#StudentSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>Student</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StudentCohortAssociation_CohortReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StudentCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StudentCohortAssociation</a></b> / CohortReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StudentCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StudentCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StudentCohortAssociation_CohortReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Reference to the cohort associated with the student.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StudentCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StudentCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StudentCohortAssociation_CohortReference" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_CohortReference.png"
+                                   usemap="#Cohort_xsd_Element_CohortReference" /><map name="Cohort_xsd_Element_CohortReference"
+                                   id="Cohort_xsd_Element_CohortReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#CohortReference_type"
+                                       href="ReferenceTypes_xsd.html#CohortReference_type"
+                                       coords="198,157,259,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#CohortReference"
+                                       href="ReferenceTypes_xsd.html#CohortReference"
+                                       coords="173,3,315,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StudentCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StudentCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StudentCohortAssociation_CohortReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_StudentCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_StudentCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_StudentCohortAssociation_CohortReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#CohortReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>CohortReference</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StudentCohortAssociation_BeginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StudentCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StudentCohortAssociation</a></b> / BeginDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StudentCohortAssociation_BeginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StudentCohortAssociation_BeginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StudentCohortAssociation_BeginDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the student was first identified as  part of the cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StudentCohortAssociation_BeginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StudentCohortAssociation_BeginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StudentCohortAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_BeginDate_1.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StudentCohortAssociation_BeginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StudentCohortAssociation_BeginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StudentCohortAssociation_BeginDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StudentCohortAssociation_EndDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StudentCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StudentCohortAssociation</a></b> / EndDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StudentCohortAssociation_EndDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StudentCohortAssociation_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StudentCohortAssociation_EndDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the student was removed as  part of the cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StudentCohortAssociation_EndDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StudentCohortAssociation_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StudentCohortAssociation_EndDate" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_EndDate_1.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StudentCohortAssociation_EndDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StudentCohortAssociation_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StudentCohortAssociation_EndDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StaffCohortAssociation"></a><div class="componentTitle">Element <span class="qname">StaffCohortAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StaffCohortAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StaffCohortAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StaffCohortAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This association indicates the staff associated with a cohort of students.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StaffCohortAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StaffCohortAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StaffCohortAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Cohort_xsd_Element_StaffCohortAssociation.png"
+                                   usemap="#Cohort_xsd_Element_StaffCohortAssociation" /><map name="Cohort_xsd_Element_StaffCohortAssociation"
+                                   id="Cohort_xsd_Element_StaffCohortAssociation">
+                                 <area alt="Cohort_xsd.tmp#StaffCohortAssociation_StaffReference"
+                                       href="Cohort_xsd.html#StaffCohortAssociation_StaffReference"
+                                       coords="296,2,404,26" />
+                                 <area alt="Cohort_xsd.tmp#StaffCohortAssociation_CohortReference"
+                                       href="Cohort_xsd.html#StaffCohortAssociation_CohortReference"
+                                       coords="296,66,418,90" />
+                                 <area alt="Cohort_xsd.tmp#StaffCohortAssociation_BeginDate"
+                                       href="Cohort_xsd.html#StaffCohortAssociation_BeginDate"
+                                       coords="296,130,380,154" />
+                                 <area alt="Cohort_xsd.tmp#StaffCohortAssociation_EndDate"
+                                       href="Cohort_xsd.html#StaffCohortAssociation_EndDate"
+                                       coords="296,194,371,218" />
+                                 <area alt="Cohort_xsd.tmp#StaffCohortAssociation_StudentRecordAccess"
+                                       href="Cohort_xsd.html#StaffCohortAssociation_StudentRecordAccess"
+                                       coords="296,258,444,282" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StaffCohortAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StaffCohortAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StaffCohortAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StaffCohortAssociation_StaffReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StaffCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StaffCohortAssociation</a></b> / StaffReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StaffCohortAssociation_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StaffCohortAssociation_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StaffCohortAssociation_StaffReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The staff associated with the cohort of students.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StaffCohortAssociation_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StaffCohortAssociation_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StaffCohortAssociation_StaffReference" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_StaffReference.png"
+                                   usemap="#Cohort_xsd_Element_StaffReference" /><map name="Cohort_xsd_Element_StaffReference" id="Cohort_xsd_Element_StaffReference">
+                                 <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference_type"
+                                       href="ReferenceTypes_xsd.html#StaffSimpleReference_type"
+                                       coords="184,157,245,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#StaffSimpleReference"
+                                       href="ReferenceTypes_xsd.html#StaffSimpleReference"
+                                       coords="159,3,322,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StaffCohortAssociation_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StaffCohortAssociation_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StaffCohortAssociation_StaffReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_StaffCohortAssociation_StaffReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_StaffCohortAssociation_StaffReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_StaffCohortAssociation_StaffReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#StaffSimpleReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>Staff</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StaffCohortAssociation_CohortReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StaffCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StaffCohortAssociation</a></b> / CohortReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StaffCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StaffCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StaffCohortAssociation_CohortReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Reference to the cohort associated with the staff.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StaffCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StaffCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StaffCohortAssociation_CohortReference" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_CohortReference_1.png"
+                                   usemap="#Cohort_xsd_Element_CohortReference_1" /><map name="Cohort_xsd_Element_CohortReference_1"
+                                   id="Cohort_xsd_Element_CohortReference_1">
+                                 <area alt="ReferenceTypes_xsd.tmp#CohortReference_type"
+                                       href="ReferenceTypes_xsd.html#CohortReference_type"
+                                       coords="198,157,259,181" />
+                                 <area alt="ReferenceTypes_xsd.tmp#CohortReference"
+                                       href="ReferenceTypes_xsd.html#CohortReference"
+                                       coords="173,3,315,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StaffCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StaffCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StaffCohortAssociation_CohortReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_StaffCohortAssociation_CohortReference" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('attributes_StaffCohortAssociation_CohortReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_StaffCohortAssociation_CohortReference" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="ReferenceTypes_xsd.html#CohortReference_type" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for ReferenceTypes.xsd')">type</a></b></td>
+                                    <td></td>
+                                    <td>CohortReference</td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StaffCohortAssociation_BeginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StaffCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StaffCohortAssociation</a></b> / BeginDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StaffCohortAssociation_BeginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StaffCohortAssociation_BeginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StaffCohortAssociation_BeginDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Start date for the association of staff to this cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StaffCohortAssociation_BeginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StaffCohortAssociation_BeginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StaffCohortAssociation_BeginDate" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_BeginDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StaffCohortAssociation_BeginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StaffCohortAssociation_BeginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StaffCohortAssociation_BeginDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StaffCohortAssociation_EndDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StaffCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StaffCohortAssociation</a></b> / EndDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StaffCohortAssociation_EndDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StaffCohortAssociation_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StaffCohortAssociation_EndDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">End date for the association of staff to this cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StaffCohortAssociation_EndDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StaffCohortAssociation_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StaffCohortAssociation_EndDate" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_EndDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StaffCohortAssociation_EndDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StaffCohortAssociation_EndDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StaffCohortAssociation_EndDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="StaffCohortAssociation_StudentRecordAccess"></a><div class="componentTitle">Element <span class="qname"><b><a href="Cohort_xsd.html#StaffCohortAssociation" target="mainFrame"
+                  title="http://slc-sli/ed-org/0.1"
+                  onclick="updatePageTitle('Schema documentation for Cohort.xsd')">StaffCohortAssociation</a></b> / StudentRecordAccess</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_StaffCohortAssociation_StudentRecordAccess" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_StaffCohortAssociation_StudentRecordAccess');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_StaffCohortAssociation_StudentRecordAccess"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicator of whether the staff has access to the student records of the cohort per district</span><span class="tI">
+</span><span class="tT">interpretation of FERPA and other privacy laws, regulations and policies.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_StaffCohortAssociation_StudentRecordAccess" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_StaffCohortAssociation_StudentRecordAccess');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_StaffCohortAssociation_StudentRecordAccess" style="display:block"><img alt="Diagram" border="0" src="img/Cohort_xsd_Element_StudentRecordAccess.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_StaffCohortAssociation_StudentRecordAccess" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_StaffCohortAssociation_StudentRecordAccess');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_StaffCohortAssociation_StudentRecordAccess"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Cohort_xsd.html">Cohort.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>
