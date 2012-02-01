@@ -75,12 +75,12 @@ end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   @result[key].should_not == nil
-  @result[key].should == value
+  assert(@result[key].should == value, "Expected value \"#{key}\" != \"#{@result[key]}\"")
 end
 
 Then /^"([^"]*)" should be (\d+)$/ do |key, value|
   @result[key].should_not == nil
-  @result[key] == value
+  assert(@result[key].to_i == value.to_i, "Expected value #{value} != #{@result[key]}")
 end
 
 Then /^I should have a link with ID "([^"]*)"$/ do |linkid|
