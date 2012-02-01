@@ -24,6 +24,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
@@ -42,6 +43,9 @@ public class RealmRoleManagerResource {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    private RoleRightAccess roleRightAccess;
     
     private EntityService service;
 
@@ -71,19 +75,13 @@ public class RealmRoleManagerResource {
         }
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
         if (mappings != null) {
-            // A crappy, inefficient way to ensure uniqueness of mappings.
-            for (String key : mappings.keySet()) {
-                List<String> clientRoles = mappings.get(key);
-                for (String clientRole : clientRoles) {
-                    for (String secondKey : mappings.keySet()) {
-                        if (!secondKey.equals(key)) {
-                            List<String> secondClientRoles = mappings
-                                    .get(secondKey);
-                            if (secondClientRoles.contains(clientRole)) {
-                                return false;
-                            }
-                        }
-                    }
+            if (!uniqueMappings(mappings)) {
+                return false;
+             }
+            
+            for (String sliRole : mappings.keySet()) {
+                if (roleRightAccess.getDefaultRole(sliRole) == null) {
+                    return false;
                 }
             }
         }
@@ -126,6 +124,25 @@ public class RealmRoleManagerResource {
             result.add(curEntity);
         }
         return result;
+    }
+    
+    private boolean uniqueMappings(Map<String, List<String>> mappings) {
+        // A crappy, inefficient way to ensure uniqueness of mappings.
+        for (String key : mappings.keySet()) {
+            List<String> clientRoles = mappings.get(key);
+            for (String clientRole : clientRoles) {
+                for (String secondKey : mappings.keySet()) {
+                    if (!secondKey.equals(key)) {
+                        List<String> secondClientRoles = mappings
+                                .get(secondKey);
+                        if (secondClientRoles.contains(clientRole)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }
