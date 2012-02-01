@@ -7,6 +7,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import javax.ws.rs.core.Response;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +77,8 @@ public class RealmRoleManagerResourceTest {
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        assertTrue(resource.updateClientRole("1234", mapping));
+        Response res = resource.updateClientRole("1234", mapping);
+        assertTrue(res.getStatus() == 204);
     }
     
     @Test
