@@ -39,45 +39,4 @@ public class RoleInitializerTest {
         assertTrue(roleInitializer.buildRoles() == 5);
         
     }
-    
-    @Test
-    public void testNoRolesCreated() throws Exception {
-        List<Entity> entities = new ArrayList<Entity>();
-        Map<String, Object> body = new HashMap<String, Object>();
-        body.put("name", RoleInitializer.EDUCATOR);
-        entities.add(new MongoEntity("roles", body));
-        body = new HashMap<String, Object>();
-        body.put("name", RoleInitializer.IT_ADMINISTRATOR);
-        entities.add(new MongoEntity("roles", body));
-        body = new HashMap<String, Object>();
-        body.put("name", RoleInitializer.LEADER);
-        entities.add(new MongoEntity("roles", body));
-        body = new HashMap<String, Object>();
-        body.put("name", RoleInitializer.AGGREGATE_VIEWER);
-        entities.add(new MongoEntity("roles", body));
-        body = new HashMap<String, Object>();
-        body.put("name", RoleInitializer.SLI_ADMINISTRATOR);
-        entities.add(new MongoEntity("roles", body));
-        when(mockRepo.findAll("roles")).thenReturn(entities);
-        assertTrue(roleInitializer.buildRoles() == 0);
-    }
-    
-    @Test
-    public void testSomeRolesCreated() throws Exception {
-        when(mockRepo.findAll("roles")).thenReturn(new Iterable<Entity>() {
-            @Override
-            public Iterator<Entity> iterator() {
-                List<Entity> entities = new ArrayList<Entity>();
-                Map<String, Object> body = new HashMap<String, Object>();
-                body.put("name", RoleInitializer.EDUCATOR);
-                entities.add(new MongoEntity("roles", body));
-                body = new HashMap<String, Object>();
-                body.put("name", RoleInitializer.IT_ADMINISTRATOR);
-                entities.add(new MongoEntity("roles", body));
-                return entities.iterator();
-            }
-        });
-        assertTrue(roleInitializer.buildRoles() == 3);
-        
-    }
 }
