@@ -23,7 +23,7 @@ end
 def idpLogin(user, passwd)
   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-1]
+  @sessionId = res.body[res.body.rindex('=')+1..-2]
   puts(@sessionId) if $SLI_DEBUG
 end
 
@@ -42,7 +42,7 @@ def idpRealmLogin(user, passwd, realm="sli")
   realmType = 'lea_idp_server_url' if realm == "idp2"
   url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-1]
+  @sessionId = res.body[res.body.rindex('=')+1..-2]
   puts(@sessionId) if $SLI_DEBUG
 end
 

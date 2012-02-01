@@ -27,7 +27,7 @@ function populateSectionMenu(schoolIndex, courseIndex){
     y += "<option value=\"\"></option>"
     var i = 0
     for(;i < temp.length;i++){
-        y += "<option value=\"" +i +"\">"+ temp[i].uniqueSectionCode + "</option>"
+        y += "<option value=\"" +i +"\">"+ temp[i].sectionName + "</option>"
     }
     y += "</select>"
     document.getElementById("sectionDiv").innerHTML = y
