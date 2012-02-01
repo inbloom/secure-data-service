@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>dashboard</artifactId>
+  <artifactId>${war.file.name}</artifactId>
   <packaging>war</packaging>
   <name>SLI Dashboard</name>
 
@@ -32,6 +32,7 @@
 	    <server.mode>live</server.mode>
 	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
 	    <apiclient>Live</apiclient>
+	    <war.file.name>dashboard</war.file.name>
       </properties>
       <build>
         <filters>
@@ -55,6 +56,7 @@
 	    <server.mode>test</server.mode>
 	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
 	    <apiclient>Mock</apiclient>
+	    <war.file.name>dashboard-test-mode</war.file.name>
         <env>test</env>
       </properties>
     </profile>
