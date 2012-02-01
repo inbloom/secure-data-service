@@ -26,6 +26,24 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="testDouble" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>A test date
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="testDecimal" type="xs:decimal">
+				<xs:annotation>
+					<xs:documentation>A test date
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="testFloat" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>A test date
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="testAnonymousSimpleType">
 				<xs:annotation>
 					<xs:documentation>
