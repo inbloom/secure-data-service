@@ -88,12 +88,12 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="StudentReference" type="StudentSimpleReference">
+				<xs:element name="studentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The student associated with the program.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramReference" type="ProgramSimpleReference">
+				<xs:element name="programId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The program associated with the student.</xs:documentation>
 					</xs:annotation>
@@ -143,12 +143,12 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="StaffReference" type="StaffSimpleReference">
+				<xs:element name="staffId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the program.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramReference" type="ProgramSimpleReference">
+				<xs:element name="programId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The program associated to the staff.</xs:documentation>
 					</xs:annotation>

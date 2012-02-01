@@ -573,13 +573,13 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="TeacherReference" type="TeacherSimpleReference">
+                <xs:element name="teacherId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The teacher providing services to the school.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="SchoolReference" type="SchoolSimpleReference" maxOccurs="unbounded">
+                <xs:element name="schoolId" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>The school where the teacher provides services.
                         </xs:documentation>
