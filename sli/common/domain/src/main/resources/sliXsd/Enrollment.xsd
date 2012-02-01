@@ -449,6 +449,9 @@
                             programs, and/or other characteristics considered relevant by
                             federal, state, and local policy.
                         </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
+                        </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="SchoolFoodServicesEligibility" type="SchoolFoodServicesEligibilityType"
@@ -470,6 +473,9 @@
                             Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth,
                             etc.
                         </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
+                        </xs:appinfo>                        
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="LimitedEnglishProficiency" type="LimitedEnglishProficiencyType"

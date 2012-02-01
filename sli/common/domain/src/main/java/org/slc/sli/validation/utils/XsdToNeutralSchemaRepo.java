@@ -58,6 +58,7 @@ import org.slc.sli.validation.schema.TokenSchema;
  * Generation tool used to convert XSD to SLI Neutral Schema.
  * This class leverages the prior art/work by Ryan Farris to convert XSD to Avro style schemas.
  * 
+ * @author Aaron Saarela <asaarela@wgen.net>
  * @author Ryan Farris <rfarris@wgen.net>
  * @author Robert Bloh <rbloh@wgen.net>
  * 
@@ -319,38 +320,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
             }
         }
         
-        // See if this element contains personally identifiable information (PII)
-        if (simpleSchema != null && schemaSimpleType.getAnnotation() != null) {
-            XmlSchemaObjectCollection annotations = schemaSimpleType.getAnnotation().getItems();
-            
-            // The PII flag is set in AppInfo, which is contained within an Annotation element.
-            // There may be multiple annotations on this object, so iterate over them.
-            for (int annotationIdx = 0; annotationIdx < annotations.getCount(); ++annotationIdx) {
-                XmlSchemaObject annotation = annotations.getItem(annotationIdx);
-                
-                if (annotation instanceof XmlSchemaAppInfo) {
-                    XmlSchemaAppInfo info = (XmlSchemaAppInfo) annotation;
-                    
-                    NodeList appInfoNodes = info.getMarkup();
-                    for (int appInfoNodeIdx = 0; annotationIdx < appInfoNodes.getLength(); ++appInfoNodeIdx) {
-                        
-                        if (appInfoNodes.item(appInfoNodeIdx) instanceof Element) {
-                            
-                            Element e = (Element) appInfoNodes.item(appInfoNodeIdx);
-                            NodeList sli = e.getElementsByTagNameNS(SLI_XSD_NAMESPACE, PII_ELEMENT_NAME);
-                            if (sli.getLength() > 1) {
-                                
-                                // Note: multiple PII annotations on the same type should fail
-                                // XSD validation so we don't check for this situation here. If
-                                // there are duplicate PII elements, the last one parsed wins.
-                                String piiValue = sli.item(0).getNodeValue();
-                                simpleSchema.isPersonallyIdentifiableInfo(Boolean.parseBoolean(piiValue));
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        parseAnnotations(simpleSchema, schemaSimpleType);
         
         if ((simpleSchema != null) && (simpleTypeName != null)) {
             simpleSchema.setType(simpleTypeName);
@@ -364,6 +334,50 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         }
         
         return simpleSchema;
+    }
+    
+    private void parseAnnotations(NeutralSchema neutralSchema, XmlSchemaType schemaType) {
+        
+        parseAppInfo(neutralSchema, schemaType);
+    }
+    
+    private void parseAppInfo(NeutralSchema neutralSchema, XmlSchemaType schemaType) {
+        
+        if (neutralSchema == null || schemaType == null || schemaType.getAnnotation() == null) {
+            return;
+        }
+        
+        XmlSchemaObjectCollection annotations = schemaType.getAnnotation().getItems();
+        
+        for (int annotationIdx = 0; annotationIdx < annotations.getCount(); ++annotationIdx) {
+            XmlSchemaObject annotation = annotations.getItem(annotationIdx);
+            
+            if (annotation instanceof XmlSchemaAppInfo) {
+                XmlSchemaAppInfo info = (XmlSchemaAppInfo) annotation;
+                
+                NodeList appInfoNodes = info.getMarkup();
+                for (int appInfoNodeIdx = 0; annotationIdx < appInfoNodes.getLength(); ++appInfoNodeIdx) {
+                    
+                    if (appInfoNodes.item(appInfoNodeIdx) instanceof Element) {
+                        
+                        Element e = (Element) appInfoNodes.item(appInfoNodeIdx);
+                        
+                        // Check for PII
+                        NodeList sli = e.getElementsByTagNameNS(SLI_XSD_NAMESPACE, PII_ELEMENT_NAME);
+                        if (sli.getLength() > 1) {
+                            
+                            // Note: multiple PII annotations on the same type should fail
+                            // XSD validation so we don't check for this situation here. If
+                            // there are duplicate PII elements, the last one parsed wins.
+                            String piiValue = sli.item(0).getNodeValue();
+                            neutralSchema.isPersonallyIdentifiableInfo(Boolean.parseBoolean(piiValue));
+                        }
+                        
+                        // Check for security roles
+                    }
+                }
+            }
+        }
     }
     
     private XmlSchemaSimpleType getSimpleBaseType(QName simpleBaseTypeName, XmlSchema schema) {
@@ -381,6 +395,9 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
                 LOG.error("Schema simple base type not found: " + simpleBaseTypeName);
             }
         }
+        
+        // Does the base type contain PII?
+        
         return simpleBaseType;
     }
     
