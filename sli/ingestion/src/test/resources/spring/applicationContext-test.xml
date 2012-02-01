@@ -46,6 +46,7 @@
 			expression=".*CustomImpl" />
 		<context:exclude-filter type="regex"
 			expression=".*MongoEntityRepository" />
+		<context:exclude-filter type="regex" expression=".*NeutralSchemaValidator"></context:exclude-filter>
 	</context:component-scan>
 
 	<!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
