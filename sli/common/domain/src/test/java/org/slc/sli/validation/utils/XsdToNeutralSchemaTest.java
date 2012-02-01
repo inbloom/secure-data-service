@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
@@ -31,7 +33,10 @@ public class XsdToNeutralSchemaTest {
     
     @Test
     public void testSchema() throws IOException {
-        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("testSchemas",
+                new NeutralSchemaFactory());
+        Resource[] resources = {new FileSystemResource("src/test/resources/testSchemas/TestXMLSchema.xsd")};
+        repo.generateSchemas(resources);
         NeutralSchema schema = repo.getSchema("TestComplexType");
         assertNotNull(schema);
         assertEquals("TestComplexType", schema.getType());
@@ -50,14 +55,8 @@ public class XsdToNeutralSchemaTest {
     public void testSliXsdSchema() throws IOException {
         assertNotNull(schemaRepo);
         assertNull(schemaRepo.getSchema("non-exist-schema"));
-        String[] testSchemas = { "student", "school", "teacher", "section", "assessment", "bellSchedule", "cohort",
-                "course", "disciplineIncident", "educationOrgAssociation", "eventBellScheduleAssociation",
-                "gradebookEntry", "localEducationAgency", "parent", "program", "schoolSessionAssociation",
-                "sectionAssessmentAssociation", "sectionBellScheduleAssociation", "session", "staffCohortAssociation",
-                "staffProgramAssociation", "studentAcademicRecordsAssociation", "studentAssessmentAssociation",
-                "studentCohortAssociation", "studentDisciplineIncidentAssociation", "studentParentAssociation",
-                "studentProgramAssociation", "studentSchoolAssociation", "studentSectionAssociation",
-                "studentTranscriptsAssociation", "teacherSchoolAssociation", "teacherSectionAssociation" };
+        // TODO add schemas to this as they are finalized
+        String[] testSchemas = { };
         for (String testSchema : testSchemas) {
             assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
             assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
