@@ -1,4 +1,6 @@
 DbRails::Application.routes.draw do
+  resources :homes
+
   # resources :entities
   match 'entities/:type' => 'entities#index'
   match 'entities/:type/:id' => 'entities#show'
