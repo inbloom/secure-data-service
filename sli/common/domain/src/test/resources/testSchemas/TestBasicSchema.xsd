@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified" attributeFormDefault="qualified">
-
+    xmlns:sli="http://slc-sli/ed-org/0.1"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified">
+    
 	<xs:simpleType name="BaseSimpleType">
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1" />
-			<xs:maxLength value="30" />
-		</xs:restriction>
+	        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="30" />
+        </xs:restriction>
 	</xs:simpleType>
-
+    
+    
+    <xs:simpleType name="TestDocumentationSimple">
+        <xs:annotation>
+            <xs:documentation>Test documentation.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+        
+        
+    <xs:simpleType name="TestPersonallyIdentifiableInfoSimple">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    
+    
+    <xs:simpleType name="TestSecuritySimple">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>    
+        
 </xs:schema>

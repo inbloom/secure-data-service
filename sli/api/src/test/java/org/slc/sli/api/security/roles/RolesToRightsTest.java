@@ -22,8 +22,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.resolve.ClientRoleManager;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests default role to rights resolution pipeline
@@ -32,7 +34,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+    DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RolesToRightsTest {
     

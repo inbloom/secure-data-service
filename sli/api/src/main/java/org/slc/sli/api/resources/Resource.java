@@ -77,8 +77,10 @@ public class Resource {
      *            resourceUri for the entity
      * @param newEntityBody
      *            entity data
+     * @param uriInfo
      * @return Response with a status of CREATED and a Location header set pointing to where the new
      *         entity lives
+     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location value. 
      */
     @POST
     public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody,
@@ -106,8 +108,10 @@ public class Resource {
      *            number of results to skip
      * @param max
      *            maximum number of results to return
+     * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
+     * @response.representation.200.mediaType application/json 
      */
     @GET
     @Path("{id}")
@@ -163,8 +167,10 @@ public class Resource {
      *            number of results to skip
      * @param max
      *            maximum number of results to return
+     * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
+     * @response.representation.200.mediaType application/xml 
      */
     @GET
     @Path("{id}")
@@ -209,6 +215,21 @@ public class Resource {
         });
     }
     
+    /**
+     * Gets the target entities from an association when the source entity is specified for the association. 
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @param uriInfo
+     * @return A collection of entities that are the targets of the specified source in an association
+     * @response.representation.200.mediaType application/json 
+     */
     @GET
     @Path("{id}/targets")
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
@@ -256,6 +277,7 @@ public class Resource {
      * @param id
      *            id of the entity
      * @return Returns a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code. 
      */
     @DELETE
     @Path("{id}")
@@ -279,6 +301,7 @@ public class Resource {
      * @param newEntityBody
      *            entity data that will used to replace the existing entity data
      * @return Response with a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code. 
      */
     @PUT
     @Path("{id}")

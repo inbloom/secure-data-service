@@ -31,10 +31,10 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntitySchemaRegistry;
 
 /**
@@ -92,13 +92,14 @@ public class BasicService implements EntityService {
         
         checkAccess(Right.WRITE_GENERAL, id);
         
-        if (!repo.delete(this.collectionName, id)) {
+        if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         
-        if (!(defn instanceof AssociationDefinition))
+        if (!(defn instanceof AssociationDefinition)) {
             removeEntityWithAssoc(id);
+        }
     }
     
     @Override
@@ -122,7 +123,7 @@ public class BasicService implements EntityService {
         LOG.info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
-        repo.update(this.collectionName, entity);
+        repo.update(collectionName, entity);
         
         return true;
     }
@@ -132,7 +133,7 @@ public class BasicService implements EntityService {
         
         checkAccess(Right.READ_GENERAL, id);
         
-        Entity entity = repo.find(this.collectionName, id);
+        Entity entity = repo.find(collectionName, id);
         
         if (entity == null) {
             throw new EntityNotFoundException(id);
@@ -157,7 +158,7 @@ public class BasicService implements EntityService {
         }
         
         if (!binIds.isEmpty()) {
-            Iterable<Entity> entities = repo.findByQuery(this.collectionName, new Query(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
+            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -189,7 +190,7 @@ public class BasicService implements EntityService {
         
         List<String> results = new ArrayList<String>();
         
-        Iterable<Entity> entities = repo.findByQuery(this.collectionName, query, start, numResults);
+        Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
         }
@@ -202,7 +203,7 @@ public class BasicService implements EntityService {
         checkRights(Right.READ_GENERAL);
         
         boolean exists = false;
-        if (repo.find(this.collectionName, id) != null) {
+        if (repo.find(collectionName, id) != null) {
             exists = true;
         }
         
@@ -275,7 +276,7 @@ public class BasicService implements EntityService {
         checkRights(right);
         
         // Check that target entity actually exists
-        if (repo.find(this.collectionName, entityId) == null) {
+        if (repo.find(collectionName, entityId) == null) {
             LOG.warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
@@ -313,7 +314,7 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(), this.defn.getType());
+        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(), defn.getType());
         
         return resolver.findAccessible(principal.getEntity());
     }
@@ -389,6 +390,7 @@ public class BasicService implements EntityService {
         this.defn = defn;
     }
     
+    @Override
     public EntityDefinition getEntityDefinition() {
         return defn;
     }

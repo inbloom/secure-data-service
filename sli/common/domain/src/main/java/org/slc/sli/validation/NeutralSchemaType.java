@@ -32,11 +32,12 @@ public enum NeutralSchemaType {
     
     // Attributes
     private final String name;
-    private final boolean isPrimitive = true;
+    private final boolean isPrimitive;
     
     // Constructors
     NeutralSchemaType(String name, boolean isPrimitive) {
         this.name = name;
+        this.isPrimitive = isPrimitive;
     }
     
     // Methods

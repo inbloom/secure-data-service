@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.enums;
+package org.slc.sli.domain.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

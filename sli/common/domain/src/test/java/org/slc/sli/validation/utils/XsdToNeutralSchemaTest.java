@@ -9,10 +9,10 @@ import java.io.IOException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
@@ -33,14 +33,40 @@ import org.slc.sli.validation.schema.StringSchema;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdToNeutralSchemaTest {
+    
     @Autowired
     SchemaRepository schemaRepo;
     
+    ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
+            new String[] { "spring/applicationContext-test.xml" });
+    
+    @Test
+    public void testSimpleType() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema baseSimpleType = repo.getSchema("BaseSimpleType");
+        assertNotNull(baseSimpleType);
+        assertEquals("BaseSimpleType", baseSimpleType.getType());
+    }
+    
+    @Test
+    public void testSchemaDocumentation() throws IOException {
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+
+        NeutralSchema schema = repo.getSchema("TestPersonallyIdentifiableInfoSimple");
+        assertNotNull(schema);
+        
+        schema = repo.getSchema("TestSecuritySimple");
+        assertNotNull(schema);
+    }
+    
     @Test
     public void testSchema() throws IOException {
-        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("testSchemas",
-                new NeutralSchemaFactory());
-        Resource[] resources = {new FileSystemResource("src/test/resources/testSchemas/TestXMLSchema.xsd")};
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("testSchemas", new NeutralSchemaFactory());
+        Resource[] resources = { new FileSystemResource("src/test/resources/testSchemas/TestXMLSchema.xsd") };
         repo.generateSchemas(resources);
         NeutralSchema schema = repo.getSchema("TestComplexType");
         assertNotNull(schema);
@@ -91,6 +117,21 @@ public class XsdToNeutralSchemaTest {
         assertEquals("BaseSimpleType", extField3.getType());
         assertEquals(StringSchema.class.getCanonicalName(), extField3.getValidatorClass());
         
+        NeutralSchema cycleSchema = (NeutralSchema) schema.getFields().get("WeeksInCycle");
+        assertNotNull(cycleSchema);
+        assertEquals("WeeksInCycle", cycleSchema.getType());
+        assertEquals(IntegerSchema.class.getCanonicalName(), cycleSchema.getValidatorClass());
+        assertEquals("1", cycleSchema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
+        assertEquals("52", cycleSchema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
+        
+        NeutralSchema schema2 = repo.getSchema("TestComplexType2");
+        assertNotNull(schema2);
+        NeutralSchema cycle2Schema = (NeutralSchema) schema2.getFields().get("WeeksInCycle");
+        assertNotNull(schema2);
+        assertEquals("WeeksInCycle2", cycle2Schema.getType());
+        assertEquals(IntegerSchema.class.getCanonicalName(), cycle2Schema.getValidatorClass());
+        assertEquals("1", cycle2Schema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
+        assertEquals("99", cycle2Schema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
     }
     
     @Test
@@ -98,11 +139,14 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(schemaRepo);
         assertNull(schemaRepo.getSchema("non-exist-schema"));
         // TODO add schemas to this as they are finalized
-        String[] testSchemas = { };
+        String[] testSchemas = {};
         for (String testSchema : testSchemas) {
             assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
             assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
             assertEquals(schemaRepo.getSchema(testSchema).getSchemaType(), NeutralSchemaType.COMPLEX);
         }
     }
+    
+    
+    
 }
