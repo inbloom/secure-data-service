@@ -4,9 +4,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.validation.NeutralSchemaFactory;
+import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
@@ -16,6 +24,8 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * 
  */
 public class NeutralJsonExporter {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralJsonExporter.class);
     
     /**
      * Loads the XSD files and dumps the Neutral Schema objects to JSON files in the specified
@@ -28,14 +38,18 @@ public class NeutralJsonExporter {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        String xsdPath = "classpath:sliXsd";
+        String xsdPath = "classpath:sliXsd-wip";
         String outputDir = "neutral-schemas";
         if (args.length == 2) {
             xsdPath = args[0];
             outputDir = args[1];
         }
         
+        ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
+                new String[] { "spring/neutral-json-exporter-config.xml" });
+        
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo(xsdPath, new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
         
         File enumDir = new File(outputDir, "enums");
         File primitiveDir = new File(outputDir, "primitive");
@@ -46,6 +60,33 @@ public class NeutralJsonExporter {
         complexDir.mkdirs();
         
         List<NeutralSchema> schemas = repo.getSchemas();
+        
+        // sanity check consistency
+        Set<String> schemaNames = new HashSet<String>();
+        for (NeutralSchema ns : schemas) {
+            schemaNames.add(ns.getType());
+        }
+        boolean sane = true;
+        for (NeutralSchema ns : schemas) {
+            for (Entry<String, Object> entry : ns.getFields().entrySet()) {
+                Object obj = entry.getValue();
+                if (obj instanceof NeutralSchema) {
+                    NeutralSchema field = (NeutralSchema) obj;
+                    if (!schemaNames.contains(field.getType()) && NeutralSchemaType.findByName(field.getType()) == null) {
+                        sane = false;
+                        LOG.error("Missing schema for field: " + ns.getType() + "." + entry.getKey() + "["
+                                + field.getType() + "]");
+                    }
+                } else {
+                    sane = false;
+                    LOG.error("Unknown field type: " + obj.getClass().getCanonicalName());
+                }
+            }
+        }
+        if (!sane) {
+            throw new RuntimeException("Sanity check failed");
+        }
+        
         for (NeutralSchema ns : schemas) {
             if (ns.isSimple() && !ns.isPrimitive()) {
                 writeSchema(enumDir, ns);
