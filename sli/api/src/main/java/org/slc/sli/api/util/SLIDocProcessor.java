@@ -26,11 +26,10 @@ public class SLIDocProcessor implements DocProcessor {
     }
     
     public void processMethodDoc(MethodDoc methodDoc, MethodDocType methodDocType) {
-        final String tagName = "@entity.tag";
+        final String tagName = "@entity.type";
         final Tag exampleTag = getTag(methodDoc, tagName);
         if (exampleTag != null) {
             final EntityType namedValueType = new EntityType();
-            namedValueType.setName("entity");
             namedValueType.setValue(exampleTag.text());
             methodDocType.getAny().add(namedValueType);
         }
