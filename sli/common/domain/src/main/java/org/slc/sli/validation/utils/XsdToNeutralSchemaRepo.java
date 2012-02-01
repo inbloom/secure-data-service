@@ -1,21 +1,14 @@
 package org.slc.sli.validation.utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaAttribute;
@@ -39,10 +32,14 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -63,7 +60,7 @@ import org.slc.sli.validation.schema.TokenSchema;
  * 
  */
 @Component
-public class XsdToNeutralSchemaRepo implements SchemaRepository {
+public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationContextAware {
     
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(XsdToNeutralSchemaRepo.class);
@@ -80,17 +77,32 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
     
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
     
+    private ResourceLoader resourceLoader;
+    
     @Autowired
     public XsdToNeutralSchemaRepo(@Value("classpath:sliXsd") String xsdPath, SchemaFactory schemaFactory)
             throws IOException {
         this.xsdPath = xsdPath;
         this.schemaFactory = schemaFactory;
-        generateSchemas();
     }
     
     @Override
     public NeutralSchema getSchema(String type) {
         return schemas.get(type);
+    }
+    
+    public List<NeutralSchema> getSchemas() {
+        return new ArrayList<NeutralSchema>(schemas.values());
+    }
+    
+    @Override
+    public void setApplicationContext(ApplicationContext appContext) throws BeansException {
+        try {
+            resourceLoader = appContext;
+            generateSchemas(appContext.getResources(getXsdPath() + "/*.xsd"));
+        } catch (IOException e) {
+            LOG.error("Unable to load schemas", e);
+        }
     }
     
     private String getXsdPath() {
@@ -101,13 +113,13 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         return schemaFactory;
     }
     
-    private void generateSchemas() throws IOException {
+    protected void generateSchemas(Resource[] schemaResources) throws IOException {
         
         LOG.info("Starting XSD -> NeutralSchema Generator...");
         LOG.info("Using XML Schema Directory Path: " + getXsdPath());
         
         // Scan XML Schemas on path
-        List<XmlSchema> xmlSchemas = parseXmlSchemas(getXsdPath(), XSD);
+        List<XmlSchema> xmlSchemas = this.parseXmlSchemas(schemaResources, XSD);
         
         // Iterate XML Schemas
         for (XmlSchema schema : xmlSchemas) {
@@ -140,78 +152,38 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         }
     }
     
-    private List<XmlSchema> parseXmlSchemas(String xsdPath, String schemaRepresentation) {
-        
+    private List<XmlSchema> parseXmlSchemas(Resource[] schemaResources, final String schemaRepresentation) {
         List<XmlSchema> xmlSchemas = new ArrayList<XmlSchema>();
-        
-        try {
-            URL schemaResourcesUrl = ResourceUtils.getURL(xsdPath);
-            String protocol = schemaResourcesUrl.getProtocol();
-            LOG.info("base xsd schema protocol is {}", protocol);
-            // process XML schema files archived in jar
-            if (protocol.equals("jar")) {
-                String jarPath = schemaResourcesUrl.getPath().substring(5, schemaResourcesUrl.getPath().indexOf("!"));
-                JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
-                LOG.info("base xsd schema jar is {}", jar.getName());
-                Enumeration<JarEntry> entries = jar.entries();
-                while (entries.hasMoreElements()) {
-                    String name = entries.nextElement().getName();
-                    if (name.matches(xsdPath.split(":")[1] + "/\\w+\\." + schemaRepresentation)) {
-                        String schemaName = name.substring(name.lastIndexOf("/") + 1);
-                        LOG.info("xsd schema file name is {}", schemaName);
-                        XmlSchema schema = processXsdSchemaFile(xsdPath, schemaName);
-                        // Accumulate XML schemas
-                        xmlSchemas.add(schema);
-                    }
-                }
-                // Process XML schema files found on the file system
-            } else if (protocol.equals("file")) {
-                File schemaResourcesDir = FileUtils.toFile(schemaResourcesUrl);
-                List<File> schemaFiles = new ArrayList<File>(FileUtils.listFiles(schemaResourcesDir,
-                        new String[] { schemaRepresentation }, true));
-                for (File schemaFile : schemaFiles) {
-                    
-                    LOG.info("xsd schema file name is {}", schemaFile.getName());
-                    
-                    XmlSchema schema = processXsdSchemaFile(xsdPath, schemaFile.getName());
-                    
-                    // Accumulate XML schemas
-                    xmlSchemas.add(schema);
-                }
-            } else {
-                LOG.error("Unsupported schema protocol: " + protocol);
+        for (Resource schemaResource : schemaResources) {
+            try {
+                XmlSchema schema = parseXmlSchema(schemaResource.getInputStream());
+                xmlSchemas.add(schema);
+            } catch (IOException e) {
+                LOG.error("Exception occurred loading schema", e);
             }
-            
-        } catch (IOException ioException) {
-            LOG.error("Unable to parse XML schema resources: " + xsdPath + ": " + ioException.getMessage());
         }
         
         return xmlSchemas;
     }
     
-    private XmlSchema processXsdSchemaFile(String xsdPath, String schemaName) throws IOException {
-        
-        // Parse XML schema file
-        String schemaResourcePath = xsdPath + (xsdPath.endsWith("/") ? "" : "/") + schemaName;
-        
-        LOG.info("Parsing Xml Schema: " + schemaResourcePath);
-        
-        return parseXmlSchema(xsdPath, ResourceUtils.getURL(schemaResourcePath).openStream());
-        
-    }
-    
-    XmlSchema parseXmlSchema(final String xsdPath, final InputStream is) {
+    private XmlSchema parseXmlSchema(final InputStream is) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
                 public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
-                    try {
-                        return new InputSource(ResourceUtils.getURL(xsdPath + "/" + schemaLocation).openStream());
-                    } catch (IOException e) {
-                        LOG.error("Unable to resolve entity: " + xsdPath + "/" + schemaLocation);
-                        return null;
+                    if (resourceLoader != null) {
+                        Resource resource = resourceLoader.getResource(getXsdPath() + "/" + schemaLocation);
+                        if (resource.exists()) {
+                            try {
+                                return new InputSource(resource.getInputStream());
+                            } catch (IOException e) {
+                                LOG.error("Exception occurred", e);
+                            }
+                        }
                     }
+                    return new InputSource(Thread.currentThread().getContextClassLoader()
+                            .getResourceAsStream(getXsdPath() + "/" + schemaLocation));
                 }
             });
             return schemaCollection.read(new InputSource(is), null);
@@ -360,6 +332,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
              * represent this XML element that is defined in-line.
              */
             simpleSchema.setType(name);
+            NeutralSchema old = this.schemas.put(name, simpleSchema);
+            if (old != null) {
+                LOG.warn("Anonymous type added multiple times. Ensure usage is exactly the same or issues will occur: "
+                        + name);
+            }
         }
         
         return simpleSchema;

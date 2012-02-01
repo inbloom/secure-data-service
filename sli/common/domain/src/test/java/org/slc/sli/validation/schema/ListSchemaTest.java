@@ -38,9 +38,6 @@ public class ListSchemaTest {
     DoubleSchema doubleSchema;
     
     @Autowired
-    DecimalSchema decimalSchema;
-    
-    @Autowired
     StringSchema stringSchema;
     
     @Autowired
@@ -151,7 +148,6 @@ public class ListSchemaTest {
         complexSchema.getFields().put("booleanField", booleanSchema);
         complexSchema.getFields().put("longField", longSchema);
         complexSchema.getFields().put("doubleField", doubleSchema);
-        complexSchema.getFields().put("decimalField", decimalSchema);
         complexSchema.getFields().put("stringField", stringSchema);
         complexSchema.getFields().put("tokenField", tokenSchema);
         complexSchema.getFields().put("dateTimeField", dateTimeSchema);

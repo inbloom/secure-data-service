@@ -11,12 +11,14 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.EntityService;
+import org.springframework.stereotype.Component;
 
 /**
  * A basic implementation of RoleRightAccess
  *
  * @author rlatta
  */
+@Component
 public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
     @Autowired
