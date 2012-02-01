@@ -109,7 +109,7 @@ public class RealmRoleManagerResource {
     @Path("{realmId}")
     public EntityBody getMappings(@PathParam("realmId") String realmId) {
         EntityBody result = service.get(realmId);
-        if (result.get("mappings") == null) {
+        if (result != null && result.get("mappings") == null) {
             result.put("mappings", new HashMap<String, List<String>>());
         }
         return result;
