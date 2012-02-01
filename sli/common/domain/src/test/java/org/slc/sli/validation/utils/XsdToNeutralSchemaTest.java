@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.validation.NeutralSchemaFactory;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
@@ -25,7 +26,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdToNeutralSchemaTest {
     @Autowired
-    XsdToNeutralSchemaRepo schemaRepo;
+    SchemaRepository schemaRepo;
     
     @Test
     public void testSchema() throws IOException {
