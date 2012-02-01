@@ -267,6 +267,11 @@ task :dashboardK3ViewTests do
   runTests("test/features/dashboard/k3view.feature")
 end
 
+desc "Run Dashboard High School view Tests"
+task :dashboardHSViewTests do
+  runTests("test/features/dashboard/high_school_view.feature")
+end
+
 desc "Run Dashboard Program Participation and Student Info Tests"
 task :dashboardLozengesTests do
   runTests("test/features/dashboard/lozenges.feature")

@@ -5,8 +5,6 @@ Feature: high school college-ready student list view
 As a SEA/LEA user, I want to see the high school student list view
 on SLI, so I could see high school students results
 
-Scenario: Check assessment result
-
 Scenario: Check table headers
 Given I have an open web browser
 Given the server is in "test" mode
