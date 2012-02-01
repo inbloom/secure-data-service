@@ -68,7 +68,7 @@ public class StudentListControllerTest {
         PowerMockito.doReturn(principal).when(partiallyMocked, "getPrincipal");
         
         ModelAndView result;   
-        partiallyMocked.setInstitutionHeirarchyManager(schoolManager);
+        partiallyMocked.setInstitutionalHeirarchyManager(schoolManager);
         result = partiallyMocked.retrieveStudentList(model);
         assertEquals(result.getViewName(), "studentList");
         String schoolListJson = (String) model.get("schoolList");
@@ -91,7 +91,7 @@ public class StudentListControllerTest {
         PowerMockito.doReturn(null).when(schoolManager, "getEducationalOrganizations");
         PowerMockito.doReturn(null).when(schoolManager, "getSchoolEducationalOrganizationAssociation");
         PowerMockito.doReturn(null).when(schoolManager, "getEducationalOrganizationAssociations");
-        mocked.setInstitutionHeirarchyManager(schoolManager);
+        mocked.setInstitutionalHeirarchyManager(schoolManager);
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(mocked, "getPrincipal");
         ModelMap model = new ModelMap();
