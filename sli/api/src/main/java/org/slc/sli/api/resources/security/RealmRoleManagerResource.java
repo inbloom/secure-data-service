@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.security;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,11 @@ public class RealmRoleManagerResource {
     @GET
     @Path("{realmId}")
     public EntityBody getMappings(@PathParam("realmId") String realmId) {
-        return service.get(realmId);
+        EntityBody result = service.get(realmId);
+        if (result.get("mappings") == null) {
+            result.put("mappings", new HashMap<String, List<String>>());
+        }
+        return result;
     }
     
     @GET
