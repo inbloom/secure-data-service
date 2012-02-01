@@ -53,6 +53,7 @@ public class DefaultClientRoleManager implements ClientRoleManager {
     /**
      */
     public List<String> resolveRoles(String realmId, List<String> clientRoleNames) {
+        System.out.println("In resolveRoles()");
         List<String> result = new ArrayList<String>();
         for (String clientRoleName : clientRoleNames) {
             if (roleRightAccess.findRoleByName(clientRoleName) != null) {
@@ -60,6 +61,7 @@ public class DefaultClientRoleManager implements ClientRoleManager {
             } else {
                 @SuppressWarnings("unchecked")
                 Map<String, List<String>> mappings = (Map<String, List<String>>) service.get(realmId).get("mappings");
+                System.out.println("--- Mappings are " + mappings + " and client role is " + clientRoleName);
                 for (String key : mappings.keySet()) {
                     if (mappings.get(key).contains(clientRoleName)) {
                         result.add(clientRoleName);
