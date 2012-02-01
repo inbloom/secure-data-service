@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    elementFormDefault="qualified"
-    attributeFormDefault="qualified">
-    
+	elementFormDefault="qualified" attributeFormDefault="qualified">
+
 	<xs:simpleType name="BaseSimpleType">
-	        <xs:restriction base="xs:string">
-            <xs:minLength value="1" />
-            <xs:maxLength value="30" />
-        </xs:restriction>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="30" />
+		</xs:restriction>
 	</xs:simpleType>
-    
+
 </xs:schema>

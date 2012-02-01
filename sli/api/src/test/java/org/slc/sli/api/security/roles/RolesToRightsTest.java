@@ -55,14 +55,14 @@ public class RolesToRightsTest {
         
         when(
                 mockRoleManager.resolveRoles(DEFAULT_REALM_ID,
-                        Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR, InsecureRoleRightAccessImpl.AGGREGATOR)))
-                .thenReturn(Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR, InsecureRoleRightAccessImpl.AGGREGATOR));
+                        Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR)))
+                .thenReturn(Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
         when(
-                mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR,
-                        InsecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(
-                Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR, InsecureRoleRightAccessImpl.AGGREGATOR));
-        when(mockAccess.getDefaultRole(InsecureRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
-        when(mockAccess.getDefaultRole(InsecureRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
+                mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR,
+                        SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(
+                Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
+        when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
+        when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
         when(mockAccess.getDefaultRole("bad")).thenReturn(null);
         when(mockAccess.getDefaultRole("doggie")).thenReturn(null);
         when(mockAccess.getDefaultRole("Pink")).thenReturn(null);
@@ -70,14 +70,14 @@ public class RolesToRightsTest {
     }
     
     private Role buildRole() {
-        return RoleBuilder.makeRole(InsecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
+        return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
     }
     
     @Test
     public void testMappedRoles() throws Exception {
         
         Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_REALM_ID,
-                Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR, InsecureRoleRightAccessImpl.AGGREGATOR));
+                Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
         Assert.assertTrue(rights.size() > 0);
     }
     
@@ -90,7 +90,7 @@ public class RolesToRightsTest {
     @Test
     public void testMixedRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(
-                InsecureRoleRightAccessImpl.EDUCATOR, InsecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
+                SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
         Assert.assertTrue(authorities.size() > 0);
     }
 }
