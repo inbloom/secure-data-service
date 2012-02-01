@@ -194,6 +194,7 @@ task :associationTests do
   runTests("test/features/api/associations/student_school_association")
   runTests("test/features/api/associations/teacher_school_association")
   runTests("test/features/api/associations/teacher_section_association")
+  runTests("test/features/api/associations/school_session_association")
 end
 
 desc "Run Home URI Tests"
@@ -305,6 +306,7 @@ task :importSandboxData do
     "educationOrganizationAssociation" => "educationOrganizationAssociation_fixture.json",
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
+    "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
