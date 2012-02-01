@@ -75,7 +75,7 @@ end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   @result[key].should_not == nil
-  assert(@result[key].should == value, "Expected value \"#{key}\" != \"#{@result[key]}\"")
+  assert(@result[key] == value, "Expected value \"#{key}\" != \"#{@result[key]}\"")
 end
 
 Then /^"([^"]*)" should be (\d+)$/ do |key, value|
