@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.schema.NeutralSchema;
 
@@ -28,14 +30,18 @@ public class NeutralJsonExporter {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        String xsdPath = "classpath:sliXsd";
+        String xsdPath = "classpath:sliXsd-wip";
         String outputDir = "neutral-schemas";
         if (args.length == 2) {
             xsdPath = args[0];
             outputDir = args[1];
         }
         
+        ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
+                new String[] { "spring/neutral-json-exporter-config.xml" });
+        
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo(xsdPath, new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
         
         File enumDir = new File(outputDir, "enums");
         File primitiveDir = new File(outputDir, "primitive");
