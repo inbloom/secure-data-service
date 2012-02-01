@@ -1,22 +1,21 @@
 package org.slc.sli.validation.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.xml.namespace.QName;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaAttribute;
@@ -38,6 +37,8 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.resolver.URIResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -65,7 +66,7 @@ import org.slc.sli.validation.schema.TokenSchema;
 public class XsdToNeutralSchemaRepo implements SchemaRepository {
     
     // Logging
-    private static final Log LOG = LogFactory.getLog(XsdToNeutralSchemaRepo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(XsdToNeutralSchemaRepo.class);
     
     // Constants
     public static final String DEFAULT_INPUT_XSD_PATH = "xsd";
@@ -146,20 +147,34 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         try {
             URL schemaResourcesUrl = ResourceUtils.getURL(xsdPath);
             String protocol = schemaResourcesUrl.getProtocol();
-            
-            // Process XML schema files found on the file system
-            if (protocol.equals("file")) {
+            LOG.info("base xsd schema protocol is {}", protocol);
+            // process XML schema files archived in jar
+            if (protocol.equals("jar")) {
+                String jarPath = schemaResourcesUrl.getPath().substring(5, schemaResourcesUrl.getPath().indexOf("!"));
+                JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+                LOG.info("base xsd schema jar is {}", jar.getName());
+                Enumeration<JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    String name = entries.nextElement().getName();
+                    if (name.matches(xsdPath.split(":")[1] + "/\\w+\\." + schemaRepresentation)) {
+                        String schemaName = name.substring(name.lastIndexOf("/") + 1);
+                        LOG.info("xsd schema file name is {}", schemaName);
+                        XmlSchema schema = processXsdSchemaFile(xsdPath, schemaName);
+                        // Accumulate XML schemas
+                        xmlSchemas.add(schema);
+                    }
+                }
+                // Process XML schema files found on the file system
+            } else if (protocol.equals("file")) {
                 File schemaResourcesDir = FileUtils.toFile(schemaResourcesUrl);
                 List<File> schemaFiles = new ArrayList<File>(FileUtils.listFiles(schemaResourcesDir,
                         new String[] { schemaRepresentation }, true));
                 for (File schemaFile : schemaFiles) {
                     
-                    // Parse XML schema file
-                    String schemaResourcePath = xsdPath + (xsdPath.endsWith("/") ? "" : "/") + schemaFile.getName();
+                    LOG.info("xsd schema file name is {}", schemaFile.getName());
                     
-                    LOG.info("Parsing Xml Schema: " + schemaResourcePath);
                     
-                    XmlSchema schema = parseXmlSchema(xsdPath, new FileInputStream(schemaResourcePath));
+                    XmlSchema schema = processXsdSchemaFile(xsdPath, schemaFile.getName());
                     
                     // Accumulate XML schemas
                     xmlSchemas.add(schema);
@@ -175,27 +190,39 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository {
         return xmlSchemas;
     }
     
-    XmlSchema parseXmlSchema(final String xsdPath, final InputStream schema) {
-        Reader reader = null;
+    private XmlSchema processXsdSchemaFile(String xsdPath, String schemaName) throws IOException {
+        
+        // Parse XML schema file
+        String schemaResourcePath = xsdPath + (xsdPath.endsWith("/") ? "" : "/") + schemaName;
+        
+        LOG.info("Parsing Xml Schema: " + schemaResourcePath);
+        
+        return parseXmlSchema(xsdPath, ResourceUtils.getURL(schemaResourcePath).openStream());
+        
+    }
+    
+    XmlSchema parseXmlSchema(final String xsdPath, final InputStream is) {
         try {
-            reader = new InputStreamReader(schema);
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
                 public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
-                    return new InputSource(xsdPath + "/" + schemaLocation);
+                    try {
+                        return new InputSource(ResourceUtils.getURL(xsdPath + "/" + schemaLocation).openStream());
+                    } catch (IOException e) {
+                        LOG.error("Unable to resolve entity: " + xsdPath + "/" + schemaLocation);
+                        return null;
+                    }
                 }
             });
-            return schemaCollection.read(reader, null);
+            return schemaCollection.read(new InputSource(is), null);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException ioException) {
-                    throw new RuntimeException(ioException);
-                }
+            try {
+                is.close();
+            } catch (IOException ioException) {
+                throw new RuntimeException(ioException);
             }
         }
     }

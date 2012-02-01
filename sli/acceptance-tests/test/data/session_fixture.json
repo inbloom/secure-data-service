@@ -1,0 +1,2 @@
+{"_id":{"$binary":"zk4WoMB66rtWHSX8sUcbuw==", "$type" : "03" },"type":"session","body":{"schoolYear":"Year_2010_2011","sessionName":"Spring 2011","term":"Spring_Semester","endDate":"2011-06-31","beginDate":"2011-01-01","totalInstructionalDays":90}, "tenantId":"Zork"}
+{"_id":{"$binary":"hE7S3KoMmziOsemmpNq3kw==", "$type" : "03" },"type":"session","body":{"schoolYear":"Year_2011_2012","sessionName":"Fall 2011","term":"Fall_Semester","endDate":"2011-12-31","beginDate":"2011-09-01","totalInstructionalDays":90}, "tenantId":"Zork"}
