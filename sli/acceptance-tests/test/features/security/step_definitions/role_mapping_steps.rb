@@ -19,19 +19,19 @@ end
 
 Then /^I should see a URL for each realm that links to their IDP$/ do
   @result.each do |item|
-    assert(item[url] != nil, "Realm "+item[name]+" URL was not found.")
+    assert(item["idp"] != nil, "Realm "+item["state"]+" URL was not found.")
   end
 end
 
 Then /^I should not see any data about any realm's role\-mapping$/ do
   @result.each do |item|
-    assert(item[role_map] == nil, "Realm "+item[name]+" Role mapping info was found.")
+    assert(item["mappings"] == nil, "Realm "+item["state"]+" Role mapping info was found.")
   end
 end
 
 When /^I try to access the URI "([^"]*)" with operation "([^"]*)"$/ do |arg1, arg2|
   @format = "application/json"
-  data = ""
+  data = "{\"mappings\": {},\"name\": \"Aggregate Viewer\",\"rights\": [\"AGGREGATE_READ\",\"READ_GENERAL\"]}"
 
   restHttpPost(arg1, data) if arg2 == "POST"
   restHttpGet(arg1) if arg2 == "GET"
