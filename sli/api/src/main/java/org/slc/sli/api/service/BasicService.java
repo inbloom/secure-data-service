@@ -1,85 +1,96 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntitySchemaRegistry;
 
 /**
  * Implementation of EntityService that can be used for most entities.
  * 
  * It is very important this bean prototype scope, since one service is needed per
  * entity/association.
+ * 
+ * Now Secured!
  */
 @Scope("prototype")
 @Component("basicService")
 public class BasicService implements EntityService {
-    private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
-    private String collectionName;
-    private List<Treatment> treatments;
-    private EntityDefinition defn;
-    private CoreEntityService coreService;
+    private static final Logger  LOG                    = LoggerFactory.getLogger(BasicService.class);
+    
+    private static final String  READ_ENFORCEMENT_VALUE = "restricted";
+    private static final String  READ_ENFORCEMENT       = "read_enforcement";
+    private static final int     MAX_RESULT_SIZE        = 9999;
+    
+    private String               collectionName;
+    private List<Treatment>      treatments;
+    private EntityDefinition     defn;
     
     @Autowired
-    private EntityRepository repo;
+    private EntityRepository     repo;
     
-    public BasicService(String collectionName, List<Treatment> treatments, CoreBasicService coreService) {
+    @Autowired
+    private ContextResolverStore contextResolverStore;
+    
+    @Autowired
+    private EntitySchemaRegistry schemaRegistry;
+    
+    @Autowired
+    private IdConverter          idConverter;
+    
+    public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
         this.treatments = treatments;
-        this.coreService = coreService;
-    }
-    
-    /**
-     * Set the entity definition for this service.
-     * There is a circular dependency between BasicService and EntityDefinition, so they both can't
-     * have it be a constructor arg.
-     */
-    public void setDefn(EntityDefinition defn) {
-        this.defn = defn;
-    }
-    
-    public EntityDefinition getEntityDefinition() {
-        return defn;
-    }
-    
-    protected String getCollectionName() {
-        return collectionName;
-    }
-    
-    protected List<Treatment> getTreatments() {
-        return treatments;
-    }
-    
-    protected EntityRepository getRepo() {
-        return repo;
     }
     
     @Override
     public String create(EntityBody content) {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
-        String type = defn.getType();
-        EntityBody body = sanitizeEntityBody(content);
-        return coreService.create(body, type);
+        
+        checkRights(determineWriteAccess(content));
+        
+        return repo.create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
     }
     
     @Override
     public void delete(String id) {
         LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
-        if (!coreService.delete(id)) {
+        
+        checkAccess(Right.WRITE_GENERAL, id);
+        
+        if (!repo.delete(this.collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
@@ -91,24 +102,36 @@ public class BasicService implements EntityService {
     @Override
     public boolean update(String id, EntityBody content) {
         LOG.debug("Updating {} in {}", new String[] { id, collectionName });
+        
+        checkAccess(determineWriteAccess(content), id);
+        
         Entity entity = repo.find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
+        
         EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
             LOG.info("No change detected to {}", id);
             return false;
         }
+        
         LOG.info("new body is {}", sanitized);
-        coreService.update(entity, sanitized);
+        entity.getBody().clear();
+        entity.getBody().putAll(sanitized);
+        repo.update(this.collectionName, entity);
+        
         return true;
     }
     
     @Override
     public EntityBody get(String id) {
-        Entity entity = coreService.get(id);
+        
+        checkAccess(Right.READ_GENERAL, id);
+        
+        Entity entity = repo.find(this.collectionName, id);
+        
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
@@ -118,28 +141,70 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
-        List<EntityBody> results = new ArrayList<EntityBody>();
+        
+        checkRights(Right.READ_GENERAL);
+        
+        List<String> allowed = findAccessible();
+        
+        // Compute intersection of requested and allowed and encode
+        Set<Object> binIds = new HashSet<Object>();
         for (String id : ids) {
-            Entity entity = coreService.get(id);
-            if (entity != null) {
-                results.add(makeEntityBody(entity));
+            if (allowed.contains(ids)) {
+                binIds.add(idConverter.toDatabaseId(id));
             }
         }
-        return results;
+        
+        if (!binIds.isEmpty()) {
+            Iterable<Entity> entities = repo.findByQuery(this.collectionName, new Query(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
+            
+            List<EntityBody> results = new ArrayList<EntityBody>();
+            for (Entity e : entities) {
+                results.add(makeEntityBody(e));
+            }
+            
+            return results;
+        } else {
+            throw new AccessDeniedException("No access to any requested entities");
+        }
     }
     
     @Override
     public Iterable<String> list(int start, int numResults) {
+        checkRights(Right.READ_GENERAL);
+        
+        Query query = new Query();
+        
+        List<String> allowed = findAccessible();
+        
+        if (allowed.size() > 0) {
+            Set<Object> binIds = new HashSet<Object>();
+            for (String id : allowed) {
+                binIds.add(idConverter.toDatabaseId(id));
+            }
+            
+            query = new Query(Criteria.where("_id").in(binIds));
+        }
+        
         List<String> results = new ArrayList<String>();
-        for (Entity entity : repo.findAll(collectionName, start, numResults)) {
+        
+        Iterable<Entity> entities = repo.findByQuery(this.collectionName, query, start, numResults);
+        for (Entity entity : entities) {
             results.add(entity.getEntityId());
         }
+        
         return results;
     }
     
     @Override
     public boolean exists(String id) {
-        return getRepo().find(collectionName, id) != null;
+        checkRights(Right.READ_GENERAL);
+        
+        boolean exists = false;
+        if (repo.find(this.collectionName, id) != null) {
+            exists = true;
+        }
+        
+        return exists;
     }
     
     /**
@@ -153,6 +218,10 @@ public class BasicService implements EntityService {
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
+        
+        // Blank out fields inaccessible to the user
+        filterFields(toReturn);
+        
         return toReturn;
     }
     
@@ -186,5 +255,147 @@ public class BasicService implements EntityService {
                 }
             }
         }
+    }
+    
+    /**
+     * Checks that Actor has the appropriate Rights and linkage to access given entity
+     * Also checks for existence of the given entity
+     * 
+     * @param right needed Right for action
+     * @param entityId id of the entity to access
+     * @throws InsufficientAuthenticationException if authentication is required
+     * @throws EntityNotFoundException if requested entity doesn't exist
+     * @throws AccessDeniedException if actor doesn't have association path to given entity
+     */
+    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
+        
+        // Check that user has the needed right
+        checkRights(right);
+        
+        // Check that target entity actually exists
+        if (repo.find(this.collectionName, entityId) == null) {
+            LOG.warn("Could not find {}", entityId);
+            throw new EntityNotFoundException(entityId);
+        }
+        
+        // Check that target entity is accessible to the actor
+        if (entityId != null && !findAccessible().contains(entityId)) {
+            throw new AccessDeniedException("No association between the user and target entity");
+        }
+        
+    }
+    
+    private void checkRights(Right right) {
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("Login Required");
+        }
+        
+        Collection<GrantedAuthority> auths = auth.getAuthorities();
+        
+        if (auths.contains(Right.FULL_ACCESS)) {
+            LOG.debug("User has full access");
+        } else if (auths.contains(right)) {
+            LOG.debug("User has needed right: " + right);
+        } else {
+            throw new AccessDeniedException("Insufficient Privileges");
+        }
+    }
+    
+    private List<String> findAccessible() {
+        
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(), this.defn.getType());
+        
+        return resolver.findAccessible(principal.getEntity());
+    }
+    
+    /**
+     * Removes fields user isn't entitled to see
+     * 
+     * @param eb
+     */
+    private void filterFields(EntityBody eb) {
+        
+        Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        
+        if (!auths.contains(Right.READ_RESTRICTED)) {
+            Schema schema = schemaRegistry.findSchemaForName(defn.getType());
+            
+            if (schema != null) {
+                Iterator<String> keyIter = eb.keySet().iterator();
+                
+                while (keyIter.hasNext()) {
+                    String fieldName = keyIter.next();
+                    
+                    Schema.Field field = schema.getField(fieldName);
+                    LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
+                    
+                    if (isRestrictedField(field)) {
+                        keyIter.remove();
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    /**
+     * Figures out if writing to restricted fields
+     * 
+     * @param eb data currently being passed in
+     * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
+     */
+    private Right determineWriteAccess(EntityBody eb) {
+        Right toReturn = Right.WRITE_GENERAL;
+        Schema schema = schemaRegistry.findSchemaForName(defn.getType());
+        
+        if (schema != null) {
+            Iterator<String> keyIter = eb.keySet().iterator();
+            
+            while (keyIter.hasNext()) {
+                String fieldName = keyIter.next();
+                
+                Schema.Field field = schema.getField(fieldName);
+                LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
+                
+                if (isRestrictedField(field)) {
+                    toReturn = Right.WRITE_RESTRICTED;
+                    break;
+                }
+            }
+        }
+        return toReturn;
+    }
+    
+    private boolean isRestrictedField(Schema.Field field) {
+        return field != null && field.getProp(READ_ENFORCEMENT) != null && field.getProp(READ_ENFORCEMENT).equals(READ_ENFORCEMENT_VALUE);
+    }
+    
+    /**
+     * Set the entity definition for this service.
+     * There is a circular dependency between BasicService and EntityDefinition, so they both can't
+     * have it be a constructor arg.
+     */
+    public void setDefn(EntityDefinition defn) {
+        this.defn = defn;
+    }
+    
+    public EntityDefinition getEntityDefinition() {
+        return defn;
+    }
+    
+    protected String getCollectionName() {
+        return collectionName;
+    }
+    
+    protected List<Treatment> getTreatments() {
+        return treatments;
+    }
+    
+    protected EntityRepository getRepo() {
+        return repo;
     }
 }

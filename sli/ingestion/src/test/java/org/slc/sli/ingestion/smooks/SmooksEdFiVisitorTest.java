@@ -30,7 +30,7 @@ import org.xml.sax.SAXException;
 // @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 public class SmooksEdFiVisitorTest {
 
-    private static final String SMOOKS_CONFIG = "smooks_conf/smooks-config.xml";
+    private static final String SMOOKS_CONFIG = "smooks_conf/smooks-all-xml.xml";
 
     @Test
     public void testJavaResult() throws IOException, SAXException {

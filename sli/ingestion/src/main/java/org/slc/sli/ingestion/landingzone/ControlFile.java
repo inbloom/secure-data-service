@@ -11,6 +11,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 
@@ -21,6 +24,7 @@ import org.slc.sli.ingestion.FileType;
 public class ControlFile implements Serializable {
 
     private static final long serialVersionUID = 3231739301361458948L;
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
 
     protected File file;
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
@@ -40,9 +44,14 @@ public class ControlFile implements Serializable {
         Properties configProperties = new Properties();
         ArrayList<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
 
+        LOG.debug("parsing control file: {}", file);
+
         try {
             while (scanner.hasNextLine()) {
+
                 line = scanner.nextLine();
+                LOG.debug("scanned next line: {}", line);
+
                 fileItemMatcher = fileItemPattern.matcher(line);
                 if (fileItemMatcher.matches()) {
                     fileFormat = FileFormat.findByCode(fileItemMatcher.group(1));

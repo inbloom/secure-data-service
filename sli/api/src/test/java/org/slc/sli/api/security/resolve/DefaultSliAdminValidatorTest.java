@@ -3,14 +3,14 @@ package org.slc.sli.api.security.resolve;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.security.resolve.impl.DefaultSliAdminValidator;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * 
@@ -19,17 +19,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class DefaultSliAdminValidatorTest {
-    
-    @Autowired
-    DefaultSliAdminValidator testValidator = null;
-    
-    @Test
-    public void testSpringWiring() {
-        Assert.assertTrue(testValidator.isSliAdminRealm("test"));
-    }
     
     @Test
     public void testRealmPatternMatch() {
@@ -69,7 +60,7 @@ public class DefaultSliAdminValidatorTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testBadRegex() {
-        SliAdminValidator validator = new DefaultSliAdminValidator("(foo");
+        new DefaultSliAdminValidator("(foo");
     }
     
 }

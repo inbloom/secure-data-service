@@ -1,3 +1,3 @@
 class Realm < SessionResource
-  self.site = "https://testapi1.slidev.org/api/rest/pub"
+  self.site = "#{APP_CONFIG['api_base']}/pub"
 end

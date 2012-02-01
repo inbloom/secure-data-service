@@ -11,5 +11,6 @@
 	default-autowire="byName">
 
 	<context:component-scan base-package="org.slc.sli.validation" />
+	<bean id="entityValidator" class = "org.slc.sli.validation.AvroEntityValidator"/>
 
 </beans>

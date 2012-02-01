@@ -1,0 +1,64 @@
+{
+  "type" : "record",
+  "name" : "OpenStaffPosition",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This entity represents an open staff position that is seeking to be filled by an education organization.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "employmentStatus",
+    "type" : "org.slc.sli.domain.enum.EmploymentStatusType"
+  }, {
+    "name" : "staffClassification",
+    "type" : "org.slc.sli.domain.enum.StaffClassificationType"
+  }, {
+    "name" : "positionTitle",
+    "doc" : "The descriptive name of an individual's position.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "45",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "requisitionNumber",
+    "doc" : "The number or identfier assigned to an open staff position, typically a requisition number assigned by Human Resources.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    }
+  }, {
+    "name" : "programAssignment",
+    "type" : [ "null", "org.slc.sli.domain.enum.ProgramAssignmentType" ]
+  }, {
+    "name" : "instructionalGradeLevels",
+    "type" : [ "null", "org.slc.sli.domain.GradeLevelsType" ]
+  }, {
+    "name" : "academicSubjects",
+    "type" : [ "null", "org.slc.sli.domain.AcademicSubjectsType" ]
+  }, {
+    "name" : "datePosted",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "datePostingRemoved",
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "postingResult",
+    "type" : [ "null", "org.slc.sli.domain.enum.PostingResultType" ]
+  }, {
+    "name" : "educationOrganizationReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  } ]
+}

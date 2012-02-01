@@ -16,15 +16,7 @@ educator:
       - Educator Right 2
       - Educator Right 3
   mappings:
-      - teacher
-      - Teacher
-      - NC Teacher
-      
-update:
-    name: IT Administrator
-    rights:
-        - Admin Right 1
-    mappings:
-        - admin
-        - Super Duper Admin
-        - dude guy
+        Shared Learning Initiative:
+          - teacher
+          - Teacher
+          - NC Teacher

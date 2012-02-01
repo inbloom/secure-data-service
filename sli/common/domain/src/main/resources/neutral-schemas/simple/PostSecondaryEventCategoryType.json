@@ -1,0 +1,9 @@
+
+{
+   "type":"PostSecondaryEventCategoryType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["College Application","College Acceptance","College Enrollment","FAFSA Application","Vocation Certification"]}
+}

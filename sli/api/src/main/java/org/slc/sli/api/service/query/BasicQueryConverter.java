@@ -1,10 +1,8 @@
 package org.slc.sli.api.service.query;
 
 import org.apache.avro.Schema;
-import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -22,8 +20,9 @@ public class BasicQueryConverter implements QueryConverter {
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId" };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
     
-    @Autowired
-    EntitySchemaRegistry avroReg;
+    // TODO avro schema need to be replaced with neutral schema
+    // @Autowired
+    // EntitySchemaRegistry avroReg;
     
     @Override
     public Query stringToQuery(String entityType, String queryString) {
@@ -77,7 +76,8 @@ public class BasicQueryConverter implements QueryConverter {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(convertToType(type, keyAndValue[1]));
                         }
-                    }
+                    } else
+                        throw new RuntimeException();
                     if (criteria != null)
                         mongoQuery.addCriteria(criteria);
                 }
@@ -94,19 +94,23 @@ public class BasicQueryConverter implements QueryConverter {
     
     @Override
     public String findParamType(String entityType, String queryField) {
-        String[] nestedFields = queryField.split("\\.");
-        Schema schema = avroReg.findSchemaForName(entityType);
-        for (String field : nestedFields) {
-            schema = getNestedSchema(schema, field);
-        }
-        if (schema.getType().equals(Schema.Type.UNION)) {
-            for (Schema possibleSchema : schema.getTypes()) {
-                if (!possibleSchema.getType().equals(Schema.Type.NULL)) {
-                    schema = possibleSchema;
-                }
-            }
-        }
-        return schema.getType().toString();
+     // TODO avro schema need to be replaced with neutral schema
+        /*
+         * String[] nestedFields = queryField.split("\\.");
+         * Schema schema = avroReg.findSchemaForName(entityType);
+         * for (String field : nestedFields) {
+         * schema = getNestedSchema(schema, field);
+         * }
+         * if (schema.getType().equals(Schema.Type.UNION)) {
+         * for (Schema possibleSchema : schema.getTypes()) {
+         * if (!possibleSchema.getType().equals(Schema.Type.NULL)) {
+         * schema = possibleSchema;
+         * }
+         * }
+         * }
+         * return schema.getType().toString();
+         */
+        return "STRING";
     }
     
     private Schema getNestedSchema(Schema schema, String field) {
@@ -156,7 +160,7 @@ public class BasicQueryConverter implements QueryConverter {
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator);
         if (keyAndValue.length != 2)
-            return null;
+            throw new RuntimeException();
         else
             return keyAndValue;
     }

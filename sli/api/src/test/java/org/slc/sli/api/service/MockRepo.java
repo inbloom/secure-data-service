@@ -5,32 +5,38 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Map.Entry;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.mongodb.DBObject;
+
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Mock implementation of the EntityRepository for unit testing.
  * 
  */
 @Component
+@Primary
 public class MockRepo implements EntityRepository {
     
-    private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
+    private Map<String, Map<String, Entity>> repo              = new HashMap<String, Map<String, Entity>>();
+    private static String[]                  reservedQueryKeys = { "start-index", "max-results", "query" };
     
-    AtomicLong nextID = new AtomicLong();
+    private AtomicInteger                    counter           = new AtomicInteger();
     
     public MockRepo() {
         repo.put("student", new LinkedHashMap<String, Entity>());
         repo.put("school", new LinkedHashMap<String, Entity>());
         repo.put("roles", new LinkedHashMap<String, Entity>());
+        repo.put("realm", new LinkedHashMap<String, Entity>());
         repo.put("studentSchoolAssociation", new LinkedHashMap<String, Entity>());
         repo.put("teacher", new LinkedHashMap<String, Entity>());
         repo.put("section", new LinkedHashMap<String, Entity>());
@@ -48,6 +54,7 @@ public class MockRepo implements EntityRepository {
         repo.put("staffschoolassociation", new LinkedHashMap<String, Entity>());
         repo.put("aggregationDefinition", new LinkedHashMap<String, Entity>());
         repo.put("educationOrganizationAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("session", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -82,7 +89,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
-        Entity newEntity = new MongoEntity(type, Long.toString(nextID.getAndIncrement()), body, null);
+        Entity newEntity = new MongoEntity(type, generateId(), body, null);
         update(collectionName, newEntity);
         return newEntity;
     }
@@ -224,10 +231,11 @@ public class MockRepo implements EntityRepository {
     
     private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
         boolean match = true;
-        for (String[] keyAndValue : queryMap.keySet()) {
+        for (Entry<String[], String> keyAndValueEntries : queryMap.entrySet()) {
+            String[] keyAndValue = keyAndValueEntries.getKey();
             String key = keyAndValue[0];
             String value = keyAndValue[1];
-            String operator = queryMap.get(keyAndValue);
+            String operator = keyAndValueEntries.getValue();
             if (operator.equals(">=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0)))
                     match = false;
@@ -304,15 +312,13 @@ public class MockRepo implements EntityRepository {
                     if (queryString.equals("")) {
                         queryString = key.replaceFirst("body.", "") + "=" + (String) queryObject.get(key);
                     } else {
-                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
-                                + (String) queryObject.get(key);
+                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "=" + (String) queryObject.get(key);
                     }
                 } else if (queryObject.get(key) instanceof Integer) {
                     if (queryString.equals("")) {
                         queryString = key.replaceFirst("body.", "") + "=" + ((Integer) queryObject.get(key)).toString();
                     } else {
-                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
-                                + ((Integer) queryObject.get(key)).toString();
+                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "=" + ((Integer) queryObject.get(key)).toString();
                     }
                 } else if (queryObject.get(key) instanceof DBObject) {
                     queryString = addQueryToString(queryString, (DBObject) queryObject.get(key), key);
@@ -358,4 +364,9 @@ public class MockRepo implements EntityRepository {
         }
         return queryString;
     }
+    
+    private String generateId() {
+        return UUID.randomUUID().toString();
+    }
+    
 }

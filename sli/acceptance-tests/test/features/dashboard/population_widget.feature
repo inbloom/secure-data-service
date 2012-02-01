@@ -1,7 +1,8 @@
-Feature: <US435>
+Feature: Population Widget <US435>
 
 Scenario: Selecting classes on LOS
 
+Given the server is in "test" mode
 Given I have an open web browser
 And I am authenticated to SLI as "cgray" password "cgray"
 When I look in the school drop-down
@@ -28,5 +29,6 @@ Then I see these values in the section drop-down: "Sec 923"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
+And I wait for "2" seconds
 Then I see a list of 28 students
 And the list includes: "Johnny Patel;Carmen Ortiz"

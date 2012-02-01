@@ -1,17 +1,55 @@
-<%= form_for(@mapping) do |f| %>
-  <% if @mapping.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@mapping.errors.count, "error") %> prohibited this mapping from being saved:</h2>
-
-      <ul>
-      <% @mapping.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= select_tag :mapping, options_for_select(@sli_roles)  %>
+<div class="client-roles">
+<% @mapping.each do |mapping| %>
+<%= select_tag mapping[:name], options_for_select(mapping[:mappings]), :size => mapping.length, :style => "min-width: 100px"%>
 <% end %>
+</div>
+<div>
+	<button id="remove-button" style="">-</button>
+</div>
+<div id="new-role">
+	<%=label_tag :new_role, "New role: " %>
+	<%=text_field_tag :new_role %>
+	<button id="add-button">Add</button>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		hideAll();
+		//make options of default select item visible
+		$("#" + $('select#mapping').val().replace(' ', '_')).fadeIn();
+
+		$('select#mapping').change(function() {
+			var $option = $(this).val();
+			$option = $option.replace(' ', '_');
+			hideAll();
+			$("#" + $option).fadeIn();
+
+		});
+		$('button#add-button').click(function() {
+			var sli_role = $('select#mapping').val();
+			var new_role = $('input#new_role').val();
+			$.post('add', {"sli_role": sli_role, "new_role": new_role})
+			.success( function() { $("#" + sli_role.replace(' ', '_')).append($("<option></option>", {value: new_role}).text(new_role))} )
+			.error( function(resp){notifyError("Could not add role.", resp.responseText);} );
+		});
+		$('button#remove-button').click(function() {
+			var sli_role = $('select#mapping').val();
+			var client_role = $("#" + sli_role.replace(' ', '_') + " option:selected");
+			$.ajax({
+    				url: 'remove',
+    				type: 'DELETE',
+    				contentType: 'application/json',
+    				data: JSON.stringify({ "client_role": client_role.val()}),
+    				dataType: 'json'
+			})
+			.success( function() {client_role.remove();} )
+			.error( function(resp){notifyError("Could not delete role.", resp.responseText);} );
+		});
+
+		function hideAll() {
+			$('div.client-roles').find('select').hide();
+		}
+	});
+
+</script>

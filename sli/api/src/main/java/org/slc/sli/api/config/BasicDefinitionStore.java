@@ -49,11 +49,12 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         
         // adding the entity definitions
-        EntityDefinition aggregation = this.makeExposeAndAddEntityDefinition("aggregation");
-        EntityDefinition aggregationDefinition = this.makeExposeAndAddEntityDefinition("aggregationDefinition");
+        this.makeExposeAndAddEntityDefinition("aggregation");
+        this.makeExposeAndAddEntityDefinition("aggregationDefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
+        this.makeExposeAndAddEntityDefinition("session");
         EntityDefinition staff = this.makeExposeAndAddEntityDefinition("staff", "staff");
         EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
         EntityDefinition teacher = this.makeExposeAndAddEntityDefinition("teacher");
@@ -128,8 +129,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         AssociationDefinition educationOrganizationAssociation = factory.makeAssoc("educationOrganizationAssociation")
                 .exposeAs("educationOrganization-associations").storeAs("educationOrganizationAssociation")
-                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationIdSource")
-                .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationIdTarget")
+                .from(educationOrganization, "getEducationOrganizationParent", "getEducationOrganizationParents", "educationOrganizationParentId")
+                .to(educationOrganization, "getEducationOrganizationChild", "getEducationOrganizationChilds", "educationOrganizationChildId")
                 .calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addAssocDefinition(educationOrganizationAssociation);
@@ -137,7 +138,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
-        addDefinition(factory.makeEntity("realm").build());
+        addDefinition(factory.makeEntity("realm").storeAs("realm").build());
     }
     
     /**

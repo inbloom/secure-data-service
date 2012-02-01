@@ -57,7 +57,7 @@ public class StudentResolver {
         
         // Check if program in student entity
         if (Arrays.asList(studentProgramCodes).contains(code)) {
-            return student.getProgramParticipation(code);
+            return student.hasProgramParticipation(code);
         } 
         
         // Now check program participation

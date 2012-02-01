@@ -1,23 +1,14 @@
-
 ###################################################
 # Section to setup necessary env vars and overrides
-if(ENV['DB_HOST'])
-  DB_HOST=ENV['DB_HOST']
-else
-  DB_HOST = "localhost"
-end
 
-if(ENV['MONGO_HOME'])
-  MONGO_BIN = ENV['MONGO_HOME']+"/bin/"
-else
-  MONGO_BIN = ""
-end
+DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
-if(ENV['NO_EXPAND'])
-  EXPAND = ""
-else
-  EXPAND = "--expand"
-end
+MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
+
+EXPAND = ENV['NO_EXPAND'] ? "" : "--expand"
+
+COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
+
 #######################################################
 
 $SUCCESS=true
@@ -37,7 +28,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{COLOR} -f junit --out . -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -49,7 +40,7 @@ end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   #turn true/false into command line option
-  dropOption = (dropExistingCollection) ? "--drop":"";
+  dropOption = (dropExistingCollection) ? "--drop":""
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
@@ -119,6 +110,11 @@ end
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:sampleIngestionTests] do
   displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Sample Ingestion Tests"
@@ -134,8 +130,13 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
+task :apiTests => [:sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
   displayFailureReport()
+end
+
+desc "Run Session Tests"
+task :sessionTests do
+  runFixtureAndTests("test/features/api/entities/session", "session", "session_fixture.json")
 end
 
 desc "Run Section Tests"
@@ -264,6 +265,16 @@ end
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
   runTests("test/features/dashboard/k3view.feature")
+end
+
+desc "Run Dashboard High School view Tests"
+task :dashboardHSViewTests do
+  runTests("test/features/dashboard/high_school_view.feature")
+end
+
+desc "Run Dashboard Program Participation and Student Info Tests"
+task :dashboardLozengesTests do
+  runTests("test/features/dashboard/lozenges.feature")
 end
 
 desc "Run Dashboard YY Tests"

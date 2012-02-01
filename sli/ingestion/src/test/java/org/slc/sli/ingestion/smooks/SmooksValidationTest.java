@@ -1,53 +1,30 @@
 package org.slc.sli.ingestion.smooks;
 
-import static org.junit.Assert.assertEquals;
-
-
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.stream.StreamSource;
-
-import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.io.Decoder;
-import org.apache.avro.io.DecoderFactory;
 import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.Smooks;
-import org.milyn.payload.JavaResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ResourceUtils;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
-import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.validation.IngestionAvroEntityValidator;
 import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slc.sli.validation.EntityValidationException;
@@ -66,13 +43,11 @@ public class SmooksValidationTest {
     @Autowired
     private EntitySchemaRegistry schemaReg;
 
-    @Autowired
-    private EdFiProcessor edFiProcessor;
-
     @Test
     public void testValidStudentCSV() throws Exception {
-    	 InputStream messageIn = null;
-    	 String SMOOKS_CONFIG = "smooks_conf/smooks-student-csv.xml";
+         InputStream messageIn = null;
+         String smooksConfig = "smooks_conf/smooks-student-csv.xml";
+
          try {
              IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
              validator.setSchemaRegistry(schemaReg);
@@ -85,7 +60,7 @@ public class SmooksValidationTest {
                  NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
                          outputFile);
 
-                 Smooks smooks = new Smooks(SMOOKS_CONFIG);
+                 Smooks smooks = new Smooks(smooksConfig);
                  smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                          "csv-record");
 
@@ -99,6 +74,7 @@ public class SmooksValidationTest {
                          new File(outputFile.getAbsolutePath()));
 
                  assertTrue(nrfr.hasNext());
+
                  try {
                      while (nrfr.hasNext()) {
                          NeutralRecord record = nrfr.next();
@@ -107,6 +83,7 @@ public class SmooksValidationTest {
 
                      }
                  } finally {
+                    nrfr.close();
                  }
 
          } finally {
@@ -118,8 +95,9 @@ public class SmooksValidationTest {
 
     @Test
     public void testValidSchoolCSV() throws Exception {
-    	 InputStream messageIn = null;
-    	 String SMOOKS_CONFIG = "smooks_conf/smooks-school-csv.xml";
+         InputStream messageIn = null;
+         String smooksConfig = "smooks_conf/smooks-school-csv.xml";
+
          try {
              IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
              validator.setSchemaRegistry(schemaReg);
@@ -132,7 +110,7 @@ public class SmooksValidationTest {
              NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
                      outputFile);
 
-             Smooks smooks = new Smooks(SMOOKS_CONFIG);
+             Smooks smooks = new Smooks(smooksConfig);
              smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                      "csv-record");
 
@@ -146,6 +124,7 @@ public class SmooksValidationTest {
                      new File(outputFile.getAbsolutePath()));
 
              assertTrue(nrfr.hasNext());
+
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
@@ -154,6 +133,7 @@ public class SmooksValidationTest {
 
                  }
              } finally {
+                 nrfr.close();
              }
 
          } finally {
@@ -165,8 +145,9 @@ public class SmooksValidationTest {
 
     @Test
     public void testValidStudentSchoolAssociationCSV() throws Exception {
-    	 InputStream messageIn = null;
-    	 String SMOOKS_CONFIG = "smooks_conf/smooks-studentSchoolAssociation-csv.xml";
+         InputStream messageIn = null;
+         String smooksConfig = "smooks_conf/smooks-studentSchoolAssociation-csv.xml";
+
          try {
              IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
              validator.setSchemaRegistry(schemaReg);
@@ -180,7 +161,7 @@ public class SmooksValidationTest {
              NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
                      outputFile);
 
-             Smooks smooks = new Smooks(SMOOKS_CONFIG);
+             Smooks smooks = new Smooks(smooksConfig);
              smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                      "csv-record");
 
@@ -194,6 +175,7 @@ public class SmooksValidationTest {
                      new File(outputFile.getAbsolutePath()));
 
              assertTrue(nrfr.hasNext());
+
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
@@ -202,6 +184,7 @@ public class SmooksValidationTest {
 
                  }
              } finally {
+                 nrfr.close();
              }
          } finally {
 
@@ -212,8 +195,9 @@ public class SmooksValidationTest {
 
     @Test
     public void testValidStudentXML() throws Exception {
-    	 InputStream messageIn = null;
-    	 String SMOOKS_CONFIG = "smooks_conf/smooks-all-xml.xml";
+         InputStream messageIn = null;
+         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+
          try {
              IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
              validator.setSchemaRegistry(schemaReg);
@@ -227,7 +211,7 @@ public class SmooksValidationTest {
              NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
                      outputFile);
 
-             Smooks smooks = new Smooks(SMOOKS_CONFIG);
+             Smooks smooks = new Smooks(smooksConfig);
 
              smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                      "InterchangeStudent/Student");
@@ -242,6 +226,7 @@ public class SmooksValidationTest {
                      new File(outputFile.getAbsolutePath()));
 
              assertTrue(nrfr.hasNext());
+
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
@@ -250,6 +235,7 @@ public class SmooksValidationTest {
 
                  }
              } finally {
+                 nrfr.close();
              }
 
          } finally {
@@ -261,8 +247,8 @@ public class SmooksValidationTest {
 
     @Test
     public void testValidSchoolXML() throws Exception {
-    	 InputStream messageIn = null;
-    	 String SMOOKS_CONFIG = "smooks_conf/smooks-all-xml.xml";
+         InputStream messageIn = null;
+         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
 
          try {
              IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
@@ -278,7 +264,7 @@ public class SmooksValidationTest {
                      outputFile);
 
 
-             Smooks smooks = new Smooks(SMOOKS_CONFIG);
+             Smooks smooks = new Smooks(smooksConfig);
 
              smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                      "InterchangeEducationOrganization/School");
@@ -293,6 +279,7 @@ public class SmooksValidationTest {
                      new File(outputFile.getAbsolutePath()));
 
              assertTrue(nrfr.hasNext());
+
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
@@ -301,6 +288,7 @@ public class SmooksValidationTest {
 
                  }
              } finally {
+                 nrfr.close();
              }
 
          } finally {
@@ -312,8 +300,8 @@ public class SmooksValidationTest {
 
     @Test
     public void testValidStudentSchoolAssociationXML() throws Exception {
-   	 InputStream messageIn = null;
-   	String SMOOKS_CONFIG = "smooks_conf/smooks-all-xml.xml";
+        InputStream messageIn = null;
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
 
         try {
             IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
@@ -327,7 +315,7 @@ public class SmooksValidationTest {
             NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(
                         outputFile);
 
-            Smooks smooks = new Smooks(SMOOKS_CONFIG);
+            Smooks smooks = new Smooks(smooksConfig);
 
             smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter),
                     "InterchangeStudentEnrollment/StudentSchoolAssociation");
@@ -350,6 +338,7 @@ public class SmooksValidationTest {
 
                 }
             } finally {
+                nrfr.close();
             }
 
 

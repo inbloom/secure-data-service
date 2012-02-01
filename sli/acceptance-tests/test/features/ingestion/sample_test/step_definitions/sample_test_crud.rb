@@ -78,19 +78,11 @@ When /^zip file is scp to ingestion landing zone$/ do
 
   if (INGESTION_MODE == 'remote')
     # copy file from external path to landing zone
-    ingestion_server_string = "ingestion@" + INGESTION_SERVER_URL + ":" + @landing_zone_path
-    local_source_path = @source_path
+    ingestion_server_string = "\"" + ("ingestion@" + INGESTION_SERVER_URL + ":" + @landing_zone_path).to_s  + "\""
+    local_source_path = "\"" + @source_path.to_s + "\""
     
     puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    Kernel::system("scp #{local_source_path} #{ingestion_server_string}")
-    
-    #doesn't work for some reason...
-    #scp_upload(INGESTION_SERVER_URL, "ingestion", @source_path, @destination_path, {:password => ""}, {})
-
-    #check if file was copied to destination.  This is not necessary on a working landingzone
-    #sleep(Integer(3))
-    #aFile = File.new(@destination_path, "r")
-    #assert(aFile != nil, "File wasn't copied successfully to destination")
+    runShellCommand("scp " + local_source_path + " " + ingestion_server_string)
   else
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
@@ -117,30 +109,34 @@ end
 
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
-  @job_status_filename_component = "job-" + @source_file_name + "-"
-
-  @job_status_filename = ""
-  Dir.foreach(@landing_zone_path) do |entry|
-    if (entry.rindex(@job_status_filename_component))
-      # LAST ENTRY IS OUR FILE
-      @job_status_filename = entry
-    end
-  end
-
-  aFile = File.new(@landing_zone_path + @job_status_filename, "r")
-  puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
-  assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
-  
-  if aFile
-    file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
-    puts "FILE CONTENTS = " + file_contents
-    
-    if (file_contents.rindex(message) == nil)
-      assert(false, "File doesn't contain correct processing message")
-    end
-    
+  if (INGESTION_MODE == 'remote')
+    #TODO - remote check of file
   else
-     raise "File " + @job_status_filename + "can't be opened"
+    @job_status_filename_component = "job-" + @source_file_name + "-"
+  
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(@job_status_filename_component))
+        # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+  
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+    
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      puts "FILE CONTENTS = " + file_contents
+      
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+      
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
   end
 end
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleManager;
+import org.slc.sli.api.security.resolve.RealmRoleMappingException;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 
@@ -43,19 +44,22 @@ public class DefaultClientRoleManager implements ClientRoleManager {
     }
     
     @Override
-    public void addClientRole(String realmId, String sliRoleName, String clientRoleName) {
+    public boolean addClientRole(String realmId, String sliRoleName, String clientRoleName) throws RealmRoleMappingException {
         Role sliRole = roleRightAccess.findRoleByName(sliRoleName);
         Map<String, List<String>> mappings = sliRole.getRealmRoleMappings();
         List<String> listMappingsForRealm = mappings.get(realmId);
         if (listMappingsForRealm == null) {
             listMappingsForRealm = new ArrayList<String>();
         }
+        
         if (!listMappingsForRealm.contains(clientRoleName)) {
             listMappingsForRealm.add(clientRoleName);
+        } else {
+            throw new RealmRoleMappingException("Role mapping already exists");
         }
         mappings.put(realmId, listMappingsForRealm);
         sliRole.setRealmRoleMappings(mappings);
-        roleRightAccess.updateRole(sliRole);
+        return roleRightAccess.updateRole(sliRole);
     }
     
     @Override
@@ -89,7 +93,7 @@ public class DefaultClientRoleManager implements ClientRoleManager {
     }
     
     @Override
-    public void deleteClientRole(String realmId, String clientRoleName) {
+    public boolean deleteClientRole(String realmId, String clientRoleName) {
         List<Role> allSliRoles = roleRightAccess.fetchAllRoles();
         for (Role role : allSliRoles) {
             Map<String, List<String>> mappings = role.getRealmRoleMappings();
@@ -98,9 +102,10 @@ public class DefaultClientRoleManager implements ClientRoleManager {
                 clientRoles.remove(clientRoleName);
                 mappings.put(realmId, clientRoles);
                 role.setRealmRoleMappings(mappings);
-                roleRightAccess.updateRole(role);
+                return roleRightAccess.updateRole(role);
             }
         }
+        return false;
     }
     
 }

@@ -1,5 +1,9 @@
 package org.slc.sli.api.security.context;
 
+import static org.junit.Assert.assertTrue;
+
+import javax.persistence.EntityExistsException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,10 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.EntityExistsException;
-
-import static org.junit.Assert.assertTrue;
-
 /**
  * Tests for ContextResolver
  */
@@ -19,12 +19,13 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ContextResolverStoreTest {
     
+    private static final String   CONTEXT_TYPE = "teacherstudent";
     @Autowired
-    private ContextResolverStore contextResolverStore;
-    private String source;
-    private String target;
+    private ContextResolverStore  contextResolverStore;
+    private String                source;
+    private String                target;
     private EntityContextResolver resolverIn;
-    private String nonExistingField;
+    private String                nonExistingField;
     
     @org.junit.Before
     public void setUp() throws Exception {
@@ -41,13 +42,19 @@ public class ContextResolverStoreTest {
     public void testAddContextResolver() throws Exception {
         
         try {
-            contextResolverStore.addContext(resolverIn);
+            EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
+            if (putResult != null) {
+                throw new EntityExistsException();
+            }
         } catch (EntityExistsException e) {
             assertTrue("add on empty contextResolver should not throw exception", false);
         }
         
         try {
-            contextResolverStore.addContext(resolverIn);
+            EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
+            if (putResult != null) {
+                throw new EntityExistsException();
+            }
             Assert.fail("should throw EntityExistsException resolver already exists");
         } catch (EntityExistsException e) {
             Assert.assertNotNull(contextResolverStore);
@@ -59,7 +66,10 @@ public class ContextResolverStoreTest {
     public void testGetContextResolver() {
         
         try {
-            contextResolverStore.addContext(resolverIn);
+            EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
+            if (putResult != null) {
+                throw new EntityExistsException();
+            }
         } catch (EntityExistsException e) {
             assertTrue("add on empty contextResolver should not throw exception", false);
         }
@@ -68,11 +78,9 @@ public class ContextResolverStoreTest {
         Assert.assertNotNull(resolverOut);
         Assert.assertEquals(resolverIn, resolverOut);
         
-        EntityContextResolver defaultResolver = contextResolverStore.getContextResolver(nonExistingField,
-                nonExistingField);
+        EntityContextResolver defaultResolver = contextResolverStore.getContextResolver(nonExistingField, nonExistingField);
         Assert.assertNotNull(defaultResolver);
         Assert.assertTrue(defaultResolver instanceof DefaultEntityContextResolver);
         
     }
-    
 }

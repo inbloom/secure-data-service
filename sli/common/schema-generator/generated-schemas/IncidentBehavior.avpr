@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "IncidentBehavior",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Definition of the behavior coded for use in describing an incident.",
+  "fields" : [ {
+    "name" : "incidentCategory",
+    "type" : "org.slc.sli.domain.enum.IncidentCategoryType"
+  }, {
+    "name" : "behavior",
+    "type" : "org.slc.sli.domain.enum.IncidentBehaviorType"
+  } ]
+}

@@ -24,9 +24,8 @@
   <profiles>
     <profile>
       <id>default</id>
-      <!-- temporarily set test profile as default, for the PI 3 planning demo -->
       <activation>
-        <activeByDefault>false</activeByDefault>
+        <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
 	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
@@ -51,10 +50,6 @@
     </profile>
     <profile>
       <id>test</id>
-      <!-- temporarily set test profile as default, for the PI 3 planning demo -->
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <properties>
 	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
 	    <server.mode>test</server.mode>
@@ -152,6 +147,8 @@
   </dependencies>
 
   <build>
+    <finalName>dashboard</finalName>
+    
     <resources>
       <resource>
         <directory>src/main/resources</directory>

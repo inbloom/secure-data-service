@@ -22,7 +22,7 @@ import org.slc.sli.util.Constants;
 @Component("RESTClient")
 public class RESTClient {
     
-    /** Request parameter key used to pass sessionId to API **/
+	/** Request parameter key used to pass sessionId to API **/
     private static final String API_SESSION_KEY = "sessionId";
     
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
@@ -39,7 +39,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonArray getRoles(String token) {
-        String jsonText = makeJsonRequest("admin/roles", token);
+        String jsonText = makeJsonRequest(Constants.GET_ROLES_URL, token);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject().getAsJsonArray(); 
     }
@@ -53,7 +53,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-        String jsonText = makeJsonRequest("system/session/check", token);
+        String jsonText = makeJsonRequest(Constants.SESSION_CHECK_URL, token);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
     }
@@ -70,6 +70,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public String makeJsonRequest(String path, String token) {
+    	System.out.println("IN MAKEJSONREQUEST");
         RestTemplate template = new RestTemplate();
         URLBuilder url = new URLBuilder(apiServerUri);
         url.addPath(path);
@@ -77,9 +78,9 @@ public class RESTClient {
             url.addQueryParam(API_SESSION_KEY, token);
            
         }
-        logger.debug("Accessing API at: " + url.toString());
+        System.out.println("Accessing API at: " + url.toString());
         String jsonText = template.getForObject(url.toString(), String.class);
-        logger.debug("JSON response for roles: " + jsonText);
+        System.out.println("JSON response for roles: " + jsonText);
         return jsonText;
     }
     

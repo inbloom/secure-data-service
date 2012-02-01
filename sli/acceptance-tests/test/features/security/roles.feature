@@ -47,7 +47,8 @@ And the role attribute equals "IT Administrator"
 And "IT Administrator" is allowed to change Student address
 When I make an API call to change the Student address to "1234 Somewhere"
 Then the Student address is changed
- 
+
+
 Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>  
@@ -78,7 +79,7 @@ And the role attribute equals "Leader"
 And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data
 Then the Student restricted fields are visible in the response
-
+@wip 
 Scenario: Unauthorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "educator" with password "educator1234"

@@ -1,0 +1,42 @@
+{
+  "type" : "record",
+  "name" : "StudentIdentityType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Encapsulates the possible attributes that can be used to lookup the identity of students.",
+  "fields" : [ {
+    "name" : "studentUniqueStateId",
+    "doc" : "A unique numeric code assigned to a person by a state education agency.",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "studentIdentificationCode",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.StudentIdentificationCode"
+    } ]
+  }, {
+    "name" : "name",
+    "type" : [ "null", "org.slc.sli.domain.Name" ]
+  }, {
+    "name" : "otherName",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.OtherName"
+    } ]
+  }, {
+    "name" : "birthDate",
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "sex",
+    "type" : [ "null", "org.slc.sli.domain.enum.SexType" ]
+  }, {
+    "name" : "hispanicLatinoEthnicity",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "race",
+    "type" : [ "null", "org.slc.sli.domain.RaceType" ]
+  } ]
+}

@@ -1,0 +1,9 @@
+
+{
+   "type":"AttendanceEventCategoryType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["In Attendance","Excused Absence","Unexcused Absence","Tardy","Early departure"]}
+}

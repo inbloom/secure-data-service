@@ -1,0 +1,10 @@
+
+{
+   "type":"BellScheduleName",
+   "validatorClass":"org.slc.sli.validation.RestrictedSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "min-length":"1",
+      "max-length":"60"}
+}

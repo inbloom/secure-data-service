@@ -1,0 +1,10 @@
+
+{
+   "type":"InstitutionTelephone",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "*InstitutionTelephoneNumberType":"InstitutionTelephoneNumberType",
+      "TelephoneNumber":"TelephoneNumber"},
+   "properties":{}
+}

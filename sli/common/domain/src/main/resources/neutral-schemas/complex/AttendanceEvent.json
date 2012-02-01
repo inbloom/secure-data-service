@@ -1,0 +1,13 @@
+
+{
+   "type":"AttendanceEvent",
+   "validatorClass":"org.slc.sli.validation.ComplexSchema",
+   "version":"1.0",
+   "fields":{
+      "EventDate":"date",
+      "*AttendanceEventType":"AttendanceEventType",
+      "AttendanceEventCategory":"AttendanceEventCategoryType",
+      "*AttendanceEventReason":"AttendanceEventReason",
+      "*EducationalEnvironment":"EducationalEnvironmentType"},
+   "properties":{}
+}

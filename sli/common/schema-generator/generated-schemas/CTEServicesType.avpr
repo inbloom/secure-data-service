@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "CTEServicesType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Special CTE program services provided to student.",
+  "fields" : [ {
+    "name" : "cTEService",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.CTEServiceItemType"
+    } ]
+  } ]
+}

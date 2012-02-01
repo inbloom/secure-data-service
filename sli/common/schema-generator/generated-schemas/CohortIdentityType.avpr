@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "CohortIdentityType",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "Encapsulates the possible attributes that can be used to lookup the identity of cohorts.",
+  "fields" : [ {
+    "name" : "educationOrgReference",
+    "type" : "org.slc.sli.domain.EducationalOrgReferenceType"
+  }, {
+    "name" : "cohortIdentifier",
+    "doc" : "A locally assigned unique identifier (within the school or school district) to identify each specific incident or occurrence. The same identifier should be used to document the entire incident even if it included multiple offenses and multiple offenders.",
+    "type" : {
+      "type" : "string",
+      "max-length" : "20",
+      "min-length" : "1"
+    }
+  } ]
+}

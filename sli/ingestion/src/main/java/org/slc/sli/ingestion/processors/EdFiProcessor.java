@@ -13,6 +13,7 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -47,6 +48,8 @@ public class EdFiProcessor implements Processor {
         if (job.getErrorReport().hasErrors()) {
             exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
         }
+        
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
     }
 
     public void processFileEntry(IngestionFileEntry fe) {

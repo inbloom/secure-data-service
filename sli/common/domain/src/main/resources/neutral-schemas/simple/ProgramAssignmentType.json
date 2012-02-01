@@ -1,0 +1,9 @@
+
+{
+   "type":"ProgramAssignmentType",
+   "validatorClass":"org.slc.sli.validation.TokenSchema",
+   "version":"1.0",
+   "fields":{},
+   "properties":{
+      "tokens":["Regular Education","Title I-Academic","Title I-Non-Academic","Special Education","Bilingual/English as a Second Language"]}
+}

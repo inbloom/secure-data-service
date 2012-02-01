@@ -21,6 +21,7 @@ import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
 
+
 /**
  * Jersey resource for aggregate discovery
  * 
@@ -50,6 +51,10 @@ public class AggregateResource {
      * Returns the uppermost associations for the logged in user
      * i.e For a staff(superintendent) it'll return a list of associated educationalOrganizations
      * 
+     * @entity.tag EmbeddedLink
+     * @response.representation.200.mediaType application/json
+     * 
+     *
      * @param uriInfo
      * @return
      */
