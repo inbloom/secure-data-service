@@ -450,7 +450,7 @@
                             federal, state, and local policy.
                         </xs:documentation>
                         <xs:appinfo>
-                            <sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
+                            <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
                         </xs:appinfo>
                     </xs:annotation>
                 </xs:element>

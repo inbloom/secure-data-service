@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -71,17 +71,22 @@ public class RoleInitializer {
                 hasSLIAdmin = true;
             }
         }
-        if (!hasAggregate)
+        if (!hasAggregate) {
             createdRoles.add(buildAggregate());
-        if (!hasLeader)
+        }
+        if (!hasLeader) {
             createdRoles.add(buildLeader());
-        if (!hasIT)
+        }
+        if (!hasIT) {
             createdRoles.add(buildIT());
-        if (!hasEducator)
+        }
+        if (!hasEducator) {
             createdRoles.add(buildEducator());
+        }
         
-        if (!hasSLIAdmin)
+        if (!hasSLIAdmin) {
             createdRoles.add(buildSLIAdmin());
+        }
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
         }

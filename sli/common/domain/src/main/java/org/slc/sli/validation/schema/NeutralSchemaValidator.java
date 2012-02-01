@@ -37,11 +37,16 @@ public class NeutralSchemaValidator implements EntityValidator {
         
     }
     
+    public NeutralSchemaValidator(SchemaRepository entitySchemaRegistry) {
+        this.entitySchemaRegistry = entitySchemaRegistry;
+    }
+
     // Methods
     
     /**
      * Validates the given entity using its SLI Neutral Schema.
      */
+    @Override
     public boolean validate(Entity entity) throws EntityValidationException {
         
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
@@ -60,7 +65,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     }
     
     public void setSchemaRegistry(SchemaRepository schemaRegistry) {
-        this.entitySchemaRegistry = schemaRegistry;
+        entitySchemaRegistry = schemaRegistry;
     }
     
 }

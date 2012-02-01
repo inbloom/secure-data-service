@@ -11,16 +11,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
-import org.slc.sli.api.security.roles.RoleBuilder;
-import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
+import org.slc.sli.api.security.roles.RoleBuilder;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Verifies that {@link DefaultRolesToRightsResolver} filters out SLI Admins properly if

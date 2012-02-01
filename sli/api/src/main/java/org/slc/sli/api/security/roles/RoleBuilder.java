@@ -1,10 +1,10 @@
 package org.slc.sli.api.security.roles;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.enums.Right;
-
 import java.util.List;
 import java.util.Map;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * A simple class to help build a Role in terms of their associated rights.

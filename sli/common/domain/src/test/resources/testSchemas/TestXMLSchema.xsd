@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:sli="http://slc-sli/ed-org/0.1"
     elementFormDefault="qualified"
     attributeFormDefault="qualified">
     
@@ -27,4 +28,44 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+    
+    
+    <xs:complexType name="TestDocumentationComplex">
+        <xs:annotation>
+            <xs:documentation>Test complex documentation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="base1" type="BaseSimpleType"/>        
+            <xs:element name="simple" type="TestDocumentationSimple"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+     <xs:complexType name="TestPersonallyIdentifiableInfoComplex">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>            
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="base1" type="BaseSimpleType"/>
+            <xs:element name="base2" type="BaseSimpleType"/>
+            <xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="TestSecurityComplex">
+        <xs:annotation>
+           <xs:appinfo>
+                <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+            </xs:appinfo>        
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="base1" type="BaseSimpleType"/>
+            <xs:element name="base1" type="BaseSimpleType"/>
+            <xs:element name="simple" type="TestSecuritySimple"/>
+        </xs:sequence>
+    </xs:complexType>
+        
 </xs:schema>

@@ -45,6 +45,19 @@ public class XsdToNeutralSchemaTest {
     }
     
     @Test
+    public void testSchemaDocumentation() throws IOException {
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        NeutralSchema schema = repo.getSchema("TestDocumentationSimple");
+        assertNotNull(schema);
+        
+        schema = repo.getSchema("TestPersonallyIdentifiableInfoSimple");
+        assertNotNull(schema);
+        
+        schema = repo.getSchema("TestSecuritySimple");
+        assertNotNull(schema);
+    }
+    
+    @Test
     public void testSliXsdSchema() throws IOException {
         assertNotNull(schemaRepo);
         assertNull(schemaRepo.getSchema("non-exist-schema"));

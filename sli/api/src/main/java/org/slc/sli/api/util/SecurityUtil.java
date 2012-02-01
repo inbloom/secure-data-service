@@ -8,8 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Holder for security utilities

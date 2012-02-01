@@ -14,10 +14,10 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Simple class for injecting a security context for unit tests. Future implementations will allow
@@ -63,7 +63,7 @@ public class SecurityContextInjector {
     
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
+        Set<GrantedAuthority> grantedAuthorities = resolver.resolveRoles(principal.getRealm(), principal.getRoles());
         SecurityContextHolder.clearContext();
         
         PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);

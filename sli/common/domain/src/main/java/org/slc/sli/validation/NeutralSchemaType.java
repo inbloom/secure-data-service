@@ -27,16 +27,17 @@ public enum NeutralSchemaType {
     
     BOOLEAN("boolean", true), INT("int", true), INTEGER("integer", true), LONG("long", true), FLOAT("float", true), DOUBLE(
             "double", true), DECIMAL("decimal", true), DATE("date", true), TIME("time", true), DATETIME("datetime",
-            true), DURATION("duration", true), STRING("string", true), ID("ID", true), IDREF("IDREF", true), RESTRICTED(
-            "restricted", false), TOKEN("token", false), LIST("list", false), COMPLEX("complex", false);
+                    true), DURATION("duration", true), STRING("string", true), ID("ID", true), IDREF("IDREF", true), RESTRICTED(
+                            "restricted", false), TOKEN("token", false), LIST("list", false), COMPLEX("complex", false);
     
     // Attributes
     private final String name;
-    private final boolean isPrimitive = true;
+    private final boolean isPrimitive;
     
     // Constructors
     NeutralSchemaType(String name, boolean isPrimitive) {
         this.name = name;
+        this.isPrimitive = isPrimitive;
     }
     
     // Methods

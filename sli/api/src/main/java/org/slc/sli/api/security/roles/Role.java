@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * A simple class to encapsulate a role
