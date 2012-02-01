@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
-    targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-    attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified">
 
     <xs:include schemaLocation="ReferenceTypes.xsd"/>
 
@@ -304,7 +304,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:element name="Teacher">
+    <xs:element name="teacher">
         <xs:annotation>
             <xs:documentation>This entity represents a person that is employed by an LEA or other
                 educational unit engaged in student instruction. These persons are
@@ -566,7 +566,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="TeacherSchoolAssociation">
+    <xs:element name="teacherSchoolAssociation">
         <xs:annotation>
             <xs:documentation>This association indicates the school(s) to which a teacher provides
                 instructional services to.</xs:documentation>

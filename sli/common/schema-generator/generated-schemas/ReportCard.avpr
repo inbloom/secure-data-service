@@ -1,0 +1,63 @@
+{
+  "type" : "record",
+  "name" : "ReportCard",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This educational entity represents the collecton of student grades for courses taken during a grading period.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "gradeReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  }, {
+    "name" : "studentCompetencyReference",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ReferenceType"
+    } ]
+  }, {
+    "name" : "gPAGivenGradingPeriod",
+    "type" : {
+      "type" : "double",
+      "xsd-type" : "decimal"
+    }
+  }, {
+    "name" : "gPACumulative",
+    "type" : {
+      "type" : "double",
+      "xsd-type" : "decimal"
+    }
+  }, {
+    "name" : "numberOfDaysAbsent",
+    "type" : [ "null", {
+      "type" : "double",
+      "min" : "0",
+      "xsd-type" : "decimal"
+    } ]
+  }, {
+    "name" : "numberOfDaysInAttendance",
+    "type" : [ "null", {
+      "type" : "double",
+      "min" : "0",
+      "xsd-type" : "decimal"
+    } ]
+  }, {
+    "name" : "numberOfDaysTardy",
+    "type" : [ "null", {
+      "type" : "int",
+      "min" : "0"
+    } ]
+  }, {
+    "name" : "studentReference",
+    "type" : "org.slc.sli.domain.StudentReferenceType"
+  }, {
+    "name" : "gradingPeriodReference",
+    "type" : "org.slc.sli.domain.GradingPeriodReferenceType"
+  } ]
+}

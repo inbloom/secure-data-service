@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    xmlns="http://slc-sli/ed-org/0.1"
-    targetNamespace="http://slc-sli/ed-org/0.1"
-    attributeFormDefault="unqualified">
+    xmlns:sli="http://slc-sli/ed-org/0.1"
+    attributeFormDefault="qualified">
 
     <xs:include schemaLocation="Attendance.xsd"></xs:include>
 
-    <xs:element name="Course">
+    <xs:element name="course">
         <xs:annotation>
             <xs:documentation>This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis.
             </xs:documentation>
@@ -102,7 +101,7 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="CourseSessionAssociation">
+    <xs:element name="courseSessionAssociation">
         <xs:annotation>
             <xs:documentation>This entity represents the association of a course with a session during which the course is offered.</xs:documentation>
         </xs:annotation>
@@ -156,7 +155,7 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:element name="StudentTranscriptsAssociation">
+    <xs:element name="studentTranscriptsAssociation">
         <xs:annotation>
             <xs:documentation>This entity is the final record of a student's performance in their courses at the end of semester or school year.</xs:documentation>
         </xs:annotation>
@@ -248,7 +247,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="GradebookEntry">
+    <xs:element name="gradebookEntry">
         <xs:annotation>
             <xs:documentation>This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.</xs:documentation>
         </xs:annotation>
@@ -317,7 +316,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:element name="StudentSectionAssociation">
+    <xs:element name="studentSectionAssociation">
         <xs:annotation>
             <xs:documentation>This association indicates the course sections a student is assigned to.
             </xs:documentation>
@@ -374,7 +373,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="StudentAcademicRecordsAssociation">
+    <xs:element name="studentAcademicRecordsAssociation">
         <xs:annotation>
             <xs:documentation>This association contains the cumulative record of academic achievements and the collection of student grades for
                 the student at the end of a semester or school year.</xs:documentation>

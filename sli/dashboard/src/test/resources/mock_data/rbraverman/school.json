@@ -6,19 +6,19 @@
                 "course": "Reading Group",
                 "sections": [
                     {
-                        "uniqueSectionCode": "Reading Group - Red",
+                        "sectionName": "Reading Group - Red",
                         "studentUIDs": []
                     },
                     {
-                        "uniqueSectionCode": "Reading Group - Blue",
+                        "sectionName": "Reading Group - Blue",
                         "studentUIDs": []
                     },
                     {
-                        "uniqueSectionCode": "Reading Group - Green",
+                        "sectionName": "Reading Group - Green",
                         "studentUIDs": []
                     },
                     {
-                        "uniqueSectionCode": "Reading Group - Grey",
+                        "sectionName": "Reading Group - Grey",
                         "studentUIDs": [
                                      "111111111"
                      ]
@@ -29,7 +29,7 @@
                 "course": "1st Grade Homeroom",
                 "sections": [
                     {
-                        "uniqueSectionCode": "Mrs. Braverman's Homeroom #38",
+                        "sectionName": "Mrs. Braverman's Homeroom #38",
                         "studentUIDs": [
                                      "530425896",
                                      "429526969",

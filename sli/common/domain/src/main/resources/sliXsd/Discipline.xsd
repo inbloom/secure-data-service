@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
-	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-	attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1"
+	elementFormDefault="qualified"
+	attributeFormDefault="qualified">
 
 	<xs:include schemaLocation="ReferenceTypes.xsd"/>
 
@@ -99,7 +99,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:element name="DisciplineIncident">
+	<xs:element name="disciplineIncident">
 		<xs:annotation>
 			<xs:documentation>This event entity represents an occurrence of an infraction ranging
 				from a minor problem behavior that disrupts the orderly functioning of a school or
@@ -205,7 +205,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="StudentDisciplineIncidentAssociation">
+	<xs:element name="studentDisciplineIncidentAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates those students who were victims,
 				perpetrators, witnesses, and/or reporters for a discipline

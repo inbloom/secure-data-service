@@ -13,8 +13,6 @@ public interface EntityContextResolver {
     
     public String getTargetType();
     
-    public boolean hasPermission(Entity source, Entity target);
-    
     public List<String> findAccessible(Entity principal);
     
 }

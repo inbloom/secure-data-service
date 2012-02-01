@@ -3,7 +3,7 @@ Feature: <US634> Sample Ingestion Gherkin Test
 Background: I have a landing zone route configured
 Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone 
-	And I connect to "sli" database
+	And I connect to "sli_ing" database
 
 Scenario: Post a zip file of 100 students as a payload of the ingestion job
 Given I post "validStudents100.zip" as the payload of the ingestion job

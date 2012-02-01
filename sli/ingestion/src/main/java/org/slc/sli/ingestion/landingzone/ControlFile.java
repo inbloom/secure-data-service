@@ -47,12 +47,6 @@ public class ControlFile implements Serializable {
         LOG.debug("parsing control file: {}", file);
 
         try {
-            try {
-                // TODO: remove this sleep - using for now to test theory on possible race condition
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             while (scanner.hasNextLine()) {
 
                 line = scanner.nextLine();

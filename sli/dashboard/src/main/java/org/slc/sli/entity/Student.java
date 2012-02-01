@@ -9,14 +9,14 @@ import org.slc.sli.util.Constants;
  */
 public class Student {
 
-    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServiceEligibility;
+    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServicesEligibility;
     
     public void setLimitedEnglishProficiency(String limitedEnglishProficiency) {
         this.limitedEnglishProficiency = limitedEnglishProficiency;
     }
 
-    public void setSchoolFoodServiceEligibility(String schoolFoodServiceEligibility) {
-        this.schoolFoodServiceEligibility = schoolFoodServiceEligibility;
+    public void setSchoolFoodServicesEligibility(String schoolFoodServicesEligibility) {
+        this.schoolFoodServicesEligibility = schoolFoodServicesEligibility;
     }
 
     private static String[] studentEntityProgramCodes = {Constants.PROGRAM_ELL, Constants.PROGRAM_FRE};
@@ -101,25 +101,40 @@ public class Student {
     }
 
     
-    public boolean getProgramParticipation(String programCode) {
+    public boolean hasProgramParticipation(String programCode) {
         if (programCode.equals(Constants.PROGRAM_ELL)) {
-            return isLimitedEnglishProficient();
+            return hasLimitedEnglishProficiency();
         }
         if (programCode.equals(Constants.PROGRAM_FRE)) {
-            return isSchoolFoodServiceEligile();
+            return hasSchoolFoodServiceEligibility();
         }
         return false;
     }
     
+    private boolean hasLimitedEnglishProficiency() {
+        return limitedEnglishProficiency.equals(Constants.SHOW_ELL_LOZENGE);
+    }
+    
+    
+    private boolean hasSchoolFoodServiceEligibility() {
+        for (Constants.FREParticipation part : Constants.FREParticipation.values()) {
+            if (schoolFoodServicesEligibility.equals(part.getValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /*
     private boolean isLimitedEnglishProficient() {
-        return limitedEnglishProficiency.equals("Yes");
+        return (limitedEnglishProficiency != null) && (limitedEnglishProficiency.equals("Yes"));
     }
     
     
     private boolean isSchoolFoodServiceEligile() {
-        return schoolFoodServiceEligibility.equals("Free");
+        return (schoolFoodServicesEligibility != null) && (schoolFoodServicesEligibility.equals("Free"));
     }
-    
+    */
     
     
 }

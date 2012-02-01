@@ -1,0 +1,26 @@
+{
+  "type" : "record",
+  "name" : "Budget",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This financial entity represents the amount of monies allocated to be spent or received by an education organization as related to a specific account.",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "fiscalYear",
+    "type" : "int"
+  }, {
+    "name" : "amount",
+    "doc" : "US currency in dollars and cents.",
+    "type" : {
+      "type" : "double",
+      "xsd-type" : "decimal"
+    }
+  }, {
+    "name" : "accountReference",
+    "type" : "org.slc.sli.domain.AccountReferenceType"
+  } ]
+}

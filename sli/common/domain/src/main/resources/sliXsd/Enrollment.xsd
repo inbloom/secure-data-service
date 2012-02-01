@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    xmlns="http://slc-sli/ed-org/0.1" targetNamespace="http://slc-sli/ed-org/0.1"
-    attributeFormDefault="unqualified"
->
+    xmlns:sli="http://slc-sli/ed-org/0.1"
+    attributeFormDefault="qualified"
+    xmlns:p="http://schemas.xmlsoap.org/wsdl/">
+    
     <xs:include schemaLocation="ReferenceTypes.xsd" />
 
     <xs:complexType name="StudentIdentificationCode">
@@ -314,7 +315,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="Student">
+    <xs:element name="student">
         <xs:annotation>
             <xs:documentation>This entity represents an individual for whom instruction, services
                 and/or care are provided in an early childhood, elementary or secondary educational
@@ -345,6 +346,9 @@
                 <xs:element name="Name" type="Name">
                     <xs:annotation>
                         <xs:documentation>Full legal name of the person.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
+                        </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="OtherName" type="OtherName" minOccurs="0"
@@ -587,7 +591,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="StudentSchoolAssociation">
+    <xs:element name="studentSchoolAssociation">
         <xs:annotation>
             <xs:documentation>This association represents the school to which a student is enrolled.
             </xs:documentation>
@@ -796,5 +800,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
 
 </xs:schema>

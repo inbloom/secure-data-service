@@ -1,12 +1,17 @@
 package org.slc.sli.api.security;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,29 +22,23 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.mock.Mocker;
+import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the OpenamRestTokenResolver.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class OpenamRestTokenResolverTest {
     
-    private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
+    private static final String     DEFAULT_REALM_ID = "dc=slidev,dc=net";
     
     private OpenamRestTokenResolver resolver;
     
-    private RolesToRightsResolver rightsResolver;
+    private RolesToRightsResolver   rightsResolver;
     
     @Before
     public void init() {
@@ -52,9 +51,7 @@ public class OpenamRestTokenResolverTest {
         
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
-        when(
-                rightsResolver.resolveRoles(DEFAULT_REALM_ID,
-                        Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
+        when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
     
     @Test
@@ -70,6 +67,7 @@ public class OpenamRestTokenResolverTest {
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, null)).thenReturn(null);
         when(rightsResolver.resolveRoles(null, null)).thenReturn(null);
         Authentication auth = resolver.resolve(Mocker.INVALID_TOKEN);
-        Assert.assertNull(auth);
+        Assert.assertEquals(1, auth.getAuthorities().size());
+        Assert.assertTrue(auth.getAuthorities().contains(Right.ANONYMOUS_ACCESS));
     }
 }

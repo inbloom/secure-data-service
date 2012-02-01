@@ -35,6 +35,7 @@ def localLogin (username, password)
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
+  sleep 1
   # assert(@driver.current_url == url, "Failed to navigate to "+url)
   
   # assertMissingField("Sivan")

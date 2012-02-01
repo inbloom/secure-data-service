@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://slc-sli/ed-org/0.1"
-	targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-	attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1"
+	elementFormDefault="qualified"
+	attributeFormDefault="qualified">
 
 	<xs:include schemaLocation="ReferenceTypes.xsd" />
-	<xs:element name="Parent">
+	<xs:element name="parent">
 		<xs:annotation>
 			<xs:documentation>
 				This entity represents a parent or guardian of a student, such as mother, father, or caretaker.
@@ -66,7 +66,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="StudentParentAssociation">
+	<xs:element name="studentParentAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				This association relates students to their parents, guardians, or caretakers.
