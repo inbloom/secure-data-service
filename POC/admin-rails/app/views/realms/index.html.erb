@@ -2,16 +2,24 @@
 
 <table>
   <tr>
-    <th>Realm</th>
-    <th>Idp</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <% @realms.each do |realm| %>
-  <tr>
-	<td><%= realm.state %></td>
-	<td><%= realm.idp %></td>
-  </tr>
+<li><%= link_to realm.state, :controller => "realms", :action => "show", :id => realm.id %></li>
 <% end %>
+
+<!--
+  <tr>
+    <td><link_to 'Show', realm %></td>
+    <td><link_to 'Edit', edit_realm_path(realm) %></td>
+    <td><link_to 'Destroy', realm, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
 </table>
+-->
 
 <br />
+
+<%= link_to 'New Realm', new_realm_path %>

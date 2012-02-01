@@ -25,10 +25,10 @@ import org.slc.sli.validation.schema.Restriction;
  */
 public enum NeutralSchemaType {
     
-    BOOLEAN("boolean", true), INT("int", true), INTEGER("integer", true), LONG("long", true), FLOAT("float", true), DOUBLE(
-            "double", true), DECIMAL("decimal", true), DATE("date", true), TIME("time", true), DATETIME("datetime",
-                    true), DURATION("duration", true), STRING("string", true), ID("ID", true), IDREF("IDREF", true), RESTRICTED(
-                            "restricted", false), TOKEN("token", false), LIST("list", false), COMPLEX("complex", false);
+    BOOLEAN("boolean", true), INT("int", true), INTEGER("integer", true), LONG("long", true), DOUBLE("double", true), DATE(
+            "date", true), TIME("time", true), DATETIME("datetime", true), DURATION("duration", true), STRING("string",
+            true), ID("ID", true), IDREF("IDREF", true), TOKEN("token", false), LIST("list", false), COMPLEX("complex",
+            false);
     
     // Attributes
     private final String name;
@@ -69,17 +69,6 @@ public enum NeutralSchemaType {
         }
         
         return isPrimitive;
-    }
-    
-    public static boolean isRestricted(QName qName) {
-        boolean isRestricted = false;
-        
-        NeutralSchemaType schemaType = findByName(qName);
-        if (schemaType != null) {
-            isRestricted = (schemaType.equals(RESTRICTED));
-        }
-        
-        return isRestricted;
     }
     
     public static NeutralSchemaType findByName(String name) {

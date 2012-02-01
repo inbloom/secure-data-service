@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -321,13 +322,21 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             /*
              * If we hit this conditional block, it means we need to create a new NeutralSchema to
              * represent this XML element that is defined in-line.
+             * 
+             * Try to use the element name as the type name, but there's no guarantee that's unique.
              */
             simpleSchema.setType(name);
-            NeutralSchema old = this.schemas.put(name, simpleSchema);
-            if (old != null) {
-                LOG.warn("Anonymous type added multiple times. Ensure usage is exactly the same or issues will occur: "
-                        + name);
+            if (this.schemas.containsKey(name)) {
+                NeutralSchema existing = this.schemas.get(name);
+                int i = 1;
+                while (existing != null && !schemasEqual(simpleSchema, existing)) {
+                    i++;
+                    name = name + i;
+                    simpleSchema.setType(name);
+                    existing = this.schemas.get(name);
+                }
             }
+            this.schemas.put(name, simpleSchema);
         }
         
         return simpleSchema;
@@ -588,6 +597,42 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             } else {
                 LOG.error("Unsupported XmlSchemaParticle item: " + particle.getClass().getCanonicalName());
             }
+        }
+    }
+    
+    private static boolean schemasEqual(NeutralSchema ns1, NeutralSchema ns2) {
+        if (ns1.getValidatorClass().equals(ns2.getValidatorClass()) && ns1.getVersion().equals(ns2.getVersion())
+                && ns1.getType().equals(ns2.getType()) && ns1.getFields().size() == ns2.getFields().size()) {
+            for (Entry<String, Object> entry : ns1.getFields().entrySet()) {
+                if (!ns2.getFields().containsKey(entry.getKey())) {
+                    return false;
+                }
+                if (!schemasEqual((NeutralSchema) entry.getValue(), (NeutralSchema) ns2.getFields().get(entry.getKey()))) {
+                    return false;
+                }
+            }
+            for (Entry<String, Object> entry : ns1.getProperties().entrySet()) {
+                if (!ns2.getProperties().containsKey(entry.getKey())) {
+                    return false;
+                }
+                if (!entry.getValue().getClass().equals(ns2.getProperties().get(entry.getKey()).getClass())) {
+                    return false;
+                }
+                if (entry.getValue() instanceof List) {
+                    List<?> list1 = (List<?>) entry.getValue();
+                    List<?> list2 = (List<?>) ns2.getProperties().get(entry.getKey());
+                    if (!list1.containsAll(list2)) {
+                        return false;
+                    }
+                } else {
+                    if (!entry.getValue().equals(ns2.getProperties().get(entry.getKey()))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }

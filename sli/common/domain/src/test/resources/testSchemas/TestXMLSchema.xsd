@@ -26,6 +26,76 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="testAnonymousSimpleType">
+				<xs:annotation>
+					<xs:documentation>
+						An anonymous simple type
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="testComplexContentExtension">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="complexType1">
+							<xs:sequence>
+								<xs:element name="extension1" type="complexType2"></xs:element>
+								<xs:element name="extension2" type="BaseSimpleType"></xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="WeeksInCycle">
+					<xs:annotation>
+						<xs:documentation>
+							The number of weeks in which the meeting time schedules repeat.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" />
+							<xs:maxInclusive value="52" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="TestComplexType2">
+		<xs:sequence>
+			<xs:element name="WeeksInCycle">
+					<xs:annotation>
+						<xs:documentation>
+							The number of weeks in which the meeting time schedules repeat.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" />
+							<xs:maxInclusive value="99" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="complexType1">
+		<xs:sequence>
+			<xs:element name="stringElement" type="xs:string">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="complexType2">
+		<xs:sequence>
+			<xs:element name="intElement" type="xs:int">
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
     
