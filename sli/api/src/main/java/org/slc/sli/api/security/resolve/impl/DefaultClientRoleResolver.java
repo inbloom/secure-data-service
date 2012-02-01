@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.security.resolve.ClientRoleManager;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityService;
 
@@ -21,7 +21,7 @@ import org.slc.sli.api.service.EntityService;
  * 
  */
 @Component
-public class DefaultClientRoleManager implements ClientRoleManager {
+public class DefaultClientRoleResolver implements ClientRoleResolver {
     
     @Autowired
     private RoleRightAccess roleRightAccess;
@@ -52,26 +52,6 @@ public class DefaultClientRoleManager implements ClientRoleManager {
      */
     public List<String> resolveRoles(String realmId, List<String> clientRoleNames) {
         return clientRoleNames;
-//        System.out.println("In resolveRoles()");
-//        List<String> result = new ArrayList<String>();
-//        for (String clientRoleName : clientRoleNames) {
-//            if (roleRightAccess.findRoleByName(clientRoleName) != null) {
-//                result.add(clientRoleName);
-//            } else {
-//                @SuppressWarnings("unchecked")
-//                Map<String, List<String>> mappings = (Map<String, List<String>>) service.get(realmId).get("mappings");
-//                System.out.println("--- Mappings are " + mappings + " and client role is " + clientRoleName);
-//                if (mappings != null) {
-//                    for (String key : mappings.keySet()) {
-//                        if (mappings.get(key).contains(clientRoleName)) {
-//                            result.add(clientRoleName);
-//                        }
-//                    }
-//                }
-//                
-//            }
-//        }
-//        return result;
     }
     
 }

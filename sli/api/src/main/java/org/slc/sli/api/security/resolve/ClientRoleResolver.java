@@ -6,7 +6,7 @@ import java.util.List;
  * Manager for mappings between client roles and SLI roles.
  * 
  */
-public interface ClientRoleManager {
+public interface ClientRoleResolver {
     
     /**
      * Given a list of client role names this returns the the corresponding SLI roles.
