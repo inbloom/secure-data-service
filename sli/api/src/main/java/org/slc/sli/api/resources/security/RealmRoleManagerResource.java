@@ -133,13 +133,13 @@ public class RealmRoleManagerResource {
     
     private boolean uniqueMappings(Map<String, List<String>> mappings) {
         // A crappy, inefficient way to ensure uniqueness of mappings.
-        for (String key : mappings.keySet()) {
-            List<String> clientRoles = mappings.get(key);
+        for (String sliRole : mappings.keySet()) {
+            List<String> clientRoles = mappings.get(sliRole);
             for (String clientRole : clientRoles) {
-                for (String secondKey : mappings.keySet()) {
-                    if (!secondKey.equals(key)) {
+                for (String otherSliRole : mappings.keySet()) {
+                    if (!otherSliRole.equals(sliRole)) {
                         List<String> secondClientRoles = mappings
-                                .get(secondKey);
+                                .get(otherSliRole);
                         if (secondClientRoles.contains(clientRole)) {
                             return false;
                         }
