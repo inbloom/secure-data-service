@@ -3,11 +3,12 @@ package org.slc.sli.validation.schema;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -34,6 +35,11 @@ public class ComplexSchema extends NeutralSchema {
         return false;
     }
     
+    @Override
+    public NeutralSchemaType getSchemaType() {
+        return NeutralSchemaType.COMPLEX;
+    }
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

@@ -35,9 +35,9 @@ import org.slc.sli.api.service.EntityService;
  */
 @Component
 @Scope("request")
-@Path("/realms")
+@Path("/realm")
 @Produces({ Resource.JSON_MEDIA_TYPE })
-public class ClientRoleManagerResource {
+public class RealmRoleManagerResource {
 
     @Autowired
     private EntityDefinitionStore store;
