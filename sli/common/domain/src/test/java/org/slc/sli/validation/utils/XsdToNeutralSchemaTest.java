@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -29,7 +31,10 @@ public class XsdToNeutralSchemaTest {
     
     @Test
     public void testSchema() throws IOException {
-        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("testSchemas",
+                new NeutralSchemaFactory());
+        Resource[] resources = {new FileSystemResource("src/test/resources/testSchemas/TestXMLSchema.xsd")};
+        repo.generateSchemas(resources);
         NeutralSchema schema = repo.getSchema("TestComplexType");
         assertNotNull(schema);
         assertEquals("TestComplexType", schema.getType());
