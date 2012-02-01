@@ -130,8 +130,13 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
+task :apiTests => [:sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
   displayFailureReport()
+end
+
+desc "Run Session Tests"
+task :sessionTests do
+  runFixtureAndTests("test/features/api/entities/session", "session", "session_fixture.json")
 end
 
 desc "Run Section Tests"
@@ -260,6 +265,11 @@ end
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
   runTests("test/features/dashboard/k3view.feature")
+end
+
+desc "Run Dashboard High School view Tests"
+task :dashboardHSViewTests do
+  runTests("test/features/dashboard/high_school_view.feature")
 end
 
 desc "Run Dashboard Program Participation and Student Info Tests"
