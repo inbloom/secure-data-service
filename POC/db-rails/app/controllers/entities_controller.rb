@@ -2,7 +2,7 @@ class EntitiesController < ApplicationController
   before_filter :set_url
   
   def set_url
-    # Entity.url_type = params[:type]
+    Entity.url_type = params[:type]
   end
   # GET /entities
   # GET /entities.json
