@@ -14,16 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "entityType", propOrder = { })
 @XmlRootElement(name = "entityType")
 public class EntityType {
-    private String name;
     private String value;
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
     
     public String getValue() {
         return value;

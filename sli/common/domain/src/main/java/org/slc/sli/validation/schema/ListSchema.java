@@ -4,11 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -34,6 +35,12 @@ public class ListSchema extends NeutralSchema {
     }
     
     // Methods
+    
+    @Override
+    public NeutralSchemaType getSchemaType() {
+        return NeutralSchemaType.LIST;
+    }
+
     public boolean isPrimitive() {
         return false;
     }

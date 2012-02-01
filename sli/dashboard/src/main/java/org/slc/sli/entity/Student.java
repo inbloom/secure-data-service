@@ -9,14 +9,14 @@ import org.slc.sli.util.Constants;
  */
 public class Student {
 
-    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServiceEligibility;
+    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServicesEligibility;
     
     public void setLimitedEnglishProficiency(String limitedEnglishProficiency) {
         this.limitedEnglishProficiency = limitedEnglishProficiency;
     }
 
-    public void setSchoolFoodServiceEligibility(String schoolFoodServiceEligibility) {
-        this.schoolFoodServiceEligibility = schoolFoodServiceEligibility;
+    public void setSchoolFoodServicesEligibility(String schoolFoodServicesEligibility) {
+        this.schoolFoodServicesEligibility = schoolFoodServicesEligibility;
     }
 
     private static String[] studentEntityProgramCodes = {Constants.PROGRAM_ELL, Constants.PROGRAM_FRE};
@@ -118,13 +118,23 @@ public class Student {
     
     private boolean hasSchoolFoodServiceEligibility() {
         for (Constants.FREParticipation part : Constants.FREParticipation.values()) {
-            if (schoolFoodServiceEligibility.equals(part.getValue())) {
+            if (schoolFoodServicesEligibility.equals(part.getValue())) {
                 return true;
             }
         }
         return false;
     }
     
+    /*
+    private boolean isLimitedEnglishProficient() {
+        return (limitedEnglishProficiency != null) && (limitedEnglishProficiency.equals("Yes"));
+    }
+    
+    
+    private boolean isSchoolFoodServiceEligile() {
+        return (schoolFoodServicesEligibility != null) && (schoolFoodServicesEligibility.equals("Free"));
+    }
+    */
     
     
 }

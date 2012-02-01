@@ -28,18 +28,15 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+    DirtiesContextTestExecutionListener.class })
 public class DefaultClientRoleManagerTest {
-
+    
     @Autowired
     private DefaultClientRoleManager roleManager;
-
-    @Autowired
-    private InsecureRoleRightAccessImpl mockAccess;
-
+    
     private static final String MOCK_REALM_ID = "mock_realm_id";
     private List<String> allRoles;
-
+    
     @Before
     public void setUp() {
         allRoles = new ArrayList<String>();
@@ -47,31 +44,31 @@ public class DefaultClientRoleManagerTest {
         allRoles.add(InsecureRoleRightAccessImpl.EDUCATOR);
         allRoles.add(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
         allRoles.add(InsecureRoleRightAccessImpl.LEADER);
-
+        
         try {
             roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Coach");
             roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.EDUCATOR, "Math Teacher");
             roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.IT_ADMINISTRATOR, "Moss");
         } catch (RealmRoleMappingException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            return;
         }
-
+        
     }
-
+    
     @Test
     public void testAddClientRole() {
         try {
             roleManager.addClientRole(MOCK_REALM_ID, InsecureRoleRightAccessImpl.LEADER, "Superintendent");
         } catch (RealmRoleMappingException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            return;
         }
         String sliRole = roleManager.getSliRoleName(MOCK_REALM_ID, "Superintendent");
         Assert.assertNotNull(sliRole);
         Assert.assertTrue(sliRole.equals(InsecureRoleRightAccessImpl.LEADER));
     }
-
+    
     @Test
     public void testDeleteClientRole() {
         Assert.assertEquals(InsecureRoleRightAccessImpl.EDUCATOR, roleManager.getSliRoleName(MOCK_REALM_ID, "Coach"));

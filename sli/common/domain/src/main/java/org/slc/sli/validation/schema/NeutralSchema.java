@@ -50,6 +50,8 @@ public class NeutralSchema {
     private String readConverter = null;
     private String writeConverter = null;
     
+    private boolean isPersonallyIdentifiableInfo = false;
+    
     // Constructors
     public NeutralSchema() {
     }
@@ -118,6 +120,14 @@ public class NeutralSchema {
         return fields;
     }
     
+    public boolean isPersonallyIdentifiableInfo() {
+        return isPersonallyIdentifiableInfo;
+    }
+    
+    public void isPersonallyIdentifiableInfo(boolean pii) {
+        isPersonallyIdentifiableInfo = pii;
+    }
+
     // Future Methods
     @JsonIgnore
     public void setDocProperties(Properties properties) {
