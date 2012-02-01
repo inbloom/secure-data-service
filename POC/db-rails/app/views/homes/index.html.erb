@@ -1,4 +1,4 @@
-<h1>Listing entities</h1>
+<h1>Listing homes</h1>
 
 <table>
   <tr>
@@ -7,11 +7,12 @@
     <th></th>
   </tr>
 
-<% @entities.each do |entity| %>
+<% @homes.each do |home| %>
   <tr>
-    <td></td>
+    <td><%= link_to 'Show', home %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
+
