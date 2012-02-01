@@ -103,12 +103,12 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="StaffReference" type="StaffSimpleReference" maxOccurs="unbounded">
+				<xs:element name="staffId" type="xs:string" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the cohort of students.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="CohortReference" type="CohortReference" maxOccurs="unbounded">
+				<xs:element name="cohortId" type="xs:string" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Reference to the cohort associated with the staff.</xs:documentation>
 					</xs:annotation>

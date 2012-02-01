@@ -189,12 +189,12 @@
 							enforcement or other organization.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SchoolReference" type="SchoolSimpleReference">
+				<xs:element name="schoolId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>School where incident occurred</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="StaffReference" type="StaffSimpleReference" minOccurs="0">
+				<xs:element name="staffId" type="xs:string" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Identifies the staff reporter of the incident by use
 							of a pre-existing school or district unique
@@ -213,13 +213,13 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="StudentReference" type="StudentSimpleReference">
+				<xs:element name="studentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The student associated with the discipline
 							incident.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="DisciplineIncidentReference" type="DisciplineIncidentSimpleReference">
+				<xs:element name="disciplineIncidentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Reference to the discipline incident associated with the
 							student.</xs:documentation>
