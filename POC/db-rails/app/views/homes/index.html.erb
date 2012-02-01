@@ -1,0 +1,18 @@
+<h1>Listing homes</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @homes.each do |home| %>
+  <tr>
+    <td><%= link_to 'Show', home %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

@@ -51,7 +51,8 @@ public class NeutralSchemaValidator implements EntityValidator {
         
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema == null) {
-            throw new RuntimeException("No schema associated for type: " + entity.getType());
+            LOG.warn("No schema associatiated for type {}", entity.getType());
+            return true;
         }
         
         List<ValidationError> errors = new LinkedList<ValidationError>();

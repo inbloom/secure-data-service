@@ -1,7 +1,7 @@
 <html>
-+<head>
-+<link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
-+</head>
+<head>
+<link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
+</head>
 
 <body>
 

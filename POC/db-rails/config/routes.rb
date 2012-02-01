@@ -1,5 +1,9 @@
 DbRails::Application.routes.draw do
-  resources :entities
+  resources :homes
+
+  # resources :entities
+  match 'entities/:type' => 'entities#index'
+  match 'entities/:type/:id' => 'entities#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

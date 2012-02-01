@@ -1,6 +1,7 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,27 +49,28 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Component("basicService")
 public class BasicService implements EntityService {
     
-    private static final Logger  LOG                    = LoggerFactory.getLogger(BasicService.class);
+    private static final Logger       LOG                    = LoggerFactory.getLogger(BasicService.class);
     
-    private static final String  READ_ENFORCEMENT_VALUE = "restricted";
-    private static final String  READ_ENFORCEMENT       = "read_enforcement";
-    private static final int     MAX_RESULT_SIZE        = 9999;
+    private static final List<String> ADMIN_SPHERE           = Arrays.asList("realm", "role");
+    private static final String       READ_ENFORCEMENT_VALUE = "restricted";
+    private static final String       READ_ENFORCEMENT       = "read_enforcement";
+    private static final int          MAX_RESULT_SIZE        = 9999;
     
-    private String               collectionName;
-    private List<Treatment>      treatments;
-    private EntityDefinition     defn;
-    
-    @Autowired
-    private EntityRepository     repo;
+    private String                    collectionName;
+    private List<Treatment>           treatments;
+    private EntityDefinition          defn;
     
     @Autowired
-    private ContextResolverStore contextResolverStore;
+    private EntityRepository          repo;
     
     @Autowired
-    private EntitySchemaRegistry schemaRegistry;
+    private ContextResolverStore      contextResolverStore;
     
     @Autowired
-    private IdConverter          idConverter;
+    private EntitySchemaRegistry      schemaRegistry;
+    
+    @Autowired
+    private IdConverter               idConverter;
     
     public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
@@ -286,7 +288,11 @@ public class BasicService implements EntityService {
         
     }
     
-    private void checkRights(Right right) {
+    private void checkRights(Right neededRight) {
+        
+        if (ADMIN_SPHERE.contains(this.defn.getType())) {
+            neededRight = Right.ADMIN_ACCESS;
+        }
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
@@ -298,8 +304,8 @@ public class BasicService implements EntityService {
         
         if (auths.contains(Right.FULL_ACCESS)) {
             LOG.debug("User has full access");
-        } else if (auths.contains(right)) {
-            LOG.debug("User has needed right: " + right);
+        } else if (auths.contains(neededRight)) {
+            LOG.debug("User has needed right: " + neededRight);
         } else {
             throw new AccessDeniedException("Insufficient Privileges");
         }
