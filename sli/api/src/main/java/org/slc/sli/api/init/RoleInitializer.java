@@ -32,56 +32,30 @@ public class RoleInitializer {
     
     private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String  ROLES             = "roles";
-    private static final String AGGREGATE_READ    = "AGGREGATE_READ";
-    private static final String AGGREGATE_WRITE   = "AGGREGATE_WRITE";
-    private static final String READ_GENERAL      = "READ_GENERAL";
-    private static final String READ_RESTRICTED   = "READ_RESTRICTED";
-    private static final String WRITE_GENERAL     = "WRITE_GENERAL";
-    private static final String WRITE_RESTRICTED  = "WRITE_RESTRICTED";
-    
+
     @Autowired
     private EntityRepository    repository;
     
     @PostConstruct
     public void init() {
+        dropRoles();
         buildRoles();
+    }
+    
+    private void dropRoles() {
+        repository.deleteAll(ROLES);
     }
     
     public int buildRoles() {
         Iterable<Entity> subset = repository.findAll(ROLES);
         Set<Role> createdRoles = new HashSet<Role>();
-        
-        boolean hasEducator = false;
-        boolean hasLeader = false;
-        boolean hasIT = false;
-        boolean hasAggregate = false;
-        boolean hasSLIAdmin = false;
-        
-        for (Entity entity : subset) {
-            Map<String, Object> body = entity.getBody();
-            if (body.get("name").equals(EDUCATOR)) {
-                hasEducator = true;
-            } else if (body.get("name").equals(AGGREGATE_VIEWER)) {
-                hasAggregate = true;
-            } else if (body.get("name").equals(IT_ADMINISTRATOR)) {
-                hasIT = true;
-            } else if (body.get("name").equals(LEADER)) {
-                hasLeader = true;
-            } else if (body.get("name").equals(SLI_ADMINISTRATOR)) {
-                hasSLIAdmin = true;
-            }
-        }
-        if (!hasAggregate)
-            createdRoles.add(buildAggregate());
-        if (!hasLeader)
-            createdRoles.add(buildLeader());
-        if (!hasIT)
-            createdRoles.add(buildIT());
-        if (!hasEducator)
-            createdRoles.add(buildEducator());
-        
-        if (!hasSLIAdmin)
-            createdRoles.add(buildSLIAdmin());
+
+        createdRoles.add(buildAggregate());
+        createdRoles.add(buildLeader());
+        createdRoles.add(buildIT());
+        createdRoles.add(buildEducator());
+        createdRoles.add(buildSLIAdmin());
+
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
         }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.mockito.Mockito;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.InsecureRoleRightAccessImpl;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -38,7 +39,7 @@ public class SecurityContextInjector {
     public void setAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";
-        List<String> roles = Arrays.asList(InsecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
         
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
@@ -61,19 +62,22 @@ public class SecurityContextInjector {
         this.resolver = resolver;
     }
     
-    private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, SLIPrincipal principal) {
-        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
-        Set<GrantedAuthority> grantedAuthorities = this.resolver.resolveRoles(principal.getRealm(), principal.getRoles());
-        SecurityContextHolder.clearContext();
-        
-        PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
-        return preAuthenticatedAuthenticationToken;
+    private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, final SLIPrincipal principal) {
+        final RolesToRightsResolver finalResolver = this.resolver;
+        Set<GrantedAuthority> authorities = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Set<GrantedAuthority>>() {
+            @Override
+            public Set<GrantedAuthority> execute() {
+                return finalResolver.resolveRoles(principal.getRealm(), principal.getRoles());
+            }
+        });
+                
+        return new PreAuthenticatedAuthenticationToken(principal, token, authorities);
     }
     
     public void setEducatorContext() {
         String user = "educator";
         String fullName = "Educator";
-        List<String> roles = Arrays.asList(InsecureRoleRightAccessImpl.EDUCATOR);
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
         
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
