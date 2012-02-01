@@ -11,7 +11,7 @@
 
 <#-- TODO: find better way to pass freemarker variable to javascript -->
 <script type="text/javascript">
-var schools = ${schoolList};
+var instHeirarchy = ${instHeirarchy};
 $.ajaxSetup ({cache: false});
 </script>
 

@@ -1,0 +1,11 @@
+[
+   {
+      "id": "Mock district", 
+      "organizationCategories":[
+         "Local_Education_Agency"
+      ],
+      "address":[],
+      "stateOrganizationId":"Mock district",
+      "nameOfInstitution":"Mock district"
+   }
+]

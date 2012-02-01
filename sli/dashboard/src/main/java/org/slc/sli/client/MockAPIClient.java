@@ -18,6 +18,9 @@ import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.EducationalOrganization;
+import org.slc.sli.entity.SchoolEducationalOrganizationAssociation;
+import org.slc.sli.entity.EducationalOrganizationAssociation;
 
 /**
  * 
@@ -99,6 +102,22 @@ public class MockAPIClient implements APIClient {
         StudentProgramAssociation[] retVal = new StudentProgramAssociation[filtered.size()];
         return filtered.toArray(retVal);
     }
+
+    @Override
+    public EducationalOrganization[] getEducationalOrganizations(final String token) {
+        return fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
+    }
+    
+    @Override
+    public SchoolEducationalOrganizationAssociation[] getSchoolEducationalOrganizationAssociations(final String token) {
+        return fromFile(getFilename("mock_data/" + token + "/school_educational_organization_association.json"), SchoolEducationalOrganizationAssociation[].class);
+    }
+    
+    @Override
+    public EducationalOrganizationAssociation[] getEducationalOrganizationAssociations(final String token) {
+        return fromFile(getFilename("mock_data/" + token + "/educational_organization_association.json"), EducationalOrganizationAssociation[].class);
+    }
+    
 
     // Helper function to translate a .json file into object. 
     public static <T> T[] fromFile(String fileName, Class<T[]> c) {
