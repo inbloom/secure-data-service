@@ -10,19 +10,7 @@
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd"
 	default-autowire="byName">
 
+	<context:component-scan base-package="org.slc.sli.validation" />
 	<bean id="entityValidator" class = "org.slc.sli.validation.AvroEntityValidator"/>
-    
-    <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory"/>
-    
-    <bean id="schemaRepo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo">
-        <constructor-arg type="java.lang.String" value="classpath:testSchemas"/>
-        <constructor-arg><ref bean="schemaFactory"/></constructor-arg>
-    </bean>
-    
-    <bean id="neutralSchemaValidator" class="org.slc.sli.validation.schema.NeutralSchemaValidator">
-        <constructor-arg type="org.slc.sli.validation.SchemaRepository"><ref bean="schemaRepo"/></constructor-arg>
-    </bean>
-
-    <context:component-scan base-package="org.slc.sli.validation" />
 
 </beans>
