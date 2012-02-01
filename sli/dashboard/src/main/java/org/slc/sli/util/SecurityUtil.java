@@ -19,9 +19,12 @@ public class SecurityUtil {
     
     public static String getToken() {
         UserDetails user = getPrincipal();
+        System.out.println("******** User.getUsername: " + user.getUsername());
         if (user instanceof SLIPrincipal) {
-            return ((SLIPrincipal) user).getId();
+            System.out.println("******** User.getId: " + ((SLIPrincipal) user).getId());
+        	return ((SLIPrincipal) user).getId();
         } else {
+        	
             // gets here in mock server mode
             return user.getUsername();
         }
