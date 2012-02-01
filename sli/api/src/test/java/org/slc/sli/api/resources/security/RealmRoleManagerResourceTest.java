@@ -31,9 +31,9 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class })
-public class ClientRoleManagerResourceTest {
+public class RealmRoleManagerResourceTest {
     @Autowired
-    private ClientRoleManagerResource resource;
+    private RealmRoleManagerResource resource;
     
     @Autowired
     private SecurityContextInjector injector;
