@@ -14,7 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -69,23 +71,26 @@ public class RealmRoleManagerResource {
     @PUT
     @Path("{realmId}")
     @Consumes("application/json")
-    public boolean updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
+    public Response updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
         if (updatedRealm == null) {
             throw new EntityNotFoundException("Entity was null");
         }
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
         if (mappings != null) {
             if (!uniqueMappings(mappings)) {
-                return false;
+                return Response.status(Status.FORBIDDEN).build();
              }
             
             for (String sliRole : mappings.keySet()) {
                 if (roleRightAccess.getDefaultRole(sliRole) == null) {
-                    return false;
+                    return Response.status(Status.FORBIDDEN).build();
                 }
             }
         }
-        return service.update(realmId, updatedRealm);
+        if (service.update(realmId, updatedRealm)) {
+            return Response.status(Status.NO_CONTENT).build();
+        }
+        return Response.status(Status.FORBIDDEN).build();
     }
 
 //    @DELETE
