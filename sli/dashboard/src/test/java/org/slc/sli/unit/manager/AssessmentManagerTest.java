@@ -48,7 +48,7 @@ public class AssessmentManagerTest {
         aManager.setApiClient(mockClient);
         List<Assessment> assmts = aManager.getAssessments("lkim", studentIds, config);
         
-        assertEquals(111, assmts.size()); 
+        assertEquals(8, assmts.size()); // should be 4 assessments per student id 
     }
     
 

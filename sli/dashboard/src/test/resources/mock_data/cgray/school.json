@@ -12,7 +12,7 @@
             "course": "Writing about Government",
             "sections": [
                 {
-                    "uniqueSectionCode": "Sec 923",
+                    "sectionName": "Sec 923",
                     "studentUIDs": [
             	        "525878920",
                         "510152105"
@@ -27,13 +27,13 @@
             "course": "American Literature",
             "sections": [
                 {
-                    "uniqueSectionCode": "Sec 142"
+                    "sectionName": "Sec 142"
                 },
                 {
-                    "uniqueSectionCode": "Sec 143"
+                    "sectionName": "Sec 143"
                 },
                 {
-                    "uniqueSectionCode": "Sec 144",
+                    "sectionName": "Sec 144",
                     "studentUIDs": [
                                  "802709591",
                                  "437680177",
@@ -62,7 +62,7 @@
                                 ]
                 },
                 {
-                    "uniqueSectionCode": "Sec 145",
+                    "sectionName": "Sec 145",
                     "studentUIDs": [
                                   "555685100",
                                   "453827023",
