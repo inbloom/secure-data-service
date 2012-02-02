@@ -108,7 +108,7 @@ public class InstitutionalHeirarchyManager extends Manager {
         if (orphanSchools.size() > 0) {
             try {
                 JSONObject obj = new JSONObject();
-                obj.put(NAME, "Dummy EdOrg (Temporary)");
+                obj.put(NAME, "Dummy Ed-Org");
                 School [] orphanSchoolsArr = new School[orphanSchools.size()];
                 Gson gson = new Gson();
                 String schoolJSONString = gson.toJson(orphanSchools.toArray(orphanSchoolsArr));

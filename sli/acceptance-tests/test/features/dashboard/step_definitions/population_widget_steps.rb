@@ -57,6 +57,13 @@ Then /^I see a list of (\d+) students$/ do |numOfStudents|
   assert(actualCount != numOfStudents, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
 end
 
+When /^I select ed org "([^"]*)"$/ do |optionToSelect|
+  @dropDownId = "edOrgSelect"
+  puts "@dropDownId = " + @dropDownId
+  selectOption(@dropDownId, optionToSelect)
+  @dropDownId = "schoolSelect"
+end
+
 When /^I select school "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "schoolSelect"
   puts "@dropDownId = " + @dropDownId
