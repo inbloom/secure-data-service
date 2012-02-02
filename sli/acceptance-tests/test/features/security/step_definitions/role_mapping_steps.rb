@@ -3,13 +3,14 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 
 Transform /^realm "([^"]*)"$/ do |arg1|
-  id = "eb4d7e1b-7bed-890a-d574-8da22127fd2d" if arg1 == "SLI"
-  id = "eb4d7e1b-7bed-890a-d974-8da22127fd2d" if arg1 == "Fake Realm"
-  id = "eb4d7e1b-7bed-890a-d5b4-8da22127fd2d" if arg1 == "Another Realm"
+  id = "4cb03fa0-83ad-46e2-a936-09ab31af377e" if arg1 == "SLI"
+  id = "4cfcbe8d-832d-40f2-a9ba-0a6f1daf3741" if arg1 == "Fake Realm"
+  id = "45b03fa0-1bad-4606-a936-09ab71af37fe" if arg1 == "Another Fake Realm"
+  id
 end
 
 Given /^I have not yet authenticated$/ do
-  @sessionId = nil
+  @sessionId = ""
 end
 
 When /^I make a call to get the list of realms$/ do
@@ -60,11 +61,13 @@ When /^I POST a new realm$/ do
   data["idp"]  =  "http://devdanil.slidev.org:8080/idp"
   dataFormatted = prepareData("application/json", data)
   restHttpPost("/realm", dataFormatted)
-  assert(result != nil, "Response from rest-client POST is nil")
+  assert(@res != nil, "Response from rest-client POST is nil")
 end
 
 Then /^I should receive a new ID for my new realm$/ do
-  pending # express the regexp above with the code you wish you had
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result["id"] != nil, "No ID was returned for created object")
 end
 
 When /^I GET a list of realms$/ do
@@ -90,14 +93,13 @@ end
 When /^I PUT to change the (realm "[^"]*") to add a mapping between default role "([^"]*)" to role "([^"]*)"$/ do |arg1, arg2, arg3|
   restHttpGet("/realm/" + arg1) 
   assert(@res != nil, "Response from rest-client GET is nil")
-  data = json.parse(@res.body)
+  data = JSON.parse(@res.body)
   curMappings = data["mappings"]
   curMappings[arg2].push arg3
   data["mappings"] = curMappings
   dataFormatted = prepareData("application/json", data)
   restHttpPut("/realm/" + arg1, dataFormatted)
   assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.code == 204, "Return code was not expected, got " + @res.code + " but expected 204")
 end
 
 When /^I DELETE the (realm "[^"]*")$/ do |arg1|
@@ -106,5 +108,5 @@ When /^I DELETE the (realm "[^"]*")$/ do |arg1|
 end
 
 When /^I add a mapping between default role "([^"]*)" and custom role "([^"]*)" for realm "([^"]*)"$/ do |arg1, arg2, arg3|
-  pending # express the regexp above with the code you wish you had
+  step "I PUT to change the realm \"#{arg3}\" to add a mapping between default role \"#{arg1}\" to role \"#{arg2}\""
 end
