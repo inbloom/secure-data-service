@@ -84,12 +84,12 @@ public class RealmRoleManagerResource {
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
         if (mappings != null) {
             if (!uniqueMappings(mappings)) {
-                return Response.status(Status.FORBIDDEN).entity("Client role cannot map to different SLI roles").build();
+                return Response.status(Status.BAD_REQUEST).entity("Client role cannot map to different SLI roles").build();
              }
             
             for (String sliRole : mappings.keySet()) {
                 if (roleRightAccess.getDefaultRole(sliRole) == null) {
-                    return Response.status(Status.FORBIDDEN).build();
+                    return Response.status(Status.BAD_REQUEST).build();
                 }
                 
                 Set<String> clientSet = new HashSet<String>();
@@ -97,14 +97,14 @@ public class RealmRoleManagerResource {
                     clientSet.add(clientRole);
                 }
                 if (clientSet.size() < mappings.get(sliRole).size()) {
-                    return Response.status(Status.FORBIDDEN).entity("Cannot have duplicate client roles").build();
+                    return Response.status(Status.BAD_REQUEST).entity("Cannot have duplicate client roles").build();
                 }
             }
         }
         if (service.update(realmId, updatedRealm)) {
             return Response.status(Status.NO_CONTENT).build();
         }
-        return Response.status(Status.FORBIDDEN).build();
+        return Response.status(Status.BAD_REQUEST).build();
     }
 
     @DELETE
