@@ -3,7 +3,7 @@
 	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
 	<xs:complexType name="StaffIdentificationCode">
 		<xs:annotation>
@@ -127,7 +127,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+					<xs:element name="EducationOrganizationReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The Education Organization associated with the
 								credential field definition.
@@ -480,7 +480,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StaffReference" type="StaffSimpleReference">
+					<xs:element name="StaffReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The staff associated with this leave event.
 							</xs:documentation>
@@ -588,7 +588,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+					<xs:element name="EducationOrganizationReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The Education Organization with the open staff
 								position.
@@ -611,13 +611,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffSimpleReference">
+			<xs:element name="StaffReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The staff employed by the education organization.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+			<xs:element name="EducationOrganizationReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The Education Organization with which the staff
 						is employed.
@@ -673,13 +673,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffSimpleReference">
+			<xs:element name="StaffReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The staff assigned to the education organization.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+			<xs:element name="EducationOrganizationReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
 						memeber
