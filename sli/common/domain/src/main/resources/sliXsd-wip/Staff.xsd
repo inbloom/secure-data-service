@@ -462,7 +462,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="HoursOnLeave" type="xs:decimal"
+					<xs:element name="HoursOnLeave" type="xs:double"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The hours the staff was absent, if not the
