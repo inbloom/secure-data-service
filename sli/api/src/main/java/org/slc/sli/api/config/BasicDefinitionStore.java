@@ -52,6 +52,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         this.makeExposeAndAddEntityDefinition("aggregation");
         this.makeExposeAndAddEntityDefinition("aggregationDefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
+        EntityDefinition course = this.makeExposeAndAddEntityDefinition("course");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
         EntityDefinition session = this.makeExposeAndAddEntityDefinition("session");
@@ -141,6 +142,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
                 .build();
         addAssocDefinition(schoolSessionAssociation);
+
+        AssociationDefinition sessionCourseAssociation = factory.makeAssoc("sessionCourseAssociation")
+                .exposeAs("session-course-associations").storeAs("sessionCourseAssociation")
+                .from(session, "getSession", "getSessions").to(course, "getCourse", "getCourses")
+                .calledFromSource("getSessionCourseAssociations").calledFromTarget("getSessionCourseAssociations")
+                .build();
+        addAssocDefinition(sessionCourseAssociation);
 
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();

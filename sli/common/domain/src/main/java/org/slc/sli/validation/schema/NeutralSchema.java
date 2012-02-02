@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
@@ -51,6 +52,9 @@ public class NeutralSchema {
     private String writeConverter = null;
     
     private boolean isPersonallyIdentifiableInfo = false;
+    private Right readAuthority = Right.READ_GENERAL;
+    private Right writeAuthority = Right.WRITE_GENERAL;
+    private String documentation = null;
     
     // Constructors
     public NeutralSchema() {
@@ -127,7 +131,31 @@ public class NeutralSchema {
     public void isPersonallyIdentifiableInfo(boolean pii) {
         isPersonallyIdentifiableInfo = pii;
     }
-
+    
+    public Right getReadAuthority() {
+        return readAuthority;
+    }
+    
+    public void setReadAuthority(Right readAuthority) {
+        this.readAuthority = readAuthority;
+    }
+    
+    public Right getWriteAuthority() {
+        return writeAuthority;
+    }
+    
+    public void setWriteAuthority(Right writeAuthority) {
+        this.writeAuthority = writeAuthority;
+    }
+    
+    public String getDocumentation() {
+        return documentation;
+    }
+    
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+    
     // Future Methods
     @JsonIgnore
     public void setDocProperties(Properties properties) {

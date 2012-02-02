@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -17,6 +18,7 @@ import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaComplexContentExtension;
 import org.apache.ws.commons.schema.XmlSchemaComplexType;
 import org.apache.ws.commons.schema.XmlSchemaContent;
+import org.apache.ws.commons.schema.XmlSchemaDocumentation;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaEnumerationFacet;
 import org.apache.ws.commons.schema.XmlSchemaFacet;
@@ -41,9 +43,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaFactory;
 import org.slc.sli.validation.SchemaRepository;
@@ -55,6 +60,7 @@ import org.slc.sli.validation.schema.TokenSchema;
  * Generation tool used to convert XSD to SLI Neutral Schema.
  * This class leverages the prior art/work by Ryan Farris to convert XSD to Avro style schemas.
  * 
+ * @author Aaron Saarela <asaarela@wgen.net>
  * @author Ryan Farris <rfarris@wgen.net>
  * @author Robert Bloh <rbloh@wgen.net>
  * 
@@ -69,6 +75,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     public static final String DEFAULT_INPUT_XSD_PATH = "xsd";
     public static final String XSD = "xsd";
     private static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
+    private static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
+    private static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
     private static final String SLI_XSD_NAMESPACE = "http://slc-sli/ed-org/0.1";
     
     // Attributes
@@ -203,11 +211,14 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     }
     
     private NeutralSchema parse(XmlSchemaType type, String name, XmlSchema schema) {
+        
         if (type instanceof XmlSchemaComplexType) {
             NeutralSchema complexSchema = getSchemaFactory().createSchema(name);
             return parseComplexType((XmlSchemaComplexType) type, complexSchema, schema);
+            
         } else if (type instanceof XmlSchemaSimpleType) {
             return parseSimpleType((XmlSchemaSimpleType) type, schema, name);
+            
         } else {
             throw new RuntimeException("Unsupported schema type: " + type.getClass().getCanonicalName());
         }
@@ -220,26 +231,34 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         
         if (NeutralSchemaType.isPrimitive(schemaSimpleType.getQName())) {
             simpleSchema = getSchemaFactory().createSchema(schemaSimpleType.getQName());
+            
         } else if (NeutralSchemaType.exists(schemaSimpleType.getBaseSchemaTypeName())) {
+            
             if (NeutralSchemaType.isPrimitive(schemaSimpleType.getBaseSchemaTypeName())) {
                 simpleSchema = getSchemaFactory().createSchema(schemaSimpleType.getBaseSchemaTypeName());
+                
             } else {
                 XmlSchemaSimpleType simpleBaseType = getSimpleBaseType(schemaSimpleType.getBaseSchemaTypeName(), schema);
                 if (simpleBaseType != null) {
+                    
                     if (simpleTypeName == null) {
                         simpleTypeName = simpleBaseType.getName();
                     }
                     simpleSchema = getSchemaFactory().createSchema(simpleTypeName);
                 }
             }
+            
         } else if (schemaSimpleType.getContent() != null
                 && schemaSimpleType.getContent() instanceof XmlSchemaSimpleTypeList) {
+            
             ListSchema listSchema = (ListSchema) getSchemaFactory().createSchema("list");
             
             XmlSchemaSimpleTypeList content = (XmlSchemaSimpleTypeList) schemaSimpleType.getContent();
             NeutralSchema listContentSchema = null;
+            
             if (content.getItemType() != null) {
                 listContentSchema = parseSimpleType(content.getItemType(), schema, null);
+                
             } else {
                 QName itemTypeName = content.getItemTypeName();
                 listContentSchema = getSchemaFactory().createSchema(itemTypeName.getLocalPart());
@@ -248,9 +267,12 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             return listSchema;
             
         } else if (getSimpleContentTypeName(schemaSimpleType) != null) {
+            
             if (NeutralSchemaType.isPrimitive(getSimpleContentTypeName(schemaSimpleType))) {
                 simpleSchema = getSchemaFactory().createSchema(getSimpleContentTypeName(schemaSimpleType));
+                
             } else {
+                
                 XmlSchemaSimpleType simpleBaseType = getSimpleBaseType(getSimpleContentTypeName(schemaSimpleType),
                         schema);
                 if (simpleBaseType != null) {
@@ -290,56 +312,102 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             }
         }
         
-        // See if this element contains personally identifiable information (PII)
-        if (simpleSchema != null && schemaSimpleType.getAnnotation() != null) {
-            XmlSchemaObjectCollection annotations = schemaSimpleType.getAnnotation().getItems();
-            
-            // The PII flag is set in AppInfo, which is contained within an Annotation element.
-            // There may be multiple annotations on this object, so iterate over them.
-            for (int annotationIdx = 0; annotationIdx < annotations.getCount(); ++annotationIdx) {
-                XmlSchemaObject annotation = annotations.getItem(annotationIdx);
-                
-                if (annotation instanceof XmlSchemaAppInfo) {
-                    XmlSchemaAppInfo info = (XmlSchemaAppInfo) annotation;
-                    
-                    NodeList appInfoNodes = info.getMarkup();
-                    for (int appInfoNodeIdx = 0; annotationIdx < appInfoNodes.getLength(); ++appInfoNodeIdx) {
-                        
-                        if (appInfoNodes.item(appInfoNodeIdx) instanceof Element) {
-                            
-                            Element e = (Element) appInfoNodes.item(appInfoNodeIdx);
-                            NodeList sli = e.getElementsByTagNameNS(SLI_XSD_NAMESPACE, PII_ELEMENT_NAME);
-                            if (sli.getLength() > 1) {
-                                
-                                // Note: multiple PII annotations on the same type should fail
-                                // XSD validation so we don't check for this situation here. If
-                                // there are duplicate PII elements, the last one parsed wins.
-                                String piiValue = sli.item(0).getNodeValue();
-                                simpleSchema.isPersonallyIdentifiableInfo(Boolean.parseBoolean(piiValue));
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        parseAnnotations(simpleSchema, schemaSimpleType);
         
         if ((simpleSchema != null) && (simpleTypeName != null)) {
             simpleSchema.setType(simpleTypeName);
+            
         } else if (simpleSchema != null && simpleTypeName == null && name != null
                 && simpleSchema.getProperties().size() > 0) {
             /*
              * If we hit this conditional block, it means we need to create a new NeutralSchema to
              * represent this XML element that is defined in-line.
+             * 
+             * Try to use the element name as the type name, but there's no guarantee that's unique.
              */
             simpleSchema.setType(name);
-            NeutralSchema old = this.schemas.put(name, simpleSchema);
-            if (old != null) {
-                LOG.warn("Anonymous type added multiple times. Ensure usage is exactly the same or issues will occur: "
-                        + name);
+            if (this.schemas.containsKey(name)) {
+                NeutralSchema existing = this.schemas.get(name);
+                int i = 1;
+                while (existing != null && !schemasEqual(simpleSchema, existing)) {
+                    i++;
+                    name = name + i;
+                    simpleSchema.setType(name);
+                    existing = this.schemas.get(name);
+                }
             }
+            this.schemas.put(name, simpleSchema);
         }
         
         return simpleSchema;
+    }
+    
+    private void parseAnnotations(NeutralSchema neutralSchema, XmlSchemaType schemaType) {
+        
+        if (neutralSchema == null || schemaType == null || schemaType.getAnnotation() == null) {
+            return;
+        }
+        
+        parseDocumentation(neutralSchema, schemaType);
+        parseAppInfo(neutralSchema, schemaType);
+    }
+    
+    private void parseDocumentation(NeutralSchema neutralSchema, XmlSchemaType schemaType) {
+        XmlSchemaObjectCollection annotations = schemaType.getAnnotation().getItems();
+        for (int annotationIdx = 0; annotationIdx < annotations.getCount(); ++annotationIdx) {
+            
+            XmlSchemaObject annotation = annotations.getItem(annotationIdx);
+            if (annotation instanceof XmlSchemaDocumentation) {
+                XmlSchemaDocumentation docs = (XmlSchemaDocumentation) annotation;
+                
+                NodeList docNodes = docs.getMarkup();
+                for (int docNodeIdx = 0; docNodeIdx < docNodes.getLength(); ++docNodeIdx) {
+                    Node node = docNodes.item(docNodeIdx);
+                    
+                    if (node instanceof Text) {
+                        Text e = (Text) node;
+                        neutralSchema.setDocumentation(e.getNodeValue());
+                    }
+                }
+            }
+        }
+    }
+    
+    private void parseAppInfo(NeutralSchema neutralSchema, XmlSchemaType schemaType) {
+        
+        XmlSchemaObjectCollection annotations = schemaType.getAnnotation().getItems();
+        
+        for (int annotationIdx = 0; annotationIdx < annotations.getCount(); ++annotationIdx) {
+            
+            XmlSchemaObject annotation = annotations.getItem(annotationIdx);
+            if (annotation instanceof XmlSchemaAppInfo) {
+                XmlSchemaAppInfo info = (XmlSchemaAppInfo) annotation;
+                
+                NodeList appInfoNodes = info.getMarkup();
+                for (int appInfoNodeIdx = 0; appInfoNodeIdx < appInfoNodes.getLength(); ++appInfoNodeIdx) {
+                    
+                    Node node = appInfoNodes.item(appInfoNodeIdx);
+                    if (node instanceof Element) {
+                        Element e = (Element) node;
+                        
+                        if (!e.getNamespaceURI().equals(SLI_XSD_NAMESPACE)) {
+                            continue;
+                        }
+                        
+                        String value = e.getFirstChild().getNodeValue().trim();
+                        if (e.getLocalName().equals(PII_ELEMENT_NAME)) {
+                            neutralSchema.isPersonallyIdentifiableInfo(Boolean.parseBoolean(value));
+                            
+                        } else if (e.getLocalName().equals(READ_ENFORCEMENT_ELEMENT_NAME)) {
+                            neutralSchema.setReadAuthority(Right.valueOf(value));
+                            
+                        } else if (e.getLocalName().equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
+                            neutralSchema.setWriteAuthority(Right.valueOf(value));
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private XmlSchemaSimpleType getSimpleBaseType(QName simpleBaseTypeName, XmlSchema schema) {
@@ -357,6 +425,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 LOG.error("Schema simple base type not found: " + simpleBaseTypeName);
             }
         }
+        
         return simpleBaseType;
     }
     
@@ -528,6 +597,42 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             } else {
                 LOG.error("Unsupported XmlSchemaParticle item: " + particle.getClass().getCanonicalName());
             }
+        }
+    }
+    
+    private static boolean schemasEqual(NeutralSchema ns1, NeutralSchema ns2) {
+        if (ns1.getValidatorClass().equals(ns2.getValidatorClass()) && ns1.getVersion().equals(ns2.getVersion())
+                && ns1.getType().equals(ns2.getType()) && ns1.getFields().size() == ns2.getFields().size()) {
+            for (Entry<String, Object> entry : ns1.getFields().entrySet()) {
+                if (!ns2.getFields().containsKey(entry.getKey())) {
+                    return false;
+                }
+                if (!schemasEqual((NeutralSchema) entry.getValue(), (NeutralSchema) ns2.getFields().get(entry.getKey()))) {
+                    return false;
+                }
+            }
+            for (Entry<String, Object> entry : ns1.getProperties().entrySet()) {
+                if (!ns2.getProperties().containsKey(entry.getKey())) {
+                    return false;
+                }
+                if (!entry.getValue().getClass().equals(ns2.getProperties().get(entry.getKey()).getClass())) {
+                    return false;
+                }
+                if (entry.getValue() instanceof List) {
+                    List<?> list1 = (List<?>) entry.getValue();
+                    List<?> list2 = (List<?>) ns2.getProperties().get(entry.getKey());
+                    if (!list1.containsAll(list2)) {
+                        return false;
+                    }
+                } else {
+                    if (!entry.getValue().equals(ns2.getProperties().get(entry.getKey()))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }
