@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -21,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
-import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
 import org.slc.sli.validation.schema.DoubleSchema;
@@ -39,9 +37,6 @@ import org.slc.sli.validation.schema.StringSchema;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdToNeutralSchemaTest {
-    
-    @Autowired
-    SchemaRepository schemaRepo;
     
     ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
             new String[] { "spring/applicationContext-test.xml" });
@@ -229,15 +224,24 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(testFloatSchema);
         assertEquals("float", testFloatSchema.getType());
         assertEquals(DoubleSchema.class.getCanonicalName(), testFloatSchema.getValidatorClass());
-        
     }
     
     @Test
     public void testSliXsdSchema() throws IOException {
+        XsdToNeutralSchemaRepo schemaRepo = new XsdToNeutralSchemaRepo("classpath:sliXsd-wip",
+                new NeutralSchemaFactory());
+        schemaRepo.setApplicationContext(appContext);
         assertNotNull(schemaRepo);
         assertNull(schemaRepo.getSchema("non-exist-schema"));
-        // TODO add schemas to this as they are finalized
-        String[] testSchemas = {};
+        String[] testSchemas = { "student", "school", "teacher", "section", "assessment", "bellSchedule", "cohort",
+                "course", "disciplineIncident", "educationOrgAssociation", "eventBellScheduleAssociation",
+                "gradebookEntry", "localEducationAgency", "parent", "program", "schoolSessionAssociation",
+                "sectionAssessmentAssociation", "sectionBellScheduleAssociation", "session", "staffCohortAssociation",
+                "staffProgramAssociation", "studentAcademicRecordsAssociation", "studentAssessmentAssociation",
+                "studentCohortAssociation", "studentDisciplineIncidentAssociation", "studentParentAssociation",
+                "studentProgramAssociation", "studentSchoolAssociation", "studentSectionAssociation",
+                "studentTranscriptsAssociation", "teacherSchoolAssociation", "teacherSectionAssociation" };
+
         for (String testSchema : testSchemas) {
             assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
             assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
