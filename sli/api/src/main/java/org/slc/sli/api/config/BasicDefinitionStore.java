@@ -52,9 +52,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         this.makeExposeAndAddEntityDefinition("aggregation");
         this.makeExposeAndAddEntityDefinition("aggregationDefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
+        EntityDefinition course = this.makeExposeAndAddEntityDefinition("course");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
-        this.makeExposeAndAddEntityDefinition("session");
+        EntityDefinition session = this.makeExposeAndAddEntityDefinition("session");
         EntityDefinition staff = this.makeExposeAndAddEntityDefinition("staff", "staff");
         EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
         EntityDefinition teacher = this.makeExposeAndAddEntityDefinition("teacher");
@@ -126,7 +127,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getSectionSchoolAssociations").calledFromTarget("getSectionSchoolAssociations")
                 .build();
         addAssocDefinition(sectionSchoolAssociation);
-        
+
         AssociationDefinition educationOrganizationAssociation = factory.makeAssoc("educationOrganizationAssociation")
                 .exposeAs("educationOrganization-associations").storeAs("educationOrganizationAssociation")
                 .from(educationOrganization, "getEducationOrganizationParent", "getEducationOrganizationParents", "educationOrganizationParentId")
@@ -134,7 +135,29 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addAssocDefinition(educationOrganizationAssociation);
+
+        AssociationDefinition schoolSessionAssociation = factory.makeAssoc("schoolSessionAssociation")
+                .exposeAs("school-session-associations").storeAs("schoolSessionAssociation")
+                .from(school, "getSchool", "getSchools").to(session, "getSession", "getSessions")
+                .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
+                .build();
+        addAssocDefinition(schoolSessionAssociation);
+
+        AssociationDefinition sessionCourseAssociation = factory.makeAssoc("sessionCourseAssociation")
+                .exposeAs("session-course-associations").storeAs("sessionCourseAssociation")
+                .from(session, "getSession", "getSessions").to(course, "getCourse", "getCourses")
+                .calledFromSource("getSessionCourseAssociations").calledFromTarget("getSessionCourseAssociations")
+                .build();
+        addAssocDefinition(sessionCourseAssociation);
         
+        //TODO: Known technical-debt to be replaced by internal reference fields (such as section.courseId)
+        AssociationDefinition courseSectionAssociation = factory.makeAssoc("courseSectionAssociation")
+                .exposeAs("course-section-associations").storeAs("courseSectionAssociation")
+                .from(course, "getCourse", "getCourses").to(section, "getSection", "getSections")
+                .calledFromSource("getCourseSectionAssociations").calledFromTarget("getCourseSectionAssociations")
+                .build();
+        addAssocDefinition(courseSectionAssociation);
+
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);

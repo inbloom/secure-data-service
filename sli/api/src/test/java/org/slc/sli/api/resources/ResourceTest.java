@@ -78,6 +78,10 @@ public class ResourceTest {
     private static final String STUDENT_ASSESSMENT_ASSOCIATION_URI    = "student-assessment-associations";
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI        = "teacher-school-associations";
     private static final String EDUCATIONORGANIZATION_ASSOCIATION_URI = "educationOrganization-associations";
+    private static final String SCHOOL_SESSION_ASSOCIATION_URI        = "school-session-associations";
+    private static final String SESSION_COURSE_ASSOCIATION_URI        = "session-course-associations";
+    private static final String COURSE_SECTION_ASSOCIATION_URI        = "course-section-associations";
+    
     @Autowired
     Resource                    api;
     private UriInfo             uriInfo;
@@ -89,8 +93,15 @@ public class ResourceTest {
         entity.put("studentUniqueStateId", 1234);
         return entity;
     }
+
+    public Map<String, Object> createTestCourseSectionAssociation(String courseId, String sectionId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("courseId", courseId);
+        entity.put("sectionId", sectionId);
+        return entity;
+    }
     
-    public Map<String, Object> createTestAssoication(String studentId, String schoolId) {
+    public Map<String, Object> createTestAssociation(String studentId, String schoolId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
         entity.put("schoolId", schoolId);
@@ -149,11 +160,25 @@ public class ResourceTest {
         entity.put("schoolId", schoolId);
         return entity;
     }
-    
+
     public Map<String, Object> createTestEducationOrganizationAssociation(String educationOrganizationParentId, String educationOrganizationChildId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("educationOrganizationParentId", educationOrganizationParentId);
         entity.put("educationOrganizationChildId", educationOrganizationChildId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestSchoolSessionAssociation(String schoolId, String sessionId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("schoolId", schoolId);
+        entity.put("sessionId", sessionId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestSessionCourseAssociation(String sessionId, String courseId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sessionId", sessionId);
+        entity.put("courseId", courseId);
         return entity;
     }
     
@@ -198,11 +223,11 @@ public class ResourceTest {
         String schoolId = parseIdFromLocation(createResponse3);
         ids.put(new TypeIdPair("schools", schoolId), (String) createResponse3.getMetadata().get("Location").get(0));
         
-        Response createResponse4 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), uriInfo);
+        Response createResponse4 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId1, schoolId)), uriInfo);
         assertNotNull(createResponse4);
         String assocId1 = parseIdFromLocation(createResponse4);
         
-        Response createResponse5 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), uriInfo);
+        Response createResponse5 = api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId2, schoolId)), uriInfo);
         assertNotNull(createResponse5);
         String assocId2 = parseIdFromLocation(createResponse5);
 
@@ -269,7 +294,97 @@ public class ResourceTest {
         }
         
     }
+
+    /**
+     * Known technical-debt, this is to be replaced by internal field course.sectionId.
+     */
+    @Test
+    public void testCourseSectionFunctionality() {
+        
+        String assocationUri = ResourceTest.COURSE_SECTION_ASSOCIATION_URI;
+        
+        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
+        
+        String courseId = this.createEntity("courses", ids);
+        String sectionId = this.createEntity("sections", ids);
+
+        Response createAssociationResponse = api.createEntity(assocationUri, 
+                new EntityBody(createTestCourseSectionAssociation(courseId, sectionId)), uriInfo);
+        assertNotNull(createAssociationResponse);
+        String associationId = parseIdFromLocation(createAssociationResponse);
+        
+        // test school session association
+        Response tsaResponse = api.getEntity(assocationUri, associationId, 0, 10, uriInfo);
+        EntityBody tssAssocBody = (EntityBody) tsaResponse.getEntity();
+        assertNotNull(tssAssocBody);
+        assertEquals(associationId, tssAssocBody.get("id"));
+        assertEquals(courseId, tssAssocBody.get("courseId"));
+        assertEquals(sectionId, tssAssocBody.get("sectionId"));
+    }
+
+    @Test
+    public void testSchoolSessionFunctionality() {
+        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
+        
+        String schoolId = this.createEntity("schools", ids);
+        String sessionId = this.createEntity("sessions", ids);
+
+        Response createAssociationResponse = api.createEntity(SCHOOL_SESSION_ASSOCIATION_URI, new EntityBody(createTestSchoolSessionAssociation(schoolId, sessionId)), uriInfo);
+        assertNotNull(createAssociationResponse);
+        String schoolSessionAssocId = parseIdFromLocation(createAssociationResponse);
+        
+        // test school session association
+        Response tsaResponse = api.getEntity(SCHOOL_SESSION_ASSOCIATION_URI, schoolSessionAssocId, 0, 10, uriInfo);
+        EntityBody tssAssocBody = (EntityBody) tsaResponse.getEntity();
+        assertNotNull(tssAssocBody);
+        assertEquals(schoolSessionAssocId, tssAssocBody.get("id"));
+        assertEquals(sessionId, tssAssocBody.get("sessionId"));
+        assertEquals(schoolId, tssAssocBody.get("schoolId"));
+    }
+
+    @Test
+    public void testSessionCourseFunctionality() {
+        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
+        
+        String courseId = this.createEntity("courses", ids);
+        String sessionId = this.createEntity("sessions", ids);
+
+        Response createAssociationResponse = api.createEntity(SESSION_COURSE_ASSOCIATION_URI, new EntityBody(createTestSessionCourseAssociation(sessionId, courseId)), uriInfo);
+        assertNotNull(createAssociationResponse);
+        String sessionCourseAssocId = parseIdFromLocation(createAssociationResponse);
+        
+        // test school session association
+        Response tscResponse = api.getEntity(SESSION_COURSE_ASSOCIATION_URI, sessionCourseAssocId, 0, 10, uriInfo);
+        EntityBody tscAssocBody = (EntityBody) tscResponse.getEntity();
+        assertNotNull(tscAssocBody);
+        assertEquals(sessionCourseAssocId, tscAssocBody.get("id"));
+        assertEquals(sessionId, tscAssocBody.get("sessionId"));
+        assertEquals(courseId, tscAssocBody.get("courseId"));
+    }
     
+    
+    /**
+     * Creates an entity in the requested collection name and returns its ID.
+     * 
+     * @param collectionName collection where entity would be stored
+     * @param ids map of type IDs and Strings
+     * @return id of newly created entity
+     */
+    private String createEntity(String collectionName, HashMap<TypeIdPair, String> ids) {
+        
+        Response response = this.api.createEntity(collectionName, new EntityBody(this.createTestEntity()), this.uriInfo);
+        assertNotNull(response);
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+        String id = parseIdFromLocation(response);
+        if (ids != null) {
+            ids.put(new TypeIdPair(collectionName, id), (String) response.getMetadata().get("Location").get(0));
+        }
+        
+        return id;
+    }
+    
+    
+
     @Test
     public void testTeacherSchoolFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
@@ -442,8 +557,8 @@ public class ResourceTest {
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
         
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), uriInfo);
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId1, schoolId)), uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId2, schoolId)), uriInfo);
         
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
@@ -468,8 +583,8 @@ public class ResourceTest {
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
         
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId1, schoolId)), uriInfo);
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssoication(studentId2, schoolId)), uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId1, schoolId)), uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId2, schoolId)), uriInfo);
         
         UriInfo queryInfo = buildMockUriInfo("studentUniqueStateId=1234");
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, queryInfo);

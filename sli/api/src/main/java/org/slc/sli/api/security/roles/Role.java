@@ -1,14 +1,11 @@
 package org.slc.sli.api.security.roles;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.enums.Right;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * A simple class to encapsulate a role
@@ -17,7 +14,6 @@ public class Role {
     private String name;
     private Set<Right> rights = new HashSet<Right>();
     private String id = "";
-    private Map<String, List<String>> mappings = new HashMap<String, List<String>>();
     
     public String getId() {
         return id;
@@ -63,15 +59,6 @@ public class Role {
             rightStrings.add(right.toString());
         }
         body.put("rights", rightStrings);
-        body.put("mappings", mappings);
         return body;
-    }
-    
-    public Map<String, List<String>> getRealmRoleMappings() {
-        return mappings;
-    }
-    
-    public void setRealmRoleMappings(Map<String, List<String>> mappings) {
-        this.mappings = mappings;
     }
 }

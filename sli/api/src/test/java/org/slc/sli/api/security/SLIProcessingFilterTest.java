@@ -24,9 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests functioning of the Authentication filter used to authenticate users
@@ -55,9 +55,9 @@ public class SLIProcessingFilterTest {
         
         filter.setResolver(resolver);
         
-        this.request = new MockHttpServletRequest();
-        this.response = new MockHttpServletResponse();
-        this.chain = new MockFilterChain();
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
+        chain = new MockFilterChain();
     }
     
     @After
@@ -68,8 +68,8 @@ public class SLIProcessingFilterTest {
     @Test
     public void testSessionInParam() throws Exception {
         
-        this.request.setParameter("sessionId", Mocker.VALID_TOKEN);
-        this.filter.doFilter(request, response, chain);
+        request.setParameter("sessionId", Mocker.VALID_TOKEN);
+        filter.doFilter(request, response, chain);
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
@@ -79,8 +79,8 @@ public class SLIProcessingFilterTest {
     @Test
     public void testSessionInParamFail() throws Exception {
         
-        this.request.setParameter("sessionId", Mocker.INVALID_TOKEN);
-        this.filter.doFilter(request, response, chain);
+        request.setParameter("sessionId", Mocker.INVALID_TOKEN);
+        filter.doFilter(request, response, chain);
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         

@@ -8,6 +8,8 @@ import org.slc.sli.entity.Student;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.EducationalOrganization;
+
 /**
  * 
  * An interface to the SLI API. 
@@ -26,4 +28,6 @@ public interface APIClient {
     public void saveCustomData(CustomData[] src, String token, String key);
     public AssessmentMetaData[] getAssessmentMetaData(final String token);
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds);
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization educationalOrganization);
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, School school);
 }
