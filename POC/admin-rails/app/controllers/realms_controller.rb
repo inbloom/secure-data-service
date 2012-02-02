@@ -12,14 +12,14 @@ class RealmsController < ApplicationController
 
   # # GET /realms/1
   # # GET /realms/1.json
-  # def show
-  #   @realm = Realm.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     format.html # show.html.erb
-  #     format.json { render json: @realm }
-  #   end
-  # end
+   def show
+     @realm = Realm.find(params[:id])
+   
+     respond_to do |format|
+       format.html # show.html.erb
+       format.json { render json: @realm }
+     end
+   end
   # 
   # # GET /realms/new
   # # GET /realms/new.json
@@ -33,9 +33,9 @@ class RealmsController < ApplicationController
   # end
   # 
   # # GET /realms/1/edit
-  # def edit
-  #   @realm = Realm.find(params[:id])
-  # end
+   def edit
+     @realm = Realm.find(params[:id])
+   end
   # 
   # # POST /realms
   # # POST /realms.json
@@ -55,19 +55,19 @@ class RealmsController < ApplicationController
   # 
   # # PUT /realms/1
   # # PUT /realms/1.json
-  # def update
-  #   @realm = Realm.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     if @realm.update_attributes(params[:realm])
-  #       format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
-  #       format.json { head :ok }
-  #     else
-  #       format.html { render action: "edit" }
-  #       format.json { render json: @realm.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+   def update
+     @realm = Realm.find(params[:id])
+   
+     respond_to do |format|
+       if @realm.update_attributes(params[:realm])
+         format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
+         format.json { head :ok }
+       else
+         format.html { render action: "edit" }
+         format.json { render json: @realm.errors, status: :unprocessable_entity }
+       end
+     end
+   end
   # 
   # # DELETE /realms/1
   # # DELETE /realms/1.json
