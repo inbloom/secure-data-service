@@ -99,16 +99,16 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		     And the "AssessmentSubjectType" is "Reading"
 		     And the "GradeLevelAssessed" is "Second Grade"
 		     And the "LowestGradeLevelAssessed" is "Second Grade"
-		     And the "AssessmentPerformanceLevel" has the three levels
-				     PerformanceLevel= "At or Above Benchmark"
-				     MinimumScore = "190"
-				     MaximumScore = "380"
-				     PerformanceLevel= "Below Benchmark"
-				     MinimumScore = "189"
-				     MaximumScore = "145"
-				     PerformanceLevel= "Well Below Benchmark"
-				     MinimumScore = "144"
-				     MaximumScore = "13"
+		     And the "AssessmentPerformanceLevel" has the 3 levels
+				     "PerformanceLevel"= "At or Above Benchmark"
+				     "MinimumScore" = "190"
+				     "MaximumScore" = "380"
+				     "PerformanceLevel"= "Below Benchmark"
+				     "MaximumScore" = "189"
+				     "MinimumScore" = "145"
+				     "PerformanceLevel"= "Well Below Benchmark"
+				     "MaximumScore" = "144"
+				     "MinimumScore" = "13"
 		     And the "AssessmentFamilyHierarchyName" is "DIBELS Next"
 		     And the "MaxRawScore" is "380"
 		     And the "MinRawScore" is "13"
@@ -136,7 +136,7 @@ Examples:
 | "leader"        | "leader1234"        | "Leader"           |
 
 
-Scenario Outline:  As a AggregateViewer I should not get DIBELS Composite Score and Reading Level
+Scenario Outline:  As a AggregateViewer I should not see assessment data
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
 	And I have a Role attribute returned from the "SEA/LEA IDP"
 	And the role attribute equals <AnyDefaultSLIRole>
@@ -160,9 +160,8 @@ Scenario Outline:  As a AggregateViewer I should not get DIBELS Composite Score 
 		And after resolution, I should receive a "Student" with ID  <'Mary Line' ID>
 	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
 	 	
-	# this is to enable paging 	
-	When I navigate to each student  	
-	Then I should not receive a link named "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets"
+	When I navigate to GET "student/<'John Doe' ID>"  	
+	Then I should not receive a link named "getAssessments" with URI "/student-assessment-associations/<'John Doe' ID>/targets"
 Examples:
 | Username         | Password             | AnyDefaultSLIRole  |
 | "aggregateViewer"| "aggregate1234"      | "AggregateViewer"         |

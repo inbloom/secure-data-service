@@ -16,40 +16,40 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="SessionName" type="IdentificationCode">
+				<xs:element name="sessionName" type="identificationCode">
 					<xs:annotation>
 						<xs:documentation>The identifier for the calendar for the academic
 							session (e.g., 2010/11, 2011 Summer).
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SchoolYear" type="SchoolYearType">
+				<xs:element name="schoolYear" type="schoolYearType">
 					<xs:annotation>
 						<xs:documentation>The identifier for the school year.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Term" type="TermType">
+				<xs:element name="term" type="termType">
 					<xs:annotation>
 						<xs:documentation>The term for the session during the school year.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="BeginDate" type="xs:date">
+				<xs:element name="beginDate" type="xs:date">
 					<xs:annotation>
 						<xs:documentation>Month, day and year of the first day of the
 							session.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EndDate" type="xs:date">
+				<xs:element name="endDate" type="xs:date">
 					<xs:annotation>
 						<xs:documentation>Month, day and year of the last day of the
 							session.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="TotalInstructionalDays" type="xs:int">
+				<xs:element name="totalInstructionalDays" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The total number of instructional days in the
 							school calendar.
@@ -68,14 +68,14 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="BellScheduleName" type="xs:string">
+				<xs:element name="bellScheduleName" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>
 							Name or title of the bell schedule.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GradeLevels">
+				<xs:element name="gradeLevels">
 					<xs:annotation>
 						<xs:documentation>
 							The grade levels the particular bell schedule
@@ -83,11 +83,11 @@
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
-						<xs:list itemType="GradeLevelType">
+						<xs:list itemType="gradeLevelType">
 						</xs:list>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="WeeksInCycle">
+				<xs:element name="weeksInCycle">
 					<xs:annotation>
 						<xs:documentation>
 							The number of weeks in which the meeting time
@@ -101,7 +101,7 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="SessionsOffered" type="xs:string"
+				<xs:element name="sessionsOffered" type="xs:string"
 					maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
@@ -113,21 +113,21 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="MeetingTime">
+	<xs:complexType name="meetingTime">
 		<xs:annotation>
 			<xs:documentation>This entity represents the set of elements defining
 				the meeting time for a class period for a bell schedule.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ClassPeriodName" type="xs:string">
+			<xs:element name="classPeriodName" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The class period associated with the meeting time
 						for a bell schedule.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="WeekNumber">
+			<xs:element name="weekNumber">
 				<xs:annotation>
 					<xs:documentation>The week number (out of the number of weeks in
 						the cycle) for this meeting time.
@@ -140,7 +140,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="MeetingDates">
+			<xs:element name="meetingDates">
 				<xs:annotation>
 					<xs:documentation>Dates the meetings occur</xs:documentation>
 				</xs:annotation>
@@ -148,20 +148,20 @@
 					<xs:list itemType="xs:date"></xs:list>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="StartTime" type="xs:time">
+			<xs:element name="startTime" type="xs:time">
 				<xs:annotation>
 					<xs:documentation>An indication of the time of day the class
 						begins.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndTime" type="xs:time">
+			<xs:element name="endTime" type="xs:time">
 				<xs:annotation>
 					<xs:documentation>An indication of the time of day the class ends.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="OfficialAttendancePeriod" type="xs:boolean"
+			<xs:element name="officialAttendancePeriod" type="xs:boolean"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Indicator of whether this meeting time is used
@@ -181,7 +181,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="MeetingTime">
+				<xs:extension base="meetingTime">
 					<xs:sequence>
 						<xs:element name="bellScheduleId" type="xs:string">
 							<xs:annotation>
@@ -212,7 +212,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="MeetingTime">
+				<xs:extension base="meetingTime">
 					<xs:sequence>
 						<xs:element name="bellScheduleId" type="xs:string">
 							<xs:annotation>
@@ -234,15 +234,15 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="MiscellaneousEvent">
+	<xs:complexType name="miscellaneousEvent">
 		<xs:annotation>
 			<xs:documentation>A miscellaneous event, such as recess or lunch
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EventName" type="xs:string">
+			<xs:element name="eventName" type="xs:string">
 			</xs:element>
-			<xs:element name="EventType" type="xs:string">
+			<xs:element name="eventType" type="xs:string">
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -259,7 +259,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="UniqueSectionCode" type="UniqueSectionCode">
+				<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
 					<xs:annotation>
 						<xs:documentation>A unique identifier for the section that is
 							defined by the classroom, the subjects taught, and the
@@ -267,7 +267,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SequenceOfCourse">
+				<xs:element name="sequenceOfCourse">
 					<xs:annotation>
 						<xs:documentation>When a section is part of a sequence of parts
 							for
@@ -282,7 +282,7 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType"
+				<xs:element name="educationalEnvironment" type="educationalEnvironmentType"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The setting in which a child receives education
@@ -298,7 +298,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="MediumOfInstruction" type="MediumOfInstructionType"
+				<xs:element name="mediumOfInstruction" type="mediumOfInstructionType"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The media through which teachers provide
@@ -313,7 +313,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="PopulationServed" type="PopulationServedType"
+				<xs:element name="populationServed" type="populationServedType"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The population for which the course was
@@ -327,7 +327,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="AvailableCredit" type="Credits"
+				<xs:element name="availableCredit" type="credits"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The amount of credit available to a student who
@@ -342,13 +342,13 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="CourseOfferingReference" type="xs:string">
+				<xs:element name="courseOfferingReference" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The course offering taught in the section.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SchoolReference" type="xs:string">
+				<xs:element name="schoolReference" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The school where the section is taught.
 						</xs:documentation>
@@ -357,7 +357,7 @@
 
 				<!-- obtain location information via SectionBellScheduleAssocation -->
 
-				<xs:element name="SessionReference" type="xs:string"
+				<xs:element name="sessionReference" type="xs:string"
 					minOccurs="1" maxOccurs="1">
 					<xs:annotation>
 						<xs:documentation>The session associated with the section. This
@@ -365,7 +365,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramReference" type="xs:string"
+				<xs:element name="programReference" type="xs:string"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Optional reference to program (e.g., CTE, etc.)
@@ -377,7 +377,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="Location">
+	<xs:complexType name="location">
 		<xs:annotation>
 			<xs:documentation>This entity represents the physical space where
 				students gather for
@@ -388,7 +388,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ClassroomIdentificationCode" type="ClassroomIdentificationCode">
+			<xs:element name="classroomIdentificationCode" type="classroomIdentificationCode">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a room by a school, school system, state, or other agency or
@@ -396,14 +396,14 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="MaximumNumberOfSeats" type="xs:int"
+			<xs:element name="maximumNumberOfSeats" type="xs:int"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The most number of seats the class can maintain.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="OptimalNumberOfSeats" type="xs:int"
+			<xs:element name="optimalNumberOfSeats" type="xs:int"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The number of seats that is most favorable to the

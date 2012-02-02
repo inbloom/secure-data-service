@@ -444,7 +444,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="race" type="raceType">
+				<xs:element name="race" type="raceItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The general racial category which most clearly
 							reflects the individual's recognition of his or her community or
@@ -673,7 +673,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="studentSchoolAssociation">
+<!-- 	<xs:element name="studentSchoolAssociation">
 		<xs:annotation>
 			<xs:documentation>This association represents the school to which a
 				student is enrolled.
@@ -794,7 +794,7 @@
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-	</xs:element>
+	</xs:element> -->
 
 	<xs:complexType name="creditsBySubject">
 		<xs:annotation>
