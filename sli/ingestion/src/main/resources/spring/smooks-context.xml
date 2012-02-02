@@ -34,6 +34,16 @@
             </constructor-arg>
           </bean>
         </entry>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STAFF_ASSOCIATION">
+          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
+            <constructor-arg value="${smooks.config.all.xml}" />
+            <constructor-arg>
+              <list>
+                <value>${smooks.targetselector.xml.teacher.section}</value>
+              </list>
+            </constructor-arg>
+          </bean>
+        </entry>
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT_ENROLLMENT}">
           <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
             <constructor-arg value="${smooks.config.all.xml}" />
