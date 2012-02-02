@@ -13,7 +13,7 @@
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="rightList">
-      <xs:sequence minOccurs="1" maxOccurs="999">
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
          <xs:element name="right">
             <xs:simpleType>
                <xs:restriction base="xs:string">
