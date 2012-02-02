@@ -5,9 +5,9 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests sudo runs

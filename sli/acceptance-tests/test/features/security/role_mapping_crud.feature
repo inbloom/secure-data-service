@@ -23,57 +23,57 @@ Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 	| "leader"        | "leader1234"        | "PUT"     |
 	| "administrator" | "administrator1234" | "DELETE"  |
 
-Scenario: Create a custom role mapping
+Scenario: Create a new realm
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I POST a mapping between default role "Educator" and custom role "blah" for realm "SLI"
+	When I POST a new realm
 	Then I should receive a return code of 201
+     And I should receive a new ID for my new realm
+     	
+Scenario: Read a list of realms
+
+  Given I am a valid "sli" end user "demo" with password "demo1234"
+  When I GET a list of realms
+  Then I should receive a return code of 200
+  And I should see a list of valid realm objects
+
+Scenario: Read an existing realm
+
+Given I am a valid "sli" end user "demo" with password "demo1234"
+When I GET a specific realm "SLI"
+Then I should receive a return code of 200
+And I should see a valid object returned
 	
-Scenario: Read an existing role mapping
+Scenario: Update an existing realm
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I GET a list of role mappings for realm "SLI"
-	Then I should receive a return code of 200
-	And I should see a valid object returned
-
-Scenario: Update an existing role mapping
-
-	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I PUT to change the mapping between default role "Educator" and custom role "blah" to role "Blah" for realm "SLI"
+	When I PUT to change the realm "SLI" to add a mapping between default role "Educator" to role "Blah"
 	Then I should receive a return code of 204
 	
-Scenario: Delete an existing role mapping
+Scenario: Delete an existing realm
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I DELETE a mapping between the default role "Educator" and custom role "Blah" for realm "SLI"
+	When I DELETE the realm "SLI"
 	Then I should receive a return code of 204
-
-Scenario: Deny duplicated creations
-
-	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I POST a mapping between default role "Educator" and custom role "blah" for realm "SLI"
-	Then I should receive a return code of 201
-	When I duplicate the previous POST request to map the default role "Educator" to custom role "blah" for realm "SLI"
-	Then I should receive a return code of 400
-	
-Scenario: Deny duplicated deletions
-
-	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I DELETE a mapping between the default role "Educator" and custom role "Blah" for realm "SLI"
-	Then I should receive a return code of 201
-	When I duplicate the previous DELETE request to unmap the default role "Educator" to custom role "blah" for realm "SLI"
-	Then I should receive a return code of 400
 
 Scenario: Deny mappings from non-SLI Default roles to custom roles
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I POST a mapping between default role "Governator" and custom role "blah" for realm "SLI"
+	When I add a mapping between default role "Governator" and custom role "blah" for realm "SLI"
 	Then I should receive a return code of 400
 
 Scenario: Deny mapping the same custom role to multiple default SLI roles
 
 	Given I am a valid "sli" end user "demo" with password "demo1234"
-	When I POST a mapping between default role "Educator" and custom role "blah" for realm "SLI"
+	When I add a mapping between default role "Educator" and custom role "blah" for realm "SLI"
 	Then I should receive a return code of 201
-	When I POST a mapping between default role "Leader" and custom role "blah" for realm "SLI"
+	When I add a mapping between default role "Leader" and custom role "blah" for realm "SLI"
 	Then I should receive a return code of 400
+
+Scenario: Deny mapping the same custom role to the default role twice
+
+  Given I am a valid "sli" end user "demo" with password "demo1234"
+  When I add a mapping between default role "Leader" and custom role "blah" for realm "SLI"
+  Then I should receive a return code of 201
+  When I add a mapping between default role "Leader" and custom role "blah" for realm "SLI"
+  Then I should receive a return code of 400

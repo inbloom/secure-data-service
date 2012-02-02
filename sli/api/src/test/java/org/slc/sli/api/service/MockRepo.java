@@ -33,6 +33,7 @@ public class MockRepo implements EntityRepository {
     private AtomicInteger                    counter           = new AtomicInteger();
     
     public MockRepo() {
+        repo.put("course", new LinkedHashMap<String, Entity>());
         repo.put("student", new LinkedHashMap<String, Entity>());
         repo.put("school", new LinkedHashMap<String, Entity>());
         repo.put("roles", new LinkedHashMap<String, Entity>());
@@ -56,6 +57,7 @@ public class MockRepo implements EntityRepository {
         repo.put("educationOrganizationAssociation", new LinkedHashMap<String, Entity>());
         repo.put("session", new LinkedHashMap<String, Entity>());
         repo.put("schoolSessionAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("sessionCourseAssociation", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
