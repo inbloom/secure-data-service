@@ -4,7 +4,7 @@
 elementFormDefault="qualified" attributeFormDefault="qualified"
 xmlns:sli="http://slc-sli/ed-org/0.1" >
 
-    <xs:simpleType name="IdentificationCode">
+    <xs:simpleType name="identificationCode">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
                 space, room, site, building, individual, organization, program, or
@@ -18,7 +18,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="EducationOrgIdentificationSystemType">
+    <xs:simpleType name="educationOrgIdentificationSystemType">
         <xs:annotation>
             <xs:documentation>A coding scheme that is used for identification and
                 record-keeping purposes by education organizations, social services,
@@ -38,7 +38,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="NameOfInstitution">
+    <xs:simpleType name="nameOfInstitution">
         <xs:annotation>
             <xs:documentation>The full, legally accepted name of the institution.
             </xs:documentation>
@@ -49,7 +49,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="EducationOrganizationCategoryType">
+    <xs:simpleType name="educationOrganizationCategoryType">
         <xs:annotation>
             <xs:documentation>The classification of the education agency within
                 the geographic boundaries of a state according to the level of
@@ -64,7 +64,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ApartmentRoomSuiteNumber">
+    <xs:simpleType name="apartmentRoomSuiteNumber">
         <xs:annotation>
             <xs:documentation>The apartment, room, or suite number of an address.
             </xs:documentation>
@@ -75,7 +75,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="BuildingSiteNumber">
+    <xs:simpleType name="buildingSiteNumber">
         <xs:annotation>
             <xs:documentation>The number of the building on the site, if more
                 than one building shares the same address.
@@ -87,7 +87,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="City">
+    <xs:simpleType name="city">
         <xs:annotation>
             <xs:documentation>The name of the city in which an address is
                 located.
@@ -99,7 +99,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StateAbbreviationType">
+    <xs:simpleType name="stateAbbreviationType">
         <xs:annotation>
             <xs:documentation>The abbreviation for the state (within the United
                 States) or outlying area in which an address is located.
@@ -162,7 +162,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PostalCode">
+    <xs:simpleType name="postalCode">
         <xs:annotation>
             <xs:documentation>The five or nine digit zip code or overseas postal
                 code portion of an address.
@@ -174,7 +174,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="NameOfCounty">
+    <xs:simpleType name="nameOfCounty">
         <xs:annotation>
             <xs:documentation>The name of the county, parish, borough, or
                 comparable unit (within a state) in which an address is located.
@@ -186,7 +186,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CountyFIPSCode">
+    <xs:simpleType name="countyFIPSCode">
         <xs:annotation>
             <xs:documentation>Definition
                 The Federal Information Processing
@@ -212,7 +212,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CountryCodeType">
+    <xs:simpleType name="countryCodeType">
         <xs:annotation>
             <xs:documentation>The names of countries. (Note: A list of countries
                 and codes is currently maintained and updated by the ISO as ISO 3166
@@ -471,7 +471,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Coordinate">
+    <xs:simpleType name="coordinate">
         <xs:annotation>
             <xs:documentation>The data type to specify latitude or longitude.
             </xs:documentation>
@@ -482,7 +482,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AddressType">
+    <xs:simpleType name="addressType">
         <xs:annotation>
             <xs:documentation>The type of address listed for an individual or
                 organization.
@@ -499,7 +499,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="WebSite">
+    <xs:simpleType name="webSite">
         <xs:annotation>
             <xs:documentation>The public web site address (URL) for the
                 educational organization.
@@ -511,7 +511,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="OperationalStatusType">
+    <xs:simpleType name="operationalStatusType">
         <xs:annotation>
             <xs:documentation>The current operational status of the education
                 organization (e.g., active, inactive).
@@ -530,7 +530,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RatingTitleType">
+    <xs:simpleType name="ratingTitleType">
         <xs:annotation>
             <xs:documentation>The title of the rating (e.g., School Rating,
                 Safety Score, etc.)
@@ -542,7 +542,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Rating">
+    <xs:simpleType name="rating">
         <xs:annotation>
             <xs:documentation>An accountability rating level, designation, or
                 assessment.
@@ -554,7 +554,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SchoolYearType">
+    <xs:simpleType name="schoolYearType">
         <xs:annotation>
             <xs:documentation>Identifier for a school year</xs:documentation>
         </xs:annotation>
@@ -595,7 +595,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RatingOrganization">
+    <xs:simpleType name="ratingOrganization">
         <xs:annotation>
             <xs:documentation>The organization assigning the accountability
                 rating.
@@ -607,7 +607,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RatingProgramType">
+    <xs:simpleType name="ratingProgramType">
         <xs:annotation>
             <xs:documentation>The rating program (e.g., NCLB)</xs:documentation>
         </xs:annotation>
@@ -617,7 +617,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ProgramId">
+    <xs:simpleType name="programId">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
                 program by a school, school system, a state, or other agency or
@@ -630,7 +630,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ProgramType">
+    <xs:simpleType name="programType">
         <xs:annotation>
             <xs:documentation>The formal name of the program of instruction,
                 training, services or benefits available through federal, state, or
@@ -681,7 +681,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TelephoneNumber">
+    <xs:simpleType name="telephoneNumber">
         <xs:annotation>
             <xs:documentation>The telephone number including the area code, and
                 extension, if applicable.
@@ -693,7 +693,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="InstitutionTelephoneNumberType">
+    <xs:simpleType name="institutionTelephoneNumberType">
         <xs:annotation>
             <xs:documentation>The type of communication number listed for an
                 organization.
@@ -709,7 +709,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="GradeLevelType">
+    <xs:simpleType name="gradeLevelType">
         <xs:annotation>
             <xs:documentation>The enumeration items for the set of grade levels.
             </xs:documentation>
@@ -740,7 +740,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SchoolCategoryItemType">
+    <xs:simpleType name="schoolCategoryItemType">
         <xs:annotation>
             <xs:documentation>The category of school. For example: High School,
                 Middle School, Elementary School
@@ -763,7 +763,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SchoolType">
+    <xs:simpleType name="schoolType">
         <xs:annotation>
             <xs:documentation>The type of education institution as classified by
                 its primary focus.
@@ -779,7 +779,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CharterStatusType">
+    <xs:simpleType name="charterStatusType">
         <xs:annotation>
             <xs:documentation>The category of charter school. For example: School
                 Charter, Open Enrollment Charter
@@ -793,7 +793,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TitleIPartASchoolDesignationType">
+    <xs:simpleType name="titleIPartASchoolDesignationType">
         <xs:annotation>
             <xs:documentation>Denotes the Title I Part A designation for the
                 school.
@@ -810,7 +810,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="MagnetSpecialProgramEmphasisSchoolType">
+    <xs:simpleType name="magnetSpecialProgramEmphasisSchoolType">
         <xs:annotation>
             <xs:documentation>A school that has been designed: 1) to attract
                 students of different racial/ethnic backgrounds for the purpose of
@@ -827,7 +827,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AdministrativeFundingControlType">
+    <xs:simpleType name="administrativeFundingControlType">
         <xs:annotation>
             <xs:documentation>The type of education institution as classified by
                 its funding source.
@@ -840,7 +840,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Description">
+    <xs:simpleType name="description">
         <xs:annotation>
             <xs:documentation>A detailed description of the entity.
             </xs:documentation>
@@ -863,7 +863,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TermType">
+    <xs:simpleType name="termType">
         <xs:annotation>
             <xs:documentation>The type of the session during the school year
                 (e.g., Fall Semester).
@@ -881,7 +881,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="MeetingDayItemType">
+    <xs:simpleType name="meetingDayItemType">
         <xs:annotation>
             <xs:documentation>The enumeration items for the day(s) of the week
                 (e.g., Monday, Wednesday) that the class meets or an indication that
@@ -899,7 +899,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="UniqueSectionCode">
+    <xs:simpleType name="uniqueSectionCode">
         <xs:annotation>
             <xs:documentation>A unique identifier for the section, that is
                 defined by the classroom, the subjects taught, and the instructors
@@ -912,7 +912,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StreetNumberName">
+    <xs:simpleType name="streetNumberName">
         <xs:annotation>
             <xs:documentation>The street number and street name or post office
                 box number of an address.
@@ -924,7 +924,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AccountCodeType">
+    <xs:simpleType name="accountCodeType">
         <xs:annotation>
             <xs:documentation>The type of the account code (e.g., fund, function,
                 object)
@@ -936,7 +936,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AccountNumber">
+    <xs:simpleType name="accountNumber">
         <xs:annotation>
             <xs:documentation>The alpha-numeric string that identifies the
                 account.
@@ -948,7 +948,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AlternateDayName">
+    <xs:simpleType name="alternateDayName">
         <xs:annotation>
             <xs:documentation>used for the bell schedule, another name for day
                 (e.g., Blue day,Red day)
@@ -960,7 +960,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentForm">
+    <xs:simpleType name="assessmentForm">
         <xs:annotation>
             <xs:documentation>Identifies the form of the assessment, for example
                 a regular versus makeup form, multiple choice versus constructed
@@ -973,7 +973,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentResponse">
+    <xs:simpleType name="assessmentResponse">
         <xs:annotation>
             <xs:documentation>A student's response to a stimulus on a test.
             </xs:documentation>
@@ -984,7 +984,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentTitle">
+    <xs:simpleType name="assessmentTitle">
         <xs:annotation>
             <xs:documentation>The title or name of the assessment.
             </xs:documentation>
@@ -995,7 +995,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="EducationalEnvironmentType">
+    <xs:simpleType name="educationalEnvironmentType">
         <xs:annotation>
             <xs:documentation>The setting in which a child receives education and
                 related services.
@@ -1017,7 +1017,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="MediumOfInstructionType">
+    <xs:simpleType name="mediumOfInstructionType">
         <xs:annotation>
             <xs:documentation>The media through which teachers provide
                 instruction to students and students and teachers communicate about
@@ -1040,7 +1040,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PopulationServedType">
+    <xs:simpleType name="populationServedType">
         <xs:annotation>
             <xs:documentation>The type of students the course was designed for.
             </xs:documentation>
@@ -1059,7 +1059,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CreditType">
+    <xs:simpleType name="creditType">
         <xs:annotation>
             <xs:documentation>The type of credits or units of value awarded for
                 the completion of a course.
@@ -1076,7 +1076,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ClassroomIdentificationCode">
+    <xs:simpleType name="classroomIdentificationCode">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
                 room by a school, school system, state, or other agency or entity.
@@ -1088,7 +1088,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AttendanceEventReason">
+    <xs:simpleType name="attendanceEventReason">
         <xs:annotation>
             <xs:documentation>The reason for the absence or tardy.
             </xs:documentation>
@@ -1099,7 +1099,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="BellScheduleName">
+    <xs:simpleType name="bellScheduleName">
         <xs:annotation>
             <xs:documentation>The title or name of the bell schedule.
             </xs:documentation>
@@ -1110,7 +1110,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CaseNumber">
+    <xs:simpleType name="caseNumber">
         <xs:annotation>
             <xs:documentation>The case number assigned to the incident by law
                 enforcement or other organization.
@@ -1122,7 +1122,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ClassPeriodNameType">
+    <xs:simpleType name="classPeriodNameType">
         <xs:annotation>
             <xs:documentation>An indication of the portion of a typical daily
                 session in which students receive instruction in a specified subject
@@ -1135,7 +1135,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-	<xs:simpleType name="GradingPeriodType">
+	<xs:simpleType name="gradingPeriodType">
 		<xs:annotation>
 			<xs:documentation>The name of the period for which grades are reported.</xs:documentation>
 		</xs:annotation>
@@ -1162,7 +1162,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 			<xs:enumeration value="End of Year"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="PostSecondaryEventCategoryType">
+	<xs:simpleType name="postSecondaryEventCategoryType">
 		<xs:annotation>
 			<xs:documentation>
 				A code describing the type of postsecondary event (e.g., college application or acceptance)
@@ -1176,7 +1176,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 			<xs:enumeration value="Vocation Certification"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="DiplomaLevelType">
+	<xs:simpleType name="diplomaLevelType">
 		<xs:annotation>
 			<xs:documentation>
 				The level of diploma/credential that is awarded to a student in recognition of his/her completion of
@@ -1192,7 +1192,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 			<xs:enumeration value="Summa cum laude"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="DiplomaType">
+	<xs:simpleType name="diplomaType">
 		<xs:annotation>
 			<xs:documentation>
 				The type of diploma/credential that is awarded to a student in recognition of his/her completion of
@@ -1229,7 +1229,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CodeValue">
+    <xs:simpleType name="codeValue">
         <xs:annotation>
             <xs:documentation>A code or abbreviation for an element.
             </xs:documentation>
@@ -1240,7 +1240,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CohortDescription">
+    <xs:simpleType name="cohortDescription">
         <xs:annotation>
             <xs:documentation>Description of the student cohort
             </xs:documentation>
@@ -1251,7 +1251,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CohortIdentifier">
+    <xs:simpleType name="cohortIdentifier">
         <xs:annotation>
             <xs:documentation>A locally assigned unique identifier (within the
                 school or school district) to identify each specific incident or
@@ -1266,7 +1266,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ContactRestrictions">
+    <xs:simpleType name="contactRestrictions">
         <xs:annotation>
             <xs:documentation>Restrictions for student and/or teacher contact
                 with the individual (e.g., the student may not be picked up by the
@@ -1279,7 +1279,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ContentStandardName">
+    <xs:simpleType name="contentStandardName">
         <xs:annotation>
             <xs:documentation>The name of the content standard, for example
                 Common Core.
@@ -1291,7 +1291,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CorrectResponse">
+    <xs:simpleType name="correctResponse">
         <xs:annotation>
             <xs:documentation>The correct response for the assessment item.
             </xs:documentation>
@@ -1302,7 +1302,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CourseTitle">
+    <xs:simpleType name="courseTitle">
         <xs:annotation>
             <xs:documentation>The descriptive name given to a course of study
                 offered in a school or other institution or organization. In
@@ -1321,7 +1321,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Department">
+    <xs:simpleType name="department">
         <xs:annotation>
             <xs:documentation>The department or suborganization the
                 employee/contractor is associated with in the Education
@@ -1334,7 +1334,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="DesignatedBy">
+    <xs:simpleType name="designatedBy">
         <xs:annotation>
             <xs:documentation>The person, organization, or dpeartment that made a
                 student designation.
@@ -1346,7 +1346,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="DisabilityDiagnosis">
+    <xs:simpleType name="disabilityDiagnosis">
         <xs:annotation>
             <xs:documentation>A description of the disability diagnosis.
             </xs:documentation>
@@ -1357,7 +1357,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="DisciplineActionIdentifier">
+    <xs:simpleType name="disciplineActionIdentifier">
         <xs:annotation>
             <xs:documentation>Identifier assigned by the education organization
                 to the discipline action.
@@ -1369,7 +1369,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="DisplacementStatusType">
+    <xs:simpleType name="displacementStatusType">
         <xs:annotation>
             <xs:documentation>Indicates a state health or weather related event
                 that displaces a group of students, and may require additional
@@ -1382,7 +1382,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ElectronicMailAddress">
+    <xs:simpleType name="electronicMailAddress">
         <xs:annotation>
             <xs:documentation>The electronic mail (e-mail) address listed for an
                 individual or organization.
@@ -1394,7 +1394,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SimpleName">
+    <xs:simpleType name="simpleName">
         <xs:annotation>
             <xs:documentation>A name given to an individual at birth, baptism, or
                 during another naming ceremony, or through legal change.
@@ -1406,7 +1406,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="GradebookEntryType">
+    <xs:simpleType name="gradebookEntryType">
         <xs:annotation>
             <xs:documentation>The type of the gradebook entry; for example,
                 homework, assignment, quiz, unit test, oral presentation, etc.
@@ -1418,7 +1418,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="GradeEarned">
+    <xs:simpleType name="gradeEarned">
         <xs:annotation>
             <xs:documentation>A final or interim (grading period) indicator of
                 student performance in a class as submitted by the instructor.
@@ -1430,7 +1430,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="GradeValueQualifier">
+    <xs:simpleType name="gradeValueQualifier">
         <xs:annotation>
             <xs:documentation>The scale of equivalents, if applicable, for grades
                 awarded as indicators of performance in schoolwork. For example,
@@ -1446,7 +1446,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="HonorsDescription">
+    <xs:simpleType name="honorsDescription">
         <xs:annotation>
             <xs:documentation>A description of the type of academic distinctions
                 earned by or awarded to the individual.
@@ -1458,7 +1458,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="IncidentIdentifier">
+    <xs:simpleType name="incidentIdentifier">
         <xs:annotation>
             <xs:documentation>A locally assigned unique identifier (within the
                 school or school district) to identify each specific incident or
@@ -1473,7 +1473,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Indicator">
+    <xs:simpleType name="indicator">
         <xs:annotation>
             <xs:documentation>Indicator or metric computed for the student (e.g.,
                 at risk) to influence more effective education or direct specific
@@ -1486,7 +1486,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="IndicatorName">
+    <xs:simpleType name="indicatorName">
         <xs:annotation>
             <xs:documentation>The name of the Indicator, indicator group, or
                 metric computed for the student (e.g., at risk) to influence more
@@ -1499,7 +1499,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="InstitutionId">
+    <xs:simpleType name="institutionId">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to
                 the postsecondary organization.
@@ -1511,7 +1511,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LeaveEventReason">
+    <xs:simpleType name="leaveEventReason">
         <xs:annotation>
             <xs:documentation>Expanded reason for the staff leave.
             </xs:documentation>
@@ -1522,7 +1522,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LocalCourseCode">
+    <xs:simpleType name="localCourseCode">
         <xs:annotation>
             <xs:documentation>The local code assigned by the LEA that identifies
                 the organization of subject matter and related learning experiences
@@ -1535,7 +1535,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Nomenclature">
+    <xs:simpleType name="nomenclature">
         <xs:annotation>
             <xs:documentation>Reflects the common nomenclature for an element.
             </xs:documentation>
@@ -1546,7 +1546,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Objective">
+    <xs:simpleType name="objective">
         <xs:annotation>
             <xs:documentation>The designated title of the learning objective.
             </xs:documentation>
@@ -1557,7 +1557,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PositionTitle">
+    <xs:simpleType name="positionTitle">
         <xs:annotation>
             <xs:documentation>The descriptive name of an individual's position.
             </xs:documentation>
@@ -1568,7 +1568,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ProfileThumbnail">
+    <xs:simpleType name="profileThumbnail">
         <xs:annotation>
             <xs:documentation>ProfileThumbnail</xs:documentation>
         </xs:annotation>
@@ -1578,7 +1578,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RecognitionDescription">
+    <xs:simpleType name="recognitionDescription">
         <xs:annotation>
             <xs:documentation>The description of recognition given to the student
                 for accomplishments in a co-curricular, or extra-curricular
@@ -1591,7 +1591,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ReporterName">
+    <xs:simpleType name="reporterName">
         <xs:annotation>
             <xs:documentation>Identifies the reporter of the incident by name.
             </xs:documentation>
@@ -1602,7 +1602,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RequisitionNumber">
+    <xs:simpleType name="requisitionNumber">
         <xs:annotation>
             <xs:documentation>The number or identfier assigned to an open staff
                 position, typically a requisition number assigned by Human
@@ -1615,7 +1615,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RestraintEventIdentifier">
+    <xs:simpleType name="restraintEventIdentifier">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a
                 restraint event by a school, school system, a state, or other agency
@@ -1628,7 +1628,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Result">
+    <xs:simpleType name="result">
         <xs:annotation>
             <xs:documentation>A meaningful raw score or statistical expression of
                 the performance of an individual. The results can be expressed as a
@@ -1641,7 +1641,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SecondaryBehaviorsType">
+    <xs:simpleType name="secondaryBehaviorsType">
         <xs:annotation>
             <xs:documentation>Supplemental information about an incident.
             </xs:documentation>
@@ -1652,7 +1652,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ServiceCategory">
+    <xs:simpleType name="serviceCategory">
         <xs:annotation>
             <xs:documentation>The category of service provided by a program.
             </xs:documentation>
@@ -1663,7 +1663,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ShortDescription">
+    <xs:simpleType name="shortDescription">
         <xs:annotation>
             <xs:documentation>A shortened description for reference.
             </xs:documentation>
@@ -1674,7 +1674,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StaffId">
+    <xs:simpleType name="staffId">
         <xs:annotation>
             <xs:documentation>The person's Social Security number or a
                 state-approved alternative identification number.
@@ -1686,7 +1686,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="UniqueStateIdentifier">
+    <xs:simpleType name="uniqueStateIdentifier">
         <xs:annotation>
             <xs:documentation>A unique numeric code assigned to a person by a
                 state education agency.
@@ -1698,7 +1698,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Version">
+    <xs:simpleType name="version">
         <xs:annotation>
             <xs:documentation>The version identifier for the assessment.
             </xs:documentation>
@@ -1706,7 +1706,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         <xs:restriction base="xs:int" />
     </xs:simpleType>
 
-    <xs:simpleType name="WeekIdentifier">
+    <xs:simpleType name="weekIdentifier">
         <xs:annotation>
             <xs:documentation>The school label for the academic week.
             </xs:documentation>
@@ -1717,7 +1717,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AdditionalCreditType">
+    <xs:simpleType name="additionalCreditType">
         <xs:annotation>
             <xs:documentation>The type of additional credits or units of value
                 awarded for the completion of a course.
@@ -1732,7 +1732,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AdministrationEnvironmentType">
+    <xs:simpleType name="administrationEnvironmentType">
         <xs:annotation>
             <xs:documentation>The environment in which the test was administered.
                 For example:
@@ -1749,7 +1749,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentCategoryType">
+    <xs:simpleType name="assessmentCategoryType">
         <xs:annotation>
             <xs:documentation>The category of an assessment based on format and
                 content. For example:
@@ -1796,7 +1796,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentIdentificationSystemType">
+    <xs:simpleType name="assessmentIdentificationSystemType">
         <xs:annotation>
             <xs:documentation>A coding scheme that is used for identification and
                 record-keeping purposes by schools, social services, or other
@@ -1814,7 +1814,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentItemResultType">
+    <xs:simpleType name="assessmentItemResultType">
         <xs:annotation>
             <xs:documentation>The analyzed result of a student's response to an
                 assessment item.. For example:
@@ -1831,7 +1831,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AssessmentReportingMethodType">
+    <xs:simpleType name="assessmentReportingMethodType">
         <xs:annotation>
             <xs:documentation>The method that the instructor of the class uses to
                 report the performance and achievement of all students. It may be a
@@ -1883,7 +1883,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AttendanceEventCategoryType">
+    <xs:simpleType name="attendanceEventCategoryType">
         <xs:annotation>
             <xs:documentation>A code categorizing the attendance event (e.g.,
                 excused absence, unexcused absence)
@@ -1898,7 +1898,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AttendanceEventType">
+    <xs:simpleType name="attendanceEventType">
         <xs:annotation>
             <xs:documentation>A code describing the type of the attendance event
                 (e.g., daily attendance, section attendance, etc.)
@@ -1912,7 +1912,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="BehaviorCategoryType">
+    <xs:simpleType name="behaviorCategoryType">
         <xs:annotation>
             <xs:documentation>Enumeration items defining the categories of
                 behavior coded for use in describing an incident.
@@ -1926,7 +1926,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CalendarEventType">
+    <xs:simpleType name="calendarEventType">
         <xs:annotation>
             <xs:documentation>The type of scheduled or unscheduled event for the
                 day. For example:
@@ -1952,7 +1952,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CareerPathwayType">
+    <xs:simpleType name="careerPathwayType">
         <xs:annotation>
             <xs:documentation>The career cluster or pathway representing the
                 career path of the Vocational/Career Tech concentrator.
@@ -1978,7 +1978,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ClassroomPositionType">
+    <xs:simpleType name="classroomPositionType">
         <xs:annotation>
             <xs:documentation>The type of position the staff member holds in the
                 specific class/section.
@@ -1992,7 +1992,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CohortScopeType">
+    <xs:simpleType name="cohortScopeType">
         <xs:annotation>
             <xs:documentation>The scope of cohort (e.g., school, district,
                 classroom, etc.)
@@ -2009,7 +2009,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CohortType">
+    <xs:simpleType name="cohortType">
         <xs:annotation>
             <xs:documentation>The type of the cohort (e.g., academic
                 intervention, classroom breakout, etc.)
@@ -2030,7 +2030,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CohortYearType">
+    <xs:simpleType name="cohortYearType">
         <xs:annotation>
             <xs:documentation>The enumeration items for the set of cohort years.
             </xs:documentation>
@@ -2051,7 +2051,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ContentStandardType">
+    <xs:simpleType name="contentStandardType">
         <xs:annotation>
             <xs:documentation>An indication as to whether an assessment conforms
                 to a standard. For example:
@@ -2078,7 +2078,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CourseAttemptResultType">
+    <xs:simpleType name="courseAttemptResultType">
         <xs:annotation>
             <xs:documentation>The result from the student's attempt to take the
                 course, for example:
@@ -2096,7 +2096,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CourseCodeSystemType">
+    <xs:simpleType name="courseCodeSystemType">
         <xs:annotation>
             <xs:documentation>A system that is used to identify the organization
                 of subject matter and related learning experiences provided for the
@@ -2118,7 +2118,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CourseDefinedByType">
+    <xs:simpleType name="courseDefinedByType">
         <xs:annotation>
             <xs:documentation> Specifies whether the course was defined by the
                 SEA, LEA, School, or national organization.
@@ -2132,7 +2132,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="CourseGPAApplicabilityType">
+    <xs:simpleType name="courseGPAApplicabilityType">
         <xs:annotation>
             <xs:documentation>An indicator of whether or not this course being
                 described is included in the computation of the student’s Grade
@@ -2147,7 +2147,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AcademicHonorsType">
+    <xs:simpleType name="academicHonorsType">
         <xs:annotation>
             <xs:documentation>A designation of the type of academic distinctions
                 earned by or awarded to the student.
@@ -2175,7 +2175,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="AcademicSubjectType">
+    <xs:simpleType name="academicSubjectType">
         <xs:annotation>
             <xs:documentation>The description of the content or subject area
                 (e.g., arts, mathematics, reading, stenography, or a foreign
@@ -2217,7 +2217,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LanguageItemType">
+    <xs:simpleType name="languageItemType">
         <xs:annotation>
             <xs:documentation>The item(s) denoting language(s) spoken or written.
             </xs:documentation>
@@ -2367,7 +2367,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LeaveEventCategoryType">
+    <xs:simpleType name="leaveEventCategoryType">
         <xs:annotation>
             <xs:documentation>A code describing the type of the leave event.
             </xs:documentation>
@@ -2394,7 +2394,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LevelOfEducationType">
+    <xs:simpleType name="levelOfEducationType">
         <xs:annotation>
             <xs:documentation>The enumeration of the different levels of
                 education achievable.
@@ -2408,7 +2408,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LevelType">
+    <xs:simpleType name="levelType">
         <xs:annotation>
             <xs:documentation>The grade level(s) certified for teaching.
             </xs:documentation>
@@ -2431,7 +2431,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LimitedEnglishProficiencyType">
+    <xs:simpleType name="limitedEnglishProficiencyType">
         <xs:annotation>
             <xs:documentation>An indication that the student has been identified
                 as limited English proficient by the Language Proficiency Assessment
@@ -2446,7 +2446,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SpecialAccommodationItemType">
+    <xs:simpleType name="specialAccommodationItemType">
         <xs:annotation>
             <xs:documentation>The item(s) to specifiy the special variation used
                 in how an examination is presented, how it is administered, or how
@@ -2557,7 +2557,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StaffClassificationType">
+    <xs:simpleType name="staffClassificationType">
         <xs:annotation>
             <xs:documentation>An individual's title of employment, official
                 status or rank.
@@ -2595,7 +2595,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StaffIdentificationSystemType">
+    <xs:simpleType name="staffIdentificationSystemType">
         <xs:annotation>
             <xs:documentation>A coding scheme that is used for identification and
                 record-keeping purposes by schools, social services, or other
@@ -2621,7 +2621,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StudentCharacteristicType">
+    <xs:simpleType name="studentCharacteristicType">
         <xs:annotation>
             <xs:documentation>Enumeration items for the important characteristics
                 of the student's home situation: Displaced Homemaker, Homeless,
@@ -2644,7 +2644,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StudentIdentificationSystemType">
+    <xs:simpleType name="studentIdentificationSystemType">
         <xs:annotation>
             <xs:documentation>Definition: A coding scheme that is used for
                 identification and record-keeping purposes by schools, social
@@ -2666,7 +2666,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="StudentParticipationCodeType">
+    <xs:simpleType name="studentParticipationCodeType">
         <xs:annotation>
             <xs:documentation>The role or type of participation of a student in a
                 discipline incident; for example: Victim, Perpetrator, Witness,
@@ -2681,7 +2681,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TeachingCredentialBasisType">
+    <xs:simpleType name="teachingCredentialBasisType">
         <xs:annotation>
             <xs:documentation>An indication of the pre-determined criteria for
                 granting the teaching credential that an individual holds.
@@ -2699,7 +2699,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TeachingCredentialType">
+    <xs:simpleType name="teachingCredentialType">
         <xs:annotation>
             <xs:documentation>An indication of the category of a legal document
                 giving authorization to perform teaching assignment services.
@@ -2741,7 +2741,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TelephoneNumberType">
+    <xs:simpleType name="telephoneNumberType">
         <xs:annotation>
             <xs:documentation>The type of communication number listed for an
                 individual.
@@ -2759,7 +2759,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="TitleIPartAParticipantType">
+    <xs:simpleType name="titleIPartAParticipantType">
         <xs:annotation>
             <xs:documentation>An indication of the type of Title I program, if
                 any, in which the student is participating and served.
@@ -2774,7 +2774,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="LinguisticAccommodationItemType">
+    <xs:simpleType name="linguisticAccommodationItemType">
         <xs:annotation>
             <xs:documentation>The item(s) denoting the linguistic accommodations
                 used with the student for the test. For example:
@@ -2803,7 +2803,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RestraintEventReasonItemType">
+    <xs:simpleType name="restraintEventReasonItemType">
         <xs:annotation>
             <xs:documentation>The items of categorization of the circumstances or
                 reason for the restraint.
@@ -2816,7 +2816,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RetestIndicatorType">
+    <xs:simpleType name="retestIndicatorType">
         <xs:annotation>
             <xs:documentation>Indicator if the test was retaken. For example:
                 Primary administration
@@ -2832,7 +2832,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RaceItemType">
+    <xs:simpleType name="raceItemType">
         <xs:annotation>
             <xs:documentation>The enumeration items defining the racial
                 categories which most clearly reflects the individual's recognition
@@ -2849,7 +2849,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RecognitionType">
+    <xs:simpleType name="recognitionType">
         <xs:annotation>
             <xs:documentation>The nature of recognition given to the student for
                 accomplishments in a co-curricular, or extra-curricular activity.
@@ -2871,7 +2871,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RelationType">
+    <xs:simpleType name="relationType">
         <xs:annotation>
             <xs:documentation>The nature of an individual's relationship to a
                 student.
@@ -2952,7 +2952,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ReasonExitedType">
+    <xs:simpleType name="reasonExitedType">
         <xs:annotation>
             <xs:documentation>The reason the child left the program within a
                 school or district.
@@ -2996,7 +2996,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ReasonNotTestedType">
+    <xs:simpleType name="reasonNotTestedType">
         <xs:annotation>
             <xs:documentation>The primary reason student is not tested. For
                 example:
@@ -3028,7 +3028,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="RepeatIdentifierType">
+    <xs:simpleType name="repeatIdentifierType">
         <xs:annotation>
             <xs:documentation>An indication as to whether a student has
                 previously taken a given course.
@@ -3042,7 +3042,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ReporterDescriptionType">
+    <xs:simpleType name="reporterDescriptionType">
         <xs:annotation>
             <xs:documentation>Information on the type of individual who reported
                 the incident.
@@ -3056,7 +3056,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ResponseIndicatorType">
+    <xs:simpleType name="responseIndicatorType">
         <xs:annotation>
             <xs:documentation>Indicator of the response. For example:
                 Nonscorable
@@ -3075,7 +3075,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="IncidentLocationType">
+    <xs:simpleType name="incidentLocationType">
         <xs:annotation>
             <xs:documentation>Identifies where the incident occurred and whether
                 or not it occurred on school.
@@ -3108,7 +3108,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ProgramAssignmentType">
+    <xs:simpleType name="programAssignmentType">
         <xs:annotation>
             <xs:documentation>The name of the education program for which a
                 teacher is assigned to a school.
@@ -3123,7 +3123,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="MethodCreditEarnedType">
+    <xs:simpleType name="methodCreditEarnedType">
         <xs:annotation>
             <xs:documentation>The method the credits were earned, for example:
                 Classroom, Examination, Transfer
@@ -3142,7 +3142,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PerformanceBaseType">
+    <xs:simpleType name="performanceBaseType">
         <xs:annotation>
             <xs:documentation>Defines standard levels of competency or
                 performance that can be used for dashboard visualizations: advanced,
@@ -3158,7 +3158,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ProgramSponsorType">
+    <xs:simpleType name="programSponsorType">
         <xs:annotation>
             <xs:documentation>Ultimate and intermediate providers of funds for a
                 particular educational or service program or activity or for an
@@ -3176,7 +3176,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="EducationalPlanItemType">
+    <xs:simpleType name="educationalPlanItemType">
         <xs:annotation>
             <xs:documentation>The type of education plan(s) the student is
                 following, if appropriate. For example:
@@ -3199,7 +3199,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="EmploymentStatusType">
+    <xs:simpleType name="employmentStatusType">
         <xs:annotation>
             <xs:documentation>Reflects the type of employment or contract.
             </xs:documentation>
@@ -3219,7 +3219,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PostingResultType">
+    <xs:simpleType name="postingResultType">
         <xs:annotation>
             <xs:documentation>Indication of whether the position was filled or
                 retired without filling.
@@ -3231,7 +3231,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SexType">
+    <xs:simpleType name="sexType">
         <xs:annotation>
             <xs:documentation>A person's gender.</xs:documentation>
         </xs:annotation>
@@ -3241,7 +3241,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="OldEthnicityType">
+    <xs:simpleType name="oldEthnicityType">
         <xs:annotation>
             <xs:documentation>Previous definition of Ethnicity combining
                 Hispanic/Latino and Race.
@@ -3256,7 +3256,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ElectronicMailAddressType">
+    <xs:simpleType name="electronicMailAddressType">
         <xs:annotation>
             <xs:documentation>The type of email listed for an individual or
                 organization.
@@ -3270,7 +3270,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PersonalTitlePrefixType">
+    <xs:simpleType name="personalTitlePrefixType">
         <xs:annotation>
             <xs:documentation>A prefix used to denote the title, degree, position
                 or seniority of the person.
@@ -3288,7 +3288,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="GenerationCodeSuffixType">
+    <xs:simpleType name="generationCodeSuffixType">
         <xs:annotation>
             <xs:documentation>An appendage, if any, used to denote an
                 individual's generation in his family (e.g., Jr., Sr., III).
@@ -3307,7 +3307,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="EntryType">
+    <xs:simpleType name="entryType">
         <xs:annotation>
             <xs:documentation>The process by which a student enters a school
                 during a given academic session.
@@ -3347,7 +3347,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ExitWithdrawType">
+    <xs:simpleType name="exitWithdrawType">
         <xs:annotation>
             <xs:documentation>The circumstances under which the student exited
                 from membership in an educational institution.
@@ -3416,7 +3416,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="PersonalInformationVerificationType">
+    <xs:simpleType name="personalInformationVerificationType">
         <xs:annotation>
             <xs:documentation>The evidence presented to verify one's personal
                 identity; for example: drivers license, passport, birth certificate,
@@ -3442,7 +3442,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="OtherNameType">
+    <xs:simpleType name="otherNameType">
         <xs:annotation>
             <xs:documentation>The types of alternate names for a person.
             </xs:documentation>
@@ -3455,7 +3455,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SeparationType">
+    <xs:simpleType name="separationType">
         <xs:annotation>
             <xs:documentation>Type of employment separation; for example:
                 Voluntary separation, Involuntary separation, Mutual agreement.
@@ -3482,7 +3482,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Section504DisabilityItemType">
+    <xs:simpleType name="section504DisabilityItemType">
         <xs:annotation>
             <xs:documentation>Enumeration items for Section 504 disabilities.
             </xs:documentation>
@@ -3496,7 +3496,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SeparationReasonType">
+    <xs:simpleType name="separationReasonType">
         <xs:annotation>
             <xs:documentation>Reason for terminating the employment; for example:
                 Employment in education, Employment outside of education,
@@ -3530,7 +3530,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SchoolFoodServicesEligibilityType">
+    <xs:simpleType name="schoolFoodServicesEligibilityType">
         <xs:annotation>
             <xs:documentation>An indication of a student's level of eligibility
                 for breakfast, lunch, snack, supper, and milk programs.
@@ -3544,7 +3544,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="DisabilityType">
+    <xs:simpleType name="disabilityType">
         <xs:annotation>
             <xs:documentation>A disability condition that describes a child's
                 impairment.
@@ -3569,7 +3569,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Percent">
+    <xs:simpleType name="percent">
         <xs:annotation>
             <xs:documentation>A proportion in relation to the whole (as measured
                 in parts per one hundred).
@@ -3578,7 +3578,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         <xs:restriction base="xs:int" />
     </xs:simpleType>
 
-    <xs:simpleType name="CredentialType">
+    <xs:simpleType name="credentialType">
         <xs:annotation>
             <xs:documentation>An indication of the category of credential an
                 individual holds.
@@ -3593,7 +3593,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="GraduationPlanType">
+    <xs:simpleType name="graduationPlanType">
         <xs:annotation>
             <xs:documentation>The type of academic plan the student is following
                 for graduation.
@@ -3608,7 +3608,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
 
-	<xs:simpleType name="CourseLevelType">
+	<xs:simpleType name="courseLevelType">
 		<xs:annotation>
 			<xs:documentation>The secondary course's level of rigor.</xs:documentation>
 		</xs:annotation>
@@ -3620,7 +3620,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="CourseLevelCharacteristicItemType">
+	<xs:simpleType name="courseLevelCharacteristicItemType">
 		<xs:annotation>
 			<xs:documentation>The item for indication of the nature and difficulty of instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc. </xs:documentation>
 		</xs:annotation>
@@ -3651,7 +3651,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 		</xs:restriction>
 	</xs:simpleType>
 	
-	<xs:simpleType name="CourseRepeatCodeType">
+	<xs:simpleType name="courseRepeatCodeType">
 		<xs:annotation>
 			<xs:documentation>Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.</xs:documentation>
 		</xs:annotation>
@@ -3665,7 +3665,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="GradeType">
+	<xs:simpleType name="gradeType">
 		<xs:annotation>
 			<xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
 		</xs:annotation>
@@ -3680,7 +3680,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 		</xs:restriction>
 	</xs:simpleType>
     
-    <xs:simpleType name="DisciplineActionLengthDifferenceReasonType">
+    <xs:simpleType name="disciplineActionLengthDifferenceReasonType">
         <xs:annotation>
             <xs:documentation>Indicates the reason for the difference, if any, between the official
                 and actual lengths of a student’s disciplinary assignment.</xs:documentation>
@@ -3702,7 +3702,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:restriction>
     </xs:simpleType>
     
-    <xs:simpleType name="WeaponItemType">
+    <xs:simpleType name="weaponItemType">
         <xs:annotation>
             <xs:documentation>The enumeration items for the types of weapon used during an incident.
             </xs:documentation>
