@@ -7,13 +7,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
@@ -34,7 +37,7 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
-    	// Get all the students for that user (ignores sections)
+        // Get all the students for that user (ignores sections)
         Student[] students = fromFile(getFilename("mock_data/" + token + "/student.json"), Student[].class);
 
         // Filter out students that are not in our student list
@@ -47,6 +50,25 @@ public class MockAPIClient implements APIClient {
             }
         }
         Student[] retVal = new Student[filtered.size()];
+        return filtered.toArray(retVal);
+    }
+    
+    @Override
+    public GenericEntity[] getStudentsGeneric(final String token, List<String> studentIds) {
+        
+        // Get all the students for that user (ignores sections)
+        GenericEntity[] students = fromFileGeneric(getFilename("mock_data/" + token + "/student.json"), "student");
+        
+        // Filter out students that are not in our student list
+        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
+        if (studentIds != null) {
+            for (GenericEntity student : students) { 
+                if (studentIds.contains(student.getEntityId())) { 
+                    filtered.add(student);
+                }
+            }
+        }
+        GenericEntity[] retVal = new GenericEntity[filtered.size()];
         return filtered.toArray(retVal);
     }
     
@@ -90,12 +112,12 @@ public class MockAPIClient implements APIClient {
     
     @Override
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
-		// Get programs list for ALL the student of that user (regardless of sections)
+        // Get programs list for ALL the student of that user (regardless of sections)
         StudentProgramAssociation[] programs = fromFile(getFilename("mock_data/" + token + "/student_program_association.json"), StudentProgramAssociation[].class);
         // perform the filtering. 
         Vector<StudentProgramAssociation> filtered = new Vector<StudentProgramAssociation>();
         if (studentIds != null) {
-        	// Collect programs for each and every student
+            // Collect programs for each and every student
             for (StudentProgramAssociation program : programs) { 
                 if (studentIds.contains(program.getStudentId())) { 
                     filtered.add(program);
@@ -139,7 +161,53 @@ public class MockAPIClient implements APIClient {
             }
         }
     }
+
+    // Helper function to translate a .json file into generic entity object. 
+    public static GenericEntity[] fromFileGeneric(String fileName, String type) {
     
+        BufferedReader bin = null;
+    
+        try {
+            FileReader filein;
+            filein = new FileReader(fileName);
+            bin = new BufferedReader(filein);
+            String s, total;
+            total = "";
+            while ((s = bin.readLine()) != null) {
+                total += s;
+            }
+            Gson gson = new Gson();        
+            
+            List<Map<String, Object>> maps = gson.fromJson(total, new TypeToken<List<Map<String, Object>>>() { } .getType());
+            
+            // populate list of generic entities
+            GenericEntity[] entities = new GenericEntity[maps.size()];
+            int i = 0;
+            for (Map<String, Object> map : maps) {
+                GenericEntity e = new GenericEntity();
+                e.setType(type);
+                e.setEntityId((String) (map.get("id")));
+                e.setBody(map);
+                entities[i++] = e;
+            }
+            return entities;
+            
+        } catch (IOException e) {
+            System.err.println(e);
+            return null;
+            
+        } finally {
+
+            try {
+                if (bin != null) {
+                    bin.close();
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+    }
+
     // Helper function to translate an object into a .json file 
     private static <T> void toFile(T[] src, String fileName, Class<T[]> c) {
         

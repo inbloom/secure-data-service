@@ -12,6 +12,7 @@ import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.AssociationResponseObject;
 import org.slc.sli.entity.Course;
 import org.slc.sli.entity.CustomData;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.InnerResponse;
 import org.slc.sli.entity.ResponseObject;
 import org.slc.sli.entity.School;
@@ -80,7 +81,10 @@ public class LiveAPIClient implements APIClient {
         return students;
     }
     
-    
+    @Override
+    public GenericEntity[] getStudentsGeneric(final String token, List<String> studentIds) {
+        return mockClient.getStudentsGeneric(getUsername(), studentIds);
+    }
     
     private String getStudent(String id, String token) {
         String url = Constants.API_SERVER_URI + "/students/" + id;

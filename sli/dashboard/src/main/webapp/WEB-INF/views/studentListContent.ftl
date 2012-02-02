@@ -35,7 +35,7 @@
       <#-- lozenges in front -->
       <#if field.getLozenges()?? &&
            field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_FRONT>
-        <#include "widget/lozenges.ftl">
+        <#--<#include "widget/lozenges.ftl">-->
       </#if>
   
       <#-- student info -->
@@ -45,9 +45,9 @@
       <#-- assessment results -->
       <#elseif field.getType() = constants.FIELD_TYPE_ASSESSMENT>
         <#if field.getVisual()?? && (field.getVisual()?length > 0)>
-          <#include "widget/" + field.getVisual() + ".ftl">
+          <#--<#include "widget/" + field.getVisual() + ".ftl">-->
         <#else>
-          ${assessments.get(field, student)}
+          <#--${assessments.get(field, student)}-->
         </#if>
         
       <#else>
@@ -58,7 +58,7 @@
       <#-- lozenges at the back -->
       <#if field.getLozenges()?? &&
            field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
-        <#include "widget/lozenges.ftl">
+        <#--<#include "widget/lozenges.ftl">-->
       </#if>
   
     </td>

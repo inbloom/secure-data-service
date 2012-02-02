@@ -1,15 +1,16 @@
 package org.slc.sli.manager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.slc.sli.config.ConfigUtil;
+import org.slc.sli.config.Field;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.Field;
-import org.slc.sli.config.ConfigUtil;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * StudentManager supplies student data to the controllers.
@@ -32,6 +33,21 @@ public class StudentManager extends Manager {
         List<Student> studentInfo = new ArrayList<Student>();
         if (dataFields.size() > 0) {
             studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
+        }
+        
+        // return the results
+        return studentInfo;
+    }
+    
+    public List<GenericEntity> getStudentInfoGeneric(String username, List<String> studentIds, ViewConfig config) {
+        
+        // extract the studentInfo data fields
+        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
+        
+        // call the api
+        List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
+        if (dataFields.size() > 0) {
+            studentInfo.addAll(Arrays.asList(apiClient.getStudentsGeneric(SecurityUtil.getToken(), studentIds)));
         }
         
         // return the results
