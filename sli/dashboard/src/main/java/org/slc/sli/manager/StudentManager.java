@@ -8,7 +8,6 @@ import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.util.SecurityUtil;
 
@@ -23,23 +22,7 @@ import org.slc.sli.util.SecurityUtil;
 public class StudentManager extends Manager {
     
     
-    public List<Student> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
-        
-        // extract the studentInfo data fields
-        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
-        
-        // call the api
-        // TODO: do we need more logic to grab the correct fields?
-        List<Student> studentInfo = new ArrayList<Student>();
-        if (dataFields.size() > 0) {
-            studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
-        }
-        
-        // return the results
-        return studentInfo;
-    }
-    
-    public List<GenericEntity> getStudentInfoGeneric(String username, List<String> studentIds, ViewConfig config) {
+    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
         // extract the studentInfo data fields
         List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
@@ -47,7 +30,7 @@ public class StudentManager extends Manager {
         // call the api
         List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
         if (dataFields.size() > 0) {
-            studentInfo.addAll(Arrays.asList(apiClient.getStudentsGeneric(SecurityUtil.getToken(), studentIds)));
+            studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
         }
         
         // return the results

@@ -24,7 +24,7 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
-import org.slc.sli.view.StudentResolverGeneric;
+import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
 
 /**
@@ -69,10 +69,10 @@ public class StudentListContentController extends DashboardController {
         }
 
         //List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
-        List<GenericEntity> students = studentManager.getStudentInfoGeneric(user.getUsername(), uids, viewConfig);
+        List<GenericEntity> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
         List<StudentProgramAssociation> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
 
-        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolverGeneric(students, programs));
+        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
         // insert the assessments object into the modelmap
         List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);

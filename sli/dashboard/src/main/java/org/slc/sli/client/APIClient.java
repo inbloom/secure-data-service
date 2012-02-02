@@ -21,8 +21,7 @@ import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 public interface APIClient {
 
     public School[] getSchools(final String token);
-    public Student[] getStudents(final String token, List<String> studentIds);
-    public GenericEntity[] getStudentsGeneric(final String token, List<String> studentIds);
+    public GenericEntity[] getStudents(final String token, List<String> studentIds);
     public Assessment[] getAssessments(final String token, List<String> studentIds);
     public CustomData[] getCustomData(final String token, String key);
     public void saveCustomData(CustomData[] src, String token, String key);

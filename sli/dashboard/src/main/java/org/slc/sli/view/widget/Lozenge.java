@@ -39,6 +39,7 @@ public class Lozenge {
             String[] lozengeNamesArr = lozengeNames.split("\\s+");
             for (int i = 0; i < lozengeNamesArr.length; i++) {
                 String lozengeName = lozengeNamesArr[i];
+                /*
                 if (students.lozengeApplies(student, lozengeName)) {
                     LozengeConfig config = lozengeConfigs.get(lozengeName);
                     if (config != null) {
@@ -48,6 +49,7 @@ public class Lozenge {
                         }
                     }
                 }
+                */
             }
         }
     }

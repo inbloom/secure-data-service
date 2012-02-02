@@ -1,11 +1,13 @@
 package org.slc.sli.view;
 
-import org.slc.sli.entity.Student;
-import org.slc.sli.entity.StudentProgramAssociation;
-import org.slc.sli.config.Field;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.Student;
+import org.slc.sli.entity.StudentProgramAssociation;
 
 
 //Hopefully there will be one for each of dataSet types
@@ -18,7 +20,7 @@ import java.util.List;
  *
  */
 public class StudentResolver {
-    List<Student> students;
+    List<GenericEntity> students;
     List<StudentProgramAssociation> programs;
     
     public static final String DATA_SET_TYPE = "studentInfo";
@@ -26,24 +28,25 @@ public class StudentResolver {
     /**
      * Constructor
      */
-    public StudentResolver(List<Student> s, List<StudentProgramAssociation> p) {
+    public StudentResolver(List<GenericEntity> s, List<StudentProgramAssociation> p) {
         students = s;
         programs = p;
     }
     
-    public List<Student> list() {
+    public List<GenericEntity> list() {
         return students;
     }
     
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      */
-    public String get(Field field, Student student) {
+    public String get(Field field, GenericEntity student) {
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals("name")) {
             // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
-            return student.getFirstName() + " " + student.getLastName(); 
+            //return student.getFirstName() + " " + student.getLastName();
+            return ((Map) (student.getBody().get("name"))).get("firstName") + " " + ((Map) (student.getBody().get("name"))).get("lastSurname");
         } 
         return "";
     }
@@ -51,8 +54,9 @@ public class StudentResolver {
     /**
      * returns true if the given lozenge code applies to the given student
      */
-    public boolean lozengeApplies(Student student, String code) {
+    public boolean lozengeApplies(GenericEntity student, String code) {
         
+        /*
         String[] studentProgramCodes = Student.getProgramCodesForStudent();
         
         // Check if program in student entity
@@ -66,6 +70,7 @@ public class StudentResolver {
                 return Arrays.asList(p.getPrograms()).contains(code);
             }
         }
+        */
         return false;
     }
 }

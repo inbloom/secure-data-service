@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Student;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.StudentManager;
 
@@ -45,7 +45,7 @@ public class StudentManagerTest {
         
         StudentManager studentManager = new StudentManager();
         studentManager.setApiClient(mockClient);
-        List<Student> studentInfo = studentManager.getStudentInfo("lkim", studentIds, config);
+        List<GenericEntity> studentInfo = studentManager.getStudentInfo("lkim", studentIds, config);
         assertEquals(2, studentInfo.size());
     }
     

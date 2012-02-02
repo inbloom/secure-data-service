@@ -34,27 +34,8 @@ public class MockAPIClient implements APIClient {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
     
-
     @Override
-    public Student[] getStudents(final String token, List<String> studentIds) {
-        // Get all the students for that user (ignores sections)
-        Student[] students = fromFile(getFilename("mock_data/" + token + "/student.json"), Student[].class);
-
-        // Filter out students that are not in our student list
-        Vector<Student> filtered = new Vector<Student>();
-        if (studentIds != null) {
-            for (Student student : students) { 
-                if (studentIds.contains(student.getId())) { 
-                    filtered.add(student);
-                }
-            }
-        }
-        Student[] retVal = new Student[filtered.size()];
-        return filtered.toArray(retVal);
-    }
-    
-    @Override
-    public GenericEntity[] getStudentsGeneric(final String token, List<String> studentIds) {
+    public GenericEntity[] getStudents(final String token, List<String> studentIds) {
         
         // Get all the students for that user (ignores sections)
         GenericEntity[] students = fromFileGeneric(getFilename("mock_data/" + token + "/student.json"), "student");

@@ -3,8 +3,10 @@ package org.slc.sli.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang.ArrayUtils;
 
@@ -66,24 +68,19 @@ public class LiveAPIClient implements APIClient {
     }
     
     @Override
-    public Student[] getStudents(final String token, List<String> urls) {
+    public GenericEntity[] getStudents(final String token, List<String> urls) {
         if (urls == null) {
             return null;
         }
         
-        Student[] students = new Student[urls.size()];
+        GenericEntity[] students = new GenericEntity[urls.size()];
         
         int i = 0;
         for (String url: urls) {
-            students[i++] = gson.fromJson(getStudent(url, token), Student.class);
+            students[i++] = createEntityFromJson(getStudent(url, token), "student");
         }
         
         return students;
-    }
-    
-    @Override
-    public GenericEntity[] getStudentsGeneric(final String token, List<String> studentIds) {
-        return mockClient.getStudentsGeneric(getUsername(), studentIds);
     }
     
     private String getStudent(String id, String token) {
@@ -251,4 +248,23 @@ public class LiveAPIClient implements APIClient {
         return SecurityUtil.getPrincipal().getUsername().replace(" ", "");
     }
     
+    /**
+     * 
+     * @param json
+     * @param type
+     * @return
+     */
+    private GenericEntity createEntityFromJson(String json, String type) {
+        
+        Gson gson = new Gson();        
+        
+        Map<String, Object> map = gson.fromJson(json, new TypeToken<Map<String, Object>>() { } .getType());
+        
+        // populate list of generic entities
+        GenericEntity e = new GenericEntity();
+        e.setType(type);
+        e.setEntityId((String) (map.get("id")));
+        e.setBody(map);
+        return e;
+    }
 }
