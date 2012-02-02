@@ -79,6 +79,8 @@ public class ResourceTest {
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI        = "teacher-school-associations";
     private static final String EDUCATIONORGANIZATION_ASSOCIATION_URI = "educationOrganization-associations";
     private static final String SCHOOL_SESSION_ASSOCIATION_URI        = "school-session-associations";
+    private static final String SESSION_COURSE_ASSOCIATION_URI        = "session-course-associations";
+    
     @Autowired
     Resource                    api;
     private UriInfo             uriInfo;
@@ -162,6 +164,13 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("schoolId", schoolId);
         entity.put("sessionId", sessionId);
+        return entity;
+    }
+
+    public Map<String, Object> createTestSessionCourseAssociation(String sessionId, String courseId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sessionId", sessionId);
+        entity.put("courseId", courseId);
         return entity;
     }
     
@@ -278,7 +287,7 @@ public class ResourceTest {
         
     }
 
-    
+
     @Test
     public void testSchoolSessionFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
@@ -297,6 +306,26 @@ public class ResourceTest {
         assertEquals(schoolSessionAssocId, tssAssocBody.get("id"));
         assertEquals(sessionId, tssAssocBody.get("sessionId"));
         assertEquals(schoolId, tssAssocBody.get("schoolId"));
+    }
+
+    @Test
+    public void testSessionCourseFunctionality() {
+        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
+        
+        String courseId = this.createEntity("courses", ids);
+        String sessionId = this.createEntity("sessions", ids);
+
+        Response createAssociationResponse = api.createEntity(SESSION_COURSE_ASSOCIATION_URI, new EntityBody(createTestSessionCourseAssociation(sessionId, courseId)), uriInfo);
+        assertNotNull(createAssociationResponse);
+        String sessionCourseAssocId = parseIdFromLocation(createAssociationResponse);
+        
+        // test school session association
+        Response tscResponse = api.getEntity(SESSION_COURSE_ASSOCIATION_URI, sessionCourseAssocId, 0, 10, uriInfo);
+        EntityBody tscAssocBody = (EntityBody) tscResponse.getEntity();
+        assertNotNull(tscAssocBody);
+        assertEquals(sessionCourseAssocId, tscAssocBody.get("id"));
+        assertEquals(sessionId, tscAssocBody.get("sessionId"));
+        assertEquals(courseId, tscAssocBody.get("courseId"));
     }
     
     
