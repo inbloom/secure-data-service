@@ -1,0 +1,31 @@
+<script type="text/javascript">
+function print(json) {
+
+    return JSON.stringify(json, undefined, 2); // indentation level = 2
+
+}
+
+function linkify(text){
+    if (text) {
+        text = text.replace(
+            /((https?\:\/\/)|(www\.))(\S+)(\w{2,4})(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
+            function(url){
+                var full_url = url;
+                if (!full_url.match('^https?:\/\/')) {
+                    full_url = 'http://' + full_url;
+                }
+                return '<a href="' + full_url + '">' + url + '</a>';
+            }
+        );
+    }
+    return text;
+}
+
+    $(document).ready(function(){
+        var entity = <%= @res %>;
+        $('div#data').append("<pre>" + linkify(print(entity)) + "</pre>");
+        $('div#data').append("It's toasted");
+
+    });
+</script>
+    <div id="data"></div>
