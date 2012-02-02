@@ -20,6 +20,7 @@ import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
+import org.slc.sli.validation.schema.DoubleSchema;
 import org.slc.sli.validation.schema.IntegerSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.Restriction;
@@ -133,6 +134,16 @@ public class XsdToNeutralSchemaTest {
         assertEquals(IntegerSchema.class.getCanonicalName(), cycle2Schema.getValidatorClass());
         assertEquals("1", cycle2Schema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
         assertEquals("99", cycle2Schema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
+        NeutralSchema testDoubleSchema = (NeutralSchema) schema.getFields().get("testDouble");
+        assertNotNull(testDoubleSchema);
+        assertEquals("double", testDoubleSchema.getType());
+        assertEquals(DoubleSchema.class.getCanonicalName(), testDoubleSchema.getValidatorClass());
+        
+        NeutralSchema testFloatSchema = (NeutralSchema) schema.getFields().get("testFloat");
+        assertNotNull(testFloatSchema);
+        assertEquals("float", testFloatSchema.getType());
+        assertEquals(DoubleSchema.class.getCanonicalName(), testFloatSchema.getValidatorClass());
+        
     }
     
     @Test
