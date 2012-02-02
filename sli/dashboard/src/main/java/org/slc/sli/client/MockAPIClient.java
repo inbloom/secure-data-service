@@ -18,9 +18,9 @@ import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.School;
-import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.util.Constants;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class MockAPIClient implements APIClient {
     public GenericEntity[] getStudents(final String token, List<String> studentIds) {
         
         // Get all the students for that user (ignores sections)
-        GenericEntity[] students = fromFileGeneric(getFilename("mock_data/" + token + "/student.json"), "student");
+        GenericEntity[] students = fromFileGeneric(getFilename("mock_data/" + token + "/student.json"), Constants.ENTITY_TYPE_STUDENT);
         
         // Filter out students that are not in our student list
         Vector<GenericEntity> filtered = new Vector<GenericEntity>();

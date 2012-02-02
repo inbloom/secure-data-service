@@ -35,6 +35,8 @@ public class Constants {
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
     
+    // entity types
+    public static final String ENTITY_TYPE_STUDENT = "student";
     
     /**
      * Contains the possible values for FRE participation

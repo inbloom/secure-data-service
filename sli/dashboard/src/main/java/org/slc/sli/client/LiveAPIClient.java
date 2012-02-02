@@ -77,7 +77,7 @@ public class LiveAPIClient implements APIClient {
         
         int i = 0;
         for (String url: urls) {
-            students[i++] = createEntityFromJson(getStudent(url, token), "student");
+            students[i++] = createEntityFromJson(getStudent(url, token), Constants.ENTITY_TYPE_STUDENT);
         }
         
         return students;
