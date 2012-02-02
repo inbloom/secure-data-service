@@ -421,9 +421,8 @@
 					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
+					<xs:restriction base="xs:double">
 						<xs:minInclusive value="0" />
-						<xs:fractionDigits value="2" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -434,7 +433,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CreditConversion" type="xs:decimal"
+			<xs:element name="CreditConversion" type="xs:double"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Conversion factor that when multiplied by the
