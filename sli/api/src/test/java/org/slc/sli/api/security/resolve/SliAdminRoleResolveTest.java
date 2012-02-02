@@ -11,16 +11,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.enums.Right;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
-import org.slc.sli.api.security.roles.RoleBuilder;
-import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
+import org.slc.sli.api.security.roles.RoleBuilder;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Verifies that {@link DefaultRolesToRightsResolver} filters out SLI Admins properly if
@@ -60,7 +61,7 @@ public class SliAdminRoleResolveTest {
         
         // Define sli admin per RoleInitializer
         when(rra.getDefaultRole(RoleInitializer.SLI_ADMINISTRATOR)).thenReturn(
-                RoleBuilder.makeRole(RoleInitializer.SLI_ADMINISTRATOR).addRights(new Right[] { Right.READ_ROLES })
+                RoleBuilder.makeRole(RoleInitializer.SLI_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS })
                         .build());
         
         resolver.setRoleRightAccess(rra);
@@ -76,25 +77,25 @@ public class SliAdminRoleResolveTest {
     @Test
     public void testAdminInAdminRealm() {
         Set<GrantedAuthority> roles = resolver.resolveRoles(ADMIN_REALM_NAME, rolesContainingAdmin);
-        Assert.assertTrue(roles.contains(Right.READ_ROLES));
+        Assert.assertTrue(roles.contains(Right.ADMIN_ACCESS));
     }
     
     @Test
     public void testAdminNotInAdminRealm() {
         Set<GrantedAuthority> roles = resolver.resolveRoles(NON_ADMIN_REALM_NAME, rolesNotContainingAdmin);
-        Assert.assertFalse(roles.contains(Right.READ_ROLES));
+        Assert.assertFalse(roles.contains(Right.ADMIN_ACCESS));
     }
     
     @Test
     public void testNonAdminInAdminRealm() {
         Set<GrantedAuthority> roles = resolver.resolveRoles(ADMIN_REALM_NAME, rolesNotContainingAdmin);
-        Assert.assertFalse(roles.contains(Right.READ_ROLES));
+        Assert.assertFalse(roles.contains(Right.ADMIN_ACCESS));
     }
     
     @Test
     public void testNonAdminNotInAdminRealm() {
         Set<GrantedAuthority> roles = resolver.resolveRoles(NON_ADMIN_REALM_NAME, rolesNotContainingAdmin);
-        Assert.assertFalse(roles.contains(Right.READ_ROLES));
+        Assert.assertFalse(roles.contains(Right.ADMIN_ACCESS));
     }
     
 }

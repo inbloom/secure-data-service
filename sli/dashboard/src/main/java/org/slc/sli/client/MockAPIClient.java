@@ -39,15 +39,18 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public Student[] getStudents(final String token, List<String> studentIds) {
+    	// Get all the students for that user (ignores sections)
         Student[] students = fromFile(getFilename("mock_data/" + token + "/student.json"), Student[].class);
-        // perform the filtering. 
+
+        // Filter out students that are not in our student list
         Vector<Student> filtered = new Vector<Student>();
-        if (studentIds != null)
+        if (studentIds != null) {
             for (Student student : students) { 
                 if (studentIds.contains(student.getId())) { 
                     filtered.add(student);
                 }
             }
+        }
         Student[] retVal = new Student[filtered.size()];
         return filtered.toArray(retVal);
     }
@@ -92,15 +95,18 @@ public class MockAPIClient implements APIClient {
     
     @Override
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
+		// Get programs list for ALL the student of that user (regardless of sections)
         StudentProgramAssociation[] programs = fromFile(getFilename("mock_data/" + token + "/student_program_association.json"), StudentProgramAssociation[].class);
         // perform the filtering. 
         Vector<StudentProgramAssociation> filtered = new Vector<StudentProgramAssociation>();
-        if (studentIds != null)
+        if (studentIds != null) {
+        	// Collect programs for each and every student
             for (StudentProgramAssociation program : programs) { 
                 if (studentIds.contains(program.getStudentId())) { 
                     filtered.add(program);
                 }
             }
+        }
         StudentProgramAssociation[] retVal = new StudentProgramAssociation[filtered.size()];
         return filtered.toArray(retVal);
     }

@@ -8,15 +8,12 @@ import org.slc.sli.validation.schema.BooleanSchema;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
 import org.slc.sli.validation.schema.DateTimeSchema;
-import org.slc.sli.validation.schema.DecimalSchema;
 import org.slc.sli.validation.schema.DoubleSchema;
 import org.slc.sli.validation.schema.DurationSchema;
-import org.slc.sli.validation.schema.FloatSchema;
 import org.slc.sli.validation.schema.IntegerSchema;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.LongSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
-import org.slc.sli.validation.schema.RestrictedSchema;
 import org.slc.sli.validation.schema.StringSchema;
 import org.slc.sli.validation.schema.TimeSchema;
 import org.slc.sli.validation.schema.TokenSchema;
@@ -56,12 +53,8 @@ public class NeutralSchemaFactory implements SchemaFactory {
                     return new IntegerSchema(schemaType.getName());
                 case LONG:
                     return new LongSchema(schemaType.getName());
-                case FLOAT:
-                    return new FloatSchema(schemaType.getName());
                 case DOUBLE:
                     return new DoubleSchema(schemaType.getName());
-                case DECIMAL:
-                    return new DecimalSchema(schemaType.getName());
                 case DATE:
                     return new DateSchema(schemaType.getName());
                 case TIME:
@@ -76,8 +69,6 @@ public class NeutralSchemaFactory implements SchemaFactory {
                     return new StringSchema(schemaType.getName());
                 case IDREF:
                     return new StringSchema(schemaType.getName());
-                case RESTRICTED:
-                    return new RestrictedSchema(schemaType.getName());
                 case TOKEN:
                     return new TokenSchema(schemaType.getName());
                 case LIST:
