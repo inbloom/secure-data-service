@@ -1,14 +1,13 @@
 package org.slc.sli.view;
 
-import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.entity.assessmentmetadata.PerfLevel;
-import org.slc.sli.entity.Student;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slc.sli.config.Field;
-
-import java.util.List;
-import java.util.ArrayList;
+import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.assessmentmetadata.PerfLevel;
 
 
 //Hopefully there will be one for each of dataSet types
@@ -48,7 +47,7 @@ public class AssessmentResolver {
      * Looks up a representation for the result of the assessment, taken by the student 
      * Returns the string representation of the result, identified by the Field
      */
-    public String get(Field field, Student student) {
+    public String get(Field field, GenericEntity student) {
         // look up the assessment. 
         Assessment chosenAssessment = resolveAssessment(field, student);
         // get the data point
@@ -78,7 +77,7 @@ public class AssessmentResolver {
      * Looks up the cutpoints for the result returned by get(field, student);
      * (used by fuel gauge visualization widget)
      */
-    public List<Integer> getCutpoints(Field field, Student student) {
+    public List<Integer> getCutpoints(Field field, GenericEntity student) {
         // look up the assessment. 
         Assessment chosenAssessment = resolveAssessment(field, student);
         if (chosenAssessment == null) { return null; }
@@ -94,7 +93,7 @@ public class AssessmentResolver {
     /*
      * Looks up a representation for the result of the assessment, taken by the student 
      */
-    public Assessment resolveAssessment(Field field, Student student) {
+    public Assessment resolveAssessment(Field field, GenericEntity student) {
 
         // This first implementation is gruelingly inefficient. But, whateves... it's gonna be 
         // thrown away. 
@@ -102,7 +101,7 @@ public class AssessmentResolver {
         // A) filter out students first
         List<Assessment> studentFiltered = new ArrayList<Assessment>();
         for (Assessment a : assessments) {
-            if (a.getStudentId().equals(student.getId())) {
+            if (a.getStudentId().equals(student.getEntityId())) {
                 studentFiltered.add(a);
             }
         }

@@ -1,10 +1,11 @@
 package org.slc.sli.view.widget;
 
+import java.util.List;
+
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.Student;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.AssessmentResolver;
-import java.util.List;
 
 /**
  * Logic used by a widget that displays assessment results color-coded by performance level and 
@@ -15,11 +16,11 @@ import java.util.List;
 public class FuelGauge {
     
     private Field field;
-    private Student student;
+    private GenericEntity student;
     private AssessmentResolver assmts;
     private ColorByPerf colorByPerf;
 
-    public FuelGauge(Field field, Student student, AssessmentResolver assmts) {
+    public FuelGauge(Field field, GenericEntity student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;

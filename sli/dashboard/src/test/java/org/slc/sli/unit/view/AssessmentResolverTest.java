@@ -2,7 +2,7 @@ package org.slc.sli.unit.view;
 
 
 import static org.junit.Assert.assertEquals;
-
+import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,16 +12,15 @@ import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
 import org.slc.sli.client.MockAPIClient;
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.Field;
+import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Assessment;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.view.AssessmentResolver;
-
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Unit tests for the AssessmentResolver class.
@@ -34,7 +33,7 @@ public class AssessmentResolverTest {
     private AssessmentResolver resolver;
     
     // only one student data for testing. 
-    private Student student;
+    private GenericEntity student;
     
     @Before
     public void setup() {
@@ -79,8 +78,8 @@ public class AssessmentResolverTest {
     // --- helper functions ---
     private List<Assessment> getAssessments() {
         String studentId = "111111111";
-        student = new Student();
-        student.setId(studentId);
+        student = new GenericEntity();
+        student.setEntityId(studentId);
         String[] studentIdArray = (String[]) Arrays.asList(studentId).toArray();
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
