@@ -38,9 +38,6 @@ public class ComplexSchemaTest {
     DoubleSchema doubleSchema;
     
     @Autowired
-    DecimalSchema decimalSchema;
-    
-    @Autowired
     StringSchema stringSchema;
     
     @Autowired
@@ -55,7 +52,6 @@ public class ComplexSchemaTest {
         schema.getFields().put("booleanField", booleanSchema);
         schema.getFields().put("longField", longSchema);
         schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
         schema.getFields().put("stringField", stringSchema);
         schema.getFields().put("tokenField", tokenSchema);
         schema.getFields().put("dateTimeField", dateTimeSchema);
@@ -87,7 +83,6 @@ public class ComplexSchemaTest {
         schema.getFields().put("booleanField", booleanSchema);
         schema.getFields().put("longField", longSchema);
         schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
         schema.getFields().put("stringField", stringSchema);
         schema.getFields().put("tokenField", tokenSchema);
         schema.getFields().put("dateTimeField", dateTimeSchema);
@@ -123,7 +118,6 @@ public class ComplexSchemaTest {
         schema.getFields().put("booleanField", booleanSchema);
         schema.getFields().put("longField", longSchema);
         schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
         schema.getFields().put("stringField", stringSchema);
         schema.getFields().put("tokenField", tokenSchema);
         schema.getFields().put("dateTimeField", dateTimeSchema);
@@ -159,7 +153,6 @@ public class ComplexSchemaTest {
         schema.getFields().put("booleanField", booleanSchema);
         schema.getFields().put("longField", longSchema);
         schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
         schema.getFields().put("stringField", stringSchema);
         schema.getFields().put("tokenField", tokenSchema);
         schema.getFields().put("dateTimeField", dateTimeSchema);
@@ -198,7 +191,6 @@ public class ComplexSchemaTest {
         schema.getFields().put("booleanField", booleanSchema);
         schema.getFields().put("longField", longSchema);
         schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
         schema.getFields().put("stringField", stringSchema);
         schema.getFields().put("tokenField", tokenSchema);
         schema.getFields().put("dateTimeField", dateTimeSchema);
