@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
 
-   <xs:complexType name="roles">
-      <xs:annotation>
-         <xs:appinfo>
-            <sli:sphere>Admin</sli:sphere>
-         </xs:appinfo>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="name" type="xs:string" />
-         <xs:element name="rights" type="rightList" />
-      </xs:sequence>
-   </xs:complexType>
+   <xs:element name="roles">
+      <xs:complexType>
+         <xs:annotation>
+            <xs:appinfo>
+               <sli:sphere>Admin</sli:sphere>
+            </xs:appinfo>
+         </xs:annotation>
+         <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="rights" type="rightList" />
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
    <xs:complexType name="rightList">
       <xs:sequence minOccurs="1" maxOccurs="unbounded">
          <xs:element name="right">
