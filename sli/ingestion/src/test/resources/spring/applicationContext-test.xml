@@ -4,7 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd   
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd ">
 
@@ -37,8 +37,8 @@
 	<import resource="smooks-context.xml" />
 	<import resource="classpath:/spring/db.xml" />
 
-	<!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> 
-		<property name="slienv" value="${sli.env}" /> <property name="testprop" value="${sli.test.prop}" 
+	<!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest">
+		<property name="slienv" value="${sli.env}" /> <property name="testprop" value="${sli.test.prop}"
 		/> </bean> -->
 
 	<context:component-scan base-package="org.slc.sli">
@@ -50,7 +50,7 @@
 	</context:component-scan>
 
 	<!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
-	<bean id="entityValidator" class="org.slc.sli.validation.AvroEntityValidator" />
+	<bean id="validator" class="org.slc.sli.validation.AvroEntityValidator" />
 
 	<context:annotation-config />
 
