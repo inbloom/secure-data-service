@@ -3,7 +3,7 @@
 	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
 	<xs:complexType name="EducationOrganizationCategoriesType">
 		<xs:annotation>
@@ -439,7 +439,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ProgramReference" type="ProgramSimpleReference"
+					<xs:element name="ProgramReference" type="xs:string"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The programs offered at the education

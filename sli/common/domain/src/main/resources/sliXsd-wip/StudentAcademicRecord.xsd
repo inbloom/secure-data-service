@@ -3,6 +3,7 @@
 	elementFormDefault="qualified" xmlns:sli="http://slc-sli/ed-org/0.1"
 	attributeFormDefault="qualified">
 
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 	<xs:include schemaLocation="Attendance.xsd"></xs:include>
 
 	<xs:element name="course">
@@ -195,9 +196,8 @@
 						for the completion of a course</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
+					<xs:restriction base="xs:double">
 						<xs:minInclusive value="0" />
-						<xs:fractionDigits value="2" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -370,7 +370,7 @@
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="GradebookEntryReference" type="GradebookEntrySimpleReference">
+					<xs:element name="GradebookEntryReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The GradebookEntry for which the performance is
 								recorded.</xs:documentation>
@@ -518,14 +518,14 @@
 							for this grading period.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GPAGivenGradingPeriod" type="xs:decimal">
+				<xs:element name="GPAGivenGradingPeriod" type="xs:double">
 					<xs:annotation>
 						<xs:documentation>A measure of average performance in all courses
 							taken by an individual for the current grading period.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="GPACumulative" type="xs:decimal">
+				<xs:element name="GPACumulative" type="xs:double">
 					<xs:annotation>
 						<xs:documentation>A measure of cumulative average performance in
 							all courses taken by an individual from the beginning of the
@@ -540,7 +540,7 @@
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
-						<xs:restriction base="xs:decimal">
+						<xs:restriction base="xs:double">
 							<xs:minInclusive value="0" />
 						</xs:restriction>
 					</xs:simpleType>
@@ -552,7 +552,7 @@
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
-						<xs:restriction base="xs:decimal">
+						<xs:restriction base="xs:double">
 							<xs:minInclusive value="0" />
 						</xs:restriction>
 					</xs:simpleType>
@@ -588,7 +588,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="CumulativeGradePointsEarned" type="xs:decimal"
+				<xs:element name="CumulativeGradePointsEarned" type="xs:double"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The cumulative number of grade points an
@@ -598,7 +598,7 @@
 							had been previously enrolled.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="CumulativeGradePointAverage" type="xs:decimal"
+				<xs:element name="CumulativeGradePointAverage" type="xs:double"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A measure of average performance in all courses
