@@ -1,18 +1,23 @@
+
 <html>
   <head>
     <title>SLI Data Browser</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
   </head>
   <body>
-    <h1>SLI Data Browser</h1>
+    <div class="header">
+        <h1 style="display:inline">SLI Data Browser </h1>
+        <h3 style="display:inline"><i> . . . It's toasted</i></h3>
+        <hr>
+    </div>
     <table border="0">
         <tr>
-        <td valign=top width=200px>
+        <td valign=top width=200px class="nav">
             <a href="/">Home</a> 
             <br><br>Path:<br>
             <%= @path.join('<br>') %>
         </td>
-        <td valign=top>
+        <td valign=top class="content">
             <%= yield %>
         </td>
         </tr>

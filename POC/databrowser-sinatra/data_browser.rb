@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'rest_client'
 require 'sinatra'
 require "sinatra/reloader" if development?
@@ -6,19 +5,14 @@ require "sinatra/reloader" if development?
 enable :sessions
 
 before do
-    @api_url ||= "https://devapp1.slidev.org/"
-    @app_url ||= "http://mlane.devapp1.slidev.org:4567/db/"
+    @api_url ||= "https://devapp1.slidev.org/api/rest/"
+    @app_url ||= request.url.sub(request.path, '/')
     @sessionId = request.cookies["iPlanetDirectoryPro"]
-    #session["iPlanetDirectoryPro"] ||= @session_cookie
 end
 
-get '/' do
-    redirect to('/db/')
-end
-
-get '/db/*' do |uri|
+get '/*' do |uri|
     if( uri.empty? )
-        uri = "api/rest/home"
+        uri = "home"
         session["path"] = []
     end
     session["path"].push(create_link(uri))
@@ -36,6 +30,6 @@ helpers do
         source.gsub!(@api_url, @app_url)
     end
     def create_link(uri)
-        "<a href=/db/#{uri}>#{uri.split('/')[2]}</a>"
+        "<a href=/#{uri}>#{uri.split('/')[0]}</a>"
     end
 end
