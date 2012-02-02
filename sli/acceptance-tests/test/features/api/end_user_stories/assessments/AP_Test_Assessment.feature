@@ -41,11 +41,11 @@ Scenario Outline:  As a leader I want to get the following attrubutes for all th
 		     And the "GradeLevelAssessed" is "Twelfth Grade"
 		     And the "LowestGradeLevelAssessed" is "Tenth Grade"
 		     And the "AssessmentPerformanceLevel" has the 5 levels
-				     PerformanceLevel= "1"
-				     PerformanceLevel= "2"
-				     PerformanceLevel= "3"
-				     PerformanceLevel= "4"
-				     PerformanceLevel= "5"
+				     "PerformanceLevel"= "1"
+				     "PerformanceLevel"= "2"
+				     "PerformanceLevel"= "3"
+				     "PerformanceLevel"= "4"
+				     "PerformanceLevel"= "5"
 		     And I should recieve a link to "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'AP English' ID>"
 	    
 	 When I navigate to GET "/student-assessment-associations/<'AP English' ID>"
