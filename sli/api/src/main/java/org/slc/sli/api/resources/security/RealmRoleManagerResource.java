@@ -96,6 +96,10 @@ public class RealmRoleManagerResource {
                 
                 Set<String> clientSet = new HashSet<String>();
                 for (String clientRole : mappings.get(sliRole)) {
+                    if (clientRole.length() == 0) {
+                        res.put("response", "Cannot have client role of length 0");
+                        return Response.status(Status.BAD_REQUEST).entity(res).build();
+                    }
                     clientSet.add(clientRole);
                 }
                 if (clientSet.size() < mappings.get(sliRole).size()) {
