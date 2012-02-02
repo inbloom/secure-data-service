@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,7 +91,33 @@ public class InstitutionalHeirarchyManager extends Manager {
                 throw new RuntimeException("error creating json object for " + edOrgId);
             }
         }
-
+        
+        // TODO: remove this block when ed-org is implemented on live server
+        // Temporary: insert a dummy edorg for all orphan schools.  
+        Vector<School> orphanSchools = new Vector<School>();
+        for (int i = 0; i < schools.length; i++) {
+            School s = schools[i];
+            boolean isOrphan = true;
+            for (HashSet<School> reachableSchools : schoolReachableFromEdOrg.values()) {
+                if (reachableSchools.contains(s)) { isOrphan = false; break; }
+            }
+            if (isOrphan) {
+                orphanSchools.add(s);
+            }
+        }
+        if (orphanSchools.size() > 0) {
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put(NAME, "Dummy EdOrg (Temporary)");
+                School [] orphanSchoolsArr = new School[orphanSchools.size()];
+                Gson gson = new Gson();
+                String schoolJSONString = gson.toJson(orphanSchools.toArray(orphanSchoolsArr));
+                obj.put(SCHOOLS, new JSONArray(schoolJSONString));
+                retVal.put(obj);
+            } catch (JSONException e) {
+                throw new RuntimeException("error creating json object for dummy edOrg");
+            }
+        }
         return retVal.toString();
     }
     // helper function: 
