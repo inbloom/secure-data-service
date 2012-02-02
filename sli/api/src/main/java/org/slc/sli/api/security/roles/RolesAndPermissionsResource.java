@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  * This is meant to be a read-only operation, but contains a convenience post
  * method to create new roles.
  * 
- * @see org.slc.sli.api.security.enums.Right
+ * @see org.slc.sli.common.domain.enums.Right
  * @see org.slc.sli.api.security.roles.Role
  */
 @Path("/admin/roles")
@@ -62,7 +62,7 @@ public class RolesAndPermissionsResource {
      *            the name of the new role (eg: Educator)
      * @param rights
      *            some list of rights to be added
-     * @see org.slc.sli.api.security.enums.Right
+     * @see org.slc.sli.common.domain.enums.Right
      */
     @POST
     @Path("/")
@@ -73,7 +73,7 @@ public class RolesAndPermissionsResource {
     
     // Injection method
     public void setRoleAccessor(RoleRightAccess roleRights) {
-        this.roleAccessor = roleRights;
+        roleAccessor = roleRights;
     }
     
 }
