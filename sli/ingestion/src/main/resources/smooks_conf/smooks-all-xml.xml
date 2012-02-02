@@ -561,20 +561,20 @@
 	</jb:bean>
 
 	<!--SchoolReferenceType -->
-	<jb:bean beanId="SchoolReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+	<jb:bean beanId="EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
 		<jb:value property="stateOrganizationId" data="Section/SchoolReference/EducationalOrgIdentity/StateOrganizationId"/>
-		<jb:wiring property="educationOrgIdentificationCode" beanIdRef="EducationOrgIdentificationCodeTypeArray_Section" />
+		<jb:wiring property="educationalOrgIdentificationCode" beanIdRef="EducationalOrgIdentificationCodeTypeArray_Section" />
 	</jb:bean>
-	<jb:bean beanId="EducationOrgIdentificationCodeTypeArray_Section" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
-		<jb:wiring beanIdRef="EducationOrgIdentificationCodeType_Section" />
+	<jb:bean beanId="EducationalOrgIdentificationCodeTypeArray_Section" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
+		<jb:wiring beanIdRef="EducationalOrgIdentificationCodeType_Section" />
 	</jb:bean>
-	<jb:bean beanId="EducationOrgIdentificationCodeType_Section" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+	<jb:bean beanId="EducationalOrgIdentificationCodeType_Section" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
 		<jb:value property="identificationSystem" data="Section/SchoolReference/EducationalOrgIdentity/EducationalOrgIdentificationCode/@IdentificationSystem"/>
 		<jb:value property="iD" data="Section/SchoolReference/EducationalOrgIdentity/EducationalOrgIdentificationCode/Id"/>
 	</jb:bean>
 
 	<!-- SessionReferenceType -->
-	<jb:bean beanId="SchoolReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+	<jb:bean beanId="SessionReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
 		<jb:value property="sessionName" data="Section/SessionReference/SessionIdentity/SessionName"/>
 		<jb:value property="term" data="Section/SessionReference/SessionIdentity/Term"/>
 		<jb:value property="schoolYear" data="Section/SessionReference/SessionIdentity/schoolYear"/>
@@ -592,10 +592,10 @@
 
 	<!-- ProgramReferenceType -->
 	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
-		<jb:wiring beanIdRef="ProgramIdentityType" />
+		<jb:wiring beanIdRef="ProgramReferenceType" />
 	</jb:bean>
 	<jb:bean beanId="ProgramReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
-		<jb:value property="programId" data="Section/ProgramReferenceReference/ProgramReferenceIdentity/ProgramId"/>
-		<jb:value property="programType" data="Section/ProgramReferenceReference/ProgramReferenceIdentity/ProgramType"/>
+		<jb:value property="programId" data="Section/ProgramReference/ProgramIdentity/ProgramId"/>
+		<jb:value property="programType" data="Section/ProgramReference/ProgramIdentity/ProgramType"/>
 	</jb:bean>
 </smooks-resource-list>
