@@ -32,7 +32,7 @@ $(document).ready(function() {
                         dataType: 'json',
 			success: success,
 			error: function (resp) {
-				notifyError(resp.responseText);
+				notifyError(jQuery.parseJSON(resp.responseText).response);
 				failure.call();
 			}
 		
