@@ -60,15 +60,16 @@ class RealmsController < ApplicationController
   # # PUT /realms/1
   # # PUT /realms/1.json
    def update
+     puts  params[:id];
      @realm = Realm.find(params[:id])
      @realm.mappings = params[:mappings];
      respond_to do |format|
        #if @realm.update_attributes(params[:realm])
        if @realm.save()
-         format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
-         format.json { head :ok }
+         #format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
+         format.json { render json: @realm }
        else
-         format.html { render action: "edit" }
+         #format.html { render action: "edit" }
          format.json { render json: @realm.errors, status: :unprocessable_entity }
        end
      end
