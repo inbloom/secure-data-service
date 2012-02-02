@@ -22,6 +22,7 @@ import org.apache.ws.commons.schema.XmlSchemaDocumentation;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaEnumerationFacet;
 import org.apache.ws.commons.schema.XmlSchemaFacet;
+import org.apache.ws.commons.schema.XmlSchemaInclude;
 import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.apache.ws.commons.schema.XmlSchemaParticle;
@@ -154,8 +155,10 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 neutralSchema = parse((XmlSchemaType) schemaObject, schema);
             } else if (schemaObject instanceof XmlSchemaElement) {
                 neutralSchema = parseElement((XmlSchemaElement) schemaObject, schema);
+            } else if (schemaObject instanceof XmlSchemaInclude) {
+                continue; // nothing to do for includes
             } else {
-                continue;
+                throw new RuntimeException("Unhandled XmlSchemaObject: " + schemaObject.getClass().getCanonicalName());
             }
             schemas.put(neutralSchema.getType(), neutralSchema);
         }
@@ -168,7 +171,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 XmlSchema schema = parseXmlSchema(schemaResource.getInputStream());
                 xmlSchemas.add(schema);
             } catch (IOException e) {
-                LOG.error("Exception occurred loading schema", e);
+                throw new RuntimeException("Exception occurred loading schema", e);
             }
         }
         
@@ -187,7 +190,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                             try {
                                 return new InputSource(resource.getInputStream());
                             } catch (IOException e) {
-                                LOG.error("Exception occurred", e);
+                                throw new RuntimeException("Exception occurred", e);
                             }
                         }
                     }
@@ -426,7 +429,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                             + baseType.getClass().getCanonicalName());
                 }
             } else {
-                LOG.error("Schema simple base type not found: " + simpleBaseTypeName);
+                throw new RuntimeException("Schema simple base type not found: " + simpleBaseTypeName);
             }
         }
         
@@ -441,7 +444,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     .getContent();
             simpleContentTypeName = simpleContent.getBaseTypeName();
         } else {
-            LOG.error("Unsupported simple content model: "
+            throw new RuntimeException("Unsupported simple content model: "
                     + schemaSimpleType.getContent().getClass().getCanonicalName());
         }
         return simpleContentTypeName;
@@ -489,7 +492,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 throw new RuntimeException("Unsupported complex base type: " + baseType.getClass().getCanonicalName());
             }
         } else {
-            LOG.error("Schema complex base type not found: " + baseTypeName);
+            throw new RuntimeException("Schema complex base type not found: " + baseTypeName);
         }
         return complexBaseType;
     }
@@ -600,10 +603,14 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
+                // XXX TODO implement choice (or remove them from the XSDs)
+                // throw new RuntimeException("Unhandled XmlSchemaChoice element: " + particle + " "
+                // + complexSchema.getType());
                 LOG.error("Unhandled XmlSchemaChoice element: " + particle + " " + complexSchema.getType());
                 
             } else {
-                LOG.error("Unsupported XmlSchemaParticle item: " + particle.getClass().getCanonicalName());
+                throw new RuntimeException("Unsupported XmlSchemaParticle item: "
+                        + particle.getClass().getCanonicalName());
             }
         }
     }

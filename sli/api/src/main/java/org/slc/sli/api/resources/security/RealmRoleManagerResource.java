@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.security;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,6 +31,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -80,7 +84,7 @@ public class RealmRoleManagerResource {
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
         if (mappings != null) {
             if (!uniqueMappings(mappings)) {
-                return Response.status(Status.FORBIDDEN).build();
+                return Response.status(Status.FORBIDDEN).entity("Client role cannot map to different SLI roles").build();
              }
             
             for (String sliRole : mappings.keySet()) {
@@ -93,7 +97,7 @@ public class RealmRoleManagerResource {
                     clientSet.add(clientRole);
                 }
                 if (clientSet.size() < mappings.get(sliRole).size()) {
-                    return Response.status(Status.FORBIDDEN).build();
+                    return Response.status(Status.FORBIDDEN).entity("Cannot have duplicate client roles").build();
                 }
             }
         }
@@ -103,20 +107,32 @@ public class RealmRoleManagerResource {
         return Response.status(Status.FORBIDDEN).build();
     }
 
-//    @DELETE
-//    @RequestMapping("/realms/{realmId}")
-//    public Response deleteClientRole(@PathVariable("realmId") String realmId,
-//            String clientRoleName, String sliRoleName) {
-//        try {
-//            if (roleManager.deleteClientRole(realmId, clientRoleName)) {
-//                return Response.ok().build();
-//            }
-//        } catch (RealmRoleMappingException e) {
-//            return Response.status(Status.FORBIDDEN).entity(e.getMessage())
-//                    .build();
-//        }
-//        return Response.status(Status.NOT_FOUND).build();
-//    }
+    @DELETE
+    @Path("{realmId}")
+    public Response deleteRealm(@PathParam("realmId") String realmId) {
+        service.delete(realmId);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
+    @POST
+    public Response createRealm(EntityBody newRealm) {
+        if (newRealm.get("mappings") == null) {
+            Map<String, List<String>> mappings = new HashMap<String, List<String>>();
+            for (Role role : roleRightAccess.fetchAllRoles()) {
+                if (!role.getName().equals("SLI Administrator")) {
+                    mappings.put(role.getName(), Arrays.asList(new String[]{role.getName()}));
+                }
+            }
+            newRealm.put("mappings", mappings);
+        }
+        String id = service.create(newRealm);
+        if (id != null) {
+            service.create(newRealm);
+        }
+        EntityBody resObj = new EntityBody();
+        resObj.put("id", id);
+        return Response.status(Status.CREATED).entity(resObj).build();
+    }
 
     @GET
     @Path("{realmId}")

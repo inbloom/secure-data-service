@@ -3,7 +3,7 @@
 	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
 	<!-- CORE ENTITIES FOR DISCIPLINE -->
 
@@ -26,7 +26,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Disciplines" type="BehaviorDescriptorSimpleReference"
+					<xs:element name="Disciplines" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Type of action or removal from the classroom
@@ -73,7 +73,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="StudentReference" type="StudentSimpleReference"
+					<xs:element name="StudentReference" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The student(s) disciplined by the discipline
@@ -82,7 +82,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="DisciplineIncidentReference" type="DisciplineIncidentSimpleReference"
+					<xs:element name="DisciplineIncidentReference" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Reference to the DisciplineIncident(s)
@@ -92,7 +92,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="StaffReference" type="StaffSimpleReference"
+					<xs:element name="StaffReference" type="xs:string"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The staff responsible for enforcing the
@@ -102,7 +102,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="ResponsibilitySchoolReference" type="SchoolSimpleReference">
+					<xs:element name="ResponsibilitySchoolReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>School responsible for student's
 								discipline.
@@ -110,7 +110,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="AssignmentSchoolReference" type="SchoolSimpleReference"
+					<xs:element name="AssignmentSchoolReference" type="xs:string"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>School responsible for student's
@@ -202,7 +202,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Behaviors" type="BehaviorDescriptorSimpleReference"
+				<xs:element name="Behaviors" type="xs:string"
 					maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Categories of behavior coded for use in
@@ -300,7 +300,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Behaviors" type="BehaviorDescriptorSimpleReference"
+				<xs:element name="Behaviors" type="xs:string"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Categories of student-specific behavior coded
@@ -362,7 +362,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference"
+					<xs:element name="EducationOrganizationReference" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The Education Organization associated with the

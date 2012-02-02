@@ -1,14 +1,12 @@
 package org.slc.sli.controller;
 
 import java.io.IOException;
-import com.google.gson.Gson;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slc.sli.entity.School;
-import org.slc.sli.manager.SchoolManager;
+import org.slc.sli.manager.InstitutionalHeirarchyManager;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -20,14 +18,14 @@ public class StudentListController extends DashboardController {
 
     // model map keys required by the view for the student list view
     public static final String USER_NAME = "username"; 
-    public static final String SCHOOL_LIST = "schoolList"; 
+    public static final String INST_HEIRARCHY = "instHeirarchy"; 
 
-    private SchoolManager schoolManager;
+    private InstitutionalHeirarchyManager institutionalHeirarchyManager;
 
     public StudentListController() { }
     
     /**
-     * Retrieves the school, section, and student information and calls the view to display
+     * Retrieves the edorg, school, section, and student information and calls the view to display
      * 
      * @param username
      * @param model
@@ -36,16 +34,11 @@ public class StudentListController extends DashboardController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView retrieveStudentList(ModelMap model) throws IOException {
-        Gson gson = new Gson();
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
 
         UserDetails user = getPrincipal();
 
-        School[] schoolList = schoolManager.getSchools();
-        model.addAttribute("schoolList", gson.toJson(schoolList));
-        model.addAttribute("message", "Hello " + user.getUsername());
-
-        model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
+        model.addAttribute(INST_HEIRARCHY, institutionalHeirarchyManager.getInstHeirarchyJSON());
         model.addAttribute(USER_NAME, user.getUsername());
 
         return new ModelAndView("studentList");
@@ -57,14 +50,19 @@ public class StudentListController extends DashboardController {
         return SecurityUtil.getPrincipal();
     }
     
+
     /*
      * Getters and setters
      */
-    public SchoolManager getSchoolManager() {
-        return schoolManager;
+    /*
+     * Getters and setters
+     */
+    public InstitutionalHeirarchyManager getInstitutionalHeirarchyManager() {
+        return institutionalHeirarchyManager;
     }
 
-    public void setSchoolManager(SchoolManager schoolManager) {
-        this.schoolManager = schoolManager;
+    public void setInstitutionalHeirarchyManager(InstitutionalHeirarchyManager institutionalHeirarchyManager) {
+        this.institutionalHeirarchyManager = institutionalHeirarchyManager;
     }
+
 }

@@ -3,7 +3,7 @@
 	elementFormDefault="qualified" xmlns:sli="http://slc-sli/ed-org/0.1"
 	attributeFormDefault="qualified" xmlns:p="http://schemas.xmlsoap.org/wsdl/">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
 	<xs:complexType name="StudentIdentificationCode">
 		<xs:annotation>
