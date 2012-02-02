@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "DisciplineActionType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Type of action or removal from the classroom used to discipline the student involved as a perpetrator in a discipline incident.",
-  "xsd-type" : "token",
-  "symbols" : [ "Bus_suspension", "Change_of_placement_long_term", "Change_of_placement_reassignment_pending_an_expulsion_hearing", "Change_of_placement_reassignment_resulting_from_an_expulsion_hearing", "Change_of_placement_reassignment_temporary", "Community_service", "Conference_with_and_warning_to_student", "Conference_with_and_warning_to_student_and_parent_guardian", "Confiscation_of_contraband", "Conflict_resolution_or_anger_management_services_mandated", "Corporal_punishment", "Counseling_mandated", "Demerit", "Detention", "Expulsion_recommendation", "Expulsion_with_services", "Expulsion_without_services", "Juvenile_justice_referral", "Law_enforcement_referral", "Letter_of_apology", "Loss_of_privileges", "Physical_activity", "Reprimand", "Restitution", "Saturday_school", "School_probation", "Substance_abuse_counseling_mandated", "Substance_abuse_treatment_mandated", "Suspension_after_school", "Suspension_in_school", "Suspension_out_of_school_with_services", "Suspension_out_of_school_without_services", "Unsatisfactory_behavior_grade", "Work_detail", "No_action", "Suspension_out_of_school_greater_than_10_consecutive_school_days", "Suspension_out_of_school_separate_days_cumulating_to_more_than_10_school_days", "Unilateral_removal_weapon_incident", "Unilateral_removal_drug_incident", "Removal_by_a_hearing_officer", "Unknown", "None", "Other", "Mechanical_Restraint", "Physical_Restraint", "Seclusion" ]
-}

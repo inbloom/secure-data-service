@@ -78,6 +78,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
     private static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
     private static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
+    private static final String SECURITY_SPHERE = "SecuritySphere";
     private static final String SLI_XSD_NAMESPACE = "http://slc-sli/ed-org/0.1";
     
     // Attributes
@@ -128,7 +129,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         LOG.info("Using XML Schema Directory Path: " + getXsdPath());
         
         // Scan XML Schemas on path
-        List<XmlSchema> xmlSchemas = this.parseXmlSchemas(schemaResources, XSD);
+        List<XmlSchema> xmlSchemas = parseXmlSchemas(schemaResources, XSD);
         
         // Iterate XML Schemas
         for (XmlSchema schema : xmlSchemas) {
@@ -329,17 +330,17 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
              * Try to use the element name as the type name, but there's no guarantee that's unique.
              */
             simpleSchema.setType(name);
-            if (this.schemas.containsKey(name)) {
-                NeutralSchema existing = this.schemas.get(name);
+            if (schemas.containsKey(name)) {
+                NeutralSchema existing = schemas.get(name);
                 int i = 1;
                 while (existing != null && !schemasEqual(simpleSchema, existing)) {
                     i++;
                     name = name + i;
                     simpleSchema.setType(name);
-                    existing = this.schemas.get(name);
+                    existing = schemas.get(name);
                 }
             }
-            this.schemas.put(name, simpleSchema);
+            schemas.put(name, simpleSchema);
         }
         
         return simpleSchema;
@@ -406,6 +407,9 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                             
                         } else if (e.getLocalName().equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
                             neutralSchema.setWriteAuthority(Right.valueOf(value));
+                            
+                        } else if (e.getLocalName().equals(SECURITY_SPHERE)) {
+                            neutralSchema.setSecuritySphere(value);
                         }
                     }
                 }
@@ -448,6 +452,10 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     
     private NeutralSchema parseComplexType(XmlSchemaComplexType schemaComplexType, NeutralSchema complexSchema,
             XmlSchema schema) {
+        
+        // Annotations are inherited by ComplexType fields so we need to parse these first.
+        parseAnnotations(complexSchema, schemaComplexType);
+        
         if (schemaComplexType.getContentModel() != null && schemaComplexType.getContentModel().getContent() != null) {
             XmlSchemaContent content = schemaComplexType.getContentModel().getContent();
             if (content instanceof XmlSchemaComplexContentExtension) {
@@ -461,7 +469,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             } else if (content instanceof XmlSchemaSimpleContentExtension) {
                 QName baseTypeName = ((XmlSchemaSimpleContentExtension) content).getBaseTypeName();
                 NeutralSchema simpleContentSchema = schemaFactory.createSchema(baseTypeName);
-                complexSchema.getFields().put(complexSchema.getType(), simpleContentSchema);
+                complexSchema.addField(complexSchema.getType(), simpleContentSchema);
                 
                 parseAttributes(((XmlSchemaSimpleContentExtension) content).getAttributes(), complexSchema, schema);
             }
@@ -528,7 +536,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     
                     // Update Neutral Schema Field
                     if (attributeSchema != null) {
-                        complexSchema.getFields().put(attributeName, attributeSchema);
+                        complexSchema.addField(attributeName, attributeSchema);
                     }
                 }
             }
@@ -581,7 +589,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 }
                 
                 // Update Neutral Schema Field
-                complexSchema.getFields().put(elementName, elementSchema);
+                complexSchema.addField(elementName, elementSchema);
                 
             } else if (particle instanceof XmlSchemaSequence) {
                 XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
@@ -610,11 +618,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private static boolean schemasEqual(NeutralSchema ns1, NeutralSchema ns2) {
         if (ns1.getValidatorClass().equals(ns2.getValidatorClass()) && ns1.getVersion().equals(ns2.getVersion())
                 && ns1.getType().equals(ns2.getType()) && ns1.getFields().size() == ns2.getFields().size()) {
-            for (Entry<String, Object> entry : ns1.getFields().entrySet()) {
+            for (Entry<String, NeutralSchema> entry : ns1.getFields().entrySet()) {
                 if (!ns2.getFields().containsKey(entry.getKey())) {
                     return false;
                 }
-                if (!schemasEqual((NeutralSchema) entry.getValue(), (NeutralSchema) ns2.getFields().get(entry.getKey()))) {
+                if (!schemasEqual(entry.getValue(), ns2.getFields().get(entry.getKey()))) {
                     return false;
                 }
             }

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "TitleIPartASupportServiceItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The enumeration items for the support services offered to students in Title I programs: Health, Dental and Eye Care, Supporting Guidance/Advocacy, Other",
-  "xsd-type" : "token",
-  "symbols" : [ "Health_Services", "Guidance_Counseling_Services", "Social_Work_Services" ]
-}

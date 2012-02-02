@@ -64,7 +64,7 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
         return buffer.toString();
     }
     
-    private String getJsonFields(String label, Map<String, Object> fields) {
+    private String getJsonFields(String label, Map<String, NeutralSchema> fields) {
         StringBuilder buffer = new StringBuilder();
         
         buffer.append("," + "\n" + "   \"" + label + "\":{");
