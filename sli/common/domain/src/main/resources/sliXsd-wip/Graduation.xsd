@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="PostSecondaryEvent">
+	<xs:complexType name="postSecondaryEvent">
 		<xs:annotation>
 			<xs:documentation>
 				This entity captures significant postsecondary events during a student's high school tenure (e.g.,
@@ -13,14 +13,14 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="EventDate" type="xs:date">
+					<xs:element name="eventDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>The date the event occurred or was recorded.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PostSecondaryEventCategory" type="PostSecondaryEventCategoryType">
+					<xs:element name="postSecondaryEventCategory" type="postSecondaryEventCategoryType">
 						<xs:annotation>
 							<xs:documentation>
 								The postsecondary event that is logged (e.g., FAFSA application, college
@@ -28,19 +28,19 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="NameOfInstitution" type="NameOfInstitution" minOccurs="0">
+					<xs:element name="nameOfInstitution" type="nameOfInstitution" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								The postsecondary institution associated with the event.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="InstitutionId" type="InstitutionId" minOccurs="0">
+					<xs:element name="institutionId" type="institutionId" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The ID of the postsecondary institution.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentReference" type="xs:string">
+					<xs:element name="studentId" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>
 								The student associated with the postsecondary event.
@@ -52,7 +52,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="Diploma">
+	<xs:complexType name="diploma">
 		<xs:annotation>
 			<xs:documentation>
 				This educational entity represents the conferring or certification by an educational organization that
@@ -61,9 +61,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="DiplomaAwardDate" type="xs:date">
+					<xs:element name="diplomaAwardDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>
 								The month, day, and year on which the student met graduation requirements and was
@@ -71,7 +71,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DiplomaLevel" type="DiplomaLevelType" minOccurs="0">
+					<xs:element name="diplomaLevel" type="diplomaLevelType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								The level of diploma/credential that is awarded to a student in recognition of
@@ -82,7 +82,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DiplomaType" type="DiplomaType">
+					<xs:element name="diplomaType" type="diplomaType">
 						<xs:annotation>
 							<xs:documentation>
 								The type of diploma/credential that is awarded to a student in recognition of
@@ -98,14 +98,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AcademicHonors" type="AcademicHonor" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="academicHonors" type="academicHonor" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Academic distinctions earned by or awarded to the student.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Recognitions" type="Recognition" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="recognitions" type="recognition" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Recognitions given to the student for accomplishments in a co-curricular, or
@@ -113,7 +113,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SchoolReference" type="xs:string">
+					<xs:element name="schoolReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The school that offers the diploma.</xs:documentation>
 						</xs:annotation>
