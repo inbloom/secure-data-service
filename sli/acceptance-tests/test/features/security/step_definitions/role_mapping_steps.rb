@@ -60,7 +60,7 @@ When /^I POST a new realm$/ do
   data["state"] = "Test State"
   data["idp"]  =  "http://devdanil.slidev.org:8080/idp"
   dataFormatted = prepareData("application/json", data)
-  restHttpPost("/realm", dataFormatted)
+  restHttpPost("/realm", dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 

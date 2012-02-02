@@ -14,8 +14,14 @@ SLIAdmin::Application.routes.draw do
     # match 'mappings/:id/add' => 'mappings#add'
   # Sample resource route (maps HTTP verbs to controller actions automatically):
 
-    resources :roles, :realms
+    resources :roles
     resources :sessions
+
+    resources :realms do
+      member do
+        put :update
+      end
+    end
     
     resources :mappings do
       member do

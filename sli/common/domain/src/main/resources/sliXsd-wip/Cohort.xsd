@@ -3,7 +3,8 @@
 	elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
+	
 	<xs:element name="cohort">
 		<xs:annotation>
 			<xs:documentation>
@@ -43,14 +44,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EducationOrgReference" type="EducationalOrgSimpleReference">
+				<xs:element name="EducationOrgReference" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>
 							The education organization associated with and owner of the cohort.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramReference" type="ProgramSimpleReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="ProgramReference" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							The (optional) program associated with this cohort (e.g., special education)
@@ -68,12 +69,12 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="StudentReference" type="StudentSimpleReference">
+				<xs:element name="StudentReference" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The student associated with the cohort.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="CohortReference" type="CohortReference">
+				<xs:element name="CohortReference" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Reference to the cohort associated with the student.</xs:documentation>
 					</xs:annotation>

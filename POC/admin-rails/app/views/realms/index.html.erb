@@ -8,8 +8,13 @@
   </tr>
 
 <% @realms.each do |realm| %>
-<li><%= link_to realm.state, :controller => "realms", :action => "show", :id => realm.id %></li>
+	<tr>
+    <td><%= realm.state %></td>
+    <td><%= link_to 'Show', realm %></td>
+    <td><%= link_to 'Edit', edit_realm_path(realm) %></td>
+	</tr>
 <% end %>
+
 
 <!--
   <tr>
