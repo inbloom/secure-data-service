@@ -20,11 +20,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Unit tests for the OpenamRestTokenResolver.

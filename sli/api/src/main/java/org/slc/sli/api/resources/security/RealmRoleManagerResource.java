@@ -3,17 +3,23 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +30,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
@@ -42,6 +49,9 @@ public class RealmRoleManagerResource {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    private RoleRightAccess roleRightAccess;
     
     private EntityService service;
 
@@ -65,45 +75,53 @@ public class RealmRoleManagerResource {
     @PUT
     @Path("{realmId}")
     @Consumes("application/json")
-    public boolean updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
+    public Response updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
         if (updatedRealm == null) {
             throw new EntityNotFoundException("Entity was null");
         }
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
         if (mappings != null) {
-            // A crappy, inefficient way to ensure uniqueness of mappings.
-            for (String key : mappings.keySet()) {
-                List<String> clientRoles = mappings.get(key);
-                for (String clientRole : clientRoles) {
-                    for (String secondKey : mappings.keySet()) {
-                        if (!secondKey.equals(key)) {
-                            List<String> secondClientRoles = mappings
-                                    .get(secondKey);
-                            if (secondClientRoles.contains(clientRole)) {
-                                return false;
-                            }
-                        }
-                    }
+            if (!uniqueMappings(mappings)) {
+                return Response.status(Status.FORBIDDEN).entity("Client role cannot map to different SLI roles").build();
+             }
+            
+            for (String sliRole : mappings.keySet()) {
+                if (roleRightAccess.getDefaultRole(sliRole) == null) {
+                    return Response.status(Status.FORBIDDEN).build();
+                }
+                
+                Set<String> clientSet = new HashSet<String>();
+                for (String clientRole : mappings.get(sliRole)) {
+                    clientSet.add(clientRole);
+                }
+                if (clientSet.size() < mappings.get(sliRole).size()) {
+                    return Response.status(Status.FORBIDDEN).entity("Cannot have duplicate client roles").build();
                 }
             }
         }
-        return service.update(realmId, updatedRealm);
+        if (service.update(realmId, updatedRealm)) {
+            return Response.status(Status.NO_CONTENT).build();
+        }
+        return Response.status(Status.FORBIDDEN).build();
     }
 
-//    @DELETE
-//    @RequestMapping("/realms/{realmId}")
-//    public Response deleteClientRole(@PathVariable("realmId") String realmId,
-//            String clientRoleName, String sliRoleName) {
-//        try {
-//            if (roleManager.deleteClientRole(realmId, clientRoleName)) {
-//                return Response.ok().build();
-//            }
-//        } catch (RealmRoleMappingException e) {
-//            return Response.status(Status.FORBIDDEN).entity(e.getMessage())
-//                    .build();
-//        }
-//        return Response.status(Status.NOT_FOUND).build();
-//    }
+    @DELETE
+    @Path("{realmId}")
+    public Response deleteRealm(@PathParam("realmId") String realmId) {
+        service.delete(realmId);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
+    @POST
+    public Response createRealm(EntityBody newRealm) {
+        String id = service.create(newRealm);
+        if (id != null) {
+            service.create(newRealm);
+        }
+        EntityBody resObj = new EntityBody();
+        resObj.put("id", id);
+        return Response.status(Status.CREATED).entity(resObj).build();
+    }
 
     @GET
     @Path("{realmId}")
@@ -126,6 +144,25 @@ public class RealmRoleManagerResource {
             result.add(curEntity);
         }
         return result;
+    }
+    
+    private boolean uniqueMappings(Map<String, List<String>> mappings) {
+        // A crappy, inefficient way to ensure uniqueness of mappings.
+        for (String sliRole : mappings.keySet()) {
+            List<String> clientRoles = mappings.get(sliRole);
+            for (String clientRole : clientRoles) {
+                for (String otherSliRole : mappings.keySet()) {
+                    if (!otherSliRole.equals(sliRole)) {
+                        List<String> secondClientRoles = mappings
+                                .get(otherSliRole);
+                        if (secondClientRoles.contains(clientRole)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }

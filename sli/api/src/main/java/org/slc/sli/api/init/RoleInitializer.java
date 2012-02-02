@@ -1,7 +1,6 @@
 package org.slc.sli.api.init;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -11,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
