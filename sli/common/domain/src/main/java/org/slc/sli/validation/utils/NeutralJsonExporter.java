@@ -77,7 +77,7 @@ public class NeutralJsonExporter {
         }
         boolean sane = true;
         for (NeutralSchema ns : schemas) {
-            for (Entry<String, Object> entry : ns.getFields().entrySet()) {
+            for (Entry<String, NeutralSchema> entry : ns.getFields().entrySet()) {
                 Object obj = entry.getValue();
                 if (obj instanceof NeutralSchema) {
                     NeutralSchema field = (NeutralSchema) obj;
