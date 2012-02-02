@@ -21,8 +21,11 @@ $(document).ready(function() {
         
         save = function(success, failure) {
                 var mData = mapData(rMap);      
-		if (!failure)
-			failure = jQuery.noop();
+		if (!failure) {
+			failure = function(resp) {
+				notifyError(resp.responseText);
+			}
+		}
                 $.ajax({
                         url: '<%= url_for(:action=>"update") %>',
                         type: 'PUT',
@@ -30,7 +33,7 @@ $(document).ready(function() {
                         data: JSON.stringify({"mappings": mData}),
                         dataType: 'json',
 			success: success,
-			failure: failure
+			error: failure
 		
                 });
         }
@@ -131,5 +134,5 @@ $(document).ready(function() {
 			</span>
         <tbody id="mTable"></tbody>
 </table>
-<div><button>Reset to Defaults</button></div>
+<div><button>Reset to defaults</button></div>
 
