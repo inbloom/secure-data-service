@@ -24,6 +24,31 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 public class TeacherSectionAssociationEntityTest {
 
     @Test
+    public void testValidTeacherSectionAssociationCSV() throws Exception {
+
+        String smooksConfig = "smooks_conf/smooks-teacherSectionAssociation-csv.xml";
+        String targetSelector = "csv-record";
+
+        String testData = "333333332,NCES Pilot SNCCS course code,ELU,23,,,Jane,Sarah,Smith,Ms,III,Jimenez,Alias,Ms,Jo,Gannon,Grant,II,Female,1999-07-12,true,White,Mobile,410-555-0248,true,Home/Personal,sjsmith@email.com,123456111,Summer Semester,2010-2011,A03,CC100,MATH1,NCES Pilot SNCCS course code,ELU,23,1998-01-01,2008-01-01,true,Teacher of Record";
+
+        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        NeutralRecordFileReader nrfr = null;
+        try {
+            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+
+            //Tests that the NeutralRecord was created
+            Assert.assertTrue(nrfr.hasNext());
+
+            NeutralRecord record = nrfr.next();
+            checkValidTeacherSectionAssociationNeutralRecord(record);
+
+        } finally {
+            nrfr.close();
+        }
+
+    }
+
+    @Test
     public void testValidTeacherSectionAssociationXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
@@ -31,7 +56,7 @@ public class TeacherSectionAssociationEntityTest {
         String testData ="<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
         		+"<TeacherSectionAssociation>"
-                + "<TeacherReference>"
+                + "<StaffReference>"
                    + "<StaffIdentity>"
                       + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
                 + "<Name>"
@@ -49,26 +74,26 @@ public class TeacherSectionAssociationEntityTest {
                    + "<LastSurname>Grant</LastSurname>"
                    + "<GenerationCodeSuffix>II</GenerationCodeSuffix>"
                + "</OtherName>"
+               + "<Sex>Female</Sex>"
                    + "<BirthDate>1999-07-12</BirthDate>"
-                   + "<Sex>Female</Sex>"
+                   + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
+                   + "<Race>"
+                        + "<RacialCategory>White</RacialCategory>"
+                   + "</Race>"
                + "<Telephone TelephoneNumberType=\"Mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
                    + "<TelephoneNumber>410-555-0248</TelephoneNumber>"
                + "</Telephone>"
                + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
                    + "<EmailAddress>sjsmith@email.com</EmailAddress>"
                + "</ElectronicMail>"
-               + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
-               + "<Race>"
-                    + "<RacialCategory>White</RacialCategory>"
-               + "</Race>"
                +       "<StaffIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
                +            "<Id>23</Id>"
                +       "</StaffIdentificationCode>"
                    + "</StaffIdentity>"
-                + "</TeacherReference>"
+                + "</StaffReference>"
                 + "<SectionReference>"
                    + "<SectionIdentity>"
-                      + "<StateOrganizationId>123456111</StateOrganizationId>"
+                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
                       + "<LocalCourseCode>MATH1</LocalCourseCode>"
                       + "<SchoolYear>2010-2011</SchoolYear>"
                       + "<Term>Summer Semester</Term>"
@@ -122,7 +147,7 @@ public class TeacherSectionAssociationEntityTest {
        Assert.assertEquals("III", name.get("generationCodeSuffix"));
        Assert.assertEquals("Jimenez", name.get("maidenName"));
 
-       List<Map<String, Object>> otherNameList = (List<Map<String, Object>>) teacherReference.get("educationalOrgIdentificationCode");
+       List<Map<String, Object>> otherNameList = (List<Map<String, Object>>) teacherReference.get("otherName");
        Assert.assertTrue(otherNameList != null);
        Map<String, Object> otherName = (Map<String, Object>) otherNameList.get(0);
        Assert.assertTrue(otherName != null);
@@ -136,18 +161,18 @@ public class TeacherSectionAssociationEntityTest {
        Assert.assertTrue(telephoneList != null);
        Map<String, Object> telephone = (Map<String, Object>) telephoneList.get(0);
        Assert.assertTrue(telephone != null);
-       Assert.assertEquals("410-555-0248", otherName.get("telephoneNumber"));
-       Assert.assertEquals("true", otherName.get("primaryTelephoneNumberIndicator").toString());
-       Assert.assertEquals("Mobile", otherName.get("telephoneNumberType"));
+       Assert.assertEquals("410-555-0248", telephone.get("telephoneNumber"));
+       Assert.assertEquals("true", telephone.get("primaryTelephoneNumberIndicator").toString());
+       Assert.assertEquals("Mobile", telephone.get("telephoneNumberType"));
 
        List<Map<String, Object>> electronicMailList = (List<Map<String, Object>>) teacherReference.get("electronicMail");
        Assert.assertTrue(electronicMailList != null);
        Map<String, Object> electronicMail = (Map<String, Object>) electronicMailList.get(0);
        Assert.assertTrue(electronicMail != null);
-       Assert.assertEquals("Home/Personal", otherName.get("emailAddressType"));
-       Assert.assertEquals("sjsmith@email.com", otherName.get("emailAddress"));
+       Assert.assertEquals("Home/Personal", electronicMail.get("emailAddressType"));
+       Assert.assertEquals("sjsmith@email.com", electronicMail.get("emailAddress"));
 
-       List<Map<String, Object>> StaffIdentificationCodeList = (List<Map<String, Object>>) teacherReference.get("StaffIdentificationCode");
+       List<Map<String, Object>> StaffIdentificationCodeList = (List<Map<String, Object>>) teacherReference.get("staffIdentificationCode");
        Assert.assertTrue(StaffIdentificationCodeList != null);
        Map<String, Object> StaffIdentificationCode = StaffIdentificationCodeList.get(0);
        Assert.assertTrue(StaffIdentificationCode != null);
@@ -157,7 +182,7 @@ public class TeacherSectionAssociationEntityTest {
 
        Map<String, Object> sectionReference = (Map<String, Object>) entity.get("sectionReference");
        Assert.assertTrue(sectionReference != null);
-       Assert.assertEquals("123456111", sectionReference.get("stateOrganizationId"));
+       Assert.assertEquals("123456111", sectionReference.get("uniqueSectionCode"));
        Assert.assertEquals("MATH1", sectionReference.get("localCourseCode"));
        Assert.assertEquals("2010-2011", sectionReference.get("schoolYear"));
        Assert.assertEquals("Summer Semester", sectionReference.get("term"));
@@ -170,10 +195,10 @@ public class TeacherSectionAssociationEntityTest {
        Assert.assertEquals("ELU", courseCode.get("assigningOrganizationCode"));
        Assert.assertEquals("23", courseCode.get("iD"));
 
-       Assert.assertEquals("Teacher of Record", sectionReference.get("classroomPosition"));
-       Assert.assertEquals("1998-01-01", sectionReference.get("beginDate"));
-       Assert.assertEquals("2008-01-01", sectionReference.get("endDate"));
-       Assert.assertEquals("true", sectionReference.get("highlyQualifiedTeacher").toString());
+       Assert.assertEquals("Teacher of Record", entity.get("classroomPosition"));
+       Assert.assertEquals("1998-01-01", entity.get("beginDate"));
+       Assert.assertEquals("2008-01-01", entity.get("endDate"));
+       Assert.assertEquals("true", entity.get("highlyQualifiedTeacher").toString());
 
    }
 }

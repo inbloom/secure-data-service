@@ -602,7 +602,7 @@
 	<!-- TeacherSectionAssociation Mapping-->
    <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 
-    <jb:expression property="recordType">'section'</jb:expression>
+    <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
     <jb:value property="localId" data="UniqueSectionCode" />
     <jb:wiring property="attributes" beanIdRef="studentAttributes" />
   </jb:bean>
@@ -638,8 +638,8 @@
 		<jb:value property="birthDate" data="TeacherSectionAssociation/StaffReference/StaffIdentity/BirthDate"/>
 		<jb:value property="hispanicLatinoEthnicity" data="TeacherSectionAssociation/StaffReference/StaffIdentity/HispanicLatinoEthnicity"/>
 		<jb:value property="race" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Race/RacialCategory"/>
-		<jb:wiring property="telephone" beanIdRef="telephoneTypeArray_TeacherSectionAssociation" />
- 	   <jb:wiring property="electronicMail" beanIdRef="electronicMailTypeArray_TeacherSectionAssociation" />
+		<jb:wiring property="telephone" beanIdRef="TelephoneTypeArray_TeacherSectionAssociation" />
+ 	   <jb:wiring property="electronicMail" beanIdRef="ElectronicMailTypeArray_TeacherSectionAssociation" />
 	</jb:bean>
 
 		<jb:bean beanId="StaffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
@@ -658,19 +658,19 @@
 	    <jb:value property="firstName" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/FirstName" />
 	    <jb:value property="middleName" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/MiddleName" />
 	    <jb:value property="lastSurname" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/LastSurname" />
-	    <jb:value property="personalTitlePrefixType" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/PersonalTitlePrefixType" />
+	    <jb:value property="personalTitlePrefix" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/PersonalTitlePrefix" />
 	    <jb:value property="generationCodeSuffix" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/GenerationCodeSuffix" />
 	    <jb:value property="maidenName" data="TeacherSectionAssociation/StaffReference/StaffIdentity/Name/MaidenName" />
 	  </jb:bean>
 
 	  <!-- OtherNameType_Section -->
 	  <jb:bean beanId="OtherNameTypeArray_TeacherSectionAssociation" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
-	    <jb:wiring beanIdRef="otherNameType" />
+	    <jb:wiring beanIdRef="OtherNameType_TeacherSectionAssociation" />
 	  </jb:bean>
 
 	  <jb:bean beanId="OtherNameType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 	    <jb:value property="otherNameType" data="TeacherSectionAssociation/StaffReference/StaffIdentity/OtherName/@OtherNameType" />
-	    <jb:value property="personalTitlePrefixType" data="TeacherSectionAssociation/StaffReference/StaffIdentity/OtherName/PersonalTitlePrefixType" />
+	    <jb:value property="personalTitlePrefix" data="TeacherSectionAssociation/StaffReference/StaffIdentity/OtherName/PersonalTitlePrefix" />
 	    <jb:value property="firstName" data="TeacherSectionAssociation/StaffReference/StaffIdentity/OtherName/FirstName" />
 	    <jb:value property="middleName" data="TeacherSectionAssociation/StaffReference/StaffIdentity/OtherName/MiddleName" />
 	    <jb:value property="lastSurname" data="TeacherSectionAssociation/StaffReference/StaffIdentity/OtherName/LastSurname" />
@@ -679,7 +679,7 @@
 
 	    <!-- TelephoneType_Section -->
 	  <jb:bean beanId="TelephoneTypeArray_TeacherSectionAssociation" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
-	    <jb:wiring beanIdRef="TelephoneType_Section" />
+	    <jb:wiring beanIdRef="TelephoneType_TeacherSectionAssociation" />
 	  </jb:bean>
 
 	  <jb:bean beanId="TelephoneType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
@@ -691,7 +691,7 @@
 
 	  <!-- ElectronicMailType_TeacherSectionAssociation -->
 	  <jb:bean beanId="ElectronicMailTypeArray_TeacherSectionAssociation" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
-	    <jb:wiring beanIdRef="ElectronicMailType_Section" />
+	    <jb:wiring beanIdRef="ElectronicMailType_TeacherSectionAssociation" />
 	  </jb:bean>
 
 	  <jb:bean beanId="ElectronicMailType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
@@ -706,7 +706,7 @@
 		<jb:value property="schoolYear" data="TeacherSectionAssociation/SectionReference/SectionIdentity/SchoolYear"/>
 		<jb:value property="classPeriodName" data="TeacherSectionAssociation/SectionReference/SectionIdentity/ClassPeriodName"/>
 		<jb:value property="location" data="TeacherSectionAssociation/SectionReference/SectionIdentity/Location"/>
-		<jb:wiring property="courseCode" beanIdRef="CourseCodeTypeArray_TeacherSectionAssociation" />
+		<jb:wiring property="courseCode" beanIdRef="CourseCodeType_TeacherSectionAssociation" />
 		<jb:value property="localCourseCode" data="TeacherSectionAssociation/SectionReference/SectionIdentity/LocalCourseCode"/>
 
 	</jb:bean>
