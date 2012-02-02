@@ -1,6 +1,6 @@
 package org.slc.sli.validation.utils;
 
-import static org.junit.Assert.fail;
+import java.io.IOException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,12 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SliXsdTest {
     
     @Test
-    public void testSliXSD() {
-        try {
-            NeutralJsonExporter.main(new String[] { "--test", "classpath:sliXsd-wip" });
-        } catch (Throwable e) {
-            System.err.println(e);
-            fail(e.toString());
-        }
+    public void testSliXSD() throws IOException {
+        NeutralJsonExporter.main(new String[] { "--test", "classpath:sliXsd-wip" });
     }
 }
