@@ -21,7 +21,7 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
 		and filter by  "AssessmentFamilyHierarchyName" = "DIBELS Next" 
-		and sort by AssessmentPeriodDescriptor.BeginDate 
+		and sort by AssessmentPeriodDescriptor.BeginDate, descending
 	     Then  I should receive a collection of 1 assessment link
 	        And after resolution, I should receive an "Assessment" with ID "<'Grade 2 MOY DIBELS' ID>"
         
@@ -49,7 +49,7 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		     And the "AssessmentPeriodDescriptor.EndDate" = "2012/02/01"
 	    
 	 When I navigate to GET "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>"
-		 Then sort by administrationDate 
+		 Then sort by administrationDate, descending
 		 And get an ordered collection of URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
 	     
 	  When I navigate to URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
@@ -117,7 +117,7 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		     
 	    When I navigate to "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>"
 	    	 And filter by studentId is <'Each Student' ID>
-		 And sort by administrationDate and set the page size to 1 and get the first URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
+		 And sort by administrationDate, descending and set the page size to 1 and get the first URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
 		 
 		 When I navigate to "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
 		 Then I receive a 1 student-assessment-association 
