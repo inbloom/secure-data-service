@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Vector;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -104,20 +106,46 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public EducationalOrganization[] getEducationalOrganizations(final String token) {
-        return fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, School s) {
+        EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
+        SchoolEducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/school_educational_organization_association.json"), SchoolEducationalOrganizationAssociation[].class);
+        // create a set of associated ed org ids, and then filter the ed or entities based on it.  
+        Set<String> associatedEdOrgIds = new HashSet<String>();
+        for (int i = 0; i < allAssociations.length; i++) {
+            if (s.getId() != null && s.getId().equals(allAssociations[i].getSchoolId())) {
+                associatedEdOrgIds.add(allAssociations[i].getEducationOrganizationId());
+            }
+        }
+        Vector<EducationalOrganization> filtered = new Vector<EducationalOrganization>();
+        for (int i = 0; i < allEdOrgs.length; i++) {
+            if (associatedEdOrgIds.contains(allEdOrgs[i].getId())) {
+                filtered.add(allEdOrgs[i]);
+            }
+        }
+        EducationalOrganization[] retVal = new EducationalOrganization[filtered.size()];
+        return filtered.toArray(retVal);
     }
     
     @Override
-    public SchoolEducationalOrganizationAssociation[] getSchoolEducationalOrganizationAssociations(final String token) {
-        return fromFile(getFilename("mock_data/" + token + "/school_educational_organization_association.json"), SchoolEducationalOrganizationAssociation[].class);
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization edOrg) {
+        EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
+        EducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/educational_organization_association.json"), EducationalOrganizationAssociation[].class);
+        // create a set of associated ed org ids, and then filter the ed or entities based on it.  
+        Set<String> parentEdOrgIds = new HashSet<String>();
+        for (int i = 0; i < allAssociations.length; i++) {
+            if (edOrg.getId() != null && edOrg.getId().equals(allAssociations[i].getEducationOrganizationChildId())) {
+                parentEdOrgIds.add(allAssociations[i].getEducationOrganizationParentId());
+            }
+        }
+        Vector<EducationalOrganization> filtered = new Vector<EducationalOrganization>();
+        for (int i = 0; i < allEdOrgs.length; i++) {
+            if (parentEdOrgIds.contains(allEdOrgs[i].getId())) {
+                filtered.add(allEdOrgs[i]);
+            }
+        }
+        EducationalOrganization[] retVal = new EducationalOrganization[filtered.size()];
+        return filtered.toArray(retVal);
     }
-    
-    @Override
-    public EducationalOrganizationAssociation[] getEducationalOrganizationAssociations(final String token) {
-        return fromFile(getFilename("mock_data/" + token + "/educational_organization_association.json"), EducationalOrganizationAssociation[].class);
-    }
-    
 
     // Helper function to translate a .json file into object. 
     public static <T> T[] fromFile(String fileName, Class<T[]> c) {

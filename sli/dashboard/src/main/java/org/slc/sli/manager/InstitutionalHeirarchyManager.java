@@ -4,16 +4,12 @@ import com.google.gson.Gson;
 
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.EducationalOrganization;
-import org.slc.sli.entity.EducationalOrganizationAssociation;
-import org.slc.sli.entity.SchoolEducationalOrganizationAssociation;
 import org.slc.sli.util.SecurityUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,14 +26,11 @@ public class InstitutionalHeirarchyManager extends Manager {
     public School[] getSchools() {
         return apiClient.getSchools(SecurityUtil.getToken());
     }
-    public EducationalOrganization[] getEducationalOrganizations() {
-        return apiClient.getEducationalOrganizations(SecurityUtil.getToken());
+    public EducationalOrganization[] getParentEducationalOrganizations(School s) {
+        return apiClient.getParentEducationalOrganizations(SecurityUtil.getToken(), s);
     }
-    public SchoolEducationalOrganizationAssociation[] getSchoolEducationalOrganizationAssociation() {
-        return apiClient.getSchoolEducationalOrganizationAssociations(SecurityUtil.getToken());
-    }
-    public EducationalOrganizationAssociation[] getEducationalOrganizationAssociations() {
-        return apiClient.getEducationalOrganizationAssociations(SecurityUtil.getToken());
+    public EducationalOrganization[] getParentEducationalOrganizations(EducationalOrganization edOrg) {
+        return apiClient.getParentEducationalOrganizations(SecurityUtil.getToken(), edOrg);
     }
 
     // JSON key names
@@ -47,6 +40,7 @@ public class InstitutionalHeirarchyManager extends Manager {
     /**
      * Returns the institutional heirarchy visible to the current user as a JSON string, 
      * with the ed-org level flattened  
+     * This assumes there are no cycles in the education organization heirarchy tree. 
      * @return 
      */
     public String getInstHeirarchyJSON() {
@@ -56,68 +50,40 @@ public class InstitutionalHeirarchyManager extends Manager {
 
         // Call API to get relationships. 
         School[] schools = getSchools();
-        EducationalOrganization[] edorgs = getEducationalOrganizations();
-        SchoolEducationalOrganizationAssociation[] schoolEdorgAss = getSchoolEducationalOrganizationAssociation();
-        EducationalOrganizationAssociation[] edorgAss = getEducationalOrganizationAssociations();
 
-        // build a mapping of school and ed orgs from id to the objects
-        Map<String, School> schoolIds = new HashMap<String, School>();
+        // This maps ids from educational organisations to schools reachable from it via the "child" relationship   
+        Map<String, HashSet<School>> schoolReachableFromEdOrg = new HashMap<String, HashSet<School>>();
+        // This just maps ed org ids to ed org objects. 
+        Map<String, EducationalOrganization> edOrgIdMap = new HashMap<String, EducationalOrganization>();
+        
+        // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.length; i++) {
-            schoolIds.put(schools[i].getId(), schools[i]);
-        }
-        Map<String, EducationalOrganization> edOrgIds = new HashMap<String, EducationalOrganization>();
-        for (int i = 0; i < edorgs.length; i++) {
-            edOrgIds.put(edorgs[i].getId(), edorgs[i]);
-        }
-
-        // This maps ids from educational organisations to ids of all schools reachable from it via the "child" relationship   
-        Map<String, Set<String>> flatEdOrgSchoolMap = new HashMap<String, Set<String>>();
-        for (int i = 0; i < edorgs.length; i++) {
-            flatEdOrgSchoolMap.put(edorgs[i].getId(), new HashSet<String>());
-        }
-        // build a collection of all edorgs ids directly associated with the schools
-        for (int i = 0; i < schoolEdorgAss.length; i++) {
-            String edOrgId = schoolEdorgAss[i].getEducationOrganizationId();
-            String schoolId = schoolEdorgAss[i].getSchoolId();
-            if (schoolIds.keySet().contains(schoolId)) {
-                if (!flatEdOrgSchoolMap.containsKey(edOrgId)) {
-                    continue; // this *shouldn't* be reached if the data integrity is okay. Maybe log an error? 
+            HashMap<String, EducationalOrganization> ancestorEdOrgs = new HashMap<String, EducationalOrganization>(); // strictly not needed, but makes the code easier to read. 
+            EducationalOrganization[] edOrgs = getParentEducationalOrganizations(schools[i]); 
+            for (int j = 0; j < edOrgs.length; j++) {
+                insertEdOrgAndAncesterIntoSet(ancestorEdOrgs, edOrgs[j]);
+            }
+            // insert into the reverse map
+            edOrgIdMap.putAll(ancestorEdOrgs);
+            for (String edOrgId : ancestorEdOrgs.keySet()) {
+                if (!schoolReachableFromEdOrg.keySet().contains(edOrgId)) {
+                    schoolReachableFromEdOrg.put(edOrgId, new HashSet<School>());
                 }
-                flatEdOrgSchoolMap.get(edOrgId).add(schoolId);   
+                schoolReachableFromEdOrg.get(edOrgId).add(schools[i]);
             }
-        }
-
-        // traverse the ed-orgs heirarchy and add schools to from an ed-org to all ed-orgs reachable under  
-        // the "parent of" relation.
-        while (true) {
-            boolean reachedClosure = true; // flag to tell whether we've reached closure
-            for (int i = 0; i < edorgAss.length; i++) {
-                // check if the parent gains any schools by absorbing the child ed org's schools 
-                Set<String> reachableSchoolIds = flatEdOrgSchoolMap.get(edorgAss[i].getEducationOrganizationParentId());
-                int countBefore = reachableSchoolIds.size();
-                reachableSchoolIds.addAll(flatEdOrgSchoolMap.get(edorgAss[i].getEducationOrganizationChildId()));
-                int countAfter = reachableSchoolIds.size();
-                if (countBefore < countAfter) { reachedClosure = false; }
-            }
-            if (reachedClosure) { break; } 
         }
 
         // write out the result
         JSONArray retVal = new JSONArray();
-        for (String edOrgId : edOrgIds.keySet()) {
+        for (String edOrgId : schoolReachableFromEdOrg.keySet()) {
             JSONObject obj = new JSONObject();
             try {
-                obj.put(NAME, edOrgIds.get(edOrgId).getNameOfInstitution());
+                obj.put(NAME, edOrgIdMap.get(edOrgId).getNameOfInstitution());
                 // convert school ids to the school object array, to be converted into JSON
-                Set<String> edOrgSchoolIds = flatEdOrgSchoolMap.get(edOrgId);
-                School[] edOrgSchools = new School [edOrgSchoolIds.size()];
-                int i = 0;
-                for (String s : edOrgSchoolIds) {
-                    edOrgSchools[i] = schoolIds.get(s);
-                    i++;
-                }
+                Set<School> reachableSchools = schoolReachableFromEdOrg.get(edOrgId);
+                School[] reachableSchoolsArr = new School [reachableSchools.size()];
                 Gson gson = new Gson();
-                String schoolJSONString = gson.toJson(edOrgSchools);
+                String schoolJSONString = gson.toJson(reachableSchools.toArray(reachableSchoolsArr));
                 obj.put(SCHOOLS, new JSONArray(schoolJSONString));
                 retVal.put(obj);
             } catch (JSONException e) {
@@ -127,6 +93,13 @@ public class InstitutionalHeirarchyManager extends Manager {
 
         return retVal.toString();
     }
-
-
+    // helper function: 
+    // This assumes there is no cycle in the education organization heirarchy tree. 
+    private void insertEdOrgAndAncesterIntoSet(Map<String, EducationalOrganization> map, EducationalOrganization edOrg) {
+        map.put(edOrg.getId(), edOrg);
+        EducationalOrganization[] parentEdOrgs = getParentEducationalOrganizations(edOrg);
+        for (int i = 0; i < parentEdOrgs.length; i++) {
+            insertEdOrgAndAncesterIntoSet(map, parentEdOrgs[i]);
+        }
+    }
 }
