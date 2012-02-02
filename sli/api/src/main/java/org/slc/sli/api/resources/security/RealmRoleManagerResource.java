@@ -3,8 +3,10 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -15,8 +17,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -83,6 +85,14 @@ public class RealmRoleManagerResource {
             
             for (String sliRole : mappings.keySet()) {
                 if (roleRightAccess.getDefaultRole(sliRole) == null) {
+                    return Response.status(Status.FORBIDDEN).build();
+                }
+                
+                Set<String> clientSet = new HashSet<String>();
+                for (String clientRole : mappings.get(sliRole)) {
+                    clientSet.add(clientRole);
+                }
+                if (clientSet.size() < mappings.get(sliRole).size()) {
                     return Response.status(Status.FORBIDDEN).build();
                 }
             }
