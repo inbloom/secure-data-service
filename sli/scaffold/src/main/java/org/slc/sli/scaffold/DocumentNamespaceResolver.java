@@ -6,6 +6,11 @@ import javax.xml.namespace.NamespaceContext;
 
 import org.w3c.dom.Document;
 
+/**
+ * Namespace resolver for xpath expressions
+ * @author srupasinghe
+ *
+ */
 public class DocumentNamespaceResolver implements NamespaceContext {
     private Document document = null;
     
