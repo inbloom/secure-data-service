@@ -14,7 +14,6 @@ class RealmsController < ApplicationController
   # # GET /realms/1.json
    def show
      @realm = Realm.find(params[:id])
-   
      respond_to do |format|
        format.html # show.html.erb
        format.json { render json: @realm }
@@ -35,6 +34,11 @@ class RealmsController < ApplicationController
   # # GET /realms/1/edit
    def edit
      @realm = Realm.find(params[:id])
+     @mapping = get_mappings_from_realm(params[:id])
+     @sli_roles = []
+     @mapping.each do |mapping|
+       @sli_roles.push mapping[:name]
+     end
    end
   # 
   # # POST /realms
@@ -57,9 +61,10 @@ class RealmsController < ApplicationController
   # # PUT /realms/1.json
    def update
      @realm = Realm.find(params[:id])
-   
+     @realm.mappings = params[:mappings];
      respond_to do |format|
-       if @realm.update_attributes(params[:realm])
+       #if @realm.update_attributes(params[:realm])
+       if @realm.save()
          format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
          format.json { head :ok }
        else
@@ -80,4 +85,14 @@ class RealmsController < ApplicationController
   #     format.json { head :ok }
   #   end
   # end
+  def get_mappings_from_realm(realm)
+    roles = Role.all
+    mapping = []
+    roles.each do |role|
+      map = {}
+      map[:name] = role.name
+      mapping.push map
+    end
+    mapping
+  end
 end

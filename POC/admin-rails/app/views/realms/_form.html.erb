@@ -1,17 +1,31 @@
-<%= form_for(@realm) do |f| %>
-  <% if @realm.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@realm.errors.count, "error") %> prohibited this realm from being saved:</h2>
+<script>
+var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
+$(document).ready(function() {
+        drawTable(rMap, true);
+	
+	$("#saveButton").click(function() {
+		var mData = extractData();	
+                $.ajax({
+                        url: '<%= url_for(:action=>"update") %>',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({"mappings": mData}),
+                        dataType: 'json'
+                })
+	});
 
-      <ul>
-      <% @realm.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	$("#addButton").click(function() {
+                rMap.push([$("#clientRole").val(), $("#mapping").val()]);
+        	drawTable(rMap, true);
+                $("#clientRole").val("")
+        });
+});
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</script>
+
+<table class="sortable">
+        <thead><tr><th id="crole" style="text-decoration: underline">Client Role</th><th id="srole" style="text-decoration: underline">SLI Role</th></tr></thead>
+        <tbody id="mTable"></tbody>
+</table>
+<input id="clientRole"></input><%= select_tag :mapping, options_for_select(@sli_roles)  %><button id="addButton">Add</button>
+<div><button id="saveButton">Save</button><button>Reset</button></div>

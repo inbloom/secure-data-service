@@ -19,6 +19,7 @@ import org.slc.sli.entity.Section;
 import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.entity.EducationalOrganization;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
@@ -132,6 +133,16 @@ public class LiveAPIClient implements APIClient {
     @Override
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
         return mockClient.getStudentProgramAssociation(getUsername(), studentIds);
+    }
+    
+    @Override
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, School s) {
+        return mockClient.getParentEducationalOrganizations(getUsername(), s);
+    }
+    
+    @Override
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization edOrg) {
+        return mockClient.getParentEducationalOrganizations(getUsername(), edOrg);
     }
     
     private String getId(String token) {
