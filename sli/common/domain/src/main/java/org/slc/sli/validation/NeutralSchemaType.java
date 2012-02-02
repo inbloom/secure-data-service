@@ -30,24 +30,21 @@ import org.slc.sli.validation.schema.Restriction;
  */
 public enum NeutralSchemaType {
     
-    BOOLEAN("boolean", true), INT("int", true), INTEGER("integer", true), LONG("long", true), DOUBLE("double", true,
-            "float"), DATE("date", true), TIME("time", true), DATETIME("datetime", true), DURATION("duration", true), STRING(
-            "string", true, "decimal"), ID("id", true), IDREF("IDREF", true), TOKEN("token", false), LIST("list", false), COMPLEX(
-            "complex", false);
+    BOOLEAN("boolean"), INT("int"), INTEGER("integer"), LONG("long"), DOUBLE("double", "float"), DATE("date"), TIME(
+            "time"), DATETIME("datetime"), DURATION("duration"), STRING("string", "decimal"), ID("id"), IDREF("IDREF"), TOKEN(
+            "token"), LIST("list"), COMPLEX("complex");
     
     // Attributes
     private final String name;
-    private final boolean isPrimitive;
     private final List<String> mappedXsdTypes;
     
     // Constructors
-    NeutralSchemaType(String name, boolean isPrimitive) {
-        this(name, isPrimitive, new String[] {});
+    NeutralSchemaType(String name) {
+        this(name, new String[] {});
     }
     
-    NeutralSchemaType(String name, boolean isPrimitive, String... extraTypes) {
+    NeutralSchemaType(String name, String... extraTypes) {
         this.name = name;
-        this.isPrimitive = isPrimitive;
         List<String> xsdTypes = new ArrayList<String>(Arrays.asList(extraTypes));
         xsdTypes.add(name);
         mappedXsdTypes = Collections.unmodifiableList(xsdTypes);
@@ -70,8 +67,7 @@ public enum NeutralSchemaType {
     }
     
     public static boolean isPrimitive(QName qName) {
-        NeutralSchemaType schema = findByName(qName);
-        return schema != null && schema.isPrimitive;
+        return findByName(qName) != null;
     }
     
     public static NeutralSchemaType findByName(String name) {
