@@ -11,13 +11,13 @@
 
 <#-- TODO: find better way to pass freemarker variable to javascript -->
 <script type="text/javascript">
-var schools = ${schoolList};
+var instHeirarchy = ${instHeirarchy};
 $.ajaxSetup ({cache: false});
 </script>
 
 <link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
 </head>
-<body onLoad="populateSchoolMenu()">
+<body onLoad="populateInstHeirarchy()">
 <div id="container">
 
     <div id="header">
@@ -32,7 +32,7 @@ $.ajaxSetup ({cache: false});
     <div id="content">
     
         <div id="populationSelect">
-            <span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
+            <span id="edorgDiv"></span><span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
         </div>
     
         <div id="listView">

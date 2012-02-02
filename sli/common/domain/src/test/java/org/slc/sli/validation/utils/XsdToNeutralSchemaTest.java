@@ -138,12 +138,6 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(testFloatSchema);
         assertEquals("float", testFloatSchema.getType());
         assertEquals(DoubleSchema.class.getCanonicalName(), testFloatSchema.getValidatorClass());
-        
-        NeutralSchema testDecimalSchema = (NeutralSchema) schema.getFields().get("testDecimal");
-        assertNotNull(testDecimalSchema);
-        assertEquals("decimal", testDecimalSchema.getType());
-        assertEquals(StringSchema.class.getCanonicalName(), testDecimalSchema.getValidatorClass());
-        
     }
     
     @Test

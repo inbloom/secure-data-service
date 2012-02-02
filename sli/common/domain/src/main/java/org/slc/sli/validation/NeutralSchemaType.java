@@ -31,7 +31,7 @@ import org.slc.sli.validation.schema.Restriction;
 public enum NeutralSchemaType {
     
     BOOLEAN("boolean"), INT("int"), INTEGER("integer"), LONG("long"), DOUBLE("double", "float"), DATE("date"), TIME(
-            "time"), DATETIME("datetime"), DURATION("duration"), STRING("string", "decimal"), ID("id"), IDREF("IDREF"), TOKEN(
+            "time"), DATETIME("datetime"), DURATION("duration"), STRING("string"), ID("id"), IDREF("IDREF"), TOKEN(
             "token"), LIST("list"), COMPLEX("complex");
     
     // Attributes
