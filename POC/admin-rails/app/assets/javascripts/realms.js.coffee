@@ -3,7 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 `getTableData = function(json) {
-console.log(json);
         toReturn = []
         for (var sliRole in json) {
                 for (var j in json[sliRole]) {
@@ -12,6 +11,19 @@ console.log(json);
         }
         return toReturn
 }`
+
+`extractData = function() {
+	var map = {};
+	$("#mTable > tr").each(function () {
+		var cRole = $(this).children("td:eq(0)")[0].innerText;		
+		var sRole = $(this).children("td:eq(1)")[0].innerText;		
+		if (!map[sRole])
+			map[sRole] = [];
+		map[sRole].push(cRole);
+	});
+	return map;
+}
+`
 
 
 `sortTable = function(data, col, order) {
@@ -44,14 +56,16 @@ console.log(json);
 		var tr = $("<tr>");
         	tr.append($("<td>" + data[i][0] +  "<td>" + data[i][1] +  "</td>"));
 		if (editable) {
-			tr.append("<td><button class='db'>X</button>");
-        		$(".db").each(function() {
+			tr.append("<td><button class='deleteButton'>X</button></td>");
+		}	
+		table.append(tr);
+		if (editable) {
+        		$(".deleteButton").each(function() {
                 		$(this).click(function() {
                        		$(this).parent().parent().remove();
                 		});
 			});
-		}	
-		table.append(tr);
+		}
         }
 
 }
