@@ -7,11 +7,14 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import javax.ws.rs.core.Response;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,6 +34,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class })
+@DirtiesContext
 public class RealmRoleManagerResourceTest {
     @Autowired
     private RealmRoleManagerResource resource;
@@ -73,7 +77,8 @@ public class RealmRoleManagerResourceTest {
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        assertTrue(resource.updateClientRole("1234", mapping));
+        Response res = resource.updateClientRole("1234", mapping);
+        assertTrue(res.getStatus() == 204);
     }
     
     @Test

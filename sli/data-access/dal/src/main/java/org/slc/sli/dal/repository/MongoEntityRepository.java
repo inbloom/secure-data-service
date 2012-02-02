@@ -19,6 +19,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -37,6 +38,9 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Autowired
     private IdConverter         idConverter;
+    
+    @Autowired
+    private EntityValidator validator;
     
     @Override
     public Entity find(String collectionName, String id) {
@@ -61,6 +65,7 @@ public class MongoEntityRepository implements EntityRepository {
         String id = entity.getEntityId();
         if (id.equals(""))
             return false;
+        validator.validate(entity);
         
         Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), MongoEntity.class, collection);
         if (found != null)
@@ -79,6 +84,7 @@ public class MongoEntityRepository implements EntityRepository {
     public Entity create(String type, Map<String, Object> body, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
+        validator.validate(entity);
         template.save(entity, collectionName);
         LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, entity.getEntityId() });
         return entity;

@@ -8,8 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Holder for security utilities
@@ -19,7 +19,9 @@ import org.slc.sli.domain.MongoEntity;
  */
 public class SecurityUtil {
     
-    private static final Authentication FULL_ACCESS_AUTH;
+    private static final Authentication        FULL_ACCESS_AUTH;
+    
+    private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
     
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -30,13 +32,14 @@ public class SecurityUtil {
     
     public static <T> T sudoRun(SecurityTask<T> task) {
         T toReturn = null;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        cachedAuth.set(SecurityContextHolder.getContext().getAuthentication());
         
         try {
             SecurityContextHolder.getContext().setAuthentication(FULL_ACCESS_AUTH);
             toReturn = task.execute();
         } finally {
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            SecurityContextHolder.getContext().setAuthentication(cachedAuth.get());
         }
         
         return toReturn;

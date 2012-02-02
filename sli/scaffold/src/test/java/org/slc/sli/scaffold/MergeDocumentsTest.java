@@ -1,13 +1,14 @@
 package org.slc.sli.scaffold;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import javax.xml.xpath.XPathException;
+
+import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
+import org.w3c.dom.DOMException;
 
 /**
  * Test MergeDocuments
@@ -15,19 +16,17 @@ import org.w3c.dom.Document;
  *
  */
 public class MergeDocumentsTest {
-    MergeDocuments merge = new MergeDocuments();
+    MergeDocuments merge = new MergeDocuments(); //class under test
     
-    @Test (expected=ScaffoldException.class)
-    public void testParseDocumentEmptyFile() throws ScaffoldException {
-        merge.parseDocument(new File(""));
+    @Before
+    public void setup() {
     }
     
     @Test
-    public void testParseDocument() throws ScaffoldException, URISyntaxException {
-        URL url = this.getClass().getResource("/sample.xml");
+    public void testApplyMerge() throws ScaffoldException, URISyntaxException, DOMException, XPathException {
+        URL sampleUrl = this.getClass().getResource("/sample.xml");
+        URL mergeUrl = this.getClass().getResource("/merge-test.xml");
         
-        Document doc = merge.parseDocument(new File(url.toURI()));
-        
-        assertNotNull("Document should not be null", doc);
+        merge.merge(new File(sampleUrl.toURI()), new File(mergeUrl.toURI()));
     }
 }

@@ -32,6 +32,7 @@
 	    <server.mode>live</server.mode>
 	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
 	    <apiclient>Live</apiclient>
+	    <war.file.name>dashboard</war.file.name>
       </properties>
       <build>
         <filters>

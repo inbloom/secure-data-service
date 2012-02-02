@@ -69,6 +69,7 @@ public class EntityServiceLayerTest {
         
         repo.deleteAll("student");
         repo.deleteAll("school");
+        repo.deleteAll("student-school-associations");
         studentDef = defs.lookupByResourceName("students");
         schoolDef = defs.lookupByResourceName("schools");
         studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("student-school-associations");

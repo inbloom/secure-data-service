@@ -46,7 +46,14 @@ public class HomeResource {
     
     /**
      * Returns the initial information when a user logs in.
+     * This includes a self link for the user's info, i.e. /staff/{GUID}.
+     * In addition, there may be links for associations such as 
+     * /staff-educationOrganization-associations/{GUID}, and a link 
+     * for aggregation such as /aggregation. 
      * 
+     * @response.representation.200.mediaType application/json by default. application/xml if specified. 
+     * @param uriInfo
+     * @return Response
      */
     @GET
     public Response getHomeUri(@Context final UriInfo uriInfo) {
@@ -81,7 +88,7 @@ public class HomeResource {
     /**
      * Analyzes security context to get ID and EntityDefinition for user.
      * 
-     * @return ID and EntityDefinition from security context
+     * @return Pair containing ID and EntityDefinition from security context
      */
     private Pair<String, EntityDefinition> getEntityInfoForUser() {
         Pair<String, EntityDefinition> pair = null;
