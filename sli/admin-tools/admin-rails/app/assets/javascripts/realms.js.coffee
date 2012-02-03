@@ -61,7 +61,7 @@
 		table.append(tr);
 		tr.show();
 		if (editable) {
-        		$(tr).select("td > .deleteButton").each(function() {
+        		$(tr).find(".deleteButton").each(function() {
                 		$(this).click(function() {
                        		//$(this).parent().parent().remove()
 					$(this).trigger("deleteRow");
