@@ -352,11 +352,9 @@
 				</xs:element>
 				<xs:element name="name" type="name">
 					<xs:annotation>
-						<xs:documentation>Full legal name of the person.
-						</xs:documentation>
+						<xs:documentation>Full legal name of the person.</xs:documentation>
 						<xs:appinfo>
-							<sli:PersonallyIdentifiableInfo>true
-							</sli:PersonallyIdentifiableInfo>
+							<sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
@@ -477,6 +475,9 @@
 							eligibility for
 							breakfast, lunch, snack, supper, and milk programs.
 						</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="studentCharacteristics" type="studentCharacteristic"
@@ -490,7 +491,7 @@
 							etc.
 						</xs:documentation>
 						<xs:appinfo>
-							<sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
+							<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>

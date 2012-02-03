@@ -477,6 +477,9 @@
 							eligibility for
 							breakfast, lunch, snack, supper, and milk programs.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="studentCharacteristics" type="studentCharacteristic"
@@ -489,9 +492,6 @@
 							Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth,
 							etc.
 						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
-						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="limitedEnglishProficiency" type="limitedEnglishProficiencyType"

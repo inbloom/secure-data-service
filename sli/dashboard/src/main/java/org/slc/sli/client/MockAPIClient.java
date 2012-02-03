@@ -95,12 +95,12 @@ public class MockAPIClient implements APIClient {
     
     @Override
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
-		// Get programs list for ALL the student of that user (regardless of sections)
+        // Get programs list for ALL the student of that user (regardless of sections)
         StudentProgramAssociation[] programs = fromFile(getFilename("mock_data/" + token + "/student_program_association.json"), StudentProgramAssociation[].class);
         // perform the filtering. 
         Vector<StudentProgramAssociation> filtered = new Vector<StudentProgramAssociation>();
         if (studentIds != null) {
-        	// Collect programs for each and every student
+            // Collect programs for each and every student
             for (StudentProgramAssociation program : programs) { 
                 if (studentIds.contains(program.getStudentId())) { 
                     filtered.add(program);
@@ -112,7 +112,7 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public EducationalOrganization[] getParentEducationalOrganizations(final String token, School s) {
+    public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, School s) {
         EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
         SchoolEducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/school_educational_organization_association.json"), SchoolEducationalOrganizationAssociation[].class);
         // create a set of associated ed org ids, and then filter the ed or entities based on it.  
