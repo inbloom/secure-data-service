@@ -1,9 +1,8 @@
 @wip
-Feature: As a teacher for my class I want to get the most recent values of the following attributes: ISAT Reading test PerformaceLevel, ScaleScore and Lexile
-
+Feature: Get ISAT Reading Scores
 Background: None
 
-Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent DIBELS assessment
+Scenario Outline:  As a teacher for my class I want to get the most recent values of the following attributes: ISAT Reading test PerformaceLevel, ScaleScore and Lexile
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
 	And I have a Role attribute returned from the "SEA/LEA IDP"
 	And the role attribute equals <AnyDefaultSLIRole>
@@ -21,8 +20,10 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
 		And filter by  "AssessmentFamilyHierarchyName" = "ISAT Reading for Grades 3-8" 
-		And sort by AssessmentPeriodDescriptor.BeginDate, descending
-		And set the page size to 1
+	     And "sort_by" ="AssessmentPeriodDescriptor.BeginDatee"
+		 And "sort_order"="descending" 
+		 And set the "page_size"  = "1" 
+		 And get the "page"="1"
 	     Then  I should receive a collection of 1 assessment link
 	        And after resolution, I should receive an "Assessment" with ID "<'Most recent ISAT Reading' ID>"
         
@@ -34,7 +35,7 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		     And the "GradeLevelAssessed" is "Eight Grade"
 		     And the "LowestGradeLevelAssessed" is "Third Grade"
 		     And the "AssessmentPerformanceLevel" has the 4 levels
-				     "PerformanceLevel= "Academic Warning"
+				     "PerformanceLevel"= "Academic Warning"
 				     "MaximumScore" = "179"
 				     "MinimumScore" = "120"
 				     "PerformanceLevel"= "Below Standards"
@@ -51,15 +52,24 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		     And the "MinRawScore" is "120"
 		     And the "AssessmentPeriodDescriptor.BeginDate" = "2012/05/01"
 		     And the "AssessmentPeriodDescriptor.EndDate" = "2012/05/31"
-	    
-	 When I navigate to GET "/student-assessment-associations/<'ISAT Reading' ID>"
-	     Then I get a collection of 20 student-assessment-associations links 
-	     When I filter by studentId is <'Suzy Queue' ID>
+
+    When I navigate to GET "/student-section-association/<'Important_Section' ID>/targets"
+		Then I should receive a collection of 5 student links
+		And after resolution, I should receive a "Student"" with ID <'John Doe' ID>
+		And after resolution, I should receive a "Student" with ID  <'Sean Deer' ID>
+		And after resolution, I should receive a "Student" with ID  <'Suzy Queue' ID>
+		And after resolution, I should receive a "Student" with ID  <'Mary Line' ID>
+	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
+	 
+	 Given I loop through the collection of student links
+	 When I navigate to GET "/student-assessment-associations/<'ISAT Reading' ID>" 
+	     When I filter by studentId is <'Current_student' ID>
 	         Then I get 1 student-assessment-association
 			    	 And the "AdministrationDate" is "2012/05/10"
 			     And the "GradeLevelWhenAssessed" is "Seventh Grade"
 			     And the "AssessmentFamily" is "ISAT Reading for Grade 8"
-			     And the "PerformanceLevel" is "Meets Standards""
+			     And the "PerformanceLevel" is "Meets Standards"
+			     And the "PerformanceLevel.CodeValue" is "M"
 			     And the "ScaleScore" is "250"
 			     And the "PercentileRank" is "92"
 			     And the "LexileLevel" is "1205"

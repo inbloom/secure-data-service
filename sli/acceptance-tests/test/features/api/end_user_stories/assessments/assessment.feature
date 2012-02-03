@@ -21,7 +21,10 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
 		and filter by  "AssessmentFamilyHierarchyName" = "DIBELS Next" 
-		and sort by AssessmentPeriodDescriptor.BeginDate, descending
+		And "sort_by" ="AssessmentPeriodDescriptor.BeginDate"
+		 And "sort_order"="descending" 
+		 And set the "page_size"  = "1" 
+		 And get the "page"="1"
 	     Then  I should receive a collection of 1 assessment link
 	        And after resolution, I should receive an "Assessment" with ID "<'Grade 2 MOY DIBELS' ID>"
         
@@ -32,25 +35,39 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		     And the "AssessmentSubjectType" is "Reading"
 		     And the "GradeLevelAssessed" is "Second Grade"
 		     And the "LowestGradeLevelAssessed" is "Second Grade"
-		     And the "AssessmentPerformanceLevel" has the three levels
-				     PerformanceLevel= "At or Above Benchmark"
-				     MinimumScore = "190"
-				     MaximumScore = "380"
-				     PerformanceLevel= "Below Benchmark"
-				     MinimumScore = "189"
-				     MaximumScore = "145"
-				     PerformanceLevel= "Well Below Benchmark"
-				     MinimumScore = "144"
-				     MaximumScore = "13"
+		     And the "AssessmentPerformanceLevel" has the 3 levels
+				     "PerformanceLevel""= "At or Above Benchmark"
+				     "MinimumScore" = "190"
+				     "MaximumScore" = "380"
+				     "PerformanceLevel"= "Below Benchmark"
+				     "MinimumScore" = "189"
+				     "MaximumScore" = "145"
+				     "PerformanceLevel= "Well Below Benchmark"
+				     "MinimumScore" = "144"
+				     "MaximumScore" = "13"
 		     And the "AssessmentFamilyHierarchyName" is "DIBELS Next"
 		     And the "MaxRawScore" is "380"
 		     And the "MinRawScore" is "13"
 		     And the "AssessmentPeriodDescriptor.BeginDate" = "2012/01/01"
 		     And the "AssessmentPeriodDescriptor.EndDate" = "2012/02/01"
 	    
+	 When I navigate to GET "/student-section-association/<'Important_Section' ID>/targets"
+		Then I should receive a collection of 5 student links
+		And after resolution, I should receive a "Student"" with ID <'John Doe' ID>
+		And after resolution, I should receive a "Student" with ID  <'Sean Deer' ID>
+		And after resolution, I should receive a "Student" with ID  <'Suzy Queue' ID>
+		And after resolution, I should receive a "Student" with ID  <'Mary Line' ID>
+	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
+	 
+	 Given I loop through the collection of student links
 	 When I navigate to GET "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>"
-		 Then sort by administrationDate, descending
-		 And get an ordered collection of URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
+	 	 And filter by <'Current_student' ID> 
+		 And "sort_by" ="studentAssessmentAssociation.administrationDate"
+		 And "sort_order"="descending"
+		 And set the "page_size"  = "1" 
+		 And get the "page"="1"
+		 Then  I should receive a collection of 1 assessment link 
+		  And after resolution, I should receive a "student-assessment-association" with ID "<'Most Recent Assessment Association' ID>"
 	     
 	  When I navigate to URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
 	     Then I get 1 student-assessment-association
@@ -117,7 +134,11 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		     
 	    When I navigate to "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>"
 	    	 And filter by studentId is <'Each Student' ID>
-		 And sort by administrationDate, descending and set the page size to 1 and get the first URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
+		 And "sort_by" ="administrationDate"
+		 And "sort_order"="descending" 
+		 And set the "page_size"  = "1" 
+		 And get the "page"="1"
+		 Then I get the first URI "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
 		 
 		 When I navigate to "/student-assessment-associations/<'Most Recent Assessment Association' ID>"
 		 Then I receive a 1 student-assessment-association 
