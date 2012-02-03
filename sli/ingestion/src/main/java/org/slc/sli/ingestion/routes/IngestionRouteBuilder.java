@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.routes;
 
-import static org.apache.camel.builder.PredicateBuilder.or;
-
 import java.io.File;
 import java.util.Enumeration;
 
@@ -87,8 +85,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                         .process(zipFileProcessor)
                         .choice()
-                        .when(body().isInstanceOf(BatchJob.class))
-                        .to("seda:assembledJobs")
+                        .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
+                        .to(workItemQueueUri)
+                        .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
+                        .to(workItemQueueUri)
                         .otherwise()
                         .process(new Processor() {
                             
@@ -101,33 +101,29 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         }).process(new ControlFilePreProcessor(tempLz))
                         .to(workItemQueueUri);
         
-        // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
+        // routeId: workItemRoute 
+        // main state machine route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
         .routeId("workItemRoute")
         .choice()
         .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
         .process(ctlFileProcessor)
-        .to("direct:assembledJobs")
+        .to(workItemQueueUri)
         .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
         .process(edFiProcessor)
         .to(workItemQueueUri)
         .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-        .to("direct:persist")
-        .otherwise()
-        .to("direct:stop");
-        
-        
-        // routeId: jobDispatch
-        from("direct:assembledJobs")
-        .routeId("jobDispatch")
-        .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispatching jobs for file.")
-        .choice()
-        .when(header("hasErrors").isEqualTo(true))
+        .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
+        .log("persist: jobId: ${header.jobId}")
+        .process(persistenceProcessor)
+        .to(workItemQueueUri)
+        .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
+        .log("Error: ${header.ErrorMessage}")
         .to("direct:stop")
         .otherwise()
-        .to(workItemQueueUri);
+        .to("direct:stop");
         
         // routeId: jobReporting
         from("direct:jobReporting")
@@ -161,7 +157,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 
                 FaultsReport fr = job.getFaultsReport();
                 
-                for (Fault fault: fr.getFaults()) {
+                for (Fault fault : fr.getFaults()) {
                     if (fault.isError()) {
                         jobLogger.error(fault.getMessage());
                     } else {
@@ -186,28 +182,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             
         });
         
-        // routeId: persistencePipeline
-        from("direct:persist")
-        .routeId("persistencePipeline")
-        .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-        .log("persist: jobId: " + header("jobId").toString())
-        .choice()
-        .when(or(header("dry-run").isEqualTo(true), header("hasErrors").isEqualTo(true)))
-        .log("job has errors or dry-run specified; data will not be published")
-        .to("direct:stop")
-        .otherwise()
-        .log("publishing data now!")
-        .process(persistenceProcessor)
-        .to("direct:stop");
         
         // end of routing
         from("direct:stop")
         .routeId("stop")
         .wireTap("direct:jobReporting")
-        .log("end of job: " + header("jobId").toString())
+        .log("end of job: ${header.jobId}")
         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
         .stop();
-        
     }
     
 }

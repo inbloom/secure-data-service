@@ -28,15 +28,24 @@
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
+
+    <xs:simpleType name="TestNotPersonallyIdentifiableInfoSimple">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:PersonallyIdentifiableInfo>false</sli:PersonallyIdentifiableInfo>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
     
     
     <xs:simpleType name="TestSecuritySimple">
         <xs:annotation>
             <xs:appinfo>
-                <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                <sli:ReadEnforcement>ADMIN_ACCESS</sli:ReadEnforcement>
             </xs:appinfo>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
-    </xs:simpleType>    
+    </xs:simpleType>
         
 </xs:schema>

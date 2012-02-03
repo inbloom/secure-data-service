@@ -41,7 +41,7 @@ public abstract class NeutralSchema {
     private String type = "";
     private String version = "1.0";
     private Map<String, Object> properties = null;
-    private Map<String, Object> fields = null;
+    private Map<String, NeutralSchema> fields = null;
     
     // Future Attributes
     private Properties docProperties = new Properties();
@@ -51,9 +51,13 @@ public abstract class NeutralSchema {
     private String writeConverter = null;
     
     private boolean isPersonallyIdentifiableInfo = false;
+    
     private Right readAuthority = Right.READ_GENERAL;
     private Right writeAuthority = Right.WRITE_GENERAL;
     private String documentation = null;
+    
+    // data sphere, used by security to identify whether the data is 'core', 'admin', etc.
+    private String securitySphere = null;
     
     // Constructors
     public NeutralSchema() {
@@ -109,19 +113,82 @@ public abstract class NeutralSchema {
         return properties;
     }
     
-    public Map<String, Object> getFields() {
+    public final Map<String, NeutralSchema> getFields() {
         if (fields == null) {
-            fields = new LinkedHashMap<String, Object>();
+            fields = new LinkedHashMap<String, NeutralSchema>();
         }
         return fields;
     }
     
-    public boolean isPersonallyIdentifiableInfo() {
+    public void clearFields() {
+        if (fields != null) {
+            fields.clear();
+        }
+    }
+    
+    public void addField(String name, NeutralSchema schema) {
+        if (fields == null) {
+            fields = new LinkedHashMap<String, NeutralSchema>();
+        }
+        
+        // Inherit only if the parent is more restrictive.
+        if (isPersonallyIdentifiableInfo) {
+            schema.isPersonallyIdentifiableInfo(isPersonallyIdentifiableInfo);
+        }
+        
+        switch (readAuthority) {
+            case FULL_ACCESS:
+                schema.setReadAuthority(Right.FULL_ACCESS);
+                break;
+            case ADMIN_ACCESS:
+                if (schema.getReadAuthority() != Right.FULL_ACCESS) {
+                    schema.setReadAuthority(Right.ADMIN_ACCESS);
+                }
+                break;
+            case READ_RESTRICTED:
+                if (schema.getReadAuthority() != Right.FULL_ACCESS && schema.getReadAuthority() != Right.ADMIN_ACCESS) {
+                    schema.setReadAuthority(Right.READ_RESTRICTED);
+                }
+            case READ_GENERAL:
+                if (schema.getReadAuthority() == Right.ANONYMOUS_ACCESS) {
+                    schema.setReadAuthority(Right.READ_GENERAL);
+                }
+        }
+        
+        switch (writeAuthority) {
+            case FULL_ACCESS:
+                schema.setWriteAuthority(Right.FULL_ACCESS);
+                break;
+            case ADMIN_ACCESS:
+                if (schema.getWriteAuthority() != Right.FULL_ACCESS) {
+                    schema.setWriteAuthority(Right.ADMIN_ACCESS);
+                }
+                break;
+            case WRITE_RESTRICTED:
+                if (schema.getWriteAuthority() != Right.FULL_ACCESS && schema.getWriteAuthority() != Right.ADMIN_ACCESS) {
+                    schema.setWriteAuthority(Right.WRITE_RESTRICTED);
+                }
+                break;
+            case WRITE_GENERAL:
+                if (schema.getWriteAuthority() == Right.ANONYMOUS_ACCESS) {
+                    schema.setWriteAuthority(Right.WRITE_GENERAL);
+                }
+                break;
+        }
+        
+        if (schema.getSecuritySphere() == null) {
+            schema.setSecuritySphere(securitySphere);
+        }
+        
+        fields.put(name, schema);
+    }
+    
+    public Boolean isPersonallyIdentifiableInfo() {
         return isPersonallyIdentifiableInfo;
     }
     
     public void isPersonallyIdentifiableInfo(boolean pii) {
-        isPersonallyIdentifiableInfo = pii;
+        isPersonallyIdentifiableInfo = new Boolean(pii);
     }
     
     public Right getReadAuthority() {
@@ -146,6 +213,14 @@ public abstract class NeutralSchema {
     
     public void setDocumentation(String documentation) {
         this.documentation = documentation;
+    }
+    
+    public String getSecuritySphere() {
+        return securitySphere;
+    }
+    
+    public void setSecuritySphere(String securitySphere) {
+        this.securitySphere = securitySphere;
     }
     
     // Future Methods

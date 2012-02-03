@@ -1,11 +1,12 @@
 require "net/http"
 class Check
-  attr_accessor :full_name, :authenticated
+  attr_accessor :full_name, :authenticated, :realm
 
   def initialize(sessionId)
     json =  Check.json_http_req("#{APP_CONFIG['api_base']}/system/session/check", sessionId)
     @full_name = json['full_name']
     @authenticated = json['authenticated']
+    @realm = json['realm']
   end
 
 

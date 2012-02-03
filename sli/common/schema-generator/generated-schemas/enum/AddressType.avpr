@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AddressType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of address listed for an individual or organization.",
-  "xsd-type" : "token",
-  "symbols" : [ "Home", "Physical", "Billing", "Mailing", "Other", "Temporary", "Work" ]
-}

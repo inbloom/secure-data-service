@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "EntryType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The process by which a student enters a school during a given academic session.",
-  "xsd-type" : "token",
-  "symbols" : [ "Transfer_from_a_public_school_in_the_same_local_education_agency", "Transfer_from_a_public_school_in_a_different_local_education_agency_in_the_same_state", "Transfer_from_a_public_school_in_a_different_state", "Transfer_from_a_private_non_religiously_affiliated_school_in_the_same_local_education_agency", "Transfer_from_a_private_non_religiously_affiliated_school_in_a_different_local_education_agency_in_the_same_state", "Transfer_from_a_private_non_religiously_affiliated_school_in_a_different_state", "Transfer_from_a_private_religiously_affiliated_school_in_the_same_local_education_agency", "Transfer_from_a_private_religiously_affiliated_school_in_a_different_local_education_agency_in_the_same_state", "Transfer_from_a_private_religiously_affiliated_school_in_a_different_state", "Transfer_from_a_school_outside_of_the_country", "Transfer_from_an_institution", "Transfer_from_a_charter_school", "Transfer_from_home_schooling", "Re_entry_from_the_same_school_with_no_interruption_of_schooling", "Re_entry_after_a_voluntary_withdrawal", "Re_entry_after_an_involuntary_withdrawal", "Original_entry_into_a_United_States_school", "Original_entry_into_a_United_States_school_from_a_foreign_country_with_no_interruption_in_schooling", "Original_entry_into_a_United_States_school_from_a_foreign_country_with_an_interruption_in_schooling", "Next_year_school", "Other" ]
-}

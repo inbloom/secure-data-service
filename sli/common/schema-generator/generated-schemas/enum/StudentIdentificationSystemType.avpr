@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "StudentIdentificationSystemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Definition: A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.",
-  "xsd-type" : "token",
-  "symbols" : [ "Canadian_SIN", "District", "Family", "Federal", "Local", "National_Migrant", "Other", "School", "SSN", "State", "State_Migrant" ]
-}

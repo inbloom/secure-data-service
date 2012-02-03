@@ -53,7 +53,7 @@ public class SmooksEdFiVisitorTest {
             smooks.filterSource(new StreamSource(messageIn), result);
 
             ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
-            assertEquals(records.size(), 100);
+            assertEquals(100, records.size());
 
             // TODO assert for a few entries that all values got successfully
             // mapped

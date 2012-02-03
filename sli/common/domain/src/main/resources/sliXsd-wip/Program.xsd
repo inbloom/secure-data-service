@@ -3,7 +3,7 @@
 	elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
     <xs:element name="program">
 		<xs:annotation>
@@ -15,7 +15,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="ProgramId" type="ProgramId" minOccurs="0">
+				<xs:element name="programId" type="programId" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							A unique number or alphanumeric code assigned to a program by a school, school system, a
@@ -23,7 +23,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramType" type="ProgramType">
+				<xs:element name="programType" type="programType">
 					<xs:annotation>
 						<xs:documentation>
 							The formal name of the program of instruction, training, services or benefits available
@@ -31,7 +31,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0">
+				<xs:element name="programSponsor" type="programSponsorType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Ultimate and intermediate providers of funds for a particular educational or service
@@ -40,7 +40,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Services" type="ServiceDescriptorSimpleReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="services" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Defines the services provided by this program to students.</xs:documentation>
 					</xs:annotation>
@@ -48,7 +48,7 @@
 			</xs:sequence>
 		</xs:complexType>
     </xs:element>
-	<xs:complexType name="ServiceDescriptor">
+	<xs:complexType name="serviceDescriptor">
 		<xs:annotation>
 			<xs:documentation>
 				This descriptor defines the services provided an education organization to populations of students
@@ -56,24 +56,24 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="CodeValue" type="CodeValue">
+			<xs:element name="codeValue" type="codeValue">
 				<xs:annotation>
 					<xs:documentation>
 						A code or abbreviation that is used to refer to the service.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ShortDescription" type="ShortDescription">
+			<xs:element name="shortDescription" type="shortDescription">
 				<xs:annotation>
 					<xs:documentation>A shortened description for the service.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Description" type="Description" minOccurs="0">
+			<xs:element name="description" type="description" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The description of the service.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ServiceCategory" type="ServiceCategory" minOccurs="0">
+			<xs:element name="serviceCategory" type="serviceCategory" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
 				</xs:annotation>
@@ -98,20 +98,20 @@
 						<xs:documentation>The program associated with the student.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Services" type="ServiceDescriptorSimpleReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="services" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							Indicates the services being provided to the student by the program.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="BeginDate" type="xs:date">
+				<xs:element name="beginDate" type="xs:date">
 					<xs:annotation>
 						<xs:documentation>The month, day, and year on which the student first received services.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:element name="endDate" type="xs:date" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							The month, day, and year on which the student exited the program or stopped receiving
@@ -119,14 +119,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ReasonExited" type="ReasonExitedType" minOccurs="0">
+				<xs:element name="reasonExited" type="reasonExitedType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							The reason the child left the program within a school or district.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+				<xs:element name="educationOrganizationReference" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>
 							The education organization where the student is participating in or receiving the program
@@ -153,17 +153,17 @@
 						<xs:documentation>The program associated to the staff.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="BeginDate" type="xs:date">
+				<xs:element name="beginDate" type="xs:date">
 					<xs:annotation>
 						<xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:element name="endDate" type="xs:date" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
+				<xs:element name="studentRecordAccess" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 						Indicator of whether the staff has access to the student records of the program per district

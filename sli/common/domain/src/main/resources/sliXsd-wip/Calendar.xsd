@@ -3,39 +3,39 @@
 	elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="GradingPeriod">
+	<xs:complexType name="gradingPeriod">
 		<xs:annotation>
 			<xs:documentation>
 				This entity represents the time span for which grades are reported.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="GradingPeriod" type="GradingPeriodType">
+					<xs:element name="gradingPeriod" type="gradingPeriodType">
 						<xs:annotation>
 							<xs:documentation>
 								The name of the period for which grades are reported
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="BeginDate" type="xs:date">
+					<xs:element name="beginDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>
 								Month, day, and year of the first day of the grading period.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EndDate" type="xs:date">
+					<xs:element name="endDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>
 								Month, day, and year of the last day of the grading period.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="TotalInstructionalDays">
+					<xs:element name="totalInstructionalDays">
 						<xs:annotation>
 							<xs:documentation>
 								Total days available for educational instruction during the grading period.
@@ -58,7 +58,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="GradingPeriod" type="GradingPeriod">
+				<xs:element name="gradingPeriod" type="gradingPeriod">
 					<xs:annotation>
 						<xs:documentation>Grading period dates and durations for the session.</xs:documentation>
 					</xs:annotation>						

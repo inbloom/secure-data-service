@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AssessmentCategoryType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The category of an assessment based on format and content. For example:\n\t\t\tAchievement test\nAdvanced placement test\nAlternate assessment/grade-level standards\nAttitudinal test\nCognitive and perceptual skills test\n...",
-  "xsd-type" : "token",
-  "symbols" : [ "Achievement_test", "Advanced_placement_test", "Aptitude_test", "Attitudinal_test", "Benchmark_test", "Class_test", "class_quiz", "College_entrance_exam", "Cognitive_and_perceptual_skills_test", "Developmental_observation", "English_proficiency_screening_test", "Foreign_language_proficiency_test", "Interest_inventory", "Manual_dexterity_test", "Mental_ability_intelligence_test", "Performance_assessment", "Personality_test", "Portfolio_assessment", "Psychological_test", "Psychomotor_test", "Reading_readiness_test", "State_summative_assessment_3_8_general", "State_high_school_subject_assessment", "State_high_school_course_assessment", "State_alternative_assessment_grade_level_standards", "State_alternative_assessment_modified_standards", "State_alternate_assessment_ELL", "State_English_proficiency_test", "Other" ]
-}
