@@ -6,17 +6,17 @@
 
 	<xs:include schemaLocation="SimpleTypes.xsd" />
 
-	<xs:complexType name="ComplexObjectType" abstract="true">
+	<xs:complexType name="complexObjectType" abstract="true">
 	</xs:complexType>
 
-	<xs:complexType name="Name">
+	<xs:complexType name="name">
 		<xs:annotation>
 			<xs:documentation>The set of elements that comprise a person's legal
 				name.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="PersonalTitlePrefix" type="PersonalTitlePrefixType"
+			<xs:element name="personalTitlePrefix" type="personalTitlePrefixType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A prefix used to denote the title, degree,
@@ -25,7 +25,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="FirstName" type="SimpleName">
+			<xs:element name="firstName" type="simpleName">
 				<xs:annotation>
 					<xs:documentation>A name given to an individual at birth, baptism,
 						or during
@@ -33,7 +33,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="MiddleName" type="SimpleName" minOccurs="0">
+			<xs:element name="middleName" type="simpleName" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A secondary name given to an individual at birth,
 						baptism, or
@@ -41,13 +41,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="LastSurname" type="SimpleName">
+			<xs:element name="lastSurname" type="simpleName">
 				<xs:annotation>
 					<xs:documentation>The name borne in common by members of a family.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GenerationCodeSuffix" type="GenerationCodeSuffixType"
+			<xs:element name="generationCodeSuffix" type="generationCodeSuffixType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An appendage, if any, used to denote an
@@ -56,12 +56,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="MaidenName" type="SimpleName" minOccurs="0">
+			<xs:element name="maidenName" type="simpleName" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The person's maiden name.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Verification" type="PersonalInformationVerificationType"
+			<xs:element name="verification" type="personalInformationVerificationType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The evidence presented to verify one's personal
@@ -75,7 +75,7 @@
 
 	</xs:complexType>
 
-	<xs:complexType name="OtherName">
+	<xs:complexType name="otherName">
 		<xs:annotation>
 			<xs:documentation>Other names (e.g., alias, nickname, previous legal
 				name) associated
@@ -83,7 +83,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="PersonalTitlePrefix" type="PersonalTitlePrefixType"
+			<xs:element name="personalTitlePrefix" type="personalTitlePrefixType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A prefix used to denote the title, degree,
@@ -92,7 +92,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="FirstName" type="SimpleName">
+			<xs:element name="firstName" type="simpleName">
 				<xs:annotation>
 					<xs:documentation>A name given to an individual at birth, baptism,
 						or during
@@ -100,7 +100,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="MiddleName" type="SimpleName" minOccurs="0">
+			<xs:element name="middleName" type="simpleName" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A secondary name given to an individual at birth,
 						baptism, or
@@ -108,13 +108,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="LastSurname" type="SimpleName">
+			<xs:element name="lastSurname" type="simpleName">
 				<xs:annotation>
 					<xs:documentation>The name borne in common by members of a family.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GenerationCodeSuffix" type="GenerationCodeSuffixType"
+			<xs:element name="generationCodeSuffix" type="generationCodeSuffixType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An appendage, if any, used to denote an
@@ -123,7 +123,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="OtherNameType" type="OtherNameType">
+			<xs:element name="otherNameType" type="otherNameType">
 				<xs:annotation>
 					<xs:documentation>The types of alternate names for a person.
 					</xs:documentation>
@@ -133,7 +133,7 @@
 
 	</xs:complexType>
 
-	<xs:complexType name="Telephone">
+	<xs:complexType name="telephone">
 		<xs:annotation>
 			<xs:documentation>The 10-digit telephone number, including the area
 				code, for the
@@ -141,7 +141,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="TelephoneNumber" type="TelephoneNumber">
+			<xs:element name="telephoneNumber" type="telephoneNumber">
 				<xs:annotation>
 					<xs:documentation>The telephone number including the area code, and
 						extension,
@@ -149,7 +149,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TelephoneNumberType" type="TelephoneNumberType"
+			<xs:element name="telephoneNumberType" type="telephoneNumberType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of communication number listed for an
@@ -158,7 +158,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PrimaryTelephoneNumberIndicator" type="xs:boolean"
+			<xs:element name="primaryTelephoneNumberIndicator" type="xs:boolean"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An indication that the telephone number should be
@@ -170,7 +170,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="ElectronicMail">
+	<xs:complexType name="electronicMail">
 		<xs:annotation>
 			<xs:documentation>The numbers, letters, and symbols used to identify
 				an electronic mail
@@ -180,7 +180,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EmailAddress" type="ElectronicMailAddress">
+			<xs:element name="emailAddress" type="electronicMailAddress">
 				<xs:annotation>
 					<xs:documentation>The electronic mail (e-mail) address listed for
 						an individual
@@ -188,7 +188,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EmailAddressType" type="ElectronicMailAddressType"
+			<xs:element name="emailAddressType" type="electronicMailAddressType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of email listed for an individual or
@@ -200,7 +200,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="RaceType">
+	<xs:complexType name="raceType">
 		<xs:annotation>
 			<xs:documentation>The general racial category which most clearly
 				reflects the
@@ -211,7 +211,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="RacialCategory" type="RaceItemType"
+			<xs:element name="racialCategory" type="raceItemType"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Zero or more racial categories associated with
@@ -223,7 +223,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="Address">
+	<xs:complexType name="address">
 		<xs:annotation>
 			<xs:documentation>The set of elements that describes an address,
 				including the street
@@ -231,7 +231,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StreetNumberName">
+			<xs:element name="streetNumberName">
 				<xs:annotation>
 					<xs:documentation>The street number and street name or post office
 						box number of
@@ -239,12 +239,12 @@
 					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base="StreetNumberName">
+					<xs:restriction base="streetNumberName">
 						<xs:maxLength value="40" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="ApartmentRoomSuiteNumber" type="ApartmentRoomSuiteNumber"
+			<xs:element name="apartmentRoomSuiteNumber" type="apartmentRoomSuiteNumber"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The apartment, room, or suite number of an
@@ -252,7 +252,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BuildingSiteNumber" type="BuildingSiteNumber"
+			<xs:element name="buildingSiteNumber" type="buildingSiteNumber"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The number of the building on the site, if more
@@ -261,14 +261,14 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="City" type="City">
+			<xs:element name="city" type="city">
 				<xs:annotation>
 					<xs:documentation>The name of the city in which an address is
 						located.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StateAbbreviation" type="StateAbbreviationType">
+			<xs:element name="stateAbbreviation" type="stateAbbreviationType">
 				<xs:annotation>
 					<xs:documentation>The abbreviation for the state (within the United
 						States) or
@@ -276,7 +276,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PostalCode" type="PostalCode">
+			<xs:element name="postalCode" type="postalCode">
 				<xs:annotation>
 					<xs:documentation>The five or nine digit zip code or overseas
 						postal code
@@ -284,7 +284,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="NameOfCounty" type="NameOfCounty"
+			<xs:element name="nameOfCounty" type="nameOfCounty"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The name of the county, parish, borough, or
@@ -293,7 +293,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CountyFIPSCode" type="CountyFIPSCode"
+			<xs:element name="countyFIPSCode" type="countyFIPSCode"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The Federal Information Processing Standards
@@ -315,7 +315,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CountryCode" type="CountryCodeType"
+			<xs:element name="countryCode" type="countryCodeType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The unique two character International
@@ -325,19 +325,19 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Latitude" type="Coordinate" minOccurs="0">
+			<xs:element name="latitude" type="coordinate" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The geographic latitude of the physical address.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Longitude" type="Coordinate" minOccurs="0">
+			<xs:element name="longitude" type="coordinate" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The geographic longitude of the physical address.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="OpenDate" type="xs:date" minOccurs="0">
+			<xs:element name="openDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The first date the address is valid. For physical
 						addresses,
@@ -345,7 +345,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CloseDate" type="xs:date" minOccurs="0">
+			<xs:element name="closeDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The last date the address is valid. For physical
 						addresses,
@@ -354,7 +354,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AddressType" type="AddressType"
+			<xs:element name="addressType" type="addressType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of address listed for an individual or
@@ -368,14 +368,14 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="GradeLevelsType">
+	<xs:complexType name="gradeLevelsType">
 		<xs:annotation>
 			<xs:documentation>The enumerated collection for specifying one or
 				more grade levels.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="GradeLevel" type="GradeLevelType"
+			<xs:element name="gradeLevel" type="gradeLevelType"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The specification of the grade level.
@@ -385,7 +385,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="AcademicSubjectsType">
+	<xs:complexType name="academicSubjectsType">
 		<xs:annotation>
 			<xs:documentation>The teaching field(s) taught by an individual, for
 				example
@@ -394,7 +394,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="AcademicSubject" type="AcademicSubjectType"
+			<xs:element name="academicSubject" type="academicSubjectType"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The description of the content or subject area
@@ -407,14 +407,14 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="Credits">
+	<xs:complexType name="credits">
 		<xs:annotation>
 			<xs:documentation>Credits or units of value awarded for the
 				completion of a course
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Credit">
+			<xs:element name="credit">
 				<xs:annotation>
 					<xs:documentation>The value of credits or units of value awarded
 						for the completion of a course
@@ -426,14 +426,14 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="CreditType" type="CreditType" minOccurs="0">
+			<xs:element name="creditType" type="creditType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of credits or units of value awarded for
 						the completion of a course
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CreditConversion" type="xs:double"
+			<xs:element name="creditConversion" type="xs:double"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Conversion factor that when multiplied by the
@@ -444,21 +444,21 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="LearningObjectiveIdentityType">
+	<xs:complexType name="learningObjectiveIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
 				used to lookup the identity of the Learning Objectives.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:choice maxOccurs="unbounded">
-			<xs:element name="LearningObjectiveId" type="LearningStandardId">
+			<xs:element name="learningObjectiveId" type="learningStandardId">
 				<xs:annotation>
 					<xs:documentation>The Identifier for the specific learning
 						objective in the context of a standard (e.g., 111.15.3.1.A)
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Objective" type="Objective">
+			<xs:element name="objective" type="objective">
 				<xs:annotation>
 					<xs:documentation>The designated title of the learning objective.
 					</xs:documentation>
@@ -467,14 +467,14 @@
 		</xs:choice>
 	</xs:complexType>
 
-	<xs:complexType name="LearningStandardIdentityType">
+	<xs:complexType name="learningStandardIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
 				used to lookup the identity of the Learning Standards.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="LearningStandardId" type="LearningStandardId"
+			<xs:element name="learningStandardId" type="learningStandardId"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Provide user information to lookup and link to an
@@ -485,20 +485,20 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="LearningStandardId">
+	<xs:complexType name="learningStandardId">
 		<xs:annotation>
 			<xs:documentation>The identifier for the learning standard.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="IdentificationCode" type="IdentificationCode">
+			<xs:element name="identificationCode" type="identificationCode">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a learning Standard.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ContentStandardName" type="ContentStandardName"
+			<xs:element name="contentStandardName" type="contentStandardName"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The name of the content standard from which the
@@ -509,7 +509,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="CourseCode">
+	<xs:complexType name="courseCode">
 		<xs:annotation>
 			<xs:documentation>A standard code that identifies the organization of
 				subject matter and related learning experiences provided for the
@@ -517,7 +517,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ID" type="IdentificationCode">
+			<xs:element name="ID" type="identificationCode">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a course by a school, school system, a state, or other agency or
@@ -533,7 +533,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="IdentificationSystem" type="CourseCodeSystemType">
+			<xs:element name="identificationSystem" type="courseCodeSystemType">
 				<xs:annotation>
 					<xs:documentation>A system that is used to identify the
 						organization
@@ -543,7 +543,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AssigningOrganizationCode" type="IdentificationCode"
+			<xs:element name="assigningOrganizationCode" type="identificationCode"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The organization code or name assigning the staff
@@ -554,14 +554,14 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="CourseLevelCharacteristicsType">
+	<xs:complexType name="courseLevelCharacteristicsType">
 		<xs:annotation>
 			<xs:documentation>Indication of the nature and difficulty of
 				instruction: remedial, basic, honors, Ap, IB, Dual Credit, CTE. etc.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="CourseLevelCharacteristic" type="CourseLevelCharacteristicItemType"
+			<xs:element name="courseLevelCharacteristic" type="courseLevelCharacteristicItemType"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Specification of the specific program or
@@ -573,21 +573,21 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="AcademicHonor">
+	<xs:complexType name="academicHonor">
 		<xs:annotation>
 			<xs:documentation>Academic distinctions earned by or awarded to the
 				student
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="AcademicHonorsType" type="AcademicHonorsType">
+			<xs:element name="academicHonorsType" type="academicHonorsType">
 				<xs:annotation>
 					<xs:documentation>A designation of the type of academic
 						distinctions earned by or awarded to the student.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="HonorsDescription" type="HonorsDescription"
+			<xs:element name="honorsDescription" type="honorsDescription"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A description of the type of academic
@@ -595,7 +595,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="HonorAwardDate" type="xs:date"
+			<xs:element name="honorAwardDate" type="xs:date"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date the honor was awarded or earned.
@@ -605,7 +605,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="ClassRanking">
+	<xs:complexType name="classRanking">
 		<xs:annotation>
 			<xs:documentation>
 				The academic rank information of a student in
@@ -614,7 +614,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ClassRank" type="xs:int">
+			<xs:element name="classRank" type="xs:int">
 				<xs:annotation>
 					<xs:documentation>
 						The academic rank of a student in relation to his
@@ -624,7 +624,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TotalNumberInClass" type="xs:int">
+			<xs:element name="totalNumberInClass" type="xs:int">
 				<xs:annotation>
 					<xs:documentation>
 						The total number of students in the student's
@@ -632,7 +632,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PercentageRanking" type="xs:int"
+			<xs:element name="percentageRanking" type="xs:int"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
@@ -643,7 +643,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ClassRankingDate" type="xs:date"
+			<xs:element name="classRankingDate" type="xs:date"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Date class ranking was determined.
@@ -653,7 +653,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="Recognition">
+	<xs:complexType name="recognition">
 		<xs:annotation>
 			<xs:documentation>
 				Recognition given to the student for
@@ -662,7 +662,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="RecognitionType" type="RecognitionType">
+			<xs:element name="recognitionType" type="recognitionType">
 				<xs:annotation>
 					<xs:documentation>
 						The nature of recognition given to the student
@@ -673,7 +673,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RecognitionDescription" type="RecognitionDescription"
+			<xs:element name="recognitionDescription" type="recognitionDescription"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
@@ -683,7 +683,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RecognitionAwardDate" type="xs:date"
+			<xs:element name="recognitionAwardDate" type="xs:date"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date the recognition was awarded or earned.

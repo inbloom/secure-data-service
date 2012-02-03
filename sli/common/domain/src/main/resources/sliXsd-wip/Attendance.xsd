@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="AttendanceEvent">
+	<xs:complexType name="attendanceEvent">
 		<xs:annotation>
 			<xs:documentation>
 				This event entity represents the recording of whether a student is in
@@ -16,13 +16,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EventDate" type="xs:date">
+			<xs:element name="eventDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>Date for this attendance event.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AttendanceEventType" type="AttendanceEventType"
+			<xs:element name="attendanceEventType" type="attendanceEventType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
@@ -32,7 +32,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType">
+			<xs:element name="attendanceEventCategory" type="attendanceEventCategoryType">
 				<xs:annotation>
 					<xs:documentation>
 						A code describing the attendance event, for example:
@@ -42,14 +42,14 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AttendanceEventReason" type="AttendanceEventReason"
+			<xs:element name="attendanceEventReason" type="attendanceEventReason"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The reported reason for a student's absence.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType"
+			<xs:element name="educationalEnvironment" type="educationalEnvironmentType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>

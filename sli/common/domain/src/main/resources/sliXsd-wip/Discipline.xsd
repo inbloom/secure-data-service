@@ -7,7 +7,7 @@
 
 	<!-- CORE ENTITIES FOR DISCIPLINE -->
 
-	<xs:complexType name="DisciplineAction">
+	<xs:complexType name="disciplineAction">
 		<xs:annotation>
 			<xs:documentation>This event entity represents actions taken by an
 				education
@@ -16,9 +16,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="DisciplineActionIdentifier" type="DisciplineActionIdentifier">
+					<xs:element name="disciplineActionIdentifier" type="disciplineActionIdentifier">
 						<xs:annotation>
 							<xs:documentation>Identifier assigned by the education
 								organization to
@@ -26,7 +26,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Disciplines" type="xs:string"
+					<xs:element name="disciplines" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Type of action or removal from the classroom
@@ -37,13 +37,13 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DisciplineDate" type="xs:date">
+					<xs:element name="disciplineDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>The date of the discipline action.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DisciplineActionLength" type="xs:integer"
+					<xs:element name="disciplineActionLength" type="xs:integer"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The length of time in days for the Discipline
@@ -52,7 +52,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ActualDisciplineActionLength" type="xs:integer"
+					<xs:element name="actualDisciplineActionLength" type="xs:integer"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates the actual length in days of a
@@ -61,8 +61,8 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DisciplineActionLengthDifferenceReason"
-						type="DisciplineActionLengthDifferenceReasonType" minOccurs="0">
+					<xs:element name="disciplineActionLengthDifferenceReason"
+						type="disciplineActionLengthDifferenceReasonType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates the reason for the difference, if
 								any,
@@ -73,7 +73,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="StudentReference" type="xs:string"
+					<xs:element name="studentReference" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The student(s) disciplined by the discipline
@@ -82,7 +82,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="DisciplineIncidentReference" type="xs:string"
+					<xs:element name="disciplineIncidentReference" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Reference to the DisciplineIncident(s)
@@ -92,7 +92,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="StaffReference" type="xs:string"
+					<xs:element name="staffReference" type="xs:string"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The staff responsible for enforcing the
@@ -102,7 +102,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="ResponsibilitySchoolReference" type="xs:string">
+					<xs:element name="responsibilitySchoolReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>School responsible for student's
 								discipline.
@@ -110,7 +110,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="AssignmentSchoolReference" type="xs:string"
+					<xs:element name="assignmentSchoolReference" type="xs:string"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>School responsible for student's
@@ -141,7 +141,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="IncidentIdentifier" type="IncidentIdentifier">
+				<xs:element name="incidentIdentifier" type="incidentIdentifier">
 					<xs:annotation>
 						<xs:documentation>A locally assigned unique identifier (within the
 							school or school district) to identify each specific incident or
@@ -152,14 +152,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="IncidentDate" type="xs:date">
+				<xs:element name="incidentDate" type="xs:date">
 					<xs:annotation>
 						<xs:documentation>The month, day, and year on which the incident
 							occurred.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="IncidentTime" type="xs:time">
+				<xs:element name="incidentTime" type="xs:time">
 					<xs:annotation>
 						<xs:documentation>An indication of the time of day the incident
 							took
@@ -167,7 +167,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="IncidentLocation" type="IncidentLocationType">
+				<xs:element name="incidentLocation" type="incidentLocationType">
 					<xs:annotation>
 						<xs:documentation>Identifies where the incident occurred and
 							whether or
@@ -179,7 +179,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ReporterDescription" type="ReporterDescriptionType"
+				<xs:element name="reporterDescription" type="reporterDescriptionType"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Information on the type of individual who
@@ -194,7 +194,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ReporterName" type="ReporterName"
+				<xs:element name="reporterName" type="reporterName"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Identifies the reporter of the incident by
@@ -202,7 +202,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Behaviors" type="xs:string"
+				<xs:element name="behaviors" type="xs:string"
 					maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Categories of behavior coded for use in
@@ -211,14 +211,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SecondaryBehaviors" type="SecondaryBehavior"
+				<xs:element name="secondaryBehaviors" type="secondaryBehavior"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Supplemental categorization about an incident
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Weapons" type="WeaponsType" minOccurs="0">
+				<xs:element name="weapons" type="weaponsType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Identifies the type of weapon used during an
 							incident.
@@ -230,7 +230,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ReportedToLawEnforcement" type="xs:boolean"
+				<xs:element name="reportedToLawEnforcement" type="xs:boolean"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Indicator of whether the incident was reported
@@ -239,7 +239,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="CaseNumber" type="CaseNumber"
+				<xs:element name="caseNumber" type="caseNumber"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The case number assigned to the incident by law
@@ -291,7 +291,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="StudentParticipationCode" type="StudentParticipationCodeType">
+				<xs:element name="studentParticipationCode" type="studentParticipationCodeType">
 					<xs:annotation>
 						<xs:documentation>The role or type of participation of a student
 							in a discipline
@@ -300,7 +300,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Behaviors" type="xs:string"
+				<xs:element name="behaviors" type="xs:string"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Categories of student-specific behavior coded
@@ -309,7 +309,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="SecondaryBehaviors" type="SecondaryBehavior"
+				<xs:element name="secondaryBehaviors" type="secondaryBehavior"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Supplemental student-specific categorization
@@ -323,7 +323,7 @@
 
 	<!-- COMPLEX TYPES -->
 
-	<xs:complexType name="BehaviorDescriptor">
+	<xs:complexType name="behaviorDescriptor">
 		<xs:annotation>
 			<xs:documentation>This descriptor holds the categories of behavior
 				describing a
@@ -331,9 +331,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="CodeValue" type="CodeValue">
+					<xs:element name="codeValue" type="codeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to
 								the
@@ -341,28 +341,28 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ShortDescription" type="ShortDescription">
+					<xs:element name="shortDescription" type="shortDescription">
 						<xs:annotation>
 							<xs:documentation>A shortened description for the
 								behavior.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Description" type="Description"
+					<xs:element name="description" type="description"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The description of the behavior.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="BehaviorCategory" type="BehaviorCategoryType">
+					<xs:element name="behaviorCategory" type="behaviorCategoryType">
 						<xs:annotation>
 							<xs:documentation>A classification of the behavior for reporting
 								types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="xs:string"
+					<xs:element name="educationOrganizationReference" type="xs:string"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The Education Organization associated with the
@@ -375,7 +375,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="SecondaryBehavior">
+	<xs:complexType name="secondaryBehavior">
 		<xs:annotation>
 			<xs:documentation>Definition of the behavior coded for use in
 				describing an
@@ -383,7 +383,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="SecondaryBehavior" type="SecondaryBehaviorsType">
+			<xs:element name="secondaryBehavior" type="secondaryBehaviorsType">
 				<xs:annotation>
 					<xs:documentation>The description of the behavior of a student for
 						a disipline
@@ -391,7 +391,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BehaviorCategory" type="BehaviorCategoryType">
+			<xs:element name="behaviorCategory" type="behaviorCategoryType">
 				<xs:annotation>
 					<xs:documentation>The category of the incident behavior for
 						classification
@@ -402,14 +402,14 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="WeaponsType">
+	<xs:complexType name="weaponsType">
 		<xs:annotation>
 			<xs:documentation>Identifies the type of weapon used during an
 				incident.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Weapon" type="WeaponItemType" minOccurs="0"
+			<xs:element name="weapon" type="weaponItemType" minOccurs="0"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Zero or more selection of the weapon(s).

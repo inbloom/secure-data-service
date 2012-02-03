@@ -160,6 +160,21 @@ end
 
 ##############################################################################
 ##############################################################################
+###### After hook(s) #########################################################
+
+After do |scenario| 
+  
+  if @sessionId
+    #This After hook block is to logout a user if @sessionId exists
+    url = PropLoader.getProps['sli_idp_server_url']+"/identity/logout?subjectid="+@sessionId
+    @res = RestClient.get(url, {}){|response, request, result| response }
+    puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  end
+  
+end
+
+##############################################################################
+##############################################################################
 ### Step Def Util methods ###
 
 def convert(value)
