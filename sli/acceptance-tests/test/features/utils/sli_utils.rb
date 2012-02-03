@@ -275,7 +275,7 @@ end
 module CreateEntityHash
   def CreateEntityHash.createBaseStudent()
     data = Hash[
-        "studentUniqueStateId" => 123456,
+        "studentUniqueStateId" => "123456",
         "name" => Hash[
           "firstName" => "fname",
           "lastSurname" => "lname",
