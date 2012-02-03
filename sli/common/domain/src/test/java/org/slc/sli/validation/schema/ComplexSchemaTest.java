@@ -87,6 +87,8 @@ public class ComplexSchemaTest {
         assertTrue(schema.validate(complexEntity));
         complexEntity.put("optionalField", Boolean.FALSE);
         assertTrue(schema.validate(complexEntity));
+        complexEntity.remove("requiredField");
+        assertFalse(schema.validate("requiredField"));
     }
     
     @Test
