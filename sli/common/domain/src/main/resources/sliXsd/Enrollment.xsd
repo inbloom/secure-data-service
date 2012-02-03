@@ -673,7 +673,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-<!-- 	<xs:element name="studentSchoolAssociation">
+ 	<xs:element name="studentSchoolAssociation">
 		<xs:annotation>
 			<xs:documentation>This association represents the school to which a
 				student is enrolled.
@@ -794,7 +794,7 @@
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-	</xs:element> -->
+	</xs:element>
 
 	<xs:complexType name="creditsBySubject">
 		<xs:annotation>
