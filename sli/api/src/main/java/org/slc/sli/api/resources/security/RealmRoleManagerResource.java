@@ -158,7 +158,7 @@ public class RealmRoleManagerResource {
         for (String id : realmList) {
             EntityBody curEntity = getMappings(id);
             curEntity.remove("mappings");
-            curEntity.put("link", info.getBaseUri() + info.getPath() + "/" + id);
+            curEntity.put("link", info.getBaseUri() + info.getPath().replaceAll("/$", "") + "/" + id);
             result.add(curEntity);
         }
         return result;

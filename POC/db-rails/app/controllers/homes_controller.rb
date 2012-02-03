@@ -3,6 +3,12 @@ class HomesController < ApplicationController
   # GET /homes.json
   def index
     @homes = Home.all
+    
+    @homes.each do |home|
+      home.href.sub!("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}")
+      logger.info home
+    end
+    
 
     respond_to do |format|
       format.html # index.html.erb
@@ -10,14 +16,4 @@ class HomesController < ApplicationController
     end
   end
 
-  # GET /homes/1
-  # GET /homes/1.json
-  def show
-    @home = Home.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @home }
-    end
-  end
 end
