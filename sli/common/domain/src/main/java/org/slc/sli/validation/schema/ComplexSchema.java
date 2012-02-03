@@ -31,6 +31,7 @@ public class ComplexSchema extends NeutralSchema {
     }
     
     // Methods
+    @Override
     public boolean isPrimitive() {
         return false;
     }
@@ -39,7 +40,7 @@ public class ComplexSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.COMPLEX;
     }
-
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
@@ -53,24 +54,25 @@ public class ComplexSchema extends NeutralSchema {
      *            list of current errors
      * @return true if valid
      */
+    @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
         boolean isValid = true;
         
         if (entity instanceof Map) {
             Map<?, ?> entityMap = (Map<?, ?>) entity;
-            for (String name : this.getFields().keySet()) {
-                boolean fieldRequired = true;
-                if (name.startsWith("*")) {
-                    name = name.substring(1);
-                    fieldRequired = false;
+            
+            for (String name : getFields().keySet()) {
+                NeutralSchema fieldSchema = getFields().get(name);
+                
+                boolean required = false;
+                AppInfo appInfo = fieldSchema.getAppInfo();
+                if (appInfo != null) {
+                    required = appInfo.isRequired();
                 }
-                NeutralSchema fieldSchema = (NeutralSchema) this.getFields().get(name);
                 
                 Object fieldEntity = entityMap.get(name);
-                if (fieldEntity == null) {
-                    if (fieldRequired) {
-                        return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
-                    }
+                if (fieldEntity == null && required) {
+                    return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                 } else {
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors);
                     if (!isFieldValid) {

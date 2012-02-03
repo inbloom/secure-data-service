@@ -5,7 +5,7 @@
       <xs:complexType>
          <xs:annotation>
             <xs:appinfo>
-               <sli:sphere>Admin</sli:sphere>
+               <sli:SecuritySphere>Admin</sli:SecuritySphere>
             </xs:appinfo>
          </xs:annotation>
          <xs:sequence>
@@ -35,3 +35,4 @@
       </xs:sequence>
    </xs:complexType>
 </xs:schema>
+
