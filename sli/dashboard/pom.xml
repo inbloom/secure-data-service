@@ -29,9 +29,9 @@
       </activation>
       <properties>
 	    <!-- set mode to 'live' to authenticate against idp, 'test' to use local file based authentication-->
-	    <server.mode>live</server.mode>
+	    <server.mode>test</server.mode>
 	    <!--  set to 'Live' to use live server, 'Mock' for mock data -->
-	    <apiclient>Live</apiclient>
+	    <apiclient>Mock</apiclient>
 	    <war.file.name>dashboard</war.file.name>
       </properties>
       <build>
@@ -92,8 +92,8 @@
     </dependency>
 
     <!-- SLI - Domain -->
-    <!-- <dependency> <groupId>org.slc.sli.common</groupId> <artifactId>domain</artifactId>
-      </dependency> -->
+    <dependency> <groupId>org.slc.sli.common</groupId> <artifactId>domain</artifactId>
+      </dependency>
 
     <!-- Freemarker -->
     <dependency>

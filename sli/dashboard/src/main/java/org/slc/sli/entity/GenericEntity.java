@@ -2,17 +2,15 @@ package org.slc.sli.entity;
 
 import java.util.Map;
 
+import org.slc.sli.domain.Entity;
+
 /**
- * Define the entity interface that provides getter method to retrieve the fields
- * for entities including core entities and association entities
- * 
- * TODO: Not sure whether we should depend on the Entity class in common/domain
- *       For now, I'm creating a standalone class
+ * Generic class for all domain entities
  *       
  * @author David Wu
  * 
  */
-public class GenericEntity {
+public class GenericEntity implements Entity {
     
     String type;
     String entityId;
