@@ -1,11 +1,15 @@
 package org.slc.sli.api.service.query;
 
-import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.ListSchema;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Default implementation of the QueryConverter interface
@@ -20,9 +24,8 @@ public class BasicQueryConverter implements QueryConverter {
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId" };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
     
-    // TODO avro schema need to be replaced with neutral schema
-    // @Autowired
-    // EntitySchemaRegistry avroReg;
+    @Autowired
+    SchemaRepository schemaRepo;
     
     @Override
     public Query stringToQuery(String entityType, String queryString) {
@@ -94,56 +97,68 @@ public class BasicQueryConverter implements QueryConverter {
     
     @Override
     public String findParamType(String entityType, String queryField) {
-     // TODO avro schema need to be replaced with neutral schema
         /*
          * String[] nestedFields = queryField.split("\\.");
-         * Schema schema = avroReg.findSchemaForName(entityType);
+         * NeutralSchema schema = schemaRepo.getSchema(entityType);
          * for (String field : nestedFields) {
          * schema = getNestedSchema(schema, field);
+         * if (schema != null)
+         * LOG.info("nested schema type is {}", schema.getSchemaType());
+         * else
+         * LOG.info("nested schema type is {}", "NULL");
          * }
-         * if (schema.getType().equals(Schema.Type.UNION)) {
-         * for (Schema possibleSchema : schema.getTypes()) {
-         * if (!possibleSchema.getType().equals(Schema.Type.NULL)) {
-         * schema = possibleSchema;
+         * if (schema == null) {
+         * return "NULL";
+         * } else if (schema.getSchemaType() == NeutralSchemaType.LIST) {
+         * for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+         * if (possibleSchema.isSimple())
+         * return possibleSchema.getSchemaType().toString();
          * }
+         * return "LIST";
          * }
-         * }
-         * return schema.getType().toString();
+         * return schema.getSchemaType().toString();
          */
         return "STRING";
     }
-    
-    private Schema getNestedSchema(Schema schema, String field) {
-        switch (schema.getType()) {
-        case NULL:
+
+    private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
+        if (schema == null)
+            return null;
+        switch (schema.getSchemaType()) {
         case STRING:
-        case BYTES:
+        case INTEGER:
+        case DATE:
+        case TIME:
+        case DATETIME:
+        case ID:
+        case IDREF:
         case INT:
         case LONG:
-        case FLOAT:
         case DOUBLE:
         case BOOLEAN:
-        case MAP:
-        case FIXED:
-        case ENUM:
-            return Schema.create(Schema.Type.NULL);
-        case UNION:
-            for (Schema possibleSchema : schema.getTypes()) {
-                if (!possibleSchema.getType().equals(Schema.Type.NULL)) {
-                    schema = possibleSchema;
-                    break;
+        case TOKEN:
+            return null;
+        case LIST:
+            for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+                LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                if (getNestedSchema(possibleSchema, field) != null) {
+                    return getNestedSchema(possibleSchema, field);
                 }
             }
-            return getNestedSchema(schema, field);
-        case RECORD:
-            if (schema.getField(field) != null) {
-                return schema.getField(field).schema();
-            } else
-                return Schema.create(Schema.Type.NULL);
-        case ARRAY:
-            return getNestedSchema(schema.getElementType(), field);
+            return null;
+        case COMPLEX:
+            for (String key : schema.getFields().keySet()) {
+                NeutralSchema possibleSchema = schema.getFields().get(key);
+                if (key.startsWith("*")) {
+                    key = key.substring(1);
+                }
+                if (key.equals(field)) {
+                    return possibleSchema;
+                }
+            }
+            return null;
         default: {
-            throw new RuntimeException("Unknown Avro Schema Type: " + schema.getType());
+            throw new RuntimeException("Unknown Avro Schema Type: " + schema.getSchemaType());
         }
         }
     }
@@ -166,7 +181,7 @@ public class BasicQueryConverter implements QueryConverter {
     }
     
     private Object convertToType(String type, String value) {
-        if (type.equals("INT")) {
+        if (type.equals("INT") || type.equals("INTEGER")) {
             return Integer.parseInt(value);
         } else if (type.equals("BOOLEAN")) {
             if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
@@ -175,15 +190,19 @@ public class BasicQueryConverter implements QueryConverter {
                 throw new QueryParseException("");
         } else if (type.equals("STRING")) {
             return value;
-        } else if (type.equals("ENUM")) {
+        } else if (type.equals("TOKEN")) {
             return value;
         } else if (type.equals("LONG")) {
             return Long.parseLong(value);
-        } else if (type.equals("FLOAT")) {
-            return Float.parseFloat(value);
         } else if (type.equals("DOUBLE")) {
             return Double.parseDouble(value);
-        } else
-            throw new RuntimeException("Unsupported Avro Schema Type: " + type);
+        } else if (type.equals("DATE")) {
+            return javax.xml.bind.DatatypeConverter.parseDate(value);
+        } else if (type.equals("DATETIME")) {
+            return javax.xml.bind.DatatypeConverter.parseDateTime(value);
+        } else if (type.equals("TIME")) {
+            return javax.xml.bind.DatatypeConverter.parseTime(value);
+        }
+        throw new RuntimeException("Unsupported Neutral Schema Type: " + type);
     }
 }

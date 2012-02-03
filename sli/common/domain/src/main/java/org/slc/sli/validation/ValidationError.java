@@ -21,10 +21,10 @@ public class ValidationError {
         
     }
     
-    final ErrorType type;
-    final String fieldName;
-    final Object fieldValue;
-    final String[] expectedTypes;
+    private final ErrorType type;
+    private final String fieldName;
+    private final Object fieldValue;
+    private final String[] expectedTypes;
     
     public ValidationError(ErrorType type, String fieldName, Object fieldValue, String[] expectedTypes) {
         this.type = type;

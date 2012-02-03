@@ -32,7 +32,7 @@ public enum NeutralSchemaType {
     
     BOOLEAN("boolean"), INT("int"), INTEGER("integer"), LONG("long"), DOUBLE("double", "float"), DATE("date"), TIME(
             "time"), DATETIME("datetime"), DURATION("duration"), STRING("string"), ID("id"), IDREF("IDREF"), TOKEN(
-            "token"), LIST("list"), COMPLEX("complex");
+            "token"), LIST("list"), COMPLEX("complex"), CHOICE("choice");
     
     // Attributes
     private final String name;
