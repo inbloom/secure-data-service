@@ -292,7 +292,10 @@ module CreateEntityHash
     data = Hash[
         "nameOfInstitution" => "school name",
         "stateOrganizationId" => "12345678",
-        "gradesOffered" => [ "First_grade", "Second_grade" ],
+        "gradesOffered" => Hash["gradeLevel"=>["First grade", "Second grade"]],
+        "address"=>[],
+        "organizationCategories" => Hash["organizationCategory"=>["School"]],
+        "schoolCategories" => Hash["schoolCategory"=>["Elementary School"]],
         ]
     return data
   end
