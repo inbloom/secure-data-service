@@ -1,7 +1,6 @@
 package org.slc.sli.validation.utils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -20,8 +19,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
+import org.slc.sli.validation.schema.Documentation;
 import org.slc.sli.validation.schema.DoubleSchema;
 import org.slc.sli.validation.schema.IntegerSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -59,11 +60,13 @@ public class XsdToNeutralSchemaTest {
         
         NeutralSchema simpleDoc = repo.getSchema("TestDocumentationSimple");
         assertNotNull(simpleDoc);
-        assertEquals("Test documentation.", simpleDoc.getDocumentation());
+        Documentation doc = simpleDoc.getDocumentation();
+        assertEquals("Test documentation.", doc.toString());
         
         NeutralSchema complexDoc = repo.getSchema("TestDocumentationComplex");
         assertNotNull(complexDoc);
-        assertEquals("Test complex documentation.", complexDoc.getDocumentation());
+        doc = complexDoc.getDocumentation();
+        assertEquals("Test complex documentation.", doc.toString());
         
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
@@ -75,8 +78,9 @@ public class XsdToNeutralSchemaTest {
             
             // simple does
             if (entry.getKey().equals("simple")) {
-                assertNotNull(entry.getValue().getDocumentation());
-                assertEquals("Test documentation.", entry.getValue().getDocumentation());
+                doc = entry.getValue().getDocumentation();
+                assertNotNull(doc);
+                assertEquals("Test documentation.", doc.toString());
             }
         }
     }
@@ -96,52 +100,63 @@ public class XsdToNeutralSchemaTest {
         // Not marked PII
         NeutralSchema simpleDoc = repo.getSchema("TestDocumentationSimple");
         assertNotNull(simpleDoc);
-        assertFalse(simpleDoc.isPersonallyIdentifiableInfo());
+        AppInfo appInfo = simpleDoc.getAppInfo();
+        assertNull(appInfo);
         
         // Simple type marked PII
         simpleDoc = repo.getSchema("TestPersonallyIdentifiableInfoSimple");
         assertNotNull(simpleDoc);
-        assertTrue(simpleDoc.isPersonallyIdentifiableInfo());
+        appInfo = simpleDoc.getAppInfo();
+        assertNotNull(appInfo);
+        assertTrue(appInfo.isPersonallyIdentifiableInfo());
         
         // All fields in a complex type marked PII are marked as PII unless explicitly set.
         NeutralSchema complexDoc = repo.getSchema("TestPersonallyIdentifiableInfoComplex");
         assertNotNull(complexDoc);
-        assertTrue(complexDoc.isPersonallyIdentifiableInfo());
+        appInfo = complexDoc.getAppInfo();
+        assertTrue(appInfo.isPersonallyIdentifiableInfo());
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
-            assertTrue(entry.getValue().isPersonallyIdentifiableInfo());
+            appInfo = entry.getValue().getAppInfo();
+            assertTrue(appInfo.isPersonallyIdentifiableInfo());
         }
         
         // Fields in a complex type not marked PII use their type annotations.
         complexDoc = repo.getSchema("TestNotPersonallyIdentifiableInfoComplex");
         assertNotNull(complexDoc);
-        assertFalse(complexDoc.isPersonallyIdentifiableInfo());
+        appInfo = complexDoc.getAppInfo();
+        assertNull(appInfo);
         fields = complexDoc.getFields();
         
         // expecting only one field
         assertTrue(fields.size() == 1);
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
-            assertTrue(entry.getValue().isPersonallyIdentifiableInfo());
+            appInfo = entry.getValue().getAppInfo();
+            assertTrue(appInfo.isPersonallyIdentifiableInfo());
         }
         
         simpleDoc = repo.getSchema("TestSecuritySimple");
         assertNotNull(simpleDoc);
-        assertNotNull(simpleDoc.getReadAuthority());
-        assertTrue(simpleDoc.getReadAuthority() == Right.ADMIN_ACCESS);
+        appInfo = simpleDoc.getAppInfo();
+        assertNotNull(appInfo.getReadAuthority());
+        assertTrue(appInfo.getReadAuthority() == Right.ADMIN_ACCESS);
         
         complexDoc = repo.getSchema("TestSecurityComplex");
         assertNotNull(complexDoc);
-        assertTrue(complexDoc.getReadAuthority() == Right.READ_RESTRICTED);
+        appInfo = complexDoc.getAppInfo();
+        assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
         
         // attributes with more restrictive rights should maintain those rights.
         fields = complexDoc.getFields();
         
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            appInfo = entry.getValue().getAppInfo();
+            
             if (entry.getKey().equals("security")) {
-                assertTrue(entry.getValue().getReadAuthority() == Right.ADMIN_ACCESS);
+                assertTrue(appInfo.getReadAuthority() == Right.ADMIN_ACCESS);
                 
             } else {
-                assertTrue(entry.getValue().getReadAuthority() == Right.READ_RESTRICTED);
+                assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
             }
         }
     }
@@ -241,7 +256,7 @@ public class XsdToNeutralSchemaTest {
                 "studentCohortAssociation", "studentDisciplineIncidentAssociation", "studentParentAssociation",
                 "studentProgramAssociation", "studentSchoolAssociation", "studentSectionAssociation",
                 "studentTranscriptsAssociation", "teacherSchoolAssociation", "teacherSectionAssociation" };
-
+        
         for (String testSchema : testSchemas) {
             assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
             assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
