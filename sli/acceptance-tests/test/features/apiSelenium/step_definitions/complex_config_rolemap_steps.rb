@@ -63,8 +63,8 @@ Given /^I am a Super Administrator for "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
 end
 
-Then /^I should be redirected to the  Complex\-Configurable Role Mapping Page for "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I should be redirected to the Complex\-Configurable Role Mapping Page for "([^"]*)"$/ do |arg1|
+  assertWithWait("Failed to be redirected to Role mapping page")  {@driver.title.index(arg1) != nil}
 end
 
 Given /^I have tried to access the Complex\-Configurable Role Mapping Page$/ do
@@ -72,7 +72,7 @@ Given /^I have tried to access the Complex\-Configurable Role Mapping Page$/ do
 end
 
 Then /^I am redirected to the Complex\-Configurable Role Mapping Page$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to be redirected to Role mapping page")  {@driver.title.index("Role") != nil}
 end
 
 Given /^I have navigated to my Complex\-Configurable Role Mapping Page$/ do
@@ -81,7 +81,7 @@ Given /^I have navigated to my Complex\-Configurable Role Mapping Page$/ do
 end
 
 When /^I click on the Reset Mapping button$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "Reset").click
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now mapped to themselves$/ do
@@ -93,15 +93,15 @@ Then /^no other mappings exist for this realm$/ do
 end
 
 When /^I click on the role "([^"]*)" radio button$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "radio_"+arg1).click
 end
 
 When /^I enter "([^"]*)" in the text field$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "textbox").send_keys arg1
 end
 
 When /^I click the add button$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "add").click
 end
 
 Then /^the custom role "([^"]*)" is mapped to the default role "([^"]*)"$/ do |arg1, arg2|
@@ -113,10 +113,6 @@ When /^I click on the remove button between role "([^"]*)" and custom role "([^"
 end
 
 Then /^the custom role "([^"]*)" is no longer mapped to the default role "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I click on the role <First Role> radio button$/ do
   pending # express the regexp above with the code you wish you had
 end
 
