@@ -73,10 +73,6 @@ public class ComplexSchema extends NeutralSchema {
                         return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {
-                    if (fieldSchema == null) {
-                        throw new RuntimeException("Field schema null: " + this.getType() + ", " + fieldName + ", "
-                                + entity + ", " + name);
-                    }
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors);
                     if (!isFieldValid) {
                         
