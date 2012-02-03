@@ -27,7 +27,7 @@ public class QueryConverterTest {
         assertEquals(queryConverter.findParamType("studentAssessmentAssociation", "performanceLevel"), "STRING");
         assertEquals(queryConverter.findParamType("studentAssessmentAssociation", "scoreResults.result"), "STRING");
         assertEquals(queryConverter.findParamType("student", "nonexist.field"), "NULL");
-        assertEquals(queryConverter.findParamType("student", "studentUniqueStateId"), "INT");
+        assertEquals(queryConverter.findParamType("student", "studentUniqueStateId"), "STRING");
         assertEquals(queryConverter.findParamType("student", "hispanicLatinoEthnicity"), "BOOLEAN");
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "entryGradeLevel"), "ENUM");
     }
