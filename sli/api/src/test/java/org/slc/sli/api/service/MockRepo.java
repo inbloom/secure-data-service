@@ -226,7 +226,7 @@ public class MockRepo implements EntityRepository {
     }
     
     private String[] getKeyAndValue(String queryString, String operator) {
-        String[] keyAndValue = queryString.split(operator);
+        String[] keyAndValue = queryString.split(operator, 2);
         if (keyAndValue.length != 2)
             return null;
         else

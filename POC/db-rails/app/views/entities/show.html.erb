@@ -10,7 +10,7 @@
 	  <% hash.each do |key, value| %>
 
 		<% if key != 'id'%>
-			<dt><b><%= key %>:</b></dt>
+			<dt><b><%= t(key) %>:</b></dt>
 			<dd>
 				<% if value.is_a?(Hash) %>
 					<% display_hash(value, indent+1)  %>
