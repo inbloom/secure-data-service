@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+<% @teacher.links.each do |link| %>
+<p><%= link_to link.rel, link.href.sub!("https://devapi1.slidev.org", request.host_with_port) %></p>
+<% end %>
+<table>
+	<tr>
+		<% @teacher.attributes.each do |key, value| %>
+		<th><%= key unless key == 'links'%></th>
+		<% end %>
+	</tr>
+	<tr>	
+		<% @teacher.attributes.each do |key, value| %>
+		<td>
+		<%if value.respond_to? :attributes %>
+			<%= value.attributes.to_s %>
+		<% else %>
+			<%= value unless key == 'links'%>
+		<%end%>
+		</td>
+
+
+		<% end %>
+	</tr>
+
+</table>
+<%= link_to 'Edit', edit_teacher_path(@teacher) %> |
+<%= link_to 'Back', teachers_path %>
