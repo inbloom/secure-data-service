@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityService;
