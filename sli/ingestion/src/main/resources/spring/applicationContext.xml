@@ -9,12 +9,11 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:component-scan base-package="org.slc.sli" >
-    		<context:exclude-filter type="regex" expression=".*NeutralSchemaValidator"></context:exclude-filter>
+    		<context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     </context:component-scan>
 	<context:annotation-config />
 
-<!-- 	<bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
-	<bean id="validator" class = "org.slc.sli.validation.AvroEntityValidator"/>
+	<bean id="validator" class = "org.slc.sli.validation.schema.NeutralSchemaValidator"/>
 
   <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
