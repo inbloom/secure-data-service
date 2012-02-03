@@ -37,6 +37,8 @@ public class InstitutionalHeirarchyManager extends Manager {
     // JSON key names
     public static final String NAME = "name"; 
     public static final String SCHOOLS = "schools"; 
+    // resource String
+    public static final String DUMMY_EDORG_NAME = "No Ed-Org"; 
 
     /**
      * Returns the institutional heirarchy visible to the current user as a JSON string, 
@@ -109,7 +111,7 @@ public class InstitutionalHeirarchyManager extends Manager {
         if (orphanSchools.size() > 0) {
             try {
                 JSONObject obj = new JSONObject();
-                obj.put(NAME, "Dummy Ed-Org");
+                obj.put(NAME, DUMMY_EDORG_NAME);
                 School [] orphanSchoolsArr = new School[orphanSchools.size()];
                 Gson gson = new Gson();
                 String schoolJSONString = gson.toJson(orphanSchools.toArray(orphanSchoolsArr));
