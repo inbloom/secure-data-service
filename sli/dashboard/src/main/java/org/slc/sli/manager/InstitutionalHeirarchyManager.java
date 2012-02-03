@@ -27,8 +27,8 @@ public class InstitutionalHeirarchyManager extends Manager {
     public School[] getSchools() {
         return apiClient.getSchools(SecurityUtil.getToken());
     }
-    public EducationalOrganization[] getParentEducationalOrganizations(School s) {
-        return apiClient.getParentEducationalOrganizations(SecurityUtil.getToken(), s);
+    public EducationalOrganization[] getAssociatedEducationalOrganizations(School s) {
+        return apiClient.getAssociatedEducationalOrganizations(SecurityUtil.getToken(), s);
     }
     public EducationalOrganization[] getParentEducationalOrganizations(EducationalOrganization edOrg) {
         return apiClient.getParentEducationalOrganizations(SecurityUtil.getToken(), edOrg);
@@ -49,8 +49,9 @@ public class InstitutionalHeirarchyManager extends Manager {
         // are already being constructed in the *API Client* level (WTF was that about anyway?!?),
         // constructing inst heirarchy as JSON here isn't making things worse than they already are. 
 
-        // Call API to get relationships. 
+        // Find all the schools first.  
         School[] schools = getSchools();
+        if (schools == null) { return new JSONArray().toString(); }
 
         // This maps ids from educational organisations to schools reachable from it via the "child" relationship   
         Map<String, HashSet<School>> schoolReachableFromEdOrg = new HashMap<String, HashSet<School>>();
@@ -60,11 +61,11 @@ public class InstitutionalHeirarchyManager extends Manager {
         // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.length; i++) {
             HashMap<String, EducationalOrganization> ancestorEdOrgs = new HashMap<String, EducationalOrganization>(); // strictly not needed, but makes the code easier to read. 
-            EducationalOrganization[] edOrgs = getParentEducationalOrganizations(schools[i]); 
+            EducationalOrganization[] edOrgs = getAssociatedEducationalOrganizations(schools[i]); 
             for (int j = 0; j < edOrgs.length; j++) {
                 insertEdOrgAndAncesterIntoSet(ancestorEdOrgs, edOrgs[j]);
             }
-            // insert into the reverse map
+            // insert ed-org - school mapping into the reverse map
             edOrgIdMap.putAll(ancestorEdOrgs);
             for (String edOrgId : ancestorEdOrgs.keySet()) {
                 if (!schoolReachableFromEdOrg.keySet().contains(edOrgId)) {
