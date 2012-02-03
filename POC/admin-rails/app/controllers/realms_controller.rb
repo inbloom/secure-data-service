@@ -65,13 +65,23 @@ class RealmsController < ApplicationController
      @realm.mappings = params[:mappings];
      respond_to do |format|
        #if @realm.update_attributes(params[:realm])
-       if @realm.save()
+	success = false
+	errorMsg = ""
+
+	begin
+        success =  @realm.save()
+	rescue ActiveResource::BadRequest => error
+	errorMsg = error.response.body
+	end
+       if success
          #format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
          format.json { render json: @realm }
        else
          #format.html { render action: "edit" }
-         format.json { render json: @realm.errors, status: :unprocessable_entity }
+         #format.json { render json: @realm.errors, status: :unprocessable_entity }
+         format.json { render json: errorMsg, status: :unprocessable_entity }
        end
+	
      end
    end
   # 

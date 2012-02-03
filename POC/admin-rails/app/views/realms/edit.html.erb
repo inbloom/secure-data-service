@@ -21,8 +21,9 @@ $(document).ready(function() {
         
         save = function(success, failure) {
                 var mData = mapData(rMap);      
-		if (!failure)
+		if (!failure) {
 			failure = jQuery.noop();
+		}
                 $.ajax({
                         url: '<%= url_for(:action=>"update") %>',
                         type: 'PUT',
@@ -30,7 +31,10 @@ $(document).ready(function() {
                         data: JSON.stringify({"mappings": mData}),
                         dataType: 'json',
 			success: success,
-			failure: failure
+			error: function (resp) {
+				notifyError(jQuery.parseJSON(resp.responseText).response);
+				failure.call();
+			}
 		
                 });
         }
@@ -43,7 +47,10 @@ $(document).ready(function() {
                 	sortTable(rMap, sortCol, sortOrder[sortCol]);
                 	drawTable(rMap, true);
 		}
-		save(success);
+		var failure = function() {
+			rMap.pop(); //it failed, so undo it	
+		}
+		save(success, failure);
         });
 
 	$(document).bind("deleteRow", function(e) {
@@ -131,5 +138,5 @@ $(document).ready(function() {
 			</span>
         <tbody id="mTable"></tbody>
 </table>
-<div><button>Reset to Defaults</button></div>
+<div><button>Reset to defaults</button></div>
 

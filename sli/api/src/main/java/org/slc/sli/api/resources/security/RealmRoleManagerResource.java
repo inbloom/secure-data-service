@@ -82,9 +82,11 @@ public class RealmRoleManagerResource {
             throw new EntityNotFoundException("Entity was null");
         }
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
+        HashMap<String, String> res = new HashMap<String, String>();
         if (mappings != null) {
             if (!uniqueMappings(mappings)) {
-                return Response.status(Status.BAD_REQUEST).entity("Client role cannot map to different SLI roles").build();
+                res.put("response", "Client role cannot map to different SLI roles");
+                return Response.status(Status.BAD_REQUEST).entity(res).build();
              }
             
             for (String sliRole : mappings.keySet()) {
@@ -94,10 +96,15 @@ public class RealmRoleManagerResource {
                 
                 Set<String> clientSet = new HashSet<String>();
                 for (String clientRole : mappings.get(sliRole)) {
+                    if (clientRole.length() == 0) {
+                        res.put("response", "Cannot have client role of length 0");
+                        return Response.status(Status.BAD_REQUEST).entity(res).build();
+                    }
                     clientSet.add(clientRole);
                 }
                 if (clientSet.size() < mappings.get(sliRole).size()) {
-                    return Response.status(Status.BAD_REQUEST).entity("Cannot have duplicate client roles").build();
+                    res.put("response", "Cannot have duplicate client roles");
+                    return Response.status(Status.BAD_REQUEST).entity(res).build();
                 }
             }
         }
