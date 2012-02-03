@@ -34,22 +34,28 @@ public class EdFiProcessor implements Processor {
     @Override
     @Profiled(tag = "EdFiProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
-
-        BatchJob job = exchange.getIn().getBody(BatchJob.class);
-
-        for (IngestionFileEntry fe : job.getFiles()) {
-
-            processFileEntry(fe);
-
-            job.getFaultsReport().append(fe.getFaultsReport());
-        }
-
-        // report status of errors to exchange
-        if (job.getErrorReport().hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
-        }
         
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
+        try {
+            BatchJob job = exchange.getIn().getBody(BatchJob.class);
+
+            for (IngestionFileEntry fe : job.getFiles()) {
+                processFileEntry(fe);
+                job.getFaultsReport().append(fe.getFaultsReport());
+            }
+
+            // set headers for ingestion routing
+            if (job.getErrorReport().hasErrors()) {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            } else if (exchange.getIn().getHeader("dry-run").equals(true)) {
+                LOG.info("dry-run specified; data will not be published");
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
+            } else {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
+            }
+        } catch (Exception exception) {
+            exchange.getIn().setHeader("ErrorMessage", exception.toString());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        }
     }
 
     public void processFileEntry(IngestionFileEntry fe) {

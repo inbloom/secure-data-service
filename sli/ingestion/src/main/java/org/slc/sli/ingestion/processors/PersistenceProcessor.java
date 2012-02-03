@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 
@@ -54,48 +55,51 @@ public class PersistenceProcessor implements Processor {
     @Override
     @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) {
-
-        long startTime = System.currentTimeMillis();
         
-        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+        try {
+            long startTime = System.currentTimeMillis();
         
-        this.exchange = exchange;
+            BatchJob job = exchange.getIn().getBody(BatchJob.class);
         
-        // Indicate Camel processing
-        LOG.info("processing persistence: {}", job);
+            this.exchange = exchange;
         
-        for (IngestionFileEntry fe : job.getFiles()) {
+            // Indicate Camel processing
+            LOG.info("processing persistence: {}", job);
+        
+            for (IngestionFileEntry fe : job.getFiles()) {
             
-            ErrorReport errorReportForFile = null;
-            try {
+                ErrorReport errorReportForFile = null;
+                try {
+                    exchange.setProperty("records.processed", 0);
                 
-                exchange.setProperty("records.processed", 0);
+                    errorReportForFile = processIngestionStream(fe);
                 
-                errorReportForFile = processIngestionStream(fe);
-                
-            } catch (IOException e) {
-                job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
+                } catch (IOException e) {
+                    job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
+                }
+            
+                // Inform user if there were any record-level errors encountered
+                if (errorReportForFile != null && errorReportForFile.hasErrors()) {
+                    job.getFaultsReport().error(
+                            "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
+                            + "\" for details.", this);
+                }
+            
             }
-            
-            // Inform user if there were any record-level errors encountered
-            if (errorReportForFile != null && errorReportForFile.hasErrors()) {
-                job.getFaultsReport().error(
-                        "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
-                        + "\" for details.", this);
-            }
-            
+        
+            // Update Camel Exchange processor output result
+            exchange.getIn().setBody(job);
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
+        
+            long endTime = System.currentTimeMillis();
+        
+            // Log statistics
+            LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
+        
+        } catch (Exception exception) {
+            exchange.getIn().setHeader("ErrorMessage", exception.toString());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         }
-        
-        // Update Camel Exchange processor output result
-        exchange.getIn().setBody(job);
-        
-        exchange.getIn().setHeader("IngestionMessageType", "");
-        
-        long endTime = System.currentTimeMillis();
-        
-        // Log statistics
-        LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
-        
     }
     
     /**
