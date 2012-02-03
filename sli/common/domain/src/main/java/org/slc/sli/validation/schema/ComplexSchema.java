@@ -62,17 +62,16 @@ public class ComplexSchema extends NeutralSchema {
             Map<?, ?> entityMap = (Map<?, ?>) entity;
             
             for (String name : getFields().keySet()) {
+                Object fieldEntity = entityMap.get(name);
+
                 NeutralSchema fieldSchema = getFields().get(name);
-                
-                boolean required = false;
-                AppInfo appInfo = fieldSchema.getAppInfo();
-                if (appInfo != null) {
-                    required = appInfo.isRequired();
+                if (fieldSchema == null) {
+                    return addError(false, fieldName, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
                 }
                 
-                Object fieldEntity = entityMap.get(name);
+                AppInfo appInfo = fieldSchema.getAppInfo();
                 if (fieldEntity == null) {
-                    if (required) {
+                    if (appInfo != null && appInfo.isRequired()) {
                         return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {
