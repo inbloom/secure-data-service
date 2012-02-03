@@ -31,12 +31,21 @@ public class ControlFilePreProcessor implements Processor {
     @Override
     @Profiled(tag = "ControlFilePreProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
+        
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
-        ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
+        try {
+           
+            ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
 
-        exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+            // set headers for ingestion routing
+            exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+            
+        } catch (Exception exception) {
+            exchange.getIn().setHeader("ErrorMessage", exception.toString());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        }
     }
 
 }

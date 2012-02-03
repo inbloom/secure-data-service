@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <merges>
-    <merge action="ADDATTR" xpath="//resources/resource/method/response/representation[@element='Home']">
+    <merge action="ADDATTR" xpath="//ns2:application/ns2:resources/ns2:resource/ns2:method/ns2:response/ns2:representation[@element='Home']">
         <attribute name="href" value="home.html"/>
     </merge>
-    <merge action="ADD" xpath="//resources/resource/method/response">
+    
+    <!--  <merge action="ADD" xpath="//resources/resource/method/response">
         <option value="student"/>
         <option value="staff"/>
     </merge>
     <merge action="UPDATETXT" xpath="//resources/resource[doc='Aggregation Resource']/method/doc">
         <text>New Data</text>
-    </merge>
+    </merge> -->
 </merges>

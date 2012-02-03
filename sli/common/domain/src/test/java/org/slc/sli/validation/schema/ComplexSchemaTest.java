@@ -48,13 +48,13 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -78,14 +78,28 @@ public class ComplexSchemaTest {
     }
     
     @Test
+    public void testOptionalFields() {
+        schema.clearFields();
+        schema.addField("*optionalField", booleanSchema);
+        schema.addField("requiredField", booleanSchema);
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        complexEntity.put("requiredField", Boolean.TRUE);
+        assertTrue(schema.validate(complexEntity));
+        complexEntity.put("optionalField", Boolean.FALSE);
+        assertTrue(schema.validate(complexEntity));
+        complexEntity.remove("requiredField");
+        assertFalse(schema.validate("requiredField"));
+    }
+    
+    @Test
     public void testComplexFailureValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -112,15 +126,15 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexHierarchyValidation() throws IllegalArgumentException {
-        hierarchySchema.getFields().clear();
-        hierarchySchema.getFields().put("schemaField", schema);
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        hierarchySchema.clearFields();
+        hierarchySchema.addField("schemaField", schema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -147,15 +161,15 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexHierarchyFailureValidation() throws IllegalArgumentException {
-        hierarchySchema.getFields().clear();
-        hierarchySchema.getFields().put("schemaField", schema);
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        hierarchySchema.clearFields();
+        hierarchySchema.addField("schemaField", schema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -185,15 +199,15 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexHierarchyMapFailureValidation() throws IllegalArgumentException {
-        hierarchySchema.getFields().clear();
-        hierarchySchema.getFields().put("schemaField", schema);
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        hierarchySchema.clearFields();
+        hierarchySchema.addField("schemaField", schema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");

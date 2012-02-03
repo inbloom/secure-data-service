@@ -31,6 +31,8 @@
 			expression=".*MongoEntityRepository" />
 		<context:exclude-filter type="regex"
 			expression=".*AvroEntityValidator" />
+		<context:exclude-filter type="regex"
+			expression=".*NeutralSchemaValidator" />
 	</context:component-scan>
 
 </beans>

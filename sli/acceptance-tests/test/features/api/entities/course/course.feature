@@ -21,7 +21,7 @@ Scenario: Create a new course
     And "dateCourseAdopted" is "2001-01-01"
     And "highSchoolCourseRequirement" is "<false>"
     And "courseGpaApplicability" is "Normal"
-    And "courseDefinedBy" is "NAACP"
+    And "courseDefinedBy" is "Tommy's Course Definitions"
     And "minimumAvailableCredit" is 1
     And "maximumAvailableCredit" is 1
     And "careerPathway" is "Hospitality and Tourism"
@@ -44,7 +44,7 @@ Scenario: Create a new course
     And "dateCourseAdopted" should be "2001-01-01"
     And "highSchoolCourseRequirement" should be "<false>"
     And "courseGpaApplicability" should be "Normal"
-    And "courseDefinedBy" should be "NAACP"
+    And "courseDefinedBy" should be "Tommy's Course Definitions"
     And "minimumAvailableCredit" should be 1
     And "maximumAvailableCredit" should be 1
     And "careerPathway" should be "Hospitality and Tourism"
@@ -69,7 +69,7 @@ Scenario: Read a course by ID
     And "dateCourseAdopted" should be "2000-01-01"
     And "highSchoolCourseRequirement" should be "<false>"
     And "courseGpaApplicability" should be "Normal"
-    And "courseDefinedBy" should be "NAAHP"
+    And "courseDefinedBy" should be "Tommy's Course Definitions"
     And "minimumAvailableCredit" should be 1
     And "maximumAvailableCredit" should be 1
     And "careerPathway" should be "Hospitality and Tourism"

@@ -43,7 +43,7 @@ public class NeutralJsonExporter {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        String xsdPath = "classpath:sliXsd-wip";
+        String xsdPath = "classpath:sliXsd";
         String outputDir = "neutral-schemas";
         boolean output = true;
         if (args.length == 2 && !args[0].equals("--test")) {
@@ -77,7 +77,7 @@ public class NeutralJsonExporter {
         }
         boolean sane = true;
         for (NeutralSchema ns : schemas) {
-            for (Entry<String, Object> entry : ns.getFields().entrySet()) {
+            for (Entry<String, NeutralSchema> entry : ns.getFields().entrySet()) {
                 Object obj = entry.getValue();
                 if (obj instanceof NeutralSchema) {
                     NeutralSchema field = (NeutralSchema) obj;

@@ -24,7 +24,17 @@
 	return map;
 }
 `
-
+`mapData = function(data) {
+	var map = {};
+	for (var i in data) {
+		var cRole = data[i][0];
+		var sliRole = data[i][1];
+		if (!map[sliRole])
+			map[sliRole] = [];
+		map[sliRole].push(cRole);
+	}
+	return map;
+}`
 
 `sortTable = function(data, col, order) {
 
@@ -33,18 +43,7 @@
                         return 1 * order;
                 if (a[col].toLowerCase() < b[col].toLowerCase())
                         return -1 * order;
-
-                //equal - sort by other col
-                if (col == 1)
-			col = 0;
-		else
-			col = 1;
-                if (a[col].toLowerCase() > b[col].toLowerCase())
-                        return 1 * order;
-                if (a[col].toLowerCase() < b[col].toLowerCase())
-                        return -1 * so;
-                return 0;
-                
+		return 0;
         });
 }`
 
@@ -53,16 +52,19 @@
         table.empty();
 
         for (var i in data) {
-		var tr = $("<tr>");
+		var tr = $("<tr style='display: none'>");
         	tr.append($("<td>" + data[i][0] +  "<td>" + data[i][1] +  "</td>"));
 		if (editable) {
 			tr.append("<td><button class='deleteButton'>X</button></td>");
 		}	
+		//fade in last one
 		table.append(tr);
+		tr.show();
 		if (editable) {
-        		$(".deleteButton").each(function() {
+        		$(tr).select("td > .deleteButton").each(function() {
                 		$(this).click(function() {
-                       		$(this).parent().parent().remove();
+                       		//$(this).parent().parent().remove()
+					$(this).trigger("deleteRow");
                 		});
 			});
 		}
