@@ -175,4 +175,37 @@ public class SmooksEdFiVisitorTest {
 
     }
 
+    @Test
+    public void testTeacher() throws IOException, SAXException {
+
+        // Instantiate Smooks with the config...
+        InputStream messageIn = null;
+
+        try {
+
+            File inFile = ResourceUtils.getFile("classpath:smooks/InterchangeStaffAssociation.xml");
+
+            messageIn = new BufferedInputStream(new FileInputStream(inFile));
+
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
+            // smooks.addVisitor(new SmooksEdFiVisitor("student"),
+            // "InterchangeStudent/Student");
+
+            JavaResult result = new JavaResult();
+
+            smooks.filterSource(new StreamSource(messageIn), result);
+
+            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
+            assertEquals(2, records.size());
+
+            // TODO assert for a few entries that all values got successfully
+            // mapped
+
+        } finally {
+
+            IOUtils.closeQuietly(messageIn);
+        }
+
+    }
+
 }
