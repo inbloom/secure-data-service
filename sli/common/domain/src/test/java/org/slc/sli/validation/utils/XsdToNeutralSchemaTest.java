@@ -248,5 +248,4 @@ public class XsdToNeutralSchemaTest {
             assertEquals(schemaRepo.getSchema(testSchema).getSchemaType(), NeutralSchemaType.COMPLEX);
         }
     }
-    
 }
