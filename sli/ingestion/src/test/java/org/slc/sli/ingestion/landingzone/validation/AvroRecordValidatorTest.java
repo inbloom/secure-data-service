@@ -83,25 +83,26 @@ public class AvroRecordValidatorTest {
             // Record is invalid; insure messages are as expected.
             Assert.assertTrue(((TestErrorReport) errorReport).hasErrors());
             switch (recordNumber) {
-            case 1:
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().size(), 2);
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().toArray()[0],
-                        "Record 1: Missing or empty field <name.lastSurname>.");
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().toArray()[1],
-                        "Record 1: Unknown field <name.lastSurename>.");
-                break;
-            case 2:
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().size(), 1);
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().toArray()[0],
-                        "Record 2: Enumeration mismatch for field <sex> (legal values are [Female, Male]).");
-                break;
-            case 3:
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().size(), 1);
-                Assert.assertEquals(((TestErrorReport) errorReport).getMessages().toArray()[0],
-                        "Record 3: Invalid data type for field <name.firstName> (expected String).");
-                break;
-            default:
-                Assert.fail();
+                case 1:
+                    Assert.assertEquals(2, ((TestErrorReport) errorReport).getMessages().size());
+                    Assert.assertEquals("Record 1: Missing or empty field <name.lastSurname>.",
+                            ((TestErrorReport) errorReport).getMessages().toArray()[0]);
+                    Assert.assertEquals("Record 1: Unknown field <name.lastSurename>.", ((TestErrorReport) errorReport)
+                            .getMessages().toArray()[1]);
+                    break;
+                case 2:
+                    Assert.assertEquals(1, ((TestErrorReport) errorReport).getMessages().size());
+                    Assert.assertEquals(
+                            "Record 2: Enumeration mismatch for field <sex> (legal values are [Female, Male]).",
+                            ((TestErrorReport) errorReport).getMessages().toArray()[0]);
+                    break;
+                case 3:
+                    Assert.assertEquals(1, ((TestErrorReport) errorReport).getMessages().size());
+                    Assert.assertEquals("Record 3: Invalid data type for field <name.firstName> (expected String).",
+                            ((TestErrorReport) errorReport).getMessages().toArray()[0]);
+                    break;
+                default:
+                    Assert.fail();
             }
         }
 
