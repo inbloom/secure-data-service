@@ -59,11 +59,12 @@ public class ComplexSchema extends NeutralSchema {
         boolean isValid = true;
         
         if (entity instanceof Map) {
-            Map<?, ?> entityMap = (Map<?, ?>) entity;
+            @SuppressWarnings("unchecked")
+            Map<String, ?> entityMap = (Map<String, ?>) entity;
             
-            for (String name : getFields().keySet()) {
+            for (String name : entityMap.keySet()) {
                 Object fieldEntity = entityMap.get(name);
-
+                
                 NeutralSchema fieldSchema = getFields().get(name);
                 if (fieldSchema == null) {
                     return addError(false, fieldName, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
