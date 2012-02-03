@@ -43,18 +43,7 @@
                         return 1 * order;
                 if (a[col].toLowerCase() < b[col].toLowerCase())
                         return -1 * order;
-
-                //equal - sort by other col
-                if (col == 1)
-			col = 0;
-		else
-			col = 1;
-                if (a[col].toLowerCase() > b[col].toLowerCase())
-                        return 1 * order;
-                if (a[col].toLowerCase() < b[col].toLowerCase())
-                        return -1 * order;
-                return 0;
-                
+		return 0;
         });
 }`
 

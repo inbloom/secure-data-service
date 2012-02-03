@@ -136,8 +136,8 @@ public class LiveAPIClient implements APIClient {
     }
     
     @Override
-    public EducationalOrganization[] getParentEducationalOrganizations(final String token, School s) {
-        return mockClient.getParentEducationalOrganizations(getUsername(), s);
+    public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, School s) {
+        return mockClient.getAssociatedEducationalOrganizations(getUsername(), s);
     }
     
     @Override

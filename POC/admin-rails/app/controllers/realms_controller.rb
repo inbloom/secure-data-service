@@ -4,6 +4,23 @@ class RealmsController < ApplicationController
   def index
     @realms = Realm.all
 
+    #figure out the realm this user has access to
+    SessionResource.auth_id = cookies['iPlanetDirectoryPro']
+
+    #TODO:  current we're just checking the realm the user authenticated to,
+    # but ultimately we need to get that somewhere else since the user will
+    # always be authenticated to the SLI realm
+    userRealm =  Check.new(SessionResource.auth_id).realm
+    @realms.each do |realm|
+        if realm.respond_to?(:realm)
+          if realm.realm == userRealm
+            redirect_to realm
+            return
+          end
+        end
+    end
+    
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @realms }
