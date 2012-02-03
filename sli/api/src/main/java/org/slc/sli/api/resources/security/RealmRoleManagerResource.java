@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.security;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -80,29 +82,36 @@ public class RealmRoleManagerResource {
             throw new EntityNotFoundException("Entity was null");
         }
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
+        HashMap<String, String> res = new HashMap<String, String>();
         if (mappings != null) {
             if (!uniqueMappings(mappings)) {
-                return Response.status(Status.FORBIDDEN).entity("Client role cannot map to different SLI roles").build();
+                res.put("response", "Client role cannot map to different SLI roles");
+                return Response.status(Status.BAD_REQUEST).entity(res).build();
              }
             
             for (String sliRole : mappings.keySet()) {
                 if (roleRightAccess.getDefaultRole(sliRole) == null) {
-                    return Response.status(Status.FORBIDDEN).build();
+                    return Response.status(Status.BAD_REQUEST).build();
                 }
                 
                 Set<String> clientSet = new HashSet<String>();
                 for (String clientRole : mappings.get(sliRole)) {
+                    if (clientRole.length() == 0) {
+                        res.put("response", "Cannot have client role of length 0");
+                        return Response.status(Status.BAD_REQUEST).entity(res).build();
+                    }
                     clientSet.add(clientRole);
                 }
                 if (clientSet.size() < mappings.get(sliRole).size()) {
-                    return Response.status(Status.FORBIDDEN).entity("Cannot have duplicate client roles").build();
+                    res.put("response", "Cannot have duplicate client roles");
+                    return Response.status(Status.BAD_REQUEST).entity(res).build();
                 }
             }
         }
         if (service.update(realmId, updatedRealm)) {
             return Response.status(Status.NO_CONTENT).build();
         }
-        return Response.status(Status.FORBIDDEN).build();
+        return Response.status(Status.BAD_REQUEST).build();
     }
 
     @DELETE
@@ -114,6 +123,15 @@ public class RealmRoleManagerResource {
     
     @POST
     public Response createRealm(EntityBody newRealm) {
+        if (newRealm.get("mappings") == null) {
+            Map<String, List<String>> mappings = new HashMap<String, List<String>>();
+            for (Role role : roleRightAccess.fetchAllRoles()) {
+                if (!role.getName().equals("SLI Administrator")) {
+                    mappings.put(role.getName(), Arrays.asList(new String[]{role.getName()}));
+                }
+            }
+            newRealm.put("mappings", mappings);
+        }
         String id = service.create(newRealm);
         if (id != null) {
             service.create(newRealm);

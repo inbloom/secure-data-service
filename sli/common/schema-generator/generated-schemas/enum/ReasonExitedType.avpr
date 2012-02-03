@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ReasonExitedType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The reason the child left the program within a school or district.",
-  "xsd-type" : "token",
-  "symbols" : [ "Transfer_to_regular_education", "Received_a_certificate", "Reached_maximum_age", "Died", "Died_or_is_permanently_incapacitated", "Discontinued_schooling", "Graduated_with_a_high_school_diploma", "Received_certificate_of_completion_modified_diploma_or_finished_IEP_requirements", "Program_completion", "No_longer_receiving_special_education", "Refused_services", "Transferred_to_another_district_or_school_known_to_be_continuing_in_program_service", "Transferred_to_another_district_or_school_not_known_to_be_continuing_in_program_service", "Transferred_to_another_district_or_school_known_not_to_be_continuing_in_program_service", "Suspended_from_school", "Discontinued_schooling_special_education_only", "Discontinued_schooling_not_special_education", "Expulsion", "Program_discontinued", "Completion_of_IFSP_prior_to_reaching_maximum_age_for_Part_C", "Eligible_for_IDEA_Part_B", "Not_eligible_for_Part_B_exit_with_referrals_to_other_programs", "Part_B_eligibility_not_determined", "Moved_out_of_state", "Withdrawal_by_a_parent_or_guardian", "Unknown_reason", "Not_eligible_for_Part_B_exit_with_no_referrals", "Attempts_to_contact_the_parent_and_or_child_were_unsuccessful", "Other" ]
-}

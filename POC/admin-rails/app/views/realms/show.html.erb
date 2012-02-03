@@ -1,14 +1,13 @@
 <script>
 //	var roles = <%= Role.all.to_json.html_safe %>
-	var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>.mappings);
+	var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
 
 $(document).ready(function() {
 	drawTable(rMap, false);
 });
 </script>
-<p id="notice"><%= notice %></p>
-
-<table class="sortable">
+<h1>Viewing <%=@realm.state%></h1>
+<table>
         <thead><tr><th id="crole" style="text-decoration: underline">Client Role</th><th id="srole" style="text-decoration: underline">SLI Role</th></tr></thead>
         <tbody id="mTable"></tbody>
 </table

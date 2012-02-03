@@ -180,7 +180,7 @@
             <dependency>
                 <groupId>org.slc.sli</groupId>
                 <artifactId>scaffold</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
         
@@ -283,7 +283,9 @@
                             <configuration>  
                                 <mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>  
                                 <arguments>  
-                                    <argument>${project.build.outputDirectory}/application.wadl</argument>  
+                                    <argument>${project.build.outputDirectory}/application.wadl</argument>
+                                    <argument>${project.build.outputDirectory}/merge-examples.xml</argument>
+                                    <argument>eapplication.wadl</argument>  
                                 </arguments>  
                             </configuration>  
                         </execution>
@@ -296,7 +298,7 @@
                             <phase>package</phase>
                             <configuration>
                                 <executable>xsltproc</executable>
-                                <commandlineArgs>-o ${project.build.outputDirectory}/application.html ${project.build.outputDirectory}/wadl.xsl ${project.build.outputDirectory}/application.wadl</commandlineArgs>
+                                <commandlineArgs>-o ${project.build.outputDirectory}/application.html ${project.build.outputDirectory}/wadl.xsl ${project.build.outputDirectory}/eapplication.wadl</commandlineArgs>
                             </configuration>
                         </execution>  
                     </executions>  

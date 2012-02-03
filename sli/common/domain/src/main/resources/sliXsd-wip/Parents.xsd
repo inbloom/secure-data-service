@@ -3,7 +3,8 @@
 	elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
+	
 	<xs:element name="parent">
 		<xs:annotation>
 			<xs:documentation>
@@ -12,43 +13,43 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="ParentUniqueStateId" type="UniqueStateIdentifier">
+				<xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
 					<xs:annotation>
 						<xs:documentation>
 							A unique number or alphanumeric code assigned to a person.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Name" type="Name">
+				<xs:element name="name" type="name">
 					<xs:annotation>
 						<xs:documentation>Full legal name of the person.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="otherName" type="otherName" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							Other names (e.g., alias, nickname, previous legal name) associated with a person.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Sex" type="SexType" minOccurs="0">
+				<xs:element name="sex" type="sexType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A person's gender.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="address" type="address" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Parent's address, if different from student address.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="telephone" type="telephone" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							The 10-digit telephone number, including the area code, for the person.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="electronicMail" type="electronicMail" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>
 							The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within 
@@ -56,7 +57,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="LoginId" type="IdentificationCode" minOccurs="0">
+				<xs:element name="loginId" type="identificationCode" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							The login ID for the user; used for security access control interface.
@@ -84,7 +85,7 @@
 						<xs:documentation>The parent associated with the student.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Relation" type="RelationType" minOccurs="0">
+				<xs:element name="relation" type="relationType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							The nature of an individual's relationship to a student; for example:
@@ -92,35 +93,35 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="PrimaryContactStatus" type="xs:boolean" minOccurs="0">
+				<xs:element name="primaryContactStatus" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the person is a primary parental contact for the student.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="LivesWith" type="xs:boolean" minOccurs="0">
+				<xs:element name="livesWith" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the student lives with the associated parent.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EmergencyContactStatus" type="xs:boolean" minOccurs="0">
+				<xs:element name="emergencyContactStatus" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the person is a designated emergency contact for the student.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ContactPriority" type="xs:int" minOccurs="0">
+				<xs:element name="contactPriority" type="xs:int" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							The numeric order of the preferred sequence or priority of contact.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ContactRestrictions" type="ContactRestrictions" minOccurs="0">
+				<xs:element name="contactRestrictions" type="contactRestrictions" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Restrictions for student and/or teacher contact with the individual (e.g., the student may 

@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resources base="http://www.example.com/api/rest">
-    <resource path="/pub/realms">
-        <doc>Realms Resource</doc>
-        <method name="GET" id="getRealms">
-            <doc><![CDATA[Some data]]></doc>
-            <response>
-                <representation mediaType="application/json"/>
-             </response>
-        </method>
-     </resource>
-     <resource path="/aggregation">
-        <doc>Aggregation Resource</doc>
-        <method name="GET" id="getAggregation">
-            <doc><![CDATA[Some data]]></doc>
-            <response>
-                <representation status="200" mediaType="application/json" element="Home" />
-             </response>
-        </method>
-     </resource>     
-</resources>
-     
+<ns2:application xmlns:ns2="http://wadl.dev.java.net/2009/02">
+        <ns2:doc jersey:generatedBy="Jersey: 1.9.1 09/14/2011 02:05 PM" xmlns:jersey="http://jersey.java.net/"/>
+        <ns2:doc xml:lang="en" title="SLI RESTful API Documentation"><![CDATA[This document describes the SLI RESTful API ]]></ns2:doc>
+        <ns2:grammars>
+            <ns2:include href="xsd0.xsd"/>
+        </ns2:grammars>
+        <ns2:resources base="http://www.example.com/api/rest">
+          <ns2:resource path="aggregation">
+                <ns2:doc><![CDATA[Jersey resource for aggregate discovery]]></ns2:doc>
+                <ns2:method name="GET" id="getUpperMostAssociationsForUser">
+                    <ns2:doc><![CDATA[Returns the uppermost associations for the logged in user i.e For a staff(superintendent) it'll return a list of associated educationalOrganizations]]></ns2:doc>
+                    <ns2:response status="200">
+                        <ns2:representation mediaType="application/json" element="Home"/>
+                    </ns2:response>
+                </ns2:method>
+               <ns2:resource path="/district/{districtId}">
+                   <ns2:method name="GET" id="getDistrictBasedAggregates">
+                        <ns2:doc><![CDATA[Returns the aggregations based on distrct and the given query params]]></ns2:doc>
+                       <ns2:response>
+                            <ns2:representation mediaType="application/json"/>
+                       </ns2:response>
+                   </ns2:method>
+              </ns2:resource>
+              <ns2:resource path="/school/{schoolId}">
+                <ns2:method name="GET" id="getSchoolBasedAggregates">
+                    <ns2:doc><![CDATA[Returns the aggregations based on school and the given query params]]></ns2:doc>
+                    <ns2:response>
+                        <ns2:representation mediaType="application/json"/>
+                    </ns2:response>
+                </ns2:method>
+              </ns2:resource>
+          </ns2:resource>
+        </ns2:resources>
+</ns2:application>

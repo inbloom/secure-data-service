@@ -1,5 +1,6 @@
 [
     {
+        "id": "East Daybreak Junior High",
         "nameOfInstitution": "East Daybreak Junior High",
         "courses": [
             {
@@ -86,5 +87,16 @@
                 ]
             }
         ]
-    }
+    },
+
+    {
+        "id": "West Daybreak Junior High",
+        "nameOfInstitution": "West Daybreak Junior High",
+        "courses": [
+            {
+                "course": "7th Grade Homeroom",
+                "sections": []
+            }
+        ]
+   }
 ]

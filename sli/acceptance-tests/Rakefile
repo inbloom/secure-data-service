@@ -5,7 +5,7 @@ DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
-EXPAND = ENV['NO_EXPAND'] ? "" : "--expand"
+EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
 COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
