@@ -1,15 +1,16 @@
 DbRails::Application.routes.draw do
-  resources "teacher-section-associations", :as => :teacher_section_associations, :controller => :teacher_section_associations
-  resources "teacher-school-associations", :as => :teacher_school_associations, :controller => :teacher_school_associations
-  resources :sections
+  # resources "teacher-section-associations", :as => :teacher_section_associations, :controller => :teacher_section_associations
+  # resources "teacher-school-associations", :as => :teacher_school_associations, :controller => :teacher_school_associations
+  # resources :sections
+  # 
+  # resources :teachers
+  # 
+  # resources :schools
+  # 
+  # resources :homes
 
-  resources :teachers
-
-  resources :schools
-
-  resources :homes
-
-  # resources :entities
+  match '/entities/:type' => 'entities#index'
+  match '/entities/:type/:id' => 'entities#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
