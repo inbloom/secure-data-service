@@ -15,8 +15,10 @@ class Check
     req = Net::HTTP::Get.new(url.path)
     req.add_field("sessionId", sessionId)
     http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    if url.to_s.match(/^https/)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    end
     res = http.request(req)
     return ActiveSupport::JSON.decode(res.body)
   end

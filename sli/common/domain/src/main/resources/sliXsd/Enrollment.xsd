@@ -477,6 +477,9 @@
 							eligibility for
 							breakfast, lunch, snack, supper, and milk programs.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="studentCharacteristics" type="studentCharacteristic"
@@ -489,9 +492,6 @@
 							Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth,
 							etc.
 						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReadEnforcement>Restricted</sli:ReadEnforcement>
-						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="limitedEnglishProficiency" type="limitedEnglishProficiencyType"
@@ -673,7 +673,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-<!-- 	<xs:element name="studentSchoolAssociation">
+ 	<xs:element name="studentSchoolAssociation">
 		<xs:annotation>
 			<xs:documentation>This association represents the school to which a
 				student is enrolled.
@@ -794,7 +794,7 @@
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-	</xs:element> -->
+	</xs:element>
 
 	<xs:complexType name="creditsBySubject">
 		<xs:annotation>

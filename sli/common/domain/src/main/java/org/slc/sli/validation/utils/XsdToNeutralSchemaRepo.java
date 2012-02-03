@@ -32,6 +32,8 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleType;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaType;
+import org.apache.ws.commons.schema.XmlSchemaUse;
+import org.apache.ws.commons.schema.constants.Constants.BlockConstants;
 import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +45,13 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaFactory;
 import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.Documentation;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.TokenSchema;
@@ -75,11 +74,6 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     // Constants
     public static final String DEFAULT_INPUT_XSD_PATH = "xsd";
     public static final String XSD = "xsd";
-    private static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
-    private static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
-    private static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
-    private static final String SECURITY_SPHERE = "SecuritySphere";
-    private static final String SLI_XSD_NAMESPACE = "http://slc-sli/ed-org/0.1";
     
     // Attributes
     private final String xsdPath;
@@ -88,6 +82,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
     
     private ResourceLoader resourceLoader;
+    
+    static final XmlSchemaUse REQUIRED_USE = new XmlSchemaUse(BlockConstants.REQUIRED);
     
     @Autowired
     public XsdToNeutralSchemaRepo(@Value("classpath:sliXsd") String xsdPath, SchemaFactory schemaFactory)
@@ -363,16 +359,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             XmlSchemaObject annotation = annotations.getItem(annotationIdx);
             if (annotation instanceof XmlSchemaDocumentation) {
                 XmlSchemaDocumentation docs = (XmlSchemaDocumentation) annotation;
-                
-                NodeList docNodes = docs.getMarkup();
-                for (int docNodeIdx = 0; docNodeIdx < docNodes.getLength(); ++docNodeIdx) {
-                    Node node = docNodes.item(docNodeIdx);
-                    
-                    if (node instanceof Text) {
-                        Text e = (Text) node;
-                        neutralSchema.setDocumentation(e.getNodeValue());
-                    }
-                }
+                neutralSchema.addAnnotation(new Documentation(docs.getMarkup()));
             }
         }
     }
@@ -380,39 +367,12 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private void parseAppInfo(NeutralSchema neutralSchema, XmlSchemaType schemaType) {
         
         XmlSchemaObjectCollection annotations = schemaType.getAnnotation().getItems();
-        
         for (int annotationIdx = 0; annotationIdx < annotations.getCount(); ++annotationIdx) {
             
             XmlSchemaObject annotation = annotations.getItem(annotationIdx);
             if (annotation instanceof XmlSchemaAppInfo) {
                 XmlSchemaAppInfo info = (XmlSchemaAppInfo) annotation;
-                
-                NodeList appInfoNodes = info.getMarkup();
-                for (int appInfoNodeIdx = 0; appInfoNodeIdx < appInfoNodes.getLength(); ++appInfoNodeIdx) {
-                    
-                    Node node = appInfoNodes.item(appInfoNodeIdx);
-                    if (node instanceof Element) {
-                        Element e = (Element) node;
-                        
-                        if (!e.getNamespaceURI().equals(SLI_XSD_NAMESPACE)) {
-                            continue;
-                        }
-                        
-                        String value = e.getFirstChild().getNodeValue().trim();
-                        if (e.getLocalName().equals(PII_ELEMENT_NAME)) {
-                            neutralSchema.isPersonallyIdentifiableInfo(Boolean.parseBoolean(value));
-                            
-                        } else if (e.getLocalName().equals(READ_ENFORCEMENT_ELEMENT_NAME)) {
-                            neutralSchema.setReadAuthority(Right.valueOf(value));
-                            
-                        } else if (e.getLocalName().equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
-                            neutralSchema.setWriteAuthority(Right.valueOf(value));
-                            
-                        } else if (e.getLocalName().equals(SECURITY_SPHERE)) {
-                            neutralSchema.setSecuritySphere(value);
-                        }
-                    }
-                }
+                neutralSchema.addAnnotation(new AppInfo(info.getMarkup()));
             }
         }
     }
@@ -453,9 +413,6 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private NeutralSchema parseComplexType(XmlSchemaComplexType schemaComplexType, NeutralSchema complexSchema,
             XmlSchema schema) {
         
-        // Annotations are inherited by ComplexType fields so we need to parse these first.
-        parseAnnotations(complexSchema, schemaComplexType);
-        
         if (schemaComplexType.getContentModel() != null && schemaComplexType.getContentModel().getContent() != null) {
             XmlSchemaContent content = schemaComplexType.getContentModel().getContent();
             if (content instanceof XmlSchemaComplexContentExtension) {
@@ -474,6 +431,9 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 parseAttributes(((XmlSchemaSimpleContentExtension) content).getAttributes(), complexSchema, schema);
             }
         }
+        
+        // Annotations are inherited by ComplexType fields so we need to parse these first.
+        parseAnnotations(complexSchema, schemaComplexType);
         
         this.parseFields(schemaComplexType, complexSchema, schema);
         
@@ -521,11 +481,6 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     
                     String attributeName = attribute.getName();
                     
-                    // Optional Attributes
-                    if (!(attribute.getUse() != null && "required".equalsIgnoreCase(attribute.getUse().getValue()))) {
-                        attributeName = "*" + attributeName;
-                    }
-                    
                     // Derive Attribute Schema
                     NeutralSchema attributeSchema = null;
                     if (attributeSchemaType != null) {
@@ -536,6 +491,20 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     
                     // Update Neutral Schema Field
                     if (attributeSchema != null) {
+                        
+                        // Optional Attributes
+                        if (attribute.getUse().equals(REQUIRED_USE)) {
+                            
+                            AppInfo info = attributeSchema.getAppInfo();
+                            
+                            if (info == null) {
+                                info = new AppInfo(null);
+                            }
+                            
+                            info.put(REQUIRED_USE.getValue(), "true");
+                            attributeSchema.addAnnotation(info);
+                        }
+                        
                         complexSchema.addField(attributeName, attributeSchema);
                     }
                 }
@@ -544,11 +513,17 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     }
     
     private NeutralSchema parseElement(XmlSchemaElement element, XmlSchema schema) {
+        
         QName elementTypeName = element.getSchemaTypeName();
         
+        // Derive Element Schema
         XmlSchemaType elementSchemaType = element.getSchemaType();
         
-        // Derive Element Schema
+        // Element annotations override type annotations.
+        if (element.getAnnotation() != null) {
+            elementSchemaType.setAnnotation(element.getAnnotation());
+        }
+        
         NeutralSchema elementSchema = null;
         if (elementSchemaType != null) {
             if (elementSchemaType.getName() != null) {
@@ -583,9 +558,14 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 
                 String elementName = element.getName();
                 
-                // Optional Elements
-                if (element.isNillable() || (element.getMinOccurs() <= 0)) {
-                    elementName = "*" + elementName;
+                // Required Elements
+                if (!element.isNillable() || (element.getMinOccurs() > 0)) {
+                    AppInfo info = elementSchema.getAppInfo();
+                    if (info == null) {
+                        info = new AppInfo(null);
+                    }
+                    info.put(REQUIRED_USE.getValue(), "true");
+                    elementSchema.addAnnotation(info);
                 }
                 
                 // Update Neutral Schema Field
@@ -603,7 +583,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
-                // XXX TODO implement choice (or remove them from the XSDs)
+                // TODO implement choice (or remove them from the XSDs)
                 // throw new RuntimeException("Unhandled XmlSchemaChoice element: " + particle + " "
                 // + complexSchema.getType());
                 LOG.error("Unhandled XmlSchemaChoice element: " + particle + " " + complexSchema.getType());

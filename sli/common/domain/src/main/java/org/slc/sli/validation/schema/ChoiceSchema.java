@@ -22,7 +22,7 @@ public class ChoiceSchema extends NeutralSchema {
     private final Map<String, NeutralSchema> options;
     
     public ChoiceSchema(Map<String, NeutralSchema> options) {
-        super();
+        super(NeutralSchemaType.CHOICE.getName());
         this.options = options;
     }
     
