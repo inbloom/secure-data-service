@@ -64,7 +64,7 @@ Given /^I am a Super Administrator for "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should be redirected to the Complex\-Configurable Role Mapping Page for "([^"]*)"$/ do |arg1|
-  assertWithWait("Failed to be redirected to Role mapping page")  {@driver.title.index(arg1) != nil}
+  assertWithWait("Failed to be redirected to Role mapping page")  {@driver.page_source.index(arg1) != nil}
 end
 
 Given /^I have tried to access the Complex\-Configurable Role Mapping Page$/ do
@@ -72,16 +72,16 @@ Given /^I have tried to access the Complex\-Configurable Role Mapping Page$/ do
 end
 
 Then /^I am redirected to the Complex\-Configurable Role Mapping Page$/ do
-  assertWithWait("Failed to be redirected to Role mapping page")  {@driver.title.index("Role") != nil}
+  assertWithWait("Failed to be redirected to Role mapping page")  {@driver.page_source.index("Viewing") != nil}
 end
 
 Given /^I have navigated to my Complex\-Configurable Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/realms"
-  @driver.find_element(:id, "Edit").click
+  @driver.find_element(:link_text, "Edit").click
 end
 
 When /^I click on the Reset Mapping button$/ do
-  @driver.find_element(:id, "Reset").click
+  @driver.find_element(:id, "resetButton").click
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now mapped to themselves$/ do
@@ -93,15 +93,19 @@ Then /^no other mappings exist for this realm$/ do
 end
 
 When /^I click on the role "([^"]*)" radio button$/ do |arg1|
-  @driver.find_element(:id, "radio_"+arg1).click
+  button_id  = "role_Educator" if arg1 == "Educator"
+  button_id  = "role_Leader" if arg1 == "Leader"
+  button_id  = "role_IT_Administrator" if arg1 == "IT Administrator"
+  button_id  = "role_Aggregate_Viewer" if arg1 == "Aggregate Viewer"
+  @driver.find_element(:id, button_id).click
 end
 
 When /^I enter "([^"]*)" in the text field$/ do |arg1|
-  @driver.find_element(:id, "textbox").send_keys arg1
+  @driver.find_element(:id, "clientRole").send_keys arg1
 end
 
 When /^I click the add button$/ do
-  @driver.find_element(:id, "add").click
+  @driver.find_element(:id, "addButton").click
 end
 
 Then /^the custom role "([^"]*)" is mapped to the default role "([^"]*)"$/ do |arg1, arg2|
