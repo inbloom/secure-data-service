@@ -63,14 +63,12 @@ public class ComplexSchemaTest {
         Boolean booleanEntity = true;
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
@@ -153,7 +151,6 @@ public class ComplexSchemaTest {
         Boolean booleanEntity = true;
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
@@ -161,7 +158,6 @@ public class ComplexSchemaTest {
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
@@ -187,7 +183,6 @@ public class ComplexSchemaTest {
         Map<String, Object> complexEntity = new HashMap<String, Object>();
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
@@ -198,7 +193,6 @@ public class ComplexSchemaTest {
         
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
