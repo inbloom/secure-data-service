@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
-
+<% def build_links(hash = {}) %>
+	<%= link_to hash[:rel], hash[:href]%>
+<% end %>
 <% def display_hash (hash = {}, indent = 0)%>
 	<%if indent != 0 %>
 	<dl>
