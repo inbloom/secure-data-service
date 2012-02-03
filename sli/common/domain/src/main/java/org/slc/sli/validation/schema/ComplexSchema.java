@@ -31,6 +31,7 @@ public class ComplexSchema extends NeutralSchema {
     }
     
     // Methods
+    @Override
     public boolean isPrimitive() {
         return false;
     }
@@ -53,23 +54,25 @@ public class ComplexSchema extends NeutralSchema {
      *            list of current errors
      * @return true if valid
      */
+    @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
         boolean isValid = true;
         
         if (entity instanceof Map) {
-            Map<?, ?> entityMap = (Map<?, ?>) entity;
-            for (String name : this.getFields().keySet()) {
-                NeutralSchema fieldSchema = (NeutralSchema) this.getFields().get(name);
+            @SuppressWarnings("unchecked")
+            Map<String, ?> entityMap = (Map<String, ?>) entity;
+            
+            for (String name : entityMap.keySet()) {
+                Object fieldEntity = entityMap.get(name);
                 
-                boolean fieldRequired = true;
-                if (name.startsWith("*")) {
-                    name = name.substring(1);
-                    fieldRequired = false;
+                NeutralSchema fieldSchema = getFields().get(name);
+                if (fieldSchema == null) {
+                    return addError(false, fieldName, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
                 }
                 
-                Object fieldEntity = entityMap.get(name);
+                AppInfo appInfo = fieldSchema.getAppInfo();
                 if (fieldEntity == null) {
-                    if (fieldRequired) {
+                    if (appInfo != null && appInfo.isRequired()) {
                         return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {

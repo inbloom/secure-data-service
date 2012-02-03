@@ -12,11 +12,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slc.sli.validation.schema.Annotation.AnnotationType;
 
 /**
  * 
@@ -50,18 +50,7 @@ public abstract class NeutralSchema {
     private String readConverter = null;
     private String writeConverter = null;
     
-    private boolean isPersonallyIdentifiableInfo = false;
-    
-    private Right readAuthority = Right.READ_GENERAL;
-    private Right writeAuthority = Right.WRITE_GENERAL;
-    private String documentation = null;
-    
-    // data sphere, used by security to identify whether the data is 'core', 'admin', etc.
-    private String securitySphere = null;
-    
-    // Constructors
-    public NeutralSchema() {
-    }
+    private Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
     
     public NeutralSchema(String type) {
         this.type = type;
@@ -132,95 +121,23 @@ public abstract class NeutralSchema {
         }
         
         // Inherit only if the parent is more restrictive.
-        if (isPersonallyIdentifiableInfo) {
-            schema.isPersonallyIdentifiableInfo(isPersonallyIdentifiableInfo);
-        }
-        
-        switch (readAuthority) {
-            case FULL_ACCESS:
-                schema.setReadAuthority(Right.FULL_ACCESS);
-                break;
-            case ADMIN_ACCESS:
-                if (schema.getReadAuthority() != Right.FULL_ACCESS) {
-                    schema.setReadAuthority(Right.ADMIN_ACCESS);
-                }
-                break;
-            case READ_RESTRICTED:
-                if (schema.getReadAuthority() != Right.FULL_ACCESS && schema.getReadAuthority() != Right.ADMIN_ACCESS) {
-                    schema.setReadAuthority(Right.READ_RESTRICTED);
-                }
-            case READ_GENERAL:
-                if (schema.getReadAuthority() == Right.ANONYMOUS_ACCESS) {
-                    schema.setReadAuthority(Right.READ_GENERAL);
-                }
-        }
-        
-        switch (writeAuthority) {
-            case FULL_ACCESS:
-                schema.setWriteAuthority(Right.FULL_ACCESS);
-                break;
-            case ADMIN_ACCESS:
-                if (schema.getWriteAuthority() != Right.FULL_ACCESS) {
-                    schema.setWriteAuthority(Right.ADMIN_ACCESS);
-                }
-                break;
-            case WRITE_RESTRICTED:
-                if (schema.getWriteAuthority() != Right.FULL_ACCESS && schema.getWriteAuthority() != Right.ADMIN_ACCESS) {
-                    schema.setWriteAuthority(Right.WRITE_RESTRICTED);
-                }
-                break;
-            case WRITE_GENERAL:
-                if (schema.getWriteAuthority() == Right.ANONYMOUS_ACCESS) {
-                    schema.setWriteAuthority(Right.WRITE_GENERAL);
-                }
-                break;
-        }
-        
-        if (schema.getSecuritySphere() == null) {
-            schema.setSecuritySphere(securitySphere);
-        }
+        AppInfo info = (AppInfo) annotations.get(AnnotationType.APPINFO);
+        schema.inheritAnnotations(info);
         
         fields.put(name, schema);
+        
     }
     
-    public Boolean isPersonallyIdentifiableInfo() {
-        return isPersonallyIdentifiableInfo;
-    }
-    
-    public void isPersonallyIdentifiableInfo(boolean pii) {
-        isPersonallyIdentifiableInfo = new Boolean(pii);
-    }
-    
-    public Right getReadAuthority() {
-        return readAuthority;
-    }
-    
-    public void setReadAuthority(Right readAuthority) {
-        this.readAuthority = readAuthority;
-    }
-    
-    public Right getWriteAuthority() {
-        return writeAuthority;
-    }
-    
-    public void setWriteAuthority(Right writeAuthority) {
-        this.writeAuthority = writeAuthority;
-    }
-    
-    public String getDocumentation() {
-        return documentation;
-    }
-    
-    public void setDocumentation(String documentation) {
-        this.documentation = documentation;
-    }
-    
-    public String getSecuritySphere() {
-        return securitySphere;
-    }
-    
-    public void setSecuritySphere(String securitySphere) {
-        this.securitySphere = securitySphere;
+    protected void inheritAnnotations(AppInfo parentInfo) {
+        // Nothing to inherit.
+        if (parentInfo == null || parentInfo.getValues().isEmpty()) {
+            return;
+        }
+        
+        AppInfo myInfo = (AppInfo) annotations.get(AnnotationType.APPINFO);
+        if (myInfo != null) {
+            myInfo.inherit(parentInfo);
+        }
     }
     
     // Future Methods
@@ -361,4 +278,26 @@ public abstract class NeutralSchema {
         return toJson();
     }
     
+    public void addAnnotation(Annotation d) {
+        annotations.put(d.getType(), d);
+    }
+    
+    /**
+     * Helper functions for annotations.
+     */
+    public Documentation getDocumentation() {
+        return (Documentation) getAnnotation(AnnotationType.DOCUMENTATION);
+    }
+    
+    public AppInfo getAppInfo() {
+        return (AppInfo) getAnnotation(AnnotationType.APPINFO);
+    }
+    
+    private Annotation getAnnotation(Annotation.AnnotationType type) {
+        if (annotations == null) {
+            return null;
+        }
+        return annotations.get(type);
+    }
+
 }
