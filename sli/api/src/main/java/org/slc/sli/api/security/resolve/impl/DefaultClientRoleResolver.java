@@ -16,8 +16,6 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 
@@ -65,18 +63,12 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
     public List<String> resolveRoles(final String realmId,
             List<String> clientRoleNames) {
         List<String> result = new ArrayList<String>();
-        Map<String, Object> realm = SecurityUtil.sudoRun(new SecurityTask<Map<String, Object>>() {
-        
-         @Override
-         public Map<String, Object> execute() {
-             Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.realm").is(realmId)), 0, 1);
-             Map<String, Object> realm = null;
-             for (Entity firstRealm : realms) {
-                 realm = firstRealm.getBody();
-             }
-             return realm;
-         }
-         });
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria
+                .where("body.realm").is(realmId)), 0, 1);
+        Map<String, Object> realm = null;
+        for (Entity firstRealm : realms) {
+            realm = firstRealm.getBody();
+        }
         
 
         Map<String, List<String>> mappings = null;
