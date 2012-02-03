@@ -34,7 +34,7 @@ Given I have an open web browser
 And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
 And I am a Super Administrator for "SLI"
 When I navigate to the Complex-Configurable Role Mapping Page
-Then I should be redirected to the  Complex-Configurable Role Mapping Page for "SLI"
+Then I should be redirected to the Complex-Configurable Role Mapping Page for "SLI"
  
 Scenario: Valid SLI IDP user (State Super Administrator) login to Complex-Configurable Role Mapping Page
  
@@ -116,7 +116,7 @@ And I enter <Custom Role> in the text field
 And I click the add button
 Then I get a message that I cannot map the same custom role to multiple SLI Default roles
 Examples:
-| Fisrst Role | Custom Role | Other Role |
+| First Role | Custom Role | Other Role |
 | "Educator"  | "Teachipal" | "Leader"   |
 | "Leader"    | "Teachipal" | "Educator" |
 
