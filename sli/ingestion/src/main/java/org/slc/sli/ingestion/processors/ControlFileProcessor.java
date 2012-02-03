@@ -30,24 +30,36 @@ public class ControlFileProcessor implements Processor {
     @Override
     @Profiled(tag = "ControlFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
-        long startTime = System.currentTimeMillis();
+        
+        try {
+            long startTime = System.currentTimeMillis();
 
-        ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-        BatchJob job = getJobAssembler()
-                .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
+            BatchJob job = getJobAssembler()
+                    .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
-        long endTime = System.currentTimeMillis();
-        log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
+            long endTime = System.currentTimeMillis();
+            log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
 
-        // TODO set properties on the exchange based on job properties
-        // TODO set faults on the exchange if the control file sucked (?)
+            // TODO set properties on the exchange based on job properties
+            // TODO set faults on the exchange if the control file sucked (?)
 
-        // set the exchange outbound message to the value of the job
-        exchange.getIn().setBody(job, BatchJob.class);
-        exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
-
+            // set the exchange outbound message to the value of the job
+            exchange.getIn().setBody(job, BatchJob.class);
+        
+            // set headers for ingestion routing
+            if (job.getFaultsReport().hasErrors()) {
+                exchange.getIn().setHeader("ErrorMessage", "batch job error");
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            } else {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            }
+ 
+        } catch (Exception exception) {
+            exchange.getIn().setHeader("ErrorMessage", exception.toString());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        }
     }
 
     public BatchJobAssembler getJobAssembler() {

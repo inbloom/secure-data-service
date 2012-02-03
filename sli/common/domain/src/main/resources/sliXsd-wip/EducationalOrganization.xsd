@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="EducationOrganizationCategoriesType">
+	<xs:complexType name="educationOrganizationCategoriesType">
 		<xs:annotation>
 			<xs:documentation>The classification(s) of the education agency
 				within the geographic
@@ -15,7 +15,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="OrganizationCategory" type="EducationOrganizationCategoryType"
+			<xs:element name="organizationCategory" type="educationOrganizationCategoryType"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The classification(s) of the education agency
@@ -29,13 +29,13 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="AccountabilityRating">
+	<xs:complexType name="accountabilityRating">
 		<xs:annotation>
 			<xs:documentation>An accountability rating for a school or district.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="RatingTitle" type="RatingTitleType">
+			<xs:element name="ratingTitle" type="ratingTitleType">
 				<xs:annotation>
 					<xs:documentation>The title of the rating (e.g., School Rating,
 						Safety Score,
@@ -43,27 +43,27 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Rating" type="Rating">
+			<xs:element name="rating" type="rating">
 				<xs:annotation>
 					<xs:documentation>An accountability rating level, designation, or
 						assessment.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RatingDate" type="xs:date" minOccurs="0">
+			<xs:element name="ratingDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date the rating was awarded.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RatingOrganization" type="RatingOrganization"
+			<xs:element name="ratingOrganization" type="ratingOrganization"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The organization that assessed the rating.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RatingProgram" type="RatingProgramType"
+			<xs:element name="ratingProgram" type="ratingProgramType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The program associated with the accountability
@@ -75,7 +75,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="ProgramIdentityType">
+	<xs:complexType name="programIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
 				used to lookup the
@@ -84,7 +84,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:choice>
-				<xs:element name="ProgramId" type="ProgramId">
+				<xs:element name="programId" type="programId">
 					<xs:annotation>
 						<xs:documentation>A unique number or alphanumeric code assigned to
 							a program
@@ -93,7 +93,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramType" type="ProgramType">
+				<xs:element name="programType" type="programType">
 					<xs:annotation>
 						<xs:documentation>The formal name of the program of instruction,
 							training,
@@ -111,7 +111,7 @@
 						elsewhere in the interchange.
 					</xs:documentation>
 				</xs:annotation>
-				<xs:element name="StateOrganizationId" type="IdentificationCode">
+				<xs:element name="stateOrganizationId" type="identificationCode">
 					<xs:annotation>
 						<xs:documentation>The identifier assigned to an education agency
 							by the
@@ -120,7 +120,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
+				<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
 					maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A unique number or alphanumeric code assigned to
@@ -135,7 +135,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="EducationOrgIdentificationCode">
+	<xs:complexType name="educationOrgIdentificationCode">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code that is
 				assigned to an education
@@ -144,7 +144,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ID" type="IdentificationCode">
+			<xs:element name="ID" type="identificationCode">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code that is
 						assigned to an
@@ -154,7 +154,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="IdentificationSystem" type="EducationOrgIdentificationSystemType">
+			<xs:element name="identificationSystem" type="educationOrgIdentificationSystemType">
 				<xs:annotation>
 					<xs:documentation>The school system, state, or agency assigning the
 						identification
@@ -166,7 +166,7 @@
 
 	</xs:complexType>
 
-	<xs:complexType name="EducationalOrgIdentityType">
+	<xs:complexType name="educationalOrgIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
 				used to lookup the
@@ -177,7 +177,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:choice maxOccurs="unbounded">
-			<xs:element name="StateOrganizationId" type="IdentificationCode">
+			<xs:element name="stateOrganizationId" type="identificationCode">
 				<xs:annotation>
 					<xs:documentation>The identifier assigned to an education agency by
 						the State
@@ -185,7 +185,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
+			<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
@@ -198,7 +198,7 @@
 		</xs:choice>
 	</xs:complexType>
 
-	<xs:complexType name="InstitutionTelephone">
+	<xs:complexType name="institutionTelephone">
 		<xs:annotation>
 			<xs:documentation>The 10-digit telephone number, including the area
 				code, for the
@@ -206,7 +206,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="TelephoneNumber" type="TelephoneNumber">
+			<xs:element name="telephoneNumber" type="telephoneNumber">
 				<xs:annotation>
 					<xs:documentation>The telephone number including the area code, and
 						extension,
@@ -214,7 +214,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="InstitutionTelephoneNumberType" type="InstitutionTelephoneNumberType"
+			<xs:element name="institutionTelephoneNumberType" type="institutionTelephoneNumberType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of communication number listed for an
@@ -227,7 +227,7 @@
 
 	</xs:complexType>
 
-	<xs:complexType name="SchoolCategoriesType">
+	<xs:complexType name="schoolCategoriesType">
 		<xs:annotation>
 			<xs:documentation>The one or more categories of school. For example:
 				High School, Middle
@@ -235,7 +235,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="SchoolCategory" type="SchoolCategoryItemType"
+			<xs:element name="schoolCategory" type="schoolCategoryItemType"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The one or more categories of school. For
@@ -247,7 +247,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="ClassPeriodIdentityType">
+	<xs:complexType name="classPeriodIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
 				used to lookup the
@@ -255,7 +255,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ClassPeriodName" type="ClassPeriodNameType">
+			<xs:element name="classPeriodName" type="classPeriodNameType">
 				<xs:annotation>
 					<xs:documentation>An indication of the portion of a typical daily
 						session in
@@ -274,7 +274,7 @@
 						elsewhere in the interchange.
 					</xs:documentation>
 				</xs:annotation>
-				<xs:element name="StateOrganizationId" type="IdentificationCode">
+				<xs:element name="stateOrganizationId" type="identificationCode">
 					<xs:annotation>
 						<xs:documentation>The identifier assigned to an education agency
 							by the
@@ -283,7 +283,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
+				<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
 					maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A unique number or alphanumeric code assigned to
@@ -298,7 +298,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="LocationIdentityType">
+	<xs:complexType name="locationIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
 				used to lookup the
@@ -306,7 +306,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ClassroomIdentificationCode" type="ClassroomIdentificationCode">
+			<xs:element name="classroomIdentificationCode" type="classroomIdentificationCode">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a room by a
@@ -316,7 +316,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="StateOrganizationId" type="IdentificationCode">
+				<xs:element name="stateOrganizationId" type="identificationCode">
 					<xs:annotation>
 						<xs:documentation>The identifier assigned to an education agency
 							by the
@@ -325,7 +325,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
+				<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
 					maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A unique number or alphanumeric code assigned to
@@ -340,7 +340,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="EducationOrganization" abstract="true">
+	<xs:complexType name="educationOrganization" abstract="true">
 		<xs:annotation>
 			<xs:documentation>This entity represents any public or private
 				institution,
@@ -351,9 +351,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="StateOrganizationId" type="IdentificationCode">
+					<xs:element name="stateOrganizationId" type="identificationCode">
 						<xs:annotation>
 							<xs:documentation>The identifier assigned to an education
 								organization
@@ -361,7 +361,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode"
+					<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned
@@ -372,21 +372,21 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="NameOfInstitution" type="NameOfInstitution">
+					<xs:element name="nameOfInstitution" type="nameOfInstitution">
 						<xs:annotation>
 							<xs:documentation>The full, legally accepted name of the
 								institution.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ShortNameOfInstitution" type="NameOfInstitution"
+					<xs:element name="shortNameOfInstitution" type="nameOfInstitution"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>A short name for the institution.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType">
+					<xs:element name="organizationCategories" type="educationOrganizationCategoriesType">
 						<xs:annotation>
 							<xs:documentation>The classification of the education agency
 								within the
@@ -397,7 +397,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Address" type="Address" maxOccurs="unbounded">
+					<xs:element name="address" type="address" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The set of elements that describes the physical
 								location of the education entity, including the street address,
@@ -405,7 +405,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Telephone" type="InstitutionTelephone"
+					<xs:element name="telephone" type="institutionTelephone"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The 10-digit telephone number, including the
@@ -414,7 +414,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="WebSite" type="WebSite" minOccurs="0">
+					<xs:element name="webSite" type="webSite" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The public web site address (URL) for the
 								educational
@@ -422,7 +422,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="OperationalStatus" type="OperationalStatusType"
+					<xs:element name="operationalStatus" type="operationalStatusType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The current operational status of the education
@@ -430,7 +430,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AccountabilityRatings" type="AccountabilityRating"
+					<xs:element name="accountabilityRatings" type="accountabilityRating"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The accountability ratings assessed for the
@@ -439,7 +439,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ProgramReference" type="xs:string"
+					<xs:element name="programReference" type="xs:string"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The programs offered at the education
@@ -447,7 +447,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AgencyHierarchyName" type="xs:string"
+					<xs:element name="agencyHierarchyName" type="xs:string"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>An optional hierarchical name for the Ed Org
@@ -476,7 +476,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="EducationOrganization">
+				<xs:extension base="educationOrganization">
 					<xs:sequence>
 						<xs:element name="LEACategory" type="LEACategoryType">
 							<xs:annotation>
@@ -486,7 +486,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="CharterStatus" type="CharterStatusType"
+						<xs:element name="charterStatus" type="charterStatusType"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>A school or agency providing free public
@@ -518,15 +518,15 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="EducationOrganization">
+				<xs:extension base="educationOrganization">
 					<xs:sequence>
-						<xs:element name="GradesOffered" type="GradeLevelsType">
+						<xs:element name="gradesOffered" type="gradeLevelsType">
 							<xs:annotation>
 								<xs:documentation>The grade levels served at the school.
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="SchoolCategories" type="SchoolCategoriesType">
+						<xs:element name="schoolCategories" type="schoolCategoriesType">
 							<xs:annotation>
 								<xs:documentation>The one or more categories of school. For
 									example:
@@ -534,7 +534,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="SchoolType" type="SchoolType"
+						<xs:element name="schoolType" type="schoolType"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>The type of education institution as
@@ -543,7 +543,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="CharterStatus" type="CharterStatusType"
+						<xs:element name="charterStatus" type="charterStatusType"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>A school or agency providing free public
@@ -558,7 +558,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="TitleIPartASchoolDesignation" type="TitleIPartASchoolDesignationType"
+						<xs:element name="titleIPartASchoolDesignation" type="titleIPartASchoolDesignationType"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>Denotes the Title I Part A designation for the
@@ -566,8 +566,8 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="MagnetSpecialProgramEmphasisSchool"
-							type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0">
+						<xs:element name="magnetSpecialProgramEmphasisSchool"
+							type="magnetSpecialProgramEmphasisSchoolType" minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>A school that has been designed: 1) to attract
 									students of different racial/ethnic backgrounds for the purpose
@@ -582,7 +582,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="AdministrativeFundingControl" type="AdministrativeFundingControlType"
+						<xs:element name="administrativeFundingControl" type="administrativeFundingControlType"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>The type of education institution as
@@ -597,13 +597,13 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="FeederSchoolType">
+	<xs:complexType name="feederSchoolType">
 		<xs:annotation>
 			<xs:documentation>The feeder school relationship between two schools.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="BeginDate" type="xs:date">
+			<xs:element name="beginDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year of the first day of the
 						feeder school
@@ -611,7 +611,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year of the last day of the
 						feeder school
@@ -619,7 +619,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="FeederRelationshipDescription" type="Description"
+			<xs:element name="feederRelationshipDescription" type="description"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Describes the relationship from the feeder school
@@ -655,7 +655,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="FeederSchool" type="FeederSchoolType"
+				<xs:element name="feederSchool" type="feederSchoolType"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>If the child Education Org is a Feeder school

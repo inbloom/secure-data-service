@@ -104,8 +104,8 @@ Given /^I create a student object with "([^"]*)" equal to a string$/ do |arg1|
   @result[arg1] = "123456"
 end
 
-Given /^I create a school object with "([^"]*)" equal to a integer$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchool()
+Given /^I create a student object with "([^"]*)" equal to a integer$/ do |arg1|
+  @result = CreateEntityHash.createBaseStudent()
   @result[arg1] = 12345678
 end
 

@@ -67,6 +67,7 @@ public class RealmResource implements IdpResolver {
         
         Set<EntityBody> set = new HashSet<EntityBody>();
         for (EntityBody eb : entities) {
+            eb.remove("mappings");
             set.add(eb);
         }
         

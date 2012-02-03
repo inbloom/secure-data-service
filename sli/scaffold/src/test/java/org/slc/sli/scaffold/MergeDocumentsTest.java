@@ -27,6 +27,6 @@ public class MergeDocumentsTest {
         URL sampleUrl = this.getClass().getResource("/sample.xml");
         URL mergeUrl = this.getClass().getResource("/merge-test.xml");
         
-        merge.merge(new File(sampleUrl.toURI()), new File(mergeUrl.toURI()));
+        merge.merge(new File(sampleUrl.toURI()), new File(mergeUrl.toURI()), "esample.txt");
     }
 }

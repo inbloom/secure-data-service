@@ -30,13 +30,13 @@ public class MergeDocuments {
     
     public static void main(String[] args) {
         
-        if (args.length < 2) return;
+        if (args.length < 3) return;
         
         MergeDocuments merge = new MergeDocuments();
-        merge.merge(new File(args[0]), new File(args[1]));
+        merge.merge(new File(args[0]), new File(args[1]), args[2]);
     }
     
-    public void merge(File baseFile, File mergeFile) {
+    public void merge(File baseFile, File mergeFile, String outputFileName) {
         try {
             handler.init();
             
@@ -44,8 +44,7 @@ public class MergeDocuments {
             Document mergeDoc = handler.parseDocument(mergeFile);
             
             applyMerge(wadlDoc, mergeDoc);
-            
-            //System.out.println(handler.serializeDocumentToString(wadlDoc));
+            handler.serializeDocumentToXml(wadlDoc, new File(baseFile.getParentFile().getAbsolutePath() + File.separator + outputFileName));            
         } catch (DocumentManipulatorException e) {
             //need to do something better
             e.printStackTrace();

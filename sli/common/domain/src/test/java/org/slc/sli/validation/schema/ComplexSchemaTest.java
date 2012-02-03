@@ -78,6 +78,29 @@ public class ComplexSchemaTest {
     }
     
     @Test
+    public void testOptionalFields() {
+        schema.clearFields();
+        
+        BooleanSchema required = new BooleanSchema();
+        AppInfo info = new AppInfo(null);
+        info.put("required", "true");
+        required.addAnnotation(info);
+        
+        schema.addField("optionalField", booleanSchema);
+        schema.addField("requiredField", required);
+
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        complexEntity.put("requiredField", Boolean.TRUE);
+        assertTrue(schema.validate(complexEntity));
+
+        complexEntity.put("optionalField", Boolean.FALSE);
+        assertTrue(schema.validate(complexEntity));
+
+        complexEntity.remove("requiredField");
+        assertFalse(schema.validate("requiredField"));
+    }
+    
+    @Test
     public void testComplexFailureValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.addField("booleanField", booleanSchema);

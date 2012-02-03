@@ -71,8 +71,10 @@ public class ComplexSchema extends NeutralSchema {
                 }
                 
                 Object fieldEntity = entityMap.get(name);
-                if (fieldEntity == null && required) {
-                    return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
+                if (fieldEntity == null) {
+                    if (required) {
+                        return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
+                    }
                 } else {
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors);
                     if (!isFieldValid) {
