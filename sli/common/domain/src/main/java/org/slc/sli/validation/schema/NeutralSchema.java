@@ -28,7 +28,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Scope("prototype")
 @Component
-public class NeutralSchema {
+public abstract class NeutralSchema {
     
     // Constants
     public static final String JSON = "json";
@@ -39,7 +39,6 @@ public class NeutralSchema {
     
     // Attributes
     private String type = "";
-    private NeutralSchemaType schemaType;
     private String version = "1.0";
     private Map<String, Object> properties = null;
     private Map<String, NeutralSchema> fields = null;
@@ -78,14 +77,7 @@ public class NeutralSchema {
     }
     
     @JsonIgnore
-    public void setSchemaType(NeutralSchemaType schemaType) {
-        this.schemaType = schemaType;
-    }
-    
-    @JsonIgnore
-    public NeutralSchemaType getSchemaType() {
-        return schemaType;
-    }
+    public abstract NeutralSchemaType getSchemaType();
     
     @JsonIgnore
     public String getValidatorClass() {
@@ -308,11 +300,7 @@ public class NeutralSchema {
      *            list of current errors
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
-        boolean isValid = true;
-        
-        return isValid;
-    }
+    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors);
     
     /**
      * @param isValid

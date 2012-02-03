@@ -29,5 +29,5 @@ public interface APIClient {
     public AssessmentMetaData[] getAssessmentMetaData(final String token);
     public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds);
     public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization educationalOrganization);
-    public EducationalOrganization[] getParentEducationalOrganizations(final String token, School school);
+    public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, School school);
 }

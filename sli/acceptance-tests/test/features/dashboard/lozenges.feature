@@ -10,7 +10,7 @@ Given I have an open web browser
 Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
 And I wait for "1" seconds
-When I select ed org "Dummy Ed-Org"
+When I select ed org "No Ed-Org"
 When I select school "South Daybreak Elementary"
 And I select course "Reading Group"
 And I select section "Reading Group - Grey"
