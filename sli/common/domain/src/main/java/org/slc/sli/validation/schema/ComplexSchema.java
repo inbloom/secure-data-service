@@ -39,7 +39,7 @@ public class ComplexSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.COMPLEX;
     }
-
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
@@ -59,12 +59,13 @@ public class ComplexSchema extends NeutralSchema {
         if (entity instanceof Map) {
             Map<?, ?> entityMap = (Map<?, ?>) entity;
             for (String name : this.getFields().keySet()) {
+                NeutralSchema fieldSchema = (NeutralSchema) this.getFields().get(name);
+                
                 boolean fieldRequired = true;
                 if (name.startsWith("*")) {
                     name = name.substring(1);
                     fieldRequired = false;
                 }
-                NeutralSchema fieldSchema = (NeutralSchema) this.getFields().get(name);
                 
                 Object fieldEntity = entityMap.get(name);
                 if (fieldEntity == null) {
@@ -72,6 +73,10 @@ public class ComplexSchema extends NeutralSchema {
                         return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {
+                    if (fieldSchema == null) {
+                        throw new RuntimeException("Field schema null: " + this.getType() + ", " + fieldName + ", "
+                                + entity + ", " + name);
+                    }
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors);
                     if (!isFieldValid) {
                         
