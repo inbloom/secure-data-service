@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +25,8 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionEntityTest {
 
-    private EntityValidator entityValidator;
+    @Autowired
+    private EntityValidator validator;
 
     @Test
     public void testValidSectionCSV() throws Exception {
@@ -44,6 +46,30 @@ public class SectionEntityTest {
 
             NeutralRecord record = nrfr.next();
             checkValidSectionNeutralRecord(record);
+
+        } finally {
+            nrfr.close();
+        }
+
+    }
+
+    @Test
+    public void testValidatorSection() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-section-csv.xml";
+        String targetSelector = "csv-record";
+
+        String testData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+
+        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        NeutralRecordFileReader nrfr = null;
+        try {
+            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+
+            //Tests that the NeutralRecord was created
+            Assert.assertTrue(nrfr.hasNext());
+
+            NeutralRecord record = nrfr.next();
+            EntityTestUtils.mapValidation(record.getAttributes(), "section", validator);
 
         } finally {
             nrfr.close();
