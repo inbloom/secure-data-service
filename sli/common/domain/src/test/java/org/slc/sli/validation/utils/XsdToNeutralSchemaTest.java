@@ -190,7 +190,7 @@ public class XsdToNeutralSchemaTest {
         
         NeutralSchema anonSchema = schema.getFields().get("testAnonymousSimpleType");
         assertNotNull(anonSchema);
-        assertEquals("testAnonymousSimpleType", anonSchema.getType());
+        assertEquals("testAnonymousSimpleType1", anonSchema.getType());
         assertEquals(IntegerSchema.class.getCanonicalName(), anonSchema.getValidatorClass());
         assertEquals("1", anonSchema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
         assertEquals("2", anonSchema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
@@ -217,7 +217,7 @@ public class XsdToNeutralSchemaTest {
         
         NeutralSchema cycleSchema = schema.getFields().get("WeeksInCycle");
         assertNotNull(cycleSchema);
-        assertEquals("WeeksInCycle", cycleSchema.getType());
+        assertEquals("WeeksInCycle1", cycleSchema.getType());
         assertEquals(IntegerSchema.class.getCanonicalName(), cycleSchema.getValidatorClass());
         assertEquals("1", cycleSchema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
         assertEquals("52", cycleSchema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
@@ -244,7 +244,7 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(schema3);
         NeutralSchema simpleRestriction = schema3.getFields().get("SimpleTypeRestriction");
         assertNotNull(simpleRestriction);
-        assertEquals("SimpleTypeRestriction", simpleRestriction.getType());
+        assertEquals("SimpleTypeRestriction1", simpleRestriction.getType());
         assertEquals(StringSchema.class.getCanonicalName(), simpleRestriction.getValidatorClass());
         assertEquals("40", simpleRestriction.getProperties().get(Restriction.MAX_LENGTH.getValue()));
         assertEquals("1", simpleRestriction.getProperties().get(Restriction.MIN_LENGTH.getValue()));
