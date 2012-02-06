@@ -53,19 +53,13 @@
    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
 
 	<!-- CourseOfferingReference -->
-	<jb:wiring property="courseOfferingReference" beanIdRef="CourseOfferingReferenceType" />
+	<jb:value property="courseOfferingReference" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
 
     <!-- SchoolReference -->
-	<jb:wiring property="schoolReference" beanIdRef="EducationalOrgReferenceType" />
+	<jb:value property="schoolReference" data="csv-record/SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
 
 	<!-- SessionReference -->
-	<jb:wiring property="sessionReference" beanIdRef="SessionReferenceType" />
-
-	<!-- LocationReference -->
-	<jb:wiring property="locationReference" beanIdRef="LocationReferenceType" />
-
-	<!-- ClassPeriodReference -->
-	<jb:wiring property="classPeriodReference" beanIdRef="ClassPeriodReferenceType" />
+	<jb:value property="sessionReference" data="csv-record/SessionReference_SessionIdentity_SessionName" />
 
 	<!-- ProgramReference -->
 	<jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
@@ -78,59 +72,9 @@
     	<jb:value property="credit" data="csv-record/AvailableCredit_Credit"/>
     </jb:bean>
 
-    <!-- CourseOfferingReferenceType -->
-    <jb:bean beanId="CourseOfferingReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="localCourseCode" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
-		<jb:value property="term" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_Term"/>
-		<jb:value property="schoolYear" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_SchoolYear"/>
-		<jb:wiring property="courseCode" beanIdRef="CourseCodeTypeArray_Section" />
-	</jb:bean>
-	<jb:bean beanId="CourseCodeTypeArray_Section" class="java.util.ArrayList" createOnElement="csv-record">
-		<jb:wiring beanIdRef="CourseCodeType_Section" />
-	</jb:bean>
-	<jb:bean beanId="CourseCodeType_Section" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="identificationSystem" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_CourseCode_IdentificationSystem"/>
-		<jb:value property="assigningOrganizationCode" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_CourseCode_AssigningOrganizationCode"/>
-		<jb:value property="iD" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_CourseCode_Id"/>
-	</jb:bean>
-
-	<!--SchoolReferenceType -->
-	<jb:bean beanId="EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="stateOrganizationId" data="csv-record/SchoolReference_EducationalOrgIdentity_StateOrganizationId"/>
-		<jb:wiring property="educationalOrgIdentificationCode" beanIdRef="EducationalOrgIdentificationCodeTypeArray_Section" />
-	</jb:bean>
-	<jb:bean beanId="EducationalOrgIdentificationCodeTypeArray_Section" class="java.util.ArrayList" createOnElement="csv-record">
-		<jb:wiring beanIdRef="EducationalOrgIdentificationCodeType_Section" />
-	</jb:bean>
-	<jb:bean beanId="EducationalOrgIdentificationCodeType_Section" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="identificationSystem" data="csv-record/SchoolReference_EducationalOrgIdentity_EducationalOrgIdentificationCode_IdentificationSystem"/>
-		<jb:value property="iD" data="csv-record/SchoolReference_EducationalOrgIdentity_EducationalOrgIdentificationCode_Id"/>
-	</jb:bean>
-
-	<!-- SessionReferenceType -->
-	<jb:bean beanId="SessionReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="sessionName" data="csv-record/SessionReference_SessionIdentity_SessionName"/>
-		<jb:value property="term" data="csv-record/SessionReference_SessionIdentity_Term"/>
-		<jb:value property="schoolYear" data="csv-record/SessionReference_SessionIdentity_SchoolYear"/>
-	</jb:bean>
-
-	<!-- LocationReferenceType -->
-	<jb:bean beanId="LocationReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="classroomIdentificationCode" data="csv-record/LocationReference_LocationIdentity_ClassroomIdentificationCode"/>
-	</jb:bean>
-
-	<!-- ClassPeriodReference -->
-	<jb:bean beanId="LocationReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="classPeriodName" data="csv-record/ClassPeriodReference_ClassPeriodIdentity_ClassPeriodName"/>
-	</jb:bean>
-
 	<!-- ProgramReferenceType -->
 	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-		<jb:wiring beanIdRef="ProgramReferenceType" />
-	</jb:bean>
-	<jb:bean beanId="ProgramReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="programId" data="csv-record/ProgramReference_ProgramIdentity_ProgramId"/>
-		<jb:value property="programType" data="csv-record/ProgramReference_ProgramIdentity_ProgramType"/>
+				<jb:value data="csv-record/ProgramReference_ProgramIdentity_ProgramId"/>
 	</jb:bean>
 
 </smooks-resource-list>
