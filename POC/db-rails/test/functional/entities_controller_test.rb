@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class EntitiesControllerTest < ActionController::TestCase
-  test "should get indexfor students" do
+  test "should get index for students" do
     get :index, type: "students"
     assert_response :success
     assert_not_nil assigns(:entities)

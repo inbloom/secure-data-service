@@ -44,7 +44,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-        Resource.SLC_JSON_MEDIA_TYPE })
+        Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 public class Resource {
     
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
@@ -113,7 +113,7 @@ public class Resource {
      * @param max
      *            maximum number of results to return
      * @param fullEntities
-     *            TODO
+     *            whether or not the full entity should be returned or just the link
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
@@ -125,7 +125,8 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max,
-            @QueryParam("full-entities") @DefaultValue("false") final boolean fullEntities, @Context final UriInfo uriInfo) {
+            @QueryParam("full-entities") @DefaultValue("false") final boolean fullEntities,
+            @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -155,7 +156,7 @@ public class Resource {
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
-
+            
         });
     }
     
@@ -174,7 +175,23 @@ public class Resource {
     private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
         return entityDef.getService().get(associationIds);
     }
-
+    
+    /**
+     * Get the full entities, not just links
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @param uriInfo
+     * @return A single entity or association, unless the type references an association and the id
+     *         represents the source entity. In that case a collection of associations.
+     * @response.representation.200.mediaType application/json
+     */
     @GET
     @Path("{id}")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
