@@ -2,5 +2,5 @@ development:
     api_base: https://devapp1.slidev.org/api/rest
 test:
     api_base: https://devapp1.slidev.org/api/rest
-production:
+deployment:
     api_base: https://devapp1.slidev.org/api/rest
