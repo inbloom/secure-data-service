@@ -47,6 +47,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
         Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 public class Resource {
     
+    private static final String FULL_ENTITIES_PARAM = "full-entities";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     public static final String SLC_XML_MEDIA_TYPE = "application/vnd.slc+xml";
@@ -113,7 +114,7 @@ public class Resource {
      * @param max
      *            maximum number of results to return
      * @param fullEntities
-     *            whether or not the full entity should be returned or just the link
+     *            whether or not the full entity should be returned or just the link.  Defaults to false
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
@@ -125,7 +126,7 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max,
-            @QueryParam("full-entities") @DefaultValue("false") final boolean fullEntities,
+            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
@@ -275,6 +276,8 @@ public class Resource {
      *            number of results to skip
      * @param max
      *            maximum number of results to return
+     * @param fullEntities
+     *            whether or not the full entity should be returned or just the link.  Defaults to false
      * @param uriInfo
      * @return A collection of entities that are the targets of the specified source in an
      *         association
@@ -282,9 +285,12 @@ public class Resource {
      */
     @GET
     @Path("{id}/targets")
+    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+            @QueryParam("max-results") @DefaultValue("50") final int max,
+            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
+            @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -304,19 +310,59 @@ public class Resource {
                         return Response.status(Status.NOT_FOUND).build();
                     }
                     
-                    CollectionResponse collection = new CollectionResponse();
-                    if (relatives != null && relatives.iterator().hasNext()) {
-                        for (String id : relatives) {
-                            String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
-                            collection.add(id, ResourceUtil.SELF, relative.getType(), href);
-                        }
+                    if (fullEntities) {
+                        return Response.ok(getHoppedEntities(relatives, relative)).build();
+                    } else {
+                        CollectionResponse collection = getHoppedLinks(uriInfo, relatives, relative);
+                        return Response.ok(collection).build();
                     }
-                    return Response.ok(collection).build();
                 } else {
                     return Response.status(Status.NOT_FOUND).build();
                 }
             }
+            
         });
+    }
+    
+    private CollectionResponse getHoppedLinks(final UriInfo uriInfo, Iterable<String> relatives,
+            EntityDefinition relative) {
+        CollectionResponse collection = new CollectionResponse();
+        if (relatives != null && relatives.iterator().hasNext()) {
+            for (String id : relatives) {
+                String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
+                collection.add(id, ResourceUtil.SELF, relative.getType(), href);
+            }
+        }
+        return collection;
+    }
+    
+    private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef) {
+        return relativeDef.getService().get(relatives);
+    }
+    
+    /**
+     * Get the full entities, not just links
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @param uriInfo
+     * @return A collection of entities that are the targets of the specified source in an
+     *         association
+     * @response.representation.200.mediaType application/json
+     */
+    @GET
+    @Path("{id}/targets")
+    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
+    public Response getFullHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
+            @QueryParam("start-index") @DefaultValue("0") final int skip,
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+        return getHoppedRelatives(typePath, id, skip, max, true, uriInfo);
     }
     
     /**
