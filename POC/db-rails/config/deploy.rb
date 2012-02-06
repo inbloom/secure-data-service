@@ -1,14 +1,69 @@
-set :application, "Data Prowler"
-set :repository,  "git@github.com:WGEN-SLI/SLI.git"
+require "bundler/capistrano"
 
-#set :deploy_to, "/opt/rails/admin"
+working_dir = "POC/db-rails"
+
+set :application, "Identity Management Admin Tool"
+set :repository,  "git@github.com:WGEN-SLI/SLI.git"
+set :bundle_gemfile, "#{working_dir}/Gemfile"
+
+set :user, "rails"
+set :use_sudo, false
+set :deploy_via, :remote_cache
+set :deploy_to, "~/prowler"
 
 set :scm, :git
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-server "testapi1.slidev.org", :web, :app, :db, :primary => true
-server "devapp1.slidev.org", :web, :app, :db, :primary => true
-server "devapi1.slidev.org", :web, :app, :db, :primary => true
+
+
+
+# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+server "devrails1.slidev.org", :app, :web, :db, :primary => true
+
+# Generate an additional task to fire up the thin clusters
+namespace :deploy do
+  desc "Start the Thin processes"
+  task :start do
+    run  <<-CMD
+      cd #{deploy_to}/current/#{working_dir}; bundle exec thin start -C config/thin.yml
+    CMD
+  end
+
+  desc "Stop the Thin processes"
+  task :stop do
+    run  <<-CMD
+      cd #{deploy_to}/current/#{working_dir}; bundle exec thin stop -C config/thin.yml
+    CMD
+  end
+
+  desc "Restart the Thin processes"
+  task :restart do
+    stop
+    start
+  end
+  
+  task :finalize_update, :except => { :no_release => true } do
+    run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
+
+    # mkdir -p is making sure that the directories are there for some SCM's that don't
+    # save empty folders
+    run <<-CMD
+      rm -rf #{latest_release}/log #{latest_release}/public/system #{latest_release}/tmp/pids &&
+      mkdir -p #{latest_release}/public &&
+      mkdir -p #{latest_release}/tmp &&
+      ln -s #{shared_path}/log #{latest_release}/log &&
+      ln -s #{shared_path}/system #{latest_release}/public/system &&
+      ln -s #{shared_path}/pids #{latest_release}/tmp/pids
+    CMD
+
+    if fetch(:normalize_asset_timestamps, true)
+      stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
+      asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).map { |p| "#{latest_release}/#{working_dir}/public/#{p}" }.join(" ")
+      run "find #{asset_paths} -exec touch -t #{stamp} {} ';'; true", :env => { "TZ" => "UTC" }
+    end
+  end
+
+end
+
 # role :web, "your web-server here"                          # Your HTTP server, Apache/etc
 # role :app, "your app-server here"                          # This may be the same as your `Web` server
 # role :db,  "your primary db-server here", :primary => true # This is where Rails migrations will run

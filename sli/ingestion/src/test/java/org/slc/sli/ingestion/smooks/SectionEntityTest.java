@@ -28,15 +28,65 @@ public class SectionEntityTest {
     @Autowired
     private EntityValidator validator;
 
+    String xmlTestData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+            + "<Section> "
+            + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+            + "<SequenceOfCourse>1</SequenceOfCourse>"
+            + "<EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>"
+            + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
+            + "<PopulationServed>Regular Students</PopulationServed>"
+            + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
+            +    "<Credit>0.05</Credit>"
+            + "</AvailableCredit>"
+            + "<CourseOfferingReference>"
+            +    "<CourseOfferingIdentity>"
+            +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+            +       "<Term>1</Term>"
+            +       "<SchoolYear>1996-1997</SchoolYear>"
+            +       "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
+            +            "<Id>23</Id>"
+            +       "</CourseCode>"
+            +    "</CourseOfferingIdentity>"
+            + "</CourseOfferingReference>"
+            + "<SchoolReference>"
+            +    "<EducationalOrgIdentity>"
+            +       "<StateOrganizationId>152901001</StateOrganizationId>"
+            +       "<EducationalOrgIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\">"
+            +           "<Id>23</Id>"
+            +       "</EducationalOrgIdentificationCode>"
+            +    "</EducationalOrgIdentity>"
+            + "</SchoolReference>"
+            + "<SessionReference>"
+            +   "<SessionIdentity>"
+            +       "<SessionName>223</SessionName>"
+            +       "<Term>2</Term>"
+            +       "<SchoolYear>1997-1998</SchoolYear>"
+            +   "</SessionIdentity>"
+            + "</SessionReference>"
+            + "<LocationReference>"
+            +   "<LocationIdentity>"
+            +       "<ClassroomIdentificationCode>ELU</ClassroomIdentificationCode>"
+            +   "</LocationIdentity>"
+            + "</LocationReference>"
+            + "<ProgramReference>"
+            +   "<ProgramIdentity>"
+            +       "<ProgramId>223</ProgramId>"
+            +       "<ProgramType>Bilingual</ProgramType>"
+            +   "</ProgramIdentity>"
+            + "</ProgramReference>"
+        + "</Section>"
+    + "</InterchangeEducationOrganization>";
+
+    String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+
+
     @Test
     public void testValidSectionCSV() throws Exception {
 
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        String testData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        ByteArrayInputStream testInput = new ByteArrayInputStream(csvTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
@@ -55,12 +105,10 @@ public class SectionEntityTest {
 
     @Test
     public void testValidatorSection() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-section-csv.xml";
-        String targetSelector = "csv-record";
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeEducationOrganization/Section";
 
-        String testData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
@@ -82,56 +130,7 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrganization/Section";
 
-        String testData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                                    + "<Section> "
-                                    + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
-                                    + "<SequenceOfCourse>1</SequenceOfCourse>"
-                                    + "<EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>"
-                                    + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
-                                    + "<PopulationServed>Regular Students</PopulationServed>"
-                                    + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
-                                    +    "<Credit>0.05</Credit>"
-                                    + "</AvailableCredit>"
-                                    + "<CourseOfferingReference>"
-                                    +    "<CourseOfferingIdentity>"
-                                    +       "<LocalCourseCode>ELA4</LocalCourseCode>"
-                                    +       "<Term>1</Term>"
-                                    +       "<SchoolYear>1996-1997</SchoolYear>"
-                                    +       "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
-                                    +            "<Id>23</Id>"
-                                    +       "</CourseCode>"
-                                    +    "</CourseOfferingIdentity>"
-                                    + "</CourseOfferingReference>"
-                                    + "<SchoolReference>"
-                                    +    "<EducationalOrgIdentity>"
-                                    +       "<StateOrganizationId>152901001</StateOrganizationId>"
-                                    +       "<EducationalOrgIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\">"
-                                    +           "<Id>23</Id>"
-                                    +       "</EducationalOrgIdentificationCode>"
-                                    +    "</EducationalOrgIdentity>"
-                                    + "</SchoolReference>"
-                                    + "<SessionReference>"
-                                    +   "<SessionIdentity>"
-                                    +       "<SessionName>223</SessionName>"
-                                    +       "<Term>2</Term>"
-                                    +       "<SchoolYear>1997-1998</SchoolYear>"
-                                    +   "</SessionIdentity>"
-                                    + "</SessionReference>"
-                                    + "<LocationReference>"
-                                    +   "<LocationIdentity>"
-                                    +       "<ClassroomIdentificationCode>ELU</ClassroomIdentificationCode>"
-                                    +   "</LocationIdentity>"
-                                    + "</LocationReference>"
-                                    + "<ProgramReference>"
-                                    +   "<ProgramIdentity>"
-                                    +       "<ProgramId>223</ProgramId>"
-                                    +       "<ProgramType>Bilingual</ProgramType>"
-                                    +   "</ProgramIdentity>"
-                                    + "</ProgramReference>"
-                                + "</Section>"
-                            + "</InterchangeEducationOrganization>";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
@@ -167,45 +166,15 @@ public class SectionEntityTest {
         Assert.assertEquals("0.05", availableCredit.get("creditConversion").toString());
         Assert.assertEquals("0.05", availableCredit.get("credit").toString());
 
-        Map<String, Object> courseOfferingReference = (Map<String, Object>) entity.get("courseOfferingReference");
-        Assert.assertTrue(courseOfferingReference != null);
-        Assert.assertEquals("ELA4", courseOfferingReference.get("localCourseCode"));
-        Assert.assertEquals("1", courseOfferingReference.get("term"));
-        Assert.assertEquals("1996-1997", courseOfferingReference.get("schoolYear"));
-        List<Map<String, Object>> courseCodeList = (List<Map<String, Object>>) courseOfferingReference.get("courseCode");
-        Assert.assertTrue(courseCodeList != null);
-        Map<String, Object> courseCode = courseCodeList.get(0);
-        Assert.assertTrue(courseCode != null);
-        Assert.assertEquals("NCES Pilot SNCCS course code", courseCode.get("identificationSystem"));
-        Assert.assertEquals("ELU", courseCode.get("assigningOrganizationCode"));
-        Assert.assertEquals("23", courseCode.get("iD"));
+        Assert.assertEquals("ELA4", entity.get("courseOfferingReference"));
 
-        Map<String, Object> schoolReference = (Map<String, Object>) entity.get("schoolReference");
-        Assert.assertTrue(schoolReference != null);
-        Assert.assertEquals("152901001", schoolReference.get("stateOrganizationId"));
-        List<Map<String, Object>> educationalOrgIdentificationCodeList = (List<Map<String, Object>>) schoolReference.get("educationalOrgIdentificationCode");
-        Assert.assertTrue(educationalOrgIdentificationCodeList != null);
-        Map<String, Object> educationalOrgIdentificationCode = educationalOrgIdentificationCodeList.get(0);
-        Assert.assertTrue(educationalOrgIdentificationCode != null);
-        Assert.assertEquals("NCES Pilot SNCCS course code", educationalOrgIdentificationCode.get("identificationSystem"));
-        Assert.assertEquals("23", educationalOrgIdentificationCode.get("iD"));
+        Assert.assertEquals("152901001", entity.get("schoolReference"));
 
-        Map<String, Object> locationReference = (Map<String, Object>) entity.get("locationReference");
-        Assert.assertTrue(locationReference != null);
-        Assert.assertEquals("ELU", locationReference.get("classroomIdentificationCode"));
+        Assert.assertEquals("223", entity.get("sessionReference"));
 
-        Map<String, Object> sessionReference = (Map<String, Object>) entity.get("sessionReference");
-        Assert.assertTrue(sessionReference != null);
-        Assert.assertEquals("223", sessionReference.get("sessionName"));
-        Assert.assertEquals("2", sessionReference.get("term"));
-        Assert.assertEquals("1997-1998", sessionReference.get("schoolYear"));
-
-        List<Map<String, Object>> programReferenceList = (List<Map<String, Object>>) entity.get("programReference");
+        List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
-        Map<String, Object> programReference = (Map<String, Object>) programReferenceList.get(0);
-        Assert.assertTrue(programReference != null);
-        Assert.assertEquals("223", programReference.get("programId"));
-        Assert.assertEquals("Bilingual", programReference.get("programType"));
+        Assert.assertEquals("223", programReferenceList.get(0));
 
     }
 }

@@ -1,6 +1,6 @@
 development:
-    api_base: https://testapi1.slidev.org/api/rest
+    api_base: https://devapp1.slidev.org/api/rest
 test:
-    api_base: https://testapi1.slidev.org/api/rest
-production:
-    api_base: https://testapi1.slidev.org/api/rest
+    api_base: https://devapp1.slidev.org/api/rest
+deployment:
+    api_base: https://devapp1.slidev.org/api/rest
