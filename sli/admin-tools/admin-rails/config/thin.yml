@@ -1,0 +1,3 @@
+port: 3000
+environment: deployment
+pid: tmp/pid/thin-admin.pid

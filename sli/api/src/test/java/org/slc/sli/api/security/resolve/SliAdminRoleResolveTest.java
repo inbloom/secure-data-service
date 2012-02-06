@@ -4,7 +4,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -21,6 +24,7 @@ import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -44,6 +48,9 @@ public class SliAdminRoleResolveTest {
     private List<String> rolesContainingAdmin = null;
     private List<String> rolesNotContainingAdmin = null;
     
+    @Autowired
+    private MockRepo mockRepo;
+    
     @Before
     public void setUp() throws Exception {
         
@@ -52,8 +59,9 @@ public class SliAdminRoleResolveTest {
         when(validator.isSliAdminRealm(ADMIN_REALM_NAME)).thenReturn(true);
         when(validator.isSliAdminRealm("")).thenReturn(false);
         
-        RoleRightAccess rra = mock(RoleRightAccess.class);
         
+        RoleRightAccess rra = mock(RoleRightAccess.class);
+        mockRepo.create("realm", buildRealm());
         // Define educator per RoleInitializer
         when(rra.getDefaultRole(RoleInitializer.EDUCATOR)).thenReturn(
                 RoleBuilder.makeRole(RoleInitializer.EDUCATOR)
@@ -98,4 +106,18 @@ public class SliAdminRoleResolveTest {
         Assert.assertFalse(roles.contains(Right.ADMIN_ACCESS));
     }
     
+    private Map<String, Object> buildRealm() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("state", "Admin Realm");
+        result.put("realm", "dc=adminrealm,dc=org");
+        Map<String, List<String>> mappings = new HashMap<String, List<String>>();
+        mappings.put(RoleInitializer.SLI_ADMINISTRATOR, Arrays.asList(new String[]{RoleInitializer.SLI_ADMINISTRATOR}));
+        mappings.put(RoleInitializer.AGGREGATE_VIEWER, Arrays.asList(new String[]{RoleInitializer.AGGREGATE_VIEWER}));
+        mappings.put(RoleInitializer.IT_ADMINISTRATOR, Arrays.asList(new String[]{RoleInitializer.IT_ADMINISTRATOR}));
+        mappings.put(RoleInitializer.LEADER, Arrays.asList(new String[]{RoleInitializer.LEADER}));
+        mappings.put(RoleInitializer.EDUCATOR, Arrays.asList(new String[]{RoleInitializer.EDUCATOR}));
+
+        result.put("mappings", mappings);
+        return result;
+    }
 }
