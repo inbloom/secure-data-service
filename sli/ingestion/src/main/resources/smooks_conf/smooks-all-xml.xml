@@ -500,7 +500,7 @@
 
   <jb:bean beanId="teacherAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:value property="staffUniqueStateId" data="Teacher/StaffUniqueStateId" />
-    <jb:wiring property="staffIndentificationCode" beanIdRef="staffIndentificationCodeType" />
+    <jb:wiring property="staffIndentificationCode" beanIdRef="staffIndentificationCodeTypeArray" />
     <jb:wiring property="name" beanIdRef="teacherNameType" />
     <jb:value property="sex" data="Teacher/Sex" />
     <jb:value property="birthDate" data="BirthDate" />
