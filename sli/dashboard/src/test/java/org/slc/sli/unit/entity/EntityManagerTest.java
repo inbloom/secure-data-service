@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.entity.EntityManager;
-import org.slc.sli.entity.SimpleEntity;
+import org.slc.sli.entity.GenericEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +37,15 @@ public class EntityManagerTest {
     public void testOneEntity() {
         
         try {
-            SimpleEntity entity = new SimpleEntity();
+            GenericEntity entity = new GenericEntity();
             entity.put("name", "entityName");
-            List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
+            List<GenericEntity> entityList = new ArrayList<GenericEntity>();
             entityList.add(entity);
             
             File tempFile = File.createTempFile("test", ".json");
             entityManager.toFile(tempFile.getPath(), entityList);
-            List<SimpleEntity> verifyEntityList = entityManager.fromFile(tempFile.getPath());
-            SimpleEntity verifyEntity = verifyEntityList.get(0);
+            List<GenericEntity> verifyEntityList = entityManager.fromFile(tempFile.getPath());
+            GenericEntity verifyEntity = verifyEntityList.get(0);
             
             assertNotNull("Entity JSON conversion failed", verifyEntityList);
             assertEquals("Entity name corrupted during conversion", entity.get("name"), verifyEntity.get("name"));
@@ -59,19 +59,19 @@ public class EntityManagerTest {
     public void testEntityListOfTwo() {
         
         try {
-            SimpleEntity entityOne = new SimpleEntity();
+            GenericEntity entityOne = new GenericEntity();
             entityOne.put("name", "entityOne");
-            SimpleEntity entityTwo = new SimpleEntity();
+            GenericEntity entityTwo = new GenericEntity();
             entityTwo.put("name", "entityTwo");
-            List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
+            List<GenericEntity> entityList = new ArrayList<GenericEntity>();
             entityList.add(entityOne);
             entityList.add(entityTwo);
             
             File tempFile = File.createTempFile("test", ".json");
             entityManager.toFile(tempFile.getPath(), entityList);
-            List<SimpleEntity> verifyEntityList = entityManager.fromFile(tempFile.getPath());
-            SimpleEntity verifyEntityOne = verifyEntityList.get(0);
-            SimpleEntity verifyEntityTwo = verifyEntityList.get(1);
+            List<GenericEntity> verifyEntityList = entityManager.fromFile(tempFile.getPath());
+            GenericEntity verifyEntityOne = verifyEntityList.get(0);
+            GenericEntity verifyEntityTwo = verifyEntityList.get(1);
             
             assertNotNull("Entity JSON conversion failed", verifyEntityList);
             assertEquals("Entity one name corrupted during conversion", entityOne.get("name"), verifyEntityOne.get("name"));

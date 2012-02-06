@@ -1,10 +1,10 @@
 package org.slc.sli.view.widget;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -16,11 +16,11 @@ import org.slc.sli.view.AssessmentResolver;
 public class FuelGauge {
     
     private Field field;
-    private GenericEntity student;
+    private Map student;
     private AssessmentResolver assmts;
     private ColorByPerf colorByPerf;
 
-    public FuelGauge(Field field, GenericEntity student, AssessmentResolver assmts) {
+    public FuelGauge(Field field, Map student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;

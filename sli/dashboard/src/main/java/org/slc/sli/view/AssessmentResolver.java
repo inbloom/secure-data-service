@@ -2,6 +2,7 @@ package org.slc.sli.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.Assessment;
@@ -47,7 +48,7 @@ public class AssessmentResolver {
      * Looks up a representation for the result of the assessment, taken by the student 
      * Returns the string representation of the result, identified by the Field
      */
-    public String get(Field field, GenericEntity student) {
+    public String get(Field field, Map student) {
         // look up the assessment. 
         Assessment chosenAssessment = resolveAssessment(field, student);
         // get the data point
@@ -77,7 +78,7 @@ public class AssessmentResolver {
      * Looks up the cutpoints for the result returned by get(field, student);
      * (used by fuel gauge visualization widget)
      */
-    public List<Integer> getCutpoints(Field field, GenericEntity student) {
+    public List<Integer> getCutpoints(Field field, Map student) {
         // look up the assessment. 
         Assessment chosenAssessment = resolveAssessment(field, student);
         if (chosenAssessment == null) { return null; }
@@ -93,7 +94,7 @@ public class AssessmentResolver {
     /*
      * Looks up a representation for the result of the assessment, taken by the student 
      */
-    public Assessment resolveAssessment(Field field, GenericEntity student) {
+    public Assessment resolveAssessment(Field field, Map student) {
 
         // This first implementation is gruelingly inefficient. But, whateves... it's gonna be 
         // thrown away. 
@@ -101,7 +102,7 @@ public class AssessmentResolver {
         // A) filter out students first
         List<Assessment> studentFiltered = new ArrayList<Assessment>();
         for (Assessment a : assessments) {
-            if (a.getStudentId().equals(student.getEntityId())) {
+            if (a.getStudentId().equals(student.get("id"))) {
                 studentFiltered.add(a);
             }
         }

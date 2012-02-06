@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.GenericEntityOld;
 
 /**
  * Unit tests for the GenericEntity class
@@ -31,7 +31,7 @@ public class GenericEntityTest {
     	// convert to generic entity
     	Gson gson = new Gson();
     	Map<String, Object> map = gson.fromJson(studentJson, new TypeToken<Map<String, Object>>(){ }.getType());
-    	GenericEntity entity = new GenericEntity();
+    	GenericEntityOld entity = new GenericEntityOld();
     	entity.setType("student");
     	entity.setEntityId("01");
     	entity.setBody(map);
@@ -52,13 +52,13 @@ public class GenericEntityTest {
     	Gson gson = new Gson();
     	List<Map<String, Object>> maps = gson.fromJson(studentJson, new TypeToken<List<Map<String, Object>>>(){ }.getType());
     	
-    	GenericEntity entity = new GenericEntity();
+    	GenericEntityOld entity = new GenericEntityOld();
     	entity.setType("student");
     	entity.setEntityId("01");
     	entity.setBody(maps.get(0));
     	System.out.println(entity.getBody());
     	
-    	GenericEntity entity2 = new GenericEntity();
+    	GenericEntityOld entity2 = new GenericEntityOld();
     	entity2.setType("student");
     	entity2.setEntityId("02");
     	entity2.setBody(maps.get(1));

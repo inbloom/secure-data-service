@@ -1,5 +1,7 @@
 package org.slc.sli.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.config.ConfigUtil;
+import org.slc.sli.config.Field;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.util.SecurityUtil;
 
 
 /**
@@ -24,10 +31,10 @@ public class PopulationManager {
     @Autowired
     public EntityManager entityManager;
     
-    private Map<String, SimpleEntity> assessmentFamilyMap;
+    private Map<String, GenericEntity> assessmentFamilyMap;
     
     public PopulationManager() { 
-        assessmentFamilyMap = new HashMap<String, SimpleEntity>();
+        assessmentFamilyMap = new HashMap<String, GenericEntity>();
     }
     
     /**
@@ -36,8 +43,8 @@ public class PopulationManager {
      */
     public void init() {
         
-        List<SimpleEntity> assessmentMetaDataList = entityManager.getAssessmentMetadata();
-        for (SimpleEntity assessmentFamily : assessmentMetaDataList) {
+        List<GenericEntity> assessmentMetaDataList = entityManager.getAssessmentMetadata();
+        for (GenericEntity assessmentFamily : assessmentMetaDataList) {
             List<Map> assessments = (List<Map>) assessmentFamily.get("children");
             
             for (Map assessment : assessments) {
@@ -53,7 +60,7 @@ public class PopulationManager {
      * @return assessmentFamilyMap
      *         - the assessment family map
      */
-    public Map<String, SimpleEntity> getAssessmentFamilyMap() {
+    public Map<String, GenericEntity> getAssessmentFamilyMap() {
         return this.assessmentFamilyMap;
     }
     
@@ -68,29 +75,29 @@ public class PopulationManager {
      * @return studentList
      *         - the student summary entity list
      */
-    public List<SimpleEntity> getStudentSummaries(String token, List<String> studentIds) {
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds) {
         
-        List<SimpleEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
-        List<SimpleEntity> studentAssessments = entityManager.getAssessments(token, studentIds);
-        List<SimpleEntity> studentSummaries = entityManager.getStudents(token, studentIds);
+        List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
+        List<GenericEntity> studentAssessments = entityManager.getAssessments(token, studentIds);
+        List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         
         // Initialize student programs
         Map studentProgramMap = new HashMap<String, Object>();
-        for (SimpleEntity studentProgram : studentPrograms) {
+        for (GenericEntity studentProgram : studentPrograms) {
             List<String> programs = (List<String>) studentProgram.get("programs");            
             studentProgramMap.put(studentProgram.get("studentId"), programs);
         }
 
         // Initialize student assessments
         Map studentAssessmentMap = new HashMap<String, Object>();
-        for (SimpleEntity studentAssessment : studentAssessments) {
+        for (GenericEntity studentAssessment : studentAssessments) {
             String assessmentName = (String) studentAssessment.get("assessmentName");
             studentAssessment.put("assessmentFamily", this.getAssessmentFamilyMap().get(assessmentName));
             studentAssessmentMap.put(studentAssessment.get("studentId"), studentAssessment);
         }
 
         // Initialize student summaries
-        for (SimpleEntity studentSummary : studentSummaries) {
+        for (GenericEntity studentSummary : studentSummaries) {
             String id = (String) studentSummary.get("id");
             studentSummary.put("programs", studentProgramMap.get(id));
             studentSummary.put("assessments", studentAssessmentMap.get(id));
@@ -98,6 +105,29 @@ public class PopulationManager {
         
         return studentSummaries;
     }
+    
+    /**
+     * 
+     * @param username
+     * @param studentIds
+     * @param config
+     * @return
+     */
+    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
+        
+        // extract the studentInfo data fields
+        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
+        
+        // call the entity manager
+        List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
+        if (dataFields.size() > 0) {
+            studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
+        }
+        
+        // return the results
+        return studentInfo;
+    }
+    
     
     public static void main(String[] arguments) {
         
@@ -114,7 +144,7 @@ public class PopulationManager {
             
             log.info("Building Student Summaries...");
 
-            List<SimpleEntity> studentSummaries = populationManager.getStudentSummaries(token, null);
+            List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(token, null);
             
             log.info("Building Student Summaries Again...");
 

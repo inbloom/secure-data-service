@@ -1,12 +1,13 @@
 package org.slc.sli.view.widget;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.Student;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -19,7 +20,7 @@ public class ColorByPerf {
     private static Logger logger = LoggerFactory.getLogger(ColorByPerf.class);
 
     private Field field;
-    private GenericEntity student;
+    private Map student;
     private AssessmentResolver assmts;
     
     private static final int MAX_LEVELS = 5;
@@ -31,7 +32,7 @@ public class ColorByPerf {
                                           {1, 2, 4, 5, 0}, // 4 levels
                                           {1, 2, 3, 4, 5}};  // 5 levels
                                          
-    public ColorByPerf(Field field, GenericEntity student, AssessmentResolver assmts) {
+    public ColorByPerf(Field field, Map student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;

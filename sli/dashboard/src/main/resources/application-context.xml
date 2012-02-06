@@ -27,6 +27,7 @@
         <property name="configManager"     ref="configManager"/>
         <property name="studentManager"    ref="studentManager"/>
         <property name="assessmentManager" ref="assessmentManager"/>
+        <property name="populationManager" ref="populationManager"/>
     </bean>
     
     <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController" />

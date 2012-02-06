@@ -16,7 +16,7 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.Student;
+import org.slc.sli.entity.GenericEntityOld;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
@@ -79,7 +79,7 @@ public class AssessmentResolverTest {
     private List<Assessment> getAssessments() {
         String studentId = "111111111";
         student = new GenericEntity();
-        student.setEntityId(studentId);
+        student.put("id", studentId);
         String[] studentIdArray = (String[]) Arrays.asList(studentId).toArray();
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());

@@ -44,7 +44,7 @@ public class MockAPIClient implements APIClient {
         Vector<GenericEntity> filtered = new Vector<GenericEntity>();
         if (studentIds != null) {
             for (GenericEntity student : students) { 
-                if (studentIds.contains(student.getEntityId())) { 
+                if (studentIds.contains(student.get("id"))) { 
                     filtered.add(student);
                 }
             }
@@ -166,9 +166,9 @@ public class MockAPIClient implements APIClient {
             int i = 0;
             for (Map<String, Object> map : maps) {
                 GenericEntity e = new GenericEntity();
-                e.setType(type);
-                e.setEntityId((String) (map.get("id")));
-                e.setBody(map);
+                //e.setType(type);
+                //e.setEntityId((String) (map.get("id")));
+                //e.setBody(map);
                 entities[i++] = e;
             }
             return entities;

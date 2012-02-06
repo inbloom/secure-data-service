@@ -1,7 +1,8 @@
 package org.slc.sli.view.widget;
 
+import java.util.Map;
+
 import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.Student;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
@@ -16,10 +17,10 @@ import org.slc.sli.view.StudentResolver;
  */
 public class WidgetFactory {
     
-    public static ColorByPerf createColorByPerf(Field field, GenericEntity student, AssessmentResolver assmts) {
+    public static ColorByPerf createColorByPerf(Field field, Map student, AssessmentResolver assmts) {
         return new ColorByPerf(field, student, assmts);
     }
-    public static FuelGauge createFuelGauge(Field field, GenericEntity student, AssessmentResolver assmts) {
+    public static FuelGauge createFuelGauge(Field field, Map student, AssessmentResolver assmts) {
         return new FuelGauge(field, student, assmts);
     }
     

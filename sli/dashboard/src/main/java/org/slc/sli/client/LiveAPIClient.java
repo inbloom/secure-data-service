@@ -262,9 +262,6 @@ public class LiveAPIClient implements APIClient {
         
         // populate list of generic entities
         GenericEntity e = new GenericEntity();
-        e.setType(type);
-        e.setEntityId((String) (map.get("id")));
-        e.setBody(map);
         return e;
     }
 }

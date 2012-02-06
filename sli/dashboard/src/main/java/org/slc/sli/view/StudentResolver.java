@@ -1,12 +1,10 @@
 package org.slc.sli.view;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 
 
@@ -40,13 +38,14 @@ public class StudentResolver {
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      */
-    public String get(Field field, GenericEntity student) {
+    //public String get(Field field, GenericEntity student) {
+    public String get(Field field, Map student) {
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals("name")) {
             // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
             //return student.getFirstName() + " " + student.getLastName();
-            return ((Map) (student.getBody().get("name"))).get("firstName") + " " + ((Map) (student.getBody().get("name"))).get("lastSurname");
+            return ((Map) (student.get("name"))).get("firstName") + " " + ((Map) (student.get("name"))).get("lastSurname");
         } 
         return "";
     }

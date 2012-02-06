@@ -64,7 +64,7 @@ public class EntityManager {
      * @return schoolList
      *         - the school entity list
      */
-    public List<SimpleEntity> getSchools(final String token, List<String> schoolIds) {
+    public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
     }
     
@@ -78,7 +78,7 @@ public class EntityManager {
      * @return school
      *         - the school entity
      */
-    public SimpleEntity getSchool(final String token, String schoolId) {
+    public GenericEntity getSchool(final String token, String schoolId) {
         return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolId);
     }
     
@@ -93,7 +93,7 @@ public class EntityManager {
      * @return studentList
      *         - the student entity list
      */
-    public List<SimpleEntity> getStudents(final String token, List<String> studentIds) {
+    public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
     }
     
@@ -107,7 +107,7 @@ public class EntityManager {
      * @return student
      *         - the student entity
      */
-    public SimpleEntity getStudent(final String token, String studentId) {
+    public GenericEntity getStudent(final String token, String studentId) {
         return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
     }
     
@@ -122,7 +122,7 @@ public class EntityManager {
      * @return programList
      *         - the program entity list
      */
-    public List<SimpleEntity> getPrograms(final String token, List<String> studentIds) {
+    public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), studentIds);
     }
     
@@ -136,7 +136,7 @@ public class EntityManager {
      * @return program
      *         - the program entity
      */
-    public SimpleEntity getProgram(final String token, String studentId) {
+    public GenericEntity getProgram(final String token, String studentId) {
         return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), studentId);
     }
     
@@ -146,7 +146,7 @@ public class EntityManager {
      * @return assessmentMetadataList
      *         - the assessment metadata entity list
      */
-    public List<SimpleEntity> getAssessmentMetadata() {
+    public List<GenericEntity> getAssessmentMetadata() {
         return this.getEntities("", getResourceFilePath(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
     }
     
@@ -161,7 +161,7 @@ public class EntityManager {
      * @return assessmentList
      *         - the assessment entity list
      */
-    public List<SimpleEntity> getAssessments(final String token, List<String> studentIds) {
+    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), studentIds);
     }
     
@@ -175,7 +175,7 @@ public class EntityManager {
      * @return assessment
      *         - the assessment entity
      */
-    public SimpleEntity getAssessment(final String token, String studentId) {
+    public GenericEntity getAssessment(final String token, String studentId) {
         return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), studentId);
     }
     
@@ -191,15 +191,15 @@ public class EntityManager {
      * @return entityList
      *         - the entity list
      */
-    public List<SimpleEntity> getEntities(final String token, String filePath, List<String> entityIds) {
+    public List<GenericEntity> getEntities(final String token, String filePath, List<String> entityIds) {
         
         // Get all the entities for the user identified by token
-        List<SimpleEntity> entities = fromFile(filePath);
+        List<GenericEntity> entities = fromFile(filePath);
         
         // Filter entities according to the entity id list
-        List<SimpleEntity> filteredEntities = new ArrayList<SimpleEntity>();
+        List<GenericEntity> filteredEntities = new ArrayList<GenericEntity>();
         if (entityIds != null) {
-            for (SimpleEntity entity : entities) {
+            for (GenericEntity entity : entities) {
                 if (entityIds.contains(entity.get("id"))) {
                     filteredEntities.add(entity);
                 }
@@ -223,14 +223,14 @@ public class EntityManager {
      * @return entity
      *         - the entity entity
      */
-    public SimpleEntity getEntity(final String token, String filePath, String id) {
+    public GenericEntity getEntity(final String token, String filePath, String id) {
         
         // Get all the entities for the user identified by token
-        List<SimpleEntity> entities = fromFile(filePath);
+        List<GenericEntity> entities = fromFile(filePath);
         
         // Select entity identified by id
         if (id != null) {
-            for (SimpleEntity entity : entities) {
+            for (GenericEntity entity : entities) {
                 if (id.equals(entity.get("id"))) {
                     return entity;
                 }
@@ -250,7 +250,7 @@ public class EntityManager {
      * @param entityList
      *            - the generic entity list
      */
-    public void toAPI(String token, String url, List<SimpleEntity> entityList) {
+    public void toAPI(String token, String url, List<GenericEntity> entityList) {
         
         // TODO - Implement when supported by REST API
         
@@ -267,8 +267,8 @@ public class EntityManager {
      * @return entityList
      *         - the generic entity list
      */
-    public List<SimpleEntity> fromAPI(String token, String url) {
-        List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
+    public List<GenericEntity> fromAPI(String token, String url) {
+        List<GenericEntity> entityList = new ArrayList<GenericEntity>();
         
         // Invoke REST API
         RestTemplate template = new RestTemplate();
@@ -282,10 +282,10 @@ public class EntityManager {
 
         // Parse JSON
         Gson gson = new Gson();
-        List<SimpleEntity> maps = gson.fromJson(apiResponse.getBody(), new ArrayList<SimpleEntity>().getClass());
+        List<GenericEntity> maps = gson.fromJson(apiResponse.getBody(), new ArrayList<GenericEntity>().getClass());
             
         for (Map<String, Object> map : maps) {
-            entityList.add(new SimpleEntity(map));
+            entityList.add(new GenericEntity(map));
         }
 
         return entityList;
@@ -299,7 +299,7 @@ public class EntityManager {
      * @param entityList
      *            - the generic entity list
      */
-    public void toFile(String filePath, List<SimpleEntity> entityList) {
+    public void toFile(String filePath, List<GenericEntity> entityList) {
         
         BufferedWriter writer = null;
         
@@ -334,8 +334,8 @@ public class EntityManager {
      * @return entityList
      *         - the generic entity list
      */
-    public List<SimpleEntity> fromFile(String filePath) {
-        List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
+    public List<GenericEntity> fromFile(String filePath) {
+        List<GenericEntity> entityList = new ArrayList<GenericEntity>();
         
         BufferedReader reader = null;
         
@@ -354,7 +354,7 @@ public class EntityManager {
             List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
             
             for (Map<String, Object> map : maps) {
-                entityList.add(new SimpleEntity(map));
+                entityList.add(new GenericEntity(map));
             }
 
         } catch (IOException e) {
@@ -393,7 +393,7 @@ public class EntityManager {
             
             EntityManager entityManager = new EntityManager();
             
-            List<SimpleEntity> students = entityManager.getStudents(token, null);
+            List<GenericEntity> students = entityManager.getStudents(token, null);
             
             log.info(students.toString());
             
