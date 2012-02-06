@@ -1,7 +1,6 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +29,11 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.enums.Right;
-import org.slc.sli.validation.EntitySchemaRegistry;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -49,28 +47,27 @@ import org.slc.sli.validation.EntitySchemaRegistry;
 @Component("basicService")
 public class BasicService implements EntityService {
     
-    private static final Logger       LOG                    = LoggerFactory.getLogger(BasicService.class);
+    private static final String  ADMIN_SPHERE    = "Admin";
     
-    private static final List<String> ADMIN_SPHERE           = Arrays.asList("realm", "role");
-    private static final String       READ_ENFORCEMENT_VALUE = "restricted";
-    private static final String       READ_ENFORCEMENT       = "read_enforcement";
-    private static final int          MAX_RESULT_SIZE        = 9999;
+    private static final Logger  LOG             = LoggerFactory.getLogger(BasicService.class);
     
-    private String                    collectionName;
-    private List<Treatment>           treatments;
-    private EntityDefinition          defn;
+    private static final int     MAX_RESULT_SIZE = 9999;
     
-    @Autowired
-    private EntityRepository          repo;
+    private String               collectionName;
+    private List<Treatment>      treatments;
+    private EntityDefinition     defn;
     
     @Autowired
-    private ContextResolverStore      contextResolverStore;
+    private EntityRepository     repo;
     
     @Autowired
-    private EntitySchemaRegistry      schemaRegistry;
+    private ContextResolverStore contextResolverStore;
     
     @Autowired
-    private IdConverter               idConverter;
+    private SchemaDataProvider   provider;
+    
+    @Autowired
+    private IdConverter          idConverter;
     
     public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
@@ -81,7 +78,7 @@ public class BasicService implements EntityService {
     public String create(EntityBody content) {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
         
-        checkRights(determineWriteAccess(content));
+        checkRights(determineWriteAccess(content, ""));
         
         return repo.create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
     }
@@ -106,7 +103,7 @@ public class BasicService implements EntityService {
     public boolean update(String id, EntityBody content) {
         LOG.debug("Updating {} in {}", new String[] { id, collectionName });
         
-        checkAccess(determineWriteAccess(content), id);
+        checkAccess(determineWriteAccess(content, ""), id);
         
         Entity entity = repo.find(collectionName, id);
         if (entity == null) {
@@ -223,7 +220,7 @@ public class BasicService implements EntityService {
         }
         
         // Blank out fields inaccessible to the user
-        filterFields(toReturn);
+        filterFields(toReturn, "");
         
         return toReturn;
     }
@@ -290,7 +287,7 @@ public class BasicService implements EntityService {
     
     private void checkRights(Right neededRight) {
         
-        if (ADMIN_SPHERE.contains(this.defn.getType())) {
+        if (ADMIN_SPHERE.equals(this.provider.getDataSphere(this.defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
         
@@ -324,29 +321,31 @@ public class BasicService implements EntityService {
      * 
      * @param eb
      */
-    private void filterFields(EntityBody eb) {
+    @SuppressWarnings("unchecked")
+    private void filterFields(Map<String, Object> eb, String prefix) {
         
         Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         
-        if (!auths.contains(Right.READ_RESTRICTED)) {
-            Schema schema = schemaRegistry.findSchemaForName(defn.getType());
+        if (!auths.contains(Right.FULL_ACCESS)) {
+            Iterator<String> keyIter = eb.keySet().iterator();
             
-            if (schema != null) {
-                Iterator<String> keyIter = eb.keySet().iterator();
+            while (keyIter.hasNext()) {
+                String fieldName = keyIter.next();
+                Object value = eb.get(fieldName);
                 
-                while (keyIter.hasNext()) {
-                    String fieldName = keyIter.next();
+                if (value instanceof Map) {
+                    filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
+                } else {
+                    String fieldPath = prefix + fieldName;
+                    Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    LOG.debug("Field {} requires {}", fieldPath, neededRight);
                     
-                    Schema.Field field = schema.getField(fieldName);
-                    LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
-                    
-                    if (isRestrictedField(field)) {
+                    if (!auths.contains(neededRight)) {
                         keyIter.remove();
                     }
                 }
             }
         }
-        
     }
     
     /**
@@ -355,30 +354,31 @@ public class BasicService implements EntityService {
      * @param eb data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
      */
-    private Right determineWriteAccess(EntityBody eb) {
+    @SuppressWarnings("unchecked")
+    private Right determineWriteAccess(Map<String, Object> eb, String prefix) {
         Right toReturn = Right.WRITE_GENERAL;
-        Schema schema = schemaRegistry.findSchemaForName(defn.getType());
         
-        if (schema != null) {
-            Iterator<String> keyIter = eb.keySet().iterator();
+        Iterator<String> keyIter = eb.keySet().iterator();
+        
+        while (keyIter.hasNext()) {
+            String fieldName = keyIter.next();
+            Object value = eb.get(fieldName);
             
-            while (keyIter.hasNext()) {
-                String fieldName = keyIter.next();
+            if (value instanceof Map) {
+                filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
+            } else {
+                String fieldPath = prefix + fieldName;
+                Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                LOG.debug("Field {} requires {}", fieldPath, neededRight);
                 
-                Schema.Field field = schema.getField(fieldName);
-                LOG.debug("Field {} is restricted {}", fieldName, isRestrictedField(field));
-                
-                if (isRestrictedField(field)) {
+                if (neededRight == Right.WRITE_RESTRICTED) {
                     toReturn = Right.WRITE_RESTRICTED;
                     break;
                 }
             }
         }
+        
         return toReturn;
-    }
-    
-    private boolean isRestrictedField(Schema.Field field) {
-        return field != null && field.getProp(READ_ENFORCEMENT) != null && field.getProp(READ_ENFORCEMENT).equals(READ_ENFORCEMENT_VALUE);
     }
     
     /**
