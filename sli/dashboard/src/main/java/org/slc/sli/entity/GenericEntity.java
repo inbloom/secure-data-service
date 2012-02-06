@@ -16,6 +16,9 @@ public class GenericEntity implements Entity {
     String entityId;
     Map<String, Object> body;
     
+    public GenericEntity() {        
+    }
+    
     public void setType(String type) {
         this.type = type;
     }
