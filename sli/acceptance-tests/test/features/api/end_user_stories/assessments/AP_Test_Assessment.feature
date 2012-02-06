@@ -25,8 +25,6 @@ Scenario Outline:  As a leader I want to get the following attrubutes for all th
 		Then I should recieve a collection of 4 sections links
 		And after resolution, I should recieve a "Section" with ID <'Section 1' ID>
 		And after resolution, I should recieve a "Section" with ID <'Section 2' ID>
-		And after resolution, I should recieve a "Section" with ID <'Section 3' ID>
-		And after resolution, I should recieve a "Section" with ID <'Section 4' ID>
 		
 	When I navigate to each section	
 	Then I search for assessments with URI "/section-assessment-associations/<'Each Section' ID>/targets?AssessmentFamilyHierarchyName="AP"&AssessmentTile="AP English"&AssessmentSubject="English"
@@ -47,9 +45,14 @@ Scenario Outline:  As a leader I want to get the following attrubutes for all th
 				     "PerformanceLevel"= "4"
 				     "PerformanceLevel"= "5"
 		     And I should recieve a link to "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'AP English' ID>"
-	    
-	 When I navigate to GET "/student-assessment-associations/<'AP English' ID>"
-	     Then I get 20 student-assessment-association
+	  
+	  When I navigate to GET "/student-section-association/<'Each Section' ID>/targets"
+		Then I should receive a collection of 5 student links
+	 
+	 Given I loop through the collection of student links   
+		 When I navigate to GET "/student-assessment-associations/<'AP English' ID>"
+		     And filter by <'Current_student' ID> 
+		     Then I get 1 student-assessment-association 
 			    	 And the "AdministrationDate" is "2012/01/10"
 			     And the "AdministrationEndDate" is "2012/01/15"
 			     And the "ScoreResult" is a random number between {1,5}

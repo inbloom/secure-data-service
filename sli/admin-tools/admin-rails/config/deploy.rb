@@ -32,9 +32,8 @@ namespace :deploy do
 
   desc "Restart the Thin processes"
   task :restart do
-    run  <<-CMD
-      cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin restart -C config/thin.yml
-    CMD
+    stop
+    start
   end
   
   task :finalize_update, :except => { :no_release => true } do

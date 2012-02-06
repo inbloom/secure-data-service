@@ -4,13 +4,10 @@ class RealmsController < ApplicationController
   def index
     @realms = Realm.all
 
+    #SessionResource.auth_id = cookies['iPlanetDirectoryPro']
+     
     #figure out the realm this user has access to
-    SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-
-    #TODO:  current we're just checking the realm the user authenticated to,
-    # but ultimately we need to get that somewhere else since the user will
-    # always be authenticated to the SLI realm
-    userRealm =  Check.new(SessionResource.auth_id).realm
+    userRealm = get_user_realm
     @realms.each do |realm|
         if realm.respond_to?(:realm)
           if realm.realm == userRealm
@@ -77,11 +74,9 @@ class RealmsController < ApplicationController
   # # PUT /realms/1
   # # PUT /realms/1.json
    def update
-     puts  params[:id];
      @realm = Realm.find(params[:id])
      @realm.mappings = params[:mappings];
      respond_to do |format|
-       #if @realm.update_attributes(params[:realm])
 	success = false
 	errorMsg = ""
 
@@ -122,5 +117,12 @@ class RealmsController < ApplicationController
       mapping.push map
     end
     mapping
+  end
+
+  #TODO:  current we're just checking the realm the user authenticated to,
+  # but ultimately we need to get that somewhere else since the user will
+  # always be authenticated to the SLI realm
+  def get_user_realm
+    return Check.new(SessionResource.auth_id).realm
   end
 end

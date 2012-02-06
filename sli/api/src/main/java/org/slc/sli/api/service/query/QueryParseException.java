@@ -4,6 +4,7 @@ package org.slc.sli.api.service.query;
  * Exception indicating a http query request string could not be parsed
  * to spring data query object.
  * 
+ * @author dong liu <dliu@wgen.net>
  */
 
 public class QueryParseException extends RuntimeException {
