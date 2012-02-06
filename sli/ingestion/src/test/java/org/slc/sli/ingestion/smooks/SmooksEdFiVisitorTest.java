@@ -97,7 +97,7 @@ public class SmooksEdFiVisitorTest {
                     // System.out.println(value.getAttributes());
                     c++;
                 }
-                assertEquals(c, 100);
+                assertEquals(100, c);
             } finally {
                 nrfr.close();
             }
@@ -130,7 +130,7 @@ public class SmooksEdFiVisitorTest {
             smooks.filterSource(new StreamSource(messageIn), result);
 
             ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
-            assertEquals(records.size(), 2);
+            assertEquals(2, records.size());
 
             // TODO assert for a few entries that all values got successfully
             // mapped
@@ -163,7 +163,40 @@ public class SmooksEdFiVisitorTest {
             smooks.filterSource(new StreamSource(messageIn), result);
 
             ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
-            assertEquals(records.size(), 100);
+            assertEquals(100, records.size());
+
+            // TODO assert for a few entries that all values got successfully
+            // mapped
+
+        } finally {
+
+            IOUtils.closeQuietly(messageIn);
+        }
+
+    }
+
+    @Test
+    public void testTeacher() throws IOException, SAXException {
+
+        // Instantiate Smooks with the config...
+        InputStream messageIn = null;
+
+        try {
+
+            File inFile = ResourceUtils.getFile("classpath:smooks/InterchangeStaffAssociation.xml");
+
+            messageIn = new BufferedInputStream(new FileInputStream(inFile));
+
+            Smooks smooks = new Smooks(SMOOKS_CONFIG);
+            // smooks.addVisitor(new SmooksEdFiVisitor("student"),
+            // "InterchangeStudent/Student");
+
+            JavaResult result = new JavaResult();
+
+            smooks.filterSource(new StreamSource(messageIn), result);
+
+            ArrayList<NeutralRecord> records = (ArrayList<NeutralRecord>) result.getBean("records");
+            assertEquals(2, records.size());
 
             // TODO assert for a few entries that all values got successfully
             // mapped

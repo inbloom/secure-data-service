@@ -2,7 +2,6 @@ package org.slc.sli.api.resources.security;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,14 +30,14 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
 /**
- * Realm role mapping API. Allows a user to define mappings between SLI roles
- * and client roles.
+ * Realm role mapping API. Allows full CRUD on realm objects.  Primarily intended to allow
+ * mappings between SLI roles and client roles as realms should not be created or deleted
+ * frequently.
  * 
  * @author jnanney
  * 
@@ -82,30 +81,10 @@ public class RealmRoleManagerResource {
             throw new EntityNotFoundException("Entity was null");
         }
         Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
-        HashMap<String, String> res = new HashMap<String, String>();
         if (mappings != null) {
-            if (!uniqueMappings(mappings)) {
-                res.put("response", "Client role cannot map to different SLI roles");
-                return Response.status(Status.BAD_REQUEST).entity(res).build();
-             }
-            
-            for (String sliRole : mappings.keySet()) {
-                if (roleRightAccess.getDefaultRole(sliRole) == null) {
-                    return Response.status(Status.BAD_REQUEST).build();
-                }
-                
-                Set<String> clientSet = new HashSet<String>();
-                for (String clientRole : mappings.get(sliRole)) {
-                    if (clientRole.length() == 0) {
-                        res.put("response", "Cannot have client role of length 0");
-                        return Response.status(Status.BAD_REQUEST).entity(res).build();
-                    }
-                    clientSet.add(clientRole);
-                }
-                if (clientSet.size() < mappings.get(sliRole).size()) {
-                    res.put("response", "Cannot have duplicate client roles");
-                    return Response.status(Status.BAD_REQUEST).entity(res).build();
-                }
+            Response validateResponse = validateMappings(mappings);
+            if (validateResponse != null) {
+                return validateResponse;
             }
         }
         if (service.update(realmId, updatedRealm)) {
@@ -122,16 +101,17 @@ public class RealmRoleManagerResource {
     }
     
     @POST
+    @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm) {
-        if (newRealm.get("mappings") == null) {
-            Map<String, List<String>> mappings = new HashMap<String, List<String>>();
-            for (Role role : roleRightAccess.fetchAllRoles()) {
-                if (!role.getName().equals("SLI Administrator")) {
-                    mappings.put(role.getName(), Arrays.asList(new String[]{role.getName()}));
-                }
+        Map<String, List<String>> mappings = (Map<String, List<String>>) newRealm.get("mappings");
+        if (mappings != null) {
+            Response validateResponse = validateMappings(mappings);
+            
+            if (validateResponse != null) { 
+                return validateResponse;
             }
-            newRealm.put("mappings", mappings);
         }
+        
         String id = service.create(newRealm);
         if (id != null) {
             service.create(newRealm);
@@ -165,22 +145,40 @@ public class RealmRoleManagerResource {
     }
     
     private boolean uniqueMappings(Map<String, List<String>> mappings) {
-        // A crappy, inefficient way to ensure uniqueness of mappings.
+        Set<String> clientRoles = new HashSet<String>();
         for (String sliRole : mappings.keySet()) {
-            List<String> clientRoles = mappings.get(sliRole);
-            for (String clientRole : clientRoles) {
-                for (String otherSliRole : mappings.keySet()) {
-                    if (!otherSliRole.equals(sliRole)) {
-                        List<String> secondClientRoles = mappings
-                                .get(otherSliRole);
-                        if (secondClientRoles.contains(clientRole)) {
-                            return false;
-                        }
-                    }
+            List<String> clientRolesForSliRole = mappings.get(sliRole);
+            for (String clientRole : clientRolesForSliRole) {
+                if (clientRoles.contains(clientRole)) {
+                    return false;
                 }
+                clientRoles.add(clientRole);
             }
         }
         return true;
+    }
+    
+    private Response validateMappings(Map<String, List<String>> mappings) {
+        HashMap<String, String> res = new HashMap<String, String>();
+        if (!uniqueMappings(mappings)) {
+            res.put("response", "Client have duplicate client roles");
+            return Response.status(Status.BAD_REQUEST).entity(res).build();
+         }
+        
+        for (String sliRole : mappings.keySet()) {
+            if (roleRightAccess.getDefaultRole(sliRole) == null) {
+                res.put("response", "Invalid SLI Role");
+                return Response.status(Status.BAD_REQUEST).build();
+            }
+            
+            for (String clientRole : mappings.get(sliRole)) {
+                if (clientRole.length() == 0) {
+                    res.put("response", "Cannot have client role of length 0");
+                    return Response.status(Status.BAD_REQUEST).entity(res).build();
+                }
+            }
+        }
+        return null;
     }
 
 }

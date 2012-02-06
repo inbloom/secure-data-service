@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
+
+   <xs:element name="roles">
+      <xs:complexType>
+         <xs:annotation>
+            <xs:appinfo>
+               <sli:SecuritySphere>Admin</sli:SecuritySphere>
+            </xs:appinfo>
+         </xs:annotation>
+         <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="rights" type="rightList" />
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:simpleType name="rightList">
+      <xs:list>
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="ANONYMOUS_ACCESS" />
+               <xs:enumeration value="READ_GENERAL" />
+               <xs:enumeration value="WRITE_GENERAL" />
+               <xs:enumeration value="READ_RESTRICTED" />
+               <xs:enumeration value="WRITE_RESTRICTED" />
+               <xs:enumeration value="AGGREGATE_READ" />
+               <xs:enumeration value="AGGREGATE_WRITE" />
+               <xs:enumeration value="ADMIN_ACCESS" />
+               <xs:enumeration value="FULL_ACCESS" />
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:list>
+   </xs:simpleType>
+</xs:schema>
+
