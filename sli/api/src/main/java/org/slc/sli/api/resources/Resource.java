@@ -44,7 +44,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-        Resource.SLC_JSON_MEDIA_TYPE })
+        Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 public class Resource {
     
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
@@ -125,7 +125,8 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max,
-            @QueryParam("full-entities") @DefaultValue("false") final boolean fullEntities, @Context final UriInfo uriInfo) {
+            @QueryParam("full-entities") @DefaultValue("false") final boolean fullEntities,
+            @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -155,7 +156,7 @@ public class Resource {
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
-
+            
         });
     }
     
@@ -174,7 +175,7 @@ public class Resource {
     private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
         return entityDef.getService().get(associationIds);
     }
-
+    
     @GET
     @Path("{id}")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
