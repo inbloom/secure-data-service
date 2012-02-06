@@ -43,6 +43,7 @@ import org.slc.sli.api.representation.CollectionResponse.EntityReference;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  * Unit tests for the generic Resource class.
@@ -633,6 +634,38 @@ public class ResourceTest {
         String studentId1 = parseIdFromLocation(createResponse);
         Response listResponse2 = api.getEntity(TEACHER_SCHOOL_ASSOCIATION_URI, studentId1, 0, 10, false, uriInfo);
         assertEquals(404, listResponse2.getStatus());
+    }
+    
+    @Test
+    public void testGetFullEntities() {
+        EntityBody student1 = new EntityBody(createTestEntity());
+        student1.put("name", "student1");
+        Response createResponse = api.createEntity("students", student1, uriInfo);
+        String studentId1 = parseIdFromLocation(createResponse);
+        student1.put("id", studentId1);
+        
+        EntityBody student2 = new EntityBody(createTestEntity());
+        student1.put("name", "student2");
+        Response createResponse2 = api.createEntity("students", student2, uriInfo);
+        String studentId2 = parseIdFromLocation(createResponse2);
+        student2.put("id", studentId2);
+        
+        Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
+        String schoolId = parseIdFromLocation(createResponse3);
+        
+        EntityBody ssa1 = new EntityBody(createTestAssociation(studentId1, schoolId));
+        String ssa1Id = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa1, uriInfo));
+        ssa1.put("id", ssa1Id);
+        EntityBody ssa2 = new EntityBody(createTestAssociation(studentId2, schoolId));
+        String ssa2Id = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa2, uriInfo));
+        ssa2.put("id", ssa2Id);
+        
+        Response resp = api.getFullEntities(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
+        assertEquals(200, resp.getStatus());
+        @SuppressWarnings("unchecked")
+        List<Entity> collection = (List<Entity>) resp.getEntity();
+        assertTrue(collection.contains(ssa1));
+        assertTrue(collection.contains(ssa2));
     }
     
     private static String parseIdFromLocation(Response response) {

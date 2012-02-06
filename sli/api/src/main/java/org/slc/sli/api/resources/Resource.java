@@ -17,6 +17,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -27,11 +33,6 @@ import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Jersey resource for all entities and associations.
@@ -124,7 +125,7 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max,
-            @QueryParam("full-entities") @DefaultValue("false") boolean fullEntities, @Context final UriInfo uriInfo) {
+            @QueryParam("full-entities") @DefaultValue("false") final boolean fullEntities, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -145,21 +146,35 @@ public class Resource {
                         return Response.status(Status.NOT_FOUND).build();
                     }
                     
-                    // TODO: refactor common code for both GET methods
-                    CollectionResponse collection = new CollectionResponse();
-                    if (associationIds != null && associationIds.iterator().hasNext()) {
-                        for (String id : associationIds) {
-                            String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                            collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
-                        }
+                    if (fullEntities) {
+                        return Response.ok(getFullEntities(associationIds, entityDef)).build();
+                    } else {
+                        CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
+                        return Response.ok(collection).build();
                     }
-                    return Response.ok(collection).build();
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
+
         });
     }
     
+    private CollectionResponse getShortEntities(final UriInfo uriInfo, EntityDefinition entityDef,
+            Iterable<String> associationIds) {
+        CollectionResponse collection = new CollectionResponse();
+        if (associationIds != null && associationIds.iterator().hasNext()) {
+            for (String id : associationIds) {
+                String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
+            }
+        }
+        return collection;
+    }
+    
+    private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
+        return entityDef.getService().get(associationIds);
+    }
+
     @GET
     @Path("{id}")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
