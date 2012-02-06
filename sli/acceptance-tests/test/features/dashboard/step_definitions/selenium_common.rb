@@ -29,9 +29,7 @@ def localLogin (username, password)
   if @driver == nil 
     @driver = Selenium::WebDriver.for :firefox
   end
-  baseUrl = "http://"+PropLoader.getProps['dashboard_server_address']+ 
-          PropLoader.getProps[@appPrefix] 
-  url = baseUrl + PropLoader.getProps['dashboard_landing_page']
+  url = getBaseUrl + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
@@ -49,6 +47,11 @@ def localLogin (username, password)
   clickButton("submit", "name")
   # url = baseUrl + "/appselector"
   assert(@driver.current_url.start_with?(url),  "Failed to navigate to "+url)
+end
+
+def getBaseUrl()
+  return "http://"+PropLoader.getProps['dashboard_server_address']+ 
+          PropLoader.getProps[@appPrefix] 
 end
 
 def assertMissingField(field, by)
