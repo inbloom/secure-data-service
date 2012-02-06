@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.smooks;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -13,6 +11,7 @@ import java.util.Map;
 
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.Smooks;
@@ -21,15 +20,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ResourceUtils;
 
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.IngestionAvroEntityValidator;
 import org.slc.sli.validation.EntitySchemaRegistry;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-
+import org.slc.sli.validation.schema.NeutralSchemaValidator;
 /**
  *
  * @author ablum
@@ -73,13 +74,13 @@ public class SmooksValidationTest {
                  NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
                          new File(outputFile.getAbsolutePath()));
 
-                 assertTrue(nrfr.hasNext());
+                 Assert.assertTrue(nrfr.hasNext());
 
                  try {
                      while (nrfr.hasNext()) {
                          NeutralRecord record = nrfr.next();
                          Map<String, Object> entity = record.getAttributes();
-                         mapValidation(entity, "student", validator);
+                         EntityTestUtils.mapValidation(entity, "student", validator);
 
                      }
                  } finally {
@@ -92,6 +93,7 @@ public class SmooksValidationTest {
          }
 
     }
+
 
     @Test
     public void testValidSchoolCSV() throws Exception {
@@ -123,13 +125,13 @@ public class SmooksValidationTest {
              NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
                      new File(outputFile.getAbsolutePath()));
 
-             assertTrue(nrfr.hasNext());
+             Assert.assertTrue(nrfr.hasNext());
 
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
                      Map<String, Object> entity = record.getAttributes();
-                     mapValidation(entity, "school", validator);
+                     EntityTestUtils.mapValidation(entity, "school", validator);
 
                  }
              } finally {
@@ -142,6 +144,7 @@ public class SmooksValidationTest {
          }
 
     }
+
 
     @Test
     public void testValidStudentSchoolAssociationCSV() throws Exception {
@@ -174,13 +177,13 @@ public class SmooksValidationTest {
              NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
                      new File(outputFile.getAbsolutePath()));
 
-             assertTrue(nrfr.hasNext());
+             Assert.assertTrue(nrfr.hasNext());
 
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
                      Map<String, Object> entity = record.getAttributes();
-                     mapValidation(entity, "studentSchoolAssociation", validator);
+                     EntityTestUtils.mapValidation(entity, "studentSchoolAssociation", validator);
 
                  }
              } finally {
@@ -225,13 +228,14 @@ public class SmooksValidationTest {
              NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
                      new File(outputFile.getAbsolutePath()));
 
-             assertTrue(nrfr.hasNext());
+             Assert.assertTrue(nrfr.hasNext());
 
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
                      Map<String, Object> entity = record.getAttributes();
-                     mapValidation(entity, "student", validator);
+                     EntityTestUtils.mapValidation(entity, "student", validator);
+
 
                  }
              } finally {
@@ -244,6 +248,7 @@ public class SmooksValidationTest {
          }
 
     }
+
 
     @Test
     public void testValidSchoolXML() throws Exception {
@@ -278,13 +283,13 @@ public class SmooksValidationTest {
              NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
                      new File(outputFile.getAbsolutePath()));
 
-             assertTrue(nrfr.hasNext());
+             Assert.assertTrue(nrfr.hasNext());
 
              try {
                  while (nrfr.hasNext()) {
                      NeutralRecord record = nrfr.next();
                      Map<String, Object> entity = record.getAttributes();
-                     mapValidation(entity, "school", validator);
+                     EntityTestUtils.mapValidation(entity, "school", validator);
 
                  }
              } finally {
@@ -297,6 +302,7 @@ public class SmooksValidationTest {
          }
 
     }
+
 
     @Test
     public void testValidStudentSchoolAssociationXML() throws Exception {
@@ -329,12 +335,12 @@ public class SmooksValidationTest {
             NeutralRecordFileReader nrfr = new NeutralRecordFileReader(
                     new File(outputFile.getAbsolutePath()));
 
-            assertTrue(nrfr.hasNext());
+            Assert.assertTrue(nrfr.hasNext());
             try {
                 while (nrfr.hasNext()) {
                     NeutralRecord record = nrfr.next();
                     Map<String, Object> entity = record.getAttributes();
-                    mapValidation(entity, "studentSchoolAssociation", validator);
+                    EntityTestUtils.mapValidation(entity, "studentSchoolAssociation", validator);
 
                 }
             } finally {
@@ -349,6 +355,23 @@ public class SmooksValidationTest {
 
    }
 
+    private void mapValidation(Map<String, Object> obj, String schemaName, NeutralSchemaValidator validator) {
+
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(obj);
+        when(e.getType()).thenReturn(schemaName);
+
+        try {
+            Assert.assertTrue(validator.validate(e));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.err.println(err);
+            }
+            Assert.fail();
+        }
+    }
+
     private void mapValidation(Map<String, Object> obj, String schemaName, IngestionAvroEntityValidator validator) {
 
 
@@ -357,12 +380,12 @@ public class SmooksValidationTest {
         when(e.getType()).thenReturn(schemaName);
 
         try {
-            assertTrue(validator.validate(e));
+            Assert.assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
             for (ValidationError err : ex.getValidationErrors()) {
                 System.err.println(err);
             }
-            fail();
+            Assert.fail();
         }
     }
 

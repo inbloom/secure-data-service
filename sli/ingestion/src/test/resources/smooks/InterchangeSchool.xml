@@ -145,14 +145,19 @@
     </Course>
 <Section>
         <UniqueSectionCode>A-ELA4</UniqueSectionCode>
-        <Term>Fall Semester</Term>
         <SequenceOfCourse>1</SequenceOfCourse>
-        <CourseReference>
-            <CourseIdentity>
-                <EducationOrganizationID>152901</EducationOrganizationID>
+        <EducationalEnvironment>Mainstream</EducationalEnvironment>
+        <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+        <PopulationServed>Remedial education students</PopulationServed>
+        <AvailableCredit CreditType="Semester hour credit">
+			<Credit>.05</Credit>
+        </AvailableCredit>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
                 <LocalCourseCode>ELA4</LocalCourseCode>
-            </CourseIdentity>
-        </CourseReference>
+                <Term>1</Term>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>152901001</StateOrganizationId>
