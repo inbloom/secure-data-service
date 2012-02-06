@@ -46,8 +46,8 @@ gem 'simplecov-rcov', :require=>false, :group=>:test
 # gem 'webrat', :require=>false, :group=>:test
 
 #Cucumber
-gem 'cucumber'
-gem 'cucumber-rails'
+# gem 'cucumber'
+# gem 'cucumber-rails'
 
 #Use Roodi for style check
 gem 'roodi', :require=>false
