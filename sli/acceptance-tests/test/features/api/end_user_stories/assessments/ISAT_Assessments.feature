@@ -67,7 +67,6 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 	         Then I get 1 student-assessment-association
 			    	 And the "AdministrationDate" is "2012/05/10"
 			     And the "GradeLevelWhenAssessed" is "Seventh Grade"
-			     And the "AssessmentFamily" is "ISAT Reading for Grade 8"
 			     And the "PerformanceLevel" is "Meets Standards"
 			     And the "PerformanceLevel.CodeValue" is "M"
 			     And the "ScaleScore" is "250"

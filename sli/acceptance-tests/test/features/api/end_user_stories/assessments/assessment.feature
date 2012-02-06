@@ -144,9 +144,7 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		 Then I receive a 1 student-assessment-association 
 			    	 And the "AdministrationDate" is "2012/01/10"
 			     And the "AdministrationEndDate" is "2012/01/15"
-			     And the "GradeLevelWhenAssessed" is "Second Grade"
-			     # the assessmentFamily is different from assessmentFamilyHierarchyName. 
-			     And the "AssessmentFamily" is "DIBELS Next Grade 2"   
+			     And the "GradeLevelWhenAssessed" is "Second Grade" 
 			     And the "PerformanceLevel" is "Below Benchmark"
 			     And the "ScoreResult" is "120"	
 			     And the "ScaleScore" is "120"     
