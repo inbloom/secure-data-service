@@ -24,7 +24,7 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionEntityTest {
 
-	private EntityValidator entityValidator;
+    private EntityValidator entityValidator;
 
     @Test
     public void testValidSectionCSV() throws Exception {

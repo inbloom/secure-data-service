@@ -480,15 +480,11 @@
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
 
     <!-- EducationalPlans -->
-    <jb:wiring property="educationalPlan" beanIdRef="educationalPlanItemType" />
+    <jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
 
   </jb:bean>
 
 	<!-- EducationalPlanItemType -->
-   <jb:bean beanId="educationalPlanItemType" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-   			<jb:value property="educationalPlan" data="StudentSchoolAssociation/EducationalPlans/EducationalPlan" />
-   </jb:bean>
-
    <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
    	  		<jb:value data="StudentSchoolAssociation/EducationalPlans/EducationalPlan" />
     </jb:bean>
