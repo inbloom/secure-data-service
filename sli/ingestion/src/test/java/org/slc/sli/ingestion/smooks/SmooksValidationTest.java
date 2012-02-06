@@ -24,7 +24,14 @@ import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.IngestionAvroEntityValidator;
 import org.slc.sli.validation.EntitySchemaRegistry;
+<<<<<<< HEAD
 import org.slc.sli.validation.SchemaRepository;
+=======
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.schema.NeutralSchemaValidator;
+>>>>>>> master
 
 /**
  *
@@ -38,6 +45,8 @@ public class SmooksValidationTest {
 
     @Autowired
     private EntitySchemaRegistry schemaReg;
+    @Autowired
+	private SchemaRepository schemaRepository;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -309,8 +318,8 @@ public class SmooksValidationTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
 
         try {
-            IngestionAvroEntityValidator validator = new IngestionAvroEntityValidator();
-            validator.setSchemaRegistry(schemaReg);
+            NeutralSchemaValidator validator = new NeutralSchemaValidator();
+            validator.setSchemaRegistry(schemaRepository);
             File inFile = ResourceUtils
                     .getFile("classpath:smooks/InterchangeEnrollment.xml");
 
@@ -353,5 +362,43 @@ public class SmooksValidationTest {
         }
 
    }
+<<<<<<< HEAD
+=======
+
+    private void mapValidation(Map<String, Object> obj, String schemaName, NeutralSchemaValidator validator) {
+
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(obj);
+        when(e.getType()).thenReturn(schemaName);
+
+        try {
+            assertTrue(validator.validate(e));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.err.println(err);
+            }
+            fail();
+        }
+    }
+
+    private void mapValidation(Map<String, Object> obj, String schemaName, IngestionAvroEntityValidator validator) {
+
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(obj);
+        when(e.getType()).thenReturn(schemaName);
+
+        try {
+            assertTrue(validator.validate(e));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.err.println(err);
+            }
+            fail();
+        }
+    }
+
+>>>>>>> master
 }
 

@@ -1,0 +1,167 @@
+  <h2>Editing role mappings for <%=@realm.state%></h2>
+
+  <script type="text/javascript">
+
+  //initial data for table
+  var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
+
+  //intial sorting -- 1 == desc, -1 = asc
+  var sortOrder = [1,1];
+
+  //which column to sort by 
+  var sortCol = 0; 
+
+  sortTable(rMap, sortCol, sortOrder[sortCol]);
+
+  $(document).ready(function() {
+        //check first radio button by default
+        $('input:radio[name=role]')[0].click();
+
+        drawTable(rMap, true);
+        
+        save = function(success, failure) {
+                var mData = mapData(rMap);      
+                if (!failure) {
+                        failure = jQuery.noop();
+                }
+                $.ajax({
+                        url: '<%= url_for(:action=>"update") %>',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({"mappings": mData}),
+                        dataType: 'json',
+                        success: success,
+                        error: function (resp) {
+                                notifyError(jQuery.parseJSON(resp.responseText).response);
+                                failure.call();
+                        }
+                
+                });
+        }
+
+        $("#addButton").click(function() {
+                rMap.push([$("#clientRole").val(), $('input:radio[name=role]:checked').val()]);
+                var success = function(data) {
+                        rMap = getTableData(data.mappings);
+                        $("#clientRole").val("")
+                        sortTable(rMap, sortCol, sortOrder[sortCol]);
+                        drawTable(rMap, true);
+                }
+                var failure = function() {
+                        rMap.pop(); //it failed, so undo it     
+                }
+                save(success, failure);
+        });
+      
+        //Called when a delete button is clicked
+        //Figure out which item was deleted, remove it from the rMap, attempt to save
+        $(document).bind("deleteRow", function(e) {
+                var cRole = $(e.target).closest("tr").children("td:eq(0)").html();
+                var sliRole = $(e.target).closest("tr").children("td:eq(1)").html();
+                for (var i in rMap) {
+                        if (rMap[i][0] == cRole) {
+                                rMap.splice(i, 1);
+                                break;
+                        }
+                }
+                var success = function(data) {
+                        rMap = getTableData(data.mappings);
+                        sortTable(rMap, sortCol, sortOrder[sortCol]);
+                        drawTable(rMap, true);
+                }
+                var error = function() {
+                        //put value back in the data
+                        rMap.push([cRole, sliRole]); 
+                        sortTable(rMap, sortCol, sortOrder[sortCol]);
+                        drawTable(rMap, true);
+                }
+                save(success, error);
+        });
+
+        refreshSortIcon = function(idx) {
+                if (sortOrder[idx] == 1) {
+                        $('.sort_desc').hide();
+                        $('.sort_asc').hide();
+                        $('.sort_desc:eq(' + idx + ')').fadeIn();
+                } else {
+                        $('.sort_desc').hide();
+                        $('.sort_asc').hide();
+                        $('.sort_asc:eq(' + idx + ')').fadeIn()
+                }
+        }
+
+        $("#cRole").click(function() {
+                sortCol = 0;
+                sortOrder[0] *= -1;
+                refreshSortIcon(0);
+                sortTable(rMap, sortCol, sortOrder[0]);
+                drawTable(rMap, true);    
+        });
+
+        $("#sRole").click(function() {
+                sortCol = 1;
+                sortOrder[1] *= -1;
+                refreshSortIcon(1);
+                sortTable(rMap, sortCol, sortOrder[1]);
+                drawTable(rMap, true);    
+        });
+
+        $("#resetButton").click(function() {
+                var roles = <%= @sli_roles.to_json.html_safe %>;
+                rMap = [];
+                for (var i in roles) {
+                      rMap.push([roles[i], roles[i]]);
+                }
+
+                var success = function(data) {
+                        rMap = getTableData(data.mappings);
+                        sortTable(rMap, sortCol, sortOrder[sortCol]);
+                        drawTable(rMap, true);
+                }
+                save(success);
+        });
+
+  });
+
+  </script>
+
+  <table>
+    <tr>
+      <td valign="top">
+      <%= label_tag "clientRole", "Client role" %><input id=
+      "clientRole"></td>
+
+      <td valign="top">
+        <% @sli_roles.each do |role| %>
+
+        <div>
+          <%= radio_button_tag 'role', role %><%= label_tag "role_#{role}", role %>
+        </div><% end %>
+      </td>
+
+      <td valign="top"><button id="addButton">Add</button></td>
+    </tr>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th id="cRole" style="text-decoration: underline">Client
+        role
+        <span><%= image_tag "sort_asc.png", :class => 'sort_asc', :style => 'display: none' %>
+        <%= image_tag "sort_desc.png", :class => 'sort_desc' %></span></th>
+
+        <th id="sRole" style="text-decoration: underline">SLI role
+        <span><%= image_tag "sort_asc.png", :class => 'sort_asc', :style => 'display: none' %>
+        <%= image_tag "sort_desc.png", :class => 'sort_desc', :style => 'display: none' %></span></th>
+      </tr>
+    </thead>
+
+    <tbody id="mTable"></tbody>
+  </table>
+
+  <div>
+    <button id="resetButton">Reset to defaults</button>
+  </div>
+
+<%= link_to 'Back', realms_path %>

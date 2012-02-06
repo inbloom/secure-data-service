@@ -60,49 +60,56 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
         buffer.append("" + "\n" + "   \"type\":\"" + schema.getType() + "\"");
         buffer.append("," + "\n" + "   \"validatorClass\":\"" + schema.getValidatorClass() + "\"");
         buffer.append("," + "\n" + "   \"version\":\"" + schema.getVersion() + "\"");
+        getAnnotations(schema, buffer);
         
         return buffer.toString();
     }
     
+    private void getAnnotations(NeutralSchema schema, StringBuffer buffer) {
+        
+        StringBuffer annotations = new StringBuffer();
+        annotations.append(", \"annotations\": {");
+        AppInfo appInfo = schema.getAppInfo();
+        if (appInfo != null) {
+            annotations.append(appInfo.toString());
+            buffer.append(annotations + "} ");
+        }
+    }
+    
     private String getJsonFields(String label, Map<String, NeutralSchema> fields) {
-        StringBuilder buffer = new StringBuilder();
+        StringBuffer buffer = new StringBuffer();
         
         buffer.append("," + "\n" + "   \"" + label + "\":{");
         
         if ((schema.getFields() != null) && (schema.getFields().size() > 0)) {
             String separator = "";
             for (String name : fields.keySet()) {
-                Object object = fields.get(name);
                 
-                String description = "";
-                if (object instanceof String) {
-                    description = "\"" + object + "\"";
-                } else if (object instanceof List) {
+                NeutralSchema object = fields.get(name);
+                
+                StringBuffer description = new StringBuffer();
+                
+                if (object instanceof ListSchema) {
+                    List<NeutralSchema> schemaList = ((ListSchema) object).getList();
+                    List<String> list = new ArrayList<String>();
+                    for (NeutralSchema schema : schemaList) {
+                        list.add(schema.getType());
+                    }
                     try {
-                        description = NeutralSchema.MAPPER.writeValueAsString(object);
+                        description.append(NeutralSchema.MAPPER.writeValueAsString(list));
                     } catch (Exception exception) {
                         throw new RuntimeException(exception);
                     }
-                } else if (object instanceof NeutralSchema) {
-                    if (object instanceof ListSchema) {
-                        List<NeutralSchema> schemaList = ((ListSchema) object).getList();
-                        List<String> list = new ArrayList<String>();
-                        for (NeutralSchema schema : schemaList) {
-                            list.add(schema.getType());
-                        }
-                        try {
-                            description = NeutralSchema.MAPPER.writeValueAsString(list);
-                        } catch (Exception exception) {
-                            throw new RuntimeException(exception);
-                        }
-                    } else {
-                        description = "\"" + ((NeutralSchema) object).getType() + "\"";
-                    }
+                    
+                } else {
+                    description.append("\"" + object.getType() + "\"");
                 }
                 
-                buffer.append(separator + "\n" + "      \"" + name + "\":" + description);
+                buffer.append(separator + "\n      {\"" + name + "\":" + description);
                 
-                separator = ",";
+                getAnnotations(object, buffer);
+                
+                separator = "},";
             }
         }
         

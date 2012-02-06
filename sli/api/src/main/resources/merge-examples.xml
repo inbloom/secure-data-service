@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merges>
+    <merge action="ADDATTR" xpath="//ns2:application/ns2:resources/ns2:resource/ns2:method/ns2:response/ns2:representation[@element='Home']">
+        <attribute name="href" value="home.html"/>
+    </merge>
+</merges>

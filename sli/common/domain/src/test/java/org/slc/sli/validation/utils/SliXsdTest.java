@@ -19,6 +19,6 @@ public class SliXsdTest {
     
     @Test
     public void testSliXSD() throws IOException {
-        NeutralJsonExporter.main(new String[] { "--test", "classpath:sliXsd-wip" });
+        NeutralJsonExporter.main(new String[] { "--test", "classpath:sliXsd" });
     }
 }

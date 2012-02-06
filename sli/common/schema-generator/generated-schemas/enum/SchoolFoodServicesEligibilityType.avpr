@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SchoolFoodServicesEligibilityType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indication of a student's level of eligibility for breakfast, lunch, snack, supper, and milk programs.",
-  "xsd-type" : "token",
-  "symbols" : [ "Free", "Full_price", "Reduced_price", "Unknown" ]
-}

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Section504DisabilityItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Enumeration items for Section 504 disabilities.",
-  "xsd-type" : "token",
-  "symbols" : [ "Attention_Deficit_Hyperactivity_Disorder_ADHD", "Medical_Condition", "Motor_Impairment", "Sensory_Impairment", "Other" ]
-}
