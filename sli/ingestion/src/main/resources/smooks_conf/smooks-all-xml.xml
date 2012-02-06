@@ -608,6 +608,26 @@
   </jb:bean>
   <!--  End Teacher Mapping -->
 
+
+  <!-- Student Section Association mapping -->
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+                        createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+  <jb:expression property="recordType">'studentSectionAssociation'</jb:expression>
+        <jb:wiring property="attributes" beanIdRef="SSAAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="SSAAttributes" class="java.util.HashMap"
+                                        createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+    <jb:value property="studentId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="uniqueSectionCode" data="StudentSectionAssociation/ UniqueSectionCode" />
+    <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
+    <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
+    <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" />
+    <jb:value property="repeatIdentifier" data="StudentSectionAssociation/RepeatIdentifier" />
+  </jb:bean>
+
+
  <!-- Section Mapping -->
      <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/Section">
 
