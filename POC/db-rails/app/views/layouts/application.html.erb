@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>DbRails</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title>SLI Data Browser</title>
+	<%= stylesheet_link_tag    "application" %>
+ 	<%= javascript_include_tag "application" %>
+  	<%= csrf_meta_tags %>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+  </head>
+  <body>
+    <div class="header">
+        <h1 style="display:inline">SLI Data Browser </h1>
+        <h3 style="display:inline"><i> . . . It's toasted</i></h3>
+        <hr>
+    </div>
+    <table border="0">
+        <tr>
+        <td valign=top width=200px class="nav">
+            <a href="/">Home</a><br>
+            <a href="/students">Students</a><br>
+            <a href="/teachers">Teachers</a><br>
+            <a href="/schools">Schools</a><br>
+ 
+        </td>
+        <td valign=top class="content">
+            <%= yield %>
+        </td>
+        </tr>
+    </table>
+  </body>
 </html>

@@ -1,21 +1,2 @@
-<h1>Listing schools</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @schools.each do |school| %>
-  <tr>
-    <td><%= link_to 'Show', school %></td>
-    <td><%= link_to 'Edit', edit_school_path(school) %></td>
-    <td><%= link_to 'Destroy', school, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New School', new_school_path %>
+<h1>Schools#index</h1>
+<p>Find me in app/views/schools/index.html.erb</p>
