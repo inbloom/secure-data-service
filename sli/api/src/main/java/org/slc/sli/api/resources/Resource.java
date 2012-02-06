@@ -113,7 +113,7 @@ public class Resource {
      * @param max
      *            maximum number of results to return
      * @param fullEntities
-     *            TODO
+     *            whether or not the full entity should be returned or just the link
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
@@ -176,6 +176,22 @@ public class Resource {
         return entityDef.getService().get(associationIds);
     }
     
+    /**
+     * Get the full entities, not just links
+     * 
+     * @param typePath
+     *            resrouceUri for the entity/association
+     * @param id
+     *            either the association id or the association's source entity id
+     * @param skip
+     *            number of results to skip
+     * @param max
+     *            maximum number of results to return
+     * @param uriInfo
+     * @return A single entity or association, unless the type references an association and the id
+     *         represents the source entity. In that case a collection of associations.
+     * @response.representation.200.mediaType application/json
+     */
     @GET
     @Path("{id}")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
