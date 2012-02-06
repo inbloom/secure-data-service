@@ -40,7 +40,12 @@
         }
 
         $("#addButton").click(function() {
-                rMap.push([$("#clientRole").val(), $('input:radio[name=role]:checked').val()]);
+                var cRoleName = $("#clientRole").val();
+                if (!cRoleName.match(/^\w+$/)) {
+                  notifyError("Role name must contain only alphanumeric characters.");
+                  return;
+                }
+                rMap.push([cRoleName, $('input:radio[name=role]:checked').val()]);
                 var success = function(data) {
                         rMap = getTableData(data.mappings);
                         $("#clientRole").val("")
