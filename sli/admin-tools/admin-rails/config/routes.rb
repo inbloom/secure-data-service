@@ -23,13 +23,6 @@ SLIAdmin::Application.routes.draw do
       end
     end
     
-    resources :mappings do
-      member do
-        post :add
-        delete :remove
-      end
-    end
-    
     match '/logout', :to => 'sessions#destroy'
 
   # Sample resource route with options:
