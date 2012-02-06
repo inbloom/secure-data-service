@@ -50,6 +50,8 @@ public class Resource {
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     public static final String SLC_XML_MEDIA_TYPE = "application/vnd.slc+xml";
     public static final String SLC_JSON_MEDIA_TYPE = "application/vnd.slc+json";
+    public static final String SLC_LONG_XML_MEDIA_TYPE = "application/vnd.slc.full+xml";
+    public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     private final EntityDefinitionStore entityDefs;
@@ -80,7 +82,8 @@ public class Resource {
      * @param uriInfo
      * @return Response with a status of CREATED and a Location header set pointing to where the new
      *         entity lives
-     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location value. 
+     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
+     *                                        value.
      */
     @POST
     public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody,
@@ -108,17 +111,20 @@ public class Resource {
      *            number of results to skip
      * @param max
      *            maximum number of results to return
+     * @param fullEntities
+     *            TODO
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
-     * @response.representation.200.mediaType application/json 
+     * @response.representation.200.mediaType application/json
      */
     @GET
     @Path("{id}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+            @QueryParam("max-results") @DefaultValue("50") final int max,
+            @QueryParam("full-entities") @DefaultValue("false") boolean fullEntities, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -154,6 +160,15 @@ public class Resource {
         });
     }
     
+    @GET
+    @Path("{id}")
+    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
+    public Response getFullEntities(@PathParam("type") final String typePath, @PathParam("id") final String id,
+            @QueryParam("start-index") @DefaultValue("0") final int skip,
+            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+        return getEntity(typePath, id, skip, max, true, uriInfo);
+    }
+    
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
@@ -170,11 +185,12 @@ public class Resource {
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
-     * @response.representation.200.mediaType application/xml 
+     * @response.representation.200.mediaType application/xml
      */
     @GET
     @Path("{id}")
     @Produces({ Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE })
+    @Deprecated
     public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam("start-index") @DefaultValue("0") final int skip,
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
@@ -216,7 +232,8 @@ public class Resource {
     }
     
     /**
-     * Gets the target entities from an association when the source entity is specified for the association. 
+     * Gets the target entities from an association when the source entity is specified for the
+     * association.
      * 
      * @param typePath
      *            resrouceUri for the entity/association
@@ -227,8 +244,9 @@ public class Resource {
      * @param max
      *            maximum number of results to return
      * @param uriInfo
-     * @return A collection of entities that are the targets of the specified source in an association
-     * @response.representation.200.mediaType application/json 
+     * @return A collection of entities that are the targets of the specified source in an
+     *         association
+     * @response.representation.200.mediaType application/json
      */
     @GET
     @Path("{id}/targets")
@@ -260,7 +278,7 @@ public class Resource {
                             String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
                             collection.add(id, ResourceUtil.SELF, relative.getType(), href);
                         }
-                    } 
+                    }
                     return Response.ok(collection).build();
                 } else {
                     return Response.status(Status.NOT_FOUND).build();
@@ -277,7 +295,7 @@ public class Resource {
      * @param id
      *            id of the entity
      * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code. 
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{id}")
@@ -301,7 +319,7 @@ public class Resource {
      * @param newEntityBody
      *            entity data that will used to replace the existing entity data
      * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code. 
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
     @Path("{id}")
