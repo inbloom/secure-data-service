@@ -11,7 +11,7 @@ When /^I navigate to the Dashboard Live home page$/ do
   @driver.get url
 end
 
-
+# TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
   realm_select = @driver.find_element(:name=> "realmId")
@@ -27,10 +27,10 @@ When /^I select "([^"]*)" and click go$/ do |arg1|
   
 end
 
-When /^I login as "([^"]*)" "([^"]*)"/ do | arg1, arg2 |
+When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     sleep(1)
-    @driver.find_element(:id, "IDToken1").send_keys arg1
-    @driver.find_element(:id, "IDToken2").send_keys arg2
+    @driver.find_element(:id, "IDToken1").send_keys username
+    @driver.find_element(:id, "IDToken2").send_keys password
     @driver.find_element(:name, "Login.Submit").click
 end
 
