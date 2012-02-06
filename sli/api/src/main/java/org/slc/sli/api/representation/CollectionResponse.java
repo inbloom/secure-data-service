@@ -23,9 +23,9 @@ public class CollectionResponse extends LinkedList<CollectionResponse.EntityRefe
      */
     public static class EntityReference {
         @JsonProperty("id")
-        String id;
+        private String id;
         @JsonProperty("link")
-        EmbeddedLink link;
+        private EmbeddedLink link;
         
         public EntityReference(String id, EmbeddedLink link) {
             this.id = id;
