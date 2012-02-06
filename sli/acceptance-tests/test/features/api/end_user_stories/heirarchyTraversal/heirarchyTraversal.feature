@@ -1,4 +1,7 @@
-Feature: Test aggregation creation for performance level aggregations
+Feature: As an SLI application, I want to be able to traverse from education organizations down to low levels
+    As a client application using SLI
+    I want to be able to start at a very high level and be able to access relevant teachers
+    I want to be able to start at a very high level and be able to access relevant students
 
 Background: 
     Given I am logged in using "demo" "demo1234"
