@@ -23,7 +23,7 @@ end
 def idpLogin(user, passwd)
   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-1]
+  @sessionId = res.body[res.body.rindex('=')+1..-2]
   puts(@sessionId) if $SLI_DEBUG
 end
 
@@ -42,7 +42,7 @@ def idpRealmLogin(user, passwd, realm="sli")
   realmType = 'lea_idp_server_url' if realm == "idp2"
   url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-1]
+  @sessionId = res.body[res.body.rindex('=')+1..-2]
   puts(@sessionId) if $SLI_DEBUG
 end
 
@@ -160,6 +160,21 @@ end
 
 ##############################################################################
 ##############################################################################
+###### After hook(s) #########################################################
+
+After do |scenario| 
+  
+  if @sessionId
+    #This After hook block is to logout a user if @sessionId exists
+    url = PropLoader.getProps['sli_idp_server_url']+"/identity/logout?subjectid="+@sessionId
+    @res = RestClient.get(url, {}){|response, request, result| response }
+    puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  end
+  
+end
+
+##############################################################################
+##############################################################################
 ### Step Def Util methods ###
 
 def convert(value)
@@ -260,7 +275,7 @@ end
 module CreateEntityHash
   def CreateEntityHash.createBaseStudent()
     data = Hash[
-        "studentUniqueStateId" => 123456,
+        "studentUniqueStateId" => "123456",
         "name" => Hash[
           "firstName" => "fname",
           "lastSurname" => "lname",
@@ -277,7 +292,10 @@ module CreateEntityHash
     data = Hash[
         "nameOfInstitution" => "school name",
         "stateOrganizationId" => "12345678",
-        "gradesOffered" => [ "First_grade", "Second_grade" ],
+        "gradesOffered" => Hash["gradeLevel"=>["First grade", "Second grade"]],
+        "address"=>[],
+        "organizationCategories" => Hash["organizationCategory"=>["School"]],
+        "schoolCategories" => Hash["schoolCategory"=>["Elementary School"]],
         ]
     return data
   end

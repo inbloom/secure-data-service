@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ContentStandardType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indication as to whether an assessment conforms to a standard. For example:\n\t\t\tLocal standard\nStatewide standard\nRegional standard\nAssociation standard\nSchool standard\n...",
-  "xsd-type" : "token",
-  "symbols" : [ "National_Standard", "State_Standard", "College_Entrance_Standard", "LEA_Standard" ]
-}

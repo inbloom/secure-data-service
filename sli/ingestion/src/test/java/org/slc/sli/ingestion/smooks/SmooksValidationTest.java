@@ -1,5 +1,8 @@
 package org.slc.sli.ingestion.smooks;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,14 +21,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ResourceUtils;
 
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.IngestionAvroEntityValidator;
 import org.slc.sli.validation.EntitySchemaRegistry;
-import org.slc.sli.validation.SchemaRepository;
-
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.schema.NeutralSchemaValidator;
 /**
  *
  * @author ablum
@@ -38,10 +43,6 @@ public class SmooksValidationTest {
 
     @Autowired
     private EntitySchemaRegistry schemaReg;
-
-    @Autowired
-    private SchemaRepository schemaRepository;
-
 
     @Test
     public void testValidStudentCSV() throws Exception {
@@ -353,5 +354,40 @@ public class SmooksValidationTest {
         }
 
    }
+
+    private void mapValidation(Map<String, Object> obj, String schemaName, NeutralSchemaValidator validator) {
+
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(obj);
+        when(e.getType()).thenReturn(schemaName);
+
+        try {
+            Assert.assertTrue(validator.validate(e));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.err.println(err);
+            }
+            Assert.fail();
+        }
+    }
+
+    private void mapValidation(Map<String, Object> obj, String schemaName, IngestionAvroEntityValidator validator) {
+
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(obj);
+        when(e.getType()).thenReturn(schemaName);
+
+        try {
+            Assert.assertTrue(validator.validate(e));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.err.println(err);
+            }
+            Assert.fail();
+        }
+    }
+
 }
 

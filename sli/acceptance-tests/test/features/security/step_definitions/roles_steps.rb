@@ -50,6 +50,7 @@ When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   
   dataH = JSON.parse(@res.body)
+  @receivedAddress = dataH['address']
   assert(dataH != nil, "Result of JSON parsing is nil")
   dataH['address'] = [Hash["streetNumberName" => arg1,
                            "city" => "Urbania",
@@ -87,7 +88,7 @@ Then /^a message is displayed that the "([^"]*)" role does not allow this action
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  assert(result['address'][0]['streetNumberName'] != @address, "Expected student address not found in response")
+  assert(result['address'] == @receivedAddress, "Expected student address not found in response")
 
 end
 

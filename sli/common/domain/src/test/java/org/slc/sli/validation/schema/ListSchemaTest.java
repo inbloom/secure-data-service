@@ -3,7 +3,6 @@ package org.slc.sli.validation.schema;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,9 +37,6 @@ public class ListSchemaTest {
     DoubleSchema doubleSchema;
     
     @Autowired
-    DecimalSchema decimalSchema;
-    
-    @Autowired
     StringSchema stringSchema;
     
     @Autowired
@@ -51,7 +47,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfBooleanValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(booleanSchema);
         List<Boolean> listEntity = new ArrayList<Boolean>();
         Boolean booleanEntity = true;
@@ -61,7 +57,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfBooleanFailureValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(booleanSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";
@@ -74,7 +70,7 @@ public class ListSchemaTest {
     
     @Test
     public void testRestrictions() {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(longSchema);
         schema.getProperties().put(Restriction.MIN_LENGTH.getValue(), 1);
         schema.getProperties().put(Restriction.MAX_LENGTH.getValue(), 3);
@@ -99,7 +95,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfLongValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(longSchema);
         List<Long> listEntity = new ArrayList<Long>();
         Long longEntity = 0L;
@@ -109,7 +105,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfLongFailureValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(longSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";
@@ -122,7 +118,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfStringValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(stringSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";
@@ -132,7 +128,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfStringFailureValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(stringSchema);
         List<Double> listEntity = new ArrayList<Double>();
         Double doubleEntity = 0.0;
@@ -145,16 +141,15 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfComplexValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(complexSchema);
-        complexSchema.getFields().clear();
-        complexSchema.getFields().put("booleanField", booleanSchema);
-        complexSchema.getFields().put("longField", longSchema);
-        complexSchema.getFields().put("doubleField", doubleSchema);
-        complexSchema.getFields().put("decimalField", decimalSchema);
-        complexSchema.getFields().put("stringField", stringSchema);
-        complexSchema.getFields().put("tokenField", tokenSchema);
-        complexSchema.getFields().put("dateTimeField", dateTimeSchema);
+        complexSchema.clearFields();
+        complexSchema.addField("booleanField", booleanSchema);
+        complexSchema.addField("longField", longSchema);
+        complexSchema.addField("doubleField", doubleSchema);
+        complexSchema.addField("stringField", stringSchema);
+        complexSchema.addField("tokenField", tokenSchema);
+        complexSchema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -163,14 +158,12 @@ public class ListSchemaTest {
         Boolean booleanEntity = true;
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
@@ -181,7 +174,7 @@ public class ListSchemaTest {
     
     @Test
     public void testListOfComplexFailureValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
+        schema.clearFields();
         schema.getList().add(complexSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";

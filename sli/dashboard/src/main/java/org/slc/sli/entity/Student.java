@@ -112,13 +112,13 @@ public class Student {
     }
     
     private boolean hasLimitedEnglishProficiency() {
-        return limitedEnglishProficiency.equals(Constants.SHOW_ELL_LOZENGE);
+        return (limitedEnglishProficiency != null) && (limitedEnglishProficiency.equals(Constants.SHOW_ELL_LOZENGE));
     }
     
     
     private boolean hasSchoolFoodServiceEligibility() {
         for (Constants.FREParticipation part : Constants.FREParticipation.values()) {
-            if (schoolFoodServicesEligibility.equals(part.getValue())) {
+            if ((schoolFoodServicesEligibility != null) && (schoolFoodServicesEligibility.equals(part.getValue()))) {
                 return true;
             }
         }

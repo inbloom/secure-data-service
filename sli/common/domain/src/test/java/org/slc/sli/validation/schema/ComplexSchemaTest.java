@@ -38,9 +38,6 @@ public class ComplexSchemaTest {
     DoubleSchema doubleSchema;
     
     @Autowired
-    DecimalSchema decimalSchema;
-    
-    @Autowired
     StringSchema stringSchema;
     
     @Autowired
@@ -51,14 +48,13 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -67,14 +63,12 @@ public class ComplexSchemaTest {
         Boolean booleanEntity = true;
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
@@ -82,15 +76,37 @@ public class ComplexSchemaTest {
     }
     
     @Test
+    public void testOptionalFields() {
+        schema.clearFields();
+        
+        BooleanSchema required = new BooleanSchema();
+        AppInfo info = new AppInfo(null);
+        info.put("required", "true");
+        required.addAnnotation(info);
+        
+        schema.addField("optionalField", booleanSchema);
+        schema.addField("requiredField", required);
+
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        complexEntity.put("requiredField", Boolean.TRUE);
+        assertTrue(schema.validate(complexEntity));
+
+        complexEntity.put("optionalField", Boolean.FALSE);
+        assertTrue(schema.validate(complexEntity));
+
+        complexEntity.remove("requiredField");
+        assertFalse(schema.validate("requiredField"));
+    }
+    
+    @Test
     public void testComplexFailureValidation() throws IllegalArgumentException {
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -117,16 +133,15 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexHierarchyValidation() throws IllegalArgumentException {
-        hierarchySchema.getFields().clear();
-        hierarchySchema.getFields().put("schemaField", schema);
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        hierarchySchema.clearFields();
+        hierarchySchema.addField("schemaField", schema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -136,7 +151,6 @@ public class ComplexSchemaTest {
         Boolean booleanEntity = true;
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
@@ -144,7 +158,6 @@ public class ComplexSchemaTest {
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
@@ -153,16 +166,15 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexHierarchyFailureValidation() throws IllegalArgumentException {
-        hierarchySchema.getFields().clear();
-        hierarchySchema.getFields().put("schemaField", schema);
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        hierarchySchema.clearFields();
+        hierarchySchema.addField("schemaField", schema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");
@@ -171,7 +183,6 @@ public class ComplexSchemaTest {
         Map<String, Object> complexEntity = new HashMap<String, Object>();
         Long longEntity = 0L;
         Double doubleEntity = 0.0;
-        BigDecimal decimalEntity = new BigDecimal(0);
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
@@ -182,7 +193,6 @@ public class ComplexSchemaTest {
         
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
-        complexEntity.put("decimalField", decimalEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
@@ -192,16 +202,15 @@ public class ComplexSchemaTest {
     
     @Test
     public void testComplexHierarchyMapFailureValidation() throws IllegalArgumentException {
-        hierarchySchema.getFields().clear();
-        hierarchySchema.getFields().put("schemaField", schema);
-        schema.getFields().clear();
-        schema.getFields().put("booleanField", booleanSchema);
-        schema.getFields().put("longField", longSchema);
-        schema.getFields().put("doubleField", doubleSchema);
-        schema.getFields().put("decimalField", decimalSchema);
-        schema.getFields().put("stringField", stringSchema);
-        schema.getFields().put("tokenField", tokenSchema);
-        schema.getFields().put("dateTimeField", dateTimeSchema);
+        hierarchySchema.clearFields();
+        hierarchySchema.addField("schemaField", schema);
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        schema.addField("dateTimeField", dateTimeSchema);
         tokenSchema.getProperties().clear();
         List<String> tokens = new ArrayList<String>();
         tokens.add("validToken");

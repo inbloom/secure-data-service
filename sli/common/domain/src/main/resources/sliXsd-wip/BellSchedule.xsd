@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="qualified">
+
+	<xs:include schemaLocation="ComplexTypes.xsd" />
+
+	<xs:element name="session">
+		<xs:annotation>
+			<xs:documentation>This entity represents the prescribed span of time
+				when an education institution is open, instruction is provided, and
+				students are under the direction and guidance of teachers and/or
+				education institution administration. A session may be interrupted
+				by one or more vacations.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="sessionName" type="identificationCode">
+					<xs:annotation>
+						<xs:documentation>The identifier for the calendar for the academic
+							session (e.g., 2010/11, 2011 Summer).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="schoolYear" type="schoolYearType">
+					<xs:annotation>
+						<xs:documentation>The identifier for the school year.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="term" type="termType">
+					<xs:annotation>
+						<xs:documentation>The term for the session during the school year.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="beginDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Month, day and year of the first day of the
+							session.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="endDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Month, day and year of the last day of the
+							session.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="totalInstructionalDays" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The total number of instructional days in the
+							school calendar.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="bellSchedule">
+		<xs:annotation>
+			<xs:documentation>This entity represents the schedule of class period
+				meeting times.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="bellScheduleName" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Name or title of the bell schedule.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="gradeLevels">
+					<xs:annotation>
+						<xs:documentation>
+							The grade levels the particular bell schedule
+							applies to.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:list itemType="gradeLevelType">
+						</xs:list>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="weeksInCycle">
+					<xs:annotation>
+						<xs:documentation>
+							The number of weeks in which the meeting time
+							schedules repeat.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" />
+							<xs:maxInclusive value="52" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="sessionsOffered" type="xs:string"
+					maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							The sessions associated with this bell schedule.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="meetingTime">
+		<xs:annotation>
+			<xs:documentation>This entity represents the set of elements defining
+				the meeting time for a class period for a bell schedule.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="classPeriodName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The class period associated with the meeting time
+						for a bell schedule.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="weekNumber">
+				<xs:annotation>
+					<xs:documentation>The week number (out of the number of weeks in
+						the cycle) for this meeting time.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="52" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="meetingDates">
+				<xs:annotation>
+					<xs:documentation>Dates the meetings occur</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="xs:date"></xs:list>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="startTime" type="xs:time">
+				<xs:annotation>
+					<xs:documentation>An indication of the time of day the class
+						begins.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endTime" type="xs:time">
+				<xs:annotation>
+					<xs:documentation>An indication of the time of day the class ends.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="officialAttendancePeriod" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether this meeting time is used
+						for official daily attendance.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="sectionBellScheduleAssociation">
+		<xs:annotation>
+			<xs:documentation>
+				An association between the section and bell
+				schedule.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="meetingTime">
+					<xs:sequence>
+						<xs:element name="bellScheduleId" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									The bell schedule the section is scheduled in
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="sectionId" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									The section being offered
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="eventBellScheduleAssociation">
+		<xs:annotation>
+			<xs:documentation>
+				An association between the section and bell
+				schedule.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="meetingTime">
+					<xs:sequence>
+						<xs:element name="bellScheduleId" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									The bell schedule the event is scheduled in
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="miscellaneousEventId" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									The section being offered
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="miscellaneousEvent">
+		<xs:annotation>
+			<xs:documentation>A miscellaneous event, such as recess or lunch
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="eventName" type="xs:string">
+			</xs:element>
+			<xs:element name="eventType" type="xs:string">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="section">
+		<xs:annotation>
+			<xs:documentation>This educational entity represents a setting in
+				which organized instruction of course content is provided to one or
+				more students for a given period of time. A course may be offered to
+				more than one class/section. Instruction, provided by one or more
+				teachers or other staff members, may be delivered in person or via a
+				different medium.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
+					<xs:annotation>
+						<xs:documentation>A unique identifier for the section that is
+							defined by the classroom, the subjects taught, and the
+							instructors that are assigned.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sequenceOfCourse">
+					<xs:annotation>
+						<xs:documentation>When a section is part of a sequence of parts
+							for
+							a course, the number if the sequence. If the course has only one
+							part, the value of this section attribute should be 1.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" />
+							<xs:maxInclusive value="8" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="educationalEnvironment" type="educationalEnvironmentType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The setting in which a child receives education
+							and related services; for example:
+							Center-based instruction
+							Home-based instruction
+							Hospital class
+							Mainstream
+							Residential care
+							and
+							treatment facility
+							....
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="mediumOfInstruction" type="mediumOfInstructionType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The media through which teachers provide
+							instruction to students and students and teachers communicate
+							about instructional matters; for example:
+							Technology-based instruction in classroom
+							Correspondence instruction
+							Face-to-face instruction
+							Virtual/On-line Distance learning
+							Center-based instruction
+							...
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="populationServed" type="populationServedType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The population for which the course was
+							designed; for example:
+							Bilingual students
+							Remedial education students
+							Gifted and talented students
+							Career and Technical Education students
+							Special education students
+							....
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="availableCredit" type="credits"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The amount of credit available to a student who
+							successfully meets the objectives of the course. Available
+							credits
+							are measured in Carnegie units, A course meeting every day for one
+							period of the school day over the span of a school
+							year offers one Carnegie unit. See publication: U.S. Department
+							of Education, NCES, 2007-341, Secondary School Course
+							Classification System: School Codes for the Exchange of Data
+							(SCED).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseOfferingReference" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The course offering taught in the section.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="schoolReference" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The school where the section is taught.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+
+				<!-- obtain location information via SectionBellScheduleAssocation -->
+
+				<xs:element name="sessionReference" type="xs:string"
+					minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The session associated with the section. This
+							reference is required.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="programReference" type="xs:string"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Optional reference to program (e.g., CTE, etc.)
+							the section is associated with.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="location">
+		<xs:annotation>
+			<xs:documentation>This entity represents the physical space where
+				students gather for
+				a particular class/section. The location may be
+				an indoor or outdoor area
+				designated for the purpose of meeting the
+				educational needs of students.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="classroomIdentificationCode" type="classroomIdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to
+						a room by a school, school system, state, or other agency or
+						entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="maximumNumberOfSeats" type="xs:int"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The most number of seats the class can maintain.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="optimalNumberOfSeats" type="xs:int"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of seats that is most favorable to the
+						class.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

@@ -25,11 +25,11 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityTokenResolver;
-import org.slc.sli.api.security.enums.Right;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Creates Spring Authentication object by calling openAM restful API
@@ -95,7 +95,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     }
     
     private Authentication buildAuthentication(String token, String payload) {
-        final SLIPrincipal principal = this.locator.locate(extractRealm(payload), extractValue("uid", payload));
+        final SLIPrincipal principal = locator.locate(extractRealm(payload), extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));

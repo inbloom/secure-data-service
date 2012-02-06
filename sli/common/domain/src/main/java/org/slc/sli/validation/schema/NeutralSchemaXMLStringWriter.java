@@ -68,7 +68,7 @@ public class NeutralSchemaXMLStringWriter implements NeutralSchemaStringWriter {
         return buffer.toString();
     }
     
-    private String getXmlFields(String label, Map<String, Object> fields, boolean enableHierarchy) {
+    private String getXmlFields(String label, Map<String, NeutralSchema> fields, boolean enableHierarchy) {
         StringBuffer buffer = new StringBuffer();
         
         buffer.append("<fields>" + "\n");

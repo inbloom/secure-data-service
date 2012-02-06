@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SchoolType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of education institution as classified by its primary focus.",
-  "xsd-type" : "token",
-  "symbols" : [ "Alternative", "Regular", "Special_Education", "Vocational" ]
-}

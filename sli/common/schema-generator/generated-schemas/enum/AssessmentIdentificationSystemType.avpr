@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AssessmentIdentificationSystemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Definition: A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to an assessment.",
-  "xsd-type" : "token",
-  "symbols" : [ "School", "District", "State", "Federal", "Other_Federal", "Test_Contractor", "Other" ]
-}
