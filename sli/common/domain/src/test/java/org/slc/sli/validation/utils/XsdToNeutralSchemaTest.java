@@ -193,8 +193,8 @@ public class XsdToNeutralSchemaTest {
         assertEquals("complexType2", extField2.getType());
         assertEquals(ComplexSchema.class.getCanonicalName(), extField2.getValidatorClass());
         assertNotNull(extField2.getFields().get("intElement"));
-        assertEquals(IntegerSchema.class.getCanonicalName(),
-                extField2.getFields().get("intElement").getValidatorClass());
+        assertEquals(IntegerSchema.class.getCanonicalName(), extField2.getFields().get("intElement")
+                .getValidatorClass());
         NeutralSchema extField3 = extSchema.getFields().get("extension2");
         assertNotNull(extField3);
         assertEquals("BaseSimpleType", extField3.getType());
@@ -224,9 +224,18 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(testFloatSchema);
         assertEquals("float", testFloatSchema.getType());
         assertEquals(DoubleSchema.class.getCanonicalName(), testFloatSchema.getValidatorClass());
+        
+        NeutralSchema schema3 = repo.getSchema("TestComplexType3");
+        assertNotNull(schema3);
+        NeutralSchema simpleRestriction = schema3.getFields().get("SimpleTypeRestriction");
+        assertNotNull(simpleRestriction);
+        assertEquals("SimpleTypeRestriction", simpleRestriction.getType());
+        assertEquals(StringSchema.class.getCanonicalName(), simpleRestriction.getValidatorClass());
+        assertEquals("40", simpleRestriction.getProperties().get(Restriction.MAX_LENGTH.getValue()));
+        assertEquals("1", simpleRestriction.getProperties().get(Restriction.MIN_LENGTH.getValue()));
     }
     
-    @Test
+    // @Test
     public void testSliXsdSchema() throws IOException {
         XsdToNeutralSchemaRepo schemaRepo = new XsdToNeutralSchemaRepo("classpath:sliXsd-wip",
                 new NeutralSchemaFactory());
@@ -241,7 +250,7 @@ public class XsdToNeutralSchemaTest {
                 "studentCohortAssociation", "studentDisciplineIncidentAssociation", "studentParentAssociation",
                 "studentProgramAssociation", "studentSchoolAssociation", "studentSectionAssociation",
                 "studentTranscriptsAssociation", "teacherSchoolAssociation", "teacherSectionAssociation" };
-
+        
         for (String testSchema : testSchemas) {
             assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
             assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
