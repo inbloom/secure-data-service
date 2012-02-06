@@ -1,6 +1,5 @@
 class SessionResource < ActiveResource::Base
   cattr_accessor :auth_id, :url_type
-
   Rails.logger.debug { "Session ID: #{@auth_id}" }
   Rails.logger.debug { "Entity Type: #{@url_type}" }
   
@@ -20,5 +19,13 @@ class SessionResource < ActiveResource::Base
        Rails.logger.debug { "collection_path: #{something}" }
        something
      end
+     
+      ## Remove format from the url.
+      def custom_method_collection_url(method_name, options = {})
+        prefix_options, query_options = split_options(options)
+        something = "#{prefix(prefix_options)}#{self.url_type}/#{method_name}#{query_string(query_options)}?sessionId=#{self.auth_id}"
+        Rails.logger.debug {"custom_method_collection_url: #{something}"}
+        something
+      end
   end
 end

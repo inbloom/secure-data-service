@@ -11,6 +11,7 @@ Given the server is in "test" mode
 And I am authenticated to SLI as "cgray" password "cgray"
 When I access "/studentlist"
 And I wait for "1" seconds
+When I select ed org "No Ed-Org"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"

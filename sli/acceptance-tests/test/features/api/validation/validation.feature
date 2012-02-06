@@ -15,10 +15,11 @@ Scenario: Post a valid base Student/School with bare minimum required data
 	When I navigate to POST "/schools"
 	Then I should receive a return code of 201
 
-@wip	
-Scenario: Fail when posting a Student object during a School POST operation
-	Given I create a valid base level student object
-	When I navigate to POST "/schools"
+
+Scenario: Fail when posting a School object during a Student POST operation
+	Given format "application/json"
+	Given I create a valid base level school object
+	When I navigate to POST "/students"
 	Then I should receive a return code of 400
 
 #tests all non-nullable fields
@@ -33,15 +34,16 @@ Scenario: Fail when passing blank object during POST for student
 	Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
 Scenario: Fail when passing bad enum during POST for student
+	Given format "application/json"
 	Given I create a student object with "sex" set to Guy
 	When I navigate to POST "/students"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
+
 Scenario: Fail when passing an incorrectly capitalized enum during POST for student
+	Given format "application/json"
     Given I create a student object with sex equal to "MALE" instead of "Male"
 	When I navigate to POST "/students"
     Then I should receive a return code of 400
@@ -57,8 +59,9 @@ Scenario: Fail when passing map instead of array during POST for school
 	When I navigate to POST "/schools"
     Then I should receive a return code of 201
  
-@wip    
+    
 Scenario: Fail when passing array instead of map during POST for student
+	Given format "application/json"
     Given I create a student object with "name" set to an array of names
 	When I navigate to POST "/students"
     Then I should receive a return code of 400
@@ -76,15 +79,17 @@ Scenario: Fail when posting a StudentSchoolAssociation with invalid school ID
 
 @wip
 Scenario: Fail when posting a string in a field expecting an integer
+	Given format "application/json"
     Given I create a student object with "studentUniqueStateId" equal to a string
 	When I navigate to POST "/students"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
-Scenario: Fail when posting an integer in a field expeccting a string
-    Given I create a school object with "stateOrganizationId" equal to a integer
-	When I navigate to POST "/schools"
+
+Scenario: Fail when posting an integer in a field expecting a string
+	Given format "application/json"
+    Given I create a student object with "studentUniqueStateId" equal to a integer
+	When I navigate to POST "/students"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 	
@@ -102,15 +107,17 @@ Scenario: Fail when posting a string to a field that has fewer characters than t
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip	
+	
 Scenario: Fail when posting a string "true" to a field expecting a boolean
+	Given format "application/json"
     Given I create a student object with "hispanicLatinoEthnicity" set to a true string
 	When I navigate to POST "/students"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
+
 Scenario: Fail when posting a date in the wrong format
+	Given format "application/json"
     Given I create a student object with "birthDate" set to MM-DD-YYYY
 	When I navigate to POST "/students"
     Then I should receive a return code of 400

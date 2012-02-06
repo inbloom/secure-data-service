@@ -21,7 +21,6 @@ When /^I GET the url "([^"]*)" using that session ID$/ do |arg1|
     assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-
 Then /^I should see the session debug context in the response body$/ do
     assert(@res != nil, "Response is nil")
     data = JSON.parse(@res.body)
@@ -57,4 +56,8 @@ Then /^I should see the non\-authenticated object in the response body$/ do
     assert(data != nil, "Response body is nil")
     assert(data['authenticated'] != nil, "Response body does not contain 'authenticated'")
     assert(data['authenticated'] == false, "'authenticated' was not false ")
+end
+
+Then /^I should see a link in the responce header telling me where to authenicate$/ do
+  assert(@res.headers[:www_authenticate] != nil, "There was no authentication header")
 end

@@ -1,9 +1,16 @@
 class EntitiesController < ApplicationController
   before_filter :set_url
+  after_filter :fix_urls
   
   def set_url
     Entity.url_type = params[:type]
   end
+  
+  def fix_urls
+      response.body = response.body.gsub!("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
+      logger.debug "fix_urls finished"
+      
+    end
   # GET /entities
   # GET /entities.json
   def index
@@ -18,7 +25,7 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
-    @entity = Entity.find(params[:id])
+      @entity = Entity.get(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

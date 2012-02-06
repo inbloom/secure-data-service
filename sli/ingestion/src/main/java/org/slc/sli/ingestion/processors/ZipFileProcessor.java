@@ -17,6 +17,7 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Zip file handler.
@@ -37,35 +38,49 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
     @Override
     @Profiled(tag = "ZipFileProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
-
-        log.info("Received zip file: " + exchange.getIn());
-        File zipFile = exchange.getIn().getBody(File.class);
         
-        BatchJob job = BatchJob.createDefault();
-        
-        FaultsReport fr = job.getFaultsReport();
-        
-        if (validator.isValid(zipFile, fr)) {
+        try {
+            log.info("Received zip file: " + exchange.getIn());
             
-            // extract the zip file
-            File dir = ZipFileUtil.extract(zipFile);
-            log.info("Extracted zip file to {}", dir.getAbsolutePath());
+            File zipFile = exchange.getIn().getBody(File.class);
+        
+            BatchJob job = BatchJob.createDefault();
+        
+            FaultsReport fr = job.getFaultsReport();
+        
             
-            try {
-                // find manifest (ctl file)
-                File ctlFile = ZipFileUtil.findCtlFile(dir);
+            if (validator.isValid(zipFile, fr)) {
+            
+                // extract the zip file
+                File dir = ZipFileUtil.extract(zipFile);
+                log.info("Extracted zip file to {}", dir.getAbsolutePath());
+            
+                try {
+                    // find manifest (ctl file)
+                    File ctlFile = ZipFileUtil.findCtlFile(dir);
                 
-                // send control file back
-                exchange.getIn().setBody(ctlFile, File.class);
+                    // send control file back
+                    exchange.getIn().setBody(ctlFile, File.class);
                 
-                return;
-            } catch (IOException ex) {
-                fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
+                    return;
+                } catch (IOException ex) {
+                    fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
+                }
             }
+            
+            // set headers for ingestion routing
+            exchange.getIn().setBody(job, BatchJob.class);
+            if (fr.hasErrors()) {
+                exchange.getIn().setHeader("ErrorMessage", "batch job error");
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            } else {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+            }
+            
+        } catch (Exception exception) {
+            exchange.getIn().setHeader("ErrorMessage", exception.toString());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         }
-        
-        exchange.getIn().setBody(job, BatchJob.class);
-        exchange.getIn().setHeader("hasErrors", fr.hasErrors());
     }
     
     public ZipFileValidator getValidator() {

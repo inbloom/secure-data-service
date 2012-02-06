@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1"
+	elementFormDefault="qualified"
+	attributeFormDefault="qualified">
+
+	<xs:include schemaLocation="Enrollment.xsd"/>
+	
+	
+<!-- 	<xs:include schemaLocation="Assessments.xsd"/>
+    <xs:include schemaLocation="Attendance.xsd"/>
+    <xs:include schemaLocation="BellSchedule.xsd"/>
+    <xs:include schemaLocation="Calendar.xsd"/>
+    <xs:include schemaLocation="Cohort.xsd"/>
+    <xs:include schemaLocation="Discipline.xsd"/>
+    <xs:include schemaLocation="EducationalOrganization.xsd"/>
+  
+    <xs:include schemaLocation="Graduation.xsd"/>
+    <xs:include schemaLocation="Parents.xsd"/>
+    <xs:include schemaLocation="Program.xsd"/>
+    <xs:include schemaLocation="Staff.xsd"/>
+    <xs:include schemaLocation="StudentAcademicRecord.xsd"/>
+    <xs:include schemaLocation="TeachingAndLearning.xsd"/> -->
+</xs:schema>
+

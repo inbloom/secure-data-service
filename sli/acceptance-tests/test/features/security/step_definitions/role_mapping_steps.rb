@@ -32,7 +32,7 @@ end
 
 Then /^I should not see any data about any realm's role\-mapping$/ do
   @result.each do |item|
-    assert(item["mappings"] == nil, "Realm "+item["state"]+" Role mapping info was found.")
+    assert(item["mappings"] == nil, "Realm "+item["state"]+" Role mapping info was found - " + item["mappings"].inspect)
   end
 end
 
@@ -91,16 +91,30 @@ When /^I GET a specific (realm "[^"]*")$/ do |arg1|
 end
 
 When /^I PUT to change the (realm "[^"]*") to add a mapping between default role "([^"]*)" to role "([^"]*)"$/ do |arg1, arg2, arg3|
-  restHttpGet("/realm/" + arg1) 
+  restHttpGet("/realm/" + arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
   data = JSON.parse(@res.body)
   curMappings = data["mappings"]
   curMappings[arg2].push arg3
   data["mappings"] = curMappings
   dataFormatted = prepareData("application/json", data)
-  restHttpPut("/realm/" + arg1, dataFormatted)
+  restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
+
+When /^I add a mapping between non-existent role "([^"]*)" and custom role "([^"]*)" for (realm "[^"]*")$/ do |arg1, arg2, arg3|
+  restHttpGet("/realm/" + arg3) 
+  assert(@res != nil, "Response from rest-client GET is nil")
+  data = JSON.parse(@res.body)
+  print(data.inspect)
+  curMappings = data["mappings"]
+  curMappings[arg2] = [arg3]
+  data["mappings"] = curMappings
+  dataFormatted = prepareData("application/json", data)
+  restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
 
 When /^I DELETE the (realm "[^"]*")$/ do |arg1|
   restHttpDelete("/realm/" + arg1)

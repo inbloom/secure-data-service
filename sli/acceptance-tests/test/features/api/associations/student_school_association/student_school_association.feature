@@ -13,7 +13,7 @@ Background: Logged in as a super-user and using the small data set
 
 Scenario: Create a new student-school-association
 	Given format "application/json"
-		And "entryGradeLevel" is "TENTH_GRADE"
+		And "entryGradeLevel" is "Tenth grade"
 		And "schoolId" is "<'Orange Middle School' ID>"
 		And "studentId" is "<'Sybill' ID>"
 		And "entryDate" is "2010-01-01"
@@ -22,7 +22,7 @@ Scenario: Create a new student-school-association
 		And I should receive an ID for the newly created student-school-association
 	 When I navigate to GET "/student-school-associations/<'newly created student school association' ID>"
       Then "entryDate" should be "2010-01-01"
-        And "entryGradeLevel" should be "TENTH_GRADE"
+        And "entryGradeLevel" should be "Tenth grade"
 
 
 Scenario: Read a student-school-association by id
@@ -31,7 +31,7 @@ Scenario: Read a student-school-association by id
 	Then I should receive a return code of 200
 		And "studentId" should be "<'Alfonso' ID>"
 		And "schoolId" should be "<'Apple Alternative Elementary School' ID>"
-		And "entryGradeLevel" should be "First_grade"
+		And "entryGradeLevel" should be "First grade"
         And "entryDate" should be "2001-09-01"
 		And I should receive a link named "self" with URI "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
         And I should receive a link named "getSchool" with URI "/schools/<'Apple Alternative Elementary School' ID>"
@@ -60,12 +60,12 @@ Scenario: Read a student-school-association for a student
 Scenario: Update an existing student-school-association
 	Given format "application/json"
     When I navigate to GET "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
-      Then "entryGradeLevel" should be "First_grade"
-    When I set "entryGradeLevel" to "Second_Grade"
+      Then "entryGradeLevel" should be "First grade"
+    When I set "entryGradeLevel" to "Second grade"
 	  And I navigate to PUT "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
 	  Then I should receive a return code of 204
 	When I navigate to GET "/student-school-associations/<'Alfonso at Apple Alternative Elementary School' ID>"
-	Then "entryGradeLevel" should be "Second_Grade"
+	Then "entryGradeLevel" should be "Second grade"
  
 Scenario: Delete a student-school-association
 	Given format "application/json"

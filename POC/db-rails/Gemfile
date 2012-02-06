@@ -30,7 +30,10 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+group :deoployment, :production do
+	gem 'capistrano'
+	gem 'thin'
+end
 
 # To use debugger
 # gem 'ruby-debug'

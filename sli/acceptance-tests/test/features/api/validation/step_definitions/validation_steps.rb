@@ -104,8 +104,8 @@ Given /^I create a student object with "([^"]*)" equal to a string$/ do |arg1|
   @result[arg1] = "123456"
 end
 
-Given /^I create a school object with "([^"]*)" equal to a integer$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchool()
+Given /^I create a student object with "([^"]*)" equal to a integer$/ do |arg1|
+  @result = CreateEntityHash.createBaseStudent()
   @result[arg1] = 12345678
 end
 
@@ -155,6 +155,9 @@ end
 Then /^there should be no other contents in the response body other than links$/ do
   @result.delete('links')
   @result.delete('id')
+  @result.delete('address')
+  @result.delete('organizationCategories')
+  @result.delete('schoolCategories')
   assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data")
 end
 

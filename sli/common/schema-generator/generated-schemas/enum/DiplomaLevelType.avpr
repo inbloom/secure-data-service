@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "DiplomaLevelType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The level of diploma/credential that is awarded to a student in recognition of his/her completion of the curricular requirements.",
-  "xsd-type" : "token",
-  "symbols" : [ "Minimum", "Recommended", "Distinguished", "Cum_laude", "Magna_cum_laude", "Summa_cum_laude" ]
-}

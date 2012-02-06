@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Properties;
 
@@ -11,6 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -77,7 +79,9 @@ public class DocumentManipulator {
      * @throws XPathException
      */
     protected NodeList getNodeList(Document doc, String expression) throws XPathException {
-        XPath xpath = xPathFactory.newXPath();
+        XPath xpath = xPathFactory.newXPath();        
+        xpath.setNamespaceContext(new DocumentNamespaceResolver(doc));
+        
         XPathExpression exp = xpath.compile(expression);
             
         Object result = exp.evaluate(doc, XPathConstants.NODESET);
@@ -95,35 +99,42 @@ public class DocumentManipulator {
     public void serializeDocumentToHtml(Document document, File outputFile, File xslFile) throws DocumentManipulatorException {
         FileOutputStream fileOutput = null;     
         StreamSource xslSource = null;
-        Transformer transformer = null;
         
+        Properties props = new Properties();
+            
+        //set the output properties
+        props.put(OutputKeys.METHOD, "html");
+            
         try {
-            Properties oprops = new Properties();
-            
-            //set the output properties
-            oprops.put(OutputKeys.METHOD, "html");
-            oprops.put("indent-amount", "4");
-            
             fileOutput = new FileOutputStream(outputFile);
             //create the stream source from the xsl stylesheet
             xslSource = new StreamSource(xslFile);
-            
-            //get a transformer object with xsl styling
-            transformer = TransformerFactory.newInstance().newTransformer(xslSource);
-            //set the properties
-            transformer.setOutputProperties(oprops);
-            //perform the transform
-            transformer.transform(new DOMSource(document), new StreamResult(fileOutput));
-            
+                
+            serialize(document, new StreamResult(fileOutput), xslSource, props);
         } catch (FileNotFoundException e) {
-           throw new DocumentManipulatorException(e);
-        } catch (TransformerConfigurationException e) {
             throw new DocumentManipulatorException(e);
-        } catch (TransformerFactoryConfigurationError e) {
+        }
+    }
+    
+    /**
+     * Serialize a document in XML format to a file
+     * @param document
+     * @param outputFile
+     * @throws DocumentManipulatorException
+     */
+    public void serializeDocumentToXml(Document document, File outputFile) throws DocumentManipulatorException {
+        PrintWriter out = null;     
+            
+        try {
+            out = new PrintWriter(new FileOutputStream(outputFile, false));
+                
+            out.print(serializeDocumentToString(document));
+            out.flush();
+        } catch (FileNotFoundException e) {
             throw new DocumentManipulatorException(e);
-        } catch (TransformerException e) {
-            throw new DocumentManipulatorException(e);
-        } 
+        } finally {
+            out.close();
+        }
         
     }
     
@@ -134,20 +145,41 @@ public class DocumentManipulator {
      * @throws DocumentManipulatorException
      */
     public String serializeDocumentToString(Document document) throws DocumentManipulatorException {
-        Transformer transformer = null;
         StringWriter outText = new StringWriter();
-        StreamResult stream = new StreamResult(outText);
         
-        try {
-            Properties oprops = new Properties();
+        Properties props = new Properties();            
+        props.put(OutputKeys.METHOD, "xml");            
             
-            oprops.put(OutputKeys.METHOD, "xml");
-            //oprops.put("indent-amount", "4");
+        serialize(document, new StreamResult(outText), null, props);
+            
+        return outText.toString();
+    }
+    
+    /**
+     * Serializes a given document to a stream
+     * @param document
+     * @param stream
+     * @param source
+     * @param props
+     * @throws DocumentManipulatorException
+     */
+    private void serialize(Document document, StreamResult stream, Source source, Properties props) throws DocumentManipulatorException {
+        TransformerFactory factory = null;
+        Transformer transformer = null;
+        
+        try {            
+            //create the factory
+            factory = TransformerFactory.newInstance();
             
             //create the transformer
-            transformer = TransformerFactory.newInstance().newTransformer();
+            if (source != null) {
+                transformer = factory.newTransformer(source);
+            } else {
+                transformer = factory.newTransformer();
+            }
+            
             //set the properties
-            transformer.setOutputProperties(oprops);
+            transformer.setOutputProperties(props);
             //perform the transformation
             transformer.transform(new DOMSource(document), stream);
             
@@ -158,7 +190,5 @@ public class DocumentManipulator {
         } catch (TransformerException e) {
             throw new DocumentManipulatorException(e);
         }
-        
-        return outText.toString();
     }
 }

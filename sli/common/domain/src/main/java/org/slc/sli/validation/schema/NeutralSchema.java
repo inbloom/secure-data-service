@@ -12,11 +12,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slc.sli.validation.schema.Annotation.AnnotationType;
 
 /**
  * 
@@ -28,7 +28,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Scope("prototype")
 @Component
-public class NeutralSchema {
+public abstract class NeutralSchema {
     
     // Constants
     public static final String JSON = "json";
@@ -39,10 +39,9 @@ public class NeutralSchema {
     
     // Attributes
     private String type = "";
-    private NeutralSchemaType schemaType;
     private String version = "1.0";
     private Map<String, Object> properties = null;
-    private Map<String, Object> fields = null;
+    private Map<String, NeutralSchema> fields = null;
     
     // Future Attributes
     private Properties docProperties = new Properties();
@@ -51,14 +50,7 @@ public class NeutralSchema {
     private String readConverter = null;
     private String writeConverter = null;
     
-    private boolean isPersonallyIdentifiableInfo = false;
-    private Right readAuthority = Right.READ_GENERAL;
-    private Right writeAuthority = Right.WRITE_GENERAL;
-    private String documentation = null;
-    
-    // Constructors
-    public NeutralSchema() {
-    }
+    private Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
     
     public NeutralSchema(String type) {
         this.type = type;
@@ -74,14 +66,7 @@ public class NeutralSchema {
     }
     
     @JsonIgnore
-    public void setSchemaType(NeutralSchemaType schemaType) {
-        this.schemaType = schemaType;
-    }
-    
-    @JsonIgnore
-    public NeutralSchemaType getSchemaType() {
-        return schemaType;
-    }
+    public abstract NeutralSchemaType getSchemaType();
     
     @JsonIgnore
     public String getValidatorClass() {
@@ -117,43 +102,42 @@ public class NeutralSchema {
         return properties;
     }
     
-    public Map<String, Object> getFields() {
+    public final Map<String, NeutralSchema> getFields() {
         if (fields == null) {
-            fields = new LinkedHashMap<String, Object>();
+            fields = new LinkedHashMap<String, NeutralSchema>();
         }
         return fields;
     }
     
-    public boolean isPersonallyIdentifiableInfo() {
-        return isPersonallyIdentifiableInfo;
+    public void clearFields() {
+        if (fields != null) {
+            fields.clear();
+        }
     }
     
-    public void isPersonallyIdentifiableInfo(boolean pii) {
-        isPersonallyIdentifiableInfo = pii;
+    public void addField(String name, NeutralSchema schema) {
+        if (fields == null) {
+            fields = new LinkedHashMap<String, NeutralSchema>();
+        }
+        
+        // Inherit only if the parent is more restrictive.
+        AppInfo info = (AppInfo) annotations.get(AnnotationType.APPINFO);
+        schema.inheritAnnotations(info);
+        
+        fields.put(name, schema);
+        
     }
     
-    public Right getReadAuthority() {
-        return readAuthority;
-    }
-    
-    public void setReadAuthority(Right readAuthority) {
-        this.readAuthority = readAuthority;
-    }
-    
-    public Right getWriteAuthority() {
-        return writeAuthority;
-    }
-    
-    public void setWriteAuthority(Right writeAuthority) {
-        this.writeAuthority = writeAuthority;
-    }
-    
-    public String getDocumentation() {
-        return documentation;
-    }
-    
-    public void setDocumentation(String documentation) {
-        this.documentation = documentation;
+    protected void inheritAnnotations(AppInfo parentInfo) {
+        // Nothing to inherit.
+        if (parentInfo == null || parentInfo.getValues().isEmpty()) {
+            return;
+        }
+        
+        AppInfo myInfo = (AppInfo) annotations.get(AnnotationType.APPINFO);
+        if (myInfo != null) {
+            myInfo.inherit(parentInfo);
+        }
     }
     
     // Future Methods
@@ -233,11 +217,7 @@ public class NeutralSchema {
      *            list of current errors
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
-        boolean isValid = true;
-        
-        return isValid;
-    }
+    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors);
     
     /**
      * @param isValid
@@ -298,4 +278,26 @@ public class NeutralSchema {
         return toJson();
     }
     
+    public void addAnnotation(Annotation d) {
+        annotations.put(d.getType(), d);
+    }
+    
+    /**
+     * Helper functions for annotations.
+     */
+    public Documentation getDocumentation() {
+        return (Documentation) getAnnotation(AnnotationType.DOCUMENTATION);
+    }
+    
+    public AppInfo getAppInfo() {
+        return (AppInfo) getAnnotation(AnnotationType.APPINFO);
+    }
+    
+    private Annotation getAnnotation(Annotation.AnnotationType type) {
+        if (annotations == null) {
+            return null;
+        }
+        return annotations.get(type);
+    }
+
 }

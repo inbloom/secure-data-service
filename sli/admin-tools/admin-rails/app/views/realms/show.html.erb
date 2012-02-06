@@ -1,0 +1,20 @@
+<script>
+//	var roles = <%= Role.all.to_json.html_safe %>
+	var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
+
+$(document).ready(function() {
+	drawTable(rMap, false);
+});
+</script>
+<h2>Role mappings for <%=@realm.state%></h2>
+<table>
+        <thead><tr><th id="crole" style="text-decoration: underline">Client Role</th><th id="srole" style="text-decoration: underline">SLI Role</th></tr></thead>
+        <tbody id="mTable"></tbody>
+</table
+
+<%= link_to '', edit_realm_path(@realm) %>
+<%= link_to 'Edit', edit_realm_path(@realm) %>
+<!--
+don't need this since they'll just get redirected back here
+<%= link_to 'Back', realms_path %>
+-->
