@@ -1,5 +1,8 @@
+require "bundler/capistrano"
+
 set :application, "Identity Management Admin Tool"
-set :repository,  "set your repository location here"
+set :repository,  "git@github.com:WGEN-SLI/SLI.git"
+set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
 set :user, "rails"
 set :use_sudo, false
@@ -7,6 +10,7 @@ set :deploy_via, :remote_cache
 set :deploy_to, "~/admin"
 
 set :scm, :git
+
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 server "devrails1.slidev.org", :app, :web, :db, :primary => true
 
@@ -14,19 +18,40 @@ server "devrails1.slidev.org", :app, :web, :db, :primary => true
 namespace :deploy do
   desc "Start the Thin processes"
   task :start do
-    run "cd #{:deploy_to}/current"
+    run "cd #{deploy_to}/current/sli/admin-tools/admin-rails"
     run "bundle exec thin start -C config/thin.yml"
+  end
+
+  task :finalize_update, :except => { :no_release => true } do
+    run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
+
+    # mkdir -p is making sure that the directories are there for some SCM's that don't
+    # save empty folders
+    run <<-CMD
+      rm -rf #{latest_release}/log #{latest_release}/public/system #{latest_release}/tmp/pids &&
+      mkdir -p #{latest_release}/public &&
+      mkdir -p #{latest_release}/tmp &&
+      ln -s #{shared_path}/log #{latest_release}/log &&
+      ln -s #{shared_path}/system #{latest_release}/public/system &&
+      ln -s #{shared_path}/pids #{latest_release}/tmp/pids
+    CMD
+
+    if fetch(:normalize_asset_timestamps, true)
+      stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
+      asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).map { |p| "#{latest_release}/sli/admin-tools/admin-rails/public/#{p}" }.join(" ")
+      run "find #{asset_paths} -exec touch -t #{stamp} {} ';'; true", :env => { "TZ" => "UTC" }
+    end
   end
 
   desc "Stop the Thin processes"
   task :stop do
-    run "cd #{:deploy_to}/current"
+    run "cd #{deploy_to}/current/sli/admin-tools/admin-rails"
     run "bundle exec thin stop config/thin.yml"
   end
 
   desc "Restart the Thin processes"
   task :restart do
-    run "cd #{:deploy_to}/current"
+    run "cd #{deploy_to}/current/sli/admin-tools/admin-rails"
     run "bundle exec thin restart config/thin.yml"
   end
 
