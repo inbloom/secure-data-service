@@ -126,52 +126,50 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
-
-	<xs:complexType name="TestDocumentationComplex">
-		<xs:annotation>
-			<xs:documentation>Test complex documentation.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="base1" type="BaseSimpleType" />
-			<xs:element name="simple" type="TestDocumentationSimple" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- non PII complex object with a PII element -->
-	<xs:complexType name="TestNotPersonallyIdentifiableInfoComplex">
-		<xs:sequence>
-			<xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple" />
-		</xs:sequence>
-	</xs:complexType>
-
-
-	<xs:complexType name="TestPersonallyIdentifiableInfoComplex">
-		<xs:annotation>
-			<xs:appinfo>
-				<sli:PersonallyIdentifiableInfo>true
-				</sli:PersonallyIdentifiableInfo>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="base1" type="BaseSimpleType" />
-			<xs:element name="base2" type="BaseSimpleType" />
-			<xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple" />
-			<xs:element name="notPII" type="TestNotPersonallyIdentifiableInfoSimple" />
-		</xs:sequence>
-	</xs:complexType>
-
-
-	<xs:complexType name="TestSecurityComplex">
-		<xs:annotation>
-			<xs:appinfo>
-				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="base1" type="BaseSimpleType" />
-			<xs:element name="security" type="TestSecuritySimple" />
-		</xs:sequence>
-	</xs:complexType>
-
+    
+    <xs:complexType name="TestDocumentationComplex">
+        <xs:annotation>
+            <xs:documentation>Test complex documentation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="base1" type="complexType1"/>        
+            <xs:element name="simple" type="TestDocumentationSimple"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- non PII complex object with a PII element -->
+    <xs:complexType name="TestNotPersonallyIdentifiableInfoComplex">
+        <xs:sequence>
+            <xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple"/>
+        </xs:sequence>
+    </xs:complexType>    
+    
+    
+     <xs:complexType name="TestPersonallyIdentifiableInfoComplex">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>            
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="base1" type="complexType1"/>
+            <xs:element name="base2" type="complexType1"/>
+            <xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple"/>
+            <xs:element name="notPII" type="TestNotPersonallyIdentifiableInfoSimple"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="TestSecurityComplex">
+        <xs:annotation>
+           <xs:appinfo>
+                <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+            </xs:appinfo>        
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="base1" type="complexType1"/>
+            <xs:element name="security" type="TestSecuritySimple"/>
+        </xs:sequence>
+    </xs:complexType>
+        
 </xs:schema>

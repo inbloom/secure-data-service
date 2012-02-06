@@ -37,8 +37,9 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
 /**
- * Realm role mapping API. Allows a user to define mappings between SLI roles
- * and client roles.
+ * Realm role mapping API. Allows full CRUD on realm objects.  Primarily intended to allow
+ * mappings between SLI roles and client roles as realms should not be created or deleted
+ * frequently.
  * 
  * @author jnanney
  * 
