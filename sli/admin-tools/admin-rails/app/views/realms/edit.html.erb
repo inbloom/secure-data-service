@@ -56,8 +56,8 @@
         //Called when a delete button is clicked
         //Figure out which item was deleted, remove it from the rMap, attempt to save
         $(document).bind("deleteRow", function(e) {
-                var cRole = $(e.target).closest("tr").children("td:eq(0)").html();
-                var sliRole = $(e.target).closest("tr").children("td:eq(1)").html();
+                var cRole = $(e.target).closest("tr").children("td:eq(0)").text();
+                var sliRole = $(e.target).closest("tr").children("td:eq(1)").text();
                 for (var i in rMap) {
                         if (rMap[i][0] == cRole) {
                                 rMap.splice(i, 1);
