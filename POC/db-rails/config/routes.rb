@@ -1,4 +1,10 @@
 DbRails::Application.routes.draw do
+  get "schools/index"
+
+  get "teachers/index"
+
+  get "students/index"
+
   # resources "teacher-section-associations", :as => :teacher_section_associations, :controller => :teacher_section_associations
   # resources "teacher-school-associations", :as => :teacher_school_associations, :controller => :teacher_school_associations
   # resources :sections
