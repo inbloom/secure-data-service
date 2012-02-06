@@ -16,7 +16,6 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.GenericEntityOld;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;

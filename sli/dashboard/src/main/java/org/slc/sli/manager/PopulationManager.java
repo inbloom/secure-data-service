@@ -1,4 +1,4 @@
-package org.slc.sli.entity;
+package org.slc.sli.manager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.SecurityUtil;
 
 

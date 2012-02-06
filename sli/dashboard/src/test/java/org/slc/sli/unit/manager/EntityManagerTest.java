@@ -1,4 +1,4 @@
-package org.slc.sli.unit.entity;
+package org.slc.sli.unit.manager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,8 +12,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.entity.EntityManager;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

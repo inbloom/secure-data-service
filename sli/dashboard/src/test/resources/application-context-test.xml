@@ -12,7 +12,7 @@
 >
 
 	<!-- Scans within the base package of the application for @Components to configure as beans -->
-	<context:component-scan base-package="org.slc.sli.client,org.slc.sli.entity,org.slc.sli.view">
+	<context:component-scan base-package="org.slc.sli.client,org.slc.sli.entity,org.slc.sli.manager,org.slc.sli.view">
 	</context:component-scan>
 
 	<context:annotation-config />	

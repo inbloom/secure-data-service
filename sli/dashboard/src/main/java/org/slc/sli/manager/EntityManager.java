@@ -1,4 +1,4 @@
-package org.slc.sli.entity;
+package org.slc.sli.manager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,6 +20,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import org.slc.sli.entity.GenericEntity;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
