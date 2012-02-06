@@ -8,6 +8,10 @@ DbRails::Application.routes.draw do
   # resources :schools
   # 
   # resources :homes
+  
+  # You can have the root of your site routed with "root"
+  # just remember to delete public/index.html.
+  root :to => 'entities#index', :defaults => {:type => "home"}
 
   match '/entities/:type' => 'entities#index'
   match '/entities/:type/:id' => 'entities#show'
@@ -60,9 +64,7 @@ DbRails::Application.routes.draw do
   #     resources :products
   #   end
 
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  root :to => 'homes#index'
+  
 
   # See how all your routes lay out with "rake routes"
 
