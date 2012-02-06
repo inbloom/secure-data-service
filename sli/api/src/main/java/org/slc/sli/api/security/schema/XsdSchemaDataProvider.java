@@ -1,0 +1,116 @@
+package org.slc.sli.api.security.schema;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.domain.enums.Right;
+import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
+
+/**
+ * Extracts required data from the XsdSchema
+ * 
+ * @author dkornishev
+ * 
+ */
+@Component
+public class XsdSchemaDataProvider implements SchemaDataProvider {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(XsdSchemaDataProvider.class);
+    
+    @Autowired
+    private SchemaRepository    repo;
+    
+    /**
+     * Bogus Schema used as fallback in case field path search turns up nothing
+     */
+    private NeutralSchema       defaultSchema;
+    
+    @PostConstruct
+    public void init() {
+        this.defaultSchema = new NeutralSchema("") {
+            
+            @Override
+            public AppInfo getAppInfo() {
+                return new AppInfo(null) {
+                    
+                    @Override
+                    public Right getReadAuthority() {
+                        return Right.READ_GENERAL;
+                    }
+                    
+                    @Override
+                    public Right getWriteAuthority() {
+                        return Right.WRITE_GENERAL;
+                    }
+                    
+                };
+            }
+            
+            @Override
+            public NeutralSchemaType getSchemaType() {
+                throw new UnsupportedOperationException("This instance is for accessing security rights only");
+            }
+            
+            @Override
+            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
+                throw new UnsupportedOperationException("This instance is for accessing security rights only");
+            }
+        };
+    }
+    
+    @Override
+    public String getDataSphere(String entityType) {
+        String sphere = "CEM";
+        if (repo.getSchema(entityType) != null && repo.getSchema(entityType).getAppInfo() != null) {
+            sphere = repo.getSchema(entityType).getAppInfo().getSecuritySphere();
+        }
+        
+        if (entityType.equals("realm") || entityType.equals("roles")) { // FIXME
+            sphere = "Admin";
+        }
+        
+        return sphere;
+    }
+    
+    @Override
+    public Right getRequiredReadLevel(String entityType, String fieldPath) {
+        return traverse(entityType, fieldPath).getAppInfo().getReadAuthority();
+    }
+    
+    @Override
+    public Right getRequiredWriteLevel(String entityType, String fieldPath) {
+        return traverse(entityType, fieldPath).getAppInfo().getWriteAuthority();
+    }
+    
+    private NeutralSchema traverse(String entityType, String fieldPath) {
+        NeutralSchema schema = repo.getSchema(entityType);
+        
+        if (schema != null) {
+            String[] chunks = fieldPath.split("\\.");
+            
+            for (String chunk : chunks) {
+                schema = schema.getFields().get(chunk);
+                
+                if (schema == null) {
+                    LOG.warn("Reached end of the line for type {} and path {}", entityType, fieldPath);
+                    schema = this.defaultSchema;
+                    break;
+                }
+            }
+        } else {
+            schema = this.defaultSchema;
+        }
+        
+        return schema;
+    }
+}
