@@ -47,5 +47,12 @@
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
+    
+    <xs:simpleType name="RestrictedString">
+    	<xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="150" />
+    	</xs:restriction>
+    </xs:simpleType>
         
 </xs:schema>
