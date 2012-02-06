@@ -484,12 +484,10 @@
 
   </jb:bean>
 
-  <!-- EducationalPlanItemType -->
-  <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value data="StudentSchoolAssociation/EducationalPlans/EducationalPlan" />
-  </jb:bean>
-
-
+	<!-- EducationalPlanItemType -->
+   <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+   	  		<jb:value data="StudentSchoolAssociation/EducationalPlans/EducationalPlan" />
+    </jb:bean>
 
   <!-- Start Teacher mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/Teacher">
@@ -610,4 +608,58 @@
   </jb:bean>
   <!--  End Teacher Mapping -->
 
+ <!-- Section Mapping -->
+     <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/Section">
+
+    <jb:expression property="recordType">'section'</jb:expression>
+    <jb:value property="localId" data="UniqueSectionCode" />
+    <jb:wiring property="attributes" beanIdRef="studentAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+
+   <!-- UniqueSectionCode -->
+   <jb:value property="uniqueSectionCode" data="Section/UniqueSectionCode" />
+
+   <!--SequenceOfCourse -->
+   <jb:value property="sequenceOfCourse" data="Section/SequenceOfCourse" decoder="Integer" />
+
+   <!-- EducationalEnvironment -->
+   <jb:value property="educationalEnvironment" data="Section/EducationalEnvironment"/>
+
+   <!-- MediumOfinstruction -->
+   <jb:value property="mediumOfInstruction" data="Section/MediumOfInstruction"/>
+
+   <!-- PopulationServed -->
+   <jb:value property="populationServed" data="Section/PopulationServed"/>
+
+   <!-- AvailableCredit -->
+   <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
+
+	<!-- CourseOfferingReference -->
+	<jb:value property="courseOfferingReference" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
+
+    <!-- SchoolReference -->
+	<jb:value property="schoolReference" data="Section/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+
+	<!-- SessionReference -->
+	<jb:value property="sessionReference" data="Section/SessionReference/SessionIdentity/SessionName" />
+
+	<!-- ProgramReference -->
+	<jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
+ </jb:bean>
+
+    <!-- AvailableCreditsType -->
+    <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+    	<jb:value property="creditType" data="Section/AvailableCredit/@CreditType"/>
+    	<jb:value property="creditConversion" data="Section/AvailableCredit/@CreditConversion" decoder="Double"/>
+    	<jb:value property="credit" data="Section/AvailableCredit/Credit" decoder="Double"/>
+    </jb:bean>
+
+	<!-- ProgramReferenceType -->
+	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
+				<jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId"/>
+	</jb:bean>
 </smooks-resource-list>
+
+
