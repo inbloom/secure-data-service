@@ -110,6 +110,7 @@ And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <First Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
+And I wait for a second
 And I click on the role <Other Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
