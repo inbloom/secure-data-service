@@ -1,7 +1,6 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slc.sli.config.ConfigUtil;
@@ -30,7 +29,7 @@ public class StudentManager extends Manager {
         // call the api
         List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
         if (dataFields.size() > 0) {
-            studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
+            studentInfo.addAll(apiClient.getStudents(SecurityUtil.getToken(), studentIds));
         }
         
         // return the results

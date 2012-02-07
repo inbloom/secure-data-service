@@ -15,10 +15,10 @@ import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
  */
 public interface APIClient {
 
-    public GenericEntity[] getSchools(final String token);
-    public GenericEntity[] getStudents(final String token, List<String> studentIds);
-    public GenericEntity[] getAssessments(final String token, List<String> studentIds);
-    public GenericEntity[] getCustomData(final String token, String key);
+    public List<GenericEntity> getSchools(final String token, List<String> schoolIds);
+    public List<GenericEntity> getStudents(final String token, List<String> studentIds);
+    public List<GenericEntity> getAssessments(final String token, List<String> studentIds);
+    public List<GenericEntity> getCustomData(final String token, String key);
     public AssessmentMetaData[] getAssessmentMetaData(final String token);
-    public GenericEntity[] getStudentProgramAssociation(final String token, List<String> studentIds);
+    public List<GenericEntity> getPrograms(final String token, List<String> studentIds);
 }

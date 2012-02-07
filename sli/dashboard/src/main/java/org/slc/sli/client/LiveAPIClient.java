@@ -26,7 +26,7 @@ import org.slc.sli.util.SecurityUtil;
  * @author svankina
  *
  */
-public class LiveAPIClient implements APIClient {
+public class LiveAPIClient /*implements APIClient*/ {
 
     private RESTClient restClient;
     private Gson gson;
@@ -50,7 +50,7 @@ public class LiveAPIClient implements APIClient {
         gson = new Gson();
     }
     
-    @Override
+    //@Override
     public GenericEntity[] getSchools(String token) {
         String teacherId = getId(token);
         GenericEntity[] sections = getSectionsForTeacher(teacherId, token);
@@ -60,7 +60,7 @@ public class LiveAPIClient implements APIClient {
         return schools;
     }
     
-    @Override
+    //@Override
     public GenericEntity[] getStudents(final String token, List<String> urls) {
         if (urls == null) {
             return null;
@@ -107,22 +107,22 @@ public class LiveAPIClient implements APIClient {
         return section;
     }
 
-    @Override
-    public GenericEntity[] getAssessments(final String token, List<String> studentIds) {
+    //@Override
+    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         return mockClient.getAssessments(getUsername(), studentIds);
     }
-    @Override
-    public GenericEntity[] getCustomData(final String token, String key) {
+    //@Override
+    public List<GenericEntity> getCustomData(final String token, String key) {
         return mockClient.getCustomData(getUsername(), key);
     }
 
-    @Override
+    //@Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return mockClient.getAssessmentMetaData(getUsername());
     }
-    @Override
-    public GenericEntity[] getStudentProgramAssociation(final String token, List<String> studentIds) {
-        return mockClient.getStudentProgramAssociation(getUsername(), studentIds);
+    //@Override
+    public List<GenericEntity> getStudentProgramAssociation(final String token, List<String> studentIds) {
+        return mockClient.getPrograms(getUsername(), studentIds);
     }
     
     private String getId(String token) {

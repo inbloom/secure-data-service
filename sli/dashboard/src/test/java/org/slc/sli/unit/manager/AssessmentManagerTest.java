@@ -36,6 +36,7 @@ public class AssessmentManagerTest {
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         EntityManager entityManager = new EntityManager();
+        entityManager.setApiClient(mockClient);
         
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);

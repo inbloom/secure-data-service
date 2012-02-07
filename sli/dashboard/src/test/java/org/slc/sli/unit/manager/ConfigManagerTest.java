@@ -28,7 +28,9 @@ public class ConfigManagerTest {
         mockClient = new MockAPIClient();
         configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
-        configManager.setEntityManager(new EntityManager());
+        EntityManager entityManager = new EntityManager();
+        entityManager.setApiClient(mockClient);
+        configManager.setEntityManager(entityManager);
     }
 
     @Test

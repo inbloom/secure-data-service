@@ -84,6 +84,7 @@ public class AssessmentResolverTest {
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         
         EntityManager entityManager = new EntityManager();
+        entityManager.setApiClient(mockClient);
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
         configManager.setEntityManager(entityManager);
@@ -102,6 +103,7 @@ public class AssessmentResolverTest {
         AssessmentManager aManager = new AssessmentManager(); 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
+        entityManager.setApiClient(mockClient);
         aManager.setApiClient(mockClient);
         aManager.setEntityManager(entityManager);
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("rbraverman");

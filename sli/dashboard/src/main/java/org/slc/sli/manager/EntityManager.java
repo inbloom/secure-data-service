@@ -21,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.GenericEntity;
 
 /**
@@ -39,9 +40,6 @@ public class EntityManager {
     
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
     
-    // API Session Id
-    private static final String API_SESSION_KEY = "sessionId";
-    
     // Mock Data Files
     private static final String MOCK_DATA_DIRECTORY = "mock_data/";
     private static final String MOCK_ENROLLMENT_FILE = "school.json";
@@ -50,6 +48,11 @@ public class EntityManager {
     private static final String MOCK_ASSESSMENT_METADATA_FILE = "assessment_meta_data.json";
     private static final String MOCK_ASSESSMENTS_FILE = "assessment.json";
     private static final String MOCK_ATTENDANCE_FILE = "attendance.json";
+    
+    APIClient apiClient;
+    
+    // API Session Id
+    private static final String API_SESSION_KEY = "sessionId";
     
     public EntityManager() {
         
@@ -67,7 +70,7 @@ public class EntityManager {
      *         - the school entity list
      */
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
+        return apiClient.getSchools(token, schoolIds);
     }
     
     /**
@@ -96,7 +99,7 @@ public class EntityManager {
      *         - the student entity list
      */
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
+        return apiClient.getStudents(token, studentIds);
     }
     
     /**
@@ -125,8 +128,7 @@ public class EntityManager {
      *         - the program entity list
      */
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
-        // TODO: student id logic isn't working yet. for now, pass in null.
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), null);
+        return apiClient.getPrograms(token, studentIds);
     }
     
     /**
@@ -166,7 +168,7 @@ public class EntityManager {
      */
     public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        return apiClient.getAssessments(token, studentIds);
     }
     
     /**
@@ -190,7 +192,7 @@ public class EntityManager {
      * @return
      */
     public List<GenericEntity> getCustomData(String token, String key) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
+        return apiClient.getCustomData(token, key);
     }
     
     /**
@@ -398,6 +400,14 @@ public class EntityManager {
         return url.getFile();
     }
     
+    public APIClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
+    }
+
     public static void main(String[] arguments) {
         
         log.info("Starting EntityManager...");

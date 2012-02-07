@@ -3,6 +3,8 @@ package org.slc.sli.unit.controller;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +42,7 @@ public class StudentListControllerTest {
         
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         PowerMockito.doReturn("src/test/resources/mock_data/common/school.json").when(mockClient, "getFilename", "mock_data/common/school.json");
-        GenericEntity[] schools = mockClient.getSchools("common");
+        List<GenericEntity> schools = mockClient.getSchools("common", null);
         
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());
