@@ -78,10 +78,10 @@
     <jb:value property="limitedEnglishProficiency" data="Student/LimitedEnglishProficiency" />
 
     <!-- Languages -->
-    <jb:wiring property="languages" beanIdRef="languageItemTypeArray" />
+    <jb:wiring property="languages" beanIdRef="languageItemType" />
 
     <!-- HomeLanguages -->
-    <jb:wiring property="homeLanguages" beanIdRef="homeLanguageItemTypeArray" />
+    <jb:wiring property="homeLanguages" beanIdRef="homeLanguageItemType" />
 
     <!-- Disabilities -->
     <jb:wiring property="disabilities" beanIdRef="disabilityTypeArray" />
@@ -215,13 +215,21 @@
     <jb:value property="endDate" data="Student/StudentCharacteristics/EndDate" />
     <jb:value property="designatedBy" data="Student/StudentCharacteristics/DesignatedBy" />
   </jb:bean>
+  
+    <!-- LanguageItemType -->
+  <jb:bean beanId="languageItemType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+    <jb:wiring property="language" beanIdRef="languageItemTypeArray" />
+  </jb:bean>
 
-  <!-- LanguageItemType -->
   <jb:bean beanId="languageItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
     <jb:value data="Student/Languages/Language" />
   </jb:bean>
+  
+   <!-- HomeLanguageItemType -->
+  <jb:bean beanId="homeLanguageItemType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+    <jb:wiring property="language" beanIdRef="homeLanguageItemTypeArray" />
+  </jb:bean>
 
-  <!-- HomeLanguageItemType -->
   <jb:bean beanId="homeLanguageItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
     <jb:value data="Student/HomeLanguages/Language" />
   </jb:bean>
