@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.smooks.mappings;
+package org.slc.sli.ingestion.smooks;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,7 +40,7 @@ public class TeacherEntityTest {
     }
 
     @Test
-    public void edfiXmlTest() throws IOException, SAXException {
+    public void edfiXmlTeacherTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
