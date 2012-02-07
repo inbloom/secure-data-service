@@ -27,12 +27,30 @@ end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   @result[key].should_not == nil
-  assert(@result[key] == value, "Expected value \"#{key}\" != \"#{@result[key]}\"")
+  assert(@result[key].to_s == value.to_s, "Expected value \"#{value}\" != \"#{@result[key]}\"")
+end
+
+Then /^a "([^"]*)" "([^"]*)" should be "([^"]*)"$/ do |subdocumentName, key, value|
+  assert(@result[subdocumentName] != nil, "No #{subdocumentName} present in response")
+  found = false
+  @result[subdocumentName].each do |subdocument|
+    if subdocument[key] == value
+       found = true
+    end
+  end
+  assert(found, "#{value} not found in results")
 end
 
 Then /^credentials "([^"]*)" should be "([^"]*)"$/ do |key, value|
-  assert(@result["credentials"] != nil, "No credentials present in response")
-  assert(@result["credentials"][key] == value, "Unexpected value for key \"#{key}\". Input: #{key} Expected: #{@result['credentials'][key]}")
+  validateValueInSubDocumentArray("credentials",key,value)
+end
+
+Then /^a student characteristic "([^"]*)" should be that he or she is "([^"]*)"$/ do |key, value|
+  validateValueInSubDocumentArray("studentCharacteristics",key,value)
+end
+
+Then /^a disabilities "([^"]*)" should be that he or she has a\(n\) "([^"]*)"$/ do |key, value|
+  validateValueInSubDocumentArray("disabilities",key,value)
 end
 
 Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
