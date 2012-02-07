@@ -1,13 +1,17 @@
 package org.slc.sli.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import com.google.gson.Gson;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slc.sli.entity.School;
+
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.SchoolManager;
 import org.slc.sli.util.SecurityUtil;
 
@@ -41,9 +45,7 @@ public class StudentListController extends DashboardController {
 
         UserDetails user = getPrincipal();
 
-        School[] schoolList = schoolManager.getSchools();
-        model.addAttribute("schoolList", gson.toJson(schoolList));
-        model.addAttribute("message", "Hello " + user.getUsername());
+        List<GenericEntity> schoolList = schoolManager.getSchools();
 
         model.addAttribute(SCHOOL_LIST, gson.toJson(schoolList));
         model.addAttribute(USER_NAME, user.getUsername());

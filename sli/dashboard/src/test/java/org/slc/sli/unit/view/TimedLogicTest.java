@@ -62,8 +62,8 @@ public class TimedLogicTest {
     private GenericEntity createAssessment(int score, int year, String studentID) {
         GenericEntity retVal = new GenericEntity();
         retVal.put("studentId", studentID);
-        retVal.put("year", year);
-        retVal.put("scaleScore", score);
+        retVal.put("year", Integer.toString(year));
+        retVal.put("scaleScore", Integer.toString(score));
         return retVal;
     }
 
