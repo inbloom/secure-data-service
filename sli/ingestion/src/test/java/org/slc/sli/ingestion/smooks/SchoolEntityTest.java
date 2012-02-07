@@ -21,6 +21,23 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 public class SchoolEntityTest {
 
     @Test
+    public void csvSchoolTest() throws Exception {
+
+        String smooksConfig = "smooks_conf/smooks-school-csv.xml";
+
+        String targetSelector = "csv-record";
+
+        String schoolCsv = "152901001,identification system,9777,Apple Alternative Elementary School,Apple,School,Physical,123 Main Street,1A,"
+                + "building site number,Lebanon,KS,66952,Smith County,USA123,USA,245,432,01-01-1969,12-12-2012,Main,(785) 667-6006,www.a.com,running,"
+                + "first rating,A,01-01-2012,rating org,rating program,program reference,Third grade,Elementary School,school type,charter status,title i,magnet,admin funding";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                schoolCsv);
+
+        checkValidSchoolNeutralRecord(neutralRecord);
+    }
+
+    @Test
     public void edfiXmlSchoolTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
