@@ -32,7 +32,10 @@ $.ajaxSetup ({cache: false});
     <div id="content">
     
         <div id="populationSelect">
-            <span id="edorgDiv"></span><span id="schoolDiv"></span><span id="courseDiv"></span><span id="sectionDiv"></span>
+            <span id="edorgDiv"></span>
+            <span id="schoolDiv"></span>
+            <span id="courseDiv"></span>
+            <span id="sectionDiv"></span>
         </div>
     
         <div id="listView">
