@@ -7,6 +7,14 @@
      constants: the Constants util class
   -->
 
+<span id="viewSelectorSpan">
+    <select id="viewSelector" onChange="changeView(this.value)">
+    <#list viewConfigSet.getViewConfig() as view>
+        <option value=${view_index}>${view.getName()}</option>
+    </#list>
+    </select>
+</span>
+
 <table id="studentList"> 
 
 <#-- draw header -->

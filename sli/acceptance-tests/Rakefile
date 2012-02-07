@@ -179,6 +179,7 @@ desc "Run Validation Tests"
 task :validationTests do
   setFixture("school", "school_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
   runTests("test/features/api/validation")
 end
 
@@ -192,6 +193,17 @@ desc "Run Target Tests"
 task :targetTests do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/targets")
+end
+
+desc "Run Collection Tests"
+task :collectionTests do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/api/collections")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated
@@ -349,7 +361,8 @@ task :importSandboxData do
     "studentSchoolAssociation" => "smallville_student_school_association_fixture.json",
     "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
     "teacher" => "smallville_teachers_fixture.json",
-    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json"
+    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
+    "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
   ]
   addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end

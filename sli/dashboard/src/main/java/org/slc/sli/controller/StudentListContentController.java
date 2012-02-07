@@ -21,6 +21,7 @@ import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.LozengeConfig;
+import org.slc.sli.config.ViewConfigSet;
 
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
@@ -31,38 +32,42 @@ import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
 
 /**
- * Controller for showing the list of studentview.  
- * 
+ * Controller for showing the list of studentview.
+ *
  */
 public class StudentListContentController extends DashboardController {
 
     private ConfigManager configManager;
     private StudentManager studentManager;
     private AssessmentManager assessmentManager;
-    
+
     public StudentListContentController() { }
-    
+
 
     /**
      * Retrieves information for the student list and sends back an html table to be displayed
-     * 
+     *
      * @param population Don't know what this could be yet... For now, a list of student uids
      * @param model
      * @return a ModelAndView object
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population, 
+    public ModelAndView studentListContent(String population, Integer view,
                                            ModelMap model) throws Exception {
 
         UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
-        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
-        model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
+
+        ViewConfigSet viewConfigSet = configManager.getConfigSet(user.getUsername());
+        model.addAttribute("viewConfigSet", viewConfigSet);
+
+        ViewConfig viewConfig = viewConfigSet.getViewConfig().get(view);
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));  
+        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
@@ -83,14 +88,14 @@ public class StudentListContentController extends DashboardController {
 
         // insert a widget factory into the modelmap
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        
+
         // let template access Constants
         model.addAttribute(Constants.MM_KEY_CONSTANTS, BeansWrapper.getDefaultInstance().getStaticModels().get(Constants.class.getName()));
-        
+
         return new ModelAndView("studentListContent");
     }
 
-    
+
     /*
      * Getters and setters
      */

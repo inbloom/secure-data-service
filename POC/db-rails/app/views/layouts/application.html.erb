@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="header">
-        <h1 style="display:inline">SLI Data Browser </h1>
+        <h1 style="display:inline">SLI Data Prowler </h1>
         <h3 style="display:inline"><i> . . . It's toasted</i></h3>
         <hr>
     </div>
@@ -20,7 +20,8 @@
             <a href="/students">Students</a><br>
             <a href="/teachers">Teachers</a><br>
             <a href="/schools">Schools</a><br>
- 
+            <br>Path:<br>
+            <%= ['no', 'path', 'yet'].join('<br>').html_safe %>
         </td>
         <td valign=top class="content">
             <%= yield %>

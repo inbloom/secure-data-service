@@ -27,7 +27,7 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests default role to rights resolution pipeline
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -35,24 +35,24 @@ import org.slc.sli.domain.enums.Right;
     DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RolesToRightsTest {
-    
+
     @Autowired
     private DefaultRolesToRightsResolver resolver;
     @Autowired
     private RoleRightAccess mockAccess;
     @Autowired
     private ClientRoleResolver mockRoleManager;
-    
+
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
-    
+
     @Before
     public void setUp() throws Exception {
         mockAccess = mock(RoleRightAccess.class);
         mockRoleManager = mock(ClientRoleResolver.class);
-        
+
         resolver.setRoleRightAccess(mockAccess);
         resolver.setRoleMapper(mockRoleManager);
-        
+
         when(
                 mockRoleManager.resolveRoles(DEFAULT_REALM_ID,
                         Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR)))
@@ -68,25 +68,25 @@ public class RolesToRightsTest {
         when(mockAccess.getDefaultRole("Pink")).thenReturn(null);
         when(mockAccess.getDefaultRole("Goo")).thenReturn(null);
     }
-    
+
     private Role buildRole() {
         return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
     }
-    
+
     @Test
     public void testMappedRoles() throws Exception {
-        
+
         Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_REALM_ID,
                 Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
         Assert.assertTrue(rights.size() > 0);
     }
-    
+
     @Test
     public void testBadRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList("Pink", "Goo"));
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
-    
+
     @Test
     public void testMixedRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(
