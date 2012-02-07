@@ -156,5 +156,34 @@
             <xs:element name="security" type="TestSecuritySimple"/>
         </xs:sequence>
     </xs:complexType>
-        
+    
+    <xs:complexType name ="TestChoiceNoMinOccurs">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="intChoice" type="xs:int"/>
+            <xs:element name="stringChoice" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>
+    
+    <xs:complexType name="TestChoiceOnlyOne">
+        <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element name="intChoice" type="xs:int"/>
+            <xs:element name="stringChoice" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="TestChoiceMinTwoMaxTwo">
+        <xs:choice minOccurs="1" maxOccurs="2">
+            <xs:element name="intChoice" type="xs:int"/>
+            <xs:element name="stringChoice" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>        
+
+    <xs:complexType name="TestChoiceMinOneMaxUnbounded">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="intChoice" type="xs:int"/>
+            <xs:element name="stringChoice" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>        
+
+
 </xs:schema>

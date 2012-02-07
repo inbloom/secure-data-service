@@ -51,6 +51,7 @@ import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaFactory;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.ChoiceSchema;
 import org.slc.sli.validation.schema.Documentation;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -84,6 +85,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private ResourceLoader resourceLoader;
     
     static final XmlSchemaUse REQUIRED_USE = new XmlSchemaUse(BlockConstants.REQUIRED);
+    
+    private int choiceCount = 0;
     
     @Autowired
     public XsdToNeutralSchemaRepo(@Value("classpath:sliXsd") String xsdPath, SchemaFactory schemaFactory)
@@ -559,7 +562,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 String elementName = element.getName();
                 
                 // Required Elements
-                if (!element.isNillable() || (element.getMinOccurs() > 0)) {
+                if (!element.isNillable() && (element.getMinOccurs() > 0)) {
                     AppInfo info = elementSchema.getAppInfo();
                     if (info == null) {
                         info = new AppInfo(null);
@@ -583,10 +586,24 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
-                // TODO implement choice (or remove them from the XSDs)
-                // throw new RuntimeException("Unhandled XmlSchemaChoice element: " + particle + " "
-                // + complexSchema.getType());
-                LOG.error("Unhandled XmlSchemaChoice element: " + particle + " " + complexSchema.getType());
+                
+                XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
+                
+                ChoiceSchema choiceSchema = (ChoiceSchema) getSchemaFactory().createSchema(
+                        NeutralSchemaType.CHOICE.name());
+                
+                choiceSchema.setMinChoices(xmlSchemaChoice.getMinOccurs());
+                choiceSchema.setMaxChoices(xmlSchemaChoice.getMaxOccurs());
+
+                XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
+                for (int i = 0; i < choices.getCount(); ++i) {
+                    XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
+                    if (item instanceof XmlSchemaParticle) {
+                        parseParticle((XmlSchemaParticle) item, choiceSchema, schema);
+                    }
+                }
+                
+                complexSchema.addField("choice_" + choiceCount++, choiceSchema);
                 
             } else {
                 throw new RuntimeException("Unsupported XmlSchemaParticle item: "
