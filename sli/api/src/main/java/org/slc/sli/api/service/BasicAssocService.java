@@ -48,6 +48,14 @@ public class BasicAssocService extends BasicService implements AssociationServic
     }
     
     @Override
+    public Iterable<String> getAssociationsFor(String id, int start, int numResults, String queryString) {
+        List<String> results = new ArrayList<String>();
+        results.addAll(this.getAssociationsList(sourceDefn, id, sourceKey, start, numResults, queryString));
+        results.addAll(this.getAssociationsList(targetDefn, id, targetKey, start, numResults, queryString));
+        return results;
+    }
+    
+    @Override
     public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString) {
         return getAssociations(sourceDefn, id, sourceKey, start, numResults, queryString);
     }
@@ -92,6 +100,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
      */
     private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults, String queryString) {
         LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
+        return this.getAssociationsList(type, id, key, start, numResults, queryString);
+    }
+    
+    private List<String> getAssociationsList(EntityDefinition type, String id, String key, int start, int numResults, String queryString) {
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryString);
         for (Entity entity : entityObjects) {

@@ -138,10 +138,17 @@ public class Resource {
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
-                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+                    
+                    boolean checkAgainstSourceEntity = associationDefinition.getSourceEntity().isOfType(id);
+                    boolean checkAgainstTargetEntity = associationDefinition.getTargetEntity().isOfType(id);
+                    
+                    if (checkAgainstSourceEntity && checkAgainstTargetEntity) {
+                        associationIds = associationDefinition.getService().getAssociationsFor(id, skip, max,
+                                uriInfo.getRequestUri().getQuery());
+                    } else if (checkAgainstSourceEntity) {
                         associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
-                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                    } else if (checkAgainstTargetEntity) {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
                     } else {

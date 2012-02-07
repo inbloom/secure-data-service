@@ -10,7 +10,7 @@ Given I have an open web browser
 Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
 And I wait for "1" seconds
-When I select ed org "No Ed-Org"
+When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "Reading Group"
 And I select section "Reading Group - Grey"
@@ -23,7 +23,7 @@ Given the server is in "test" mode
 And I am authenticated to SLI as "lkim" password "lkim"
 When I access "/studentlist"
 And I wait for "1" seconds
-When I select ed org "Daybreak East Region"
+When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 And I select course "7th Grade English"
 And I select section "M. Jones - 7th Grade English - Sec. 3"
@@ -36,7 +36,7 @@ Given the server is in "test" mode
 And I am authenticated to SLI as "lkim" password "lkim"
 When I access "/studentlist"
 And I wait for "1" seconds
-When I select ed org "Daybreak East Region"
+When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 And I select course "7th Grade English"
 And I select section "M. Jones - 7th Grade English - Sec. 3"
