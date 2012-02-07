@@ -37,7 +37,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
     
     @PostConstruct
     public void init() {
-        this.defaultSchema = new NeutralSchema("") {
+        defaultSchema = new NeutralSchema("") {
             
             @Override
             public AppInfo getAppInfo() {
@@ -84,12 +84,29 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
     
     @Override
     public Right getRequiredReadLevel(String entityType, String fieldPath) {
-        return traverse(entityType, fieldPath).getAppInfo().getReadAuthority();
+        Right auth = Right.READ_GENERAL;
+        
+        NeutralSchema schema = traverse(entityType, fieldPath);
+        if (schema != null) {
+            AppInfo info = schema.getAppInfo();
+            if (info != null) {
+                auth = info.getReadAuthority();
+            }
+        }
+        return auth;
     }
     
     @Override
     public Right getRequiredWriteLevel(String entityType, String fieldPath) {
-        return traverse(entityType, fieldPath).getAppInfo().getWriteAuthority();
+        Right auth = Right.WRITE_GENERAL;
+        NeutralSchema schema = traverse(entityType, fieldPath);
+        if (schema != null) {
+            AppInfo info = schema.getAppInfo();
+            if (info != null) {
+                auth = info.getWriteAuthority();
+            }
+        }
+        return auth;
     }
     
     private NeutralSchema traverse(String entityType, String fieldPath) {
@@ -103,12 +120,12 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 
                 if (schema == null) {
                     LOG.warn("Reached end of the line for type {} and path {}", entityType, fieldPath);
-                    schema = this.defaultSchema;
+                    schema = defaultSchema;
                     break;
                 }
             }
         } else {
-            schema = this.defaultSchema;
+            schema = defaultSchema;
         }
         
         return schema;
