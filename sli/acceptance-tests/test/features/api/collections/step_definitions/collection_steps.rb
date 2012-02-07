@@ -21,22 +21,22 @@ Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
 end
 
 
-# Function checkFieldsExist
+# Function validate
 # Inputs: (Array or Hash) data = Array or Hash of data (e.g. from JSON response)
 # Inputs: (Hash) fields = Hash containing key=field name, value= field expected class, or Hash of expected values (if it's an Array or Hash)
 # Output: Nothing, uses assertions to ensure data matches values
 # Returns: Nothing, see Output
 # Description: Validates if data from a GET has the specified fields and data types
-def checkFieldsExist(data, fields)
+def validate(data, fields)
   if data.is_a? Array
     data.each do |entity|
-      checkFieldsExist(entity, fields)
+      validate(entity, fields)
     end
   elsif data.is_a? Hash
     fields.each do |key, value|
       if value.is_a? Hash
         assert(data[key] != nil, "object/array expected to exist: #{key}")
-        checkFieldsExist(data[key], value)
+        validate(data[key], value)
       else
         if value == nil
           assert(data[key] == nil, "Field should not exist: #{key}")
@@ -52,7 +52,7 @@ Then /^I should receive a collection of student objects$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
   # puts @result
-  checkFieldsExist(@result, {"id" => String, 
+  validate(@result, {"id" => String, 
                              "studentUniqueStateId" => String, 
                             "name" => {"firstName" => String, 
                                        "lastSurname" => String}})
@@ -61,31 +61,31 @@ end
 Then /^I should not receive a collection of student links\.$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  checkFieldsExist(@result, {"id" => String, "link" => nil})
+  validate(@result, {"id" => String, "link" => nil})
 end
 
 Then /^I should receive a collection of student\-school\-association objects$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  checkFieldsExist(@result, {"id" => String, "studentId" => String, "schoolId" => String, "entryGradeLevel" => String})
+  validate(@result, {"id" => String, "studentId" => String, "schoolId" => String, "entryGradeLevel" => String})
 end
 
 Then /^I should not receive a collection of student\-school\-association links$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  checkFieldsExist(@result, {"id" => String, "link" => nil})
+  validate(@result, {"id" => String, "link" => nil})
 end
 
 Then /^I should not receive a collection of student links$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  checkFieldsExist(@result, {"id" => String, "link" => nil})
+  validate(@result, {"id" => String, "link" => nil})
 end
 
 Then /^I should receive a collection of school objects$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  checkFieldsExist(@result, {"id" => String, 
+  validate(@result, {"id" => String, 
                              "stateOrganizationId" => String, 
                              "nameOfInstitution" => String, 
                              "address" => {"streetNumberName" => String,
@@ -97,5 +97,5 @@ end
 Then /^I should not receive a collection of school links$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  checkFieldsExist(@result, {"id" => String, "link" => nil})
+  validate(@result, {"id" => String, "link" => nil})
 end
