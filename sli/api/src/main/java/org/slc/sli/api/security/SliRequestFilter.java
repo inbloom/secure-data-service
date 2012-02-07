@@ -45,8 +45,11 @@ public class SliRequestFilter extends GenericFilterBean {
         SecurityContextHolder.getContext().setAuthentication(resolver.resolve(sessionId));
         
         LOG.debug("Request URL: " + http.getRequestURL() + (http.getQueryString() == null ? "" : http.getQueryString()));
+        LOG.debug(http.toString());
         
         chain.doFilter(request, response);
+        
+        LOG.debug("Response: " + response.toString());
     }
     
     private String getSessionIdFromRequest(HttpServletRequest req) {

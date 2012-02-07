@@ -200,7 +200,7 @@ public class AppInfo extends Annotation {
     public boolean isRequired() {
         String tmp = values.get(BlockConstants.REQUIRED);
         if (tmp != null) {
-            return Boolean.getBoolean(tmp);
+            return Boolean.parseBoolean(tmp);
         }
         return false;
     }
