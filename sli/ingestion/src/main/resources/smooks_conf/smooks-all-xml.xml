@@ -397,7 +397,8 @@
     <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+  <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/StateEducationAgency">
     <jb:value property="stateOrganizationId" data="StateOrganizationId" />
     <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
     <jb:value property="nameOfInstitution" data="NameOfInstitution" />
@@ -469,6 +470,89 @@
     <jb:value data="ProgramReference" />
   </jb:bean>
   <!-- End StateEducationAgency Mapping -->
+
+  <!-- LocalEducationAgency mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <!-- jb:value property="sourceId" data="" / -->
+    <!-- jb:value property="jobId" data="" / -->
+    <jb:expression property="recordType">'educationOrganization'</jb:expression>
+    <jb:value property="localId" data="StateOrganizationId" />
+    <jb:wiring property="attributes" beanIdRef="localEducationOrganizationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="localEducationOrganizationAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value property="stateOrganizationId" data="StateOrganizationId" />
+    <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
+    <jb:value property="nameOfInstitution" data="NameOfInstitution" />
+    <jb:value property="shortNameOfInstitution" data="ShortNameOfInstitution" />
+    <jb:wiring property="organizationCategories" beanIdRef="educationOrganizationCategoryTypeArray" />
+    <jb:wiring property="address" beanIdRef="addressSchoolTypeArray" />
+    <jb:wiring property="telephone" beanIdRef="institutionTelephoneTypeArray" />
+    <jb:value property="webSite" data="WebSite" />
+    <jb:value property="operationalStatus" data="OperationalStatus" />
+    <jb:wiring property="accountabilityRatings" beanIdRef="accountabilityRatingsTypeArray" />
+    <jb:wiring property="programReference" beanIdRef="programReferenceTypeArray" />
+  </jb:bean>
+
+  <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList"
+    createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
+  </jb:bean>
+  <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value property="identificationSystem" data="EducationOrgIdentificationCode/@IdentificationSystem" />
+    <jb:value property="ID" data="EducationOrgIdentificationCode/Id" />
+  </jb:bean>
+
+  <jb:bean beanId="educationOrganizationCategoryTypeArray" class="java.util.ArrayList"
+    createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value data="OrganizationCategories/OrganizationCategory" />
+  </jb:bean>
+
+  <jb:bean beanId="addressSchoolTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:wiring beanIdRef="addressSchoolType" />
+  </jb:bean>
+  <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value property="addressType" data="Address/@AddressType" />
+    <jb:value property="streetNumberName" data="Address/StreetNumberName" />
+    <jb:value property="apartmentRoomSuiteNumber" data="Address/ApartmentRoomSuiteNumber" />
+    <jb:value property="buildingSiteNumber" data="Address/BuildingSiteNumber" />
+    <jb:value property="city" data="Address/City" />
+    <jb:value property="stateAbbreviation" data="Address/StateAbbreviation" />
+    <jb:value property="postalCode" data="Address/PostalCode" />
+    <jb:value property="nameOfCounty" data="Address/NameOfCounty" />
+    <jb:value property="countyFIPSCode" data="Address/CountyFIPSCode" />
+    <jb:value property="countryCode" data="Address/CountryCode" />
+    <jb:value property="latitude" data="Address/Latitude" />
+    <jb:value property="longitude" data="Address/Longitude" />
+    <jb:value property="openDate" data="Address/BeginDate" />
+    <jb:value property="closeDate" data="Address/EndDate" />
+  </jb:bean>
+
+  <jb:bean beanId="institutionTelephoneTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:wiring beanIdRef="institutionTelephoneType" />
+  </jb:bean>
+  <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value property="institutionTelephoneNumberType" data="Telephone/@InstitutionTelephoneNumberType" />
+    <jb:value property="telephoneNumber" data="Telephone/TelephoneNumber" />
+  </jb:bean>
+
+  <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:wiring beanIdRef="accountabilityRatingsType" />
+  </jb:bean>
+  <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value property="ratingTitle" data="AccountabilityRatings/RatingTitle" />
+    <jb:value property="rating" data="AccountabilityRatings/Rating" />
+    <jb:value property="ratingDate" data="AccountabilityRatings/RatingDate" />
+    <jb:value property="ratingOrganization" data="AccountabilityRatings/RatingOrganization" />
+    <jb:value property="ratingProgram" data="AccountabilityRatings/RatingProgram" />
+  </jb:bean>
+
+  <jb:bean beanId="programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:value data="ProgramReference" />
+  </jb:bean>
+  <!-- End LocalEducationAgency Mapping -->
 
 
 
