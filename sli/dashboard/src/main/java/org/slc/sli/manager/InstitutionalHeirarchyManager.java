@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import org.slc.sli.entity.School;
 import org.slc.sli.entity.EducationalOrganization;
-import org.slc.sli.util.SecurityUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,16 +23,6 @@ import org.json.JSONException;
  */
 public class InstitutionalHeirarchyManager extends Manager {
 
-    public School[] getSchools() {
-        return apiClient.getSchools(SecurityUtil.getToken());
-    }
-    public EducationalOrganization[] getAssociatedEducationalOrganizations(School s) {
-        return apiClient.getAssociatedEducationalOrganizations(SecurityUtil.getToken(), s);
-    }
-    public EducationalOrganization[] getParentEducationalOrganizations(EducationalOrganization edOrg) {
-        return apiClient.getParentEducationalOrganizations(SecurityUtil.getToken(), edOrg);
-    }
-
     // JSON key names
     public static final String NAME = "name";
     public static final String SCHOOLS = "schools";
@@ -41,18 +30,18 @@ public class InstitutionalHeirarchyManager extends Manager {
     public static final String DUMMY_EDORG_NAME = "No Ed-Org";
 
     /**
-     * Returns the institutional heirarchy visible to the current user as a JSON string,
+     * Returns the institutional heirarchy visible to the user with the given auth token as a JSON string,
      * with the ed-org level flattened
      * This assumes there are no cycles in the education organization heirarchy tree.
      * @return
      */
-    public String getInstHeirarchyJSON() {
+    public String getInstHeirarchyJSON(String token) {
         // Okay, this function should arguably be placed in a view package, but if the school JSONs
         // are already being constructed in the *API Client* level (WTF was that about anyway?!?),
         // constructing inst heirarchy as JSON here isn't making things worse than they already are.
 
         // Find all the schools first.
-        School[] schools = getSchools();
+        School[] schools = getSchools(token);
         if (schools == null) { return new JSONArray().toString(); }
 
         // This maps ids from educational organisations to schools reachable from it via the "child" relationship
@@ -63,9 +52,9 @@ public class InstitutionalHeirarchyManager extends Manager {
         // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.length; i++) {
             HashMap<String, EducationalOrganization> ancestorEdOrgs = new HashMap<String, EducationalOrganization>(); // strictly not needed, but makes the code easier to read.
-            EducationalOrganization[] edOrgs = getAssociatedEducationalOrganizations(schools[i]);
+            EducationalOrganization[] edOrgs = getAssociatedEducationalOrganizations(token, schools[i]);
             for (int j = 0; j < edOrgs.length; j++) {
-                insertEdOrgAndAncesterIntoSet(ancestorEdOrgs, edOrgs[j]);
+                insertEdOrgAndAncesterIntoSet(token, ancestorEdOrgs, edOrgs[j]);
             }
             // insert ed-org - school mapping into the reverse map
             edOrgIdMap.putAll(ancestorEdOrgs);
@@ -125,11 +114,23 @@ public class InstitutionalHeirarchyManager extends Manager {
     }
     // helper function:
     // This assumes there is no cycle in the education organization heirarchy tree.
-    private void insertEdOrgAndAncesterIntoSet(Map<String, EducationalOrganization> map, EducationalOrganization edOrg) {
+    private void insertEdOrgAndAncesterIntoSet(String token, Map<String, EducationalOrganization> map, EducationalOrganization edOrg) {
         map.put(edOrg.getId(), edOrg);
-        EducationalOrganization[] parentEdOrgs = getParentEducationalOrganizations(edOrg);
+        EducationalOrganization[] parentEdOrgs = getParentEducationalOrganizations(token, edOrg);
         for (int i = 0; i < parentEdOrgs.length; i++) {
-            insertEdOrgAndAncesterIntoSet(map, parentEdOrgs[i]);
+            insertEdOrgAndAncesterIntoSet(token, map, parentEdOrgs[i]);
         }
     }
+
+    // accessors 
+    private School[] getSchools(String token) {
+        return apiClient.getSchools(token);
+    }
+    private EducationalOrganization[] getAssociatedEducationalOrganizations(String token, School s) {
+        return apiClient.getAssociatedEducationalOrganizations(token, s);
+    }
+    private EducationalOrganization[] getParentEducationalOrganizations(String token, EducationalOrganization edOrg) {
+        return apiClient.getParentEducationalOrganizations(token, edOrg);
+    }
+
 }
