@@ -164,7 +164,8 @@ public class EntityManager {
      *         - the assessment entity list
      */
     public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), studentIds);
+        // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
+        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
     }
     
     /**

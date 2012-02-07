@@ -21,7 +21,7 @@ import org.slc.sli.entity.assessmentmetadata.PerfLevel;
  *
  */
 public class AssessmentResolver {
-    List<Assessment> assessments;
+    List<GenericEntity> assessments;
     AssessmentMetaDataResolver metaDataResolver;
     
     public static final String DATA_SET_TYPE = "assessment";
@@ -38,7 +38,7 @@ public class AssessmentResolver {
     /**
      * Constructor
      */
-    public AssessmentResolver(List<Assessment> a, List<AssessmentMetaData> md) {
+    public AssessmentResolver(List<GenericEntity> a, List<AssessmentMetaData> md) {
         assessments = a;
         metaDataResolver = new AssessmentMetaDataResolver(md);
         
@@ -50,19 +50,19 @@ public class AssessmentResolver {
      */
     public String get(Field field, Map student) {
         // look up the assessment. 
-        Assessment chosenAssessment = resolveAssessment(field, student);
+        GenericEntity chosenAssessment = resolveAssessment(field, student);
         // get the data point
         String dataPointName = extractDataPointName(field.getValue());
         if (chosenAssessment == null) { return ""; }
         if (dataPointName == null) { return ""; }
-        if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getScaleScoreAsString(); }
-        if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getPercentileAsString(); }
-        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getLexileScore(); }
+        if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return (String) (chosenAssessment.get(DATA_POINT_NAME_SCALESCORE)); }
+        if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return (String) (chosenAssessment.get(DATA_POINT_NAME_PERCENTILE)); }
+        if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return (String) (chosenAssessment.get(DATA_POINT_NAME_LEXILESCORE)); }
 
         // return shortname for perf levels?? 
         if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { 
-            String perfLevel = chosenAssessment.getPerfLevelAsString(); 
-            List<PerfLevel> perfLevels = metaDataResolver.findPerfLevelsForFamily(chosenAssessment.getAssessmentName());
+            String perfLevel = (String) (chosenAssessment.get(DATA_POINT_NAME_PERFLEVEL)); 
+            List<PerfLevel> perfLevels = metaDataResolver.findPerfLevelsForFamily((String) (chosenAssessment.get("assessmentName")));
             if (perfLevels == null) { return ""; }
             for (PerfLevel pl : perfLevels) {
                 if (perfLevel.equals(pl.getName())) {
@@ -80,10 +80,10 @@ public class AssessmentResolver {
      */
     public List<Integer> getCutpoints(Field field, Map student) {
         // look up the assessment. 
-        Assessment chosenAssessment = resolveAssessment(field, student);
+    	GenericEntity chosenAssessment = resolveAssessment(field, student);
         if (chosenAssessment == null) { return null; }
         // get the cutpoints
-        return metaDataResolver.findCutpointsForFamily(chosenAssessment.getAssessmentName());
+        return metaDataResolver.findCutpointsForFamily((String) (chosenAssessment.get("assessmentName")));
     }
     
     public AssessmentMetaDataResolver getMetaData() { 
@@ -94,15 +94,15 @@ public class AssessmentResolver {
     /*
      * Looks up a representation for the result of the assessment, taken by the student 
      */
-    public Assessment resolveAssessment(Field field, Map student) {
+    public GenericEntity resolveAssessment(Field field, Map student) {
 
         // This first implementation is gruelingly inefficient. But, whateves... it's gonna be 
         // thrown away. 
 
         // A) filter out students first
-        List<Assessment> studentFiltered = new ArrayList<Assessment>();
-        for (Assessment a : assessments) {
-            if (a.getStudentId().equals(student.get("id"))) {
+        List<GenericEntity> studentFiltered = new ArrayList<GenericEntity>();
+        for (GenericEntity a : assessments) {
+            if (a.get("studentId").equals(student.get("id"))) {
                 studentFiltered.add(a);
             }
         }
@@ -110,16 +110,16 @@ public class AssessmentResolver {
 
         // B) filter out assessments based on dataset path
         String assessmentName = extractAssessmentName(field.getValue());
-        List<Assessment> studentAssessmentFiltered = new ArrayList<Assessment>();
-        for (Assessment a : studentFiltered) {
-            if (metaDataResolver.isAncestor(assessmentName, a.getAssessmentName())) {
+        List<GenericEntity> studentAssessmentFiltered = new ArrayList<GenericEntity>();
+        for (GenericEntity a : studentFiltered) {
+            if (metaDataResolver.isAncestor(assessmentName, (String) (a.get("assessmentName")))) {
                 studentAssessmentFiltered.add(a);
             }
         }
         if (studentAssessmentFiltered.isEmpty()) { return null; }
 
         // C) Apply time logic. 
-        Assessment chosenAssessment = null;
+        GenericEntity chosenAssessment = null;
         String timeSlot = field.getTimeSlot();
         if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, 

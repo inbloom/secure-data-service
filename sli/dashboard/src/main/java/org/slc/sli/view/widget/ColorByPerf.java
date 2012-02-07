@@ -58,9 +58,9 @@ public class ColorByPerf {
         Integer numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
         if (numLevels == null) { numLevels = 0; }  
 
-        Assessment assmt = assmts.resolveAssessment(perfField, student);
+        GenericEntity assmt = assmts.resolveAssessment(perfField, student);
         if (assmt == null) { return 0; }
-        int level = assmt.getPerfLevel();
+        int level = (Integer.parseInt((String)(assmt.get("perfLevel"))));
         return getColorIndex(level, numLevels);
     }
     

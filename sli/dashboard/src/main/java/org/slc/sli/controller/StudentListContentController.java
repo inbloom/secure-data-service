@@ -19,6 +19,7 @@ import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.StudentManager;
 import org.slc.sli.util.Constants;
@@ -38,6 +39,7 @@ public class StudentListContentController extends DashboardController {
     private StudentManager studentManager;
     private PopulationManager populationManager;
     private AssessmentManager assessmentManager;
+    
     
     public StudentListContentController() { }
     
@@ -77,7 +79,7 @@ public class StudentListContentController extends DashboardController {
         model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
         // insert the assessments object into the modelmap
-        List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
+        List<GenericEntity> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
         List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
         model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
 
@@ -119,10 +121,11 @@ public class StudentListContentController extends DashboardController {
     }
     
     public PopulationManager getPopulationManager() {
-		return populationManager;
-	}
+        return populationManager;
+    }
 
-	public void setPopulationManager(PopulationManager populationManager) {
-		this.populationManager = populationManager;
-	}
+    public void setPopulationManager(PopulationManager populationManager) {
+        this.populationManager = populationManager;
+    }
+
 }

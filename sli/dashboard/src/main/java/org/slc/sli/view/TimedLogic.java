@@ -1,13 +1,13 @@
 package org.slc.sli.view;
 
-import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.assessmentmetadata.Period;
-
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.assessmentmetadata.Period;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
@@ -24,11 +24,11 @@ public class TimedLogic {
     /**
      * Returns the assessment with the most recent timestamp
      */
-    public static Assessment getMostRecentAssessment(List<Assessment> a) {
-        Collections.sort(a, new Comparator<Assessment>() {
+    public static GenericEntity getMostRecentAssessment(List<GenericEntity> a) {
+        Collections.sort(a, new Comparator<GenericEntity>() {
             // this should probably get more precise if we actually have an actual timestamp!
-            public int compare(Assessment o1, Assessment o2) {
-                return o2.getYear() - o1.getYear();  
+            public int compare(GenericEntity o1, GenericEntity o2) {
+                return (Integer.parseInt((String)(o2.get("year"))) - (Integer.parseInt((String)(o1.get("year")))));  
             }
         });
         return a.get(0);
@@ -37,10 +37,10 @@ public class TimedLogic {
     /**
      * Returns the assessment with the highest score
      */
-    public static Assessment getHighestEverAssessment(List<Assessment> a) {
-        Collections.sort(a, new Comparator<Assessment>() {
-            public int compare(Assessment o1, Assessment o2) {
-                return o2.getScaleScore() - o1.getScaleScore();
+    public static GenericEntity getHighestEverAssessment(List<GenericEntity> a) {
+        Collections.sort(a, new Comparator<GenericEntity>() {
+            public int compare(GenericEntity o1, GenericEntity o2) {
+                return (Integer.parseInt((String)(o2.get("scaleScore"))) - (Integer.parseInt((String)(o1.get("scaleScore")))));
             }
         });
         return a.get(0);
@@ -50,7 +50,7 @@ public class TimedLogic {
      * Returns the assessment from the most recent window of the given assessment family
      */
     // For now, just pretend all assessments are administered once a year between windowStart and windowEnd
-    public static Assessment getMostRecentAssessmentWindow(List<Assessment> a, 
+    public static GenericEntity getMostRecentAssessmentWindow(List<GenericEntity> a, 
                                                            AssessmentMetaDataResolver metaDataResolver,
                                                            String assmtName) {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -90,9 +90,9 @@ public class TimedLogic {
             }
         }
         
-        for (Assessment ass : a) {
-            if (ass.getYear() == year 
-                &&  metaDataResolver.findPeriodForFamily(ass.getAssessmentName()) == mostRecentPeriod) {
+        for (GenericEntity  ass : a) {
+            if (Integer.parseInt((String)(ass.get("year"))) == year 
+                &&  metaDataResolver.findPeriodForFamily((String) (ass.get("assessmentName"))) == mostRecentPeriod) {
                 return ass;
             }
         }

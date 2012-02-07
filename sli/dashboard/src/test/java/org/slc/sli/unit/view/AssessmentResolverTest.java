@@ -14,11 +14,11 @@ import org.powermock.api.mockito.PowerMockito;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.EntityManager;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -75,7 +75,7 @@ public class AssessmentResolverTest {
     }
 
     // --- helper functions ---
-    private List<Assessment> getAssessments() {
+    private List<GenericEntity> getAssessments() {
         String studentId = "111111111";
         student = new GenericEntity();
         student.put("id", studentId);
@@ -87,18 +87,22 @@ public class AssessmentResolverTest {
         configManager.setApiClient(mockClient);
         ViewConfig config = configManager.getConfig("rbraverman", "IL_K-3"); // this view has Dibels and TRC
         
+        EntityManager entityManager = new EntityManager();
         AssessmentManager aManager = new AssessmentManager(); 
         when(mockClient.getFilename("mock_data/rbraverman/school.json")).thenReturn("src/test/resources/mock_data/rbraverman/school.json");
         when(mockClient.getFilename("mock_data/rbraverman/custom_view_config.json")).thenReturn("src/test/resources/mock_data/rbraverman/custom_view_config.json");
         aManager.setApiClient(mockClient);
-        List<Assessment> assmts = aManager.getAssessments("rbraverman", studentIds, config);
+        aManager.setEntityManager(entityManager);
+        List<GenericEntity> assmts = aManager.getAssessments("rbraverman", studentIds, config);
         return assmts;
     }
     private List<AssessmentMetaData> getAssessmentMetaData() {
+        EntityManager entityManager = new EntityManager();
         AssessmentManager aManager = new AssessmentManager(); 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
         aManager.setApiClient(mockClient);
+        aManager.setEntityManager(entityManager);
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("rbraverman");
         return metaData;
     }
