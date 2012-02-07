@@ -4,13 +4,10 @@ class RealmsController < ApplicationController
   def index
     @realms = Realm.all
 
+    #SessionResource.auth_id = cookies['iPlanetDirectoryPro']
+     
     #figure out the realm this user has access to
-    SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-
-    #TODO:  current we're just checking the realm the user authenticated to,
-    # but ultimately we need to get that somewhere else since the user will
-    # always be authenticated to the SLI realm
-    userRealm =  Check.new(SessionResource.auth_id).realm
+    userRealm = get_user_realm
     @realms.each do |realm|
         if realm.respond_to?(:realm)
           if realm.realm == userRealm
@@ -19,18 +16,23 @@ class RealmsController < ApplicationController
           end
         end
     end
-    
-
+  
+    #User's realm didn't match any known realm  
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @realms }
+      format.html { render :status => :not_found, :text => "No valid realm found for #{userRealm}" }
+      format.json { render json: @realms, :status => :not_found }
     end
   end
 
   # # GET /realms/1
   # # GET /realms/1.json
    def show
-     @realm = Realm.find(params[:id])
+     begin
+       @realm = Realm.find(params[:id])
+     rescue ActiveResource::ResourceNotFound
+       render :status => :not_found, :text => "Not found" #TODO: redirect to proper 404 page
+       return
+     end
      respond_to do |format|
        format.html # show.html.erb
        format.json { render json: @realm }
@@ -50,7 +52,12 @@ class RealmsController < ApplicationController
   # 
   # # GET /realms/1/edit
    def edit
-     @realm = Realm.find(params[:id])
+     begin
+       @realm = Realm.find(params[:id])
+     rescue ActiveResource::ResourceNotFound
+       render :status => :not_found, :text => "Not found" #TODO: redirect to proper 404 page
+       return
+     end
      @mapping = get_mappings_from_realm(params[:id])
      @sli_roles = []
      @mapping.each do |mapping|
@@ -77,11 +84,15 @@ class RealmsController < ApplicationController
   # # PUT /realms/1
   # # PUT /realms/1.json
    def update
-     puts  params[:id];
-     @realm = Realm.find(params[:id])
+     begin
+       @realm = Realm.find(params[:id])
+     rescue ActiveResource::ResourceNotFound
+       render json: {"response" => "Not found"}, :status => :not_found
+       return
+     end
+
      @realm.mappings = params[:mappings];
      respond_to do |format|
-       #if @realm.update_attributes(params[:realm])
 	success = false
 	errorMsg = ""
 
@@ -90,7 +101,7 @@ class RealmsController < ApplicationController
 	rescue ActiveResource::BadRequest => error
 	errorMsg = error.response.body
 	end
-       if success
+       if success && params[:mappings] != nil
          #format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
          format.json { render json: @realm }
        else
@@ -122,5 +133,12 @@ class RealmsController < ApplicationController
       mapping.push map
     end
     mapping
+  end
+
+  #TODO:  current we're just checking the realm the user authenticated to,
+  # but ultimately we need to get that somewhere else since the user will
+  # always be authenticated to the SLI realm
+  def get_user_realm
+    return Check.new(SessionResource.auth_id).realm
   end
 end

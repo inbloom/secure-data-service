@@ -3,13 +3,13 @@
     "nameOfInstitution": "Daybreak Central High",
     "courses": [
         {
-            "course": "Club/Team"
+            "courseTitle": "Club/Team"
         },
         {
-            "course": "Senior Homeroom"
+            "courseTitle": "Senior Homeroom"
         },
         {
-            "course": "Writing about Government",
+            "courseTitle": "Writing about Government",
             "sections": [
                 {
                     "sectionName": "Sec 923",
@@ -21,10 +21,10 @@
 			]
         },
         {
-            "course": "Honors American Literature"
+            "courseTitle": "Honors American Literature"
         },
         {
-            "course": "American Literature",
+            "courseTitle": "American Literature",
             "sections": [
                 {
                     "sectionName": "Sec 142"

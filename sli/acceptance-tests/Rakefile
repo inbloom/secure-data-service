@@ -295,6 +295,12 @@ task :dashboardTests do
   runTests("test/features/dashboard")
 
 end
+
+
+desc "Run Dashboard integration acceptance tests"
+task :dashboardIntegratedTests do
+    runTests("test/features/dashboard/dashboard_integrated_login.feature")
+end
 ############################################################
 # Dashboard tests end
 ############################################################

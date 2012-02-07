@@ -5,6 +5,8 @@ import java.io.File;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.perf4j.aop.Profiled;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -20,6 +22,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 public class ControlFilePreProcessor implements Processor {
 
     private LandingZone landingZone;
+
+    Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     public ControlFilePreProcessor(LandingZone lz) {
         this.landingZone = lz;
@@ -45,6 +49,7 @@ public class ControlFilePreProcessor implements Processor {
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            log.error("Exception:",  exception);
         }
     }
 

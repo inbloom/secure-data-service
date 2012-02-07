@@ -126,6 +126,14 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/students/<'SCOTTY PIERSON (STUDENT)' ID>"
     Then I should receive a return code of 200
      And the "name" should be "Scotty" "" "Pierson"
+     And "economicDisadvantaged" should be "true"
+     And "schoolFoodServicesEligibility" should be "Free"
+     And a "studentCharacteristics" "characteristic" should be "Homeless"
+     And "limitedEnglishProficiency" should be "Limited"
+     And a "disabilities" "disability" should be "Emotional Disturbance"
+     And "section504Disabilities" should be "Motor Impairment"
+     And "displacementStatus" should be "Hurricane Kevin"
      And a "programParticipations" should be "Extended Day/Child Care Services"
+     
     
     
