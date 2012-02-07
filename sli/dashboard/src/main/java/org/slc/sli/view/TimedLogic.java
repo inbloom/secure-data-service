@@ -28,7 +28,7 @@ public class TimedLogic {
         Collections.sort(a, new Comparator<GenericEntity>() {
             // this should probably get more precise if we actually have an actual timestamp!
             public int compare(GenericEntity o1, GenericEntity o2) {
-                return (Integer.parseInt((String)(o2.get("year"))) - (Integer.parseInt((String)(o1.get("year")))));  
+                return (Integer.parseInt((String) (o2.get("year"))) - (Integer.parseInt((String) (o1.get("year")))));  
             }
         });
         return a.get(0);
@@ -40,7 +40,7 @@ public class TimedLogic {
     public static GenericEntity getHighestEverAssessment(List<GenericEntity> a) {
         Collections.sort(a, new Comparator<GenericEntity>() {
             public int compare(GenericEntity o1, GenericEntity o2) {
-                return (Integer.parseInt((String)(o2.get("scaleScore"))) - (Integer.parseInt((String)(o1.get("scaleScore")))));
+                return (Integer.parseInt((String) (o2.get("scaleScore"))) - (Integer.parseInt((String) (o1.get("scaleScore")))));
             }
         });
         return a.get(0);
@@ -91,7 +91,7 @@ public class TimedLogic {
         }
         
         for (GenericEntity  ass : a) {
-            if (Integer.parseInt((String)(ass.get("year"))) == year 
+            if (Integer.parseInt((String) (ass.get("year"))) == year 
                 &&  metaDataResolver.findPeriodForFamily((String) (ass.get("assessmentName"))) == mostRecentPeriod) {
                 return ass;
             }
