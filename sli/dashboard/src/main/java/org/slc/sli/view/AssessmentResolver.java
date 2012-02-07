@@ -79,7 +79,7 @@ public class AssessmentResolver {
      */
     public List<Integer> getCutpoints(Field field, Map student) {
         // look up the assessment. 
-    	GenericEntity chosenAssessment = resolveAssessment(field, student);
+        GenericEntity chosenAssessment = resolveAssessment(field, student);
         if (chosenAssessment == null) { return null; }
         // get the cutpoints
         return metaDataResolver.findCutpointsForFamily((String) (chosenAssessment.get("assessmentName")));

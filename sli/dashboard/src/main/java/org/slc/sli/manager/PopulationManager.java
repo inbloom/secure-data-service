@@ -1,7 +1,6 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class PopulationManager {
     private static Logger log = LoggerFactory.getLogger(PopulationManager.class);
     
     @Autowired
-    public EntityManager entityManager;
+    private EntityManager entityManager;
     
     private Map<String, GenericEntity> assessmentFamilyMap;
     
