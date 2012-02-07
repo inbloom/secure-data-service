@@ -79,7 +79,10 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     private String getJsonFields(String label, Map<String, NeutralSchema> fields) {
         StringBuffer buffer = new StringBuffer();
         
-        buffer.append("," + "\n" + "   \"" + label + "\":{");
+        buffer.append(", ");
+        buffer.append("\n    ");
+        
+        buffer.append("\"" + label + "\":{");
         
         if ((schema.getFields() != null) && (schema.getFields().size() > 0)) {
             String separator = "";
@@ -101,11 +104,35 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
                         throw new RuntimeException(exception);
                     }
                     
+                } else if (object instanceof ChoiceSchema) {
+                    description.append("\"" + object.getType() + "\"");
+                    
+                    ChoiceSchema c = (ChoiceSchema) object;
+                    
+                    if (c.getMinChoices() != Long.MAX_VALUE) {
+                        description.append(", \"minoccurs\":\"" + c.getMinChoices() + "\"");
+                    } else {
+                        description.append(", \"minoccurs\":\"unbounded\"");
+                    }
+                    if (c.getMaxChoices() != Long.MAX_VALUE) {
+                        description.append(", \"maxoccurs\":\"" + c.getMaxChoices() + "\"");
+                        
+                    } else {
+                        description.append(", \"maxoccurs\":\"unbounded\"");
+                        
+                    }
+                    description.append(getJsonChoices("choices", object.getFields()));
+                    
                 } else {
                     description.append("\"" + object.getType() + "\"");
                 }
                 
-                buffer.append(separator + "\n      {\"" + name + "\":" + description);
+                buffer.append(separator);
+                
+                buffer.append("\n");
+                buffer.append("    ");
+                
+                buffer.append("{\"" + name + "\":" + description);
                 
                 getAnnotations(object, buffer);
                 
@@ -114,6 +141,30 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
         }
         
         buffer.append("}");
+        
+        return buffer.toString();
+    }
+    
+    private String getJsonChoices(String label, Map<String, NeutralSchema> fields) {
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append(", \"" + label + "\":[");
+        
+        int count = fields.size();
+
+        if (fields != null && fields.size() > 0) {
+            for (String name : fields.keySet()) {
+                NeutralSchema choice = fields.get(name);
+                
+                buffer.append("\"" + name + "\":\"" + choice.getType() + "\"");
+                
+                if (--count > 0) {
+                    buffer.append(", ");
+                }
+            }
+        }
+        
+        buffer.append("]");
         
         return buffer.toString();
     }
