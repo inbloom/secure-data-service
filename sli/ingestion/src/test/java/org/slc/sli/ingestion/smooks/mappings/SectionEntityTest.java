@@ -1,6 +1,4 @@
-package org.slc.sli.ingestion.smooks;
-
-import java.io.ByteArrayInputStream;
+package org.slc.sli.ingestion.smooks.mappings;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
@@ -80,6 +77,16 @@ public class SectionEntityTest {
 
     String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
 
+    @Test
+    public void testValidatorSection() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeEducationOrganization/Section";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "section", validator);
+
+    }
 
     @Test
     public void testValidSectionCSV() throws Exception {
@@ -87,46 +94,10 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(csvTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                csvTestData);
 
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            checkValidSectionNeutralRecord(record);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
-
-    }
-
-    @Test
-    public void testValidatorSection() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeEducationOrganization/Section";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            EntityTestUtils.mapValidation(record.getAttributes(), "section", validator);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        checkValidSectionNeutralRecord(neutralRecord);
 
     }
 
@@ -135,23 +106,10 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrganization/Section";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
+                targetSelector, xmlTestData);
 
-            // Tests that the NeutralRecords were created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-
-            checkValidSectionNeutralRecord(record);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        checkValidSectionNeutralRecord(neutralRecord);
 
     }
 

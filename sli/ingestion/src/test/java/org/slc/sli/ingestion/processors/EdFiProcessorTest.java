@@ -108,6 +108,7 @@ public class EdFiProcessorTest {
     }
 
     @Test
+    @Ignore
     public void shouldTranslateSchoolCsvToNeutralRecords() throws IOException, SAXException {
 
         // Get Input File
