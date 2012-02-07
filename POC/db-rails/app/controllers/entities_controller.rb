@@ -9,6 +9,7 @@ class EntitiesController < ApplicationController
   def fix_urls
       response.body = response.body.gsub!("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
   end
+  
   # GET /entities
   # GET /entities.json
   def index
@@ -24,11 +25,16 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
-    if(!params[:targets])
-      @entity = Entity.get(params[:id])
-    else
+    if(params[:targets])
       logger.debug("Building targets link")
       @entity = Entity.get("#{params[:id]}/targets")
+    else
+      @entity = Entity.get(params[:id])
+      if @entity
+        logger.debug {"Entity: #{@entity}"}
+      else
+        logger.debug {"Entity is nil"}
+      end
     end
 
     respond_to do |format|

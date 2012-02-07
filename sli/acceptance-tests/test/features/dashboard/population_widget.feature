@@ -5,6 +5,13 @@ Scenario: Selecting classes on LOS
 Given the server is in "test" mode
 Given I have an open web browser
 And I am authenticated to SLI as "cgray" password "cgray"
+When I look in the ed org drop-down
+Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526;Illinois State Board of Education"
+
+When I select ed org "Sunset School District 4526"
+When I look in the school drop-down
+Then I only see "Sunset Central High School"
+
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I only see "Daybreak Central High"

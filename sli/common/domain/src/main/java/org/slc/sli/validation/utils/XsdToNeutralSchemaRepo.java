@@ -60,11 +60,11 @@ import org.slc.sli.validation.schema.TokenSchema;
 /**
  * Generation tool used to convert XSD to SLI Neutral Schema.
  * This class leverages the prior art/work by Ryan Farris to convert XSD to Avro style schemas.
- *
+ * 
  * @author Aaron Saarela <asaarela@wgen.net>
  * @author Ryan Farris <rfarris@wgen.net>
  * @author Robert Bloh <rbloh@wgen.net>
- *
+ * 
  */
 @Component
 public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationContextAware {
