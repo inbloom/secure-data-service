@@ -1,11 +1,11 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.ByteArrayInputStream;
+
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,6 @@ public class SectionEntityTest {
     private EntityValidator validator;
 
     @Test
-    @Ignore // TODO: fix. it is throwing a class cast exception String->Map when we try to get courseOfferingReference
     public void testValidSectionCSV() throws Exception {
 
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
@@ -167,48 +166,15 @@ public class SectionEntityTest {
         Assert.assertEquals("0.05", availableCredit.get("creditConversion").toString());
         Assert.assertEquals("0.05", availableCredit.get("credit").toString());
 
-        Map<String, Object> courseOfferingReference = (Map<String, Object>) entity.get("courseOfferingReference");
-        Assert.assertTrue(courseOfferingReference != null);
-        Assert.assertEquals("ELA4", courseOfferingReference.get("localCourseCode"));
-        Assert.assertEquals("1", courseOfferingReference.get("term"));
-        Assert.assertEquals("1996-1997", courseOfferingReference.get("schoolYear"));
-        List<Map<String, Object>> courseCodeList = (List<Map<String, Object>>) courseOfferingReference
-                .get("courseCode");
-        Assert.assertTrue(courseCodeList != null);
-        Map<String, Object> courseCode = courseCodeList.get(0);
-        Assert.assertTrue(courseCode != null);
-        Assert.assertEquals("NCES Pilot SNCCS course code", courseCode.get("identificationSystem"));
-        Assert.assertEquals("ELU", courseCode.get("assigningOrganizationCode"));
-        Assert.assertEquals("23", courseCode.get("iD"));
+        Assert.assertEquals("ELA4", entity.get("courseOfferingReference"));
 
-        Map<String, Object> schoolReference = (Map<String, Object>) entity.get("schoolReference");
-        Assert.assertTrue(schoolReference != null);
-        Assert.assertEquals("152901001", schoolReference.get("stateOrganizationId"));
-        List<Map<String, Object>> educationalOrgIdentificationCodeList = (List<Map<String, Object>>) schoolReference
-                .get("educationalOrgIdentificationCode");
-        Assert.assertTrue(educationalOrgIdentificationCodeList != null);
-        Map<String, Object> educationalOrgIdentificationCode = educationalOrgIdentificationCodeList.get(0);
-        Assert.assertTrue(educationalOrgIdentificationCode != null);
-        Assert.assertEquals("NCES Pilot SNCCS course code",
-                educationalOrgIdentificationCode.get("identificationSystem"));
-        Assert.assertEquals("23", educationalOrgIdentificationCode.get("iD"));
+        Assert.assertEquals("152901001", entity.get("schoolReference"));
 
-        Map<String, Object> locationReference = (Map<String, Object>) entity.get("locationReference");
-        Assert.assertTrue(locationReference != null);
-        Assert.assertEquals("ELU", locationReference.get("classroomIdentificationCode"));
+        Assert.assertEquals("223", entity.get("sessionReference"));
 
-        Map<String, Object> sessionReference = (Map<String, Object>) entity.get("sessionReference");
-        Assert.assertTrue(sessionReference != null);
-        Assert.assertEquals("223", sessionReference.get("sessionName"));
-        Assert.assertEquals("2", sessionReference.get("term"));
-        Assert.assertEquals("1997-1998", sessionReference.get("schoolYear"));
-
-        List<Map<String, Object>> programReferenceList = (List<Map<String, Object>>) entity.get("programReference");
+        List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
-        Map<String, Object> programReference = (Map<String, Object>) programReferenceList.get(0);
-        Assert.assertTrue(programReference != null);
-        Assert.assertEquals("223", programReference.get("programId"));
-        Assert.assertEquals("Bilingual", programReference.get("programType"));
+        Assert.assertEquals("223", programReferenceList.get(0));
 
     }
 }
