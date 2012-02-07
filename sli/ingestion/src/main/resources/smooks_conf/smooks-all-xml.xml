@@ -681,16 +681,16 @@
 
     <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
     <jb:value property="localId" data="UniqueSectionCode" />
-    <jb:wiring property="attributes" beanIdRef="studentAttributes" />
+    <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
   </jb:bean>
 
-    <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+    <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 
         <!-- SectionReference -->
 		<jb:value property="sectionReference" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
 
 		<!-- TeacherReference -->
-		<jb:value property="teacherReference" data="TeacherSectionAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
+		<jb:value property="teacherReference" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
 
     	<!-- BeginDate -->
        	<jb:value property="beginDate" data="TeacherSectionAssociation/BeginDate"/>
@@ -704,5 +704,54 @@
        	<!-- ClassroomPosition -->
        	<jb:value property="classroomPosition" data="TeacherSectionAssociation/ClassroomPosition"/>
     </jb:bean>
+
+    <!-- TeacherSchoolAssociation Mapping-->
+	<jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+
+    <jb:expression property="recordType">'teacherSchoolAssociation'</jb:expression>
+    <jb:value property="localId" data="UniqueSectionCode" />
+    <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
+  </jb:bean>
+
+      <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+
+	<!-- TeacherReference -->
+	<jb:value property="teacherReference" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+
+	<!-- SchoolReference -->
+	<jb:wiring property="schoolReference" beanIdRef="SchoolReferenceTypeArray" />
+
+	  <!-- ProgramAssignment -->
+	  	<jb:value property="programAssignment" data="TeacherSchoolAssociation/ProgramAssignment" />
+
+	  	<!-- InstructionGradeLevels -->
+	  <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsType" />
+
+	  <!-- AcademicSubjects -->
+	  <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
+	  </jb:bean>
+
+
+
+	  <!--School Reference -->
+	 <jb:bean beanId="SchoolReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+	  	<jb:value data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+	  </jb:bean>
+
+	  <!--Gravelevels -->
+	  <jb:bean beanId="GradeLevelsType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+	  	  <jb:wiring property="gradeLevel" beanIdRef="GradeLevelsTypeArray" />
+	 </jb:bean>
+	 <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+	  	<jb:value data="TeacherSchoolAssociation/InstructionalGradeLevels/GradeLevel" />
+	  </jb:bean>
+
+	 <!--AcademicSubjects -->
+	 	 <jb:bean beanId="AcademicSubjectsType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+	  	  	  <jb:wiring property="academicSubject" beanIdRef="AcademicSubjectsTypeArray" />
+	  	  </jb:bean>
+	 <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+	  	<jb:value data="TeacherSchoolAssociation/AcademicSubjects/AcademicSubject" />
+	  </jb:bean>
 
 </smooks-resource-list>
