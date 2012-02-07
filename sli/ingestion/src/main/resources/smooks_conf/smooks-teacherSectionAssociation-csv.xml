@@ -41,10 +41,10 @@
     <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="csv-record">
 
         <!-- SectionReference -->
-		<jb:wiring property="sectionReference" beanIdRef="SectionReferenceType" />
+		<jb:value property="sectionReference" data="SectionReference_SectionIdentity_UniqueSectionCode" />
 
 		<!-- TeacherReference -->
-		<jb:wiring property="teacherReference" beanIdRef="StaffReferenceType" />
+		<jb:value property="teacherReference"  data="StaffReference_StaffIdentity_StaffUniqueStateId" />
 
     	<!-- BeginDate -->
        	<jb:value property="beginDate" data="BeginDate"/>
@@ -129,38 +129,5 @@
 	    <jb:value property="emailAddressType" data="StaffReference_StaffIdentity_ElectronicMail_EmailAddressType" />
 	    <jb:value property="emailAddress" data="StaffReference_StaffIdentity_ElectronicMail_EmailAddress" />
 	  </jb:bean>
-
-	<!-- SectionReferenceType -->
-	<jb:bean beanId="SectionReferenceType" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="uniqueSectionCode" data="SectionReference_SectionIdentity_UniqueSectionCode"/>
-		<jb:value property="term" data="SectionReference_SectionIdentity_Term"/>
-		<jb:value property="schoolYear" data="SectionReference_SectionIdentity_SchoolYear"/>
-		<jb:value property="classPeriodName" data="SectionReference_SectionIdentity_ClassPeriodName"/>
-		<jb:value property="location" data="SectionReference_SectionIdentity_Location"/>
-		<jb:wiring property="courseCode" beanIdRef="CourseCodeType_TeacherSectionAssociation" />
-		<jb:value property="localCourseCode" data="SectionReference_SectionIdentity_LocalCourseCode"/>
-
-	</jb:bean>
-	<jb:bean beanId="CourseCodeType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="csv-record">
-		<jb:value property="identificationSystem" data="SectionReference_SectionIdentity_CourseCode_IdentificationSystem"/>
-		<jb:value property="assigningOrganizationCode" data="SectionReference_SectionIdentity_CourseCode_AssigningOrganizationCode"/>
-		<jb:value property="iD" data="SectionReference_SectionIdentity_CourseCode_Id"/>
-	</jb:bean>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </smooks-resource-list>

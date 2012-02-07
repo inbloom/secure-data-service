@@ -98,7 +98,9 @@ public class SectionEntityTest {
             checkValidSectionNeutralRecord(record);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }
@@ -120,7 +122,9 @@ public class SectionEntityTest {
             EntityTestUtils.mapValidation(record.getAttributes(), "section", validator);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }
@@ -143,7 +147,9 @@ public class SectionEntityTest {
             checkValidSectionNeutralRecord(record);
 
         } finally {
-           nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
 
