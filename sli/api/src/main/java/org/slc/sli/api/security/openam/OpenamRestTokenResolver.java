@@ -34,56 +34,56 @@ import org.slc.sli.domain.enums.Right;
 /**
  * Creates Spring Authentication object by calling openAM restful API
  * To validate and fetch attributes for provided token
- * 
+ *
  * @author dkornishev
  */
 @Component
 @Primary
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
-    
+
     private static final Logger   LOG  = LoggerFactory.getLogger(OpenamRestTokenResolver.class);
-    
+
     private RestTemplate          rest = new RestTemplate();
-    
+
     @Value("${sli.security.tokenService.url}")
     private String                tokenServiceUrl;
-    
+
     @Autowired
     private RolesToRightsResolver resolver;
-    
+
     @Autowired
     private UserLocator           locator;
-    
+
     /**
      * Populates Authentication object by calling openAM with given token id
-     * 
+     *
      * @param token
      *            sessionId to use in lookups
      * @return populated Authentication or Anonymous Authentication if sessionId isn't valid
      */
     @Override
     public Authentication resolve(String token) {
-        
+
         String time = String.valueOf(System.currentTimeMillis());
         Authentication auth = new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS));
-        
+
         if (token != null && !"".equals(token)) {
-            
+
             try {
-                
+
                 String tokenValidUrl = tokenServiceUrl + "/identity/isTokenValid?tokenid=" + token;
-                
+
                 // Validate Session
                 ResponseEntity<String> entity = rest.getForEntity(tokenValidUrl, String.class, Collections.<String, Object>emptyMap());
-                
+
                 if (entity.getStatusCode() == HttpStatus.OK && entity.getBody().contains("boolean=true")) {
-                    
+
                     // Get session attributes
                     entity = rest.getForEntity(tokenServiceUrl + "/identity/attributes?subjectid=" + token, String.class, Collections.<String, Object>emptyMap());
                     LOG.debug("-------------------------------------");
                     LOG.debug(entity.getBody());
                     LOG.debug("-------------------------------------");
-                    
+
                     // Create Authentication object
                     auth = buildAuthentication(token, entity.getBody());
                 }
@@ -93,39 +93,39 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         }
         return auth;
     }
-    
+
     private Authentication buildAuthentication(String token, String payload) {
         final SLIPrincipal principal = locator.locate(extractRealm(payload), extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));
-        
+
         Set<GrantedAuthority> grantedAuthorities = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {
             @Override
             public Set<GrantedAuthority> execute() {
                 return resolver.resolveRoles(principal.getRealm(), principal.getRoles());
             }
         });
-        
+
         return new PreAuthenticatedAuthenticationToken(principal, token, grantedAuthorities);
     }
-    
+
     private List<String> extractRoles(String payload) {
         List<String> roles = new ArrayList<String>();
         Pattern p = Pattern.compile("userdetails\\.role=id=([^,]*)", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
-        
+
         while (m.find()) {
             roles.add(m.group(1));
         }
         return roles;
     }
-    
+
     /**
      * Extracts the realm that the user belongs to. Current implementation of the SLIPrincipal
      * allows for exactly one realm per user. This function will change if users are allowed to
      * belong to multiple realms.
-     * 
+     *
      * @param payload
      *            OpenAM user attributes.
      * @return String containing realm information.
@@ -135,41 +135,41 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         String myRealm = "";
         Pattern p = Pattern.compile("ou=\\w+,(.+)");
         Matcher m = p.matcher(value);
-        
+
         if (m.find()) {
             myRealm = m.group(1);
         }
-        
+
         return myRealm;
     }
-    
+
     private String extractValue(String valueName, String payload) {
         String result = "";
-        
+
         Pattern p = Pattern.compile("userdetails\\.attribute\\.name=" + valueName + "\\s*userdetails\\.attribute\\.value=(.+)$", Pattern.MULTILINE);
         Matcher m = p.matcher(payload);
-        
+
         if (m.find()) {
             result = m.group(1);
         }
-        
+
         return result;
     }
-    
+
     public void setTokenServiceUrl(String tokenServiceUrl) {
         this.tokenServiceUrl = tokenServiceUrl;
     }
-    
+
     public void setRest(RestTemplate rest) {
         this.rest = rest;
     }
-    
+
     public void setResolver(RolesToRightsResolver resolver) {
         this.resolver = resolver;
     }
-    
+
     public void setLocator(UserLocator locator) {
         this.locator = locator;
     }
-    
+
 }

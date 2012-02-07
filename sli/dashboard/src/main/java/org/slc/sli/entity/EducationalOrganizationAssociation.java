@@ -1,15 +1,15 @@
 package org.slc.sli.entity;
 
 /**
- * 
- * Entity to represent the Educational Organization Association 
+ *
+ * Entity to represent the Educational Organization Association
  *
  */
 public class EducationalOrganizationAssociation {
 
     private String educationOrganizationParentId;
     private String educationOrganizationChildId;
-    
+
     public String getEducationOrganizationParentId() {
         return educationOrganizationParentId;
     }

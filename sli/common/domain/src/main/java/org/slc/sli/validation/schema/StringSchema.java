@@ -11,27 +11,27 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI String Schema which validates string entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class StringSchema extends NeutralSchema {
-    
+
     // Constructors
     public StringSchema() {
         this(NeutralSchemaType.STRING.getName());
     }
-    
+
     public StringSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.STRING;
@@ -41,7 +41,7 @@ public class StringSchema extends NeutralSchema {
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -90,5 +90,5 @@ public class StringSchema extends NeutralSchema {
         }
         return true;
     }
-    
+
 }

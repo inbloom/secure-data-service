@@ -1,578 +1,579 @@
 [
-    {
-        "studentUniqueStateId": "525878920", 
-        "name": {
-            "middleName": "D", 
-            "lastSurname": "Sims", 
-            "firstName": "Delilah"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2004-12-04"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "525878920"
-    }, 
-    {
-        "studentUniqueStateId": "802709591", 
-        "name": {
-            "middleName": "Sydnee", 
-            "lastSurname": "Lindsey", 
-            "firstName": "Imelda"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "1997-03-07"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "802709591"
-    }, 
-    {
-        "studentUniqueStateId": "437680177", 
-        "name": {
-            "middleName": "Yuli", 
-            "lastSurname": "Pennington", 
-            "firstName": "Kimberley"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2000-04-23"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "437680177"
-    }, 
-    {
-        "studentUniqueStateId": "170011136", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Durham", 
-            "firstName": "Arsenio"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2001-01-23"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "170011136"
-    }, 
-    {
-        "studentUniqueStateId": "547028299", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Swanson", 
-            "firstName": "Alec"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "1999-11-15"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "547028299"
-    }, 
-    {
-        "studentUniqueStateId": "178875887", 
-        "name": {
-            "middleName": "Deirdre", 
-            "lastSurname": "Vincent", 
-            "firstName": "Astra"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2000-10-14"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "178875887"
-    }, 
-    {
-        "studentUniqueStateId": "376191021", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Graves", 
-            "firstName": "Jeanette"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1994-08-30"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"Reduced",
-        "id": "376191021"
-    }, 
-    {
-        "studentUniqueStateId": "670703438", 
-        "name": {
-            "middleName": "Melvin", 
-            "lastSurname": "Patton", 
-            "firstName": "Zachary"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2002-04-10"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "670703438"
-    }, 
-    {
-        "studentUniqueStateId": "851123275", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Hicks", 
-            "firstName": "Hoyt"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "1999-06-13"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"Reduced",
-        "id": "851123275"
-    }, 
-    {
-        "studentUniqueStateId": "250918988", 
-        "name": {
-            "middleName": "W", 
-            "lastSurname": "Jordan", 
-            "firstName": "Uriah"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2005-04-06"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "250918988"
-    }, 
-    {
-        "studentUniqueStateId": "421216329", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Hinton", 
-            "firstName": "Madeline"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "1994-03-17"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "421216329"
-    }, 
-    {
-        "studentUniqueStateId": "746199592", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Mckenzie", 
-            "firstName": "James"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2001-01-16"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "746199592"
-    }, 
-    {
-        "studentUniqueStateId": "323538529", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Marks", 
-            "firstName": "Hector"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2004-03-30"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "323538529"
-    }, 
-    {
-        "studentUniqueStateId": "428250371", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Pierce", 
-            "firstName": "K"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1996-09-23"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "428250371"
-    }, 
-    {
-        "studentUniqueStateId": "114989598", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Kim", 
-            "firstName": "Trevor"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2005-07-16"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "114989598"
-    }, 
-    {
-        "studentUniqueStateId": "558780133", 
-        "name": {
-            "middleName": "Troy", 
-            "lastSurname": "Harris", 
-            "firstName": "Galena"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1995-10-15"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "558780133"
-    }, 
-    {
-        "studentUniqueStateId": "196038854", 
-        "name": {
-            "middleName": "Zane", 
-            "lastSurname": "Hopkins", 
-            "firstName": "Isaiah"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "1999-06-27"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "196038854"
-    }, 
-    {
-        "studentUniqueStateId": "992193581", 
-        "name": {
-            "middleName": "D", 
-            "lastSurname": "Hebert", 
-            "firstName": "Keaton"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2001-01-25"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "992193581"
-    }, 
-    {
-        "studentUniqueStateId": "541397175", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Glass", 
-            "firstName": "Lunea"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1996-10-24"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "541397175"
-    }, 
-    {
-        "studentUniqueStateId": "555685100", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Patel", 
-            "firstName": "Johnny"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2006-02-13"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "555685100"
-    }, 
-    {
-        "studentUniqueStateId": "453827023", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Ortiz", 
-            "firstName": "Carmen"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2002-07-05"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "453827023"
-    }, 
-    {
-        "studentUniqueStateId": "555685177", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Lowery", 
-            "firstName": "Charde"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2006-02-13"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "555685177"
-    }, 
-    {
-        "studentUniqueStateId": "453827070", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Miller", 
-            "firstName": "Marvin"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2002-07-05"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "453827070"
-    }, 
-    {
-        "studentUniqueStateId": "943715230", 
-        "name": {
-            "middleName": "Colt", 
-            "lastSurname": "Ashley", 
-            "firstName": "Jolene"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2000-12-20"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "943715230"
-    }, 
-    {
-        "studentUniqueStateId": "164420088", 
-        "name": {
-            "middleName": "Kellie", 
-            "lastSurname": "Oconnor", 
-            "firstName": "Ursa"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1995-06-25"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "164420088"
-    }, 
-    {
-        "studentUniqueStateId": "505331723", 
-        "name": {
-            "middleName": "Eric", 
-            "lastSurname": "Roman", 
-            "firstName": "Gannon"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2004-08-22"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "505331723"
-    }, 
-    {
-        "studentUniqueStateId": "530425896", 
-        "name": {
-            "middleName": "Shannon", 
-            "lastSurname": "Delgado", 
-            "firstName": "Rhonda"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2006-07-02"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "530425896"
-    }, 
-    {
-        "studentUniqueStateId": "429526969", 
-        "name": {
-            "middleName": "A", 
-            "lastSurname": "Burks", 
-            "firstName": "Nicholas"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1999-12-17"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "429526969"
-    }, 
-    {
-        "studentUniqueStateId": "178828452", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Burnett Jones", 
-            "firstName": "Tyrone"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2001-10-04"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "178828452"
-    }, 
-    {
-        "studentUniqueStateId": "510152105", 
-        "name": {
-            "middleName": "Nicole", 
-            "lastSurname": "Alston", 
-            "firstName": "TaShya"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1997-06-01"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "510152105"
-    }, 
-    {
-        "studentUniqueStateId": "258392050", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Harper", 
-            "firstName": "Patricia"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1994-01-09"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "258392050"
-    }, 
-    {
-        "studentUniqueStateId": "100644447", 
-        "name": {
-            "middleName": "W", 
-            "lastSurname": "Klein", 
-            "firstName": "Brielle"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2006-06-02"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"None",
-        "id": "100644447"
-    }, 
-    {
-        "studentUniqueStateId": "336344132", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Merrill", 
-            "firstName": "Odysseus"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "2003-03-25"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"No",
-        "schoolFoodServiceEligibility":"None",
-        "id": "336344132"
-    }, 
-    {
-        "studentUniqueStateId": "711411586", 
-        "name": {
-            "middleName": "", 
-            "lastSurname": "Kirk", 
-            "firstName": "Rafael"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "2006-01-08"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "711411586"
-    }, 
-    {
-        "studentUniqueStateId": "131758477", 
-        "name": {
-            "middleName": "Tashya", 
-            "lastSurname": "Gentry", 
-            "firstName": "Deirdre"
-        }, 
-        "economicDisadvantaged": true, 
-        "birthData": {
-            "birthDate": "1997-07-22"
-        }, 
-        "sex": "Female", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "131758477"
-    }, 
-    {
-        "studentUniqueStateId": "423037202", 
-        "name": {
-            "middleName": "Deacon", 
-            "lastSurname": "Mccormick", 
-            "firstName": "Nomlanga"
-        }, 
-        "economicDisadvantaged": false, 
-        "birthData": {
-            "birthDate": "1999-06-05"
-        }, 
-        "sex": "Male", 
-        "limitedEnglishProficiency":"Yes",
-        "schoolFoodServiceEligibility":"Free",
-        "id": "423037202"
-    }
+{
+  "studentUniqueStateId": "525878920",
+  "name": {
+    "middleName": "D",
+    "lastSurname": "Sims",
+    "firstName": "Delilah"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2004-12-04"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "525878920",
+  "cohortYear": "Second grade"
+},{
+  "studentUniqueStateId": "802709591",
+  "name": {
+    "middleName": "Sydnee",
+    "lastSurname": "Lindsey",
+    "firstName": "Imelda"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "1997-03-07"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "802709591",
+  "cohortYear": "Second grade"
+},{
+  "studentUniqueStateId": "437680177",
+  "name": {
+    "middleName": "Yuli",
+    "lastSurname": "Pennington",
+    "firstName": "Kimberley"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2000-04-23"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "437680177",
+  "cohortYear": "Fifth grade"
+},{
+  "studentUniqueStateId": "170011136",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Durham",
+    "firstName": "Arsenio"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2001-01-23"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "170011136",
+  "cohortYear": "Third grade"
+},{
+  "studentUniqueStateId": "547028299",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Swanson",
+    "firstName": "Alec"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "1999-11-15"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "547028299",
+  "cohortYear": "First grade"
+},{
+  "studentUniqueStateId": "178875887",
+  "name": {
+    "middleName": "Deirdre",
+    "lastSurname": "Vincent",
+    "firstName": "Astra"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2000-10-14"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "178875887",
+  "cohortYear": "First grade"
+},{
+  "studentUniqueStateId": "376191021",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Graves",
+    "firstName": "Jeanette"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1994-08-30"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "Reduced",
+  "id": "376191021",
+  "cohortYear": "Second grade"
+},{
+  "studentUniqueStateId": "670703438",
+  "name": {
+    "middleName": "Melvin",
+    "lastSurname": "Patton",
+    "firstName": "Zachary"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2002-04-10"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "670703438",
+  "cohortYear": "Twelfth grade"
+},{
+  "studentUniqueStateId": "851123275",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Hicks",
+    "firstName": "Hoyt"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "1999-06-13"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "Reduced",
+  "id": "851123275",
+  "cohortYear": "Fourth grade"
+},{
+  "studentUniqueStateId": "250918988",
+  "name": {
+    "middleName": "W",
+    "lastSurname": "Jordan",
+    "firstName": "Uriah"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2005-04-06"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "250918988",
+  "cohortYear": "Ninth grade"
+},{
+  "studentUniqueStateId": "421216329",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Hinton",
+    "firstName": "Madeline"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "1994-03-17"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "421216329",
+  "cohortYear": "Twelfth grade"
+},{
+  "studentUniqueStateId": "746199592",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Mckenzie",
+    "firstName": "James"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2001-01-16"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "746199592",
+  "cohortYear": "Ninth grade"
+},{
+  "studentUniqueStateId": "323538529",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Marks",
+    "firstName": "Hector"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2004-03-30"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "323538529",
+  "cohortYear": "Eleventh grade"
+},{
+  "studentUniqueStateId": "428250371",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Pierce",
+    "firstName": "K"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1996-09-23"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "428250371",
+  "cohortYear": "Seventh grade"
+},{
+  "studentUniqueStateId": "114989598",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Kim",
+    "firstName": "Trevor"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2005-07-16"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "114989598",
+  "cohortYear": "Eleventh grade"
+},{
+  "studentUniqueStateId": "558780133",
+  "name": {
+    "middleName": "Troy",
+    "lastSurname": "Harris",
+    "firstName": "Galena"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1995-10-15"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "558780133",
+  "cohortYear": "Tenth grade"
+},{
+  "studentUniqueStateId": "196038854",
+  "name": {
+    "middleName": "Zane",
+    "lastSurname": "Hopkins",
+    "firstName": "Isaiah"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "1999-06-27"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "196038854",
+  "cohortYear": "Eighth grade"
+},{
+  "studentUniqueStateId": "992193581",
+  "name": {
+    "middleName": "D",
+    "lastSurname": "Hebert",
+    "firstName": "Keaton"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2001-01-25"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "992193581",
+  "cohortYear": "Fifth grade"
+},{
+  "studentUniqueStateId": "541397175",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Glass",
+    "firstName": "Lunea"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1996-10-24"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "541397175",
+  "cohortYear": "Tenth grade"
+},{
+  "studentUniqueStateId": "555685100",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Patel",
+    "firstName": "Johnny"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2006-02-13"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "555685100",
+  "cohortYear": "Third grade"
+},{
+  "studentUniqueStateId": "453827023",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Ortiz",
+    "firstName": "Carmen"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2002-07-05"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "453827023",
+  "cohortYear": "Eleventh grade"
+},{
+  "studentUniqueStateId": "555685177",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Lowery",
+    "firstName": "Charde"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2006-02-13"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "555685177",
+  "cohortYear": "Sixth grade"
+},{
+  "studentUniqueStateId": "453827070",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Miller",
+    "firstName": "Marvin"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2002-07-05"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "453827070",
+  "cohortYear": "Fifth grade"
+},{
+  "studentUniqueStateId": "943715230",
+  "name": {
+    "middleName": "Colt",
+    "lastSurname": "Ashley",
+    "firstName": "Jolene"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2000-12-20"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "943715230",
+  "cohortYear": "First grade"
+},{
+  "studentUniqueStateId": "164420088",
+  "name": {
+    "middleName": "Kellie",
+    "lastSurname": "Oconnor",
+    "firstName": "Ursa"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1995-06-25"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "164420088",
+  "cohortYear": "Third grade"
+},{
+  "studentUniqueStateId": "505331723",
+  "name": {
+    "middleName": "Eric",
+    "lastSurname": "Roman",
+    "firstName": "Gannon"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2004-08-22"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "505331723",
+  "cohortYear": "Fourth grade"
+},{
+  "studentUniqueStateId": "530425896",
+  "name": {
+    "middleName": "Shannon",
+    "lastSurname": "Delgado",
+    "firstName": "Rhonda"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2006-07-02"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "530425896",
+  "cohortYear": "Twelfth grade"
+},{
+  "studentUniqueStateId": "429526969",
+  "name": {
+    "middleName": "A",
+    "lastSurname": "Burks",
+    "firstName": "Nicholas"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1999-12-17"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "429526969",
+  "cohortYear": "Fifth grade"
+},{
+  "studentUniqueStateId": "178828452",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Burnett Jones",
+    "firstName": "Tyrone"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2001-10-04"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "178828452",
+  "cohortYear": "Ninth grade"
+},{
+  "studentUniqueStateId": "510152105",
+  "name": {
+    "middleName": "Nicole",
+    "lastSurname": "Alston",
+    "firstName": "TaShya"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1997-06-01"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "510152105",
+  "cohortYear": "Eleventh grade"
+},{
+  "studentUniqueStateId": "258392050",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Harper",
+    "firstName": "Patricia"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1994-01-09"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "258392050",
+  "cohortYear": "Sixth grade"
+},{
+  "studentUniqueStateId": "100644447",
+  "name": {
+    "middleName": "W",
+    "lastSurname": "Klein",
+    "firstName": "Brielle"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2006-06-02"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "None",
+  "id": "100644447",
+  "cohortYear": "Second grade"
+},{
+  "studentUniqueStateId": "336344132",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Merrill",
+    "firstName": "Odysseus"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "2003-03-25"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "No",
+  "schoolFoodServiceEligibility": "None",
+  "id": "336344132",
+  "cohortYear": "Second grade"
+},{
+  "studentUniqueStateId": "711411586",
+  "name": {
+    "middleName": "",
+    "lastSurname": "Kirk",
+    "firstName": "Rafael"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "2006-01-08"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "711411586",
+  "cohortYear": "Third grade"
+},{
+  "studentUniqueStateId": "131758477",
+  "name": {
+    "middleName": "Tashya",
+    "lastSurname": "Gentry",
+    "firstName": "Deirdre"
+  },
+  "economicDisadvantaged": true,
+  "birthData": {
+    "birthDate": "1997-07-22"
+  },
+  "sex": "Female",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "131758477",
+  "cohortYear": "Seventh grade"
+},{
+  "studentUniqueStateId": "423037202",
+  "name": {
+    "middleName": "Deacon",
+    "lastSurname": "Mccormick",
+    "firstName": "Nomlanga"
+  },
+  "economicDisadvantaged": false,
+  "birthData": {
+    "birthDate": "1999-06-05"
+  },
+  "sex": "Male",
+  "limitedEnglishProficiency": "Yes",
+  "schoolFoodServiceEligibility": "Free",
+  "id": "423037202",
+  "cohortYear": "Eighth grade"
+}
 ]

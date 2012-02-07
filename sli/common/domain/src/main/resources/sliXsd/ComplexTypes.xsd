@@ -200,6 +200,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
+<!--  
 	<xs:complexType name="raceType">
 		<xs:annotation>
 			<xs:documentation>The general racial category which most clearly
@@ -222,6 +223,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+-->
 
 	<xs:complexType name="address">
 		<xs:annotation>
@@ -362,23 +364,6 @@
 						For
 						example: Physical Address, Mailing Address, Home
 						Address, etc.)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="gradeLevelsType">
-		<xs:annotation>
-			<xs:documentation>The enumerated collection for specifying one or
-				more grade levels.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="gradeLevel" type="gradeLevelType"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The specification of the grade level.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>

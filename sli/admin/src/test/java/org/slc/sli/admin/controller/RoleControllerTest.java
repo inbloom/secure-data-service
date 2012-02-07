@@ -29,56 +29,56 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
 /**
- * 
+ *
  * @author scole
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/commonCtx.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class RoleControllerTest {
-      
+
     private RESTClient rest;
     private RoleController controller;
-    
+
     @Value("${roles.json}")
     private String rolesJSON;
-    
+
     @Before
     public void init() {
         this.rest = Mockito.mock(RESTClient.class);
-        
+
         JsonParser parser = new JsonParser();
         JsonArray jsonArray = parser.parse(rolesJSON).getAsJsonArray();
         Mockito.when(this.rest.getRoles(null)).thenReturn(jsonArray);
         controller = new RoleController();
         controller.setRESTClient(rest);
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testGetRoles() throws IOException {
-        
+
         ModelAndView view = Mockito.mock(ModelAndView.class);
         HttpSession session = Mockito.mock(HttpSession.class);
-        
+
         final Map<String, Object> values = new HashMap<String, Object>();
-        
+
         Mockito.when(view.addObject(Mockito.anyString(), Mockito.anyCollection())).thenAnswer(
                 new Answer<ModelAndView>() {
-                    
+
                     @Override
                     public ModelAndView answer(InvocationOnMock invocation) throws Throwable {
                         Object[] args = invocation.getArguments();
                         values.put(args[0].toString(), args[1]);
                         return (ModelAndView) invocation.getMock();
                     }
-                    
+
                 });
-        
+
         controller.getRoles(view, session);
-        
+
         Assert.assertTrue("There must be a roleJsonData entry", values.containsKey("roleJsonData"));
         List<Map<String, Object>> roles = (List<Map<String, Object>>) values.get("roleJsonData");
         for (Map<String, Object> role : roles) {
@@ -99,5 +99,5 @@ public class RoleControllerTest {
             }
         }
     }
-    
+
 }

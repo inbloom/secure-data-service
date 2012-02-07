@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Query Converter Test
- * 
+ *
  * @author dong liu <dliu@wgen.net>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,14 +21,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class QueryConverterTest {
     @Autowired
     QueryConverter queryConverter;
-    
+
     @Test
     public void testfindParamType() {
         // test student entity
         assertEquals(queryConverter.findParamType("student", "nonexist.field"), "NULL");
         assertEquals(queryConverter.findParamType("student", "studentUniqueStateId"), "STRING");
         assertEquals(queryConverter.findParamType("student", "hispanicLatinoEthnicity"), "BOOLEAN");
-        
+
         // test school entity
         assertEquals(queryConverter.findParamType("school", "stateOrganizationId"), "STRING");
         assertEquals(queryConverter.findParamType("school", "nameOfInstitution"), "STRING");
@@ -36,7 +36,7 @@ public class QueryConverterTest {
         assertEquals(queryConverter.findParamType("school", "address.streetNumberName"), "STRING");
         assertEquals(queryConverter.findParamType("school", "address.addressType"), "TOKEN");
         assertEquals(queryConverter.findParamType("school", "telephone.telephoneNumber"), "STRING");
-        
+
         // test student school association entity
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "studentId"), "STRING");
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "schoolId"), "STRING");
@@ -44,7 +44,7 @@ public class QueryConverterTest {
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "entryGradeLevel"), "TOKEN");
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "repeatGradeIndicator"), "BOOLEAN");
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "classOf"), "TOKEN");
-        assertEquals(queryConverter.findParamType("studentSchoolAssociation", "educationalPlans.educationalPlan"),
+        assertEquals(queryConverter.findParamType("studentSchoolAssociation", "educationalPlans"),
                 "TOKEN");
         assertEquals(queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.GraduationPlanType"),
                 "TOKEN");
@@ -57,25 +57,25 @@ public class QueryConverterTest {
                 "graduationPlan.totalCreditsRequired.creditConversion"), "DOUBLE");
 
     }
-    
+
     @Test
     public void testStringToQuery() {
         assertEquals(queryConverter.stringToQuery("studentSchoolAssociation", "entryGradeLevel=First grade")
                 .getQueryObject(), new Query(Criteria.where("body.entryGradeLevel").is("First grade")).getQueryObject());
     }
-    
+
     @Test(expected = QueryParseException.class)
     @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException1() {
         queryConverter.stringToQuery("studentSchoolAssociationn", "nonexist.field=test");
     }
-    
+
     @Test(expected = QueryParseException.class)
     @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException2() {
         queryConverter.stringToQuery("studentSchoolAssociation", "incomplete.field=");
     }
-    
+
     @Test(expected = QueryParseException.class)
     @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException3() {

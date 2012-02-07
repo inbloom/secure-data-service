@@ -36,7 +36,7 @@ public class EdFiProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) throws Exception {
-        
+
         try {
             BatchJob job = exchange.getIn().getBody(BatchJob.class);
 

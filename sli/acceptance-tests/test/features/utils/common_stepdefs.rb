@@ -10,7 +10,7 @@ Given /^I have access to all [^"]*$/ do
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain"].should include(fmt)
+  ["application/json", "application/xml", "text/plain", "application/vnd.slc.full+json"].should include(fmt)
   @format = fmt
 end
 

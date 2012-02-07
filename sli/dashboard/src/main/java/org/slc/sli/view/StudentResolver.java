@@ -13,16 +13,16 @@ import java.util.List;
 /**
  * A utility class for views in SLI dashboard. As a wrapper around student data passed onto
  *  dashboard views. Contains useful tools look up student data
- * 
+ *
  * @author syau
  *
  */
 public class StudentResolver {
     List<Student> students;
     List<StudentProgramAssociation> programs;
-    
+
     public static final String DATA_SET_TYPE = "studentInfo";
-    
+
     /**
      * Constructor
      */
@@ -30,11 +30,11 @@ public class StudentResolver {
         students = s;
         programs = p;
     }
-    
+
     public List<Student> list() {
         return students;
     }
-    
+
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      */
@@ -42,9 +42,9 @@ public class StudentResolver {
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals("name")) {
-            // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
-            return student.getFirstName() + " " + student.getLastName(); 
-        } 
+            // formatting class and logic should be added here later. Or maybe in the view. Don't know...
+            return student.getFirstName() + " " + student.getLastName();
+        }
         return "";
     }
 
@@ -52,14 +52,14 @@ public class StudentResolver {
      * returns true if the given lozenge code applies to the given student
      */
     public boolean lozengeApplies(Student student, String code) {
-        
+
         String[] studentProgramCodes = Student.getProgramCodesForStudent();
-        
+
         // Check if program in student entity
         if (Arrays.asList(studentProgramCodes).contains(code)) {
             return student.hasProgramParticipation(code);
-        } 
-        
+        }
+
         // Now check program participation
         for (StudentProgramAssociation p : programs) {
             if (p.getStudentId().equals(student.getId())) {
