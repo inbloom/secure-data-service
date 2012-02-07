@@ -22,9 +22,9 @@ import org.slc.sli.domain.Entity;
 /**
  * Default converter for client roles to sli roles Does absolutely nothing but
  * give back exactly same list
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class DefaultClientRoleResolver implements ClientRoleResolver {
@@ -69,7 +69,7 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
         for (Entity firstRealm : realms) {
             realm = firstRealm.getBody();
         }
-        
+
 
         Map<String, List<String>> mappings = null;
         if (realm != null) {

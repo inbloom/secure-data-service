@@ -169,16 +169,16 @@
       <property name="format" value="XXX" />
     </module>
     <module name="UpperEll" />
-<!--     <module name="Regexp">
+    <!-- <module name="Regexp">
       <property name="format" value="System\.out\.println" />
       <property name="illegalPattern" value="true" />
       <property name="ignoreComments" value="true" />
-    </module>
+    </module> -->
     <module name="Regexp">
-      <property name="format" value="[^*][ \t]+$" />
+      <property name="format" value="^[^*][ \t]+$" />
       <property name="illegalPattern" value="true" />
       <property name="message" value="Trailing whitespace" />
-    </module> -->
+    </module>
 
   </module>
 
