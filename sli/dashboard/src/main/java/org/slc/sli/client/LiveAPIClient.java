@@ -10,16 +10,11 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.AssociationResponseObject;
-import org.slc.sli.entity.Course;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.InnerResponse;
 import org.slc.sli.entity.ResponseObject;
-import org.slc.sli.entity.School;
-import org.slc.sli.entity.Section;
-import org.slc.sli.entity.Student;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
@@ -58,11 +53,11 @@ public class LiveAPIClient implements APIClient {
     }
     
     @Override
-    public School[] getSchools(String token) {
+    public GenericEntity[] getSchools(String token) {
         String teacherId = getId(token);
-        Section[] sections = getSectionsForTeacher(teacherId, token);
-        Course[] courses = getCoursesForSections(sections, token);
-        School[] schools = getSchoolsForCourses(courses, token);
+        GenericEntity[] sections = getSectionsForTeacher(teacherId, token);
+        GenericEntity[] courses = getCoursesForSections(sections, token);
+        GenericEntity[] schools = getSchoolsForCourses(courses, token);
         
         return schools;
     }
@@ -88,9 +83,9 @@ public class LiveAPIClient implements APIClient {
         return restClient.makeJsonRequestWHeaders(url, token);
     }    
     
-    private School getSchool(String id, String token) {
+    private GenericEntity getSchool(String id, String token) {
         String url = Constants.API_SERVER_URI + "/schools/" + id;
-        School school = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), School.class);
+        GenericEntity school = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token), null);
         return school;
     }
     
@@ -107,15 +102,15 @@ public class LiveAPIClient implements APIClient {
     }
     
     
-    private Section getSection(String id, String token) {
+    private GenericEntity getSection(String id, String token) {
         String url = Constants.API_SERVER_URI + "/sections/" + id;
-        Section section = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), Section.class);
-        section.setStudentUIDs(getStudentIdsForSection(id, token));
+        GenericEntity section = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token), null);
+        section.put("studentUIDs", getStudentIdsForSection(id, token));
         return section;
     }
 
     @Override
-    public Assessment[] getAssessments(final String token, List<String> studentIds) {
+    public GenericEntity[] getAssessments(final String token, List<String> studentIds) {
         return mockClient.getAssessments(getUsername(), studentIds);
     }
     @Override
@@ -160,88 +155,88 @@ public class LiveAPIClient implements APIClient {
         return returnValue;
     }
     
-    private Section[] getSectionsForTeacher(String id, String token) {
+    private GenericEntity[] getSectionsForTeacher(String id, String token) {
         String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
         AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
-        List<Section> sections = new ArrayList<Section>();
+        List<GenericEntity> sections = new ArrayList<GenericEntity>();
         
         for (AssociationResponseObject response : responses) {
             sections.add(getSection(parseId(response.getLink()), token));
         }
         
         // FIXME: converting like this because we suck.
-        Section[] sections2 = new Section[sections.size()];
+        GenericEntity[] sections2 = new GenericEntity[sections.size()];
         int index = 0;
-        for (Section s : sections) {
+        for (GenericEntity s : sections) {
             sections2[index++] = s;
         }
         
         return sections2;
     }
 
-    private Course[] getCoursesForSections(Section[] sections, String token) {
+    private GenericEntity[] getCoursesForSections(GenericEntity[] sections, String token) {
         
         //Course[] courses = new Course[sections.length];
-        HashMap<String, Course> courseMap = new HashMap<String, Course>();
+        HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
 
         // TODO: Make an actual api call to the courses service, when it comes up.
         
         // loop through sections, figure out course->section mappings
-        for (Section section: sections) {
+        for (GenericEntity section: sections) {
             
             // get course name
             String courseName; 
-            String sectionName = section.getSectionName();
+            String sectionName = (String) (section.get("sectionName"));
             if (sectionName.indexOf('-') > 0) {
                 courseName = sectionName.substring(0, sectionName.indexOf('-') - 1);
-                section.setSectionName(sectionName.substring(sectionName.indexOf('-') + 2));
+                section.put("sectionName", sectionName.substring(sectionName.indexOf('-') + 2));
             } else {
                 courseName = sectionName;
             }    
             
             // need to create new one?
-            Course course;
+            GenericEntity course;
             if (courseMap.containsKey(courseName)) {
                 course = courseMap.get(courseName);
             } else {
-                course = new Course();
-                course.setCourse(courseName);
+                course = new GenericEntity();
+                course.put("course", courseName);
                 courseMap.put(courseName, course);
             }
             
             // add section to course
-            Section[] sectionArray = {section};
-            course.setSections((Section[]) ArrayUtils.addAll(course.getSections(), sectionArray));
+            GenericEntity[] sectionArray = {section};
+            course.put("sections", (GenericEntity[]) ArrayUtils.addAll((GenericEntity[]) (course.get("sections")), sectionArray));
             
             //TODO: Make a mapping between courses and schools 
             //course.setSchoolId("0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
             if (SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
-                course.setSchoolId("00000000-0000-0000-0000-000000000201");
+                course.put("schoolId", "00000000-0000-0000-0000-000000000201");
             } else {
-                course.setSchoolId("00000000-0000-0000-0000-000000000202");
+                course.put("schoolId", "00000000-0000-0000-0000-000000000202");
             }
             
         }
 
-        return (Course[]) courseMap.values().toArray(new Course[courseMap.size()]);
+        return (GenericEntity[]) courseMap.values().toArray(new GenericEntity[courseMap.size()]);
     }
     
-    private School[] getSchoolsForCourses(Course[] courses, String token) {
+    private GenericEntity[] getSchoolsForCourses(GenericEntity[] courses, String token) {
         // TODO Auto-generated method stub
-        HashMap<String, School> schoolMap = new HashMap<String, School>();
+        HashMap<String, GenericEntity> schoolMap = new HashMap<String, GenericEntity>();
         
-        for (Course course: courses) {
-            Course[] singleCourseArray = {course};
-            if (schoolMap.containsKey(course.getSchoolId())) {
-                schoolMap.get(course.getSchoolId()).addCourses(singleCourseArray);
+        for (GenericEntity course: courses) {
+            GenericEntity[] singleCourseArray = {course};
+            if (schoolMap.containsKey(course.get("schoolId"))) {
+                schoolMap.get(course.get("schoolId")).put("courses", singleCourseArray);
             } else {
-                School school = getSchool(course.getSchoolId(), token);
-                school.setCourses(singleCourseArray);
-                schoolMap.put(course.getSchoolId(), school);
+                GenericEntity school = getSchool((String) (course.get("schoolId")), token);
+                school.put("courses", singleCourseArray);
+                schoolMap.put((String) (course.get("schoolId")), school);
             }
         }
             
-        return (School[]) schoolMap.values().toArray(new School[1]);
+        return (GenericEntity[]) schoolMap.values().toArray(new GenericEntity[1]);
     }
     
     private String getUsername() {

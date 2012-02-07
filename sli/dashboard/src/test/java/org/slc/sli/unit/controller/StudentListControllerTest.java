@@ -2,24 +2,20 @@ package org.slc.sli.unit.controller;
 
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.google.gson.Gson;
-
-import org.slc.sli.client.MockAPIClient;
-import org.slc.sli.controller.StudentListController;
-import org.slc.sli.entity.School;
-import org.slc.sli.manager.SchoolManager;
-import org.slc.sli.security.SLIPrincipal;
-
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.ModelAndView;
+
+import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.controller.StudentListController;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.SchoolManager;
+import org.slc.sli.security.SLIPrincipal;
 
 /**
  * TODO: Write Javadoc
@@ -44,7 +40,7 @@ public class StudentListControllerTest {
         
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         PowerMockito.doReturn("src/test/resources/mock_data/common/school.json").when(mockClient, "getFilename", "mock_data/common/school.json");
-        School[] schools = mockClient.getSchools("common");
+        GenericEntity[] schools = mockClient.getSchools("common");
         
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());

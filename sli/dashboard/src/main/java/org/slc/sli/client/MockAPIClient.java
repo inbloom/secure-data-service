@@ -14,10 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.School;
 import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
@@ -54,24 +52,24 @@ public class MockAPIClient implements APIClient {
     }
     
     @Override
-    public School[] getSchools(final String token) {
-        return fromFile(getFilename("mock_data/" + token + "/school.json"), School[].class);
+    public GenericEntity[] getSchools(final String token) {
+        return fromFileGeneric(getFilename("mock_data/" + token + "/school.json"), null);
     }
     
     @Override
-    public Assessment[] getAssessments(final String token, List<String> studentIds) {
+    public GenericEntity[] getAssessments(final String token, List<String> studentIds) {
 
-        Assessment[] assessments = fromFile(getFilename("mock_data/" + token + "/assessment.json"), Assessment[].class);
+        GenericEntity[] assessments = fromFile(getFilename("mock_data/" + token + "/assessment.json"), null);
 
-        Vector<Assessment> filtered = new Vector<Assessment>();
+        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
         // perform the filtering. 
         
-        for (Assessment assessment : assessments) { 
-            if (studentIds.contains(assessment.getStudentId())) { 
+        for (GenericEntity assessment : assessments) { 
+            if (studentIds.contains(assessment.get("studentId"))) { 
                 filtered.add(assessment);
             }
         }
-        Assessment[] retVal = new Assessment[filtered.size()]; 
+        GenericEntity[] retVal = new GenericEntity[filtered.size()]; 
         return filtered.toArray(retVal);
     }
 

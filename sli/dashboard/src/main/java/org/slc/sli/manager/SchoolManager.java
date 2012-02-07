@@ -4,7 +4,6 @@ package org.slc.sli.manager;
 import java.util.List;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.School;
 import org.slc.sli.util.SecurityUtil;
 
 /**
