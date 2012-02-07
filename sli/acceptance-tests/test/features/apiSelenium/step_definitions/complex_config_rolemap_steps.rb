@@ -56,7 +56,7 @@ Given /^I am not a Super Administrator$/ do
 end
 
 Then /^I should get a message that I am not authorized to access the page$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to find forbidden message")  {@driver.page_source.index("Forbidden") != nil}
 end
 
 Given /^I am a Super Administrator for "([^"]*)"$/ do |arg1|
