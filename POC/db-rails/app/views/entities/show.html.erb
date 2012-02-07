@@ -1,3 +1,25 @@
+<script type="text/javascript">
+    function linkify(text){
+        if (text) {
+            text = text.replace(
+                /((https?\:\/\/)|(www\.))(\S+)(\w{2,4})(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
+                function(url){
+                    var full_url = url;
+                    if (!full_url.match('^https?:\/\/')) {
+                        full_url = 'http://' + full_url;
+                    }
+                    return '<a href="' + full_url + '">' + url + '</a>';
+                }
+            );
+        }
+        return text;
+    }
+
+    $(document).ready(function(){
+        $('div#data').html( linkify($('div#data').html()) );
+    });
+</script>
+<div id='data'>
 <p id="notice"><%= notice %></p>
 <% def build_links(hash = {}) %>
 	<%= link_to hash[:rel], hash[:href]%>
@@ -18,7 +40,13 @@
 				<%=value unless value.is_a?(Hash) or value.is_a?(Array)%>
 				<% if value.is_a?(Array)
 					value.each do |item| 
-						display_hash(item, indent+1)
+						if item.is_a? Hash
+							display_hash(item, indent+1)
+						else %>
+							<%= value.join(', ') %>
+							<% break
+						end
+						
 					end
 					end%>
 			</dd>
@@ -36,3 +64,4 @@
 <% else %>
 	<% display_hash(@entity)%>
 <% end %>
+</div>

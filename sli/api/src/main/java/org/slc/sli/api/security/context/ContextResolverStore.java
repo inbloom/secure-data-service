@@ -48,7 +48,7 @@ public class ContextResolverStore {
      * <p/>
      * The association path will be traversed from from source to target to see if the context path exists.
      */
-    public void init() {
+    public synchronized void init() {
         
         List<EntityContextResolver> teacherResolvers = Arrays.<EntityContextResolver>asList(
         
