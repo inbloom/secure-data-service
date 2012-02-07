@@ -25,6 +25,10 @@ import org.slc.sli.entity.EducationalOrganization;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 
 /**
  *
@@ -166,13 +170,23 @@ public class LiveAPIClient implements APIClient {
 
     @Override
     public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization edOrg) {
-        String url = Constants.API_SERVER_URI + "/educationOrganization-associations/" + edOrg.getId() + "/targets";
+        String url = Constants.API_SERVER_URI + "/educationOrganization-associations/" + edOrg.getId();
         AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
         List<EducationalOrganization> edOrgs = new ArrayList<EducationalOrganization>();
-        // @@@ TODO: This is untested. Pending on API team resolving educationOrganization-associations for reverse lookup
+        // For every association, and find the ones that this ed org is a child, and follow the parent 
         for (AssociationResponseObject response : responses) {
-            if (response.getId() != null && response.getId().equals("getEducationOrganizationParents")) {
-                edOrgs.add(getEducationalOrganization(parseId(response.getLink()), token));
+            try {
+                String assLink = response.getLink().getHref();
+                JSONObject assResponse = new JSONObject(restClient.makeJsonRequestWHeaders(assLink, token));
+                String childId = assResponse.optString("educationOrganizationChildId");
+                if (childId != null && childId.equals(edOrg.getId())) {
+                    String parentId = assResponse.optString("educationOrganizationParentId");
+                    if (parentId != null) {
+                        edOrgs.add(getEducationalOrganization(parentId, token));
+                    }
+                }
+            } catch (JSONException e) {
+                throw new RuntimeException("malformed json from educationOrganization-associations api call.");
             }
         }
         EducationalOrganization[] retVal = new EducationalOrganization[edOrgs.size()];

@@ -61,7 +61,17 @@ public class ComplexSchema extends NeutralSchema {
         if (entity instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<String, ?> entityMap = (Map<String, ?>) entity;
-
+            
+            // Make sure the entity contains all required fields
+            for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
+                NeutralSchema schema = entry.getValue();
+                AppInfo appInfo = schema.getAppInfo();
+                if (appInfo != null && appInfo.isRequired() && !entityMap.containsKey(entry.getKey())) {
+                    addError(false, entry.getKey(), "", "", ErrorType.REQUIRED_FIELD_MISSING, errors);
+                    isValid = false;
+                }
+            }
+            
             for (String name : entityMap.keySet()) {
                 Object fieldEntity = entityMap.get(name);
 

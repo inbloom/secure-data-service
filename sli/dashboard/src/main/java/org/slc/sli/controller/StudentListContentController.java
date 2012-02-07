@@ -21,6 +21,7 @@ import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.LozengeConfig;
+import org.slc.sli.config.ViewConfigSet;
 
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
@@ -52,17 +53,21 @@ public class StudentListContentController extends DashboardController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population,
+    public ModelAndView studentListContent(String population, Integer view,
                                            ModelMap model) throws Exception {
-
+        
         UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
-        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
+        
+        ViewConfigSet viewConfigSet = configManager.getConfigSet(user.getUsername());
+        model.addAttribute("viewConfigSet", viewConfigSet);
+        
+        ViewConfig viewConfig = viewConfigSet.getViewConfig().get(view);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
+        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));  
 
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
