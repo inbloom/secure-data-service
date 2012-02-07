@@ -177,7 +177,6 @@ public class XsdToNeutralSchemaTest {
             assertTrue(choiceSchema.getMinChoices() == 0);
             assertTrue(choiceSchema.getMaxChoices() == ChoiceSchema.UNBOUNDED);
         }
-
     }
 
     @Test
