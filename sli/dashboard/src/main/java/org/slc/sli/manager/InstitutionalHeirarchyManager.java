@@ -29,6 +29,17 @@ public class InstitutionalHeirarchyManager extends Manager {
     // resource String
     public static final String DUMMY_EDORG_NAME = "No Ed-Org";
 
+    // accessors 
+    public School[] getSchools(String token) {
+        return apiClient.getSchools(token);
+    }
+    public EducationalOrganization[] getAssociatedEducationalOrganizations(String token, School s) {
+        return apiClient.getAssociatedEducationalOrganizations(token, s);
+    }
+    public EducationalOrganization[] getParentEducationalOrganizations(String token, EducationalOrganization edOrg) {
+        return apiClient.getParentEducationalOrganizations(token, edOrg);
+    }
+
     /**
      * Returns the institutional heirarchy visible to the user with the given auth token as a JSON string,
      * with the ed-org level flattened
@@ -120,17 +131,6 @@ public class InstitutionalHeirarchyManager extends Manager {
         for (int i = 0; i < parentEdOrgs.length; i++) {
             insertEdOrgAndAncesterIntoSet(token, map, parentEdOrgs[i]);
         }
-    }
-
-    // accessors 
-    private School[] getSchools(String token) {
-        return apiClient.getSchools(token);
-    }
-    private EducationalOrganization[] getAssociatedEducationalOrganizations(String token, School s) {
-        return apiClient.getAssociatedEducationalOrganizations(token, s);
-    }
-    private EducationalOrganization[] getParentEducationalOrganizations(String token, EducationalOrganization edOrg) {
-        return apiClient.getParentEducationalOrganizations(token, edOrg);
     }
 
 }
