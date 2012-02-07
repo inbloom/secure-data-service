@@ -16,18 +16,18 @@ import org.slc.sli.config.LozengeConfig;
 
 /**
  * Unit tests for the ConfigPersistor class.
- * 
+ *
  */
 public class ConfigPersistorTest {
 
     @Before
     public void setup() {
-        
+
     }
 
     @Test
     public void testGetConfigSet() {
-     
+
         ViewConfigSet configSet = null;
         try {
             ConfigPersistor persistor = new ConfigPersistor();
@@ -58,22 +58,22 @@ public class ConfigPersistorTest {
 
     @Test
     public void testSaveConfigSet() {
-        
+
         ViewConfigSet configs = new ViewConfigSet();
         ViewConfig view = new ViewConfig();
         view.setName("listOfStudents");
         configs.getViewConfig().add(view);
-        
+
         DisplaySet displaySet = new DisplaySet();
         displaySet.setDisplayName("");
         view.getDisplaySet().add(displaySet);
-        
+
         Field field = new Field();
         field.setValue("stud.studentInfo.name");
         field.setFormat("firstLast");
         field.setDisplayName("Student");
         displaySet.getField().add(field);
-        
+
         /*
         try {
             ConfigPersistor.saveConfigSet("common", configs);
@@ -81,7 +81,7 @@ public class ConfigPersistorTest {
             e.printStackTrace();
         }
         */
-        
+
     }
-    
+
 }

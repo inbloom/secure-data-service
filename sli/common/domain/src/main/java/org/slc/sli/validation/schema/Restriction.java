@@ -5,9 +5,9 @@ import java.util.Map;
 
 /**
  * Enumeration representing a restriction on a value.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public enum Restriction {
     /**
@@ -50,28 +50,28 @@ public enum Restriction {
      * number of fractional digits allowed in a number
      */
     FRACTION_DIGITS("fraction-digits");
-    
+
     private final String value;
-    
+
     private static final Map<String, Restriction> LOOKUP = new HashMap<String, Restriction>();
     static {
         for (Restriction r : values()) {
             LOOKUP.put(r.getValue(), r);
         }
     }
-    
+
     private Restriction(String value) {
         this.value = value;
     }
-    
+
     public String getValue() {
         return value;
     }
-    
+
     public static boolean isRestriction(String value) {
         return LOOKUP.containsKey(value);
     }
-    
+
     public static Restriction fromValue(String value) {
         return LOOKUP.get(value);
     }

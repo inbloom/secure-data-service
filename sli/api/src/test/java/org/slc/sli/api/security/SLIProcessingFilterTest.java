@@ -30,60 +30,60 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests functioning of the Authentication filter used to authenticate users
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class SLIProcessingFilterTest {
-    
+
     @Autowired
     private SliRequestFilter        filter;
-    
+
     private MockHttpServletRequest  request;
     private MockHttpServletResponse response;
     private MockFilterChain         chain;
-    
+
     @Before
     public void init() {
         filter = new SliRequestFilter();
         SecurityTokenResolver resolver = mock(SecurityTokenResolver.class);
-        
+
         when(resolver.resolve(Mocker.VALID_TOKEN)).thenReturn(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(Right.values())));
-        
+
         filter.setResolver(resolver);
-        
+
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         chain = new MockFilterChain();
     }
-    
+
     @After
     public void teardown() {
         SecurityContextHolder.clearContext();
     }
-    
+
     @Test
     public void testSessionInParam() throws Exception {
-        
+
         request.setParameter("sessionId", Mocker.VALID_TOKEN);
         filter.doFilter(request, response, chain);
-        
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         Assert.assertNotNull("Authentication can't be null", auth);
     }
-    
+
     @Test
     public void testSessionInParamFail() throws Exception {
-        
+
         request.setParameter("sessionId", Mocker.INVALID_TOKEN);
         filter.doFilter(request, response, chain);
-        
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         Assert.assertNull("Authentication must be null", auth);
     }
 }

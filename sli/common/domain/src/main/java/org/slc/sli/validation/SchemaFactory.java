@@ -9,9 +9,9 @@ import org.slc.sli.validation.schema.NeutralSchema;
  *
  */
 public interface SchemaFactory {
-    
+
     public NeutralSchema createSchema(QName qName);
-    
+
     public NeutralSchema createSchema(String xsd);
-    
+
 }

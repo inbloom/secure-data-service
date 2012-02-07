@@ -21,12 +21,12 @@ DbRails::Application.routes.draw do
 
   match '/entities/:type' => 'entities#index'
   match '/entities/:type/:id' => 'entities#show'
-  match '/entities/:type/:id/targets' => 'entities#index'
+  match '/entities/:type/:id/:targets' => 'entities#show'
   
   match '/students' => 'students#index'
   match '/teachers' => 'teachers#index'
   match '/schools' => 'schools#index'
-  
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

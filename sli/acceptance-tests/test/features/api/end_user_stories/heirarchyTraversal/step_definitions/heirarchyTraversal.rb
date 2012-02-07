@@ -41,18 +41,6 @@ Then /^a "([^"]*)" "([^"]*)" should be "([^"]*)"$/ do |subdocumentName, key, val
   assert(found, "#{value} not found in results")
 end
 
-Then /^credentials "([^"]*)" should be "([^"]*)"$/ do |key, value|
-  validateValueInSubDocumentArray("credentials",key,value)
-end
-
-Then /^a student characteristic "([^"]*)" should be that he or she is "([^"]*)"$/ do |key, value|
-  validateValueInSubDocumentArray("studentCharacteristics",key,value)
-end
-
-Then /^a disabilities "([^"]*)" should be that he or she has a\(n\) "([^"]*)"$/ do |key, value|
-  validateValueInSubDocumentArray("disabilities",key,value)
-end
-
 Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
   assert(@result["name"] != nil, "Name is nil")
   expected_first_name = @result["name"]["firstName"]

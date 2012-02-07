@@ -118,7 +118,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     public void setService(EntityService service) {
         this.service = service;
     }
-    
+
     public Role getDefaultRole(String name) {
         return findRoleByName(name);
     }

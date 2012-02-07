@@ -29,7 +29,7 @@ import org.mockito.Matchers;
 
 /**
  * TODO: Write Javadoc
- * 
+ *
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({StudentListController.class, MockAPIClient.class })
@@ -37,23 +37,23 @@ public class StudentListControllerTest {
 
     private StudentListController studentListController;
     private String testUser;
-    
+
     @Before
     public void setup() {
         studentListController = new StudentListController();
         testUser = "sravan";
     }
-    
+
     @Test
     public void testStudentListNotEmpty() throws Exception {
-        
+
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
 
         PowerMockito.doReturn("src/test/resources/mock_data/common/school.json").when(mockClient, "getFilename", "mock_data/common/school.json");
         School[] schools = mockClient.getSchools("common");
         PowerMockito.doReturn("src/test/resources/mock_data/common/educational_organization.json").when(mockClient, "getFilename", "mock_data/common/educational_organization.json");
         EducationalOrganization[] edOrgs = new EducationalOrganization[0];
-        
+
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());
         InstitutionalHeirarchyManager schoolManager = PowerMockito.spy(new InstitutionalHeirarchyManager());
@@ -63,8 +63,8 @@ public class StudentListControllerTest {
 
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(partiallyMocked, "getPrincipal");
-        
-        ModelAndView result;   
+
+        ModelAndView result;
         partiallyMocked.setInstitutionalHeirarchyManager(schoolManager);
         result = partiallyMocked.retrieveStudentList(model);
         assertEquals(result.getViewName(), "studentList");
@@ -74,7 +74,7 @@ public class StudentListControllerTest {
         JSONObject edOrgJSON = instHeirarchyJSON.getJSONObject(0);
         JSONArray schoolsJSONArray = edOrgJSON.getJSONArray(InstitutionalHeirarchyManager.SCHOOLS);
         Gson gson = new Gson();
-        School[] retrievedList = gson.fromJson(schoolsJSONArray.toString(), School[].class); 
+        School[] retrievedList = gson.fromJson(schoolsJSONArray.toString(), School[].class);
         assertTrue(retrievedList.length > 0);
         int i = 0;
         for (School school : schools) {
@@ -82,7 +82,7 @@ public class StudentListControllerTest {
         }
 
     }
-    
+
     @Test
     public void testStudentListNullReturn() throws Exception {
         StudentListController mocked = PowerMockito.spy(new StudentListController());
@@ -98,7 +98,7 @@ public class StudentListControllerTest {
         assertTrue(instHeirarchyJSON.length() == 0);
 
     }
- 
+
     /*
     @Test
     public void testApiClient() {
@@ -106,8 +106,8 @@ public class StudentListControllerTest {
         MockAPIClient mock = new MockAPIClient();
         studentListController.setApiClient(mock);
         Assert.assertNotNull(studentListController.getApiClient());
-        
-        
+
+
     }
     */
 }

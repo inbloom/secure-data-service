@@ -19,26 +19,26 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Utility class for exporting Neutral Schema files to flat files.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public class NeutralJsonExporter {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(NeutralJsonExporter.class);
-    
+
     /**
      * Loads the XSD files and dumps the Neutral Schema objects to JSON files in the specified
      * directory.
-     * 
+     *
      * Option 1:
      * Param 1: xsdDirectory (defaults to "classpath:sliXsd-wip")
      * Param 2: outputDir (defaults to "neutral-schemas")
-     * 
+     *
      * Option 2: (does not print out JSON files)
      * Param 1: --test
      * Param 2: xsdDirectory (defaults to classpath:sliXsd-wip)
-     * 
+     *
      * @param args
      * @throws IOException
      */
@@ -53,23 +53,23 @@ public class NeutralJsonExporter {
             xsdPath = args[1];
             output = false;
         }
-        
+
         ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
                 new String[] { "spring/neutral-json-exporter-config.xml" });
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo(xsdPath, new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         File enumDir = new File(outputDir, "enums");
         File primitiveDir = new File(outputDir, "primitive");
         File complexDir = new File(outputDir, "complexDir");
-        
+
         enumDir.mkdirs();
         primitiveDir.mkdirs();
         complexDir.mkdirs();
-        
+
         List<NeutralSchema> schemas = repo.getSchemas();
-        
+
         // sanity check consistency
         Set<String> schemaNames = new HashSet<String>();
         for (NeutralSchema ns : schemas) {
@@ -95,7 +95,7 @@ public class NeutralJsonExporter {
         if (!sane) {
             throw new RuntimeException("Dependency check failed against XSDs in: " + xsdPath);
         }
-        
+
         if (output) {
             for (NeutralSchema ns : schemas) {
                 if (ns.isSimple() && !ns.isPrimitive()) {
@@ -108,7 +108,7 @@ public class NeutralJsonExporter {
             }
         }
     }
-    
+
     private static void writeSchema(File dir, NeutralSchema schema) throws IOException {
         BufferedWriter writer = null;
         try {
