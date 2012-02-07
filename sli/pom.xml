@@ -135,6 +135,7 @@
 		<module>admin</module>
 		<module>disco</module>
 		<module>acceptance-tests</module>
+		<module>ingestion-sli-configuration</module>
 	</modules>
 
 	<dependencyManagement>

@@ -20,6 +20,7 @@ import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.NeutralSchemaFactory;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.ChoiceSchema;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
 import org.slc.sli.validation.schema.Documentation;
@@ -159,6 +160,24 @@ public class XsdToNeutralSchemaTest {
                 assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
             }
         }
+    }
+    
+    @Test
+    public void testChoiceSchema() throws IOException {
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        ComplexSchema s = (ComplexSchema) repo.getSchema("TestChoiceNoMinOccurs");
+        assertNotNull(s);
+        Map<String, NeutralSchema> fields = s.getFields();
+        
+        for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            ChoiceSchema choiceSchema = (ChoiceSchema) entry.getValue();
+            
+            assertTrue(choiceSchema.getMinChoices() == 0);
+            assertTrue(choiceSchema.getMaxChoices() == ChoiceSchema.UNBOUNDED);
+        }
+        
     }
     
     @Test
