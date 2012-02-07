@@ -15,7 +15,6 @@ import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.InnerResponse;
 import org.slc.sli.entity.ResponseObject;
-import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
@@ -126,7 +125,7 @@ public class LiveAPIClient implements APIClient {
         return mockClient.getAssessmentMetaData(getUsername());
     }
     @Override
-    public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
+    public GenericEntity[] getStudentProgramAssociation(final String token, List<String> studentIds) {
         return mockClient.getStudentProgramAssociation(getUsername(), studentIds);
     }
     

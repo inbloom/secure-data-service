@@ -16,7 +16,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
@@ -90,20 +89,20 @@ public class MockAPIClient implements APIClient {
     }
     
     @Override
-    public StudentProgramAssociation[] getStudentProgramAssociation(final String token, List<String> studentIds) {
+    public GenericEntity[] getStudentProgramAssociation(final String token, List<String> studentIds) {
         // Get programs list for ALL the student of that user (regardless of sections)
-        StudentProgramAssociation[] programs = fromFile(getFilename("mock_data/" + token + "/student_program_association.json"), StudentProgramAssociation[].class);
+        GenericEntity[] programs = fromFileGeneric(getFilename("mock_data/" + token + "/student_program_association.json"), null);
         // perform the filtering. 
-        Vector<StudentProgramAssociation> filtered = new Vector<StudentProgramAssociation>();
+        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
         if (studentIds != null) {
             // Collect programs for each and every student
-            for (StudentProgramAssociation program : programs) { 
-                if (studentIds.contains(program.getStudentId())) { 
+            for (GenericEntity program : programs) { 
+                if (studentIds.contains(program.get("studentId"))) { 
                     filtered.add(program);
                 }
             }
         }
-        StudentProgramAssociation[] retVal = new StudentProgramAssociation[filtered.size()];
+        GenericEntity[] retVal = new GenericEntity[filtered.size()];
         return filtered.toArray(retVal);
     }
 

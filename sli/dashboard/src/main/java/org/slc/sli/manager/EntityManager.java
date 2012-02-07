@@ -125,7 +125,8 @@ public class EntityManager {
      *         - the program entity list
      */
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), studentIds);
+        // TODO: student id logic isn't working yet. for now, pass in null.
+        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), null);
     }
     
     /**

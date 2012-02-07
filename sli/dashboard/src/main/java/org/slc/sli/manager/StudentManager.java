@@ -8,7 +8,6 @@ import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -21,6 +20,7 @@ import org.slc.sli.util.SecurityUtil;
  */
 public class StudentManager extends Manager {
     
+    private EntityManager entityManager;
     
     public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
@@ -40,9 +40,17 @@ public class StudentManager extends Manager {
     /**
      * Returns the student program association data for the giving list of students
      */    
-    public List<StudentProgramAssociation> getStudentProgramAssociations(String username, List<String> studentIds) {
-        List<StudentProgramAssociation> programs = new ArrayList<StudentProgramAssociation>();
-        programs.addAll(Arrays.asList(apiClient.getStudentProgramAssociation(SecurityUtil.getToken(), studentIds)));
+    public List<GenericEntity> getStudentProgramAssociations(String username, List<String> studentIds) {
+        List<GenericEntity> programs = new ArrayList<GenericEntity>();
+        programs.addAll(entityManager.getPrograms(SecurityUtil.getToken(), studentIds));
         return programs;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 }

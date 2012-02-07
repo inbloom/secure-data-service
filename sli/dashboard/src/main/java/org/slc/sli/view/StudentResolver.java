@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.util.StudentProgramUtil;
 
 
@@ -21,14 +20,14 @@ import org.slc.sli.entity.util.StudentProgramUtil;
  */
 public class StudentResolver {
     List<GenericEntity> students;
-    List<StudentProgramAssociation> programs;
+    List<GenericEntity> programs;
     
     public static final String DATA_SET_TYPE = "studentInfo";
     
     /**
      * Constructor
      */
-    public StudentResolver(List<GenericEntity> s, List<StudentProgramAssociation> p) {
+    public StudentResolver(List<GenericEntity> s, List<GenericEntity> p) {
         students = s;
         programs = p;
     }
@@ -65,9 +64,9 @@ public class StudentResolver {
         } 
         
         // Now check program participation
-        for (StudentProgramAssociation p : programs) {
-            if (p.getStudentId().equals(student.get("id"))) {
-                return Arrays.asList(p.getPrograms()).contains(code);
+        for (GenericEntity p : programs) {
+            if (p.get("studentId").equals(student.get("id"))) {
+                return ((List<String>)(p.get("programs"))).contains(code);
             }
         }
 

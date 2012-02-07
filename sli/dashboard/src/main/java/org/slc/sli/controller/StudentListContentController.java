@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
@@ -72,7 +71,7 @@ public class StudentListContentController extends DashboardController {
 
         //List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
         List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig);
-        List<StudentProgramAssociation> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
+        List<GenericEntity> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
 
         model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
