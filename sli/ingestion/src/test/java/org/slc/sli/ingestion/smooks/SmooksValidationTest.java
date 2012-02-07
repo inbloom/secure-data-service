@@ -44,7 +44,7 @@ public class SmooksValidationTest {
 
     @Autowired
     private EntitySchemaRegistry schemaReg;
-    
+
     @Ignore
     @Test
     public void testValidStudentCSV() throws Exception {

@@ -4,6 +4,7 @@ end
 
 Given /^I have an open web browser$/ do
   @driver = Selenium::WebDriver.for :firefox
+  @driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
 After do |scenario| 
