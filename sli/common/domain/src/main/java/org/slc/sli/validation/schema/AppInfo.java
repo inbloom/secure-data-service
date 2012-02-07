@@ -25,7 +25,6 @@ public class AppInfo extends Annotation {
     protected static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
 
-    NodeList nodes = null;
     private final Map<String, String> values = new LinkedHashMap<String, String>();
 
     /**
@@ -34,7 +33,6 @@ public class AppInfo extends Annotation {
      * @param nodes
      */
     public AppInfo(NodeList nodes) {
-        this.nodes = nodes;
 
         if (nodes == null) {
             return;
