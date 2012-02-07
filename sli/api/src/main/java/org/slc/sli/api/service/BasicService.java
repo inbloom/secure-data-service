@@ -304,7 +304,12 @@ public class BasicService implements EntityService {
         } else if (auths.contains(neededRight)) {
             LOG.debug("User has needed right: " + neededRight);
         } else {
-            throw new AccessDeniedException("Insufficient Privileges");
+        	// --- remove after intermittent 403 errors are resolved ---
+        	LOG.debug("authorities: " + auth.getAuthorities().toString());
+        	LOG.debug("needed right: " + neededRight);
+        	// --- remove after intermittent 403 errors are resolved ---
+        	
+        	throw new AccessDeniedException("Insufficient Privileges");
         }
     }
     

@@ -28,13 +28,11 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         Response.Status errorStatus = Response.Status.FORBIDDEN;
     
     	// remove after 403 errors' root cause is discovered
-        LOG.error("--- Access Denied Exception ---: ", e);
-        LOG.debug("security context: {}", SecurityContextHolder.getContext().toString());
         LOG.debug("principal name and roles: {}, {}", 
         		( (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName().toString(),
         		( (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRoles().toString());
-        LOG.debug("stack trace: {}", e);
-    	// remove after 403 errors' root cause is discovered
+        LOG.error("--- Access Denied Exception --- ");
+        // remove after 403 errors' root cause is discovered
         
         return Response
                 .status(errorStatus)
