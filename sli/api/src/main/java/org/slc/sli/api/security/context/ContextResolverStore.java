@@ -68,7 +68,7 @@ public class ContextResolverStore {
         }
     }
     
-    public EntityContextResolver getContextResolver(String sourceType, String targetType) {
+    public synchronized EntityContextResolver getContextResolver(String sourceType, String targetType) {
         
         if (contexts.isEmpty()) {
             init();
