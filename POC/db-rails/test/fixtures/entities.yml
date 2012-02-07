@@ -4,7 +4,9 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: 
+one:
+    rel: Greg
+    href: "blah blah"
     id: 1
     name: Greg
     links:
@@ -13,6 +15,8 @@ one:
 #
 two:
     id: 2
+    rel: Peter
+    href: "blah blah"
     name: Peter
     links:
         -9234098

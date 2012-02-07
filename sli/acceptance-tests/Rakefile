@@ -130,8 +130,14 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
   displayFailureReport()
+end
+
+desc "Run Heirachy Traversal Tests"
+task :heirarchyTraversalTests do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/heirarchyTraversal")
 end
 
 desc "Run Course Tests"
@@ -288,6 +294,12 @@ desc "Run Dashboard YY Tests"
 task :dashboardTests do
   runTests("test/features/dashboard")
 
+end
+
+
+desc "Run Dashboard integration acceptance tests"
+task :dashboardIntegratedTests do
+    runTests("test/features/dashboard/dashboard_integrated_login.feature")
 end
 ############################################################
 # Dashboard tests end

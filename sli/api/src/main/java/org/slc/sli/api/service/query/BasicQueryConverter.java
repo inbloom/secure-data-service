@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -97,28 +98,28 @@ public class BasicQueryConverter implements QueryConverter {
     
     @Override
     public String findParamType(String entityType, String queryField) {
-        /*
-         * String[] nestedFields = queryField.split("\\.");
-         * NeutralSchema schema = schemaRepo.getSchema(entityType);
-         * for (String field : nestedFields) {
-         * schema = getNestedSchema(schema, field);
-         * if (schema != null)
-         * LOG.info("nested schema type is {}", schema.getSchemaType());
-         * else
-         * LOG.info("nested schema type is {}", "NULL");
-         * }
-         * if (schema == null) {
-         * return "NULL";
-         * } else if (schema.getSchemaType() == NeutralSchemaType.LIST) {
-         * for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-         * if (possibleSchema.isSimple())
-         * return possibleSchema.getSchemaType().toString();
-         * }
-         * return "LIST";
-         * }
-         * return schema.getSchemaType().toString();
-         */
-        return "STRING";
+        String[] nestedFields = queryField.split("\\.");
+        NeutralSchema schema = schemaRepo.getSchema(entityType);
+        for (String field : nestedFields) {
+            schema = getNestedSchema(schema, field);
+            if (schema != null && schema.getSchemaType() == NeutralSchemaType.COMPLEX) {
+                schema = schemaRepo.getSchema(schema.getType());
+            }
+            if (schema != null) {
+                LOG.info("nested schema type is {}", schema.getSchemaType());
+            } else
+                LOG.info("nested schema type is {}", "NULL");
+        }
+        if (schema == null) {
+            return "NULL";
+        } else if (schema.getSchemaType() == NeutralSchemaType.LIST) {
+            for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+                if (possibleSchema.isSimple())
+                    return possibleSchema.getSchemaType().toString();
+            }
+            return "LIST";
+        }
+        return schema.getSchemaType().toString();
     }
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
@@ -188,7 +189,9 @@ public class BasicQueryConverter implements QueryConverter {
                 return Boolean.parseBoolean(value);
             else
                 throw new QueryParseException("");
-        } else if (type.equals("STRING")) {
+            
+            // TODO null type need to be removed after the assessment neutral schema implemented
+        } else if (type.equals("STRING") || type.equals("NULL")) {
             return value;
         } else if (type.equals("TOKEN")) {
             return value;
