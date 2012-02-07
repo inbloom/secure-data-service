@@ -23,42 +23,42 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Unit tests for the StudentManager class.
- * 
+ *
  */
 public class AssessmentManagerTest {
-    
+
     @Before
     public void setup() {
     }
 
     @Test
     public void testGetAssessments() throws Exception {
-        
+
         String[] studentIdArray = {"453827070", "943715230"};
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
-        
+
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
         ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA"); // this view has ISAT Reading and ISAT Writing
-        
-        AssessmentManager aManager = new AssessmentManager(); 
+
+        AssessmentManager aManager = new AssessmentManager();
         when(mockClient.getFilename("mock_data/lkim/school.json")).thenReturn("src/test/resources/mock_data/lkim/school.json");
         when(mockClient.getFilename("mock_data/lkim/custom_view_config.json")).thenReturn("src/test/resources/mock_data/lkim/custom_view_config.json");
         aManager.setApiClient(mockClient);
         List<Assessment> assmts = aManager.getAssessments("lkim", studentIds, config);
-        
-        assertEquals(8, assmts.size()); // should be 4 assessments per student id 
+
+        assertEquals(8, assmts.size()); // should be 4 assessments per student id
     }
-    
+
 
     @Test
     public void testGetAssessmentMetaData() throws Exception {
-        AssessmentManager aManager = new AssessmentManager(); 
+        AssessmentManager aManager = new AssessmentManager();
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
         aManager.setApiClient(mockClient);
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
-        assertEquals(8, metaData.size()); // mock data has now 8 families: ISAT Reading, ISAT Writing, DIBELS Next, TRC, AP English, ACT, SAT, and PSAT    
+        assertEquals(8, metaData.size()); // mock data has now 8 families: ISAT Reading, ISAT Writing, DIBELS Next, TRC, AP English, ACT, SAT, and PSAT
     }
 }

@@ -8,7 +8,7 @@ import java.util.Map.Entry;
  */
 //public class Home extends MutablePair<String, HashMap<String, Object>> {
 public class Home extends HashMap<String, Object> {
-    
+
     private static final long serialVersionUID = -8766900333518618999L;
 
     public Home(String entityCollectionName, HashMap<String, Object> linksMap) {

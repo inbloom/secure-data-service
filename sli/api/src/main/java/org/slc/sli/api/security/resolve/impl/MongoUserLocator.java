@@ -16,30 +16,30 @@ import java.util.List;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
- * 
+ *
  * @author dkornishev
  */
 @Component
 public class MongoUserLocator implements UserLocator {
-    
+
     public static final Logger LOG = LoggerFactory.getLogger(MongoUserLocator.class);
-    
+
     private static final List<String> ENTITY_NAMES = Arrays.asList("teacher", "staff");
-    
+
     @Autowired
     private EntityRepository repo;
-    
+
     @Override
     public SLIPrincipal locate(String realm, String externalUserId) {
         LOG.info("Locating user {}@{}", externalUserId, realm);
         SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + realm);
         user.setRealm(realm);
         user.setExternalId(externalUserId);
-        
+
         Query query = new Query(Criteria.where("stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
         for (String entityName : ENTITY_NAMES) {
             Iterable<Entity> staff = repo.findByQuery(entityName, query, 0, 1);
-            
+
             if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();
                 LOG.info("Matched user: {}@{} -> {}", new Object[] { externalUserId, realm, entity.getEntityId() });
@@ -47,10 +47,10 @@ public class MongoUserLocator implements UserLocator {
                 break;
             }
         }
-        
+
         return user;
     }
-    
+
     public void setRepo(EntityRepository repo) {
         this.repo = repo;
     }

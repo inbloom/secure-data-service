@@ -7,7 +7,7 @@ import java.util.Map.Entry;
  * Contents of entities, for use in XML return
  */
 public class Entities extends HashMap<String, Object> {
-    
+
     private static final long serialVersionUID = -8766900333518618999L;
 
     public Entities(String entityCollectionName, EntityBody entityBody) {

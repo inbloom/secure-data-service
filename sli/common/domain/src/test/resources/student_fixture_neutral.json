@@ -1,0 +1,1 @@
+{"_id":{"$binary":"W0CTI28w21Gz5AV2rF+HtQ==","$type":"03"},"type":"student","body":{"studentUniqueStateId":"123456785","name":{"firstName":"Belli","middleName":null,"lastSurname":"Doe"},"sex":"Female","birthData":{"birthDate":"2003-01-22"}},"tenantId":"Zork"}
