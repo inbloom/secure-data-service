@@ -11,7 +11,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
 
 import org.slc.sli.entity.AssociationResponseObject;
-import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.InnerResponse;
 import org.slc.sli.entity.ResponseObject;
@@ -113,13 +112,10 @@ public class LiveAPIClient implements APIClient {
         return mockClient.getAssessments(getUsername(), studentIds);
     }
     @Override
-    public CustomData[] getCustomData(final String token, String key) {
+    public GenericEntity[] getCustomData(final String token, String key) {
         return mockClient.getCustomData(getUsername(), key);
     }
-    @Override
-    public void saveCustomData(CustomData[] src, String token, String key) {
-        mockClient.saveCustomData(src, getUsername(), key);
-    }
+
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return mockClient.getAssessmentMetaData(getUsername());

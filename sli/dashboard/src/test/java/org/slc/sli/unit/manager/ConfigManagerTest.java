@@ -11,6 +11,7 @@ import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.EntityManager;
 
 
 /**
@@ -27,6 +28,7 @@ public class ConfigManagerTest {
         mockClient = new MockAPIClient();
         configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
+        configManager.setEntityManager(new EntityManager());
     }
 
     @Test

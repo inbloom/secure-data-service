@@ -10,9 +10,10 @@ import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
-import org.slc.sli.config.ViewConfigSet;
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.LozengeConfig;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.ViewConfigSet;
+import org.slc.sli.manager.EntityManager;
 
 /**
  * Unit tests for the ConfigPersistor class.
@@ -32,6 +33,7 @@ public class ConfigPersistorTest {
         try {
             ConfigPersistor persistor = new ConfigPersistor();
             persistor.setApiClient(new MockAPIClient());
+            persistor.setEntityManager(new EntityManager());
             configSet = persistor.getConfigSet("lkim");
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,6 +51,7 @@ public class ConfigPersistorTest {
         try {
             ConfigPersistor persistor = new ConfigPersistor();
             persistor.setApiClient(new MockAPIClient());
+            persistor.setEntityManager(new EntityManager());
             lozengeConfigs = persistor.getLozengeConfig("lkim");
         } catch (Exception e) {
             e.printStackTrace();

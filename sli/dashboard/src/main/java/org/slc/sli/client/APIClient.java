@@ -2,7 +2,6 @@ package org.slc.sli.client;
 
 import java.util.List;
 
-import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 /**
@@ -19,8 +18,7 @@ public interface APIClient {
     public GenericEntity[] getSchools(final String token);
     public GenericEntity[] getStudents(final String token, List<String> studentIds);
     public GenericEntity[] getAssessments(final String token, List<String> studentIds);
-    public CustomData[] getCustomData(final String token, String key);
-    public void saveCustomData(CustomData[] src, String token, String key);
+    public GenericEntity[] getCustomData(final String token, String key);
     public AssessmentMetaData[] getAssessmentMetaData(final String token);
     public GenericEntity[] getStudentProgramAssociation(final String token, List<String> studentIds);
 }

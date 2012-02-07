@@ -83,11 +83,12 @@ public class AssessmentResolverTest {
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         
+        EntityManager entityManager = new EntityManager();
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
+        configManager.setEntityManager(entityManager);
         ViewConfig config = configManager.getConfig("rbraverman", "IL_K-3"); // this view has Dibels and TRC
         
-        EntityManager entityManager = new EntityManager();
         AssessmentManager aManager = new AssessmentManager(); 
         when(mockClient.getFilename("mock_data/rbraverman/school.json")).thenReturn("src/test/resources/mock_data/rbraverman/school.json");
         when(mockClient.getFilename("mock_data/rbraverman/custom_view_config.json")).thenReturn("src/test/resources/mock_data/rbraverman/custom_view_config.json");

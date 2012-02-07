@@ -39,7 +39,9 @@
     <bean id="assessmentManager" class="org.slc.sli.manager.AssessmentManager" parent="manager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
-    <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager"/>
+    <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
     <bean id="schoolManager"     class="org.slc.sli.manager.SchoolManager"     parent="manager">
         <property name="entityManager" ref="entityManager"/>
     </bean>

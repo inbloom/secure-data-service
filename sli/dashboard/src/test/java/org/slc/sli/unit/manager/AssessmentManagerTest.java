@@ -39,6 +39,7 @@ public class AssessmentManagerTest {
         
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
+        configManager.setEntityManager(entityManager);
         ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA"); // this view has ISAT Reading and ISAT Writing
         
         AssessmentManager aManager = new AssessmentManager(); 

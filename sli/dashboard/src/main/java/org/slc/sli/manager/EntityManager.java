@@ -184,6 +184,16 @@ public class EntityManager {
     }
     
     /**
+     * Get custom data
+     * @param token
+     * @param key
+     * @return
+     */
+    public List<GenericEntity> getCustomData(String token, String key) {
+        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
+    }
+    
+    /**
      * Get the list of entities identified by the entity id list and authorized for the security token
      * 
      * @param token

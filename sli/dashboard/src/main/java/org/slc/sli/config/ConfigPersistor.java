@@ -1,9 +1,12 @@
 package org.slc.sli.config;
 
-import org.slc.sli.client.APIClient;
-import org.slc.sli.entity.CustomData;
+import java.util.List;
 
 import com.google.gson.Gson;
+
+import org.slc.sli.client.APIClient;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.EntityManager;
 
 /**
  * 
@@ -17,6 +20,7 @@ public class ConfigPersistor {
     private static final String LOZENGE_CONFIG_API_KEY = "lozenge_config";
     
     private APIClient apiClient;
+    private EntityManager entityManager;
     
     /**
      * Get the view configuration for an entity
@@ -28,14 +32,14 @@ public class ConfigPersistor {
     public ViewConfigSet getConfigSet(String entityId) throws Exception {
     
         // make API call with entity id
-        CustomData[] customData = apiClient.getCustomData(entityId, VIEW_CONFIG_API_KEY);
+        List<GenericEntity> customData = entityManager.getCustomData(entityId, VIEW_CONFIG_API_KEY);
         
         // extract data block from custom data field
-        if (customData == null || customData.length == 0) {
+        if (customData == null || customData.size() == 0) {
             return null;
         }
         
-        String configStr = customData[0].getCustomData();
+        String configStr = (String) (customData.get(0).get("customData"));
         
         // convert data block to POJO
         ViewConfigSet configSet = ConfigUtil.fromXMLString(configStr);
@@ -43,27 +47,6 @@ public class ConfigPersistor {
         return configSet;
     }
 
-    /**
-     * Save the view configurations for an entity
-     * 
-     * @param entityId
-     * @param configSet
-     * @throws Exception
-     */
-    public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
-    
-        // convert POJO to serialized format
-        String configStr = ConfigUtil.toXMLString(configSet);
-        
-        // add data to custom data field
-        CustomData customData = new CustomData();
-        customData.setCustomData(configStr);
-        
-        // make API call
-        CustomData[] customDataSet = new CustomData[1];
-        customDataSet[0] = customData;
-        apiClient.saveCustomData(customDataSet, entityId, VIEW_CONFIG_API_KEY);
-    }
     
     /**
      * Get the lozenges display configuration for an entity
@@ -74,14 +57,14 @@ public class ConfigPersistor {
      */
     public LozengeConfig[] getLozengeConfig(String entityId) throws Exception {
         // make API call with entity id
-        CustomData[] customData = apiClient.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
+        List<GenericEntity> customData = entityManager.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
         
         // extract data block from custom data field
-        if (customData == null || customData.length == 0) {
+        if (customData == null || customData.size() == 0) {
             return null;
         }
         
-        String configStr = customData[0].getCustomData();
+        String configStr = (String) (customData.get(0).get("customData"));
         
         // convert data block to POJO
         Gson gson = new Gson();        
@@ -99,5 +82,13 @@ public class ConfigPersistor {
 
     public void setApiClient(APIClient apiClient) {
         this.apiClient = apiClient;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 }

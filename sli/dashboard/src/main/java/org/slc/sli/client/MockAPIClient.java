@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.slc.sli.entity.CustomData;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
@@ -73,15 +72,10 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public CustomData[] getCustomData(String token, String key) {
-        return fromFile(getFilename("mock_data/" + token + "/custom_" + key + ".json"), CustomData[].class);
+    public GenericEntity[] getCustomData(String token, String key) {
+        return fromFileGeneric(getFilename("mock_data/" + token + "/custom_" + key + ".json"), null);
     }
     
-    @Override
-    public void saveCustomData(CustomData[] src, String token, String key) {
-        String filename = "src/test/resources/mock_data/" + token + "/custom_" + key + ".json";
-        toFile(src, filename, CustomData[].class);
-    }
     
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
