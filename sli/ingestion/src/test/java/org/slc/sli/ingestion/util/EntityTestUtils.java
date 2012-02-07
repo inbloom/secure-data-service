@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +30,8 @@ import org.slc.sli.validation.ValidationError;
  */
 public class EntityTestUtils {
 
-    public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig, String targetSelector) throws IOException, SAXException {
+    public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
+            String targetSelector) throws IOException, SAXException {
         File outputFile = File.createTempFile("test", ".dat");
         outputFile.deleteOnExit();
         NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputFile);
@@ -39,17 +41,15 @@ public class EntityTestUtils {
         smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter), targetSelector);
 
         try {
-          smooks.filterSource(new StreamSource(dataSource));
+            smooks.filterSource(new StreamSource(dataSource));
         } finally {
-          nrfWriter.close();
+            nrfWriter.close();
         }
 
         return new NeutralRecordFileReader(new File(outputFile.getAbsolutePath()));
     }
 
-
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
-
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
@@ -63,5 +63,19 @@ public class EntityTestUtils {
             }
             Assert.fail();
         }
+    }
+
+    /**
+     * Utility to make checking values in a map less verbose.
+     *
+     * @param map
+     *            The map containing the entry we want to check.
+     * @param key
+     *            The string key for the entry
+     * @param expectedValue
+     *            The Object value we will assertEquals against
+     */
+    public static void assertObjectInMapEquals(Map map, String key, Object expectedValue) {
+        assertEquals("Object value in map does not match expected.", expectedValue, map.get(key));
     }
 }
