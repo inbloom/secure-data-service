@@ -12,6 +12,7 @@ public enum FileType {
     XML_STAFF_ASSOCIATION("StaffAssociation ", FileFormat.EDFI_XML),
     XML_STUDENT("Student", FileFormat.EDFI_XML),
     XML_STUDENT_ENROLLMENT("StudentEnrollment", FileFormat.EDFI_XML),
+    XML_MASTER_SCHEDULE("MasterSchedule", FileFormat.EDFI_XML),
 
     CSV_STUDENT("Student", FileFormat.CSV),
     CSV_SCHOOL("School", FileFormat.CSV),

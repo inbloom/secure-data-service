@@ -76,8 +76,8 @@ public class EdFiProcessorTest {
         assertTrue("Empty xml file should give error.", inputFileEntry.getErrorReport().hasErrors());
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void shouldTranslateStudentCsvToNeutralRecords() throws IOException, SAXException {
 
         // Get Input File
