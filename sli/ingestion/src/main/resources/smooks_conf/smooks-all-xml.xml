@@ -87,7 +87,7 @@
     <jb:wiring property="disabilities" beanIdRef="disabilityTypeArray" />
 
     <!-- Section504Disabilities -->
-    <jb:wiring property="section504Disabilities" beanIdRef="section504DisabilitiesType" />
+    <jb:wiring property="section504Disabilities" beanIdRef="section504DisabilitiesItemTypeArray" />
 
     <!-- DisplacementStatus -->
     <jb:value property="displacementStatus" data="Student/DisplacementStatus" />
@@ -675,4 +675,34 @@
 	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
 				<jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId"/>
 	</jb:bean>
+
+	<!-- TeacherSectionAssociation Mapping-->
+	<jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+
+    <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
+    <jb:value property="localId" data="UniqueSectionCode" />
+    <jb:wiring property="attributes" beanIdRef="studentAttributes" />
+  </jb:bean>
+
+    <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+
+        <!-- SectionReference -->
+		<jb:value property="sectionReference" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
+
+		<!-- TeacherReference -->
+		<jb:value property="teacherReference" data="TeacherSectionAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
+
+    	<!-- BeginDate -->
+       	<jb:value property="beginDate" data="TeacherSectionAssociation/BeginDate"/>
+
+       	<!--EndDate -->
+       	<jb:value property="endDate" data="TeacherSectionAssociation/EndDate"/>
+
+       	<!--HighlyQualifiedTeacher -->
+      	<jb:value property="highlyQualifiedTeacher" data="TeacherSectionAssociation/HighlyQualifiedTeacher" decoder="Boolean"/>
+
+       	<!-- ClassroomPosition -->
+       	<jb:value property="classroomPosition" data="TeacherSectionAssociation/ClassroomPosition"/>
+    </jb:bean>
+
 </smooks-resource-list>

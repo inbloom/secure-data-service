@@ -36,9 +36,9 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 
 /**
  * Jersey resource for all entities and associations.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 @Path("{type}")
 @Component
@@ -46,7 +46,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
         Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 public class Resource {
-    
+
     private static final String FULL_ENTITIES_PARAM = "full-entities";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
@@ -54,10 +54,10 @@ public class Resource {
     public static final String SLC_JSON_MEDIA_TYPE = "application/vnd.slc+json";
     public static final String SLC_LONG_XML_MEDIA_TYPE = "application/vnd.slc.full+xml";
     public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     private final EntityDefinitionStore entityDefs;
-    
+
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception
@@ -66,17 +66,17 @@ public class Resource {
     private static interface ResourceLogic {
         Response run(EntityDefinition entityDef);
     }
-    
+
     @Autowired
     Resource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
-    
+
     /* REST methods */
-    
+
     /**
      * Create a new entity or association.
-     * 
+     *
      * @param typePath
      *            resourceUri for the entity
      * @param newEntityBody
@@ -99,12 +99,12 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
      * source entity for that association.
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -138,16 +138,23 @@ public class Resource {
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
-                    if (associationDefinition.getSourceEntity().isOfType(id)) {
+
+                    boolean checkAgainstSourceEntity = associationDefinition.getSourceEntity().isOfType(id);
+                    boolean checkAgainstTargetEntity = associationDefinition.getTargetEntity().isOfType(id);
+
+                    if (checkAgainstSourceEntity && checkAgainstTargetEntity) {
+                        associationIds = associationDefinition.getService().getAssociationsFor(id, skip, max,
+                                uriInfo.getRequestUri().getQuery());
+                    } else if (checkAgainstSourceEntity) {
                         associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
-                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
+                    } else if (checkAgainstTargetEntity) {
                         associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
                                 uriInfo.getRequestUri().getQuery());
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
-                    
+
                     if (fullEntities) {
                         return Response.ok(getFullEntities(associationIds, entityDef)).build();
                     } else {
@@ -157,10 +164,10 @@ public class Resource {
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
-            
+
         });
     }
-    
+
     private CollectionResponse getShortEntities(final UriInfo uriInfo, EntityDefinition entityDef,
             Iterable<String> associationIds) {
         CollectionResponse collection = new CollectionResponse();
@@ -172,14 +179,14 @@ public class Resource {
         }
         return collection;
     }
-    
+
     private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
         return entityDef.getService().get(associationIds);
     }
-    
+
     /**
      * Get the full entities, not just links
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -201,12 +208,12 @@ public class Resource {
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return getEntity(typePath, id, skip, max, true, uriInfo);
     }
-    
+
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
      * source entity for that association.
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -247,7 +254,7 @@ public class Resource {
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
-                    
+
                     // TODO: refactor common code for both Get methods
                     CollectionResponse collection = new CollectionResponse();
                     if (associationIds != null) {
@@ -263,11 +270,11 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Gets the target entities from an association when the source entity is specified for the
      * association.
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -309,7 +316,7 @@ public class Resource {
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
-                    
+
                     if (fullEntities) {
                         return Response.ok(getHoppedEntities(relatives, relative)).build();
                     } else {
@@ -320,10 +327,10 @@ public class Resource {
                     return Response.status(Status.NOT_FOUND).build();
                 }
             }
-            
+
         });
     }
-    
+
     private CollectionResponse getHoppedLinks(final UriInfo uriInfo, Iterable<String> relatives,
             EntityDefinition relative) {
         CollectionResponse collection = new CollectionResponse();
@@ -335,14 +342,14 @@ public class Resource {
         }
         return collection;
     }
-    
+
     private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef) {
         return relativeDef.getService().get(relatives);
     }
-    
+
     /**
      * Get the full entities, not just links
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -364,10 +371,10 @@ public class Resource {
             @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return getHoppedRelatives(typePath, id, skip, max, true, uriInfo);
     }
-    
+
     /**
      * Delete an entity or association
-     * 
+     *
      * @param typePath
      *            resourceUri of the entity
      * @param id
@@ -386,10 +393,10 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Update an existing entity or association.
-     * 
+     *
      * @param typePath
      *            resourceUri for the entity
      * @param id
@@ -415,9 +422,9 @@ public class Resource {
             }
         });
     }
-    
+
     /* Utility methods */
-    
+
     /**
      * Handle preconditions and exceptions.
      */
@@ -431,10 +438,10 @@ public class Resource {
         }
         return logic.run(entityDef);
     }
-    
+
     /**
      * Gets the links that should be included for the given resource
-     * 
+     *
      * @param uriInfo
      *            the uri info for the request
      * @param defn

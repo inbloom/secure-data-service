@@ -10,23 +10,23 @@ import org.slc.sli.manager.InstitutionalHeirarchyManager;
 import org.slc.sli.util.SecurityUtil;
 
 /**
- * 
+ *
  * Handles a request to display a student list
  *
  */
 public class StudentListController extends DashboardController {
 
     // model map keys required by the view for the student list view
-    public static final String USER_NAME = "username"; 
-    public static final String INST_HEIRARCHY = "instHeirarchy"; 
+    public static final String USER_NAME = "username";
+    public static final String INST_HEIRARCHY = "instHeirarchy";
 
     private InstitutionalHeirarchyManager institutionalHeirarchyManager;
 
     public StudentListController() { }
-    
+
     /**
      * Retrieves the edorg, school, section, and student information and calls the view to display
-     * 
+     *
      * @param username
      * @param model
      * @return
@@ -43,13 +43,13 @@ public class StudentListController extends DashboardController {
 
         return new ModelAndView("studentList");
     }
-    
 
-    
+
+
     private UserDetails getPrincipal() {
         return SecurityUtil.getPrincipal();
     }
-    
+
 
     /*
      * Getters and setters

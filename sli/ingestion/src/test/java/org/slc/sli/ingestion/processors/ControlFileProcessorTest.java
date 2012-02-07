@@ -62,7 +62,7 @@ public class ControlFileProcessorTest {
 
         String messageType = (String) eObject.getIn().getHeader("IngestionMessageType");
         String errorMessage = (String) eObject.getIn().getHeader("ErrorMessage");
-        
+
         assertNotNull("header [IngestionMessageType] not set on the exchange", messageType);
         assertEquals("header [IngestionMessageType] not set to ERROR", messageType, MessageType.ERROR.name());
         assertNotNull("header [ErrorMessage] not set on the exchange", errorMessage);

@@ -21,31 +21,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ComplexSchemaTest {
-    
+
     @Autowired
     ComplexSchema schema;
-    
+
     @Autowired
     ComplexSchema hierarchySchema;
-    
+
     @Autowired
     BooleanSchema booleanSchema;
-    
+
     @Autowired
     LongSchema longSchema;
-    
+
     @Autowired
     DoubleSchema doubleSchema;
-    
+
     @Autowired
     StringSchema stringSchema;
-    
+
     @Autowired
     TokenSchema tokenSchema;
-    
+
     @Autowired
     DateTimeSchema dateTimeSchema;
-    
+
     @Test
     public void testComplexValidation() throws IllegalArgumentException {
         schema.clearFields();
@@ -74,16 +74,16 @@ public class ComplexSchemaTest {
         complexEntity.put("dateTimeField", dateTimeEntity);
         assertTrue("Complex entity validation failed", schema.validate(complexEntity));
     }
-    
+
     @Test
     public void testOptionalFields() {
         schema.clearFields();
-        
+
         BooleanSchema required = new BooleanSchema();
         AppInfo info = new AppInfo(null);
         info.put("required", "true");
         required.addAnnotation(info);
-        
+
         schema.addField("optionalField", booleanSchema);
         schema.addField("requiredField", required);
 
@@ -97,7 +97,7 @@ public class ComplexSchemaTest {
         complexEntity.remove("requiredField");
         assertFalse(schema.validate("requiredField"));
     }
-    
+
     @Test
     public void testComplexFailureValidation() throws IllegalArgumentException {
         schema.clearFields();
@@ -118,10 +118,10 @@ public class ComplexSchemaTest {
         String stringEntity = "test";
         String tokenEntity = "token";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
-        
+
         // Setup for failure
         complexEntity.put("booleanField", stringEntity);
-        
+
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
         complexEntity.put("decimalField", decimalEntity);
@@ -130,7 +130,7 @@ public class ComplexSchemaTest {
         complexEntity.put("dateTimeField", dateTimeEntity);
         assertFalse("Expected ComplexSchema validation failure did not succeed", schema.validate(complexEntity));
     }
-    
+
     @Test
     public void testComplexHierarchyValidation() throws IllegalArgumentException {
         hierarchySchema.clearFields();
@@ -163,7 +163,7 @@ public class ComplexSchemaTest {
         complexEntity.put("dateTimeField", dateTimeEntity);
         assertTrue("Complex hierarchy entity validation failed", hierarchySchema.validate(hierarchyEntity));
     }
-    
+
     @Test
     public void testComplexHierarchyFailureValidation() throws IllegalArgumentException {
         hierarchySchema.clearFields();
@@ -187,10 +187,10 @@ public class ComplexSchemaTest {
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
         hierarchyEntity.put("schemaField", complexEntity);
-        
+
         // Setup for field failure
         complexEntity.put("booleanField", stringEntity);
-        
+
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
         complexEntity.put("stringField", stringEntity);
@@ -199,7 +199,7 @@ public class ComplexSchemaTest {
         assertFalse("Expected ComplexSchema hierarchy validation failure did not succeed",
                 hierarchySchema.validate(hierarchyEntity));
     }
-    
+
     @Test
     public void testComplexHierarchyMapFailureValidation() throws IllegalArgumentException {
         hierarchySchema.clearFields();
@@ -224,10 +224,10 @@ public class ComplexSchemaTest {
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
-        
+
         // Setup for map failure
         hierarchyEntity.put("schemaField", stringEntity);
-        
+
         complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("longField", longEntity);
         complexEntity.put("doubleField", doubleEntity);
@@ -238,23 +238,23 @@ public class ComplexSchemaTest {
         assertFalse("Expected ComplexSchema hierarchy validation failure did not succeed",
                 hierarchySchema.validate(hierarchyEntity));
     }
-    
+
     @Test
     public void testValidationOfBooleanFailure() {
         Boolean booleanEntity = true;
         assertFalse("Expected ComplexSchema boolean validation failure did not succeed", schema.validate(booleanEntity));
     }
-    
+
     @Test
     public void testValidationOfIntegerFailure() {
         Integer integerEntity = 0;
         assertFalse("Expected ComplexSchema integer validation failure did not succeed", schema.validate(integerEntity));
     }
-    
+
     @Test
     public void testValidationOfFloatFailure() {
         Float floatEntity = new Float(0);
         assertFalse("Expected ComplexSchema float validation failure did not succeed", schema.validate(floatEntity));
     }
-    
+
 }
