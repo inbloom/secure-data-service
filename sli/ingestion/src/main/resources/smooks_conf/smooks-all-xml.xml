@@ -27,7 +27,7 @@
 
   <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
 
-    <jb:value property="studentUniqueStateId" data="Student/StudentUniqueStateId" decoder="Integer" />
+    <jb:value property="studentUniqueStateId" data="Student/StudentUniqueStateId" />
 
     <!-- StudentIdentificationCode -->
     <jb:wiring property="studentIdentificationCode" beanIdRef="studentIdentificationCodeTypeArray" />
@@ -369,12 +369,12 @@
   </jb:bean>
 
 
-    <!-- AddressType -->
+  <!-- AddressType -->
   <jb:bean beanId="addressSchoolTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="addressSchoolType" />
   </jb:bean>
 
-    <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+  <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="addressType" data="School/Address/@AddressType" />
     <jb:value property="streetNumberName" data="School/Address/StreetNumberName" />
     <jb:value property="apartmentRoomSuiteNumber" data="School/Address/ApartmentRoomSuiteNumber" />
@@ -397,10 +397,10 @@
     <jb:wiring beanIdRef="institutionTelephoneType" />
   </jb:bean>
 
-   <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
-   	  <jb:value property="institutionTelephoneNumberType" data="School/Telephone/@InstitutionTelephoneNumberType"/>
-	  <jb:value property="telephoneNumber" data="School/Telephone/TelephoneNumber"/>
-   </jb:bean>
+  <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+    <jb:value property="institutionTelephoneNumberType" data="School/Telephone/@InstitutionTelephoneNumberType" />
+    <jb:value property="telephoneNumber" data="School/Telephone/TelephoneNumber" />
+  </jb:bean>
 
   <!-- AccountabilityRatingsType -->
   <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
@@ -456,7 +456,7 @@
     <jb:value property="schoolId" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
 
     <!-- EntryDate -->
-	<jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
+    <jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
 
     <!-- EntryGradeLevel -->
     <jb:value property="entryGradeLevel" data="StudentSchoolAssociation/EntryGradeLevel" />
@@ -484,9 +484,195 @@
 
   </jb:bean>
 
-	<!-- EducationalPlanItemType -->
-   <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-	  		<jb:value data="StudentSchoolAssociation/EducationalPlans/EducationalPlan" />
-   </jb:bean>
+  <!-- EducationalPlanItemType -->
+  <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+    <jb:value data="StudentSchoolAssociation/EducationalPlans/EducationalPlan" />
+  </jb:bean>
 
+  <!-- Start Teacher mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:expression property="recordType">'teacher'</jb:expression>
+    <jb:value property="localId" data="StaffUniqueStateId" />
+    <jb:wiring property="attributes" beanIdRef="teacherAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="staffUniqueStateId" data="StaffUniqueStateId" />
+    <jb:wiring property="staffIdentificationCode" beanIdRef="staffIdentificationCodeTypeArray" />
+    <jb:wiring property="name" beanIdRef="teacherNameType" />
+    <jb:wiring property="otherName" beanIdRef="teacherOtherNameTypeArray" />
+    <jb:value property="sex" data="Sex" />
+    <jb:value property="birthDate" data="BirthDate" />
+    <jb:wiring property="address" beanIdRef="teacherAddressTypeArray" />
+    <jb:wiring property="telephone" beanIdRef="teacherTelephoneTypeArray" />
+    <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
+    <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" />
+    <jb:value property="oldEthnicity" data="OldEthnicity" />
+    <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
+    <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
+    <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience"
+      decoder="Integer" />
+    <jb:value property="yearsOfPriorTeachingExperience" data="YearsOfPriorTeachingExperience" decoder="Integer" />
+    <jb:wiring property="credentials" beanIdRef="teacherCredentialTypeArray" />
+    <jb:value property="loginId" data="LoginId" />
+    <jb:value property="teacherUniqueStateId" data="TeacherUniqueStateId" />
+    <jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean" />
+  </jb:bean>
+
+  <jb:bean beanId="staffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:wiring beanIdRef="staffIdentificationCodeType" />
+  </jb:bean>
+  <jb:bean beanId="staffIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="identificationSystem" data="StaffIdentificationCode/@IdentificationSystem" />
+    <jb:value property="assigningOrganizationCode" data="StaffIdentificationCode/@AssigningOrganizationCode" />
+    <jb:value property="id" data="StaffIdentificationCode/ID" />
+  </jb:bean>
+  <jb:bean beanId="teacherNameType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="verification" data="Name/@Verification" />
+    <jb:value property="personalTitlePrefix" data="Name/PersonalTitlePrefix" />
+    <jb:value property="firstName" data="Name/FirstName" />
+    <jb:value property="middleName" data="Name/MiddleName" />
+    <jb:value property="lastSurname" data="Name/LastSurname" />
+    <jb:value property="generationCodeSuffix" data="Name/GenerationCodeSuffix" />
+    <jb:value property="maidenName" data="Name/MaidenName" />
+  </jb:bean>
+  <jb:bean beanId="teacherOtherNameTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:wiring beanIdRef="teacherOtherNameType" />
+  </jb:bean>
+  <jb:bean beanId="teacherOtherNameType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="otherNameType" data="OtherName/@OtherNameType" />
+    <jb:value property="personalTitlePrefix" data="OtherName/PersonalTitlePrefix" />
+    <jb:value property="firstName" data="OtherName/FirstName" />
+    <jb:value property="middleName" data="OtherName/MiddleName" />
+    <jb:value property="lastSurname" data="OtherName/LastSurname" />
+    <jb:value property="generationCodeSuffix" data="OtherName/GenerationCodeSuffix" />
+  </jb:bean>
+  <jb:bean beanId="teacherAddressTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:wiring beanIdRef="teacherAddressType" />
+  </jb:bean>
+  <jb:bean beanId="teacherAddressType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="addressType" data="Address/@AddressType" />
+    <jb:value property="streetNumberName" data="Address/StreetNumberName" />
+    <jb:value property="apartmentRoomSuiteNumber" data="Address/ApartmentRoomSuiteNumber" />
+    <jb:value property="buildingSiteNumber" data="Address/BuildingSiteNumber" />
+    <jb:value property="city" data="Address/City" />
+    <jb:value property="stateAbbreviation" data="Address/StateAbbreviation" />
+    <jb:value property="postalCode" data="Address/PostalCode" />
+    <jb:value property="nameOfCounty" data="Address/NameOfCounty" />
+    <jb:value property="countyFIPSCode" data="Address/CountyFIPSCode" />
+    <jb:value property="countryCode" data="Address/CountryCode" />
+    <jb:value property="latitude" data="Address/Latitude" />
+    <jb:value property="longitude" data="Address/Longitude" />
+    <jb:value property="openDate" data="Address/OpenDate" />
+    <jb:value property="closeDate" data="Address/CloseDate" />
+  </jb:bean>
+  <jb:bean beanId="teacherTelephoneTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:wiring beanIdRef="teacherTelephoneType" />
+  </jb:bean>
+  <jb:bean beanId="teacherTelephoneType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="telephoneNumberType" data="Telephone/@TelephoneNumberType" />
+    <jb:value property="primaryTelephoneNumberIndicator" data="Telephone/@PrimaryTelephoneNumberIndicator"
+      decoder="Boolean" />
+    <jb:value property="telephoneNumber" data="Telephone/TelephoneNumber" />
+  </jb:bean>
+  <jb:bean beanId="teacherElectronicMailTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:wiring beanIdRef="teacherElectronicMailType" />
+  </jb:bean>
+  <jb:bean beanId="teacherElectronicMailType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="emailAddressType" data="ElectronicMail/@EmailAddressType" />
+    <jb:value property="emailAddress" data="ElectronicMail/EmailAddress" />
+  </jb:bean>
+  <jb:bean beanId="teacherRaceItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value data="Race/RacialCategory" />
+  </jb:bean>
+  <jb:bean beanId="teacherCredentialTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:wiring beanIdRef="teacherCredentialType" />
+  </jb:bean>
+  <jb:bean beanId="teacherCredentialType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value property="credentialType" data="Credentials/CredentialType" />
+    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptor" />
+    <jb:value property="level" data="Credentials/Level" />
+    <jb:value property="teachingCredentialType" data="Credentials/TeachingCredentialType" />
+    <jb:value property="credentialIssuanceDate" data="Credentials/CredentialIssuanceDate" />
+    <jb:value property="credentialExpirationDate" data="Credentials/CredentialExpirationDate" />
+    <jb:value property="teachingCredentialBasis" data="Credentials/TeachingCredentialBasis" />
+  </jb:bean>
+  <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials">
+    <jb:value property="id" data="Credentials/CredentialField/@id" />
+    <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
+    <jb:value property="description" data="Credentials/CredentialField/Description" />
+    <jb:value property="academicSubject" data="Credentials/CredentialField/AcademicSubject" />
+    <jb:value property="educationOrganizationReference" data="Credentials/CredentialField/EducationOrganizationReference" />
+  </jb:bean>
+  <!-- End Teacher Mapping -->
+
+  <!-- Student Section Association mapping -->
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+    <jb:expression property="recordType">'studentSectionAssociation'</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="SSAAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="SSAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+    <jb:value property="studentId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="uniqueSectionCode" data="StudentSectionAssociation/ UniqueSectionCode" />
+    <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
+    <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
+    <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" />
+    <jb:value property="repeatIdentifier" data="StudentSectionAssociation/RepeatIdentifier" />
+  </jb:bean>
+
+
+  <!-- Section Mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/Section">
+
+    <jb:expression property="recordType">'section'</jb:expression>
+    <jb:value property="localId" data="UniqueSectionCode" />
+    <jb:wiring property="attributes" beanIdRef="sectionAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="sectionAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+
+    <!-- UniqueSectionCode -->
+    <jb:value property="uniqueSectionCode" data="Section/UniqueSectionCode" />
+
+    <!--SequenceOfCourse -->
+    <jb:value property="sequenceOfCourse" data="Section/SequenceOfCourse" decoder="Integer" />
+
+    <!-- EducationalEnvironment -->
+    <jb:value property="educationalEnvironment" data="Section/EducationalEnvironment" />
+
+    <!-- MediumOfinstruction -->
+    <jb:value property="mediumOfInstruction" data="Section/MediumOfInstruction" />
+
+    <!-- PopulationServed -->
+    <jb:value property="populationServed" data="Section/PopulationServed" />
+
+    <!-- AvailableCredit -->
+    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
+
+	<!-- CourseOfferingReference -->
+	<jb:value property="courseOfferingReference" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
+
+    <!-- SchoolReference -->
+	<jb:value property="schoolReference" data="Section/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+
+	<!-- SessionReference -->
+	<jb:value property="sessionReference" data="Section/SessionReference/SessionIdentity/SessionName" />
+
+	<!-- ProgramReference -->
+	<jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
+ </jb:bean>
+
+    <!-- AvailableCreditsType -->
+    <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+    	<jb:value property="creditType" data="Section/AvailableCredit/@CreditType"/>
+    	<jb:value property="creditConversion" data="Section/AvailableCredit/@CreditConversion" decoder="Double"/>
+    	<jb:value property="credit" data="Section/AvailableCredit/Credit" decoder="Double"/>
+    </jb:bean>
+
+	<!-- ProgramReferenceType -->
+	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
+				<jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId"/>
+	</jb:bean>
 </smooks-resource-list>

@@ -3,7 +3,7 @@
         "nameOfInstitution": "South Daybreak Elementary",
         "courses": [
             {
-                "course": "Reading Group",
+                "courseTitle": "Reading Group",
                 "sections": [
                     {
                         "sectionName": "Reading Group - Red",
@@ -26,7 +26,7 @@
                 ]
             },
             {
-                "course": "1st Grade Homeroom",
+                "courseTitle": "1st Grade Homeroom",
                 "sections": [
                     {
                         "sectionName": "Mrs. Braverman's Homeroom #38",

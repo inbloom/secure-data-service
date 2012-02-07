@@ -81,6 +81,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private final SchemaFactory schemaFactory;
     
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
+    private Map<String, NeutralSchema> elementSchemas = new HashMap<String, NeutralSchema>();
     
     private ResourceLoader resourceLoader;
     
@@ -97,11 +98,17 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     
     @Override
     public NeutralSchema getSchema(String type) {
-        return schemas.get(type);
+        NeutralSchema ns = schemas.get(type);
+        if (ns == null) {
+            ns = elementSchemas.get(type);
+        }
+        return ns;
     }
     
     public List<NeutralSchema> getSchemas() {
-        return new ArrayList<NeutralSchema>(schemas.values());
+        ArrayList<NeutralSchema> allSchemas = new ArrayList<NeutralSchema>(schemas.values());
+        allSchemas.addAll(elementSchemas.values());
+        return allSchemas;
     }
     
     @Override
@@ -228,6 +235,23 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     }
     
     private NeutralSchema parseSimpleType(XmlSchemaSimpleType schemaSimpleType, XmlSchema schema, String name) {
+        
+        NeutralSchema ns = recursiveParseSimpleType(schemaSimpleType, schema);
+        if (schemaSimpleType.getName() == null) {
+            // Type defined in-line. Need to capture it in the element schema set.
+            int i = 1;
+            NeutralSchema existing = elementSchemas.get(name + i);
+            while (existing != null && !schemasEqual(ns, existing)) {
+                i++;
+                existing = schemas.get(name + i);
+            }
+            ns.setType(name + i);
+            elementSchemas.put(name + i, ns);
+        }
+        return ns;
+    }
+    
+    private NeutralSchema recursiveParseSimpleType(XmlSchemaSimpleType schemaSimpleType, XmlSchema schema) {
         NeutralSchema simpleSchema = null;
         
         String simpleTypeName = schemaSimpleType.getName();
@@ -278,12 +302,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 
                 XmlSchemaSimpleType simpleBaseType = getSimpleBaseType(getSimpleContentTypeName(schemaSimpleType),
                         schema);
-                if (simpleBaseType != null) {
-                    if (simpleTypeName == null) {
-                        simpleTypeName = simpleBaseType.getName();
-                    }
-                    simpleSchema = getSchemaFactory().createSchema(simpleTypeName);
-                }
+                simpleSchema = recursiveParseSimpleType(simpleBaseType, schema);
+                
             }
         }
         
@@ -320,26 +340,6 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         if ((simpleSchema != null) && (simpleTypeName != null)) {
             simpleSchema.setType(simpleTypeName);
             
-        } else if (simpleSchema != null && simpleTypeName == null && name != null
-                && simpleSchema.getProperties().size() > 0) {
-            /*
-             * If we hit this conditional block, it means we need to create a new NeutralSchema to
-             * represent this XML element that is defined in-line.
-             * 
-             * Try to use the element name as the type name, but there's no guarantee that's unique.
-             */
-            simpleSchema.setType(name);
-            if (schemas.containsKey(name)) {
-                NeutralSchema existing = schemas.get(name);
-                int i = 1;
-                while (existing != null && !schemasEqual(simpleSchema, existing)) {
-                    i++;
-                    name = name + i;
-                    simpleSchema.setType(name);
-                    existing = schemas.get(name);
-                }
-            }
-            schemas.put(name, simpleSchema);
         }
         
         return simpleSchema;
@@ -614,7 +614,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     
     private static boolean schemasEqual(NeutralSchema ns1, NeutralSchema ns2) {
         if (ns1.getValidatorClass().equals(ns2.getValidatorClass()) && ns1.getVersion().equals(ns2.getVersion())
-                && ns1.getType().equals(ns2.getType()) && ns1.getFields().size() == ns2.getFields().size()) {
+                && ns1.getFields().size() == ns2.getFields().size()) {
             for (Entry<String, NeutralSchema> entry : ns1.getFields().entrySet()) {
                 if (!ns2.getFields().containsKey(entry.getKey())) {
                     return false;

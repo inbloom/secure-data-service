@@ -99,6 +99,7 @@ public class PersistenceProcessor implements Processor {
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            LOG.error("Exception:",  exception);
         }
     }
     

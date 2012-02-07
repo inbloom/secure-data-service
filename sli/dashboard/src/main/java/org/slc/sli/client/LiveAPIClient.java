@@ -1,12 +1,14 @@
 package org.slc.sli.client;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
-
-import org.apache.commons.lang.ArrayUtils;
 
 import org.slc.sli.entity.Assessment;
 import org.slc.sli.entity.AssociationResponseObject;
@@ -59,8 +61,7 @@ public class LiveAPIClient implements APIClient {
     public School[] getSchools(String token) {
         String teacherId = getId(token);
         Section[] sections = getSectionsForTeacher(teacherId, token);
-        Course[] courses = getCoursesForSections(sections, token);
-        School[] schools = getSchoolsForCourses(courses, token);
+        School[] schools = getSchoolsForSection(sections, token);
         
         return schools;
     }
@@ -111,7 +112,23 @@ public class LiveAPIClient implements APIClient {
         String url = Constants.API_SERVER_URI + "/sections/" + id;
         Section section = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), Section.class);
         section.setStudentUIDs(getStudentIdsForSection(id, token));
+        section.setId(id);
+        if (section.getSectionName() == null) { section.setSectionName(section.getUniqueSectionCode()); }
         return section;
+    }
+
+    private Course getCourse(String id, String token) {
+        String url = Constants.API_SERVER_URI + "/courses/" + id;
+        Course course = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), Course.class);
+        course.setId(id);
+        return course;
+    }
+    
+    private EducationalOrganization getEducationalOrganization(String id, String token) {
+        String url = Constants.API_SERVER_URI + "/educationOrganizations/" + id;
+        EducationalOrganization edOrg = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), EducationalOrganization.class);
+        edOrg.setId(id);
+        return edOrg;
     }
 
     @Override
@@ -137,29 +154,41 @@ public class LiveAPIClient implements APIClient {
     
     @Override
     public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, School s) {
-        return mockClient.getAssociatedEducationalOrganizations(getUsername(), s);
+        String url = Constants.API_SERVER_URI + "/educationOrganization-school-associations/" + s.getId() + "/targets";
+        AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+        List<EducationalOrganization> edOrgs = new ArrayList<EducationalOrganization>();
+        for (AssociationResponseObject response : responses) {
+            edOrgs.add(getEducationalOrganization(parseId(response.getLink()), token));
+        }
+        EducationalOrganization[] retVal = new EducationalOrganization[edOrgs.size()];
+        return edOrgs.toArray(retVal);
     }
     
     @Override
     public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization edOrg) {
-        return mockClient.getParentEducationalOrganizations(getUsername(), edOrg);
+        String url = Constants.API_SERVER_URI + "/educationOrganization-associations/" + edOrg.getId() + "/targets";
+        AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+        List<EducationalOrganization> edOrgs = new ArrayList<EducationalOrganization>();
+        // @@@ TODO: This is untested. Pending on API team resolving educationOrganization-associations for reverse lookup
+        for (AssociationResponseObject response : responses) { 
+            if (response.getId() != null && response.getId().equals("getEducationOrganizationParents")) {
+                edOrgs.add(getEducationalOrganization(parseId(response.getLink()), token));
+            }
+        }
+        EducationalOrganization[] retVal = new EducationalOrganization[edOrgs.size()];
+        return edOrgs.toArray(retVal);
     }
     
     private String getId(String token) {
-    //TODO: Make a call to the /home uri and retrieve id from there
+        //TODO: Make a call to the /home uri and retrieve id from there
         String returnValue = "";
         String url = Constants.API_SERVER_URI + "/home";
         ResponseObject response = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject.class);
-        
         for (InnerResponse link : response.getLinks()) {
             if (link.getRel().equals("self")) {
                 returnValue = parseId(link);
             }
         }
-        
-        //TODO: Actually return the id from the call, once teacher-section works
-        // FIXME
-        //return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
         return returnValue;
     }
 
@@ -189,69 +218,64 @@ public class LiveAPIClient implements APIClient {
         return sections2;
     }
 
-    private Course[] getCoursesForSections(Section[] sections, String token) {
-        
-        //Course[] courses = new Course[sections.length];
+    private School[] getSchoolsForSection(Section[] sections, String token) {
+        // collect associated course first. 
         HashMap<String, Course> courseMap = new HashMap<String, Course>();
-
-        // TODO: Make an actual api call to the courses service, when it comes up.
-        
-        // loop through sections, figure out course->section mappings
-        for (Section section: sections) {
-            
-            // get course name
-            String courseName; 
-            String sectionName = section.getSectionName();
-            if (sectionName.indexOf('-') > 0) {
-                courseName = sectionName.substring(0, sectionName.indexOf('-') - 1);
-                section.setSectionName(sectionName.substring(sectionName.indexOf('-') + 2));
-            } else {
-                courseName = sectionName;
-            }    
-            
-            // need to create new one?
-            Course course;
-            if (courseMap.containsKey(courseName)) {
-                course = courseMap.get(courseName);
-            } else {
-                course = new Course();
-                course.setCourse(courseName);
-                courseMap.put(courseName, course);
+        HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
+        for (int i = 0; i < sections.length; i++) {
+            Section section = sections[i];
+            String url = Constants.API_SERVER_URI + "/course-section-associations/" + section.getId() + "/targets";
+            AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+            if (responses.length > 0) { 
+                AssociationResponseObject response = responses[0]; // there should be only one. 
+                Course course = getCourse(parseId(response.getLink()), token);
+                if (!courseMap.containsKey(course.getId())) {
+                    courseMap.put(course.getId(), course);
+                }
+                course = courseMap.get(course.getId());
+                Section [] singleSectionArray = { section };
+                course.addSections(singleSectionArray);
+                sectionIDToCourseIDMap.put(section.getId(), course.getId());
             }
-            
-            // add section to course
-            Section[] sectionArray = {section};
-            course.setSections((Section[]) ArrayUtils.addAll(course.getSections(), sectionArray));
-            
-            //TODO: Make a mapping between courses and schools 
-            //course.setSchoolId("0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
-            if (SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
-                course.setSchoolId("00000000-0000-0000-0000-000000000201");
-            } else {
-                course.setSchoolId("00000000-0000-0000-0000-000000000202");
-            }
-            
         }
-
-        return (Course[]) courseMap.values().toArray(new Course[courseMap.size()]);
-    }
-    
-    private School[] getSchoolsForCourses(Course[] courses, String token) {
-        // TODO Auto-generated method stub
+        
+        // now collect associated schools. 
         HashMap<String, School> schoolMap = new HashMap<String, School>();
-        
-        for (Course course: courses) {
-            Course[] singleCourseArray = {course};
-            if (schoolMap.containsKey(course.getSchoolId())) {
-                schoolMap.get(course.getSchoolId()).addCourses(singleCourseArray);
-            } else {
-                School school = getSchool(course.getSchoolId(), token);
-                school.setCourses(singleCourseArray);
-                schoolMap.put(course.getSchoolId(), school);
+        HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
+        for (int i = 0; i < sections.length; i++) {
+            Section section = sections[i];
+            String url = Constants.API_SERVER_URI + "/section-school-associations/" + section.getId() + "/targets";
+            AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+            if (responses.length > 0) { 
+                AssociationResponseObject response = responses[0]; // there should be only one. 
+                School school = getSchool(parseId(response.getLink()), token);
+                if (!schoolMap.containsKey(school.getId())) {
+                    schoolMap.put(school.getId(), school);
+                }
+                sectionIDToSchoolIDMap.put(section.getId(), school.getId());
             }
         }
-            
-        return (School[]) schoolMap.values().toArray(new School[1]);
+
+        // Now associate course and school. 
+        // There is no direct course-school association in ed-fi, so in dashboard 
+        // the "course-school" association is defined as follows: 
+        // course C is associated with school S if there exists a section X s.t. C is associated
+        // with X and S is associated with X.
+        for (int i = 0; i < sections.length; i++) {
+            Section section = sections[i];
+            if (sectionIDToSchoolIDMap.containsKey(section.getId()) 
+                && sectionIDToCourseIDMap.containsKey(section.getId())) {
+                String schoolId = sectionIDToSchoolIDMap.get(section.getId());
+                String courseId = sectionIDToCourseIDMap.get(section.getId());
+                School s = schoolMap.get(schoolId);
+                Course c = courseMap.get(courseId);
+                Course [] singleCourseArray = { c };
+                s.addCourses(singleCourseArray);
+            }
+        }
+
+        School[] retVal = new School[schoolMap.values().size()];
+        return schoolMap.values().toArray(retVal);
     }
     
     private String getUsername() {

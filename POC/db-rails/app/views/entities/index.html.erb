@@ -1,6 +1,6 @@
-<h1>Listing entities</h1>
+<h1>Listing <%= params[:type]%> </h1>
 <% @entities.each do |entity| %>
-	<p><%= link_to entity.rel, entity.href %></p>
+	<p><%= link_to t(entity.rel), entity.href %></p>
 <% end %>
 
 <table>

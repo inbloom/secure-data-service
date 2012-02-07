@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:sli="http://slc-sli/ed-org/0.1"
-    elementFormDefault="qualified"
-    attributeFormDefault="qualified">
-    
+	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="qualified">
+
 	<xs:include schemaLocation="TestBasicSchema.xsd" />
 
 	<xs:complexType name="TestComplexType">
@@ -64,36 +63,53 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="WeeksInCycle">
-					<xs:annotation>
-						<xs:documentation>
-							The number of weeks in which the meeting time schedules repeat.
-						</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:int">
-							<xs:minInclusive value="1" />
-							<xs:maxInclusive value="52" />
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:element>
+				<xs:annotation>
+					<xs:documentation>
+						The number of weeks in which the meeting time schedules repeat.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="52" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
+
 	<xs:complexType name="TestComplexType2">
 		<xs:sequence>
 			<xs:element name="WeeksInCycle">
-					<xs:annotation>
-						<xs:documentation>
-							The number of weeks in which the meeting time schedules repeat.
-						</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:int">
-							<xs:minInclusive value="1" />
-							<xs:maxInclusive value="99" />
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:element>
+				<xs:annotation>
+					<xs:documentation>
+						The number of weeks in which the meeting time schedules repeat.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="99" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TestComplexType3">
+		<xs:sequence>
+			<xs:element name="SimpleTypeRestriction">
+				<xs:annotation>
+					<xs:documentation>
+						The number of weeks in which the meeting time schedules repeat.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="RestrictedString">
+						<xs:maxLength value="40" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -110,7 +126,6 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-    
     
     <xs:complexType name="TestDocumentationComplex">
         <xs:annotation>
