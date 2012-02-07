@@ -32,7 +32,7 @@ function populateCourseMenu(edorgIndex,schoolIndex){
     y += "<option value=\"\"></option>"
     var j = 0;
     for(j = 0;j < temp.length;j++){
-        y += "<option value=\"" +j +"\">"+ temp[j].course + "</option>"
+        y += "<option value=\"" +j +"\">"+ temp[j].courseTitle + "</option>"
     }
     document.getElementById("courseDiv").innerHTML = y
 }

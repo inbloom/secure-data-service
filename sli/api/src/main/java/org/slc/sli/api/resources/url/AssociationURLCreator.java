@@ -23,38 +23,38 @@ import org.slc.sli.domain.Entity;
 /**
  * Creates URL sets for associations.
  * Return URL format /agg/district/{JUUID}, /agg/school/{JUUID}
- * 
+ *
  * @author srupasinghe
- * 
+ *
  */
 public class AssociationURLCreator extends URLCreator {
     private static final Logger LOG = LoggerFactory.getLogger(AssociationURLCreator.class);
-    
+
     @Override
     /**
      * Returns a list association links for the logged in user
      */
     public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
         List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
-        
+
         // remove user's type from map
         String userId = params.remove("id");
         String userType = params.remove("type");
         // clear the map
         params.clear();
-        
+
         // get the userType entity definition
         EntityDefinition eDef = store.lookupByEntityType(userType);
-        
+
         // get the association links
         getAssociationUrls(eDef, userId, results, uriInfo);
-        
+
         return results;
     }
-    
+
     /**
      * Builds the association urls for the given entity definition
-     * 
+     *
      * @param entityDef
      *            The definition to build the association urls
      * @param entityId
@@ -68,21 +68,21 @@ public class AssociationURLCreator extends URLCreator {
             final UriInfo uriInfo) {
         // get the association definitions
         Collection<AssociationDefinition> associations = store.getLinked(entityDef);
-        
+
         for (AssociationDefinition assoc : associations) {
             if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
-                
+
                 // build the param map
-                Map<String, String> params = new HashMap<String, String>();                
-                params.put(assoc.getSourceKey(), entityId);                
-                
-                LOG.debug("entityDef type : " + entityDef.getType());               
-                
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(assoc.getSourceKey(), entityId);
+
+                LOG.debug("entityDef type : " + entityDef.getType());
+
                 // get the actual associations
                 Iterable<Entity> entityList = repo
                         .findByFields(assoc.getStoredCollectionName(), params);
-                LOG.debug("assoc type : " + assoc.getType());                
-                
+                LOG.debug("assoc type : " + assoc.getType());
+
                 for (Entity e : entityList) {
                     // add the link to the list
                     urls.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
@@ -90,7 +90,7 @@ public class AssociationURLCreator extends URLCreator {
                             .path(RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
                             .path((String) e.getBody().get(assoc.getTargetKey()))
                             .build().toString()));
-                    
+
                     // try and get the associations under the entity
                     getAssociationUrls(assoc.getTargetEntity(),
                             (String) e.getBody().get(assoc.getTargetKey()), urls,
@@ -99,5 +99,5 @@ public class AssociationURLCreator extends URLCreator {
             }
         }
     }
-    
+
 }

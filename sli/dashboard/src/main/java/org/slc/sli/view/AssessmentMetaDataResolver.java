@@ -14,21 +14,21 @@ import java.util.ArrayList;
 /**
  * A utility class for views in SLI dashboard. As a wrapper around assessment meta data passed onto
  *  dashboard views. Contains useful tools look up assessment meta data
- * 
+ *
  * @author syau
  *
  */
 public class AssessmentMetaDataResolver {
     HashSet<AssessmentMetaData> assessmentMetaData;
-    
+
     // short-cut for parent-child relationship
     HashMap<AssessmentMetaData, AssessmentMetaData> parent;
     HashMap<AssessmentMetaData, HashSet<AssessmentMetaData>> children;
     // leaf nodes
-    HashSet<AssessmentMetaData> assessments; 
+    HashSet<AssessmentMetaData> assessments;
     // all meta data, searchable by name
-    HashMap<String, AssessmentMetaData> allMetaData; 
-    
+    HashMap<String, AssessmentMetaData> allMetaData;
+
     /**
      * Constructor
      */
@@ -37,7 +37,7 @@ public class AssessmentMetaDataResolver {
         parent = new HashMap<AssessmentMetaData, AssessmentMetaData>();
         children = new HashMap<AssessmentMetaData, HashSet<AssessmentMetaData>>();
         assessments = new HashSet<AssessmentMetaData>();
-        allMetaData = new HashMap<String, AssessmentMetaData>(); 
+        allMetaData = new HashMap<String, AssessmentMetaData>();
         for (AssessmentMetaData metaData : assessmentMetaData) {
             populateStructures(metaData);
         }
@@ -50,7 +50,7 @@ public class AssessmentMetaDataResolver {
         if (metaData.getChildren() != null) {
             if (!children.containsKey(metaData)) { children.put(metaData, new HashSet<AssessmentMetaData>()); }
             HashSet<AssessmentMetaData> childrenSet = children.get(metaData);
-            List<AssessmentMetaData> childrenMetaData = Arrays.asList(metaData.getChildren()); 
+            List<AssessmentMetaData> childrenMetaData = Arrays.asList(metaData.getChildren());
             for (AssessmentMetaData c : childrenMetaData) {
                 parent.put(c, metaData);
                 childrenSet.add(c);
@@ -60,7 +60,7 @@ public class AssessmentMetaDataResolver {
             assessments.add(metaData);
         }
     }
-    
+
     public PerfLevel findPerfLevelForFamily(String name, String perfLevel) {
         List<PerfLevel> perfLevels = findPerfLevelsForFamily(name);
         if (perfLevels == null) { return null; }
@@ -71,10 +71,10 @@ public class AssessmentMetaDataResolver {
         }
         return null;
     }
-    
+
     public List<Period> findPeriodsForFamily(String name) {
         AssessmentMetaData metaData = allMetaData.get(name);
-        if (metaData == null) return null; 
+        if (metaData == null) return null;
         // find the possible periods for the assessment family
         while (metaData != null) {
             if (metaData.getPeriods() != null) {
@@ -82,7 +82,7 @@ public class AssessmentMetaDataResolver {
             }
             metaData = parent.get(metaData);
         }
-        return null; 
+        return null;
     }
 
     public Period findPeriodForFamily(String name) {
@@ -91,7 +91,7 @@ public class AssessmentMetaDataResolver {
             throw new RuntimeException("Malformed assessment meta data: Assessment family " + name + " has no periods data ");
         }
         AssessmentMetaData metaData = allMetaData.get(name);
-        if (metaData == null) return null; 
+        if (metaData == null) return null;
         // find the possible periods for the assessment family
         while (metaData != null) {
             if (metaData.getPeriod() != null) {
@@ -105,20 +105,20 @@ public class AssessmentMetaDataResolver {
             }
             metaData = parent.get(metaData);
         }
-        // if we reached here, the assessment meta data does not contains a period 
+        // if we reached here, the assessment meta data does not contains a period
         // throw new RuntimeException("Malformed assessment meta data: Assessment family " + name + " has no period data associated.");
         return null;
     }
 
     /*
-     * Returns a list representing the high cutpoints of the assessment's levels, plus one first 
+     * Returns a list representing the high cutpoints of the assessment's levels, plus one first
      * element representing the lowest score.
-     * 
-     * Returns null if no cutpoints are found.  
+     *
+     * Returns null if no cutpoints are found.
      */
     public List<Integer> findCutpointsForFamily(String name) {
         AssessmentMetaData metaData = allMetaData.get(name);
-        if (metaData == null) return null; 
+        if (metaData == null) return null;
         // find the possible periods for the assessment family
         while (metaData != null) {
             if (metaData.getCutpoints() != null) {
@@ -126,23 +126,23 @@ public class AssessmentMetaDataResolver {
                 Cutpoint[] cutpoints = metaData.getCutpoints();
                 for (int i = 0; i < cutpoints.length; i++) {
                     if (i == 0) { retVal.add(cutpoints[i].getRange()[0]); }
-                    retVal.add(cutpoints[i].getRange()[1]); 
+                    retVal.add(cutpoints[i].getRange()[1]);
                 }
                 return retVal;
             }
             metaData = parent.get(metaData);
         }
-        return null; 
+        return null;
     }
 
     /*
      * Returns a list representing the possible performance levels of the assessment family
-     * 
-     * Returns null if no perf levels are found for the family.  
+     *
+     * Returns null if no perf levels are found for the family.
      */
     public List<PerfLevel> findPerfLevelsForFamily(String name) {
         AssessmentMetaData metaData = allMetaData.get(name);
-        if (metaData == null) return null; 
+        if (metaData == null) return null;
         // find the possible periods for the assessment family
         while (metaData != null) {
             if (metaData.getPerfLevels() != null) {
@@ -150,7 +150,7 @@ public class AssessmentMetaDataResolver {
             }
             metaData = parent.get(metaData);
         }
-        return null; 
+        return null;
     }
 
     public Integer findNumRealPerfLevelsForFamily(String name) {
@@ -169,8 +169,8 @@ public class AssessmentMetaDataResolver {
     public boolean isAncestor(String assFamilyName1, String assFamilyName2) {
         AssessmentMetaData metaData1 = allMetaData.get(assFamilyName1);
         AssessmentMetaData metaData2 = allMetaData.get(assFamilyName2);
-        if (metaData1 == null) return false; 
-        if (metaData2 == null) return false; 
+        if (metaData1 == null) return false;
+        if (metaData2 == null) return false;
         AssessmentMetaData metaData = metaData2;
         while (metaData != null) {
             if (metaData == metaData1) { return true; }

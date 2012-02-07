@@ -21,17 +21,17 @@ import org.slc.sli.domain.MongoEntity;
 
 /**
  * Mock implementation of the EntityRepository for unit testing.
- * 
+ *
  */
 @Component
 @Primary
 public class MockRepo implements EntityRepository {
-    
+
     private Map<String, Map<String, Entity>> repo              = new HashMap<String, Map<String, Entity>>();
     private static String[]                  reservedQueryKeys = { "start-index", "max-results", "query" };
-    
+
     private AtomicInteger                    counter           = new AtomicInteger();
-    
+
     public MockRepo() {
         repo.put("course", new LinkedHashMap<String, Entity>());
         repo.put("student", new LinkedHashMap<String, Entity>());
@@ -60,53 +60,53 @@ public class MockRepo implements EntityRepository {
         repo.put("sessionCourseAssociation", new LinkedHashMap<String, Entity>());
         repo.put("courseSectionAssociation", new LinkedHashMap<String, Entity>()); //known technical-debt.
     }
-    
+
     protected Map<String, Map<String, Entity>> getRepo() {
         return repo;
     }
-    
+
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
     }
-    
+
     @Override
     public Entity find(String entityType, String id) {
         return repo.get(entityType).get(id);
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String entityType, int skip, int max) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         return all.subList(skip, (Math.min(skip + max, all.size())));
     }
-    
+
     @Override
     public boolean update(String type, Entity entity) {
         repo.get(type).put(entity.getEntityId(), entity);
         return true;
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body) {
         return create(type, body, type);
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
         Entity newEntity = new MongoEntity(type, generateId(), body, null);
         update(collectionName, newEntity);
         return newEntity;
     }
-    
+
     @Override
     public boolean delete(String entityType, String id) {
         return repo.get(entityType).remove(id) != null;
     }
-    
+
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        
+
         if (repo.containsKey(entityType)) {
             List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
             for (Entity entity : all) {
@@ -117,7 +117,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
     }
-    
+
     private boolean matchesFields(Entity entity, Map<String, String> fields) {
         for (Map.Entry<String, String> field : fields.entrySet()) {
             Object value = entity.getBody().get(field.getKey());
@@ -126,28 +126,28 @@ public class MockRepo implements EntityRepository {
             }
         }
         return true;
-        
+
     }
-    
+
     @Override
     public void deleteAll(String entityType) {
         Map<String, Entity> repository = repo.get(entityType);
         if (repository != null) {
             repository.clear();
         }
-        
+
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String entityType) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         return all;
     }
-    
+
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        
+
         if (repo.containsKey(entityType)) {
             List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
             for (Entity entity : all) {
@@ -158,7 +158,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn;
     }
-    
+
     private Iterable<Entity> findByFields(String entityType, String queryString, int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
         Map<String[], String> queryMap = stringToQuery(queryString);
@@ -176,7 +176,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
     }
-    
+
     private Map<String[], String> stringToQuery(String queryString) {
         Map<String[], String> queryMap = new HashMap<String[], String>();
         if (queryString != null) {
@@ -199,12 +199,12 @@ public class MockRepo implements EntityRepository {
                         String[] keyAndValue = getKeyAndValue(query, "=");
                         if (keyAndValue != null)
                             queryMap.put(keyAndValue, "=");
-                        
+
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
                         if (keyAndValue != null)
                             queryMap.put(keyAndValue, "<");
-                        
+
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
                         if (keyAndValue != null)
@@ -215,7 +215,7 @@ public class MockRepo implements EntityRepository {
         }
         return queryMap;
     }
-    
+
     private boolean isReservedQueryKey(String queryString) {
         boolean found = false;
         for (String key : reservedQueryKeys) {
@@ -224,7 +224,7 @@ public class MockRepo implements EntityRepository {
         }
         return found;
     }
-    
+
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator, 2);
         if (keyAndValue.length != 2)
@@ -232,7 +232,7 @@ public class MockRepo implements EntityRepository {
         else
             return keyAndValue;
     }
-    
+
     private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
         boolean match = true;
         for (Entry<String[], String> keyAndValueEntries : queryMap.entrySet()) {
@@ -262,7 +262,7 @@ public class MockRepo implements EntityRepository {
         }
         return match;
     }
-    
+
     private int compareToValue(Object entityValue, String value) throws Exception {
         int compare = 0;
         if (entityValue instanceof String) {
@@ -271,7 +271,7 @@ public class MockRepo implements EntityRepository {
             compare = (Integer) entityValue - Integer.parseInt(value);
         return compare;
     }
-    
+
     private boolean matchQuery(String entityType, String id, String queryString) {
         boolean match = false;
         List<Entity> toReturn = new ArrayList<Entity>();
@@ -294,19 +294,19 @@ public class MockRepo implements EntityRepository {
         }
         return match;
     }
-    
+
     @Override
     public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max) {
         String queryString = queryToString(query);
         return findByFields(entityType, queryString, skip, max);
     }
-    
+
     @Override
     public boolean matchQuery(String entityType, String id, Query query) {
         String queryString = queryToString(query);
         return matchQuery(entityType, id, queryString);
     }
-    
+
     private String queryToString(Query query) {
         String queryString = "";
         if (query != null) {
@@ -328,49 +328,49 @@ public class MockRepo implements EntityRepository {
                     queryString = addQueryToString(queryString, (DBObject) queryObject.get(key), key);
                 }
             }
-            
+
         }
         return queryString;
     }
-    
+
     private String addQueryToString(String queryString, DBObject dbObject, String key) {
         if (dbObject.containsField("$gt")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
-            
+
         } else if (dbObject.containsField("$lt")) {
-            
+
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-            
+
         } else if (dbObject.containsField("$gte")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
-            
+
         } else if (dbObject.containsField("lte")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
-            
+
         } else if (dbObject.containsField("$ne")) {
             if (queryString.equals(""))
                 queryString = key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
             else
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
-            
+
         }
         return queryString;
     }
-    
+
     private String generateId() {
         return UUID.randomUUID().toString();
     }
-    
+
 }

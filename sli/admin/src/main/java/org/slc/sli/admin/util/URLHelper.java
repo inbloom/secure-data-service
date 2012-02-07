@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * URL Helper utility
  * @author scole
- * 
+ *
  */
 public class URLHelper {
-    
+
     /**
      * Get the URL that generated this request
      * @param req

@@ -1,1 +1,6 @@
-[]
+[
+    { "educationOrganizationParentId" : "IL", 
+      "educationOrganizationChildId" : "IL-DAYBREAK" },
+    { "educationOrganizationParentId" : "IL", 
+      "educationOrganizationChildId" : "IL-SUNSET" }
+]

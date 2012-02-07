@@ -179,6 +179,7 @@ desc "Run Validation Tests"
 task :validationTests do
   setFixture("school", "school_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
   runTests("test/features/api/validation")
 end
 
@@ -294,6 +295,12 @@ desc "Run Dashboard YY Tests"
 task :dashboardTests do
   runTests("test/features/dashboard")
 
+end
+
+
+desc "Run Dashboard integration acceptance tests"
+task :dashboardIntegratedTests do
+    runTests("test/features/dashboard/dashboard_integrated_login.feature")
 end
 ############################################################
 # Dashboard tests end

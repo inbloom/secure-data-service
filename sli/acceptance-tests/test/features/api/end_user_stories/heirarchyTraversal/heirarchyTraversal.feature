@@ -1,4 +1,7 @@
-Feature: Test aggregation creation for performance level aggregations
+Feature: As an SLI application, I want to be able to traverse from education organizations down to low levels
+    As a client application using SLI
+    I want to be able to start at a very high level and be able to access relevant teachers
+    I want to be able to start at a very high level and be able to access relevant students
 
 Background: 
     Given I am logged in using "demo" "demo1234"
@@ -123,6 +126,14 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/students/<'SCOTTY PIERSON (STUDENT)' ID>"
     Then I should receive a return code of 200
      And the "name" should be "Scotty" "" "Pierson"
+     And "economicDisadvantaged" should be "true"
+     And "schoolFoodServicesEligibility" should be "Free"
+     And a "studentCharacteristics" "characteristic" should be "Homeless"
+     And "limitedEnglishProficiency" should be "Limited"
+     And a "disabilities" "disability" should be "Emotional Disturbance"
+     And "section504Disabilities" should be "Motor Impairment"
+     And "displacementStatus" should be "Hurricane Kevin"
      And a "programParticipations" should be "Extended Day/Child Care Services"
+     
     
     

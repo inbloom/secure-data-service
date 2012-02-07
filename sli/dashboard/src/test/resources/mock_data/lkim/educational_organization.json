@@ -4,28 +4,17 @@
       "organizationCategories":[
          "Local_Education_Agency"
       ],
-      "address":[
-         {
-            "addressType":"Physical",
-            "streetNumberName":"123 District Office Way",
-            "apartmentRoomSuiteNumber":"200",
-            "buildingSiteNumber":"",
-            "city":"Daybreak",
-            "stateAbbreviation":"IL",
-            "postalCode":"",
-            "nameOfCounty":""
-         }
-      ],
+      "address":[],
       "stateOrganizationId":"IL-DAYBREAK",
-      "nameOfInstitution":"Daybreak District"
+      "nameOfInstitution":"Daybreak School District 4529"
    },
    {
-      "id": "IL-DAYBREAK_EAST", 
+      "id": "IL", 
       "organizationCategories":[
-         "Local_Education_Agency"
+         "State_Education_Agency"
       ],
       "address":[],
-      "stateOrganizationId":"IL-DAYBREAK_EAST",
-      "nameOfInstitution":"Daybreak East Region"
+      "stateOrganizationId":"IL",
+      "nameOfInstitution":"Illinois State Board of Education"
    }
 ]

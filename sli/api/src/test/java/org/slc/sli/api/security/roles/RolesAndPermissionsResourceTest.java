@@ -27,7 +27,7 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * Simple test to test getting roles and permissions back.
- * 
+ *
  * Doesn't test posting new roles at this time, but you can create roles.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,14 +35,14 @@ import org.slc.sli.domain.enums.Right;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class RolesAndPermissionsResourceTest {
-    
+
     @Autowired
     private RolesAndPermissionsResource api;
     private RoleRightAccess mockRoles;
-    
+
     @Autowired
     private SecurityContextInjector securityContextInjector;
-    
+
     private EntityBody createTestRole() {
         EntityBody role = new EntityBody();
         List<String> permissions = new ArrayList<String>();
@@ -52,7 +52,7 @@ public class RolesAndPermissionsResourceTest {
         role.put("rights", permissions);
         return role;
     }
-    
+
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
@@ -60,12 +60,12 @@ public class RolesAndPermissionsResourceTest {
         mockRoles = mock(RoleRightAccess.class);
         api.setRoleAccessor(mockRoles);
     }
-    
+
     @After
     public void tearDown() {
         SecurityContextHolder.clearContext();
     }
-    
+
     @Test
     public void testGetDefaultRoles() throws Exception {
         List<Role> roles = getRoles();
@@ -73,7 +73,7 @@ public class RolesAndPermissionsResourceTest {
         List<Map<String, Object>> result = api.getRolesAndPermissions();
         assertTrue(result.size() >= 4);
     }
-    
+
     private List<Role> getRoles() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(RoleBuilder.makeRole("Something").build());
@@ -82,7 +82,7 @@ public class RolesAndPermissionsResourceTest {
         roles.add(RoleBuilder.makeRole("Something even more").build());
         return roles;
     }
-    
+
     // @Test
     // public void testCreateRole() {
     // //Create a role.

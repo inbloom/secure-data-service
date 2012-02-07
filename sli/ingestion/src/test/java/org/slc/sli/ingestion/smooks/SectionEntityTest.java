@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.ByteArrayInputStream;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +18,10 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
 /**
-*
-* @author ablum
-*
-*/
+ *
+ * @author ablum
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionEntityTest {
@@ -91,14 +92,16 @@ public class SectionEntityTest {
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
 
-            //Tests that the NeutralRecord was created
+            // Tests that the NeutralRecord was created
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
             checkValidSectionNeutralRecord(record);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }
@@ -113,14 +116,16 @@ public class SectionEntityTest {
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
 
-            //Tests that the NeutralRecord was created
+            // Tests that the NeutralRecord was created
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
             EntityTestUtils.mapValidation(record.getAttributes(), "section", validator);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }
@@ -135,7 +140,7 @@ public class SectionEntityTest {
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
 
-            //Tests that the NeutralRecords were created
+            // Tests that the NeutralRecords were created
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
@@ -143,12 +148,12 @@ public class SectionEntityTest {
             checkValidSectionNeutralRecord(record);
 
         } finally {
-           nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
-
-   }
-
+    }
 
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();

@@ -23,31 +23,31 @@ import org.slc.sli.api.resources.Resource;
 
 /**
  * Custom JAXB Context Resolver that will generate XML
- * 
+ *
  * */
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
 @Produces({ MediaType.APPLICATION_XML, Resource.SLC_XML_MEDIA_TYPE })
 public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
-    
+
     @Override
     public boolean isWriteable(Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return true;
     }
-    
+
     @Override
     public long getSize(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
-    
+
     @Override
     public void writeTo(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
 
         Object xmlBody = t;
 
-        // check on the class type to see if we want to 
+        // check on the class type to see if we want to
         // pretty up the xmlBody by using a wrapper class
         if (type != null) {
             if (type.getName().equals("CollectionResponse")) {
@@ -61,5 +61,5 @@ public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
         xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
         xmlMapper.writeValue(entityStream, xmlBody);
     }
-    
+
 }
