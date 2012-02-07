@@ -47,27 +47,27 @@ import org.slc.sli.domain.enums.Right;
 @Component("basicService")
 public class BasicService implements EntityService {
     
-    private static final String  ADMIN_SPHERE    = "Admin";
+    private static final String ADMIN_SPHERE = "Admin";
     
-    private static final Logger  LOG             = LoggerFactory.getLogger(BasicService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
-    private static final int     MAX_RESULT_SIZE = 9999;
+    private static final int MAX_RESULT_SIZE = 9999;
     
-    private String               collectionName;
-    private List<Treatment>      treatments;
-    private EntityDefinition     defn;
+    private String collectionName;
+    private List<Treatment> treatments;
+    private EntityDefinition defn;
     
     @Autowired
-    private EntityRepository     repo;
+    private EntityRepository repo;
     
     @Autowired
     private ContextResolverStore contextResolverStore;
     
     @Autowired
-    private SchemaDataProvider   provider;
+    private SchemaDataProvider provider;
     
     @Autowired
-    private IdConverter          idConverter;
+    private IdConverter idConverter;
     
     public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
@@ -155,7 +155,8 @@ public class BasicService implements EntityService {
         }
         
         if (!binIds.isEmpty()) {
-            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
+            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)),
+                    0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -261,13 +262,19 @@ public class BasicService implements EntityService {
      * Checks that Actor has the appropriate Rights and linkage to access given entity
      * Also checks for existence of the given entity
      * 
-     * @param right needed Right for action
-     * @param entityId id of the entity to access
-     * @throws InsufficientAuthenticationException if authentication is required
-     * @throws EntityNotFoundException if requested entity doesn't exist
-     * @throws AccessDeniedException if actor doesn't have association path to given entity
+     * @param right
+     *            needed Right for action
+     * @param entityId
+     *            id of the entity to access
+     * @throws InsufficientAuthenticationException
+     *             if authentication is required
+     * @throws EntityNotFoundException
+     *             if requested entity doesn't exist
+     * @throws AccessDeniedException
+     *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
+    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException,
+            EntityNotFoundException, AccessDeniedException {
         
         // Check that user has the needed right
         checkRights(right);
@@ -304,19 +311,20 @@ public class BasicService implements EntityService {
         } else if (auths.contains(neededRight)) {
             LOG.debug("User has needed right: " + neededRight);
         } else {
-        	// --- remove after intermittent 403 errors are resolved ---
-        	LOG.debug("authorities: " + auth.getAuthorities().toString());
-        	LOG.debug("needed right: " + neededRight);
-        	// --- remove after intermittent 403 errors are resolved ---
-        	
-        	throw new AccessDeniedException("Insufficient Privileges");
+            // --- remove after intermittent 403 errors are resolved ---
+            LOG.debug("authorities: " + auth.getAuthorities().toString());
+            LOG.debug("needed right: " + neededRight);
+            // --- remove after intermittent 403 errors are resolved ---
+            
+            throw new AccessDeniedException("Insufficient Privileges");
         }
     }
     
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(), defn.getType());
+        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
+                defn.getType());
         
         return resolver.findAccessible(principal.getEntity());
     }
@@ -356,7 +364,8 @@ public class BasicService implements EntityService {
     /**
      * Figures out if writing to restricted fields
      * 
-     * @param eb data currently being passed in
+     * @param eb
+     *            data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
      */
     @SuppressWarnings("unchecked")

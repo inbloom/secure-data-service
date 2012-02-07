@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class StudentManager extends Manager {
 
 
-    public List<Student> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
+    public List<Student> getStudentInfo(String token, List<String> studentIds, ViewConfig config) {
 
         // extract the studentInfo data fields
         List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
@@ -31,7 +31,7 @@ public class StudentManager extends Manager {
         // TODO: do we need more logic to grab the correct fields?
         List<Student> studentInfo = new ArrayList<Student>();
         if (dataFields.size() > 0) {
-            studentInfo.addAll(Arrays.asList(apiClient.getStudents(SecurityUtil.getToken(), studentIds)));
+            studentInfo.addAll(Arrays.asList(apiClient.getStudents(token, studentIds)));
         }
 
         // return the results

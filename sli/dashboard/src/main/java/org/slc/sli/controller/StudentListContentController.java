@@ -76,7 +76,7 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
 
-        List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+        List<Student> students = studentManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
         List<StudentProgramAssociation> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
 
         model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
