@@ -744,14 +744,14 @@
 
 
   <!-- Section Mapping -->
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/Section">
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeMasterSchedule/Section">
 
     <jb:expression property="recordType">'section'</jb:expression>
     <jb:value property="localId" data="UniqueSectionCode" />
     <jb:wiring property="attributes" beanIdRef="sectionAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="sectionAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
+  <jb:bean beanId="sectionAttributes" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
 
     <!-- UniqueSectionCode -->
     <jb:value property="uniqueSectionCode" data="Section/UniqueSectionCode" />
@@ -784,23 +784,22 @@
     <jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
   </jb:bean>
 
-  <!-- AvailableCreditsType -->
-  <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Section">
-    <jb:value property="creditType" data="Section/AvailableCredit/@CreditType" />
-    <jb:value property="creditConversion" data="Section/AvailableCredit/@CreditConversion" decoder="Double" />
-    <jb:value property="credit" data="Section/AvailableCredit/Credit" decoder="Double" />
-  </jb:bean>
+    <!-- AvailableCreditsType -->
+    <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
+    	<jb:value property="creditType" data="Section/AvailableCredit/@CreditType"/>
+    	<jb:value property="creditConversion" data="Section/AvailableCredit/@CreditConversion" decoder="Double"/>
+    	<jb:value property="credit" data="Section/AvailableCredit/Credit" decoder="Double"/>
+    </jb:bean>
 
-  <!-- ProgramReferenceType -->
-  <jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Section">
-    <jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId" />
-  </jb:bean>
+	<!-- ProgramReferenceType -->
+	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeMasterSchedule/Section">
+				<jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId"/>
+	</jb:bean>
 
   <!-- TeacherSectionAssociation Mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 
     <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
-    <jb:value property="localId" data="UniqueSectionCode" />
     <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
   </jb:bean>
 
@@ -830,7 +829,6 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
     <jb:expression property="recordType">'teacherSchoolAssociation'</jb:expression>
-    <jb:value property="localId" data="UniqueSectionCode" />
     <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
   </jb:bean>
 

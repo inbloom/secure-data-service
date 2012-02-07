@@ -104,6 +104,7 @@ When /^I click on the role "([^"]*)" radio button$/ do |arg1|
 end
 
 When /^I enter "([^"]*)" in the text field$/ do |arg1|
+  @driver.find_element(:id, "clientRole").clear
   @driver.find_element(:id, "clientRole").send_keys arg1
 end
 

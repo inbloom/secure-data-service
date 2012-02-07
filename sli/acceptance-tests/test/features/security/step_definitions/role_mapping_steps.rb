@@ -38,7 +38,11 @@ end
 
 When /^I try to access the URI "([^"]*)" with operation "([^"]*)"$/ do |arg1, arg2|
   @format = "application/json"
-  data = "{\"mappings\": {},\"name\": \"Aggregate Viewer\",\"rights\": [\"AGGREGATE_READ\",\"READ_GENERAL\"]}"
+
+  dataObj = DataProvider.getValidRealmData()
+  dataObj["state"] = "URI Access Test State" 
+  
+  data = prepareData("application/json", dataObj)
 
   restHttpPost(arg1, data) if arg2 == "POST"
   restHttpGet(arg1) if arg2 == "GET"
@@ -56,9 +60,7 @@ Then /^I should see a valid object returned$/ do
 end
 
 When /^I POST a new realm$/ do
-  data = {}
-  data["state"] = "Test State"
-  data["idp"]  =  "http://devdanil.slidev.org:8080/idp"
+  data = DataProvider.getValidRealmData()
   dataFormatted = prepareData("application/json", data)
   restHttpPost("/realm", dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
@@ -94,10 +96,15 @@ When /^I PUT to change the (realm "[^"]*") to add a mapping between default role
   restHttpGet("/realm/" + arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
   data = JSON.parse(@res.body)
-  curMappings = data["mappings"]
-  curMappings[arg2].push arg3
-  data["mappings"] = curMappings
+ 
+  data["mappings"]["role"].each do |role|
+    if role["sliRoleName"] == arg2
+      role["clientRoleName"].push arg3
+    end
+  end
+  
   dataFormatted = prepareData("application/json", data)
+  
   restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
@@ -107,10 +114,11 @@ When /^I add a mapping between non-existent role "([^"]*)" and custom role "([^"
   assert(@res != nil, "Response from rest-client GET is nil")
   data = JSON.parse(@res.body)
   print(data.inspect)
-  curMappings = data["mappings"]
-  curMappings[arg2] = [arg3]
-  data["mappings"] = curMappings
+  
+  data["mappings"]["role"].push({"sliRoleName"=>arg1,"clientRoleName"=>[arg2]})  
+        
   dataFormatted = prepareData("application/json", data)
+  
   restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
