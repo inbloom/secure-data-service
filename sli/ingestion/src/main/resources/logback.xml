@@ -19,8 +19,11 @@
 <configuration scan="true" debug="false">
   <!-- TODO in production mode disable the scan -->
 
+  <property resource="ingestion.properties" />
+  <property resource="ingestion-dev.properties" />
+
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <File>logs/ingestion.log</File>
+    <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
     <encoder>
       <Pattern>%-4relative [%thread] %-5level %logger{40} - %msg%n
@@ -29,7 +32,7 @@
   </appender>
 
   <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
-    <File>logs/performance.log</File>
+    <File>${logging.path}/performance.log</File>
     <Append>true</Append>
     <encoder>
       <Pattern>%d - %msg%n
@@ -38,7 +41,7 @@
   </appender>
 
   <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.FileAppender">
-    <File>logs/performanceStatistics.log</File>
+    <File>${logging.path}/performanceStatistics.log</File>
     <Append>true</Append>
     <encoder>
       <Pattern>%d - %msg%n
