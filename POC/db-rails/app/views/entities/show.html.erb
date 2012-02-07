@@ -38,12 +38,12 @@
 	<%end%>
 
 	  <% hash.each do |key, value| %>
-
-		<% if key == 'links' or key == 'link'%>
+		<%case key
+		when 'links', 'link' %>
 			<dt><b><%= t(key) %>:</b></dt>
-			<dd><%= build_links value %></dd>
-		<%end%>
-		<% if key != 'id' or key != 'links'%>
+			<dd><%build_links value %></dd>
+		<%when 'id'%>
+		<%else%>
 			<dt><b><%= t(key) %>:</b></dt>
 			<dd>
 				<% if value.is_a?(Hash) %>
@@ -62,8 +62,8 @@
 					end
 					end%>
 			</dd>
-
 		<% end %>
+			
 	<% end %>
 	<%if indent != 0 %>
 	</dl>
