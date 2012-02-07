@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class EntitySchemaRegistryTest {
     @Autowired
     EntitySchemaRegistry schemaRegistry;
-    
+
     @Test
     public void testFindSchemaForType() {
         String[] schemaNames = new String[] { "assessment", "student", "school", "section",
@@ -31,7 +31,7 @@ public class EntitySchemaRegistryTest {
             checkSchema(schemaName);
         }
     }
-    
+
     private void checkSchema(String schemaName) {
         Entity entity = mock(Entity.class);
         when(entity.getType()).thenReturn(schemaName);

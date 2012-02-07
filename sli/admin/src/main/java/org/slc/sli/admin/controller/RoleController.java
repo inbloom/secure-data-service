@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 
+ *
  * @author pwolf
- * 
+ *
  */
 @Controller
 @RequestMapping("/roles")
 public class RoleController extends AdminController {
-    
+
     /**
      * Queries the JSON data containing the role info and passes that to the
      * roles.jsp.
-     * 
+     *
      * @param view
      * @return a view containing the "roleJsonData" object
      * @throws NoSessionException
@@ -37,26 +37,26 @@ public class RoleController extends AdminController {
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView getRoles(ModelAndView view, HttpSession session) {
         JsonArray jsonRoles = this.restClient.getRoles(getToken(session));
-        
+
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
-        
+
         for (Iterator<?> i = jsonRoles.iterator(); i.hasNext();) {
             JsonObject jsonRole = (JsonObject) i.next();
             Map<String, Object> roleData = new HashMap<String, Object>();
-            
+
             // Name
             String role = jsonRole.get("name").getAsString();
             roleData.put("name", role);
-            
+
             // Aggregate
             @SuppressWarnings("unchecked")
             List<String> rights = (new Gson()).fromJson(jsonRole.get("rights").getAsJsonArray(),
                     (new ArrayList<String>()).getClass());
             roleData.put("aggregate", rights.contains("AGGREGATE_READ"));
-            
+
             // Individual
             roleData.put("individual", getIndividual(role));
-            
+
             // General student data
             String generalRight = null;
             if (rights.contains("READ_GENERAL") && rights.contains("WRITE_GENERAL"))
@@ -68,7 +68,7 @@ public class RoleController extends AdminController {
             else
                 generalRight = "None";
             roleData.put("general", generalRight);
-            
+
             // Restricted student data
             String restrictedRight = null;
             if (rights.contains("READ_RESTRICTED") && rights.contains("WRITE_RESTRICTED"))
@@ -77,17 +77,17 @@ public class RoleController extends AdminController {
                 restrictedRight = "R";
             else if (rights.contains("WRITE_RESTRICTED"))
                 restrictedRight = "W"; // This possible?
-            else 
+            else
                 restrictedRight = "None";
             roleData.put("restricted", restrictedRight);
-            
+
             roleList.add(roleData);
         }
-        
+
         view.addObject("roleJsonData", roleList);
         return view;
     }
-    
+
     private String getIndividual(String role) {
         if (role.equalsIgnoreCase("Educator")) {
             return "student enrolled in my sections";
@@ -100,7 +100,7 @@ public class RoleController extends AdminController {
         } else {
             return "student enrolled in my district(s) or school(s)";
         }
-        
+
     }
-    
+
 }

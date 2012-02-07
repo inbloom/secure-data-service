@@ -24,21 +24,21 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class ContextResolverStore {
-    
+
     private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
-    
+
     @Autowired
     private DefaultEntityContextResolver       defaultEntityContextResolver;
-    
+
     @Autowired
     private EntityDefinitionStore              definitionStore;
-    
+
     @Autowired
     private EntityRepository                   repository;
-    
+
     /**
      * TODO Might need to be out sourced to a declarative data-driven (JSON? YAML?) store
-     * 
+     *
      * init() defines resolvers used to enforce context based permissions.
      * To make a new resolver, specify the source entity type, target entity,
      * and context path from the target to the source.
@@ -49,17 +49,17 @@ public class ContextResolverStore {
      * The association path will be traversed from from source to target to see if the context path exists.
      */
     public synchronized void init() {
-        
+
         List<EntityContextResolver> teacherResolvers = Arrays.<EntityContextResolver>asList(
-        
+
         this.makeAssoc().setSource("teacher").setTarget("teacher").setAssociationPath("teacher-school-associations", "teacher-school-associations").build(),
-        
+
         this.makeAssoc().setSource("teacher").setTarget("student").setAssociationPath("teacher-section-associations", "student-section-associations").build(),
-        
+
         this.makeAssoc().setSource("teacher").setTarget("school").setAssociationPath("teacher-school-associations").build(),
-        
+
         this.makeAssoc().setSource("teacher").setTarget("section").setAssociationPath("teacher-section-associations").build());
-        
+
         for (EntityContextResolver resolver : teacherResolvers) {
             EntityContextResolver putResult = this.contexts.put(this.getContextKey(resolver), resolver);
             if (putResult != null) {
@@ -67,46 +67,46 @@ public class ContextResolverStore {
             }
         }
     }
-    
-    public EntityContextResolver getContextResolver(String sourceType, String targetType) {
-        
+
+    public synchronized EntityContextResolver getContextResolver(String sourceType, String targetType) {
+
         if (contexts.isEmpty()) {
             init();
         }
-        
+
         EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
         return resolver == null ? defaultEntityContextResolver : resolver;
     }
-    
+
     public EntityContextResolver getContextResolver(Entity principalEntity, Entity requestEntity) {
         return getContextResolver(principalEntity.getType(), requestEntity.getType());
     }
-    
+
     public void clearContexts() {
         contexts.clear();
     }
-    
+
     private String getContextKey(EntityContextResolver resolver) {
         return getContextKey(resolver.getSourceType(), resolver.getTargetType());
     }
-    
+
     private String getContextKey(String sourceType, String targetType) {
         return sourceType + targetType;
     }
-    
+
     public AssociativeContextBuilder makeAssoc() {
         return new AssociativeContextBuilder();
     }
-    
+
     public Map<String, EntityContextResolver> getContexts() {
         return contexts;
     }
-    
+
     /**
      * Builder pattern
-     * 
+     *
      * @author mlane
-     * 
+     *
      */
     public class AssociativeContextBuilder {
         private String                      source;
@@ -114,22 +114,22 @@ public class ContextResolverStore {
         private List<AssociationDefinition> associationPath = new ArrayList<AssociationDefinition>();
         private EntityDefinitionStore       entityDefs;
         private EntityRepository            repo;
-        
+
         public AssociativeContextBuilder() {
             entityDefs = ContextResolverStore.this.definitionStore;
             repo = ContextResolverStore.this.repository;
         }
-        
+
         public AssociativeContextBuilder setSource(String source) {
             this.source = source;
             return this;
         }
-        
+
         public AssociativeContextBuilder setTarget(String target) {
             this.target = target;
             return this;
         }
-        
+
         public AssociativeContextBuilder setAssociationPath(String... associationNames) {
             for (String assocName : associationNames) {
                 EntityDefinition entityDefinition = entityDefs.lookupByResourceName(assocName);
@@ -141,7 +141,7 @@ public class ContextResolverStore {
             }
             return this;
         }
-        
+
         public AssociativeContextResolver build() {
             AssociativeContextResolver assocContext = new AssociativeContextResolver();
             assocContext.setSourceType(source);

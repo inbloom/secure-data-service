@@ -27,18 +27,18 @@ import org.slc.sli.domain.Entity;
 
 /**
  * Tests sample Avro schema for Students.
- * 
+ *
  * @author Sean Melody <smelody@wgen.net>
- * 
+ *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AvroSchemaTest {
-    
+
     @Autowired
     private EntitySchemaRegistry schemaReg;
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudent() throws Exception {
@@ -50,7 +50,7 @@ public class AvroSchemaTest {
             mapValidation((Map<String, Object>) obj.get("body"), "student");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSchool() throws Exception {
@@ -62,7 +62,7 @@ public class AvroSchemaTest {
             mapValidation((Map<String, Object>) obj.get("body"), "school");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidAssessment() throws Exception {
@@ -74,7 +74,7 @@ public class AvroSchemaTest {
             mapValidation((Map<String, Object>) obj.get("body"), "assessment");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudentAssessmentAssociation() throws Exception {
@@ -87,15 +87,15 @@ public class AvroSchemaTest {
             mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
         }
     }
-    
+
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         AvroEntityValidator validator = new AvroEntityValidator();
         validator.setSchemaRegistry(schemaReg);
-        
+
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
         when(e.getType()).thenReturn(schemaName);
-        
+
         try {
             assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
@@ -105,17 +105,17 @@ public class AvroSchemaTest {
             fail();
         }
     }
-    
+
     /**
      * This is left here are PoC code - but I don't think that we want to validate JSON files,
      * rather, we want to do map validation.
-     * 
+     *
      * @param obj
      * @param schema
      * @throws Exception
      */
     private void validate(Object obj, Schema schema) throws Exception {
-        
+
         GenericDatumReader<GenericRecord> r = new GenericDatumReader<GenericRecord>(schema);
         r.setExpected(schema);
         File file = new File("src/test/resources/school_fixture2.json");

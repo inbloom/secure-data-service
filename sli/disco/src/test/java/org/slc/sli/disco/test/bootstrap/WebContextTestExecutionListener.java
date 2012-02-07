@@ -13,7 +13,7 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
 public class WebContextTestExecutionListener extends AbstractTestExecutionListener {
     @Override
     public void prepareTestInstance(TestContext testContext) throws Exception {
-        
+
         if (testContext.getApplicationContext() instanceof GenericApplicationContext) {
             GenericApplicationContext context = (GenericApplicationContext) testContext.getApplicationContext();
             ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();

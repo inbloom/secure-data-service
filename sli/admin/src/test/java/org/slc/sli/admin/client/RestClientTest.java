@@ -14,20 +14,20 @@ import org.springframework.web.client.RestOperations;
 import com.google.gson.JsonArray;
 
 /**
- * 
+ *
  * @author pwolf
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/commonCtx.xml" })
 public class RestClientTest {
-    
+
     @Value("${roles.json}")
     private String rolesJSON;
-    
+
     @Autowired
     protected RESTClient restClient;
-    
+
     @Test
     public void testGetRoles() {
         RestOperations restCall = Mockito.mock(RestOperations.class);
@@ -36,7 +36,7 @@ public class RestClientTest {
         JsonArray roles = restClient.getRoles("testtoken");
         Assert.assertNotNull("Making sure getRoles returned JsonArray", roles);
     }
-    
+
     @Test
     public void testGetRolesBadResponse() {
         RestOperations restCall = Mockito.mock(RestOperations.class);

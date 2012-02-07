@@ -20,16 +20,16 @@ import org.slc.sli.validation.schema.TimeSchema;
 import org.slc.sli.validation.schema.TokenSchema;
 
 /**
- * 
+ *
  * SLI Schema Factory which creates Schema instances based upon Ed-Fi type.
  * File persistence methods are also provided.
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
-    
+
     /* (non-Javadoc)
      * @see org.slc.sli.validation.SchemaFactory#createSchema(javax.xml.namespace.QName)
      */
@@ -37,7 +37,7 @@ public class NeutralSchemaFactory implements SchemaFactory {
     public NeutralSchema createSchema(QName qName) {
         return createSchema(qName.getLocalPart());
     }
-    
+
     /* (non-Javadoc)
      * @see org.slc.sli.validation.SchemaFactory#createSchema(java.lang.String)
      */
@@ -85,5 +85,5 @@ public class NeutralSchemaFactory implements SchemaFactory {
             return new ComplexSchema(xsd);
         }
     }
-    
+
 }

@@ -19,20 +19,20 @@ import org.springframework.web.servlet.ModelAndView;
 public class AppSelectorControllerTest {
 
     private AppSelectorController appSelector;
-    
+
     @Before
     public void setup() {
         appSelector = new AppSelectorController();
     }
-    
+
     @Test
     public void testApplicationListNotEmpty() {
         ModelMap model = new ModelMap();
-        
+
         ModelAndView result = appSelector.returnApps(model);
         assertEquals(result.getViewName(), "SelectApp");
         HashMap<String, String> appToUrl = (HashMap<String, String>) model.get("appToUrl");
         assertTrue(appToUrl.size() > 0);
     }
-    
+
 }

@@ -38,16 +38,16 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 public class RealmRoleManagerResourceTest {
     @Autowired
     private RealmRoleManagerResource resource;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     private EntityService service;
     private EntityBody mapping;
-    
+
     @Before
     public void setUp() throws Exception {
-        
+
         injector.setAdminContext();
 
         mapping = new EntityBody();
@@ -55,20 +55,20 @@ public class RealmRoleManagerResourceTest {
         mapping.put("realm_name", "Waffles");
 
         service = mock(EntityService.class);
-        
+
         resource.setService(service);
-        
+
         when(service.update("-1", mapping)).thenReturn(true);
         when(service.update("1234", mapping)).thenReturn(true);
         when(service.get("-1")).thenReturn(null);
         when(service.get("1234")).thenReturn(mapping);
     }
-    
+
     @After
     public void tearDown() throws Exception {
         service = null;
     }
-    
+
     @Test
     public void testAddClientRole() throws Exception {
         try {
@@ -80,7 +80,7 @@ public class RealmRoleManagerResourceTest {
         Response res = resource.updateClientRole("1234", mapping);
         assertTrue(res.getStatus() == 204);
     }
-    
+
     @Test
     public void testGetMappings() throws Exception {
         assertNotNull(resource.getMappings("1234"));

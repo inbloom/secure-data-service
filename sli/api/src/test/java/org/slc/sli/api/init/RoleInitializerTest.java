@@ -16,22 +16,22 @@ import org.slc.sli.domain.Entity;
  * Simple test for RoleInitializer
  */
 public class RoleInitializerTest {
-    
+
     private RoleInitializer roleInitializer;
     private EntityRepository mockRepo;
-    
+
     @Before
     public void setUp() throws Exception {
         mockRepo = mock(EntityRepository.class);
         roleInitializer = new RoleInitializer();
         roleInitializer.setRepository(mockRepo);
     }
-    
+
     @Test
     public void testAllRolesCreated() throws Exception {
         when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
-        
+
         assertTrue(roleInitializer.buildRoles() == 5);
-        
+
     }
 }

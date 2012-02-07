@@ -13,12 +13,12 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
  * Tests sudo runs
  * Validates that while running the process has elevated privilege
  * and that once done, original privileges are restored
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 public class SecurityUtilTest {
-    
+
     @Test
     public void testSudo() {
         Assert.assertNull(SecurityContextHolder.getContext().getAuthentication());
@@ -29,7 +29,7 @@ public class SecurityUtilTest {
                 return "";
             }
         });
-        
+
         Assert.assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 }

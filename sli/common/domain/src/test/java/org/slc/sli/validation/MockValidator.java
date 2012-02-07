@@ -11,7 +11,7 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class MockValidator implements EntityValidator {
-    
+
     @Override
     public boolean validate(Entity entity) throws EntityValidationException {
         if (entity.getBody().containsKey("bad-entity")) {

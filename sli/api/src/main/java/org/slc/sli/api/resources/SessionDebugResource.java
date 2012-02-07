@@ -32,17 +32,17 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Scope("request")
 @Produces("application/json")
 public class SessionDebugResource {
-    
+
     @Autowired
     private RoleRightAccess roleAccessor;
-    
+
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
-    
+
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
-     * 
+     *
      * @return SecurityContext that will be send back as a response of type "application/json".
      */
     @GET
@@ -53,41 +53,41 @@ public class SessionDebugResource {
         }
         return SecurityContextHolder.getContext();
     }
-    
+
     @GET
     @Path("check")
     public Object sessionCheck() {
-        
+
         final Map<String, Object> sessionDetails = new TreeMap<String, Object>();
-        
+
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-            
+
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
-            
+
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override
                 public List<Role> execute() {
                     return roleAccessor.fetchAllRoles();
                 }
             });
-            
+
             sessionDetails.put("all_roles", allRoles);
-            
+
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", realmPage);
         }
-        
+
         return sessionDetails;
     }
-    
+
     private boolean isAuthenticated(SecurityContext securityContext) {
         return !(securityContext == null || securityContext.getAuthentication() == null
                 || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication()
