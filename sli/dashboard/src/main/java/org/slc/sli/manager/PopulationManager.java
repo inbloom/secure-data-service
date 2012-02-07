@@ -29,7 +29,7 @@ public class PopulationManager {
     private static Logger log = LoggerFactory.getLogger(PopulationManager.class);
     
     @Autowired
-    public EntityManager entityManager;
+    private EntityManager entityManager;
     
     private Map<String, GenericEntity> assessmentFamilyMap;
     
