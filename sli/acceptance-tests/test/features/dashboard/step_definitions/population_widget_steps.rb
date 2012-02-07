@@ -9,6 +9,11 @@ Given /^I selected the "([^"]*)" application$/ do |appName|
   @driver.find_element(:link_text, appName).click
 end
 
+When /^I look in the ed org drop\-down$/ do
+  @dropDownId = "edOrgSelect"
+  assertMissingField(@dropDownId, "id")
+end
+
 When /^I look in the school drop\-down$/ do
   @dropDownId = "schoolSelect"
   assertMissingField(@dropDownId, "id")
