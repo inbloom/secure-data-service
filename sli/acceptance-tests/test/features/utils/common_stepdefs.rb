@@ -34,12 +34,13 @@ Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
   assert(@newId != nil, "After POST, #{entity} ID is nil")
 end
 
-When /^I navigate to GET "([^"]*)"$/ do |uri|
+When /^I navigate to GET "([^\"]*)"$/ do |uri|
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res)
-  if /application\/json/.match contentType
+  jsonTypes = ["application/json", "application/vnd.slc.full+json"].to_set
+  if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
   elsif /application\/xml/.match contentType
