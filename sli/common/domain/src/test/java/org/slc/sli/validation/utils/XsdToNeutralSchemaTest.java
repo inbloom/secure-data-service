@@ -269,7 +269,7 @@ public class XsdToNeutralSchemaTest {
         assertEquals("1", simpleRestriction.getProperties().get(Restriction.MIN_LENGTH.getValue()));
     }
     
-    // @Test
+    @Test
     public void testSliXsdSchema() throws IOException {
         XsdToNeutralSchemaRepo schemaRepo = new XsdToNeutralSchemaRepo("classpath:sliXsd-wip",
                 new NeutralSchemaFactory());
