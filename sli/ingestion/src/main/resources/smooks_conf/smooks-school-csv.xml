@@ -8,160 +8,116 @@
     <param name="terminate.on.visitor.exception">false</param>
   </params>
 
-<!-- EducationOrgIdentificationCode/IdentificationSystem,EducationOrgIdentificationCode/Id,-->
-  <csv:reader fields="SchoolId,StateOrganizationId,$ignore$2,
-  NameOfInstitution,
-  ShortNameOfInstitution,
-  OrganizationCategories_OrganizationCategory,
-  Address_AddressType,Address_StreetNumberName,Address_ApartmentRoomSuiteNumber,Address_BuildingSiteNumber,Address_City,Address_StateAbbreviation,Address_PostalCode,Address_NameOfCounty,Address_CountyFIPSCode,Address_CountryCode,Address_Latitude,Address_Longitude,
-  Telephone_InstitutionTelephonenumberType,Telephone_TelephoneNumber,
-  WebSite,
-  OperationalStatus,
-  AccountabilityRatings_RatingTitle,AccountabilityRatings_Rating,AccountabilityRatings_RatingDate,AccountabilityRatings_SchoolYear,AccountabilityRatings_RatingOrganization,AccountabilityRatings_RatingProgram,
-  $ignore$9,
-  GradesOffered_GradeLevel1,GradesOffered_GradeLevel2,GradesOffered_GradeLevel3,GradesOffered_GradeLevel4,GradesOffered_GradeLevel5,
-  SchoolCategories_SchoolCategory,
-  SchoolType,
-  CharterStatus,
-  TitleIPartASchoolDesignation,
-  MagnetSpecialProgramEmphasisSchool,
-  AdministrativeFundingControl">
+  <csv:reader
+    fields="StateOrganizationId,
+    EducationOrgIdentificationCode_IdentificationSystem,EducationOrgIdentificationCode_Id,
+    NameOfInstitution,
+    ShortNameOfInstitution,
+    OrganizationCategories_OrganizationCategory,
+    Address_AddressType,Address_StreetNumberName,Address_ApartmentRoomSuiteNumber,Address_BuildingSiteNumber,Address_City,Address_StateAbbreviation,Address_PostalCode,Address_NameOfCounty,Address_CountyFIPSCode,Address_CountryCode,Address_Latitude,Address_Longitude,Address_BeginDate,Address_EndDate,
+    Telephone_InstitutionTelephonenumberType,Telephone_TelephoneNumber,
+    WebSite,
+    OperationalStatus,
+    AccountabilityRatings_RatingTitle,AccountabilityRatings_Rating,AccountabilityRatings_RatingDate,AccountabilityRatings_RatingOrganization,AccountabilityRatings_RatingProgram,
+    ProgramReference,
+    GradesOffered_GradeLevel,
+    SchoolCategories_SchoolCategory,
+    SchoolType,
+    CharterStatus,
+    TitleIPartASchoolDesignation,
+    MagnetSpecialProgramEmphasisSchool,
+    AdministrativeFundingControl">
   </csv:reader>
 
+  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
-
     <jb:expression property="recordType">'school'</jb:expression>
-    <jb:value property="localId" data="csv-record/StateOrganizationId" decoder="Long" />
+    <jb:value property="localId" data="StateOrganizationId" />
     <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
   </jb:bean>
 
-   <jb:bean beanId="schoolAttributes" class="java.util.HashMap"
-      createOnElement="csv-record">
+  <jb:bean beanId="schoolAttributes" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="stateOrganizationId" data="StateOrganizationId" />
+    <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
+    <jb:value property="nameOfInstitution" data="NameOfInstitution" />
+    <jb:value property="shortNameOfInstitution" data="ShortNameOfInstitution" />
+    <jb:wiring property="organizationCategories" beanIdRef="educationOrganizationCategoryTypeArray" />
+    <jb:wiring property="address" beanIdRef="addressSchoolTypeArray" />
+    <jb:wiring property="telephone" beanIdRef="institutionTelephoneTypeArray" />
+    <jb:value property="webSite" data="WebSite" />
+    <jb:value property="operationalStatus" data="OperationalStatus" />
+    <jb:wiring property="accountabilityRatings" beanIdRef="accountabilityRatingsTypeArray" />
+    <jb:wiring property="programReference" beanIdRef="programReferenceTypeArray" />
+    <jb:wiring property="gradesOffered" beanIdRef="gradesOfferedTypeArray" />
+    <jb:wiring property="schoolCategories" beanIdRef="schoolCategoriesTypeArray" />
+    <jb:value property="schoolType" data="SchoolType" />
+    <jb:value property="charterStatus" data="CharterStatus" />
+    <jb:value property="titleIPartASchoolDesignation" data="TitleIPartASchoolDesignation" />
+    <jb:value property="magnetSpecialProgramEmphasisSchool" data="MagnetSpecialProgramEmphasisSchool" />
+    <jb:value property="administrativeFundingControl" data="AdministrativeFundingControl" />
+  </jb:bean>
 
-       <jb:value property="stateOrganizationId" data="csv-record/StateOrganizationId"/>
-
-	  <!-- EducationOrgIdentificationCode -->
-	  <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
-
-	  <!-- NameOfInstitution -->
-      <jb:value property="nameOfInstitution" data="csv-record/NameOfInstitution" />
-
-	  <!-- ShortNameOfInstitution -->
-	  <jb:value property="shortNameOfInstitution" data="csv-record/ShortNameOfInstitution" />
-
-	  <!-- OrganizationCategories -->
-	  <jb:wiring property="organizationCategories" beanIdRef="educationOrganizationCategoryTypeArray" />
-
-	  <!-- Address -->
-	  <jb:wiring property="address" beanIdRef="addressTypeArray" />
-
-	  <!-- Telephone -->
-	  <jb:wiring property="telephone" beanIdRef="institutionTelephoneTypeArray" />
-
-	  <!-- WebSite -->
-	  <jb:value property="webSite" data="csv-record/WebSite"/>
-
-	  <!-- OperationalStatus -->
-	  <jb:value property="operationalStatus" data="csv-record/OperationalStatus"/>
-
-	<!-- AccountabilityRatings -->
-	<jb:wiring property="accountabilityRatings" beanIdRef="accountabilityRatingsTypeArray" />
-
-	  <!-- GradesOffered -->
-	  <jb:wiring property="gradesOffered" beanIdRef="gradesOfferedTypeArray" />
-
-	  <!-- SchoolCategories -->
-	  <jb:wiring property="schoolCategories" beanIdRef="schoolCategoriesTypeArray" />
-
-	  <!-- SchoolType -->
-	  <jb:value property="schoolType" data="csv-record/SchoolType" />
-
-	  <!-- charterStatus -->
-	  <jb:value property="charterStatus" data="csv-record/CharterStatus"/>
-
-	   <!-- TitleIPartASchoolDesignation -->
-	  <jb:value property="titleIPartASchoolDesignation" data="csv-record/TitleIPartASchoolDesignation"/>
-
-	  <!-- MagnetSpecialProgramEmphasisSchool -->
-	  <jb:value property="magnetSpecialProgramEmphasisSchool" data="csv-record/MagnetSpecialProgramEmphasisSchool"/>
-
-	  <!-- AdministrativeFundingControl -->
-	  <jb:value property="administrativeFundingControl" data="csv-record/AdministrativeFundingControl"/>
-
-
-   </jb:bean>
-
-   <!-- EducationOrgIdentificationCodeType
   <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
-   </jb:bean>
+    <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
+  </jb:bean>
+  <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="identificationSystem" data="EducationOrgIdentificationCode_IdentificationSystem" />
+    <jb:value property="ID" data="EducationOrgIdentificationCode_Id" />
+  </jb:bean>
 
-   <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap" createOnElement="csv-record">
-	  <jb:value property="identificationSystem" data="csv-record/EducationOrgIdentificationCode/IdentificationSystem" />
-	  <jb:value property="iD" data="csv-record/EducationOrgIdentificationCode/Id" />
+  <jb:bean beanId="educationOrganizationCategoryTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="OrganizationCategories_OrganizationCategory" />
+  </jb:bean>
 
-   </jb:bean>
- -->
-   <!-- OrganizationCategoryType -->
-   <jb:bean beanId="educationOrganizationCategoryTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  		<jb:value data="csv-record/OrganizationCategories_OrganizationCategory" />
-   </jb:bean>
+  <jb:bean beanId="addressSchoolTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="addressSchoolType" />
+  </jb:bean>
+  <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="addressType" data="Address_AddressType" />
+    <jb:value property="streetNumberName" data="Address_StreetNumberName" />
+    <jb:value property="apartmentRoomSuiteNumber" data="Address_ApartmentRoomSuiteNumber" />
+    <jb:value property="buildingSiteNumber" data="Address_BuildingSiteNumber" />
+    <jb:value property="city" data="Address_City" />
+    <jb:value property="stateAbbreviation" data="Address_StateAbbreviation" />
+    <jb:value property="postalCode" data="Address_PostalCode" />
+    <jb:value property="nameOfCounty" data="Address_NameOfCounty" />
+    <jb:value property="countyFIPSCode" data="Address_CountyFIPSCode" />
+    <jb:value property="countryCode" data="Address_CountryCode" />
+    <jb:value property="latitude" data="Address_Latitude" />
+    <jb:value property="longitude" data="Address_Longitude" />
+    <jb:value property="openDate" data="Address_BeginDate" />
+    <jb:value property="closeDate" data="Address_EndDate" />
+  </jb:bean>
 
-   <!-- AddressType -->
-   <jb:bean beanId="addressTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  <jb:wiring beanIdRef="addressType" />
-   </jb:bean>
+  <jb:bean beanId="institutionTelephoneTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="institutionTelephoneType" />
+  </jb:bean>
+  <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="institutionTelephoneNumberType" data="Telephone_InstitutionTelephoneNumberType" />
+    <jb:value property="telephoneNumber" data="Telephone_TelephoneNumber" />
+  </jb:bean>
 
-   <jb:bean beanId="addressType" class="java.util.HashMap" createOnElement="csv-record">
-	  <jb:value property="addressType" data="csv-record/Address_AddressType" />
-	  <jb:value property="streetNumberName" data="csv-record/Address_StreetNumberName" />
-	  <jb:value property="apartmentRoomSuiteNumber" data="csv-record/Address_ApartmentRoomSuiteNumber" />
-	  <jb:value property="buildingSiteNumber" data="csv-record/Address_BuildingSiteNumber" />
-	  <jb:value property="city" data="csv-record/Address_City" />
-	  <jb:value property="stateAbbreviation" data="csv-record/Address_StateAbbreviation" />
-	  <jb:value property="postalCode" data="csv-record/Address_PostalCode" />
-	  <jb:value property="nameOfCounty" data="csv-record/Address_NameOfCounty" />
-	  <jb:value property="countyFIPSCode" data="csv-record/Address_CountyFIPSCode" />
-	  <jb:value property="countryCode" data="csv-record/Address_CountryCode" />
-	  <jb:value property="latitude" data="csv-record/Address_Latitude" />
-	  <jb:value property="longitude" data="csv-record/Address_Longitude" />
-	  <jb:value property="beginDate" data="csv-record/Address_BeginDate"/>
-	  <jb:value property="endDate" data="csv-record/Address_EndDate" />
-   </jb:bean>
+  <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="accountabilityRatingsType" />
+  </jb:bean>
+  <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="ratingTitle" data="AccountabilityRatings_RatingTitle" />
+    <jb:value property="rating" data="AccountabilityRatings_Rating" />
+    <jb:value property="ratingDate" data="AccountabilityRatings_RatingDate" />
+    <jb:value property="ratingOrganization" data="AccountabilityRatings_RatingOrganization" />
+    <jb:value property="ratingProgram" data="AccountabilityRatings_RatingProgram" />
+  </jb:bean>
 
-   <!-- InstitutionTelephoneType -->
-   <jb:bean beanId="institutionTelephoneTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  <jb:wiring beanIdRef="institutionTelephoneType" />
-   </jb:bean>
+  <jb:bean beanId="programReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="ProgramReference" />
+  </jb:bean>
 
-   <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="csv-record">
-   	  <jb:value property="institutionTelephoneNumberType" data="csv-record/Telephone_InstitutionTelephoneNumberType"/>
-	  <jb:value property="telephoneNumber" data="csv-record/Telephone_TelephoneNumber"/>
-   </jb:bean>
+  <jb:bean beanId="gradesOfferedTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="GradesOffered_GradeLevel" />
+  </jb:bean>
 
-   <!-- AccountabilityRatingsType -->
-   <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  <jb:wiring beanIdRef="accountabilityRatingsType" />
-   </jb:bean>
-
-   <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="csv-record">
-	  <jb:value property="ratingTitle" data="csv-record/AccountabilityRatings_RatingTitle"/>
-	  <jb:value property="rating" data="csv-record/AccountabilityRatings_Rating"/>
-	  <jb:value property="ratingDate" data="csv-record/AccountabilityRatings_RatingDate"/>
-	  <jb:value property="schoolYear" data="csv-record/AccountabilityRatings_SchoolYear"/>
-	  <jb:value property="ratingOrganization" data="csv-record/AccountabilityRatings_RatingOrganization"/>
-	  <jb:value property="ratingProgram" data="csv-record/AccountabilityRatings_RatingProgram"/>
-   </jb:bean>
-
-   <!-- GradesOfferedType -->
-   <jb:bean beanId="gradesOfferedTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  		<jb:value data="csv-record/GradesOffered_GradeLevel1" />
-	  		<jb:value data="csv-record/GradesOffered_GradeLevel2" />
-   </jb:bean>
-
-   <!-- SchoolCategoriesType -->
-   <jb:bean beanId="schoolCategoriesTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  		<jb:value data="csv-record/SchoolCategories_SchoolCategory" />
-
-   </jb:bean>
+  <jb:bean beanId="schoolCategoriesTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="SchoolCategories_SchoolCategory" />
+  </jb:bean>
+  <!-- End School Mapping -->
 </smooks-resource-list>

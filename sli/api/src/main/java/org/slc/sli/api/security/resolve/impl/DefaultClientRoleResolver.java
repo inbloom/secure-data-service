@@ -39,6 +39,7 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
         }
         
         Map<String, List<Map<String, Object>>> mappings = null;
+        
         if (realm != null) {
             mappings = (Map<String, List<Map<String, Object>>>) realm.get("mappings");
         }

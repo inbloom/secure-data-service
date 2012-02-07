@@ -142,7 +142,8 @@
          </xs:element>
       </xs:sequence>
    </xs:complexType>
-
+   
+<!--  
    <xs:complexType name="languagesType">
       <xs:annotation>
          <xs:documentation>Language the individual uses to communicate.
@@ -152,6 +153,7 @@
          <xs:element name="language" type="languageItemType" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
    </xs:complexType>
+-->
 
    <xs:complexType name="disability">
       <xs:annotation>
@@ -182,25 +184,6 @@
                <xs:documentation>The order by severity of student's disabilities:
                   1- Primary, 2
                   - Secondary, 3 - Tertiary, etc.
-               </xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-
-   <xs:complexType name="section504DisabilitiesType">
-      <xs:annotation>
-         <xs:documentation>A categorization of the disabilities associated
-            with a student
-            pursuant to Section 504.
-         </xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="section504Disability" type="section504DisabilityItemType" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A categorization of the disabilities associated
-                  with a student
-                  pursuant to Section 504.
                </xs:documentation>
             </xs:annotation>
          </xs:element>
@@ -482,13 +465,13 @@
                   </xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element name="languages" type="languagesType" minOccurs="0">
+            <xs:element name="languages" type="languageItemType" minOccurs="0" maxOccurs="unbounded" >
                <xs:annotation>
                   <xs:documentation>Language(s) the individual uses to communicate
                   </xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element name="homeLanguages" type="languagesType" minOccurs="0">
+            <xs:element name="homeLanguages" type="languageItemType" minOccurs="0" maxOccurs="unbounded" >
                <xs:annotation>
                   <xs:documentation>The language or dialect routinely spoken in an
                      individual's home. This language or dialect may or may not be an
@@ -504,7 +487,7 @@
                   </xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element name="section504Disabilities" type="section504DisabilitiesType" minOccurs="0">
+            <xs:element name="section504Disabilities" type="section504DisabilityItemType" minOccurs="0" maxOccurs="unbounded">
                <xs:annotation>
                   <xs:documentation>A categorization of the disabilities associated
                      with a
@@ -618,26 +601,6 @@
       </xs:sequence>
    </xs:complexType>
 
-   <xs:complexType name="educationalPlansType">
-      <xs:annotation>
-         <xs:documentation>The type of education plan(s) the student is
-            following, if
-            appropriate. For example:
-            Special education
-            Vocational
-         </xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="educationalPlan" type="educationalPlanItemType" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>The type of education plan the student is
-                  following.
-               </xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-
    <xs:element name="studentSchoolAssociation">
       <xs:annotation>
          <xs:documentation>This association represents the school to which a
@@ -732,7 +695,7 @@
                   </xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element name="educationalPlans" type="educationalPlansType" minOccurs="0">
+            <xs:element name="educationalPlans" type="educationalPlanItemType" minOccurs="0" maxOccurs="unbounded">
                <xs:annotation>
                   <xs:documentation>The type of Education Plan(s) the student is
                      following, if

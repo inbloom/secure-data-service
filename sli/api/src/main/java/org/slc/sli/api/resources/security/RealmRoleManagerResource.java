@@ -150,31 +150,28 @@ public class RealmRoleManagerResource {
         List<Map<String, Object>> roles = mappings.get("role");
         
         Set<String> clientRoles = new HashSet<String>();
-        if (roles != null) {
-            for (Map<String, Object> role : roles) {
-                String sliRoleName = (String) role.get("sliRoleName");
-                List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
-                if (roleRightAccess.getDefaultRole(sliRoleName) == null) {
-                    res.put("response", "Invalid SLI Role");
-                    return Response.status(Status.BAD_REQUEST).build();
+        for (Map<String, Object> role : roles) {
+            String sliRoleName = (String) role.get("sliRoleName");
+            List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
+            if (roleRightAccess.getDefaultRole(sliRoleName) == null) {
+                res.put("response", "Invalid SLI Role");
+                return Response.status(Status.BAD_REQUEST).build();
+            }
+            
+            for (String clientRole : clientRoleNameList) {
+                if (clientRole.length() == 0) {
+                    res.put("response", "Cannot have client role of length 0");
+                    return Response.status(Status.BAD_REQUEST).entity(res).build();
                 }
                 
-                for (String clientRole : clientRoleNameList) {
-                    if (clientRole.length() == 0) {
-                        res.put("response", "Cannot have client role of length 0");
-                        return Response.status(Status.BAD_REQUEST).entity(res).build();
-                    }
-                    
-                    if (clientRoles.contains(clientRole)) {
-                        res.put("response", "Client have duplicate client roles");
-                        return Response.status(Status.BAD_REQUEST).entity(res).build();
-                    }
-                    
-                    clientRoles.add(clientRole);
+                if (clientRoles.contains(clientRole)) {
+                    res.put("response", "Client have duplicate client roles");
+                    return Response.status(Status.BAD_REQUEST).entity(res).build();
                 }
+                
+                clientRoles.add(clientRole);
             }
         }
-        
         return null;
     }
     

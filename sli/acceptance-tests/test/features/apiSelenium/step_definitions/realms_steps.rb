@@ -8,7 +8,7 @@ When /^I navigate to the Realm page URL$/ do
 end
 
 Then /^I should be directed to the Realm page$/ do
-  assert(@driver.current_url == @url, webdriverDebugMessage(@driver,"Failed to navigate to "+@url))
+  assert(@driver.title.index("Choose your realm") != nil, webdriverDebugMessage(@driver,"Failed to navigate to Realm chooser"))
 end
 
 Given /^I see the Realm page$/ do

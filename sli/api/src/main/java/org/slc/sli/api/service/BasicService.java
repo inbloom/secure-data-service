@@ -357,7 +357,6 @@ public class BasicService implements EntityService {
     @SuppressWarnings("unchecked")
     private Right determineWriteAccess(Map<String, Object> eb, String prefix) {
         Right toReturn = Right.WRITE_GENERAL;
-        
         if (ADMIN_SPHERE.equals(this.provider.getDataSphere(this.defn.getType()))) {
             toReturn = Right.ADMIN_ACCESS;
         } else {
@@ -382,6 +381,7 @@ public class BasicService implements EntityService {
                 }
             }
         }
+        
         return toReturn;
     }
     

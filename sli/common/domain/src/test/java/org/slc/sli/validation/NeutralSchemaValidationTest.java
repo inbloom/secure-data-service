@@ -21,9 +21,9 @@ import org.slc.sli.validation.schema.NeutralSchemaValidator;
 
 /**
  * Tests sample fixture data against Neutral schema for Students.
- * 
+ *
  * @author Dong Liu <dliu@wgen.net>
- * 
+ *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,7 +31,7 @@ import org.slc.sli.validation.schema.NeutralSchemaValidator;
 public class NeutralSchemaValidationTest {
     @Autowired
     private SchemaRepository schemaRepo;
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSchool() throws Exception {
@@ -43,7 +43,7 @@ public class NeutralSchemaValidationTest {
             mapValidation((Map<String, Object>) obj.get("body"), "school");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudent() throws Exception {
@@ -59,11 +59,11 @@ public class NeutralSchemaValidationTest {
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
         validator.setSchemaRegistry(schemaRepo);
-        
+
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
         when(e.getType()).thenReturn(schemaName);
-        
+
         try {
             assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {

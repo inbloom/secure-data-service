@@ -24,9 +24,9 @@ import org.slc.sli.domain.Entity;
 
 /**
  * Jersey resource for aggregate discovery
- * 
+ *
  * @author srupasinghe
- * 
+ *
  */
 
 @Path("aggregation")
@@ -35,22 +35,22 @@ import org.slc.sli.domain.Entity;
 @Produces(Resource.JSON_MEDIA_TYPE)
 public class AggregateResource {
     final EntityDefinitionStore entityDefs;
-    
+
     @Autowired
     private URLCreator aggregateURLCreator;
-    
+
     @Autowired
     private URLCreator associationURLCreator;
-    
+
     @Autowired
     AggregateResource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
-    
+
     /**
      * Returns the uppermost associations for the logged in user
      * i.e For a staff(superintendent) it'll return a list of associated educationalOrganizations
-     * 
+     *
      * @entity.type Home
      * @response.representation.200.mediaType application/json
      * @response.representation.200.qname Home
@@ -62,21 +62,21 @@ public class AggregateResource {
     public Response getUpperMostAssociationsForUser(@Context final UriInfo uriInfo) {
         // get the user entity
         Entity userEntity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-        
+
         // build the param map
         Map<String, String> params = new HashMap<String, String>();
         if (userEntity != null) {
             params.put("id", userEntity.getEntityId());
             params.put("type", userEntity.getType());
         }
-        
+
         // return as browser response
         return getLinksResponse(associationURLCreator, uriInfo, params);
     }
-    
+
     /**
      * Returns the aggregations based on distrct and the given query params
-     * 
+     *
      * @param districtId
      * @param gradeId
      * @param subjectId
@@ -87,16 +87,16 @@ public class AggregateResource {
     @Path("/district/{districtId}")
     @GET
     public Response getDistrictBasedAggregates(@Context final UriInfo uriInfo) {
-        
+
         // build the param map
         Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
-        
+
         return getLinksResponse(aggregateURLCreator, uriInfo, params);
     }
-    
+
     /**
      * Returns the aggregations based on school and the given query params
-     * 
+     *
      * @param districtId
      * @param gradeId
      * @param subjectId
@@ -107,15 +107,15 @@ public class AggregateResource {
     @Path("/school/{schoolId}")
     @GET
     public Response getSchoolBasedAggregates(@Context final UriInfo uriInfo) {
-        
+
         Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
-        
+
         return getLinksResponse(aggregateURLCreator, uriInfo, params);
     }
-    
+
     /**
      * Combines the query params and the path params to create one map
-     * 
+     *
      * @param pathParams
      *            The path params from the request
      * @param queryParams
@@ -126,15 +126,15 @@ public class AggregateResource {
             Map<String, List<String>> queryParams) {
         // build the param map
         Map<String, String> params = ResourceUtil.convertToMap(pathParams);
-        
+
         params.putAll(ResourceUtil.convertToMap(queryParams));
-        
+
         return params;
     }
-    
+
     /**
      * Returns a response object with aggregate links filtered by the given params
-     * 
+     *
      * @param uriInfo
      * @param params
      * @return
@@ -142,19 +142,19 @@ public class AggregateResource {
     private Response getLinksResponse(URLCreator creator, final UriInfo uriInfo, Map<String, String> params) {
         // get the aggregate URLs
         List<EmbeddedLink> links = creator.getUrls(uriInfo, params);
-        
+
         // create a final map of links to relevant links
         Map<String, Object> linksMap = new HashMap<String, Object>();
         linksMap.put(ResourceUtil.LINKS, links);
-        
+
         // return as browser response
         return Response.ok(linksMap).build();
     }
-    
+
     public void setAggregateURLCreator(URLCreator aggregateURLCreator) {
         this.aggregateURLCreator = aggregateURLCreator;
     }
-    
+
     public void setAssociationURLCreator(URLCreator associationURLCreator) {
         this.associationURLCreator = associationURLCreator;
     }

@@ -6,7 +6,7 @@ require 'yaml'
 require_relative 'common_stepdefs'
 include REXML
 
-$SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG'] 
+$SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -19,7 +19,7 @@ end
 # Returns: Nothing, see Output
 # Description: Helper function that logs in to the IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
-#              It is suggested you assert the @sessionId before returning success from the calling function 
+#              It is suggested you assert the @sessionId before returning success from the calling function
 def idpLogin(user, passwd)
   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
   res = RestClient.get(url){|response, request, result| response }
@@ -35,7 +35,7 @@ end
 # Returns: Nothing, see Output
 # Description: Helper function that logs in to the specified IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
-#              It is suggested you assert the @sessionId before returning success from the calling function 
+#              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="sli")
   realmType = 'sli_idp_server_url' # Default case
   realmType = 'sea_idp_server_url' if realm == "idp1"
@@ -62,10 +62,10 @@ end
 def restHttpPost(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into POST was nil")
-  
+
   urlHeader = makeUrlAndHeaders('post',passAsRequestParm,id,sessionId,format)
   @res = RestClient.post(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
-  
+
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -107,10 +107,10 @@ end
 def restHttpPut(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into PUT was nil")
-  
+
   urlHeader = makeUrlAndHeaders('put',passAsRequestParm,id,sessionId,format)
   @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
-  
+
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -129,10 +129,10 @@ end
 def restHttpDelete(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
-  
+
   urlHeader = makeUrlAndHeaders('delete',passAsRequestParm,id,sessionId,format)
   @res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
-  
+
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -142,19 +142,19 @@ def makeUrlAndHeaders(verb,passAsRequestParm,id,sessionId,format)
   else
     headers = {:accept => format}
   end
-    
+
   if passAsRequestParm
     #See if other request params exist in the URL
     sessionParm = "?sessionId="+sessionId
-    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil 
-    
+    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil
+
     url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
   else
     url = PropLoader.getProps['api_server_url']+"/api/rest"+id
     headers.store(:sessionId, sessionId)
   end
   puts(url, headers) if $SLI_DEBUG
-  
+
   return {:url => url, :headers => headers}
 end
 
@@ -162,15 +162,15 @@ end
 ##############################################################################
 ###### After hook(s) #########################################################
 
-After do |scenario| 
-  
+After do |scenario|
+
   if @sessionId
     #This After hook block is to logout a user if @sessionId exists
     url = PropLoader.getProps['sli_idp_server_url']+"/identity/logout?subjectid="+@sessionId
     @res = RestClient.get(url, {}){|response, request, result| response }
     puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
   end
-  
+
 end
 
 ##############################################################################
@@ -201,7 +201,7 @@ def prepareData(format, hash)
   end
 end
 
-def contentType(response) 
+def contentType(response)
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   assert(headers['content-type'] != nil, "There is no content-type set in the response")
@@ -243,10 +243,10 @@ def runShellCommand(command)
   #    puts "Exited with code: #{exit_code.exitstatus}" unless success
   #  end
   #end
-  
+
   #Kernel::system(command)
   `#{command}`
-  
+
 end
 
 ########################################################################
@@ -256,14 +256,14 @@ end
 class PropLoader
   @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
   @@modified=false
-  
+
   def self.getProps
     self.updateHash() unless @@modified
     return @@yml
   end
-  
+
   private
-  
+
   def self.updateHash()
     @@yml.each do |key, value|
       @@yml[key] = ENV[key] if ENV[key]
@@ -277,6 +277,7 @@ module DataProvider
     return {
        "state" => "bliss",
        "idp" => "http://path.to.nowhere",
+       "realm" => "a_new_realm",
        "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end
@@ -293,19 +294,25 @@ module CreateEntityHash
         "sex" => "Male",
         "birthData" => Hash[
           "birthDate" => "2012-01-01"
+          ],
+        "learningStyles" => Hash[
+          "visualLearning" => 30,
+          "auditoryLearning" => 40,
+          "tactileLearning" => 30
           ]
-        ]
+       ]
+
     return data
   end
-  
+
   def CreateEntityHash.createBaseSchool()
     data = Hash[
         "nameOfInstitution" => "school name",
         "stateOrganizationId" => "12345678",
-        "gradesOffered" => Hash["gradeLevel"=>["First grade", "Second grade"]],
+        "gradesOffered" => ["First grade", "Second grade"],
         "address"=>[],
-        "organizationCategories" => Hash["organizationCategory"=>["School"]],
-        "schoolCategories" => Hash["schoolCategory"=>["Elementary School"]],
+        "organizationCategories" => ["School"],
+        "schoolCategories" => ["Elementary School"],
         ]
     return data
   end

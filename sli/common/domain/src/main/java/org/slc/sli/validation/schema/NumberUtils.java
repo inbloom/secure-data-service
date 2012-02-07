@@ -5,22 +5,22 @@ import java.math.BigInteger;
 
 /**
  * Utility functions for converting numbers and counting digits.
- * 
+ *
  * Always convert to either a double or long.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public class NumberUtils {
-    
+
     public static int totalDigits(double d) {
         return totalDigits(BigDecimal.valueOf(d));
     }
-    
+
     public static int totalDigits(long l) {
         return totalDigits(BigDecimal.valueOf(l));
     }
-    
+
     public static int totalDigits(BigDecimal d) {
         /*
          * Yes, this can be done through the power of maths:
@@ -41,7 +41,7 @@ public class NumberUtils {
         }
         return length;
     }
-    
+
     public static int fractionalDigits(double d) {
         String num = BigDecimal.valueOf(d).toPlainString();
         // BigDecimal.toPlainString() should always use period, regardless of system locale.
@@ -57,7 +57,7 @@ public class NumberUtils {
             return 0;
         }
     }
-    
+
     /**
      * Takes an object and attempts to convert it to a double, returning null if it's not a numeric
      * type.
@@ -78,7 +78,7 @@ public class NumberUtils {
         }
         return null;
     }
-    
+
     /**
      * Takes an object and attempts to convert it to a long, returning null if it's not a numeric
      * type.
@@ -99,7 +99,7 @@ public class NumberUtils {
         }
         return null;
     }
-    
+
     /**
      * Takes an object and attempts to convert it to a integer, returning null if it's not a numeric
      * type.

@@ -29,20 +29,20 @@ import org.slc.sli.util.URLHelper;
 /**
  * Spring interceptor for calls that don't have a session
  * This implementation simply redirects to the login URL
- * 
+ *
  * @author dkornishev
  *
  */
 public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
-    
+
     private static final String SESSION_ID_KEY = "sliSessionId";
     private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
-    
-    
+
+
     private RESTClient restClient;
-    
+
     public RESTClient getRestClient() {
         return restClient;
     }
@@ -58,11 +58,11 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
         Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
-        
+
         // Check if incoming request has a sessionId
         if (sessionId == null) {
             Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
-            
+
             // Check if cookie from idp exists
             if (openAmCookie != null) {
                 sessionId = openAmCookie.getValue();
@@ -81,15 +81,15 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 }
             }
         }
-       
+
         addAuthentication((String) sessionId);
         response.sendRedirect(request.getRequestURI());
     }
-    
+
     private void addAuthentication(String token) {
         JsonObject json = this.restClient.sessionCheck(token);
         LOG.debug(json.toString());
-        
+
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get("authenticated").getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
@@ -99,16 +99,16 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
             Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
             LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-            
+
             // Add authorities to user principal
             while (authIterator.hasNext()) {
                 JsonElement nextElement = authIterator.next();
                 authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
             }
-    
+
             SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
         }
     }
-    
+
 }
 

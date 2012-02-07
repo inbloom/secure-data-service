@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.Smooks;
@@ -44,6 +45,7 @@ public class SmooksValidationTest {
     @Autowired
     private EntitySchemaRegistry schemaReg;
 
+    @Ignore
     @Test
     public void testValidStudentCSV() throws Exception {
          InputStream messageIn = null;
@@ -94,7 +96,7 @@ public class SmooksValidationTest {
 
     }
 
-
+    @Ignore
     @Test
     public void testValidSchoolCSV() throws Exception {
          InputStream messageIn = null;
@@ -145,7 +147,7 @@ public class SmooksValidationTest {
 
     }
 
-
+    @Ignore
     @Test
     public void testValidStudentSchoolAssociationCSV() throws Exception {
          InputStream messageIn = null;
@@ -196,6 +198,7 @@ public class SmooksValidationTest {
 
     }
 
+    @Ignore
     @Test
     public void testValidStudentXML() throws Exception {
          InputStream messageIn = null;
@@ -249,7 +252,7 @@ public class SmooksValidationTest {
 
     }
 
-
+    @Ignore
     @Test
     public void testValidSchoolXML() throws Exception {
          InputStream messageIn = null;
@@ -304,6 +307,7 @@ public class SmooksValidationTest {
     }
 
 
+    @Ignore
     @Test
     public void testValidStudentSchoolAssociationXML() throws Exception {
         InputStream messageIn = null;

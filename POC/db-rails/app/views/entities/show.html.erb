@@ -16,13 +16,21 @@
     }
 
     $(document).ready(function(){
-        $('div#data').html( linkify($('div#data').html()) );
+        //$('div#data').html( linkify($('div#data').html()) );
     });
 </script>
 <div id='data'>
 <p id="notice"><%= notice %></p>
-<% def build_links(hash = {}) %>
-	<%= link_to hash[:rel], hash[:href]%>
+<% def build_links(hash) %>
+	<% if hash.is_a?(Array) %>
+		<ul>
+		<% hash.each do |link| %>
+				<li><%= link_to t(link["rel"]), link["href"] %></li>
+		<% end %>
+		</ul>
+	<% else %>
+		<%= link_to t(hash["rel"]), hash["href"]%>
+	<% end %>
 <% end %>
 <% def display_hash (hash = {}, indent = 0)%>
 	<%if indent != 0 %>
@@ -30,8 +38,12 @@
 	<%end%>
 
 	  <% hash.each do |key, value| %>
-
-		<% if key != 'id'%>
+		<%case key
+		when 'links', 'link' %>
+			<dt><b><%= t(key) %>:</b></dt>
+			<dd><%build_links value %></dd>
+		<%when 'id'%>
+		<%else%>
 			<dt><b><%= t(key) %>:</b></dt>
 			<dd>
 				<% if value.is_a?(Hash) %>
@@ -50,8 +62,8 @@
 					end
 					end%>
 			</dd>
-
 		<% end %>
+			
 	<% end %>
 	<%if indent != 0 %>
 	</dl>
