@@ -79,7 +79,7 @@ Scenario: Fail when posting a StudentSchoolAssociation with invalid school ID
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-
+@wip
 Scenario: Fail when posting a string in a field expecting an integer
 	Given format "application/json"
     Given I create a student object with "studentUniqueStateId" equal to a string
