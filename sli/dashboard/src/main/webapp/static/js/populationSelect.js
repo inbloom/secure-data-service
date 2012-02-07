@@ -16,7 +16,7 @@ function populateSchoolMenu(edorgIndex){
     var temp = instHeirarchy[edorgIndex].schools
 
     var y = "<select id=\"schoolSelect\" onChange=\"populateCourseMenu("+edorgIndex+",this.value)\">"
-    y += "<option value=\"-1\"></option>"
+    y += "<option value=\"-1\"></option>"   
     var i = 0;
     for(i = 0;i<temp.length;i++){
         y += "<option value=\"" +i +"\">"+ temp[i].nameOfInstitution + "</option>"
@@ -39,7 +39,7 @@ function populateCourseMenu(edorgIndex,schoolIndex){
 
 function populateSectionMenu(edorgIndex,schoolIndex, courseIndex){
     var temp = instHeirarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
-    var y = "<select id=\"sectionSelect\" onChange=\"printStudentList("+edorgIndex+","+schoolIndex+","+courseIndex+", this.value)\">"
+    var y = "<select id=\"sectionSelect\" onChange=\"printStudentList("+edorgIndex+","+schoolIndex+","+courseIndex+", this.value, 0)\">"
     y += "<option value=\"\"></option>"
     var i = 0
     for(;i < temp.length;i++){
@@ -49,11 +49,23 @@ function populateSectionMenu(edorgIndex,schoolIndex, courseIndex){
     document.getElementById("sectionDiv").innerHTML = y
 }
 
-function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex){
+function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, viewIndex){
     var i = 0;
     var temp = instHeirarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
-    var studentContentUrl = "studentlistcontent?population=" + studentUIDs + "&username=" + "${username}"; 
-    $("#studentDiv").load(studentContentUrl);
+    var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
+                            + "&view=" + viewIndex; 
+    $("#studentDiv").load(studentContentUrl, function() {
+        document.getElementById("viewSelector").selectedIndex = viewIndex;
+    });
+}
+
+function changeView(view_id) {
+    var edOrgIndex = document.getElementById("edOrgSelect").value;
+    var schoolIndex = document.getElementById("schoolSelect").value;
+    var courseIndex = document.getElementById("courseSelect").value;
+    var sectionIndex = document.getElementById("sectionSelect").value;
+
+    printStudentList(edOrgIndex, schoolIndex, courseIndex, sectionIndex, view_id);
 }
