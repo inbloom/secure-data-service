@@ -98,7 +98,7 @@ Scenario: Fail when posting an integer in a field expecting a string
 
 Scenario: Fail when posting a string to a field that has more characters than the schema allows
 	Given format "application/json"
-    Given I create a school object with "nameOfInstitution" equal to a 61 character string
+    Given I create a school object with "nameOfInstitution" equal to a 76 character string
 	When I navigate to POST "/schools"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
