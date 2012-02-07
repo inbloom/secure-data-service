@@ -20,31 +20,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ListSchemaTest {
-    
+
     @Autowired
     ListSchema schema;
-    
+
     @Autowired
     ComplexSchema complexSchema;
-    
+
     @Autowired
     BooleanSchema booleanSchema;
-    
+
     @Autowired
     LongSchema longSchema;
-    
+
     @Autowired
     DoubleSchema doubleSchema;
-    
+
     @Autowired
     StringSchema stringSchema;
-    
+
     @Autowired
     TokenSchema tokenSchema;
-    
+
     @Autowired
     DateTimeSchema dateTimeSchema;
-    
+
     @Test
     public void testListOfBooleanValidation() throws IllegalArgumentException {
         schema.clearFields();
@@ -54,20 +54,20 @@ public class ListSchemaTest {
         listEntity.add(booleanEntity);
         assertTrue("List of boolean entity validation failed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfBooleanFailureValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.getList().add(booleanSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";
-        
+
         // Setup for failure
         listEntity.add(stringEntity);
-        
+
         assertFalse("Expected ListSchema boolean validation failure did not succeed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testRestrictions() {
         schema.clearFields();
@@ -92,7 +92,7 @@ public class ListSchemaTest {
         listEntity.add(2L);
         assertTrue(schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfLongValidation() throws IllegalArgumentException {
         schema.clearFields();
@@ -102,20 +102,20 @@ public class ListSchemaTest {
         listEntity.add(longEntity);
         assertTrue("List entity long validation failed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfLongFailureValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.getList().add(longSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";
-        
+
         // Setup for failure
         listEntity.add(stringEntity);
-        
+
         assertFalse("Expected ListSchema long validation failure did not succeed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfStringValidation() throws IllegalArgumentException {
         schema.clearFields();
@@ -125,20 +125,20 @@ public class ListSchemaTest {
         listEntity.add(stringEntity);
         assertTrue("List entity string validation failed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfStringFailureValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.getList().add(stringSchema);
         List<Double> listEntity = new ArrayList<Double>();
         Double doubleEntity = 0.0;
-        
+
         // Setup for failure
         listEntity.add(doubleEntity);
-        
+
         assertFalse("Expected ListSchema string validation failure did not succeed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfComplexValidation() throws IllegalArgumentException {
         schema.clearFields();
@@ -171,36 +171,36 @@ public class ListSchemaTest {
         listEntity.add(complexEntity);
         assertTrue("List entity complex validation failed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testListOfComplexFailureValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.getList().add(complexSchema);
         List<String> listEntity = new ArrayList<String>();
         String stringEntity = "test";
-        
+
         // Setup for failure
         listEntity.add(stringEntity);
-        
+
         assertFalse("Expected ListSchema complex validation failure did not succeed", schema.validate(listEntity));
     }
-    
+
     @Test
     public void testValidationOfBooleanFailure() {
         Boolean booleanEntity = true;
         assertFalse("Expected ListSchema boolean validation failure did not succeed", schema.validate(booleanEntity));
     }
-    
+
     @Test
     public void testValidationOfIntegerFailure() {
         Integer integerEntity = 0;
         assertFalse("Expected ListSchema integer validation failure did not succeed", schema.validate(integerEntity));
     }
-    
+
     @Test
     public void testValidationOfFloatFailure() {
         Float floatEntity = new Float(0);
         assertFalse("Expected ListSchema float validation failure did not succeed", schema.validate(floatEntity));
     }
-    
+
 }

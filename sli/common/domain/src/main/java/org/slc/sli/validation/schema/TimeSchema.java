@@ -10,27 +10,27 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI Time Schema which validates time entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class TimeSchema extends NeutralSchema {
-    
+
     // Constructors
     public TimeSchema() {
         this(NeutralSchemaType.TIME.getName());
     }
-    
+
     public TimeSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.TIME;
@@ -40,7 +40,7 @@ public class TimeSchema extends NeutralSchema {
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -59,5 +59,5 @@ public class TimeSchema extends NeutralSchema {
         }
         return addError(isValid, fieldName, entity, "RFC 3339", ErrorType.INVALID_DATE_FORMAT, errors);
     }
-    
+
 }

@@ -33,17 +33,17 @@ public class ControlFilePreProcessor implements Processor {
      */
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         try {
-           
+
             ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
 
             // set headers for ingestion routing
             exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-            
+
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());

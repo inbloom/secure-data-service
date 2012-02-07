@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ContextResolverStoreTest {
-    
+
     private static final String   CONTEXT_TYPE = "teacherstudent";
     @Autowired
     private ContextResolverStore  contextResolverStore;
@@ -26,7 +26,7 @@ public class ContextResolverStoreTest {
     private String                target;
     private EntityContextResolver resolverIn;
     private String                nonExistingField;
-    
+
     @org.junit.Before
     public void setUp() throws Exception {
         source = "teacher";
@@ -37,10 +37,10 @@ public class ContextResolverStoreTest {
         nonExistingField = "nonExistingField";
         contextResolverStore.clearContexts();
     }
-    
+
     @Test
     public void testAddContextResolver() throws Exception {
-        
+
         try {
             EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
             if (putResult != null) {
@@ -49,7 +49,7 @@ public class ContextResolverStoreTest {
         } catch (EntityExistsException e) {
             assertTrue("add on empty contextResolver should not throw exception", false);
         }
-        
+
         try {
             EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
             if (putResult != null) {
@@ -59,12 +59,12 @@ public class ContextResolverStoreTest {
         } catch (EntityExistsException e) {
             Assert.assertNotNull(contextResolverStore);
         }
-        
+
     }
-    
+
     @Test
     public void testGetContextResolver() {
-        
+
         try {
             EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
             if (putResult != null) {
@@ -73,14 +73,14 @@ public class ContextResolverStoreTest {
         } catch (EntityExistsException e) {
             assertTrue("add on empty contextResolver should not throw exception", false);
         }
-        
+
         EntityContextResolver resolverOut = contextResolverStore.getContextResolver(source, target);
         Assert.assertNotNull(resolverOut);
         Assert.assertEquals(resolverIn, resolverOut);
-        
+
         EntityContextResolver defaultResolver = contextResolverStore.getContextResolver(nonExistingField, nonExistingField);
         Assert.assertNotNull(defaultResolver);
         Assert.assertTrue(defaultResolver instanceof DefaultEntityContextResolver);
-        
+
     }
 }
