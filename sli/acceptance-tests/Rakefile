@@ -194,6 +194,17 @@ task :targetTests do
   runTests("test/features/api/end_user_stories/targets")
 end
 
+desc "Run Collection Tests"
+task :collectionTests do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/api/collections")
+end
+
 # dependecy on importSandboxData so that association tests can depend on the associated
 # entiy data to be available
 desc "Run Association Tests"
