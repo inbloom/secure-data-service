@@ -110,6 +110,7 @@ And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <First Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
+And I wait for a second
 And I click on the role <Other Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
@@ -137,8 +138,7 @@ Examples:
 | "Leader"           | "Commander" |
 | "IT Administrator" | "Techie"    |
  
- @wip
-Scenario Outline: Try to save incorrect values for roles
+ Scenario Outline: Try to save incorrect values for roles
  
 Given I have an open web browser
 And I am authenticated to SLI IDP
