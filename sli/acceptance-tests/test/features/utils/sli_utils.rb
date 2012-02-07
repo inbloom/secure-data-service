@@ -272,6 +272,16 @@ class PropLoader
   end
 end
 
+module DataProvider
+  def self.getValidRealmData()
+    return {
+       "state" => "bliss",
+       "idp" => "http://path.to.nowhere",
+       "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
+    }
+  end
+end
+
 module CreateEntityHash
   def CreateEntityHash.createBaseStudent()
     data = Hash[

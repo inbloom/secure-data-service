@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
 
@@ -28,59 +22,39 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class DefaultClientRoleResolver implements ClientRoleResolver {
-
-    @Autowired
-    private RoleRightAccess roleRightAccess;
-
-    @Autowired
-    private EntityDefinitionStore store;
-
+    
     @Autowired
     private EntityRepository repo;
-
-    private EntityService service;
-
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName("realm");
-        setService(def.getService());
-    }
-
-    // Injector
-    public void setStore(EntityDefinitionStore store) {
-        this.store = store;
-    }
-
-    // Injector
-    public void setService(EntityService service) {
-        this.service = service;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
+    
     /**
      */
-    public List<String> resolveRoles(final String realmId,
-            List<String> clientRoleNames) {
+    @SuppressWarnings({ "unchecked" })
+    @Override
+    public List<String> resolveRoles(final String realmId, List<String> clientRoleNames) {
         List<String> result = new ArrayList<String>();
-        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria
-                .where("body.realm").is(realmId)), 0, 1);
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.realm").is(realmId)), 0, 1);
         Map<String, Object> realm = null;
         for (Entity firstRealm : realms) {
             realm = firstRealm.getBody();
         }
         
-
-        Map<String, List<String>> mappings = null;
+        Map<String, List<Map<String, Object>>> mappings = null;
         if (realm != null) {
-            mappings = (Map<String, List<String>>) realm.get("mappings");
+            mappings = (Map<String, List<Map<String, Object>>>) realm.get("mappings");
         }
+        
         if (mappings != null) {
-            for (String sliRole : mappings.keySet()) {
-                List<String> clientRolesForSliRole = mappings.get(sliRole);
-                for (String clientRole : clientRoleNames) {
-                    if (clientRolesForSliRole.contains(clientRole)) {
-                        result.add(sliRole);
+            List<Map<String, Object>> roles = mappings.get("role");
+            
+            if (roles != null) {
+                for (Map<String, Object> role : roles) {
+                    String sliRoleName = (String) role.get("sliRoleName");
+                    List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
+                    
+                    clientRoleNameList.retainAll(clientRoleNames);
+                    
+                    if (!clientRoleNameList.isEmpty()) {
+                        result.add(sliRoleName);
                     }
                 }
             }

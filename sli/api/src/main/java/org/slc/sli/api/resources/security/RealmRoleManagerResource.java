@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.security;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,7 +34,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
 /**
- * Realm role mapping API. Allows full CRUD on realm objects.  Primarily intended to allow
+ * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
  * mappings between SLI roles and client roles as realms should not be created or deleted
  * frequently.
  * 
@@ -47,31 +46,31 @@ import org.slc.sli.api.service.EntityService;
 @Path("/realm")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class RealmRoleManagerResource {
-
+    
     @Autowired
     private EntityDefinitionStore store;
     
     @Autowired
-    private RoleRightAccess roleRightAccess;
+    private RoleRightAccess       roleRightAccess;
     
-    private EntityService service;
-
+    private EntityService         service;
+    
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("realm");
         setService(def.getService());
     }
     
-    //Injector
+    // Injector
     public void setStore(EntityDefinitionStore store) {
         this.store = store;
     }
-
-    //Injector
+    
+    // Injector
     public void setService(EntityService service) {
         this.service = service;
     }
-
+    
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{realmId}")
@@ -80,7 +79,7 @@ public class RealmRoleManagerResource {
         if (updatedRealm == null) {
             throw new EntityNotFoundException("Entity was null");
         }
-        Map<String, List<String>> mappings = (Map<String, List<String>>) updatedRealm.get("mappings");
+        Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
             if (validateResponse != null) {
@@ -92,7 +91,7 @@ public class RealmRoleManagerResource {
         }
         return Response.status(Status.BAD_REQUEST).build();
     }
-
+    
     @DELETE
     @Path("{realmId}")
     public Response deleteRealm(@PathParam("realmId") String realmId) {
@@ -103,11 +102,11 @@ public class RealmRoleManagerResource {
     @POST
     @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm) {
-        Map<String, List<String>> mappings = (Map<String, List<String>>) newRealm.get("mappings");
+        Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
             
-            if (validateResponse != null) { 
+            if (validateResponse != null) {
                 return validateResponse;
             }
         }
@@ -120,7 +119,7 @@ public class RealmRoleManagerResource {
         resObj.put("id", id);
         return Response.status(Status.CREATED).entity(resObj).build();
     }
-
+    
     @GET
     @Path("{realmId}")
     public EntityBody getMappings(@PathParam("realmId") String realmId) {
@@ -144,41 +143,39 @@ public class RealmRoleManagerResource {
         return result;
     }
     
-    private boolean uniqueMappings(Map<String, List<String>> mappings) {
-        Set<String> clientRoles = new HashSet<String>();
-        for (String sliRole : mappings.keySet()) {
-            List<String> clientRolesForSliRole = mappings.get(sliRole);
-            for (String clientRole : clientRolesForSliRole) {
-                if (clientRoles.contains(clientRole)) {
-                    return false;
-                }
-                clientRoles.add(clientRole);
-            }
-        }
-        return true;
-    }
-    
-    private Response validateMappings(Map<String, List<String>> mappings) {
+    @SuppressWarnings("unchecked")
+    private Response validateMappings(Map<String, List<Map<String, Object>>> mappings) {
         HashMap<String, String> res = new HashMap<String, String>();
-        if (!uniqueMappings(mappings)) {
-            res.put("response", "Client have duplicate client roles");
-            return Response.status(Status.BAD_REQUEST).entity(res).build();
-         }
         
-        for (String sliRole : mappings.keySet()) {
-            if (roleRightAccess.getDefaultRole(sliRole) == null) {
-                res.put("response", "Invalid SLI Role");
-                return Response.status(Status.BAD_REQUEST).build();
-            }
-            
-            for (String clientRole : mappings.get(sliRole)) {
-                if (clientRole.length() == 0) {
-                    res.put("response", "Cannot have client role of length 0");
-                    return Response.status(Status.BAD_REQUEST).entity(res).build();
+        List<Map<String, Object>> roles = mappings.get("role");
+        
+        Set<String> clientRoles = new HashSet<String>();
+        if (roles != null) {
+            for (Map<String, Object> role : roles) {
+                String sliRoleName = (String) role.get("sliRoleName");
+                List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
+                if (roleRightAccess.getDefaultRole(sliRoleName) == null) {
+                    res.put("response", "Invalid SLI Role");
+                    return Response.status(Status.BAD_REQUEST).build();
+                }
+                
+                for (String clientRole : clientRoleNameList) {
+                    if (clientRole.length() == 0) {
+                        res.put("response", "Cannot have client role of length 0");
+                        return Response.status(Status.BAD_REQUEST).entity(res).build();
+                    }
+                    
+                    if (clientRoles.contains(clientRole)) {
+                        res.put("response", "Client have duplicate client roles");
+                        return Response.status(Status.BAD_REQUEST).entity(res).build();
+                    }
+                    
+                    clientRoles.add(clientRole);
                 }
             }
         }
+        
         return null;
     }
-
+    
 }

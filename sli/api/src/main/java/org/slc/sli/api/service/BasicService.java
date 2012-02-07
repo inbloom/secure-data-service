@@ -358,26 +358,30 @@ public class BasicService implements EntityService {
     private Right determineWriteAccess(Map<String, Object> eb, String prefix) {
         Right toReturn = Right.WRITE_GENERAL;
         
-        Iterator<String> keyIter = eb.keySet().iterator();
-        
-        while (keyIter.hasNext()) {
-            String fieldName = keyIter.next();
-            Object value = eb.get(fieldName);
+        if (ADMIN_SPHERE.equals(this.provider.getDataSphere(this.defn.getType()))) {
+            toReturn = Right.ADMIN_ACCESS;
+        } else {
             
-            if (value instanceof Map) {
-                filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
-            } else {
-                String fieldPath = prefix + fieldName;
-                Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
-                LOG.debug("Field {} requires {}", fieldPath, neededRight);
+            Iterator<String> keyIter = eb.keySet().iterator();
+            
+            while (keyIter.hasNext()) {
+                String fieldName = keyIter.next();
+                Object value = eb.get(fieldName);
                 
-                if (neededRight == Right.WRITE_RESTRICTED) {
-                    toReturn = Right.WRITE_RESTRICTED;
-                    break;
+                if (value instanceof Map) {
+                    filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
+                } else {
+                    String fieldPath = prefix + fieldName;
+                    Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    LOG.debug("Field {} requires {}", fieldPath, neededRight);
+                    
+                    if (neededRight == Right.WRITE_RESTRICTED) {
+                        toReturn = Right.WRITE_RESTRICTED;
+                        break;
+                    }
                 }
             }
         }
-        
         return toReturn;
     }
     
