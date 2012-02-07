@@ -18,7 +18,7 @@ import org.json.JSONException;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
- * 
+ *
  * @author syau
  *
  */
@@ -35,35 +35,35 @@ public class InstitutionalHeirarchyManager extends Manager {
     }
 
     // JSON key names
-    public static final String NAME = "name"; 
-    public static final String SCHOOLS = "schools"; 
+    public static final String NAME = "name";
+    public static final String SCHOOLS = "schools";
     // resource String
-    public static final String DUMMY_EDORG_NAME = "No Ed-Org"; 
+    public static final String DUMMY_EDORG_NAME = "No Ed-Org";
 
     /**
-     * Returns the institutional heirarchy visible to the current user as a JSON string, 
-     * with the ed-org level flattened  
-     * This assumes there are no cycles in the education organization heirarchy tree. 
-     * @return 
+     * Returns the institutional heirarchy visible to the current user as a JSON string,
+     * with the ed-org level flattened
+     * This assumes there are no cycles in the education organization heirarchy tree.
+     * @return
      */
     public String getInstHeirarchyJSON() {
-        // Okay, this function should arguably be placed in a view package, but if the school JSONs 
+        // Okay, this function should arguably be placed in a view package, but if the school JSONs
         // are already being constructed in the *API Client* level (WTF was that about anyway?!?),
-        // constructing inst heirarchy as JSON here isn't making things worse than they already are. 
+        // constructing inst heirarchy as JSON here isn't making things worse than they already are.
 
-        // Find all the schools first.  
+        // Find all the schools first.
         School[] schools = getSchools();
         if (schools == null) { return new JSONArray().toString(); }
 
-        // This maps ids from educational organisations to schools reachable from it via the "child" relationship   
+        // This maps ids from educational organisations to schools reachable from it via the "child" relationship
         Map<String, HashSet<School>> schoolReachableFromEdOrg = new HashMap<String, HashSet<School>>();
-        // This just maps ed org ids to ed org objects. 
+        // This just maps ed org ids to ed org objects.
         Map<String, EducationalOrganization> edOrgIdMap = new HashMap<String, EducationalOrganization>();
-        
+
         // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.length; i++) {
-            HashMap<String, EducationalOrganization> ancestorEdOrgs = new HashMap<String, EducationalOrganization>(); // strictly not needed, but makes the code easier to read. 
-            EducationalOrganization[] edOrgs = getAssociatedEducationalOrganizations(schools[i]); 
+            HashMap<String, EducationalOrganization> ancestorEdOrgs = new HashMap<String, EducationalOrganization>(); // strictly not needed, but makes the code easier to read.
+            EducationalOrganization[] edOrgs = getAssociatedEducationalOrganizations(schools[i]);
             for (int j = 0; j < edOrgs.length; j++) {
                 insertEdOrgAndAncesterIntoSet(ancestorEdOrgs, edOrgs[j]);
             }
@@ -94,9 +94,9 @@ public class InstitutionalHeirarchyManager extends Manager {
                 throw new RuntimeException("error creating json object for " + edOrgId);
             }
         }
-        
+
         // TODO: remove this block when ed-org is implemented on live server
-        // Temporary: insert a dummy edorg for all orphan schools.  
+        // Temporary: insert a dummy edorg for all orphan schools.
         Vector<School> orphanSchools = new Vector<School>();
         for (int i = 0; i < schools.length; i++) {
             School s = schools[i];
@@ -123,8 +123,8 @@ public class InstitutionalHeirarchyManager extends Manager {
         }
         return retVal.toString();
     }
-    // helper function: 
-    // This assumes there is no cycle in the education organization heirarchy tree. 
+    // helper function:
+    // This assumes there is no cycle in the education organization heirarchy tree.
     private void insertEdOrgAndAncesterIntoSet(Map<String, EducationalOrganization> map, EducationalOrganization edOrg) {
         map.put(edOrg.getId(), edOrg);
         EducationalOrganization[] parentEdOrgs = getParentEducationalOrganizations(edOrg);

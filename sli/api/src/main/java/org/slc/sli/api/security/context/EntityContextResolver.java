@@ -10,9 +10,9 @@ import org.slc.sli.domain.Entity;
  */
 public interface EntityContextResolver {
     public String getSourceType();
-    
+
     public String getTargetType();
-    
+
     public List<String> findAccessible(Entity principal);
-    
+
 }

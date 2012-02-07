@@ -11,41 +11,41 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI Complex Schema which validates complex entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class ComplexSchema extends NeutralSchema {
-    
+
     // Constructors
     public ComplexSchema() {
         this(NeutralSchemaType.COMPLEX.getName());
     }
-    
+
     public ComplexSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
     @Override
     public boolean isPrimitive() {
         return false;
     }
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.COMPLEX;
     }
-    
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -57,19 +57,19 @@ public class ComplexSchema extends NeutralSchema {
     @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
         boolean isValid = true;
-        
+
         if (entity instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<String, ?> entityMap = (Map<String, ?>) entity;
-            
+
             for (String name : entityMap.keySet()) {
                 Object fieldEntity = entityMap.get(name);
-                
+
                 NeutralSchema fieldSchema = getFields().get(name);
                 if (fieldSchema == null) {
                     return addError(false, name, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
                 }
-                
+
                 AppInfo appInfo = fieldSchema.getAppInfo();
                 if (fieldEntity == null) {
                     if (appInfo != null && appInfo.isRequired()) {
@@ -78,11 +78,11 @@ public class ComplexSchema extends NeutralSchema {
                 } else {
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors);
                     if (!isFieldValid) {
-                        
+
                         // Not valid since field failed, but continue gathering further field
                         // validation info
                         isValid = false;
-                        
+
                         // Return immediately since errors list was not indicated
                         if (errors == null) {
                             return false;
@@ -93,8 +93,8 @@ public class ComplexSchema extends NeutralSchema {
         } else {
             return addError(false, fieldName, entity, "Complex Map", ErrorType.INVALID_DATATYPE, errors);
         }
-        
+
         return isValid;
     }
-    
+
 }

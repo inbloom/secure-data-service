@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author okrook
  */
 public class ControlFileDescriptor extends FileDescriptor<ControlFile> implements Serializable {
-    
+
     private static final long serialVersionUID = 8497511830606948940L;
 
     public ControlFileDescriptor(ControlFile fileItem, LandingZone landingZone) {

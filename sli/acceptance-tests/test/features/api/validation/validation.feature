@@ -130,10 +130,10 @@ Scenario: Fail when posting a date in the wrong format
 
 Scenario: Passing blank object to a valid entity with PUT should fail with validation error (not patch the existing object)
 	Given format "application/json"
-    When I navigate to GET "/teachers/<'Belle' ID>"
+    When I navigate to GET "/students/<'Belle' ID>"
     Then I should receive a return code of 200   
     When I create a blank request body object
-      And I navigate to PUT "/teachers/<'Belle' ID>"
+      And I navigate to PUT "/students/<'Belle' ID>"
     Then I should receive a return code of 400
 
 Scenario: Given a known school object, perform a PUT with a base school object to confirm option attributes are gone (test non-patching)

@@ -1,17 +1,17 @@
 package org.slc.sli.entity;
 
 /**
- * 
+ *
  * Entity to represent the Educational Organization entity
  *
  */
 public class EducationalOrganization {
 
-    // These field are defined in the API. 
+    // These field are defined in the API.
     // Dashboard only cares about two fields
     private String id;
     private String nameOfInstitution;
-    
+
     public String getId() {
         return id;
     }

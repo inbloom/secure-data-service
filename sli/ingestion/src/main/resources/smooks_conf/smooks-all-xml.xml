@@ -87,7 +87,7 @@
     <jb:wiring property="disabilities" beanIdRef="disabilityTypeArray" />
 
     <!-- Section504Disabilities -->
-    <jb:wiring property="section504Disabilities" beanIdRef="section504DisabilitiesType" />
+    <jb:wiring property="section504Disabilities" beanIdRef="section504DisabilitiesItemTypeArray" />
 
     <!-- DisplacementStatus -->
     <jb:value property="displacementStatus" data="Student/DisplacementStatus" />

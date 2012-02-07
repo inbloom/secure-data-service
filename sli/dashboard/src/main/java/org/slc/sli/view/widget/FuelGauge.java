@@ -7,13 +7,13 @@ import org.slc.sli.view.AssessmentResolver;
 import java.util.List;
 
 /**
- * Logic used by a widget that displays assessment results color-coded by performance level and 
- * shows rectangles sized corresponding to scale score. 
- * 
+ * Logic used by a widget that displays assessment results color-coded by performance level and
+ * shows rectangles sized corresponding to scale score.
+ *
  * @author syau
  */
 public class FuelGauge {
-    
+
     private Field field;
     private Student student;
     private AssessmentResolver assmts;
@@ -25,7 +25,7 @@ public class FuelGauge {
         this.assmts = assmts;
         this.colorByPerf = WidgetFactory.createColorByPerf(field, student, assmts);
     }
-    
+
     /**
      * Get the color index for display
      */
@@ -34,33 +34,33 @@ public class FuelGauge {
      * Returns the text to display
      */
     public String getText() { return colorByPerf.getText(); }
-    
+
     /**
-     * Returns the cut points 
+     * Returns the cut points
      */
     public List<Integer> getCutpoints() { return assmts.getCutpoints(field, student); }
 
     /**
-     * Returns the number of possible performance levels that are "real" 
+     * Returns the number of possible performance levels that are "real"
      */
-    public Integer getNumRealPerfLevels() { 
+    public Integer getNumRealPerfLevels() {
         Assessment assmt = assmts.resolveAssessment(field, student);
         if (assmt == null) { return null; }
         return assmts.getMetaData().findNumRealPerfLevelsForFamily(assmt.getAssessmentName());
     }
     /**
-     * Returns the performance level 
+     * Returns the performance level
      */
-    public Integer getPerfLevel() { 
+    public Integer getPerfLevel() {
         Assessment assmt = assmts.resolveAssessment(field, student);
         if (assmt == null) { return null; }
         return assmt.getPerfLevel();
     }
 
     /**
-     * Returns the score 
+     * Returns the score
      */
-    public Integer getScore() { 
+    public Integer getScore() {
         Assessment a = assmts.resolveAssessment(field, student);
         return a == null ? null : a.getScaleScore();
     }

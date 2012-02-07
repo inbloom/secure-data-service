@@ -19,37 +19,37 @@ import org.slc.sli.admin.util.URLHelper;
 import org.slc.sli.admin.util.UrlBuilder;
 
 /**
- * 
+ *
  * @author scole
- * 
+ *
  */
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
-    
+
     private static final String SESSION_ID_KEY = "ADMIN_SESSION_ID";
     private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
     private static final String USER_NAME_KEY = "USER_NAME";
-    
+
     private static Logger logger = LoggerFactory.getLogger(AuthenticationInterceptor.class);
-    
+
     @Autowired
     private RESTClient restClient;
-    
+
     public void setRESTClient(RESTClient rest) {
         this.restClient = rest;
     }
-    
+
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object controller,
             Exception exception) throws Exception {
-        
+
     }
-    
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object arg2, ModelAndView arg3)
             throws Exception {
     }
-    
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
@@ -74,7 +74,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-    
+
     private String loadUserName(String token) {
         JsonObject json = this.restClient.sessionCheck(token);
         JsonElement nameElement = json.get("full_name");

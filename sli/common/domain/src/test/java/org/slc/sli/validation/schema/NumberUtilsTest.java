@@ -12,14 +12,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Tests for NumberUtils
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class NumberUtilsTest {
-    
+
     @Test
     public void testTotalDigits() {
         assertEquals(4, NumberUtils.totalDigits(1024L));
@@ -30,7 +30,7 @@ public class NumberUtilsTest {
         assertEquals(4, NumberUtils.totalDigits(-1024L));
         assertEquals(4, NumberUtils.totalDigits(-1.024D));
     }
-    
+
     @Test
     public void testFractionalDigits() {
         assertEquals(3, NumberUtils.fractionalDigits(1.024D));
@@ -40,7 +40,7 @@ public class NumberUtilsTest {
         assertEquals(10, NumberUtils.fractionalDigits(-10000.0000000001D));
         assertEquals(3, NumberUtils.fractionalDigits(-10000.0010000000000D));
     }
-    
+
     @Test
     public void testToDouble() {
         assertEquals(new Double(3), NumberUtils.toDouble(new Integer(3)));
@@ -49,7 +49,7 @@ public class NumberUtilsTest {
         assertEquals(new Double(3.01), NumberUtils.toDouble(BigDecimal.valueOf(3.01)));
         assertEquals(null, NumberUtils.toDouble("3"));
     }
-    
+
     @Test
     public void testToLong() {
         assertEquals(new Long(3), NumberUtils.toLong(new Integer(3)));
