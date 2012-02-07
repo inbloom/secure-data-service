@@ -66,7 +66,7 @@ public class StudentResolver {
         // Now check program participation
         for (GenericEntity p : programs) {
             if (p.get("studentId").equals(student.get("id"))) {
-                return ((List<String>)(p.get("programs"))).contains(code);
+                return ((List<String>) (p.get("programs"))).contains(code);
             }
         }
 
