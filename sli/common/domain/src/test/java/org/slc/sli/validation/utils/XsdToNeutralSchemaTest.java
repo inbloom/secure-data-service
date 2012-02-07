@@ -177,7 +177,6 @@ public class XsdToNeutralSchemaTest {
             assertTrue(choiceSchema.getMinChoices() == 0);
             assertTrue(choiceSchema.getMaxChoices() == ChoiceSchema.UNBOUNDED);
         }
-
     }
 
     @Test
@@ -267,28 +266,5 @@ public class XsdToNeutralSchemaTest {
         assertEquals(StringSchema.class.getCanonicalName(), simpleRestriction.getValidatorClass());
         assertEquals("40", simpleRestriction.getProperties().get(Restriction.MAX_LENGTH.getValue()));
         assertEquals("1", simpleRestriction.getProperties().get(Restriction.MIN_LENGTH.getValue()));
-    }
-
-    @Test
-    public void testSliXsdSchema() throws IOException {
-        XsdToNeutralSchemaRepo schemaRepo = new XsdToNeutralSchemaRepo("classpath:sliXsd-wip",
-                new NeutralSchemaFactory());
-        schemaRepo.setApplicationContext(appContext);
-        assertNotNull(schemaRepo);
-        assertNull(schemaRepo.getSchema("non-exist-schema"));
-        String[] testSchemas = { "student", "school", "teacher", "section", "assessment", "bellSchedule", "cohort",
-                "course", "disciplineIncident", "educationOrgAssociation", "eventBellScheduleAssociation",
-                "gradebookEntry", "localEducationAgency", "parent", "program", "schoolSessionAssociation",
-                "sectionAssessmentAssociation", "sectionBellScheduleAssociation", "session", "staffCohortAssociation",
-                "staffProgramAssociation", "studentAcademicRecordsAssociation", "studentAssessmentAssociation",
-                "studentCohortAssociation", "studentDisciplineIncidentAssociation", "studentParentAssociation",
-                "studentProgramAssociation", "studentSchoolAssociation", "studentSectionAssociation",
-                "studentTranscriptsAssociation", "teacherSchoolAssociation", "teacherSectionAssociation" };
-
-        for (String testSchema : testSchemas) {
-            assertNotNull("cant find schema: " + testSchema, schemaRepo.getSchema(testSchema));
-            assertEquals(schemaRepo.getSchema(testSchema).getType(), testSchema);
-            assertEquals(schemaRepo.getSchema(testSchema).getSchemaType(), NeutralSchemaType.COMPLEX);
-        }
     }
 }
