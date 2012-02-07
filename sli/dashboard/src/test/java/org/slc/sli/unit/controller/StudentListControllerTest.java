@@ -4,7 +4,8 @@ package org.slc.sli.unit.controller;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-//import org.junit.Ignore;
+import java.util.LinkedList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,9 @@ import org.slc.sli.security.SLIPrincipal;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,16 +57,17 @@ public class StudentListControllerTest {
         School[] schools = mockClient.getSchools("common");
         PowerMockito.doReturn("src/test/resources/mock_data/common/educational_organization.json").when(mockClient, "getFilename", "mock_data/common/educational_organization.json");
         EducationalOrganization[] edOrgs = new EducationalOrganization[0];
-
+        
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());
         InstitutionalHeirarchyManager schoolManager = PowerMockito.spy(new InstitutionalHeirarchyManager());
-        PowerMockito.doReturn(schools).when(schoolManager, "getSchools");
-        PowerMockito.doReturn(edOrgs).when(schoolManager, "getAssociatedEducationalOrganizations", Matchers.anyObject());
-        PowerMockito.doReturn(edOrgs).when(schoolManager, "getParentEducationalOrganizations", Matchers.anyObject());
+        PowerMockito.doReturn(schools).when(schoolManager).getSchools(Matchers.anyString());
+        PowerMockito.doReturn(edOrgs).when(schoolManager).getAssociatedEducationalOrganizations(Matchers.anyString(), Matchers.any(School.class));
+        PowerMockito.doReturn(edOrgs).when(schoolManager).getParentEducationalOrganizations(Matchers.anyString(), Matchers.any(EducationalOrganization.class));
 
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(partiallyMocked, "getPrincipal");
+        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, "common", new LinkedList<GrantedAuthority>()));
 
         ModelAndView result;
         partiallyMocked.setInstitutionalHeirarchyManager(schoolManager);
@@ -87,7 +92,7 @@ public class StudentListControllerTest {
     public void testStudentListNullReturn() throws Exception {
         StudentListController mocked = PowerMockito.spy(new StudentListController());
         InstitutionalHeirarchyManager schoolManager = PowerMockito.spy(new InstitutionalHeirarchyManager());
-        PowerMockito.doReturn(null).when(schoolManager, "getSchools");
+        PowerMockito.doReturn(null).when(schoolManager, "getSchools", Matchers.anyObject());
         mocked.setInstitutionalHeirarchyManager(schoolManager);
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(mocked, "getPrincipal");

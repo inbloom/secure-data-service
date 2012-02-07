@@ -16,6 +16,13 @@ end
 
 Then /^I should receive a return code of (\d+)$/ do |arg1|
   assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
+  
+  ###### Remove eventually
+  if(@res.code == 403 && Integer(arg1) != 403)
+    url = PropLoader.getProps['api_server_url']+"/api/rest/system/session/debug"
+    tempResponse = RestClient.get(url, {:accept => "application/json", :sessionId => @sessionId}){|response, request, result| response }
+    puts "#############################################", tempResponse.body, "##########################################################"
+  end
 end
 
 Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
@@ -27,12 +34,13 @@ Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
   assert(@newId != nil, "After POST, #{entity} ID is nil")
 end
 
-When /^I navigate to GET "([^"]*)"$/ do |uri|
+When /^I navigate to GET "([^\"]*)"$/ do |uri|
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res)
-  if /application\/json/.match contentType
+  jsonTypes = ["application/json", "application/vnd.slc.full+json"].to_set
+  if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
   elsif /application\/xml/.match contentType
