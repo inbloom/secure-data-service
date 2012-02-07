@@ -138,8 +138,7 @@ Examples:
 | "Leader"           | "Commander" |
 | "IT Administrator" | "Techie"    |
  
- @wip
-Scenario Outline: Try to save incorrect values for roles
+ Scenario Outline: Try to save incorrect values for roles
  
 Given I have an open web browser
 And I am authenticated to SLI IDP
