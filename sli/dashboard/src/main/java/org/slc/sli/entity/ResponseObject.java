@@ -28,22 +28,6 @@ public class ResponseObject {
     public void setLinks(InnerResponse[] links) {
         this.links = links;
     }
-  
-    
-//    public String getId() {
-//        return id;
-//    }
-//    
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//    
-//    public String getHref() {
-//        return link.getHref();
-//    }
-//    
-//    public String getRel() {
-//        return link.getRel();
-//    }
+
  
 }
