@@ -23,7 +23,6 @@
    <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
 
     <jb:expression property="recordType">'section'</jb:expression>
-    <jb:value property="localId" data="UniqueSectionCode" />
     <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
   </jb:bean>
 

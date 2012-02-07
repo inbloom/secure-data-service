@@ -20,21 +20,20 @@ import javax.ws.rs.ext.Provider;
 @Component
 public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
     
-	// remove after 403 errors' root cause is discovered
-	private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
-	// remove after 403 errors' root cause is discovered
-	
-	public Response toResponse(AccessDeniedException e) {
-        Response.Status errorStatus = Response.Status.FORBIDDEN;
+    // remove after 403 errors' root cause is discovered
+    private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
     
-    	// remove after 403 errors' root cause is discovered
-        LOG.error("--- Access Denied Exception ---: ", e);
-        LOG.debug("security context: {}", SecurityContextHolder.getContext().toString());
-        LOG.debug("principal name and roles: {}, {}", 
-        		( (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName().toString(),
-        		( (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRoles().toString());
-        LOG.debug("stack trace: {}", e);
-    	// remove after 403 errors' root cause is discovered
+    // remove after 403 errors' root cause is discovered
+    
+    public Response toResponse(AccessDeniedException e) {
+        Response.Status errorStatus = Response.Status.FORBIDDEN;
+        
+        // remove after 403 errors' root cause is discovered
+        LOG.debug("principal name and roles: {}, {}", ((SLIPrincipal) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getName().toString(), ((SLIPrincipal) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal()).getRoles().toString());
+        LOG.error("--- Access Denied Exception --- ");
+        // remove after 403 errors' root cause is discovered
         
         return Response
                 .status(errorStatus)
