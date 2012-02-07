@@ -14,20 +14,20 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Default implementation of the QueryConverter interface
- * 
+ *
  * @author dong liu <dliu@wgen.net>
- * 
+ *
  */
 
 @Component
 public class BasicQueryConverter implements QueryConverter {
-    
+
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId" };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
-    
+
     @Autowired
     SchemaRepository schemaRepo;
-    
+
     @Override
     public Query stringToQuery(String entityType, String queryString) {
         Query mongoQuery = new Query();
@@ -36,7 +36,7 @@ public class BasicQueryConverter implements QueryConverter {
         String[] queryStrings = queryString.split("&");
         try {
             for (String query : queryStrings) {
-                
+
                 if (!isReservedQueryKey(query) && !query.equals("")) {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
@@ -53,7 +53,7 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .lte(convertToType(type, keyAndValue[1]));
                         }
-                        
+
                     } else if (query.contains("!=")) {
                         String[] keyAndValue = getKeyAndValue(query, "!=");
                         if (keyAndValue != null) {
@@ -66,14 +66,14 @@ public class BasicQueryConverter implements QueryConverter {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).is(convertToType(type, keyAndValue[1]));
                         }
-                        
+
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
                         if (keyAndValue != null) {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(convertToType(type, keyAndValue[1]));
                         }
-                        
+
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
                         if (keyAndValue != null) {
@@ -86,16 +86,16 @@ public class BasicQueryConverter implements QueryConverter {
                         mongoQuery.addCriteria(criteria);
                 }
             }
-            
+
         } catch (RuntimeException e) {
             LOG.debug("error parsing query String {}", queryString);
             throw new QueryParseException(queryString);
-            
+
         }
-        
+
         return mongoQuery;
     }
-    
+
     @Override
     public String findParamType(String entityType, String queryField) {
         String[] nestedFields = queryField.split("\\.");
@@ -163,7 +163,7 @@ public class BasicQueryConverter implements QueryConverter {
         }
         }
     }
-    
+
     private boolean isReservedQueryKey(String queryString) {
         boolean found = false;
         for (String key : reservedQueryKeys) {
@@ -172,7 +172,7 @@ public class BasicQueryConverter implements QueryConverter {
         }
         return found;
     }
-    
+
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator);
         if (keyAndValue.length != 2)
@@ -180,7 +180,7 @@ public class BasicQueryConverter implements QueryConverter {
         else
             return keyAndValue;
     }
-    
+
     private Object convertToType(String type, String value) {
         if (type.equals("INT") || type.equals("INTEGER")) {
             return Integer.parseInt(value);
@@ -189,7 +189,7 @@ public class BasicQueryConverter implements QueryConverter {
                 return Boolean.parseBoolean(value);
             else
                 throw new QueryParseException("");
-            
+
             // TODO null type need to be removed after the assessment neutral schema implemented
         } else if (type.equals("STRING") || type.equals("NULL")) {
             return value;

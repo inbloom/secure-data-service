@@ -22,9 +22,9 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.dal.repository.EntityRepository;
 
 /**
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Ignore
 // Needs to be reworked with new querying structure/MockRepo
@@ -33,13 +33,13 @@ import org.slc.sli.dal.repository.EntityRepository;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class UserLocatorTest {
-    
+
     @Autowired
     private MongoUserLocator locator;
-    
+
     @Autowired
     private EntityRepository repo;
-    
+
     @Before
     public void init() {
         // TODO need to put stateId in the record at top level?
@@ -47,25 +47,25 @@ public class UserLocatorTest {
         body.put("staffUniqueStateId", Mocker.VALID_USER_ID);
         repo.create("teacher", body);
     }
-    
+
     @Test
     public void testUserFound() {
         SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_USER_ID);
-        
+
         Assert.assertNotNull(principal);
     }
-    
+
     @Test
     public void testuserNotFound() {
         SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.INVALID_USER_ID);
-        
+
         Assert.assertNull(principal);
     }
-    
+
     @Test
     public void testGarbageInput() {
         SLIPrincipal principal = this.locator.locate(null, null);
-        
+
         Assert.assertNull(principal);
     }
 }

@@ -6,7 +6,7 @@ require_relative '../../../utils/sli_utils.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = @newId.to_s                            if template == "'Previous School' ID"
-  id = "344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if template == "'Belle' ID"
+  id = "51db306f-2393-405b-b587-5fac7605e4b3" if template == "'Belle' ID"
   id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
   id
 end

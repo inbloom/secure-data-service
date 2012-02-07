@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Control file processor.
- * 
+ *
  * @author okrook
- * 
+ *
  */
 @Component
 public class ControlFileProcessor implements Processor {
@@ -29,7 +29,7 @@ public class ControlFileProcessor implements Processor {
     @Override
     @Profiled
     public void process(Exchange exchange) throws Exception {
-        
+
         try {
             long startTime = System.currentTimeMillis();
 
@@ -46,7 +46,7 @@ public class ControlFileProcessor implements Processor {
 
             // set the exchange outbound message to the value of the job
             exchange.getIn().setBody(job, BatchJob.class);
-        
+
             // set headers for ingestion routing
             if (job.getFaultsReport().hasErrors()) {
                 exchange.getIn().setHeader("ErrorMessage", "batch job error");
@@ -54,7 +54,7 @@ public class ControlFileProcessor implements Processor {
             } else {
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
             }
- 
+
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());

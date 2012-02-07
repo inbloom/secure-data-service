@@ -18,16 +18,16 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class AssociativeContextResolver implements EntityContextResolver {
-    
+
     private EntityRepository            repository;
-    
+
     private String                      sourceType;
     private String                      targetType;
     private List<AssociationDefinition> associativeContextPath;
-    
+
     /**
      * Provides list of entity ids that given actor has access to
-     * 
+     *
      * @param principal
      *            user currently accessing the system
      * @return List of string ids
@@ -41,17 +41,17 @@ public class AssociativeContextResolver implements EntityContextResolver {
             String sourceKey = keys.get(0);
             String targetKey = keys.get(1);
             Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), new Query(Criteria.where("body." + sourceKey).in(ids)), 0, 9999);
-            
+
             ids.clear();
             for (Entity e : entities) {
                 ids.add((String) e.getBody().get(targetKey));
             }
             searchType = getTargetType(searchType, ad);
         }
-        
+
         return ids;
     }
-    
+
     private String getTargetType(String searchEntityType, AssociationDefinition ad) {
         if (ad.getSourceEntity().getType().equals(searchEntityType)) {
             return ad.getTargetEntity().getType();
@@ -60,11 +60,11 @@ public class AssociativeContextResolver implements EntityContextResolver {
         } else {
             throw new IllegalArgumentException("Entity is not a member of association " + searchEntityType + " " + ad.getType());
         }
-        
+
     }
-    
+
     private List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
-        
+
         if (ad.getSourceEntity().getType().equals(entityType)) {
             return Arrays.asList(ad.getSourceKey(), ad.getTargetKey());
         } else if (ad.getTargetEntity().getType().equals(entityType)) {
@@ -73,29 +73,29 @@ public class AssociativeContextResolver implements EntityContextResolver {
             throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
         }
     }
-    
+
     @Override
     public String getSourceType() {
         return sourceType;
     }
-    
+
     @Override
     public String getTargetType() {
         return targetType;
     }
-    
+
     public void setSourceType(String type) {
         this.sourceType = type;
     }
-    
+
     public void setTargetType(String targetType) {
         this.targetType = targetType;
     }
-    
+
     public void setAssociativeContextPath(List<AssociationDefinition> associativeContextPath) {
         this.associativeContextPath = associativeContextPath;
     }
-    
+
     public void setRepository(EntityRepository repository) {
         this.repository = repository;
     }

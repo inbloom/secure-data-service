@@ -20,7 +20,7 @@ public class Assessment {
     private double percentile;
     private String lexileScore;
     private int retestIndicator;
-    
+
     public String getStudentId() { return studentId; }
     public String getAssessmentName() { return  assessmentName; }
     public int getYear() { return  year; }
@@ -28,7 +28,7 @@ public class Assessment {
     public int getScaleScore() { return  scaleScore; }
     public double getPercentile() { return  percentile; }
     public String getLexileScore() { return  lexileScore; }
-        
+
     public void setStudentId(String x) { studentId = x; }
     public void setAssessmentName(String x) { assessmentName = x; }
     public void setYear(int x) { year = x; }
@@ -36,12 +36,12 @@ public class Assessment {
     public void setScaleScore(int x) { scaleScore = x; }
     public void setPercentile(double x) { percentile = x; }
     public void setLexileScore(String x) { lexileScore = x; }
-        
+
     // easy accessor functions
     public String getPerfLevelAsString() { return  new Integer(getPerfLevel()).toString(); }
     public String getScaleScoreAsString() { return  new Integer(getScaleScore()).toString(); }
     public String getPercentileAsString() { return  new Integer((int) (getPercentile())).toString(); }
-    
+
     public String getId() {
         return id;
     }

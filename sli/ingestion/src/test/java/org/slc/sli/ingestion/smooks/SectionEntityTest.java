@@ -29,15 +29,65 @@ public class SectionEntityTest {
     @Autowired
     private EntityValidator validator;
 
+    String xmlTestData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+            + "<Section> "
+            + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+            + "<SequenceOfCourse>1</SequenceOfCourse>"
+            + "<EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>"
+            + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
+            + "<PopulationServed>Regular Students</PopulationServed>"
+            + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
+            +    "<Credit>0.05</Credit>"
+            + "</AvailableCredit>"
+            + "<CourseOfferingReference>"
+            +    "<CourseOfferingIdentity>"
+            +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+            +       "<Term>1</Term>"
+            +       "<SchoolYear>1996-1997</SchoolYear>"
+            +       "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
+            +            "<Id>23</Id>"
+            +       "</CourseCode>"
+            +    "</CourseOfferingIdentity>"
+            + "</CourseOfferingReference>"
+            + "<SchoolReference>"
+            +    "<EducationalOrgIdentity>"
+            +       "<StateOrganizationId>152901001</StateOrganizationId>"
+            +       "<EducationalOrgIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\">"
+            +           "<Id>23</Id>"
+            +       "</EducationalOrgIdentificationCode>"
+            +    "</EducationalOrgIdentity>"
+            + "</SchoolReference>"
+            + "<SessionReference>"
+            +   "<SessionIdentity>"
+            +       "<SessionName>223</SessionName>"
+            +       "<Term>2</Term>"
+            +       "<SchoolYear>1997-1998</SchoolYear>"
+            +   "</SessionIdentity>"
+            + "</SessionReference>"
+            + "<LocationReference>"
+            +   "<LocationIdentity>"
+            +       "<ClassroomIdentificationCode>ELU</ClassroomIdentificationCode>"
+            +   "</LocationIdentity>"
+            + "</LocationReference>"
+            + "<ProgramReference>"
+            +   "<ProgramIdentity>"
+            +       "<ProgramId>223</ProgramId>"
+            +       "<ProgramType>Bilingual</ProgramType>"
+            +   "</ProgramIdentity>"
+            + "</ProgramReference>"
+        + "</Section>"
+    + "</InterchangeEducationOrganization>";
+
+    String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+
+
     @Test
     public void testValidSectionCSV() throws Exception {
 
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        String testData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        ByteArrayInputStream testInput = new ByteArrayInputStream(csvTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
@@ -49,19 +99,19 @@ public class SectionEntityTest {
             checkValidSectionNeutralRecord(record);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }
 
     @Test
     public void testValidatorSection() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-section-csv.xml";
-        String targetSelector = "csv-record";
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeEducationOrganization/Section";
 
-        String testData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
@@ -73,7 +123,9 @@ public class SectionEntityTest {
             EntityTestUtils.mapValidation(record.getAttributes(), "section", validator);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }
@@ -83,56 +135,7 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrganization/Section";
 
-        String testData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<Section> "
-                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
-                + "<SequenceOfCourse>1</SequenceOfCourse>"
-                + "<EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>"
-                + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
-                + "<PopulationServed>Regular Students</PopulationServed>"
-                + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
-                +    "<Credit>0.05</Credit>"
-                + "</AvailableCredit>"
-                + "<CourseOfferingReference>"
-                +    "<CourseOfferingIdentity>"
-                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
-                +       "<Term>1</Term>"
-                +       "<SchoolYear>1996-1997</SchoolYear>"
-                +       "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
-                +            "<Id>23</Id>"
-                +       "</CourseCode>"
-                +    "</CourseOfferingIdentity>"
-                + "</CourseOfferingReference>"
-                + "<SchoolReference>"
-                +    "<EducationalOrgIdentity>"
-                +       "<StateOrganizationId>152901001</StateOrganizationId>"
-                +       "<EducationalOrgIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\">"
-                +           "<Id>23</Id>"
-                +       "</EducationalOrgIdentificationCode>"
-                +    "</EducationalOrgIdentity>"
-                + "</SchoolReference>"
-                + "<SessionReference>"
-                +   "<SessionIdentity>"
-                +       "<SessionName>223</SessionName>"
-                +       "<Term>2</Term>"
-                +       "<SchoolYear>1997-1998</SchoolYear>"
-                +   "</SessionIdentity>"
-                + "</SessionReference>"
-                + "<LocationReference>"
-                +   "<LocationIdentity>"
-                +       "<ClassroomIdentificationCode>ELU</ClassroomIdentificationCode>"
-                +   "</LocationIdentity>"
-                + "</LocationReference>"
-                + "<ProgramReference>"
-                +   "<ProgramIdentity>"
-                +       "<ProgramId>223</ProgramId>"
-                +       "<ProgramType>Bilingual</ProgramType>"
-                +   "</ProgramIdentity>"
-                + "</ProgramReference>"
-            + "</Section>"
-        + "</InterchangeEducationOrganization>";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
+        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
@@ -145,7 +148,9 @@ public class SectionEntityTest {
             checkValidSectionNeutralRecord(record);
 
         } finally {
-            nrfr.close();
+            if (nrfr != null) {
+                nrfr.close();
+            }
         }
 
     }

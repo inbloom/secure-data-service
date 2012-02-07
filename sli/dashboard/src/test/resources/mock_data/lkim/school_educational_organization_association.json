@@ -1,6 +1,4 @@
 [
     { "schoolId" : "East Daybreak Junior High", 
-      "educationOrganizationId": "IL-DAYBREAK_EAST" },
-    { "schoolId" : "West Daybreak Junior High", 
       "educationOrganizationId": "IL-DAYBREAK" }
 ]

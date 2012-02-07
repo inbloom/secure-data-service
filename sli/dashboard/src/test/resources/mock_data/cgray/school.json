@@ -1,5 +1,6 @@
 [
 {
+    "id" : "Daybreak Central High",
     "nameOfInstitution": "Daybreak Central High",
     "courses": [
         {
@@ -27,10 +28,12 @@
             "courseTitle": "American Literature",
             "sections": [
                 {
-                    "sectionName": "Sec 142"
+                    "sectionName": "Sec 142",
+                    "studentUIDs": []
                 },
                 {
-                    "sectionName": "Sec 143"
+                    "sectionName": "Sec 143",
+                    "studentUIDs": []
                 },
                 {
                     "sectionName": "Sec 144",
@@ -97,5 +100,24 @@
             ]
         }
     ]
+},
+
+{
+    "id" : "Sunset Central High School",
+    "nameOfInstitution" : "Sunset Central High School",
+    "courses" : 
+        [
+          {
+            "courseTitle": "Special Elective: Debate Clinic",
+            "sections": [
+                {
+                    "sectionName": "Special Elective: Debate Clinic",
+                    "studentUIDs": []
+                }
+            ]
+          }
+
+        ]
 }
+
 ]

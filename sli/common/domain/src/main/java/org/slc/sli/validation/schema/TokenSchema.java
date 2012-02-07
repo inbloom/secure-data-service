@@ -10,28 +10,28 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI Token Schema which validates string token (enumeration) entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class TokenSchema extends NeutralSchema {
-    
+
     // Constants
     public static final String TOKENS = "tokens";
-    
+
     // Constructors
     public TokenSchema() {
         this(NeutralSchemaType.TOKEN.getName());
     }
-    
+
     public TokenSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
     @Override
     public NeutralSchemaType getSchemaType() {
@@ -41,12 +41,12 @@ public class TokenSchema extends NeutralSchema {
     public boolean isPrimitive() {
         return false;
     }
-    
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -59,7 +59,7 @@ public class TokenSchema extends NeutralSchema {
         return addError(this.matchesToken(entity), fieldName, entity, getTokensArray(), ErrorType.ENUMERATION_MISMATCH,
                 errors);
     }
-    
+
     protected boolean matchesToken(Object entity) {
         if (this.getTokens() != null) {
             for (String token : this.getTokens()) {
@@ -70,12 +70,12 @@ public class TokenSchema extends NeutralSchema {
         }
         return false;
     }
-    
+
     @SuppressWarnings("unchecked")
     protected List<String> getTokens() {
         return (List<String>) this.getProperties().get(TOKENS);
     }
-    
+
     protected String[] getTokensArray() {
         String[] tokensArray = new String[0];
         if (this.getTokens() != null) {

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 
+ *
  * @author pwolf
  *
  */
 @Controller
 @RequestMapping("/logout")
 public class LogoutController {
-    
+
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView getRoles(ModelAndView view, HttpSession session) {
         session.invalidate();

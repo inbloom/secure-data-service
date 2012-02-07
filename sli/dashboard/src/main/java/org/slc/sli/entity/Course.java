@@ -4,7 +4,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 
 /**
- * 
+ *
  * TODO: Write Javadoc
  *
  */
@@ -13,7 +13,7 @@ public class Course {
     private Section[] sections;
     private String courseTitle;
     private String id;
-    
+
     public String getId() {
         return id;
     }
@@ -32,9 +32,9 @@ public class Course {
     public void setCourseTitle(String courseTitle) {
         this.courseTitle = courseTitle;
     }
-    
+
     public void addSections(Section[] sections) {
         this.sections = (Section[]) ArrayUtils.addAll(this.sections, sections);
     }
-    
+
 }

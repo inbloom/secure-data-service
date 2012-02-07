@@ -8,12 +8,12 @@ import org.springframework.data.mongodb.core.query.Query;
 /**
  * Define the entity repository interface that provides basic CRUD and field
  * query methods for entities including core entities and association entities
- * 
+ *
  * @author Dong Liu dliu@wgen.net
- * 
+ *
  */
 public interface EntityRepository {
-    
+
     /**
      * @param collectioName
      *            the name of the collection to look in
@@ -22,7 +22,7 @@ public interface EntityRepository {
      * @return the entity retrieved
      */
     public Entity find(String collectioName, String id);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -33,14 +33,14 @@ public interface EntityRepository {
      * @return the collection of entities
      */
     public Iterable<Entity> findAll(String collectionName, int skip, int max);
-    
+
     /**
      * @param collectioName
      *            the name of the collection to look in
      * @return the collection of entities
      */
     public Iterable<Entity> findAll(String collectioName);
-    
+
     /**
      * @param collection
      *            the collection the entity is in
@@ -49,10 +49,10 @@ public interface EntityRepository {
      * @return whether or not the entity was updated
      */
     public boolean update(String collection, Entity entity);
-    
+
     /**
      * Create an entry with the collection set to the type name
-     * 
+     *
      * @param type
      *            the type of entity to be persisted
      * @param body
@@ -60,7 +60,7 @@ public interface EntityRepository {
      * @return the entity that has been persisted
      */
     public Entity create(String type, Map<String, Object> body);
-    
+
     /**
      * @param type
      *            the type of entity to be persisted
@@ -71,7 +71,7 @@ public interface EntityRepository {
      * @return the entity that has been persisted
      */
     public Entity create(String type, Map<String, Object> body, String collectionName);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to delete from
@@ -79,13 +79,13 @@ public interface EntityRepository {
      *            the global unique id of the entity
      */
     public boolean delete(String collectionName, String id);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to delete from
      */
     public void deleteAll(String collectionName);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -99,7 +99,7 @@ public interface EntityRepository {
      * @return the collection of entities
      */
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -109,7 +109,7 @@ public interface EntityRepository {
      * @return the collection of entities
      */
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -119,11 +119,11 @@ public interface EntityRepository {
      *            the beginning index of the entity that will be returned
      * @param max
      *            the max number of entities that will be returned
-     * 
+     *
      * @return the collection of entities
      */
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max);
-    
+
     /*
      * matchQuery method is a temporary solution for association/sourceGUID/targets type of
      * filtering as the current data model does not have any reference between source entity and
@@ -134,7 +134,7 @@ public interface EntityRepository {
      * entity has been retrieved by traversal from source entity -> association entity -> target
      * entity
      */
-    
+
     /**
      * @param collectioName
      *            the name of the collection to look in
@@ -145,5 +145,5 @@ public interface EntityRepository {
      * @return true if specified entity matches query, otherwise return false
      */
     public boolean matchQuery(String collectioName, String id, Query query);
-    
+
 }
