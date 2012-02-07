@@ -44,6 +44,18 @@ public class NeutralSchemaValidationTest {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStudent() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/student_fixture_neutral.json"));
+        String school;
+        while ((school = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(school, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "student");
+        }
+    }
+
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
         validator.setSchemaRegistry(schemaRepo);
