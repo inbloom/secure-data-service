@@ -3,18 +3,8 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.io.IOException;
 
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.PatternLayout;
-import ch.qos.logback.core.FileAppender;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.perf4j.aop.Profiled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -23,9 +13,19 @@ import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
+import org.slc.sli.util.performance.Profiled;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.core.FileAppender;
 
 /**
  * Ingestion Persistence Processor.
@@ -53,7 +53,8 @@ public class PersistenceProcessor implements Processor {
      * @param exchange
      */
     @Override
-    @Profiled(tag = "PersistenceProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
+    @ExtractBatchJobIdToContext
+    @Profiled
     public void process(Exchange exchange) {
         
         try {

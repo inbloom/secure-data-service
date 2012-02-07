@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,6 @@ public class ControlFilePreProcessor implements Processor {
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
     @Override
-    @Profiled(tag = "ControlFilePreProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
     public void process(Exchange exchange) throws Exception {
         
         // TODO handle invalid control file (user error)

@@ -33,7 +33,8 @@ class ActiveSupport::TestCase
       #Realms
       mock.get "/api/rest/realm?sessionId=", {"Accept" => "application/json"}, [@realm_fixtures['one'], @realm_fixtures['two']].to_json
       mock.get "/api/rest/realm/1?sessionId=", {"Accept" => "application/json"}, @realm_fixtures['one'].to_json
-      mock.put "/api/rest/realm/1?sessionId=", {"Content-Type"=>"application/json"}
+      mock.get "/api/rest/realm/5a4bfe96-1724-4565-9db1-35b3796e3ce2?sessionId=", {"Accept" => "application/json"}, nil, 404
+      mock.put "/api/rest/realm/1?sessionId=", {"Content-Type"=>"application/json"}, {}
     end
   end
 

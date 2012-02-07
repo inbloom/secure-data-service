@@ -5,6 +5,7 @@ import javax.xml.namespace.QName;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.schema.BooleanSchema;
+import org.slc.sli.validation.schema.ChoiceSchema;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
 import org.slc.sli.validation.schema.DateTimeSchema;
@@ -75,6 +76,8 @@ public class NeutralSchemaFactory implements SchemaFactory {
                     return new ListSchema(schemaType.getName());
                 case COMPLEX:
                     return new ComplexSchema(schemaType.getName());
+                case CHOICE:
+                    return new ChoiceSchema(schemaType.getName());
                 default:
                     return null;
             }
