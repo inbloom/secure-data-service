@@ -94,8 +94,6 @@ public class TeacherEntityTest {
                 + "<OldEthnicity>old ethnicity</OldEthnicity>"
                 + "<Race>"
                 + "    <RacialCategory>first racial category</RacialCategory>"
-                + "</Race>"
-                + "<Race>"
                 + "    <RacialCategory>second racial category</RacialCategory>"
                 + "</Race>"
                 + "<HighestLevelOfEducationCompleted>Bachelors</HighestLevelOfEducationCompleted>"
