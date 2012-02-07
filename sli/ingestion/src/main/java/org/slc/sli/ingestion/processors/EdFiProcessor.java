@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,9 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.util.performance.Profiled;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -32,7 +33,8 @@ public class EdFiProcessor implements Processor {
     private Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap;
 
     @Override
-    @Profiled(tag = "EdFiProcessor - file {$0.getIn().getHeader(\"CamelFileNameOnly\")} - batch {$0.getExchangeId()}")
+    @ExtractBatchJobIdToContext
+    @Profiled
     public void process(Exchange exchange) throws Exception {
         
         try {
@@ -45,7 +47,7 @@ public class EdFiProcessor implements Processor {
 
             // set headers for ingestion routing
             if (job.getErrorReport().hasErrors()) {
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
             } else if (exchange.getIn().getHeader("dry-run").equals(true)) {
                 LOG.info("dry-run specified; data will not be published");
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
