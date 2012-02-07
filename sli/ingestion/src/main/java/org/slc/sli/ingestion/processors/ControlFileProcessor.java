@@ -59,6 +59,7 @@ public class ControlFileProcessor implements Processor {
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            log.error("Exception:",  exception);
         }
     }
 
