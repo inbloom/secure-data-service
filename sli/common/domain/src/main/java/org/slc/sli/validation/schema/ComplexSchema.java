@@ -67,13 +67,13 @@ public class ComplexSchema extends NeutralSchema {
                 
                 NeutralSchema fieldSchema = getFields().get(name);
                 if (fieldSchema == null) {
-                    return addError(false, fieldName, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
+                    return addError(false, name, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
                 }
                 
                 AppInfo appInfo = fieldSchema.getAppInfo();
                 if (fieldEntity == null) {
                     if (appInfo != null && appInfo.isRequired()) {
-                        return addError(false, fieldName, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
+                        return addError(false, name, fieldEntity, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors);

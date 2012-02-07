@@ -23,8 +23,8 @@ Scenario: Fail when posting a School object during a Student POST operation
 	Then I should receive a return code of 400
 
 #tests all non-nullable fields
-@wip
 Scenario: Fail when passing blank object during POST for student
+	Given format "application/json"
 	Given I create a blank json object
 	When I navigate to POST "/students"
 	Then I should receive a return code of 400
@@ -49,8 +49,9 @@ Scenario: Fail when passing an incorrectly capitalized enum during POST for stud
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
+
 Scenario: Fail when passing map instead of array during POST for school
+	Given format "application/json"
 	Given I create a create a school object with "address" set to a single map
 	When I navigate to POST "/schools"
     Then I should receive a return code of 400
@@ -70,14 +71,15 @@ Scenario: Fail when passing array instead of map during POST for student
 	When I navigate to POST "/students"
     Then I should receive a return code of 201
 
-@wip	
+	
 Scenario: Fail when posting a StudentSchoolAssociation with invalid school ID
+	Given format "application/json"
     Given an SSA object is valid except for "schoolID"
 	When I navigate to POST "/student-school-associations"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
+
 Scenario: Fail when posting a string in a field expecting an integer
 	Given format "application/json"
     Given I create a student object with "studentUniqueStateId" equal to a string
@@ -93,15 +95,17 @@ Scenario: Fail when posting an integer in a field expecting a string
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 	
-@wip
+
 Scenario: Fail when posting a string to a field that has more characters than the schema allows
+	Given format "application/json"
     Given I create a school object with "nameOfInstitution" equal to a 61 character string
 	When I navigate to POST "/schools"
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
+
 Scenario: Fail when posting a string to a field that has fewer characters than the schema allows
+	Given format "application/json"
     Given I create a school object with "webSite" equal to a 4 character string
 	When I navigate to POST "/schools"
     Then I should receive a return code of 400
@@ -123,7 +127,7 @@ Scenario: Fail when posting a date in the wrong format
     Then I should receive a return code of 400
 #	   And the response body should tell me why the request was invalid
 
-@wip
+
 Scenario: Passing blank object to a valid entity with PUT should fail with validation error (not patch the existing object)
 	Given format "application/json"
     When I navigate to GET "/teachers/<'Belle' ID>"

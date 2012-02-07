@@ -3,7 +3,7 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 
 When /^I type the Realm page URL$/ do
-  @url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do" 
+  @url = "http://"+PropLoader.getProps['dashboard_api_server_url']+"/disco/realms/list.do" 
 end
 
 When /^I click on the Enter button$/ do
@@ -12,7 +12,7 @@ end
 
 Given /^I see the Realm page$/ do
   @driver = Selenium::WebDriver.for :firefox
-  url = "http://"+PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
+  url = "http://"+PropLoader.getProps['dashboard_api_server_url']+"/disco/realms/list.do"
   @driver.get url
   assert(@driver.current_url == url, "Failed to navigate to "+url)
 end
