@@ -1,11 +1,13 @@
 package org.slc.sli.view;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.StudentProgramAssociation;
+import org.slc.sli.entity.util.StudentProgramUtil;
 
 
 //Hopefully there will be one for each of dataSet types
@@ -53,23 +55,22 @@ public class StudentResolver {
     /**
      * returns true if the given lozenge code applies to the given student
      */
-    public boolean lozengeApplies(GenericEntity student, String code) {
+    public boolean lozengeApplies(Map student, String code) {
         
-        /*
-        String[] studentProgramCodes = Student.getProgramCodesForStudent();
+        String[] studentProgramCodes = StudentProgramUtil.getProgramCodesForStudent();
         
         // Check if program in student entity
         if (Arrays.asList(studentProgramCodes).contains(code)) {
-            return student.hasProgramParticipation(code);
+            return StudentProgramUtil.hasProgramParticipation(student, code);
         } 
         
         // Now check program participation
         for (StudentProgramAssociation p : programs) {
-            if (p.getStudentId().equals(student.getId())) {
+            if (p.getStudentId().equals(student.get("id"))) {
                 return Arrays.asList(p.getPrograms()).contains(code);
             }
         }
-        */
+
         return false;
     }
 }

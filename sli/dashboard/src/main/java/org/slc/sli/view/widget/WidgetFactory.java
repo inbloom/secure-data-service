@@ -3,7 +3,6 @@ package org.slc.sli.view.widget;
 import java.util.Map;
 
 import org.slc.sli.config.Field;
-import org.slc.sli.entity.Student;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
@@ -24,7 +23,7 @@ public class WidgetFactory {
         return new FuelGauge(field, student, assmts);
     }
     
-    public static Lozenge createLozenge(Field field, Student student, StudentResolver students, LozengeConfigResolver lozenges) {
+    public static Lozenge createLozenge(Field field, Map student, StudentResolver students, LozengeConfigResolver lozenges) {
         return new Lozenge(field, student, students, lozenges);
     }
     

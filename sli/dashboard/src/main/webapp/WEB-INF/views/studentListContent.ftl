@@ -35,7 +35,7 @@
       <#-- lozenges in front -->
       <#if field.getLozenges()?? &&
            field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_FRONT>
-        <#--<#include "widget/lozenges.ftl">-->
+        <#include "widget/lozenges.ftl">
       </#if>
   
       <#-- student info -->
@@ -58,7 +58,7 @@
       <#-- lozenges at the back -->
       <#if field.getLozenges()?? &&
            field.getLozenges().getPosition() == constants.FIELD_LOZENGES_POSITION_BACK>
-        <#--<#include "widget/lozenges.ftl">-->
+        <#include "widget/lozenges.ftl">
       </#if>
   
     </td>
