@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import org.milyn.Smooks;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -75,7 +77,43 @@ public class EntityTestUtils {
      * @param expectedValue
      *            The Object value we will assertEquals against
      */
+    @SuppressWarnings("rawtypes")
     public static void assertObjectInMapEquals(Map map, String key, Object expectedValue) {
         assertEquals("Object value in map does not match expected.", expectedValue, map.get(key));
+    }
+
+    /**
+     * Utility to run smooks with provided configurations and return the first NeutralRecord (if
+     * there is one)
+     *
+     * @param smooksXmlConfigFilePath
+     *            path to smooks config xml
+     * @param targetSelector
+     *            selector for this run
+     * @param testData
+     *            string we want to use as the input for smooks run
+     * @return first NeutralRecord
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
+            String testData) throws IOException, SAXException {
+
+        ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
+
+        NeutralRecord neutralRecord = null;
+        NeutralRecordFileReader nrfr = null;
+        try {
+            nrfr = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
+
+            Assert.assertTrue(nrfr.hasNext());
+
+            neutralRecord = nrfr.next();
+        } finally {
+            if (nrfr != null)
+                nrfr.close();
+        }
+
+        return neutralRecord;
     }
 }
