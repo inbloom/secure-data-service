@@ -14,7 +14,7 @@ Scenario: Read an Education Organization Association by ID
     And I should receive a link named "getEducationOrganizationParent" with URI "/educationOrganizations/<'GALACTICA' ID>"
     And I should receive a link named "getEducationOrganizationChild" with URI "/educationOrganizations/<'CAPRICA' ID>"
 
-Scenario: Read an Education Organization's list of Education Organization Associations
+Scenario: Read an Education Organization's list of Education Organization Associations (by parent)
   Given format "application/json"
   When I navigate to GET "/educationOrganization-associations/<'GALACTICA' ID>"
   Then I should receive a return code of 200
@@ -22,6 +22,13 @@ Scenario: Read an Education Organization's list of Education Organization Associ
     And I should have a link with ID "<'GALACTICA-CAPRICA' ID>"
     And I should have a link with ID "<'GALACTICA-PICON' ID>"
     And I should have a link with ID "<'GALACTICA-SAGITTARON' ID>"
+
+Scenario: Read an Education Organization's list of Education Organization Associations (by child)
+  Given format "application/json"
+  When I navigate to GET "/educationOrganization-associations/<'PICON' ID>"
+  Then I should receive a return code of 200
+    And I should receive a collection of 1 links
+    And I should have a link with ID "<'GALACTICA-PICON' ID>"
 
 Scenario: Create an association between Education Organizations
   Given format "application/json"

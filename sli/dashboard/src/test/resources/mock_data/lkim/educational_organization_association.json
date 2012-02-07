@@ -1,4 +1,4 @@
 [
-    { "educationOrganizationParentId" : "IL-DAYBREAK", 
-      "educationOrganizationChildId" : "IL-DAYBREAK_EAST" }
+    { "educationOrganizationParentId" : "IL", 
+      "educationOrganizationChildId" : "IL-DAYBREAK" }
 ]

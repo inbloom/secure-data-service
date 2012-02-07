@@ -34,38 +34,38 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
-    
+
     @Autowired
     EdFiProcessor edFiProcessor;
-    
+
     @Autowired
     ControlFileProcessor ctlFileProcessor;
-    
+
     @Autowired
     ZipFileProcessor zipFileProcessor;
-    
+
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
-    
+
     @Autowired
     LocalFileSystemLandingZone lz;
-    
+
     @Autowired
     LocalFileSystemLandingZone tempLz;
-    
+
     @Value("${queues.workItem.queueURI}")
     private String workItemQueue;
-    
+
     @Value("${queues.workItem.concurrentConsumers}")
     private int concurrentConsumers;
-    
+
     @Override
     public void configure() throws Exception {
-        
+
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
-        
+
         String inboundDir = lz.getDirectory().getPath();
-        
+
         // routeId: ctlFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.ctl$"
@@ -75,7 +75,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                         .process(new ControlFilePreProcessor(lz))
                         .to(workItemQueueUri);
-        
+
         // routeId: zipFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
@@ -91,7 +91,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         .to(workItemQueueUri)
                         .otherwise()
                         .process(new Processor() {
-                            
+
                             // set temporary path to where the files were unzipped
                             @Override
                             public void process(Exchange exchange) throws Exception {
@@ -100,8 +100,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             }
                         }).process(new ControlFilePreProcessor(tempLz))
                         .to(workItemQueueUri);
-        
-        // routeId: workItemRoute 
+
+        // routeId: workItemRoute
         // main state machine route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
         .routeId("workItemRoute")
@@ -124,39 +124,39 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         .to("direct:stop")
         .otherwise()
         .to("direct:stop");
-        
+
         // routeId: jobReporting
         from("direct:jobReporting")
         .routeId("jobReporting")
         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Reporting on jobs for file.")
         .process(new Processor() {
-            
+
             @Override
             public void process(Exchange exchange) throws Exception {
-                
+
                 // get job from exchange
                 BatchJob job = exchange.getIn().getBody(BatchJob.class);
-                
+
                 Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
-                
+
                 // add output as lines
                 jobLogger.info("jobId: " + job.getId());
-                
+
                 for (IngestionFileEntry fileEntry : job.getFiles()) {
                     jobLogger.info("[file] " + fileEntry.getFileName()
                             + " (" + fileEntry.getFileFormat() + "/"
                             + fileEntry.getFileType() + ")");
                 }
-                
+
                 Enumeration names = job.propertyNames();
                 while (names.hasMoreElements()) {
                     String key = (String) names.nextElement();
                     jobLogger.info("[configProperty] " + key + ": "
                             + job.getProperty(key));
                 }
-                
+
                 FaultsReport fr = job.getFaultsReport();
-                
+
                 for (Fault fault : fr.getFaults()) {
                     if (fault.isError()) {
                         jobLogger.error(fault.getMessage());
@@ -164,25 +164,25 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         jobLogger.warn(fault.getMessage());
                     }
                 }
-                
+
                 if (fr.hasErrors()) {
                     jobLogger.info("Not all records were processed completely due to errors.");
                 } else {
                     jobLogger.info("All records processed successfully.");
                 }
-                
+
                 // This header is set in PersistenceProcessor
                 if (exchange.getProperty("records.processed") != null) {
                     jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
                 }
-                
+
                 // clean up after ourselves
                 jobLogger.detachAndStopAllAppenders();
             }
-            
+
         });
-        
-        
+
+
         // end of routing
         from("direct:stop")
         .routeId("stop")
@@ -191,5 +191,5 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
         .stop();
     }
-    
+
 }

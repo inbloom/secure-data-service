@@ -38,9 +38,9 @@ import org.slc.sli.api.service.EntityService;
  * Realm role mapping API. Allows full CRUD on realm objects.  Primarily intended to allow
  * mappings between SLI roles and client roles as realms should not be created or deleted
  * frequently.
- * 
+ *
  * @author jnanney
- * 
+ *
  */
 @Component
 @Scope("request")
@@ -50,10 +50,10 @@ public class RealmRoleManagerResource {
 
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     private RoleRightAccess roleRightAccess;
-    
+
     private EntityService service;
 
     @PostConstruct
@@ -61,7 +61,7 @@ public class RealmRoleManagerResource {
         EntityDefinition def = store.lookupByResourceName("realm");
         setService(def.getService());
     }
-    
+
     //Injector
     public void setStore(EntityDefinitionStore store) {
         this.store = store;
@@ -99,19 +99,19 @@ public class RealmRoleManagerResource {
         service.delete(realmId);
         return Response.status(Status.NO_CONTENT).build();
     }
-    
+
     @POST
     @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm) {
         Map<String, List<String>> mappings = (Map<String, List<String>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            
-            if (validateResponse != null) { 
+
+            if (validateResponse != null) {
                 return validateResponse;
             }
         }
-        
+
         String id = service.create(newRealm);
         if (id != null) {
             service.create(newRealm);
@@ -130,7 +130,7 @@ public class RealmRoleManagerResource {
         }
         return result;
     }
-    
+
     @GET
     public List<EntityBody> getRealms(@Context UriInfo info) {
         List<EntityBody> result = new ArrayList<EntityBody>();
@@ -143,7 +143,7 @@ public class RealmRoleManagerResource {
         }
         return result;
     }
-    
+
     private boolean uniqueMappings(Map<String, List<String>> mappings) {
         Set<String> clientRoles = new HashSet<String>();
         for (String sliRole : mappings.keySet()) {
@@ -157,20 +157,20 @@ public class RealmRoleManagerResource {
         }
         return true;
     }
-    
+
     private Response validateMappings(Map<String, List<String>> mappings) {
         HashMap<String, String> res = new HashMap<String, String>();
         if (!uniqueMappings(mappings)) {
             res.put("response", "Client have duplicate client roles");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
          }
-        
+
         for (String sliRole : mappings.keySet()) {
             if (roleRightAccess.getDefaultRole(sliRole) == null) {
                 res.put("response", "Invalid SLI Role");
                 return Response.status(Status.BAD_REQUEST).build();
             }
-            
+
             for (String clientRole : mappings.get(sliRole)) {
                 if (clientRole.length() == 0) {
                     res.put("response", "Cannot have client role of length 0");

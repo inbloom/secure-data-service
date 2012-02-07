@@ -26,16 +26,16 @@ import static org.powermock.api.mockito.PowerMockito.when;
 /**
  * Unit tests for the AssessmentResolver class.
  * Uses canned data for user rbraverman
- * 
+ *
  */
 public class AssessmentResolverTest {
-    
+
     // test subject
     private AssessmentResolver resolver;
-    
-    // only one student data for testing. 
+
+    // only one student data for testing.
     private Student student;
-    
+
     @Before
     public void setup() {
         resolver = new AssessmentResolver(getAssessments(), getAssessmentMetaData());
@@ -84,12 +84,12 @@ public class AssessmentResolverTest {
         String[] studentIdArray = (String[]) Arrays.asList(studentId).toArray();
         List<String> studentIds = Arrays.asList(studentIdArray);
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
-        
+
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
         ViewConfig config = configManager.getConfig("rbraverman", "IL_K-3"); // this view has Dibels and TRC
-        
-        AssessmentManager aManager = new AssessmentManager(); 
+
+        AssessmentManager aManager = new AssessmentManager();
         when(mockClient.getFilename("mock_data/rbraverman/school.json")).thenReturn("src/test/resources/mock_data/rbraverman/school.json");
         when(mockClient.getFilename("mock_data/rbraverman/custom_view_config.json")).thenReturn("src/test/resources/mock_data/rbraverman/custom_view_config.json");
         aManager.setApiClient(mockClient);
@@ -97,7 +97,7 @@ public class AssessmentResolverTest {
         return assmts;
     }
     private List<AssessmentMetaData> getAssessmentMetaData() {
-        AssessmentManager aManager = new AssessmentManager(); 
+        AssessmentManager aManager = new AssessmentManager();
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
         aManager.setApiClient(mockClient);

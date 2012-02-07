@@ -18,30 +18,30 @@ import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 
 /**
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(DefaultRolesToRightsResolver.class);
-    
+
     @Autowired
     private ClientRoleResolver roleMapper;
-    
+
     @Autowired
     private RoleRightAccess roleRightAccess;
-    
+
     @Autowired
     private SliAdminValidator sliAdminValidator;
-    
+
     @Override
     public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
         if (roleNames != null) {
             List<String> sliRoleNames = roleMapper.resolveRoles(realmId, roleNames);
-            
+
             for (String sliRoleName : sliRoleNames) {
                 Role role = findRole(sliRoleName);
                 if (role != null) {
@@ -56,21 +56,21 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         }
         return auths;
     }
-    
+
     private Role findRole(String roleName) {
         return roleRightAccess.getDefaultRole(roleName);
     }
-    
+
     public void setRoleRightAccess(RoleRightAccess roleRightAccess) {
         this.roleRightAccess = roleRightAccess;
     }
-    
+
     public void setRoleMapper(ClientRoleResolver roleMapper) {
         this.roleMapper = roleMapper;
     }
-    
+
     public void setSliAdminValidator(SliAdminValidator sliAdminValidator) {
         this.sliAdminValidator = sliAdminValidator;
     }
-    
+
 }
