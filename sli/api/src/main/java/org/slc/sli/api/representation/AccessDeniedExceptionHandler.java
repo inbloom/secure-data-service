@@ -20,17 +20,18 @@ import javax.ws.rs.ext.Provider;
 @Component
 public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
     
-	// remove after 403 errors' root cause is discovered
-	private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
-	// remove after 403 errors' root cause is discovered
-	
-	public Response toResponse(AccessDeniedException e) {
-        Response.Status errorStatus = Response.Status.FORBIDDEN;
+    // remove after 403 errors' root cause is discovered
+    private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
     
-    	// remove after 403 errors' root cause is discovered
-        LOG.debug("principal name and roles: {}, {}", 
-        		( (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName().toString(),
-        		( (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRoles().toString());
+    // remove after 403 errors' root cause is discovered
+    
+    public Response toResponse(AccessDeniedException e) {
+        Response.Status errorStatus = Response.Status.FORBIDDEN;
+        
+        // remove after 403 errors' root cause is discovered
+        LOG.debug("principal name and roles: {}, {}", ((SLIPrincipal) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getName().toString(), ((SLIPrincipal) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal()).getRoles().toString());
         LOG.error("--- Access Denied Exception --- ");
         // remove after 403 errors' root cause is discovered
         
