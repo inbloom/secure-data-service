@@ -32,9 +32,9 @@ import org.slc.sli.validation.schema.StringSchema;
 
 /**
  * JUnit for XsdToNeturalSchema
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -90,7 +90,7 @@ public class XsdToNeutralSchemaTest {
      * Certain annotations are inheritable when the type is contained within another type.
      * For example, the annotation for personally identifiable information (PII) is inheritable.
      * If a complex type is marked as PII, all of its elements are automatically marked PII.
-     * 
+     *
      * For security / restricted access annotations, we choose the most restrictive value.
      */
     @Test

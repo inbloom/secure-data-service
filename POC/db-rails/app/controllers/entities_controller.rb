@@ -9,6 +9,7 @@ class EntitiesController < ApplicationController
   def fix_urls
       response.body = response.body.gsub!("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
   end
+  
   # GET /entities
   # GET /entities.json
   def index

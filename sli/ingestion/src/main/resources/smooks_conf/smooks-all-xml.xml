@@ -287,9 +287,7 @@
   </jb:bean>
 
   <!-- School mapping -->
-
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
-
     <!-- jb:value property="sourceId" data="" / -->
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'school'</jb:expression>
@@ -298,82 +296,41 @@
   </jb:bean>
 
   <jb:bean beanId="schoolAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
-
     <jb:value property="stateOrganizationId" data="School/StateOrganizationId" />
-
-    <!-- EducationOrgIdentificationCode -->
     <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
-
-    <!-- NameOfInstitution -->
     <jb:value property="nameOfInstitution" data="School/NameOfInstitution" />
-
-    <!-- ShortNameOfInstitution -->
     <jb:value property="shortNameOfInstitution" data="School/ShortNameOfInstitution" />
-
-    <!-- OrganizationCategories -->
     <jb:wiring property="organizationCategories" beanIdRef="educationOrganizationCategoryTypeArray" />
-
-    <!-- Address -->
     <jb:wiring property="address" beanIdRef="addressSchoolTypeArray" />
-
-    <!-- Telephone -->
     <jb:wiring property="telephone" beanIdRef="institutionTelephoneTypeArray" />
-
-    <!-- WebSite -->
     <jb:value property="webSite" data="School/WebSite" />
-
-    <!-- OperationalStatus -->
     <jb:value property="operationalStatus" data="School/OperationalStatus" />
-
-    <!-- AccountabilityRatings -->
     <jb:wiring property="accountabilityRatings" beanIdRef="accountabilityRatingsTypeArray" />
-
-    <!-- GradesOffered -->
+    <jb:wiring property="programReference" beanIdRef="programReferenceTypeArray" />
     <jb:wiring property="gradesOffered" beanIdRef="gradesOfferedTypeArray" />
-
-    <!-- SchoolCategories -->
     <jb:wiring property="schoolCategories" beanIdRef="schoolCategoriesTypeArray" />
-
-    <!-- SchoolType -->
     <jb:value property="schoolType" data="School/SchoolType" />
-
-    <!-- charterStatus -->
     <jb:value property="charterStatus" data="School/CharterStatus" />
-
-    <!-- TitleIPartASchoolDesignation -->
     <jb:value property="titleIPartASchoolDesignation" data="School/TitleIPartASchoolDesignation" />
-
-    <!-- MagnetSpecialProgramEmphasisSchool -->
     <jb:value property="magnetSpecialProgramEmphasisSchool" data="School/MagnetSpecialProgramEmphasisSchool" />
-
-    <!-- AdministrativeFundingControl -->
     <jb:value property="administrativeFundingControl" data="School/AdministrativeFundingControl" />
-
-
   </jb:bean>
 
-  <!-- EducationOrgIdentificationCodeType -->
   <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
   </jb:bean>
-
   <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="identificationSystem" data="School/EducationOrgIdentificationCode/@IdentificationSystem" />
-    <jb:value property="iD" data="School/EducationOrgIdentificationCode/Id" />
-
+    <jb:value property="ID" data="School/EducationOrgIdentificationCode/Id" />
   </jb:bean>
 
-  <!-- OrganizationCategoryType -->
   <jb:bean beanId="educationOrganizationCategoryTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:value data="School/OrganizationCategories/OrganizationCategory" />
   </jb:bean>
 
-
-  <!-- AddressType -->
   <jb:bean beanId="addressSchoolTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="addressSchoolType" />
   </jb:bean>
-
   <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="addressType" data="School/Address/@AddressType" />
     <jb:value property="streetNumberName" data="School/Address/StreetNumberName" />
@@ -387,44 +344,41 @@
     <jb:value property="countryCode" data="School/Address/CountryCode" />
     <jb:value property="latitude" data="School/Address/Latitude" />
     <jb:value property="longitude" data="School/Address/Longitude" />
-    <jb:value property="beginDate" data="School/Address/BeginDate" />
-    <jb:value property="endDate" data="School/Address/EndDate" />
+    <jb:value property="openDate" data="School/Address/BeginDate" />
+    <jb:value property="closeDate" data="School/Address/EndDate" />
   </jb:bean>
 
-
-  <!-- InstitutionTelephoneType -->
   <jb:bean beanId="institutionTelephoneTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="institutionTelephoneType" />
   </jb:bean>
-
   <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="institutionTelephoneNumberType" data="School/Telephone/@InstitutionTelephoneNumberType" />
     <jb:value property="telephoneNumber" data="School/Telephone/TelephoneNumber" />
   </jb:bean>
 
-  <!-- AccountabilityRatingsType -->
   <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="accountabilityRatingsType" />
   </jb:bean>
-
   <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="ratingTitle" data="School/AccountabilityRatings/RatingTitle" />
     <jb:value property="rating" data="School/AccountabilityRatings/Rating" />
     <jb:value property="ratingDate" data="School/AccountabilityRatings/RatingDate" />
-    <jb:value property="schoolYear" data="School/AccountabilityRatings/SchoolYear" />
     <jb:value property="ratingOrganization" data="School/AccountabilityRatings/RatingOrganization" />
     <jb:value property="ratingProgram" data="School/AccountabilityRatings/RatingProgram" />
   </jb:bean>
 
-  <!-- GradesOfferedType -->
+  <jb:bean beanId="programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
+    <jb:value data="School/ProgramReference" />
+  </jb:bean>
+
   <jb:bean beanId="gradesOfferedTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:value data="School/GradesOffered/GradeLevel" />
   </jb:bean>
 
-  <!-- SchoolCategoriesType -->
   <jb:bean beanId="schoolCategoriesTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:value data="School/SchoolCategories/SchoolCategory" />
   </jb:bean>
+  <!-- End School Mapping -->
 
 
   <!-- Student School Association mapping -->
