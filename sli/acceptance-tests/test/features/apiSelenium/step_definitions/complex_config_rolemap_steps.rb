@@ -145,12 +145,12 @@ end
 
 Then /^I get a message that I cannot map the same custom role to multiple SLI Default roles$/ do
   errorMsg = @driver.find_element(:class, "errorNotification").text
-  assert(errorMsg.include?("different SLI roles"), "Could not find an error message complaining about mapping the same role to different SLI roles")
+  assert(errorMsg.include?("duplicate"), "Could not find an error message complaining about mapping the same role to different SLI roles")
 end
 
 Then /^I get a message that I already have this role mapped to a SLI Default role$/ do
   errorMsg = @driver.find_element(:class, "errorNotification").text
-  assert(errorMsg.include?("already"), "Could not find an error message complaining about the role already existing")
+  assert(errorMsg.include?("duplicate"), "Could not find an error message complaining about the role already existing")
 end
 
 Then /^I see a message that tells me that I can put only alphanumeric values as a custom role$/ do

@@ -24,7 +24,7 @@
     HighestLevelOfEducationCompleted,
     YearsOfPriorProfessionalExperience,
     YearsOfPriorTeachingExperience,
-    Credentials_CredentialType,Credentials_CredentialField_ID,Credentials_CredentialField_CodeValue,Credentials_CredentialField_Description,Credentials_CredentialField_AcademicSubject,Credentials_CredentialField_EducationOrganizationReference,Credentials_Level,Credentials_TeachingCredentialType,Credentials_CredentialIssuanceDate,Credentials_CredentialExpirationDate,Credentials_TeachingCredentialBasis,
+    Credentials_CredentialType,Credentials_CredentialField_ID,Credentials_CredentialField_CodeValue,Credentials_CredentialField_Description,Credentials_Level,Credentials_TeachingCredentialType,Credentials_CredentialIssuanceDate,Credentials_CredentialExpirationDate,Credentials_TeachingCredentialBasis,
     LoginId,
     TeacherUniqueStateId,
     HighlyQualifiedTeacher,
@@ -144,8 +144,6 @@
     <jb:value property="id" data="Credentials_CredentialField_ID" />
     <jb:value property="codeValue" data="Credentials_CredentialField_CodeValue" />
     <jb:value property="description" data="Credentials_CredentialField_Description" />
-    <jb:value property="academicSubject" data="Credentials_CredentialField_AcademicSubject" />
-    <jb:value property="educationOrganizationReference" data="Credentials_CredentialField_EducationOrganizationReference" />
   </jb:bean>
   <!-- End Teacher Mapping -->
 
