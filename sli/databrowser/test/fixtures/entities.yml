@@ -10,8 +10,18 @@ one:
     id: 1
     name: Greg
     links:
-        -1235
-        -1234561
+        -
+            href: "http://somesite.com"
+            rel: "monkeys"
+        
+        -
+            href: "http://somesite.com"
+            rel: "monkeys"
+        
+        -
+            href: "http://somesite.com"
+            rel: "monkeys"
+        
 #
 two:
     id: 2
