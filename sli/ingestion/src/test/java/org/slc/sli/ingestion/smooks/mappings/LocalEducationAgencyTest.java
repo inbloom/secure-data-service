@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,39 +13,38 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
- * Test the smooks mappings for School entity
+ * Test the smooks mappings for LocalEducationAgency entity
  *
  * @author dduran
  *
  */
-public class SchoolEntityTest {
+public class LocalEducationAgencyTest {
 
     @Test
-    public void csvSchoolTest() throws Exception {
+    public void csvStateEducationAgencyTest() throws Exception {
 
-        String smooksConfig = "smooks_conf/smooks-school-csv.xml";
+        String smooksConfig = "smooks_conf/smooks-localEducationAgency-csv.xml";
 
         String targetSelector = "csv-record";
 
-        String schoolCsv = "152901001,identification system,9777,Apple Alternative Elementary School,Apple,School,Physical,123 Main Street,1A,"
+        String csv = "152901001,identification system,9777,Apple Alternative Elementary School,Apple,School,Physical,123 Main Street,1A,"
                 + "building site number,Lebanon,KS,66952,Smith County,USA123,USA,245,432,01-01-1969,12-12-2012,Main,(785) 667-6006,www.a.com,running,"
-                + "first rating,A,01-01-2012,rating org,rating program,program reference,Third grade,Elementary School,school type,charter status,title i,magnet,admin funding";
+                + "first rating,A,01-01-2012,rating org,rating program,program reference";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                schoolCsv);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, csv);
 
-        checkValidSchoolNeutralRecord(neutralRecord);
+        checkValidSEANeutralRecord(neutralRecord);
     }
 
     @Test
-    public void edfiXmlSchoolTest() throws IOException, SAXException {
+    public void edfiXmlLocalEducationAgencyTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
-        String targetSelector = "InterchangeEducationOrganization/School";
+        String targetSelector = "InterchangeEducationOrganization/LocalEducationAgency";
 
-        String edfiSchoolXml = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<School>"
+        String edfiXml = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<LocalEducationAgency>"
                 + "    <StateOrganizationId>152901001</StateOrganizationId>"
                 + "    <EducationOrgIdentificationCode IdentificationSystem=\"identification system\">"
                 + "        <Id>9777</Id>"
@@ -83,29 +82,19 @@ public class SchoolEntityTest {
                 + "        <RatingProgram>rating program</RatingProgram>"
                 + "    </AccountabilityRatings>"
                 + "    <ProgramReference>program reference</ProgramReference>"
-                + "    <GradesOffered>"
-                + "        <GradeLevel>Third grade</GradeLevel>"
-                + "        <GradeLevel>Fourth grade</GradeLevel>"
-                + "    </GradesOffered>"
-                + "    <SchoolCategories>"
-                + "        <SchoolCategory>Elementary School</SchoolCategory>"
-                + "    </SchoolCategories>"
-                + "    <SchoolType>school type</SchoolType>"
-                + "    <CharterStatus>charter status</CharterStatus>"
-                + "    <TitleIPartASchoolDesignation>title i</TitleIPartASchoolDesignation>"
-                + "    <MagnetSpecialProgramEmphasisSchool>magnet</MagnetSpecialProgramEmphasisSchool>"
-                + "    <AdministrativeFundingControl>admin funding</AdministrativeFundingControl>"
-                + "</School>"
+                + "</LocalEducationAgency>"
                 + "</InterchangeEducationOrganization>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiSchoolXml);
+                targetSelector, edfiXml);
 
-        checkValidSchoolNeutralRecord(neutralRecord);
+        checkValidSEANeutralRecord(neutralRecord);
     }
 
     @SuppressWarnings("rawtypes")
-    private void checkValidSchoolNeutralRecord(NeutralRecord neutralRecord) {
+    private void checkValidSEANeutralRecord(NeutralRecord neutralRecord) {
+
+        assertEquals("educationOrganization", neutralRecord.getRecordType());
 
         assertEquals("152901001", neutralRecord.getLocalId());
         assertEquals("152901001", neutralRecord.getAttributes().get("stateOrganizationId"));
@@ -158,22 +147,6 @@ public class SchoolEntityTest {
 
         List programReferenceList = (List) neutralRecord.getAttributes().get("programReference");
         assertEquals("program reference", programReferenceList.get(0));
-
-        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
-        assertEquals("Third grade", gradesOfferedList.get(0));
-        if (gradesOfferedList.size() > 1) {
-            // TODO: remove if block when we support csv collections
-            assertEquals("Fourth grade", gradesOfferedList.get(1));
-        }
-
-        List schoolCategoriesList = (List) neutralRecord.getAttributes().get("schoolCategories");
-        assertEquals("Elementary School", schoolCategoriesList.get(0));
-
-        assertEquals("school type", neutralRecord.getAttributes().get("schoolType"));
-        assertEquals("charter status", neutralRecord.getAttributes().get("charterStatus"));
-        assertEquals("title i", neutralRecord.getAttributes().get("titleIPartASchoolDesignation"));
-        assertEquals("magnet", neutralRecord.getAttributes().get("magnetSpecialProgramEmphasisSchool"));
-        assertEquals("admin funding", neutralRecord.getAttributes().get("administrativeFundingControl"));
 
     }
 
