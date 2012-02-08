@@ -1,6 +1,6 @@
 require "bundler/capistrano"
 
-working_dir = "POC/db-rails"
+working_dir = "sli/databrowser"
 
 set :application, "Identity Management Admin Tool"
 set :repository,  "git@github.com:WGEN-SLI/SLI.git"

@@ -7,6 +7,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Choose your realm</title>
 </head>
+<style>
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+</style>
 <body>
 	<div style="color: red;width: 35%;">${errorMsg}</div>
 	<form:form action="/disco/realms/sso" method="GET" commandName="dummy">
