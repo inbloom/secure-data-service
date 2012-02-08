@@ -104,6 +104,7 @@
     <!-- StudentIndicators -->
     <jb:wiring property="studentIndicators" beanIdRef="studentIndicatorTypeArray" />
 
+    <jb:value property="loginId" data="LoginId" />
 
   </jb:bean>
 
@@ -125,7 +126,7 @@
     <jb:value property="firstName" data="Student/Name/FirstName" />
     <jb:value property="middleName" data="Student/Name/MiddleName" />
     <jb:value property="lastSurname" data="Student/Name/LastSurname" />
-    <jb:value property="personalTitlePrefixType" data="Student/Name/PersonalTitlePrefixType" />
+    <jb:value property="personalTitlePrefix" data="Student/Name/PersonalTitlePrefix" />
     <jb:value property="generationCodeSuffix" data="Student/Name/GenerationCodeSuffix" />
     <jb:value property="maidenName" data="Student/Name/MaidenName" />
   </jb:bean>
@@ -137,7 +138,7 @@
 
   <jb:bean beanId="otherNameType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
     <jb:value property="otherNameType" data="Student/OtherName/@OtherNameType" />
-    <jb:value property="personalTitlePrefixType" data="Student/OtherName/PersonalTitlePrefixType" />
+    <jb:value property="personalTitlePrefix" data="Student/OtherName/PersonalTitlePrefix" />
     <jb:value property="firstName" data="Student/OtherName/FirstName" />
     <jb:value property="middleName" data="Student/OtherName/MiddleName" />
     <jb:value property="lastSurname" data="Student/OtherName/LastSurname" />
@@ -172,8 +173,8 @@
     <jb:value property="countryCode" data="Student/Address/CountryCode" />
     <jb:value property="latitude" data="Student/Address/Latitude" />
     <jb:value property="longitude" data="Student/Address/Longitude" />
-    <jb:value property="beginDate" data="Student/Address/BeginDate" />
-    <jb:value property="endDate" data="Student/Address/EndDate" />
+    <jb:value property="openDate" data="Student/Address/OpenDate" />
+    <jb:value property="closeDate" data="Student/Address/CloseDate" />
   </jb:bean>
 
   <!-- TelephoneType -->
@@ -270,7 +271,7 @@
 
   <jb:bean beanId="cohortYearType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
     <jb:value property="cohortYearType" data="Student/CohortYears/@CohortYearType" />
-    <jb:value property="year" data="Student/CohortYears/Year" decoder="Integer" />
+    <jb:value property="schoolYear" data="Student/CohortYears/SchoolYear" />
   </jb:bean>
 
   <!--StudentIndicatorType -->
@@ -279,6 +280,7 @@
   </jb:bean>
 
   <jb:bean beanId="studentIndicatorType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+    <jb:value property="indicatorGroup" data="Student/StudentIndicators/IndicatorGroup" />
     <jb:value property="indicatorName" data="Student/StudentIndicators/IndicatorName" />
     <jb:value property="indicator" data="Student/StudentIndicators/Indicator" />
     <jb:value property="beginDate" data="Student/StudentIndicators/BeginDate" />

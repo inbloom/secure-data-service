@@ -78,7 +78,7 @@
   </jb:bean>
 
 	<!-- EducationalPlanItemType -->
-   <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="educationalPlans">
+   <jb:bean beanId="educationalPlanItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
 	  		<jb:value data="csv-record/EducationalPlans_EducationalPlan" />
    </jb:bean>
 

@@ -1,9 +1,0 @@
-
-{
-   "type":"Section504DisabilitiesType",
-   "validatorClass":"org.slc.sli.validation.ComplexSchema",
-   "version":"1.0",
-   "fields":{
-      "*Section504Disability":["Section504DisabilityItemType"]},
-   "properties":{}
-}

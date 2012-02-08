@@ -51,6 +51,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+                <value>${smooks.targetselector.xml.teacher}</value>
                 <value>${smooks.targetselector.xml.teacher.section}</value>
                 <value>${smooks.targetselector.xml.teacher.school}</value>
               </list>
