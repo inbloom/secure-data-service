@@ -1,3 +1,5 @@
+require "active_resource/base"
+
 class EntitiesController < ApplicationController
   before_filter :set_url
   after_filter :fix_urls
@@ -9,6 +11,10 @@ class EntitiesController < ApplicationController
   def fix_urls
       response.body = response.body.gsub!("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
   end
+  # rescue_from ActiveResource::ResourceNotFound do |exception|
+  #   render :file => "404.html"
+  # end
+  
   
   # GET /entities
   # GET /entities.json
@@ -27,15 +33,12 @@ class EntitiesController < ApplicationController
   def show
     if(params[:targets])
       logger.debug("Building targets link")
-      @entity = Entity.get("#{params[:id]}/targets")
+      @entity = Entity.get("#{params[:id]}/#{params[:targets]}")
     else
       @entity = Entity.get(params[:id])
-      if @entity
-        logger.debug {"Entity: #{@entity}"}
-      else
-        logger.debug {"Entity is nil"}
-      end
     end
+
+    raise ActiveResource::ResourceNotFound.new "Couldn't load resource with id: #{params[:id]}" unless !@entity.empty?
 
     respond_to do |format|
       format.html # show.html.erb
