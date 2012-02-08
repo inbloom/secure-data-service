@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
 
