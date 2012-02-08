@@ -1,5 +1,8 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.Map;
 
 import org.junit.Assert;
@@ -9,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -24,8 +29,6 @@ public class TeacherSectionAssociationEntityTest {
 
     @Autowired
     EntityValidator validator;
-
-    String csvTestData = "333333332,NCES Pilot SNCCS course code,ELU,23,,,Jane,Sarah,Smith,Ms,III,Jimenez,Alias,Ms,Jo,Gannon,Grant,II,Female,1999-07-12,true,White,Mobile,410-555-0248,true,Home/Personal,sjsmith@email.com,123456111,Summer Semester,2010-2011,A03,CC100,MATH1,NCES Pilot SNCCS course code,ELU,23,1998-01-01,2008-01-01,true,Teacher of Record";
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
@@ -92,7 +95,128 @@ public class TeacherSectionAssociationEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
 
-        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "teacherSectionAssociation", validator);
+        Entity e = mock(Entity.class);
+
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("teacherSectionAssociation");
+
+        Assert.assertTrue(validator.validate(e));
+    }
+
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidTeacherSectionAssociationMissingTeacherReference() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
+
+    String invalidXmlMissingTeacherReference = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+
+                + "<TeacherSectionAssociation>"
+                + "<SectionReference>"
+                   + "<SectionIdentity>"
+                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+                   + "</SectionIdentity>"
+                + "</SectionReference>"
+                + "<ClassroomPosition>Teacher of Record</ClassroomPosition>"
+          + "</TeacherSectionAssociation>"
+          + "</InterchangeStaffAssociation>";
+
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingTeacherReference);
+
+    Entity e = mock(Entity.class);
+    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+    when(e.getType()).thenReturn("teacherSectionAssociation");
+
+    validator.validate(e);
+
+    }
+
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidTeacherSectionAssociationMissingSectionReference() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
+
+    String invalidXmlMissingSectionReference = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+
+                + "<TeacherSectionAssociation>"
+                + "<TeacherReference>"
+                   + "<StaffIdentity>"
+                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+                   + "</StaffIdentity>"
+                + "</TeacherReference>"
+                + "<ClassroomPosition>Teacher of Record</ClassroomPosition>"
+          + "</TeacherSectionAssociation>"
+          + "</InterchangeStaffAssociation>";
+
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSectionReference);
+
+    Entity e = mock(Entity.class);
+    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+    when(e.getType()).thenReturn("teacherSectionAssociation");
+
+    validator.validate(e);
+
+    }
+
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidTeacherSectionAssociationMissingClassroomPosition() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
+
+    String invalidXmlMissingClassroomPosition = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+
+                + "<TeacherSectionAssociation>"
+                + "<TeacherReference>"
+                   + "<StaffIdentity>"
+                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+                   + "</StaffIdentity>"
+                + "</TeacherReference>"
+                + "<SectionReference>"
+                   + "<SectionIdentity>"
+                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+                   + "</SectionIdentity>"
+                + "</SectionReference>"
+          + "</TeacherSectionAssociation>"
+          + "</InterchangeStaffAssociation>";
+
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingClassroomPosition);
+
+    Entity e = mock(Entity.class);
+    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+    when(e.getType()).thenReturn("teacherSectionAssociation");
+
+    validator.validate(e);
+
+    }
+
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidTeacherSectionAssociationIncorrectEnum() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
+
+    String invalidXmlIncorrectEnum = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+
+                + "<TeacherSectionAssociation>"
+                + "<TeacherReference>"
+                   + "<StaffIdentity>"
+                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+                   + "</StaffIdentity>"
+                + "</TeacherReference>"
+                + "<SectionReference>"
+                   + "<SectionIdentity>"
+                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+                   + "</SectionIdentity>"
+                + "</SectionReference>"
+                + "<ClassroomPosition>Teacher of Records</ClassroomPosition>"
+          + "</TeacherSectionAssociation>"
+          + "</InterchangeStaffAssociation>";
+
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlIncorrectEnum);
+
+    Entity e = mock(Entity.class);
+    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+    when(e.getType()).thenReturn("teacherSectionAssociation");
+
+    validator.validate(e);
 
     }
 
@@ -101,6 +225,8 @@ public class TeacherSectionAssociationEntityTest {
 
         String smooksConfig = "smooks_conf/smooks-teacherSectionAssociation-csv.xml";
         String targetSelector = "csv-record";
+
+        String csvTestData = "333333332,NCES Pilot SNCCS course code,ELU,23,,,Jane,Sarah,Smith,Ms,III,Jimenez,Alias,Ms,Jo,Gannon,Grant,II,Female,1999-07-12,true,White,Mobile,410-555-0248,true,Home/Personal,sjsmith@email.com,123456111,Summer Semester,2010-2011,A03,CC100,MATH1,NCES Pilot SNCCS course code,ELU,23,1998-01-01,2008-01-01,true,Teacher of Record";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 csvTestData);
