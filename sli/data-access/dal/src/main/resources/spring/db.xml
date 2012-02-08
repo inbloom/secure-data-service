@@ -49,6 +49,6 @@
 		<constructor-arg ref="mappingConverter" />
 	</bean>
 
-	<bean id="mongoEntityRepository" class="org.slc.sli.dal.repository.MongoEntityRepository"></bean>
+	<bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository"></bean>
 	<context:component-scan base-package="org.slc.sli.dal" />
 </beans>

@@ -14,6 +14,7 @@ import org.slc.sli.validation.schema.IntegerSchema;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.LongSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.validation.schema.ReferenceSchema;
 import org.slc.sli.validation.schema.StringSchema;
 import org.slc.sli.validation.schema.TimeSchema;
 import org.slc.sli.validation.schema.TokenSchema;
@@ -75,6 +76,8 @@ public class NeutralSchemaFactory implements SchemaFactory {
                     return new ListSchema(schemaType.getName());
                 case COMPLEX:
                     return new ComplexSchema(schemaType.getName());
+                case REFERENCE:
+                    return new ReferenceSchema(schemaType.getName());
                 default:
                     return null;
             }

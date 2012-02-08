@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -31,7 +32,7 @@ public class ChoiceSchema extends NeutralSchema {
     }
     
     @Override
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo) {
         NeutralSchema optionSchema = options.get(fieldName);
         if (optionSchema == null) {
             errors.add(new ValidationError(ErrorType.UNKNOWN_FIELD, fieldName, entity, options.keySet().toArray(

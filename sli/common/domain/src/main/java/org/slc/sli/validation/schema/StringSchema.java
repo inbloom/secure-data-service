@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -48,9 +49,11 @@ public class StringSchema extends NeutralSchema {
      *            being validated using this SLI Schema
      * @param errors
      *            list of current errors
+     * @param repo
+     *            reference to the entity repository           
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo) {
         if (!addError(String.class.isInstance(entity), fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
