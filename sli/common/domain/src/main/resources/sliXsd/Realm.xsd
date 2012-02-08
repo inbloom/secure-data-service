@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
+
+   <xs:element name="realm">
+      <xs:complexType>
+         <xs:annotation>
+            <xs:appinfo>
+               <sli:SecuritySphere>Admin</sli:SecuritySphere>
+            </xs:appinfo>
+         </xs:annotation>
+         <xs:sequence>
+            <xs:element name="state" type="xs:string" minOccurs="1" />
+            <xs:element name="idp" type="xs:string" minOccurs="1" />
+            <xs:element name="realm" type="xs:string" minOccurs="1" />
+            <xs:element name="mappings" type="roleMap" minOccurs="1" />
+            <xs:element name="metadata" type="metadataType" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:complexType name="roleMap">
+      <xs:sequence>
+         <xs:element name="role" type="roleType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="roleType">
+      <xs:sequence>
+         <xs:element name="clientRoleName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="sliRoleName" type="xs:string" use="required" />
+   </xs:complexType>
+   
+   <xs:complexType name="metadataType">
+      <xs:sequence>
+         <xs:element name="some" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   
+</xs:schema>
+

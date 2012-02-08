@@ -1,6 +1,4 @@
-package org.slc.sli.ingestion.smooks;
-
-import java.io.ByteArrayInputStream;
+package org.slc.sli.ingestion.smooks.mappings;
 
 import java.util.Map;
 
@@ -12,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
@@ -33,7 +30,7 @@ public class TeacherSectionAssociationEntityTest {
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
                 + "<TeacherSectionAssociation>"
-                + "<StaffReference>"
+                + "<TeacherReference>"
                    + "<StaffIdentity>"
                       + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
                 + "<Name>"
@@ -67,7 +64,7 @@ public class TeacherSectionAssociationEntityTest {
                +            "<Id>23</Id>"
                +       "</StaffIdentificationCode>"
                    + "</StaffIdentity>"
-                + "</StaffReference>"
+                + "</TeacherReference>"
                 + "<SectionReference>"
                    + "<SectionIdentity>"
                       + "<UniqueSectionCode>123456111</UniqueSectionCode>"
@@ -93,22 +90,9 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
 
-            //Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            EntityTestUtils.mapValidation(record.getAttributes(), "teacherSectionAssociation", validator);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "teacherSectionAssociation", validator);
 
     }
 
@@ -118,22 +102,10 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-teacherSectionAssociation-csv.xml";
         String targetSelector = "csv-record";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(csvTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                csvTestData);
 
-            //Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            checkValidTeacherSectionAssociationNeutralRecord(record);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
 
     }
 
@@ -142,23 +114,10 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
+                targetSelector, xmlTestData);
 
-            //Tests that the NeutralRecords were created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-
-            checkValidTeacherSectionAssociationNeutralRecord(record);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
    }
 
    private void checkValidTeacherSectionAssociationNeutralRecord(NeutralRecord record) {

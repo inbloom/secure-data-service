@@ -1,20 +1,23 @@
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.smooks.mappings;
 
-import java.io.ByteArrayInputStream;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -29,7 +32,10 @@ public class SectionEntityTest {
     @Autowired
     private EntityValidator validator;
 
-    String xmlTestData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+    String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+
+
+    String xmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<Section> "
             + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
             + "<SequenceOfCourse>1</SequenceOfCourse>"
@@ -76,10 +82,37 @@ public class SectionEntityTest {
             +   "</ProgramIdentity>"
             + "</ProgramReference>"
         + "</Section>"
-    + "</InterchangeEducationOrganization>";
+    + "</InterchangeMasterSchedule>";
 
-    String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+    @Test
+    public void testValidSection() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
 
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        Assert.assertTrue(validator.validate(e));
+    }
+
+    @Ignore
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidSection() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        validator.validate(e);
+
+    }
 
     @Test
     public void testValidSectionCSV() throws Exception {
@@ -87,71 +120,22 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(csvTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                csvTestData);
 
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            checkValidSectionNeutralRecord(record);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
-
-    }
-
-    @Test
-    public void testValidatorSection() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeEducationOrganization/Section";
-
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            EntityTestUtils.mapValidation(record.getAttributes(), "section", validator);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        checkValidSectionNeutralRecord(neutralRecord);
 
     }
 
     @Test
     public void testValidSectionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeEducationOrganization/Section";
+        String targetSelector = "InterchangeMasterSchedule/Section";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
+                targetSelector, xmlTestData);
 
-            // Tests that the NeutralRecords were created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-
-            checkValidSectionNeutralRecord(record);
-
-        } finally {
-            if (nrfr != null) {
-                nrfr.close();
-            }
-        }
+        checkValidSectionNeutralRecord(neutralRecord);
 
     }
 

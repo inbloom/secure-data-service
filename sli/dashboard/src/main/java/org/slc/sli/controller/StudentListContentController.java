@@ -55,19 +55,19 @@ public class StudentListContentController extends DashboardController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView studentListContent(String population, Integer view,
                                            ModelMap model) throws Exception {
-        
+
         UserDetails user = SecurityUtil.getPrincipal();
         // insert the viewConfig object into the modelmap
-        
+
         ViewConfigSet viewConfigSet = configManager.getConfigSet(user.getUsername());
         model.addAttribute("viewConfigSet", viewConfigSet);
-        
+
         ViewConfig viewConfig = viewConfigSet.getViewConfig().get(view);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));  
+        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
         //TODO: Get student uids from target view.
         // insert the students object into the modelmap
@@ -76,7 +76,7 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
 
-        List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+        List<Student> students = studentManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
         List<StudentProgramAssociation> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
 
         model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
