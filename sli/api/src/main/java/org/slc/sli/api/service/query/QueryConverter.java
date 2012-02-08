@@ -7,9 +7,11 @@ import org.springframework.data.mongodb.core.query.Query;
  * to spring data query object
  * 
  * The general format of a query string that uses filtering is as follows:
- * ?attribute1=value1&attribute2>value2&attribute3!=value3@attribute4>=value4...
  * 
- * Use dot to represent the nested fields
+ * ?attribute1=value1&attribute2>value2&attribute3!=value3&attribute4>=value4...
+ * 
+ * Use dot "." to represent the nested fields:
+ * field.nestedField1.nestedField2
  * 
  * Some examples of query string (for student entity)
  * 
