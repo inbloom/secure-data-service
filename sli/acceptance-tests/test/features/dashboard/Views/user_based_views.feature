@@ -19,6 +19,16 @@ Scenario: Check user has multiple views available
     And I should have a selectable view named "IL_3-8_ELA"
     And I should have a selectable view named "IL_9-12"
 
+Scenario: Views are filtered based on student grades
+  Given I am authenticated to SLI as "cgray" password "cgray"
+  When I access "/studentlist"
+  When I select edOrg "Daybreak School District 4529"
+    And I select school "Daybreak Central High"
+    And I select course "Writing about Government"
+    And I select section "Sec 923"
+  Then I should only see one view
+    And the view should be named "IL_3-8_ELA"
+
 Scenario: Check changing view changes table headings
   Given I am authenticated to SLI as "cgray" password "cgray"
   When I access "/studentlist"
