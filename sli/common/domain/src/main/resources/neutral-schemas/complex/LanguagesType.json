@@ -1,9 +1,0 @@
-
-{
-   "type":"LanguagesType",
-   "validatorClass":"org.slc.sli.validation.ComplexSchema",
-   "version":"1.0",
-   "fields":{
-      "*Language":["LanguageItemType"]},
-   "properties":{}
-}
