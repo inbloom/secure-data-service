@@ -119,21 +119,6 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="academicSubject" type="academicSubjectType"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A classification of the certification fields to
-								academic subjects.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="educationOrganizationReference" type="xs:string">
-						<xs:annotation>
-							<xs:documentation>The Education Organization associated with the
-								credential field definition.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
