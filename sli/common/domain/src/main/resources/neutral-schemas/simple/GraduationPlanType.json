@@ -1,9 +1,0 @@
-
-{
-   "type":"GraduationPlanType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Career and Technical Education","Distinguished","Minimum","Recommended","Standard"]}
-}

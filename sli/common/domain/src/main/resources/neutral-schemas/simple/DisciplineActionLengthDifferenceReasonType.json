@@ -1,9 +1,0 @@
-
-{
-   "type":"DisciplineActionLengthDifferenceReasonType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["No Difference","Term Modified By District","Term Modified By Court Order","Term Modified By Mutual Agreement","Student Completed Term Requirements Sooner Than Expected","Student Incarcerated","Term Decreased Due To Extenuating Health-Related Circumstances","Student Withdrew From School","School Year Ended","Continuation Of Previous Year’s Disciplinary Action Assignment","Term Modified By Placement Program Due To Student Behavior While In The Placement","Other"]}
-}

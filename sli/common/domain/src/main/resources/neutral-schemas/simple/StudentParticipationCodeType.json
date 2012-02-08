@@ -1,9 +1,0 @@
-
-{
-   "type":"StudentParticipationCodeType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Victim","Perpetrator","Witness","Reporter"]}
-}

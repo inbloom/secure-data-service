@@ -77,6 +77,11 @@ end
 
 task :default => :production
 
+# Task that initializes the realm fixture.  Should only be done once
+task :realmInit do
+  setFixture("realm", "realm_fixture.json")
+end
+
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -165,48 +170,48 @@ task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :te
 end
 
 desc "Run Heirachy Traversal Tests"
-task :heirarchyTraversalTests do
+task :heirarchyTraversalTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/heirarchyTraversal")
 end
 
 desc "Run Course Tests"
-task :courseTests do
+task :courseTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/course", "course", "course_fixture.json")
 end
 
 desc "Run Session Tests"
-task :sessionTests do
+task :sessionTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/session", "session", "session_fixture.json")
 end
 
 desc "Run Section Tests"
-task :sectionTests do
+task :sectionTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
-task :schoolTests do
+task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
-task :studentTests do
+task :studentTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/student", "student", "student_fixture.json")
 end
 
 desc "Run Teacher Tests"
-task :teacherTests do
+task :teacherTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/teacher", "teacher", "teacher_fixture.json")
 end
 
 desc "Run Assessment Tests"
-task :assessmentTests do
+task :assessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
 end
 
 desc "Run Validation Tests"
-task :validationTests do
+task :validationTests => [:realmInit] do
   setFixture("school", "school_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
   setFixture("student", "student_fixture.json")
@@ -214,19 +219,19 @@ task :validationTests do
 end
 
 desc "Run List-Filter Tests"
-task :listFilterTests do
+task :listFilterTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/lists")
 end
 
 desc "Run Target Tests"
-task :targetTests do
+task :targetTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/targets")
 end
 
 desc "Run Collection Tests"
-task :collectionTests do
+task :collectionTests => [:realmInit] do
   files = {
     "school" => "school_fixture.json",
     "student" => "student_fixture.json",
@@ -239,7 +244,7 @@ end
 # dependecy on importSandboxData so that association tests can depend on the associated
 # entiy data to be available
 desc "Run Association Tests"
-task :associationTests do
+task :associationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/associations/educationOrganization_association")
   runTests("test/features/api/associations/student_section_association")
@@ -252,19 +257,19 @@ task :associationTests do
 end
 
 desc "Run Home URI Tests"
-task :homeUriTests do
+task :homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/home_uri")
 end
 
 desc "Run Aggregation Tests"
-task :aggregationTests do
+task :aggregationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/aggregates")
 end
 
 desc "Run Aggregation Discovery Tests"
-task :aggregationDiscoveryTests do
+task :aggregationDiscoveryTests => [:realmInit] do
   runFixtureAndTests("test/features/api/aggregations","aggregation","aggregation_fixture.json")
 end
 ############################################################
@@ -296,7 +301,7 @@ end
 # Security tests start
 ############################################################
 desc "Run Security Tests"
-task :securityTests do
+task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/security")
 end
@@ -338,6 +343,10 @@ task :dashboardTests do
 
 end
 
+desc "Run Dashboard user based view selection tests"
+task :dashboardUserBasedViewTests do
+  runTests("test/features/dashboard/user_based_views.feature")
+end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
@@ -368,8 +377,7 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
-    "realm" => "realm_fixture.json"
+    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

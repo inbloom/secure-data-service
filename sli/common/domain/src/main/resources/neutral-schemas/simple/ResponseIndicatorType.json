@@ -1,9 +1,0 @@
-
-{
-   "type":"ResponseIndicatorType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Nonscorable response","Ineffective response","Effective response","Partial response"]}
-}
