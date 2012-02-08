@@ -3,15 +3,13 @@ package org.slc.sli.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import org.slc.sli.entity.AssociationResponseObject;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.InnerResponse;
-import org.slc.sli.entity.ResponseObject;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
@@ -92,12 +90,12 @@ public class LiveAPIClient implements APIClient {
     
     private String[] getStudentIdsForSection(String id, String token) {
         String url = Constants.API_SERVER_URI + "/student-section-associations/" + id + "/targets";
-        ResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject[].class);
+        List<GenericEntity> responses = fromAPI(token, url);
         
-        String[] studentIds = new String[responses.length];
+        String[] studentIds = new String[responses.size()];
         int i = 0;
-        for (ResponseObject response : responses) {
-            studentIds[i++] = response.getId();
+        for (GenericEntity response : responses) {
+            studentIds[i++] = (String) (response.get("id"));
         }
         return studentIds;
     }
@@ -133,10 +131,10 @@ public class LiveAPIClient implements APIClient {
         // Make a call to the /home uri and retrieve id from there
         String returnValue = "";
         String url = Constants.API_SERVER_URI + "/home";
-        ResponseObject response = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject.class);
+        GenericEntity response = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token), null);
         
-        for (InnerResponse link : response.getLinks()) {
-            if (link.getRel().equals("self")) {
+        for (Map link : (List<Map>) (response.get("links"))) {
+            if (link.get("rel").equals("self")) {
                 returnValue = parseId(link);
             }
         }
@@ -144,20 +142,21 @@ public class LiveAPIClient implements APIClient {
         return returnValue;
     }
 
-    private String parseId(InnerResponse link) {
+    private String parseId(Map link) {
         String returnValue;
-        int index = link.getHref().lastIndexOf("/");
-        returnValue = link.getHref().substring(index + 1);
+        int index = ((String) (link.get("href"))).lastIndexOf("/");
+        returnValue = ((String) (link.get("href"))).substring(index + 1);
         return returnValue;
     }
+
     
     private GenericEntity[] getSectionsForTeacher(String id, String token) {
         String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
-        AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+        List<GenericEntity> responses = fromAPI(token, url);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
         
-        for (AssociationResponseObject response : responses) {
-            sections.add(getSection(parseId(response.getLink()), token));
+        for (GenericEntity response : responses) {
+            sections.add(getSection(parseId(((Map) (response.get("link")))), token));
         }
         
         // FIXME: converting like this because we suck.
@@ -253,5 +252,29 @@ public class LiveAPIClient implements APIClient {
     }
     
 
+    /**
+     * Retrieves an entity list from the specified API url
+     * and instantiates from its JSON representation
+     * 
+     * @param token
+     *            - the principle authentication token
+     * @param url
+     *            - the API url to retrieve the entity list JSON string representation
+     * @return entityList
+     *         - the generic entity list
+     */
+    public List<GenericEntity> fromAPI(String token, String url) {
+        List<GenericEntity> entityList = new ArrayList<GenericEntity>();
+
+        // Parse JSON
+        Gson gson = new Gson();
+        List<Map> maps = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), new ArrayList<Map>().getClass());
+            
+        for (Map<String, Object> map : maps) {
+            entityList.add(new GenericEntity(map));
+        }
+
+        return entityList;
+    }
     
 }
