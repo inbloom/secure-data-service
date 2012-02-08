@@ -1,0 +1,3352 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for Program.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Program.xsd', 
+				'properties_program', 
+				'properties_program_programId', 
+				'properties_program_programType', 
+				'properties_program_programSponsor', 
+				'properties_program_services', 
+				'properties_serviceDescriptor_codeValue', 
+				'properties_serviceDescriptor_shortDescription', 
+				'properties_serviceDescriptor_description', 
+				'properties_serviceDescriptor_serviceCategory', 
+				'properties_studentProgramAssociation', 
+				'properties_studentProgramAssociation_studentId', 
+				'properties_studentProgramAssociation_programId', 
+				'properties_studentProgramAssociation_services', 
+				'properties_studentProgramAssociation_beginDate', 
+				'properties_studentProgramAssociation_endDate', 
+				'properties_studentProgramAssociation_reasonExited', 
+				'properties_studentProgramAssociation_educationOrganizationReference', 
+				'properties_staffProgramAssociation', 
+				'properties_staffProgramAssociation_staffId', 
+				'properties_staffProgramAssociation_programId', 
+				'properties_staffProgramAssociation_beginDate', 
+				'properties_staffProgramAssociation_endDate', 
+				'properties_staffProgramAssociation_studentRecordAccess');
+
+        var facetsBoxes= new Array('facets_program_programId', 
+				'facets_program_programType', 
+				'facets_program_programSponsor', 
+				'facets_serviceDescriptor_codeValue', 
+				'facets_serviceDescriptor_shortDescription', 
+				'facets_serviceDescriptor_description', 
+				'facets_serviceDescriptor_serviceCategory', 
+				'facets_studentProgramAssociation_reasonExited');
+
+        
+        
+        
+        var diagramBoxes= new Array('diagram_program', 
+				'diagram_program_programId', 
+				'diagram_program_programType', 
+				'diagram_program_programSponsor', 
+				'diagram_program_services', 
+				'diagram_serviceDescriptor_codeValue', 
+				'diagram_serviceDescriptor_shortDescription', 
+				'diagram_serviceDescriptor_description', 
+				'diagram_serviceDescriptor_serviceCategory', 
+				'diagram_studentProgramAssociation', 
+				'diagram_studentProgramAssociation_studentId', 
+				'diagram_studentProgramAssociation_programId', 
+				'diagram_studentProgramAssociation_services', 
+				'diagram_studentProgramAssociation_beginDate', 
+				'diagram_studentProgramAssociation_endDate', 
+				'diagram_studentProgramAssociation_reasonExited', 
+				'diagram_studentProgramAssociation_educationOrganizationReference', 
+				'diagram_staffProgramAssociation', 
+				'diagram_staffProgramAssociation_staffId', 
+				'diagram_staffProgramAssociation_programId', 
+				'diagram_staffProgramAssociation_beginDate', 
+				'diagram_staffProgramAssociation_endDate', 
+				'diagram_staffProgramAssociation_studentRecordAccess', 
+				'diagram_serviceDescriptor');
+
+        var annotationBoxes= new Array('annotations_program', 
+				'annotations_program_programId', 
+				'annotations_program_programType', 
+				'annotations_program_programSponsor', 
+				'annotations_program_services', 
+				'annotations_serviceDescriptor_codeValue', 
+				'annotations_serviceDescriptor_shortDescription', 
+				'annotations_serviceDescriptor_description', 
+				'annotations_serviceDescriptor_serviceCategory', 
+				'annotations_studentProgramAssociation', 
+				'annotations_studentProgramAssociation_studentId', 
+				'annotations_studentProgramAssociation_programId', 
+				'annotations_studentProgramAssociation_services', 
+				'annotations_studentProgramAssociation_beginDate', 
+				'annotations_studentProgramAssociation_endDate', 
+				'annotations_studentProgramAssociation_reasonExited', 
+				'annotations_studentProgramAssociation_educationOrganizationReference', 
+				'annotations_staffProgramAssociation', 
+				'annotations_staffProgramAssociation_staffId', 
+				'annotations_staffProgramAssociation_programId', 
+				'annotations_staffProgramAssociation_beginDate', 
+				'annotations_staffProgramAssociation_endDate', 
+				'annotations_staffProgramAssociation_studentRecordAccess', 
+				'annotations_serviceDescriptor');
+
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, annotationBoxes);"
+                                     class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, diagramBoxes);"
+                                     class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, facetsBoxes);"
+                                     class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, propertiesBoxes);"
+                                     class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button"
+                               onclick="getElementObject('global_controls').style.display = 'none';"
+                               value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Program.xsd"></a><div class="componentTitle">Included schema <span class="qname">Program.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Program.xsd" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Program.xsd');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Program.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">attribute form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">element form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="program"></a><div class="componentTitle">Element <span class="qname">program</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_program" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_program');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_program" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents any program designed to work in conjunction with or to supplement the main</span><span class="tI">
+</span><span class="tT">academic program.  Programs may provide instruction, training, services or benefits through federal,</span><span class="tI">
+</span><span class="tT">state, or local agencies.  Programs may also include organized extracurricular activities for students.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_program" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_program');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_program" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_program.png"
+                                   usemap="#Program_xsd_Element_program" /><map name="Program_xsd_Element_program" id="Program_xsd_Element_program">
+                                 <area alt="Program_xsd.tmp#program_programId"
+                                       href="Program_xsd.html#program_programId"
+                                       coords="218,2,306,26" />
+                                 <area alt="Program_xsd.tmp#program_programType"
+                                       href="Program_xsd.html#program_programType"
+                                       coords="218,92,322,116" />
+                                 <area alt="Program_xsd.tmp#program_programSponsor"
+                                       href="Program_xsd.html#program_programSponsor"
+                                       coords="218,169,341,193" />
+                                 <area alt="Program_xsd.tmp#program_services" href="Program_xsd.html#program_services"
+                                       coords="218,246,293,270" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_program" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_program');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_program" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="program_programId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#program" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">program</a></b> / programId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_program_programId" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_program_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_program_programId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A unique number or alphanumeric code assigned to a program by a school, school system, a</span><span class="tI">
+</span><span class="tT">state, or other agency or entity.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_program_programId" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_program_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_program_programId" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_programId_1.png"
+                                   usemap="#Program_xsd_Element_programId_1" /><map name="Program_xsd_Element_programId_1" id="Program_xsd_Element_programId_1">
+                                 <area alt="SimpleTypes_xsd.tmp#programId" href="SimpleTypes_xsd.html#programId"
+                                       coords="136,0,248,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_program_programId" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_program_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_program_programId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_program_programId" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_program_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_program_programId" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>20</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="program_programType"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#program" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">program</a></b> / programType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_program_programType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_program_programType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_program_programType" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The formal name of the program of instruction, training, services or benefits available</span><span class="tI">
+</span><span class="tT">through federal, state, or local agencies.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_program_programType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_program_programType');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_program_programType" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_programType.png"
+                                   usemap="#Program_xsd_Element_programType" /><map name="Program_xsd_Element_programType" id="Program_xsd_Element_programType">
+                                 <area alt="SimpleTypes_xsd.tmp#programType" href="SimpleTypes_xsd.html#programType"
+                                       coords="152,0,280,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_program_programType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_program_programType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_program_programType" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_program_programType" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_program_programType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_program_programType" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Adult/Continuing Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Alternative Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Athletics</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Bilingual</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Bilingual Summer</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Career and Technical Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Cocurricular Programs</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>College Preparatory</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Community Service Program</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Community/Junior College Education Program</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Compensatory Services for Disadvantaged Students</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Counseling Services</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>English as a Second Language (ESL)</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Even Start</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Extended Day/Child Care Services</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Gifted and Talented</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Head Start</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Health Services Program</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>High School Equivalency Program (HSEP)</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>IDEA</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Immigrant Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Indian Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>International Baccalaureate</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Library/Media Services Program</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Magnet/Special Program Emphasis</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Migrant Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Neglected and Delinquent Program</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Optional Flexible School Day Program (OFSDP)</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Regular Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Remedial Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Section 504 Placement</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Service Learning</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Special Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Student Retention/Dropout Prevention</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Substance Abuse Education/Prevention</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Teacher Professional Development/Mentoring</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Technical Preparatory</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Title I Part A</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Vocational Education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="program_programSponsor"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#program" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">program</a></b> / programSponsor</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_program_programSponsor" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_program_programSponsor');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_program_programSponsor" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Ultimate and intermediate providers of funds for a particular educational or service</span><span class="tI">
+</span><span class="tT">program or activity or for an individual's participation in the program or activity; e.g.,</span><span class="tI">
+</span><span class="tT">Federal, State, ESC, District, School, Private Org, etc.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_program_programSponsor" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_program_programSponsor');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_program_programSponsor" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_programSponsor.png"
+                                   usemap="#Program_xsd_Element_programSponsor" /><map name="Program_xsd_Element_programSponsor"
+                                   id="Program_xsd_Element_programSponsor">
+                                 <area alt="SimpleTypes_xsd.tmp#programSponsorType"
+                                       href="SimpleTypes_xsd.html#programSponsorType"
+                                       coords="171,0,344,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_program_programSponsor" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_program_programSponsor');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_program_programSponsor" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_program_programSponsor" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_program_programSponsor');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_program_programSponsor" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Federal</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>State Education Agency</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Education Service Center</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Local Education Agency</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>School</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Private Organization</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="program_services"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#program" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">program</a></b> / services</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_program_services" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_program_services');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_program_services" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Defines the services provided by this program to students.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_program_services" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_program_services');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_program_services" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_services_1.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_program_services" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_program_services');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_program_services" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="serviceDescriptor_codeValue"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#serviceDescriptor" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">serviceDescriptor</a></b> / codeValue</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_serviceDescriptor_codeValue" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_serviceDescriptor_codeValue');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_serviceDescriptor_codeValue" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A code or abbreviation that is used to refer to the service.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_serviceDescriptor_codeValue" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_serviceDescriptor_codeValue');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_serviceDescriptor_codeValue" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_codeValue.png"
+                                   usemap="#Program_xsd_Element_codeValue" /><map name="Program_xsd_Element_codeValue" id="Program_xsd_Element_codeValue">
+                                 <area alt="SimpleTypes_xsd.tmp#codeValue" href="SimpleTypes_xsd.html#codeValue"
+                                       coords="134,0,244,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_serviceDescriptor_codeValue" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_serviceDescriptor_codeValue');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_serviceDescriptor_codeValue" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_serviceDescriptor_codeValue" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_serviceDescriptor_codeValue');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_serviceDescriptor_codeValue" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>20</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="serviceDescriptor_shortDescription"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#serviceDescriptor" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">serviceDescriptor</a></b> / shortDescription</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_serviceDescriptor_shortDescription" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_serviceDescriptor_shortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_serviceDescriptor_shortDescription" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A shortened description for the service.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_serviceDescriptor_shortDescription" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_serviceDescriptor_shortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_serviceDescriptor_shortDescription" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_shortDescription.png"
+                                   usemap="#Program_xsd_Element_shortDescription" /><map name="Program_xsd_Element_shortDescription"
+                                   id="Program_xsd_Element_shortDescription">
+                                 <area alt="SimpleTypes_xsd.tmp#shortDescription"
+                                       href="SimpleTypes_xsd.html#shortDescription"
+                                       coords="170,0,316,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_serviceDescriptor_shortDescription" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_serviceDescriptor_shortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_serviceDescriptor_shortDescription" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_serviceDescriptor_shortDescription" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_serviceDescriptor_shortDescription');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_serviceDescriptor_shortDescription" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>50</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="serviceDescriptor_description"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#serviceDescriptor" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">serviceDescriptor</a></b> / description</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_serviceDescriptor_description" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_serviceDescriptor_description');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_serviceDescriptor_description" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The description of the service.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_serviceDescriptor_description" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_serviceDescriptor_description');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_serviceDescriptor_description" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_description.png"
+                                   usemap="#Program_xsd_Element_description" /><map name="Program_xsd_Element_description" id="Program_xsd_Element_description">
+                                 <area alt="SimpleTypes_xsd.tmp#description" href="SimpleTypes_xsd.html#description"
+                                       coords="140,0,256,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_serviceDescriptor_description" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_serviceDescriptor_description');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_serviceDescriptor_description" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_serviceDescriptor_description" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_serviceDescriptor_description');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_serviceDescriptor_description" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>1024</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="serviceDescriptor_serviceCategory"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#serviceDescriptor" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">serviceDescriptor</a></b> / serviceCategory</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_serviceDescriptor_serviceCategory" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_serviceDescriptor_serviceCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_serviceDescriptor_serviceCategory" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A classification of the behavior for reporting types.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_serviceDescriptor_serviceCategory" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_serviceDescriptor_serviceCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_serviceDescriptor_serviceCategory" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_serviceCategory.png"
+                                   usemap="#Program_xsd_Element_serviceCategory" /><map name="Program_xsd_Element_serviceCategory"
+                                   id="Program_xsd_Element_serviceCategory">
+                                 <area alt="SimpleTypes_xsd.tmp#serviceCategory"
+                                       href="SimpleTypes_xsd.html#serviceCategory"
+                                       coords="166,0,308,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_serviceDescriptor_serviceCategory" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_serviceDescriptor_serviceCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_serviceDescriptor_serviceCategory" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_serviceDescriptor_serviceCategory" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_serviceDescriptor_serviceCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_serviceDescriptor_serviceCategory" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>50</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation"></a><div class="componentTitle">Element <span class="qname">studentProgramAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This association represents the program(s) that a student participates in or is served by.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Program_xsd_Element_studentProgramAssociation.png"
+                                   usemap="#Program_xsd_Element_studentProgramAssociation" /><map name="Program_xsd_Element_studentProgramAssociation"
+                                   id="Program_xsd_Element_studentProgramAssociation">
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_studentId"
+                                       href="Program_xsd.html#studentProgramAssociation_studentId"
+                                       coords="321,2,403,26" />
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_programId"
+                                       href="Program_xsd.html#studentProgramAssociation_programId"
+                                       coords="321,66,409,90" />
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_services"
+                                       href="Program_xsd.html#studentProgramAssociation_services"
+                                       coords="321,130,396,154" />
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_beginDate"
+                                       href="Program_xsd.html#studentProgramAssociation_beginDate"
+                                       coords="321,207,406,231" />
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_endDate"
+                                       href="Program_xsd.html#studentProgramAssociation_endDate"
+                                       coords="321,284,396,308" />
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_reasonExited"
+                                       href="Program_xsd.html#studentProgramAssociation_reasonExited"
+                                       coords="321,361,422,385" />
+                                 <area alt="Program_xsd.tmp#studentProgramAssociation_educationOrganizationReference"
+                                       href="Program_xsd.html#studentProgramAssociation_educationOrganizationReference"
+                                       coords="321,438,528,462" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_studentId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / studentId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_studentId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The student associated with the program.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_studentId" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_studentId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_studentId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_programId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / programId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_programId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_programId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The program associated with the student.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_programId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_programId" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_programId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_programId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_programId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_services"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / services</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_services" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_services');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_services" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates the services being provided to the student by the program.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_services" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_services');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_services" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_services.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_services" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_services');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_services" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_beginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / beginDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_beginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_beginDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the student first received services.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_beginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_beginDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_beginDate_1.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_beginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_beginDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_endDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / endDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_endDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_endDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the student exited the program or stopped receiving</span><span class="tI">
+</span><span class="tT">services.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_endDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_endDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_endDate_1.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_endDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_endDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_reasonExited"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / reasonExited</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_reasonExited" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_reasonExited');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_reasonExited" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The reason the child left the program within a school or district.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_reasonExited" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_reasonExited');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_reasonExited" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_reasonExited.png"
+                                   usemap="#Program_xsd_Element_reasonExited" /><map name="Program_xsd_Element_reasonExited" id="Program_xsd_Element_reasonExited">
+                                 <area alt="SimpleTypes_xsd.tmp#reasonExitedType"
+                                       href="SimpleTypes_xsd.html#reasonExitedType"
+                                       coords="149,0,300,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_reasonExited" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_reasonExited');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_reasonExited" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_studentProgramAssociation_reasonExited" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_studentProgramAssociation_reasonExited');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_studentProgramAssociation_reasonExited" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Transfer to regular education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Received a certificate</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Reached maximum age</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Died</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Died or is permanently incapacitated</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Discontinued schooling</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Graduated with a high school diploma</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Received certificate of completion, modified diploma, or finished IEP requirements</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Program completion</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Reached maximum age</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>No longer receiving special education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Refused services</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Transferred to another district or school, known to be continuing in program/service</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Transferred to another district or school, not known to be continuing in program/service</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Transferred to another district or school, known not to be continuing in program/service</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Suspended from school</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Discontinued schooling, special education only</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Discontinued schooling, not special education</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Expulsion</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Program discontinued</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Completion of IFSP prior to reaching maximum age for Part C</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Eligible for IDEA, Part B</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Not eligible for Part B, exit with referrals to other programs</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Part B eligibility not determined</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Moved out of state</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Withdrawal by a parent (or guardian)</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Unknown reason</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Not eligible for Part B, exit with no referrals</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Attempts to contact the parent and/or child were unsuccessful</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentProgramAssociation_educationOrganizationReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b> / educationOrganizationReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentProgramAssociation_educationOrganizationReference"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentProgramAssociation_educationOrganizationReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentProgramAssociation_educationOrganizationReference"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The education organization where the student is participating in or receiving the program</span><span class="tI">
+</span><span class="tT">services.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentProgramAssociation_educationOrganizationReference"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentProgramAssociation_educationOrganizationReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentProgramAssociation_educationOrganizationReference"
+                                style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Program_xsd_Element_educationOrganizationReference.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentProgramAssociation_educationOrganizationReference"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentProgramAssociation_educationOrganizationReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentProgramAssociation_educationOrganizationReference"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="staffProgramAssociation"></a><div class="componentTitle">Element <span class="qname">staffProgramAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_staffProgramAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_staffProgramAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_staffProgramAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This association indicates the staff associated with a program.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_staffProgramAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_staffProgramAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_staffProgramAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Program_xsd_Element_staffProgramAssociation.png"
+                                   usemap="#Program_xsd_Element_staffProgramAssociation" /><map name="Program_xsd_Element_staffProgramAssociation"
+                                   id="Program_xsd_Element_staffProgramAssociation">
+                                 <area alt="Program_xsd.tmp#staffProgramAssociation_staffId"
+                                       href="Program_xsd.html#staffProgramAssociation_staffId"
+                                       coords="283,2,348,26" />
+                                 <area alt="Program_xsd.tmp#staffProgramAssociation_programId"
+                                       href="Program_xsd.html#staffProgramAssociation_programId"
+                                       coords="283,66,371,90" />
+                                 <area alt="Program_xsd.tmp#staffProgramAssociation_beginDate"
+                                       href="Program_xsd.html#staffProgramAssociation_beginDate"
+                                       coords="283,130,368,154" />
+                                 <area alt="Program_xsd.tmp#staffProgramAssociation_endDate"
+                                       href="Program_xsd.html#staffProgramAssociation_endDate"
+                                       coords="283,194,358,218" />
+                                 <area alt="Program_xsd.tmp#staffProgramAssociation_studentRecordAccess"
+                                       href="Program_xsd.html#staffProgramAssociation_studentRecordAccess"
+                                       coords="283,258,431,282" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_staffProgramAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_staffProgramAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_staffProgramAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="staffProgramAssociation_staffId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#staffProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">staffProgramAssociation</a></b> / staffId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_staffProgramAssociation_staffId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_staffProgramAssociation_staffId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_staffProgramAssociation_staffId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The staff associated with the program.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_staffProgramAssociation_staffId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_staffProgramAssociation_staffId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_staffProgramAssociation_staffId" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_staffId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_staffProgramAssociation_staffId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_staffProgramAssociation_staffId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_staffProgramAssociation_staffId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="staffProgramAssociation_programId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#staffProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">staffProgramAssociation</a></b> / programId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_staffProgramAssociation_programId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_staffProgramAssociation_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_staffProgramAssociation_programId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The program associated to the staff.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_staffProgramAssociation_programId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_staffProgramAssociation_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_staffProgramAssociation_programId" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_programId_2.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_staffProgramAssociation_programId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_staffProgramAssociation_programId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_staffProgramAssociation_programId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="staffProgramAssociation_beginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#staffProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">staffProgramAssociation</a></b> / beginDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_staffProgramAssociation_beginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_staffProgramAssociation_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_staffProgramAssociation_beginDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Start date for the association of staff to this cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_staffProgramAssociation_beginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_staffProgramAssociation_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_staffProgramAssociation_beginDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_beginDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_staffProgramAssociation_beginDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_staffProgramAssociation_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_staffProgramAssociation_beginDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="staffProgramAssociation_endDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#staffProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">staffProgramAssociation</a></b> / endDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_staffProgramAssociation_endDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_staffProgramAssociation_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_staffProgramAssociation_endDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">End date for the association of staff to this cohort.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_staffProgramAssociation_endDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_staffProgramAssociation_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_staffProgramAssociation_endDate" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_endDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_staffProgramAssociation_endDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_staffProgramAssociation_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_staffProgramAssociation_endDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="staffProgramAssociation_studentRecordAccess"></a><div class="componentTitle">Element <span class="qname"><b><a href="Program_xsd.html#staffProgramAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Program.xsd')">staffProgramAssociation</a></b> / studentRecordAccess</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_staffProgramAssociation_studentRecordAccess"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_staffProgramAssociation_studentRecordAccess');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_staffProgramAssociation_studentRecordAccess"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicator of whether the staff has access to the student records of the program per district</span><span class="tI">
+</span><span class="tT">interpretation of FERPA and other privacy laws, regulations and policies.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_staffProgramAssociation_studentRecordAccess" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_staffProgramAssociation_studentRecordAccess');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_staffProgramAssociation_studentRecordAccess" style="display:block"><img alt="Diagram" border="0" src="img/Program_xsd_Element_studentRecordAccess.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_staffProgramAssociation_studentRecordAccess" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_staffProgramAssociation_studentRecordAccess');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_staffProgramAssociation_studentRecordAccess"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="serviceDescriptor"></a><div class="componentTitle">Complex Type <span class="qname">serviceDescriptor</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_serviceDescriptor" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_serviceDescriptor');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_serviceDescriptor" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This descriptor defines the services provided an education organization to populations of students</span><span class="tI">
+</span><span class="tT">associated with a program.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_serviceDescriptor" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_serviceDescriptor');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_serviceDescriptor" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Program_xsd_Complex_Type_serviceDescriptor.png"
+                                   usemap="#Program_xsd_Complex_Type_serviceDescriptor" /><map name="Program_xsd_Complex_Type_serviceDescriptor"
+                                   id="Program_xsd_Complex_Type_serviceDescriptor">
+                                 <area alt="Program_xsd.tmp#serviceDescriptor_codeValue"
+                                       href="Program_xsd.html#serviceDescriptor_codeValue"
+                                       coords="269,0,355,24" />
+                                 <area alt="Program_xsd.tmp#serviceDescriptor_shortDescription"
+                                       href="Program_xsd.html#serviceDescriptor_shortDescription"
+                                       coords="269,77,391,101" />
+                                 <area alt="Program_xsd.tmp#serviceDescriptor_description"
+                                       href="Program_xsd.html#serviceDescriptor_description"
+                                       coords="269,141,361,165" />
+                                 <area alt="Program_xsd.tmp#serviceDescriptor_serviceCategory"
+                                       href="Program_xsd.html#serviceDescriptor_serviceCategory"
+                                       coords="269,205,387,229" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Program_xsd.html">Program.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

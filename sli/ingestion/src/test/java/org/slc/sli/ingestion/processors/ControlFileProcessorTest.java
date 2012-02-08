@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.processors;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -20,7 +19,6 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Tests for ControlFileProcessor
@@ -60,12 +58,9 @@ public class ControlFileProcessorTest {
 
         assertNotNull("BatchJob is not defined", bj);
 
-        String messageType = (String) eObject.getIn().getHeader("IngestionMessageType");
-        String errorMessage = (String) eObject.getIn().getHeader("ErrorMessage");
+        boolean hasErrors = (Boolean) eObject.getIn().getHeader("hasErrors");
 
-        assertNotNull("header [IngestionMessageType] not set on the exchange", messageType);
-        assertEquals("header [IngestionMessageType] not set to ERROR", messageType, MessageType.ERROR.name());
-        assertNotNull("header [ErrorMessage] not set on the exchange", errorMessage);
+        assertTrue("header [hasErrors] not set to true", hasErrors);
     }
 
 }

@@ -16,34 +16,32 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
 /**
-*
-* @author mpatel
-*
-*/
+ *
+ * @author mpatel
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-
 public class StudentSectionAssociationTest {
 
     @Autowired
     private EntityValidator validator;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-+ "<StudentSectionAssociation>"
-+ "<UniqueSectionCode>MT100</UniqueSectionCode>"
-+   "<StudentReference>"
-+    "<StudentIdentity>"
-+      "<StudentUniqueStateId>111220001</StudentUniqueStateId>"
-+    "</StudentIdentity>"
-+   "</StudentReference>"
-+   " <SectionReference>"
-+   " </SectionReference>"
-+   " <BeginDate>2009-09-15</BeginDate>"
-+   " <EndDate>2010-06-02</EndDate>"
-+   " <HomeroomIndicator>false</HomeroomIndicator>"
-+   " <RepeatIdentifier>Not Repeated</RepeatIdentifier>"
-+ "</StudentSectionAssociation>"
-+ "</InterchangeStudentEnrollment>";
+            + "<StudentSectionAssociation>"
+            + "<UniqueSectionCode>MT100</UniqueSectionCode>"
+            + "<StudentReference>"
+            + "<StudentIdentity>"
+            + "<StudentUniqueStateId>111220001</StudentUniqueStateId>"
+            + "</StudentIdentity>"
+            + "</StudentReference>"
+            + " <SectionReference>"
+            + " </SectionReference>"
+            + " <BeginDate>2009-09-15</BeginDate>"
+            + " <EndDate>2010-06-02</EndDate>"
+            + " <HomeroomIndicator>false</HomeroomIndicator>"
+            + " <RepeatIdentifier>Not Repeated</RepeatIdentifier>"
+            + "</StudentSectionAssociation>" + "</InterchangeStudentEnrollment>";
 
     @Test
     public void testValidSectionCSV() throws Exception {
@@ -58,7 +56,7 @@ public class StudentSectionAssociationTest {
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
 
-            //Tests that the NeutralRecord was created
+            // Tests that the NeutralRecord was created
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
@@ -66,7 +64,6 @@ public class StudentSectionAssociationTest {
         } finally {
             nrfr.close();
         }
-
     }
 
     @Test
@@ -79,7 +76,7 @@ public class StudentSectionAssociationTest {
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
 
-            //Tests that the NeutralRecord was created
+            // Tests that the NeutralRecord was created
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
@@ -96,22 +93,20 @@ public class StudentSectionAssociationTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
 
-
-
         ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-            //Tests that the NeutralRecords were created
+            // Tests that the NeutralRecords were created
             Assert.assertTrue(nrfr.hasNext());
             NeutralRecord record = nrfr.next();
             checkValidSectionNeutralRecord(record);
         } finally {
-           nrfr.close();
+            nrfr.close();
         }
-   }
+    }
+
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
-        System.out.println("checkValidSectionNeutralRecord() ...");
         Map<String, Object> entity = record.getAttributes();
         Assert.assertEquals("111220001", entity.get("studentId"));
         Assert.assertEquals("MT100", entity.get("uniqueSectionCode"));
@@ -119,7 +114,5 @@ public class StudentSectionAssociationTest {
         Assert.assertEquals("2010-06-02", entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
         Assert.assertEquals("Not Repeated", entity.get("repeatIdentifier"));
-        System.out.println("Done...");
     }
 }
-

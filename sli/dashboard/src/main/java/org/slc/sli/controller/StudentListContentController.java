@@ -107,7 +107,7 @@ public class StudentListContentController extends DashboardController {
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
-            List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+            List<Student> students = studentManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
             List<StudentProgramAssociation> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
             model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
