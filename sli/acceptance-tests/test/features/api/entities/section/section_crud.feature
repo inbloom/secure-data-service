@@ -9,20 +9,26 @@ Background: Logged in as a super-user and using the small data set
 #### Happy Path 
 Scenario Outline: Create a new section
     Given format "<format>"
-      	And the "uniqueSectionCode" is "SpanishB09"
-      	And the "sequenceOfCourse" is "1"
-       	And the "educationalEnvironment" is "OFF_SCHOOL_CENTER"
-       	And the "mediumOfInstruction" is "INDEPENDENT_STUDY"
-       	And the "populationServed" is "REGULAR_STUDENTS"
-	When I navigate to POST "/sections/" 
+      And the "uniqueSectionCode" is "SpanishB09"
+      And the "sequenceOfCourse" is "1"
+      And the "educationalEnvironment" is "Off-school center"
+      And the "mediumOfInstruction" is "Independent study"
+      And the "populationServed" is "Regular Students"
+      And the "schoolId" is "<'APPLE ELEMENTARY (SCHOOL)' ID>"
+      And the "sessionId" is "<'FALL 2011 (SESSION)' ID>"
+      And the "courseId" is "<'FRENCH 1 (COURSE)' ID>"
+    When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
-       	And I should receive an ID for the newly created section
+      And I should receive an ID for the newly created section
     When I navigate to GET "/sections/<'newly created section' ID>"
-    Then the "sequenceOfCourse" should be "1"
-      And the "educationalEnvironment" should be "OFF_SCHOOL_CENTER"
-      And the "mediumOfInstruction" should be "INDEPENDENT_STUDY"
-      And the "populationServed" should be "REGULAR_STUDENTS"
-      And the "uniqueSectionCode" should be "SpanishB09"
+     Then the "uniqueSectionCode" should be "SpanishB09"
+      And the "sequenceOfCourse" should be "1"
+      And the "educationalEnvironment" should be "Off-school center"
+      And the "mediumOfInstruction" should be "Independent study"
+      And the "populationServed" should be "Regular Students"
+      And the "schoolId" should be "<'APPLE ELEMENTARY (SCHOOL)' ID>"
+      And the "sessionId" should be "<'FALL 2011 (SESSION)' ID>"
+      And the "courseId" should be "<'FRENCH 1 (COURSE)' ID>"
     Examples:
     		| format                     |
     		| application/json 			 |

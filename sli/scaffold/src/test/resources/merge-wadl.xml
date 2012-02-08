@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
+
+    <!-- Add a Node  -->
+    <merge type="node" action="add"
+           xpath="//ns2:application/ns2:resources/ns2:resource[@path='{type}']/ns2:method/ns2:request">
+        <ns2:doc title="wds"><![CDATA[I have a belly button!]]></ns2:doc>
+    </merge>
+
+    <!-- Delete a Node -->
+    <merge type="node" action="delete"
+           xpath="//ns2:application/ns2:resources/ns2:resource[@path='{type}']/ns2:method/ns2:response/ns2:representation[@mediaType='application/vnd.slc+xml']"/>
+    <!--<merge type="node" action="delete" xpath="//fakens:application"/>-->
+
+    <!-- Set Content of a Node -->
+    <merge type="node" action="set" xpath="//application/resources/resource[@path='{type}']/method/response/doc">
+        Create an Entity.
+    </merge>
+
+    <!-- Add an Attribute -->
+    <merge type="attribute" action="add"
+           xpath="//ns2:application/ns2:resources/ns2:resource[@path='{type}']/ns2:method/ns2:response">
+        <attribute name="status" value="200"/>
+    </merge>
+
+    <!-- Delete an Attribute -->
+    <merge type="attribute" action="delete"
+           xpath="//ns2:application/ns2:resources/ns2:resource[@path='{type}']/ns2:method/ns2:response">
+        <attribute name="bad" value="good"/>
+    </merge>
+
+    <!-- Set an Attribute -->
+    <merge type="attribute" action="set" xpath="//ns2:application/ns2:doc">
+        <attribute name="title" value="SLI ReSTful API Documentation"/>
+    </merge>
+
+</merges>
