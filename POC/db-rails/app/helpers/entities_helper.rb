@@ -1,15 +1,19 @@
 module EntitiesHelper
   
+  def localize_url(url)
+    url.gsub( APP_CONFIG['api_base'], "http://#{request.host_with_port}/entities")
+  end
+  
   def build_links(hash)
   	html = ""
   	if hash.is_a?(Array)
   		html << '<ul>'
   		hash.each do |link|
-  			html << '<li>' << link_to( t(link["rel"]), link["href"] ) << '</li>'
+  			html << '<li>' << link_to( t(link["rel"]), localize_url(link["href"]) ) << '</li>'
   		end
   		html << '</ul>'
   	else
-  		html << link_to( t(hash["rel"]), hash["href"] )
+  		html << link_to( t(hash["rel"]), localize_url(hash["href"]) )
   	end
   	html
   end 

@@ -32,6 +32,8 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/admin/roles/-123?sessionId=", {"Accept" => "application/json"}, nil, 404
       #Realms
       mock.get "/api/rest/realm?sessionId=", {"Accept" => "application/json"}, [@realm_fixtures['one'], @realm_fixtures['two']].to_json
+      mock.get "/api/rest/realm?realm=dc%3Dslidev%2Cdc%3Dorg&sessionId=", {"Accept" => "application/json"}, [@realm_fixtures['one']].to_json
+      mock.get "/api/rest/realm?realm=blah&sessionId=", {"Accept" => "application/json"}, [].to_json
       mock.get "/api/rest/realm/1?sessionId=", {"Accept" => "application/json"}, @realm_fixtures['one'].to_json
       mock.get "/api/rest/realm/5a4bfe96-1724-4565-9db1-35b3796e3ce2?sessionId=", {"Accept" => "application/json"}, nil, 404
       mock.put "/api/rest/realm/1?sessionId=", {"Content-Type"=>"application/json"}, {}

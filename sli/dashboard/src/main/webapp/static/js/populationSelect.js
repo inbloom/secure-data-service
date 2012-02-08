@@ -49,23 +49,23 @@ function populateSectionMenu(edorgIndex,schoolIndex, courseIndex){
     document.getElementById("sectionDiv").innerHTML = y
 }
 
+function changeView(viewIndex) {
+    var edOrgIndex = document.getElementById("edOrgSelect").value;
+    var schoolIndex = document.getElementById("schoolSelect").value;
+    var courseIndex = document.getElementById("courseSelect").value;
+    var sectionIndex = document.getElementById("sectionSelect").value;
+    printStudentList(edOrgIndex, schoolIndex, courseIndex, sectionIndex, viewIndex);
+}
+
 function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, viewIndex){
     var i = 0;
     var temp = instHeirarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
     var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
-                            + "&view=" + viewIndex; 
+                            + "&viewIndex=" + viewIndex + "&username=" + "${username}";; 
     $("#studentDiv").load(studentContentUrl, function() {
         document.getElementById("viewSelector").selectedIndex = viewIndex;
     });
 }
 
-function changeView(view_id) {
-    var edOrgIndex = document.getElementById("edOrgSelect").value;
-    var schoolIndex = document.getElementById("schoolSelect").value;
-    var courseIndex = document.getElementById("courseSelect").value;
-    var sectionIndex = document.getElementById("sectionSelect").value;
-
-    printStudentList(edOrgIndex, schoolIndex, courseIndex, sectionIndex, view_id);
-}

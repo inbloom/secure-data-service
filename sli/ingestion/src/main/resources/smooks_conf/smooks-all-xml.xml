@@ -724,8 +724,6 @@
     <jb:value property="id" data="Credentials/CredentialField/@id" />
     <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
     <jb:value property="description" data="Credentials/CredentialField/Description" />
-    <jb:value property="academicSubject" data="Credentials/CredentialField/AcademicSubject" />
-    <jb:value property="educationOrganizationReference" data="Credentials/CredentialField/EducationOrganizationReference" />
   </jb:bean>
   <!-- End Teacher Mapping -->
 

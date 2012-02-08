@@ -1,9 +1,0 @@
-
-{
-   "type":"DiplomaLevelType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Minimum","Recommended","Distinguished","Cum laude","Magna cum laude","Summa cum laude"]}
-}
