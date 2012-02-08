@@ -7,7 +7,7 @@ Given /^I have an open web browser$/ do
   @driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
-When /^I wait for a second&/ do
+When /^I wait for a second$/ do
   sleep(1)
 end
 
