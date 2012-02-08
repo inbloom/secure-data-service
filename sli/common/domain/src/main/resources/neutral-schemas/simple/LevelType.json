@@ -1,9 +1,0 @@
-
-{
-   "type":"LevelType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["All Level (Grade Level PK-12)","All-Level (Grade Level EC-12)","Early Childhood (PK-K)","Elementary (Grade Level 1-6)","Elementary (Grade Level 1-8)","Elementary (Grade Level 4-8)","Elementary (Grade Level EC-4)","Elementary (Grade Level EC-6)","Elementary (Grade Level PK-5)","Elementary (Grade Level PK-6)","Grade Level NA","Junior High (Grade Level 6-8)","Secondary (Grade Level 6-12)","Secondary (Grade Level 8-12)"]}
-}

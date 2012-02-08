@@ -1,9 +1,0 @@
-
-{
-   "type":"DisabilityType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Autistic/Autism","Deaf-Blindness","Deafness","Developmental Delay","Emotional Disturbance","Hearing/Auditory Impairment","Infants and Toddlers with Disabilities","Mental Retardation","Multiple Disabilities","Orthopedic Impairment","Other Health Impairment","Speech or Language Impairment","Specific Learning Disability","Traumatic Brain Delay","Visual Impairment"]}
-}

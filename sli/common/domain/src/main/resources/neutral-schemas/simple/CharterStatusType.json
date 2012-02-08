@@ -1,9 +1,0 @@
-
-{
-   "type":"CharterStatusType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["School Charter","College/University Charter","Open Enrollment","Not a Charter School"]}
-}

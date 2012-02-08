@@ -1,9 +1,0 @@
-
-{
-   "type":"EmploymentStatusType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Probationary","Contractual","Substitute/temporary","Tenured or permanent","Volunteer/no contract","Employed or affiliated with outside organization","Contingent upon funding","Non-contractual","Self-employed part-time","Employed or affiliated with outside agency part-time","Other"]}
-}

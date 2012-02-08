@@ -1,9 +1,0 @@
-
-{
-   "type":"CohortScopeType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["District","School","Classroom","Teacher","Principal","Counselor","Statewide"]}
-}

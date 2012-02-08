@@ -1,9 +1,0 @@
-
-{
-   "type":"OperationalStatusType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Active","Added","Changed Agency","Closed","Continuing","Future","Inactive","New","Reopened"]}
-}
