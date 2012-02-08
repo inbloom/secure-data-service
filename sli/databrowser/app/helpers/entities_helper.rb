@@ -1,7 +1,7 @@
 module EntitiesHelper
   
   def localize_url(url)
-    url.gsub( APP_CONFIG['api_base'], "http://#{request.host_with_port}/entities")
+    url.gsub( APP_CONFIG['api_base'], "http://#{request.host_with_port}/entities") unless url.nil?
   end
   
   def build_links(hash)
