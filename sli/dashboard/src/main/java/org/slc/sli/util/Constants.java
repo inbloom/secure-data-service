@@ -32,11 +32,33 @@ public class Constants {
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
     
+    // entity attributes
+    public static final String ATTR_COURSES = "courses";
+    public static final String ATTR_SCHOOL_ID = "schoolId";
+    public static final String ATTR_SECTIONS = "sections";
+    public static final String ATTR_COURSE = "course";
+    public static final String ATTR_SECTION_NAME = "sectionName";
+    public static final String ATTR_LINK = "link";
+    public static final String ATTR_HREF = "href";
+    public static final String ATTR_SELF = "self";
+    public static final String ATTR_REL = "rel";
+    public static final String ATTR_LINKS = "links";
+    public static final String ATTR_STUDENT_UIDS = "studentUIDs";
+	public static final String ATTR_ID = "id";
+	public static final String ATTR_CUSTOM_DATA = "customData";
+	public static final String ATTR_ASSESSMENT_NAME = "assessmentName";
+	public static final String ATTR_STUDENT_ID = "studentId";
+	public static final String ATTR_NAME = "name";
+	public static final String ATTR_FIRST_NAME = "firstName";
+	public static final String ATTR_LAST_SURNAME = "lastSurname";
+	public static final String ATTR_PROGRAMS = "programs";
+	public static final String ATTR_YEAR = "year";
+	public static final String ATTR_SCALE_SCORE = "scaleScore";
+	public static final String ATTR_PERF_LEVEL = "perfLevel";
+	
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
-    
-    // entity types
-    public static final String ENTITY_TYPE_STUDENT = "student";
+
     
     /**
      * Contains the possible values for FRE participation

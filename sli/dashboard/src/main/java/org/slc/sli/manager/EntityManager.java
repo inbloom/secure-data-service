@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -216,7 +217,7 @@ public class EntityManager {
         List<GenericEntity> filteredEntities = new ArrayList<GenericEntity>();
         if (entityIds != null) {
             for (GenericEntity entity : entities) {
-                if (entityIds.contains(entity.get("id"))) {
+                if (entityIds.contains(entity.get(Constants.ATTR_ID))) {
                     filteredEntities.add(entity);
                 }
             }
@@ -247,7 +248,7 @@ public class EntityManager {
         // Select entity identified by id
         if (id != null) {
             for (GenericEntity entity : entities) {
-                if (id.equals(entity.get("id"))) {
+                if (id.equals(entity.get(Constants.ATTR_ID))) {
                     return entity;
                 }
             }

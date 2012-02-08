@@ -7,6 +7,7 @@ import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -24,12 +25,12 @@ public class StudentManager extends Manager {
     public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
         // extract the studentInfo data fields
-        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
+        List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_STUDENT_INFO);
         
         // call the api
         List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
         if (dataFields.size() > 0) {
-            studentInfo.addAll(apiClient.getStudents(SecurityUtil.getToken(), studentIds));
+            studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
         }
         
         // return the results

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.util.Constants;
 
 /**
  * 
@@ -134,7 +135,7 @@ public class MockAPIClient implements APIClient {
         List<GenericEntity> filteredEntities = new ArrayList<GenericEntity>();
         if (entityIds != null) {
             for (GenericEntity entity : entities) {
-                if (entityIds.contains(entity.get("id"))) {
+                if (entityIds.contains(entity.get(Constants.ATTR_ID))) {
                     filteredEntities.add(entity);
                 }
             }

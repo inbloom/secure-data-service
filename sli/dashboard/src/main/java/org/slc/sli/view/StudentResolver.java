@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
+import org.slc.sli.util.Constants;
 
 
 //Hopefully there will be one for each of dataSet types
@@ -21,8 +22,6 @@ import org.slc.sli.entity.util.StudentProgramUtil;
 public class StudentResolver {
     List<GenericEntity> students;
     List<GenericEntity> programs;
-    
-    public static final String DATA_SET_TYPE = "studentInfo";
     
     /**
      * Constructor
@@ -43,10 +42,11 @@ public class StudentResolver {
     public String get(Field field, Map student) {
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
-        if (dataPointName.equals("name")) {
+        if (dataPointName.equals(Constants.ATTR_NAME)) {
             // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
             //return student.getFirstName() + " " + student.getLastName();
-            return ((Map) (student.get("name"))).get("firstName") + " " + ((Map) (student.get("name"))).get("lastSurname");
+            return ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
+                 + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
         } 
         return "";
     }
@@ -65,8 +65,8 @@ public class StudentResolver {
         
         // Now check program participation
         for (GenericEntity p : programs) {
-            if (p.get("studentId").equals(student.get("id"))) {
-                return ((List<String>) (p.get("programs"))).contains(code);
+            if (p.get(Constants.ATTR_STUDENT_ID).equals(student.get(Constants.ATTR_ID))) {
+                return ((List<String>) (p.get(Constants.ATTR_PROGRAMS))).contains(code);
             }
         }
 

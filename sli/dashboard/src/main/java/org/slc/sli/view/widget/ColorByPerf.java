@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -45,7 +46,7 @@ public class ColorByPerf {
         // get data point id for the perf level
         String dataPointId = field.getValue();
         String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
-        String perfDataPointId = assmtName + ".perfLevel";
+        String perfDataPointId = assmtName + "." + Constants.ATTR_PERF_LEVEL;
         
         // create temporary Field to get perfLevel - TODO: there should be a better way to do this
         Field perfField = new Field();
@@ -59,7 +60,7 @@ public class ColorByPerf {
 
         GenericEntity assmt = assmts.resolveAssessment(perfField, student);
         if (assmt == null) { return 0; }
-        int level = (Integer.parseInt((String) (assmt.get("perfLevel"))));
+        int level = (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
         return getColorIndex(level, numLevels);
     }
     

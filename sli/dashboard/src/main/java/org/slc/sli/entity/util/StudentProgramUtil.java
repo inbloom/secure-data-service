@@ -30,14 +30,14 @@ public class StudentProgramUtil {
     }
     
     private static boolean hasLimitedEnglishProficiency(Map student) {
-        String limitedEnglishProficiency = (String) (student.get("limitedEnglishProficiency"));
+        String limitedEnglishProficiency = (String) (student.get(Constants.PROGRAM_ELL));
         return (limitedEnglishProficiency != null) && (limitedEnglishProficiency.equals(Constants.SHOW_ELL_LOZENGE));
     }
     
     
     private static boolean hasSchoolFoodServiceEligibility(Map student) {
         for (Constants.FREParticipation part : Constants.FREParticipation.values()) {
-            String schoolFoodServicesEligibility = (String) (student.get("schoolFoodServicesEligibility"));
+            String schoolFoodServicesEligibility = (String) (student.get(Constants.PROGRAM_FRE));
             if ((schoolFoodServicesEligibility != null) && (schoolFoodServicesEligibility.equals(part.getValue()))) {
                 return true;
             }

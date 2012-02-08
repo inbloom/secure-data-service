@@ -18,7 +18,6 @@ public class SchoolManager extends Manager {
     
     public List<GenericEntity> getSchools() {
         String token = SecurityUtil.getToken();
-        //School[] schools = apiClient.getSchools(token);
         List<GenericEntity> schools = entityManager.getSchools(token, null);
         return schools;
     }

@@ -11,6 +11,7 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.util.Constants;
 
 /**
  * AssessmentManager supplies student assessment data to the controllers.
@@ -27,7 +28,7 @@ public class AssessmentManager extends Manager {
     public List<GenericEntity> getAssessments(String username, List<String> studentIds, ViewConfig config) {
         
         // extract the studentInfo data fields we need
-        List<Field> dataFields = ConfigUtil.getDataFields(config, "assessment");
+        List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_ASSESSMENT);
 
         
         // TODO: API question: do we make one call and get all assessments, then filter? or make calls for only what we need?

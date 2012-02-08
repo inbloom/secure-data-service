@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -47,7 +48,7 @@ public class FuelGauge {
     public Integer getNumRealPerfLevels() { 
         GenericEntity assmt = assmts.resolveAssessment(field, student);
         if (assmt == null) { return null; }
-        return assmts.getMetaData().findNumRealPerfLevelsForFamily((String) (assmt.get("assessmentName")));
+        return assmts.getMetaData().findNumRealPerfLevelsForFamily((String) (assmt.get(Constants.ATTR_ASSESSMENT_NAME)));
     }
     /**
      * Returns the performance level 
@@ -55,7 +56,7 @@ public class FuelGauge {
     public Integer getPerfLevel() { 
         GenericEntity assmt = assmts.resolveAssessment(field, student);
         if (assmt == null) { return null; }
-        return (Integer.parseInt((String) (assmt.get("perfLevel"))));
+        return (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
     }
 
     /**
@@ -63,6 +64,6 @@ public class FuelGauge {
      */
     public Integer getScore() { 
         GenericEntity a = assmts.resolveAssessment(field, student);
-        return a == null ? null : (Integer.parseInt((String) (a.get("scaleScore"))));
+        return a == null ? null : (Integer.parseInt((String) (a.get(Constants.ATTR_SCALE_SCORE))));
     }
 }

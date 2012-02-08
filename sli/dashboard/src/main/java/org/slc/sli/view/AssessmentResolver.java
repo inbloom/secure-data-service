@@ -8,6 +8,7 @@ import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.entity.assessmentmetadata.PerfLevel;
+import org.slc.sli.util.Constants;
 
 
 //Hopefully there will be one for each of dataSet types
@@ -61,7 +62,7 @@ public class AssessmentResolver {
         // return shortname for perf levels?? 
         if (dataPointName.equals(DATA_POINT_NAME_PERFLEVEL)) { 
             String perfLevel = (String) (chosenAssessment.get(DATA_POINT_NAME_PERFLEVEL)); 
-            List<PerfLevel> perfLevels = metaDataResolver.findPerfLevelsForFamily((String) (chosenAssessment.get("assessmentName")));
+            List<PerfLevel> perfLevels = metaDataResolver.findPerfLevelsForFamily((String) (chosenAssessment.get(Constants.ATTR_ASSESSMENT_NAME)));
             if (perfLevels == null) { return ""; }
             for (PerfLevel pl : perfLevels) {
                 if (perfLevel.equals(pl.getName())) {
@@ -82,7 +83,7 @@ public class AssessmentResolver {
         GenericEntity chosenAssessment = resolveAssessment(field, student);
         if (chosenAssessment == null) { return null; }
         // get the cutpoints
-        return metaDataResolver.findCutpointsForFamily((String) (chosenAssessment.get("assessmentName")));
+        return metaDataResolver.findCutpointsForFamily((String) (chosenAssessment.get(Constants.ATTR_ASSESSMENT_NAME)));
     }
     
     public AssessmentMetaDataResolver getMetaData() { 
@@ -101,7 +102,7 @@ public class AssessmentResolver {
         // A) filter out students first
         List<GenericEntity> studentFiltered = new ArrayList<GenericEntity>();
         for (GenericEntity a : assessments) {
-            if (a.get("studentId").equals(student.get("id"))) {
+            if (a.get(Constants.ATTR_STUDENT_ID).equals(student.get(Constants.ATTR_ID))) {
                 studentFiltered.add(a);
             }
         }
@@ -111,7 +112,7 @@ public class AssessmentResolver {
         String assessmentName = extractAssessmentName(field.getValue());
         List<GenericEntity> studentAssessmentFiltered = new ArrayList<GenericEntity>();
         for (GenericEntity a : studentFiltered) {
-            if (metaDataResolver.isAncestor(assessmentName, (String) (a.get("assessmentName")))) {
+            if (metaDataResolver.isAncestor(assessmentName, (String) (a.get(Constants.ATTR_ASSESSMENT_NAME)))) {
                 studentAssessmentFiltered.add(a);
             }
         }

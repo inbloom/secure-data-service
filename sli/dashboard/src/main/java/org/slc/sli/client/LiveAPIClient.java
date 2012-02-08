@@ -71,7 +71,7 @@ public class LiveAPIClient implements APIClient {
         
         int i = 0;
         for (String url: urls) {
-            students.add(createEntityFromJson(getStudent(url, token), Constants.ENTITY_TYPE_STUDENT));
+            students.add(createEntityFromJson(getStudent(url, token)));
         }
         
         return students;
@@ -84,7 +84,7 @@ public class LiveAPIClient implements APIClient {
     
     private GenericEntity getSchool(String id, String token) {
         String url = Constants.API_SERVER_URI + "/schools/" + id;
-        GenericEntity school = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token), null);
+        GenericEntity school = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token));
         return school;
     }
     
@@ -95,7 +95,7 @@ public class LiveAPIClient implements APIClient {
         String[] studentIds = new String[responses.size()];
         int i = 0;
         for (GenericEntity response : responses) {
-            studentIds[i++] = (String) (response.get("id"));
+            studentIds[i++] = (String) (response.get(Constants.ATTR_ID));
         }
         return studentIds;
     }
@@ -103,8 +103,8 @@ public class LiveAPIClient implements APIClient {
     
     private GenericEntity getSection(String id, String token) {
         String url = Constants.API_SERVER_URI + "/sections/" + id;
-        GenericEntity section = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token), null);
-        section.put("studentUIDs", getStudentIdsForSection(id, token));
+        GenericEntity section = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token));
+        section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(id, token));
         return section;
     }
 
@@ -131,10 +131,10 @@ public class LiveAPIClient implements APIClient {
         // Make a call to the /home uri and retrieve id from there
         String returnValue = "";
         String url = Constants.API_SERVER_URI + "/home";
-        GenericEntity response = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token), null);
+        GenericEntity response = createEntityFromJson(restClient.makeJsonRequestWHeaders(url, token));
         
-        for (Map link : (List<Map>) (response.get("links"))) {
-            if (link.get("rel").equals("self")) {
+        for (Map link : (List<Map>) (response.get(Constants.ATTR_LINKS))) {
+            if (link.get(Constants.ATTR_REL).equals(Constants.ATTR_SELF)) {
                 returnValue = parseId(link);
             }
         }
@@ -144,8 +144,8 @@ public class LiveAPIClient implements APIClient {
 
     private String parseId(Map link) {
         String returnValue;
-        int index = ((String) (link.get("href"))).lastIndexOf("/");
-        returnValue = ((String) (link.get("href"))).substring(index + 1);
+        int index = ((String) (link.get(Constants.ATTR_HREF))).lastIndexOf("/");
+        returnValue = ((String) (link.get(Constants.ATTR_HREF))).substring(index + 1);
         return returnValue;
     }
 
@@ -156,7 +156,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
         
         for (GenericEntity response : responses) {
-            sections.add(getSection(parseId(((Map) (response.get("link")))), token));
+            sections.add(getSection(parseId(((Map) (response.get(Constants.ATTR_LINK)))), token));
         }
         
         // FIXME: converting like this because we suck.
@@ -180,10 +180,10 @@ public class LiveAPIClient implements APIClient {
             
             // get course name
             String courseName; 
-            String sectionName = (String) (section.get("sectionName"));
+            String sectionName = (String) (section.get(Constants.ATTR_SECTION_NAME));
             if (sectionName.indexOf('-') > 0) {
                 courseName = sectionName.substring(0, sectionName.indexOf('-') - 1);
-                section.put("sectionName", sectionName.substring(sectionName.indexOf('-') + 2));
+                section.put(Constants.ATTR_SECTION_NAME, sectionName.substring(sectionName.indexOf('-') + 2));
             } else {
                 courseName = sectionName;
             }    
@@ -194,19 +194,19 @@ public class LiveAPIClient implements APIClient {
                 course = courseMap.get(courseName);
             } else {
                 course = new GenericEntity();
-                course.put("course", courseName);
+                course.put(Constants.ATTR_COURSE, courseName);
                 courseMap.put(courseName, course);
             }
             
             // add section to course
             GenericEntity[] sectionArray = {section};
-            course.put("sections", (GenericEntity[]) ArrayUtils.addAll((GenericEntity[]) (course.get("sections")), sectionArray));
+            course.put(Constants.ATTR_SECTIONS, (GenericEntity[]) ArrayUtils.addAll((GenericEntity[]) (course.get(Constants.ATTR_SECTIONS)), sectionArray));
             
             //TODO: Make a mapping between courses and schools 
             if (SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
-                course.put("schoolId", "00000000-0000-0000-0000-000000000201");
+                course.put(Constants.ATTR_SCHOOL_ID, "00000000-0000-0000-0000-000000000201");
             } else {
-                course.put("schoolId", "00000000-0000-0000-0000-000000000202");
+                course.put(Constants.ATTR_SCHOOL_ID, "00000000-0000-0000-0000-000000000202");
             }
             
         }
@@ -220,12 +220,12 @@ public class LiveAPIClient implements APIClient {
         
         for (GenericEntity course: courses) {
             GenericEntity[] singleCourseArray = {course};
-            if (schoolMap.containsKey(course.get("schoolId"))) {
-                schoolMap.get(course.get("schoolId")).put("courses", singleCourseArray);
+            if (schoolMap.containsKey(course.get(Constants.ATTR_SCHOOL_ID))) {
+                schoolMap.get(course.get(Constants.ATTR_SCHOOL_ID)).put(Constants.ATTR_COURSES, singleCourseArray);
             } else {
-                GenericEntity school = getSchool((String) (course.get("schoolId")), token);
-                school.put("courses", singleCourseArray);
-                schoolMap.put((String) (course.get("schoolId")), school);
+                GenericEntity school = getSchool((String) (course.get(Constants.ATTR_SCHOOL_ID)), token);
+                school.put(Constants.ATTR_COURSES, singleCourseArray);
+                schoolMap.put((String) (course.get(Constants.ATTR_SCHOOL_ID)), school);
             }
         }
             
@@ -242,9 +242,7 @@ public class LiveAPIClient implements APIClient {
      * @param type
      * @return
      */
-    private GenericEntity createEntityFromJson(String json, String type) {
-        
-        Gson gson = new Gson();
+    private GenericEntity createEntityFromJson(String json) {
         
         GenericEntity e = gson.fromJson(json, GenericEntity.class);
 
@@ -267,7 +265,6 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         // Parse JSON
-        Gson gson = new Gson();
         List<Map> maps = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), new ArrayList<Map>().getClass());
             
         for (Map<String, Object> map : maps) {
