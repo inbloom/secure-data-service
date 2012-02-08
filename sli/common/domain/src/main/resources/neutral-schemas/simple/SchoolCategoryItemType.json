@@ -1,9 +1,0 @@
-
-{
-   "type":"SchoolCategoryItemType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Elementary/Secondary School","Elementary School","High School","Middle School","Junior High School","Elementary School","SecondarySchool","Ungraded","Adult School","Infant/toddler School","Preschool/early childhood","Primary School","Intermediate School"]}
-}

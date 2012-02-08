@@ -1,9 +1,0 @@
-
-{
-   "type":"AddressType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Home","Physical","Billing","Mailing","Other","Temporary","Work"]}
-}
