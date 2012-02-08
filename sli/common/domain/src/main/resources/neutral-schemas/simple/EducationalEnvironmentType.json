@@ -1,9 +1,0 @@
-
-{
-   "type":"EducationalEnvironmentType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Classroom","Homebound","Hospital class","In-school suspension","Laboratory","Mainstream (Special Education) ","Off-school center","Pull-out class","Resource room","Self-contained (Special Education) ","Self-study","Shop"]}
-}

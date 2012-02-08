@@ -338,6 +338,10 @@ task :dashboardTests do
 
 end
 
+desc "Run Dashboard user based view selection tests"
+task :dashboardUserBasedViewTests do
+  runTests("test/features/dashboard/user_based_views.feature")
+end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do

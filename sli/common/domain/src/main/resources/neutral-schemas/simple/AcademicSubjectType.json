@@ -1,9 +1,0 @@
-
-{
-   "type":"AcademicSubjectType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["English Language and Literature","English","ELA","Reading","Mathematics","Life and Physical Sciences","Social Sciences and History","Social Studies","Science","Fine and Performing Arts","Foreign Language and Literature","Religious Education and Theology","Physical, Health, and Safety Education","Military Science","Computer and Information Sciences","Communication and Audio/Visual Technology","Composite","Critical Reading","Business and Marketing","Manufacturing","Health Care Sciences","Public, Protective, and Government Service","Hospitality and Tourism","Architecture and Construction","Agriculture, Food, and Natural Resources","Human Services","Transportation, Distribution and Logistics","Engineering and Technology","Writing","Miscellaneous","Other"]}
-}
