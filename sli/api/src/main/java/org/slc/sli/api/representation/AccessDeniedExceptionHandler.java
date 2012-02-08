@@ -37,7 +37,7 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LOG.debug("-------------------------------------------");
         LOG.debug("principal name and roles: {}, {}", ((SLIPrincipal) authentication.getPrincipal()).getName().toString(), ((SLIPrincipal) authentication.getPrincipal()).getRoles().toString());
-        LOG.debug("Granted Authorities {}", implode(authentication.getAuthorities()));
+        LOG.debug("Granted Authorities {}", authentication.getAuthorities().toString());
         LOG.error("--- Access Denied Exception --- ");
         // remove after 403 errors' root cause is discovered
         
