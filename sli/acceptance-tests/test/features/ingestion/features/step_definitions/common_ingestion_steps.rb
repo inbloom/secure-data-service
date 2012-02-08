@@ -10,19 +10,19 @@ if (ENV['ingestion_landing_zone'])
   INGESTION_LANDING_ZONE = ENV['ingestion_landing_zone']
 else
   INGESTION_LANDING_ZONE = PropLoader.getProps['ingestion_landing_zone']
-end 
+end
 
 if (ENV['ingestion_db'])
   INGESTION_DB = ENV['ingestion_db']
 else
   INGESTION_DB = PropLoader.getProps['ingestion_db']
-end 
+end
 
 if (ENV['ingestion_server_url'])
   INGESTION_SERVER_URL = ENV['ingestion_server_url']
 else
   INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
-end 
+end
 
 if (ENV['ingestion_mode'])
   INGESTION_MODE = ENV['ingestion_mode']
@@ -30,17 +30,17 @@ else
   INGESTION_MODE = 'remote'
 end
 
-Given /^there are no students in DS$/ do
+Given /^there are none of this type of entity in the DS$/ do
   @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[@database_name]
-  @student_col = @db['student']
+  @entity_collection = @db[@entity_type]
 
-  @student_col.remove
+  @entity_collection.remove
 
-  puts "There are #{@student_col.count} records."
-  if @student_col.count > 0
-    puts "These are the student records:"
-    @student_col.find.each { |doc| puts doc.inspect }
+  puts "There are #{@entity_collection.count} records."
+  if @entity_collection.count > 0
+    puts "These are the @entity_type records:"
+    @entity_collection.find.each { |doc| puts doc.inspect }
   end
 end
 
@@ -65,6 +65,10 @@ Given /^I post "([^"]*)" as the payload of the ingestion job$/ do |file_name|
   @source_file_name = file_name
 end
 
+Given /^the payload contains entities of type "([^"]*)"$/ do |entity_type|
+  @entity_type = entity_type
+end
+
 
 When /^zip file is scp to ingestion landing zone$/ do
   @source_path = @local_file_store_path + @source_file_name
@@ -80,14 +84,14 @@ When /^zip file is scp to ingestion landing zone$/ do
     # copy file from external path to landing zone
     ingestion_server_string = "\"" + ("ingestion@" + INGESTION_SERVER_URL + ":" + @landing_zone_path).to_s  + "\""
     local_source_path = "\"" + @source_path.to_s + "\""
-    
+
     puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
     runShellCommand("scp " + local_source_path + " " + ingestion_server_string)
   else
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
   end
-  
+
 end
 
 
@@ -96,15 +100,15 @@ When /^"([^"]*)" seconds have elapsed$/ do |secs|
 end
 
 
-Then /^I should see "([^"]*)" entries in the student collection$/ do |record_count|
+Then /^I should see "([^"]*)" entries in the corresponding collection$/ do |record_count|
   @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[@database_name]
-  @student_col = @db.collection('student')
-  @student_count = @student_col.count().to_i
+  @entity_collection = @db.collection(@entity_type)
+  @entity_count = @entity_collection.count().to_i
 
-  puts "There are " + @student_count.to_s + " in student collection"
-  
-  assert((record_count).eql?(@student_count.to_s), "Record count doesn't match")
+  puts "There are " + @entity_count.to_s + " in @entity_type collection"
+
+  assert((record_count).eql?(@entity_count.to_s), "Record count doesn't match")
 end
 
 
@@ -113,7 +117,7 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
     #TODO - remote check of file
   else
     @job_status_filename_component = "job-" + @source_file_name + "-"
-  
+
     @job_status_filename = ""
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex(@job_status_filename_component))
@@ -121,19 +125,19 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
         @job_status_filename = entry
       end
     end
-  
+
     aFile = File.new(@landing_zone_path + @job_status_filename, "r")
     puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
     assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
-    
+
     if aFile
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       puts "FILE CONTENTS = " + file_contents
-      
+
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
-      
+
     else
        raise "File " + @job_status_filename + "can't be opened"
     end
