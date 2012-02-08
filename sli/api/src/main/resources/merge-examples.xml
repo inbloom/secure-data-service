@@ -2,6 +2,6 @@
 <merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
     <merge type="node" action="delete" xpath="//ns2:application/ns2:doc"/>
     <merge type="node" action="add" xpath="//ns2:application">
-        <ns2:doc xml:lang="en" title="SLI RESTful API Documentation"><![CDATA[The SLI RESTful API is described within this document.]]></ns2:doc>
+        <ns2:doc xml:lang="en" title="SLI RESTful API Documentation"><![CDATA[The SLI RESTful API is described within this document. (This was added by merge-examples.xml).]]></ns2:doc>
     </merge>
 </merges>

@@ -342,37 +342,52 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseOfferingReference" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>The course offering taught in the section.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="schoolReference" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>The school where the section is taught.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
 
-				<!-- obtain location information via SectionBellScheduleAssocation -->
+				<xs:element name="schoolId" type="reference">
+                    <xs:annotation>
+                        <xs:documentation>The school where the section is taught.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>school</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
 
-				<xs:element name="sessionReference" type="xs:string"
-					minOccurs="1" maxOccurs="1">
-					<xs:annotation>
-						<xs:documentation>The session associated with the section. This
-							reference is required.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="programReference" type="xs:string"
-					minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Optional reference to program (e.g., CTE, etc.)
-							the section is associated with.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
+    <!-- obtain location information via SectionBellScheduleAssocation -->
+
+                <xs:element name="sessionId" type="reference"
+                 minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>The session associated with the section. This reference is required.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>session</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                
+                <xs:element name="programId" type="reference"
+                    minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Optional reference to program (e.g., CTE, etc.) the section is associated with.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>program</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+    
+                <xs:element name="courseId" type="reference"
+                    minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>The course associated with the section. This
+                            reference is required.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>course</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
