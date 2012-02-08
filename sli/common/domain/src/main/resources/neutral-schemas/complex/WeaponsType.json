@@ -1,9 +1,0 @@
-
-{
-   "type":"WeaponsType",
-   "validatorClass":"org.slc.sli.validation.ComplexSchema",
-   "version":"1.0",
-   "fields":{
-      "*Weapon":["WeaponItemType"]},
-   "properties":{}
-}
