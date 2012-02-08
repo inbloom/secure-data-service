@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
+    logger.debug {"401 detected"}
     logger.info { "Unauthorized Access: Redirecting..." }
     redirect_to exception.response['WWW-Authenticate'] + "?RelayState=#{current_url}"
   end
@@ -16,6 +17,7 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server, clearing your session."}
+    reset_session
     SessionResource.auth_id = nil
   end
 
@@ -37,12 +39,15 @@ class ApplicationController < ActionController::Base
   
   def check_login
     # Check our session for a valid api key, if not, redirect out
-    if cookies['iPlanetDirectoryPro'] != nil
+    if cookies.has_key? 'iPlanetDirectoryPro'
       logger.debug 'We have a cookie set.'
       SessionResource.auth_id = cookies['iPlanetDirectoryPro']
       Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
+      Check.url_type = "check"
       # Get the state unique id and state to identify and key logging
-      # session[:full_name] = Check.new(SessionResource.auth_id).full_name
+      check = Check.get("")
+      logger.debug {"#{check}"}
+      session[:full_name] = Check.get("")["full_name"]
     else
       logger.debug { "No cookie set" }
     end
