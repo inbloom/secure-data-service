@@ -36,7 +36,6 @@ public class EdFiProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) throws Exception {
-
         try {
             BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
@@ -46,15 +45,9 @@ public class EdFiProcessor implements Processor {
             }
 
             // set headers for ingestion routing
-            if (job.getErrorReport().hasErrors()) {
-                exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
-            } else if (exchange.getIn().getHeader("dry-run").equals(true)) {
-                LOG.info("dry-run specified; data will not be published");
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
-            } else {
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
-            }
+            exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
+            
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
