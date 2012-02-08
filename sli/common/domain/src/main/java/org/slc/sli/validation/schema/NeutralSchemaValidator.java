@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
@@ -31,7 +32,10 @@ public class NeutralSchemaValidator implements EntityValidator {
     // Attributes
     @Autowired
     private SchemaRepository entitySchemaRegistry;
-
+    
+    @Autowired
+    private EntityValidationRepository validationRepo;
+    
     // Constructors
     public NeutralSchemaValidator() {
 
@@ -56,7 +60,7 @@ public class NeutralSchemaValidator implements EntityValidator {
         }
 
         List<ValidationError> errors = new LinkedList<ValidationError>();
-        boolean valid = schema.validate("", entity.getBody(), errors);
+        boolean valid = schema.validate("", entity.getBody(), errors, validationRepo);
         if (!valid) {
             LOG.debug("Errors detected in {}, {}", new Object[]{entity.getEntityId(), errors});
             throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);

@@ -57,6 +57,8 @@ class RealmsController < ApplicationController
      end
    end
 
+private
+
   # Uses the /role api to get the list of roles
   def get_roles()
     roles = Role.all
