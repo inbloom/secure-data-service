@@ -2,7 +2,7 @@ package org.slc.sli.entity;
 
 /**
  * Represents the program participation of students
- * Corresponds to the StudentProgramAssociation in Ed-fi schema. 
+ * Corresponds to the StudentProgramAssociation in Ed-fi schema.
  *
  */
 public class StudentProgramAssociation {
@@ -21,5 +21,5 @@ public class StudentProgramAssociation {
     public void setPrograms(String[] programNames) {
         this.programs = programNames;
     }
-    
+
 }

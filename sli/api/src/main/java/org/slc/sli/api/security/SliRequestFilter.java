@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -42,9 +43,15 @@ public class SliRequestFilter extends GenericFilterBean {
         HttpServletRequest http = (HttpServletRequest) request;
         String sessionId = getSessionIdFromRequest(http);
         
-        SecurityContextHolder.getContext().setAuthentication(resolver.resolve(sessionId));
-        
         LOG.debug("Request URL: " + http.getRequestURL() + (http.getQueryString() == null ? "" : http.getQueryString()));
+        
+        Authentication auth = resolver.resolve(sessionId);
+        if (auth != null) {
+            LOG.debug("Created Auth Hash: {}@{}", auth.getClass(), Integer.toHexString(auth.hashCode()));
+            
+        }
+        
+        SecurityContextHolder.getContext().setAuthentication(auth);
         
         chain.doFilter(request, response);
     }

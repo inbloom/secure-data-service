@@ -1,30 +1,25 @@
+include ActiveSupport::Rescuable
 class RealmsController < ApplicationController
+
+  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
+
   # GET /realms
   # GET /realms.json
   def index
     @realms = Realm.all
 
     #figure out the realm this user has access to
-    SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-
-    #TODO:  current we're just checking the realm the user authenticated to,
-    # but ultimately we need to get that somewhere else since the user will
-    # always be authenticated to the SLI realm
-    userRealm =  Check.new(SessionResource.auth_id).realm
+    userRealm = get_user_realm
     @realms.each do |realm|
-        if realm.respond_to?(:realm)
-          if realm.realm == userRealm
-            redirect_to realm
-            return
-          end
+      if realm.respond_to?(:realm)
+        if realm.realm == userRealm
+          redirect_to realm
+          return
         end
+      end
     end
     
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @realms }
-    end
+    render_404 
   end
 
   # # GET /realms/1
@@ -36,52 +31,19 @@ class RealmsController < ApplicationController
        format.json { render json: @realm }
      end
    end
-  # 
-  # # GET /realms/new
-  # # GET /realms/new.json
-  # def new
-  #   @realm = Realm.new
-  # 
-  #   respond_to do |format|
-  #     format.html # new.html.erb
-  #     format.json { render json: @realm }
-  #   end
-  # end
-  # 
+
   # # GET /realms/1/edit
    def edit
      @realm = Realm.find(params[:id])
-     @mapping = get_mappings_from_realm(params[:id])
-     @sli_roles = []
-     @mapping.each do |mapping|
-       @sli_roles.push mapping[:name]
-     end
+     @sli_roles = get_roles
    end
-  # 
-  # # POST /realms
-  # # POST /realms.json
-  # def create
-  #   @realm = Realm.new(params[:realm])
-  # 
-  #   respond_to do |format|
-  #     if @realm.save
-  #       format.html { redirect_to @realm, notice: 'Realm was successfully created.' }
-  #       format.json { render json: @realm, status: :created, location: @realm }
-  #     else
-  #       format.html { render action: "new" }
-  #       format.json { render json: @realm.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
-  # 
+
   # # PUT /realms/1
-  # # PUT /realms/1.json
    def update
-     puts  params[:id];
      @realm = Realm.find(params[:id])
+
      @realm.mappings = params[:mappings];
      respond_to do |format|
-       #if @realm.update_attributes(params[:realm])
 	success = false
 	errorMsg = ""
 
@@ -90,37 +52,38 @@ class RealmsController < ApplicationController
 	rescue ActiveResource::BadRequest => error
 	errorMsg = error.response.body
 	end
-       if success
-         #format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
+       if success && params[:mappings] != nil
          format.json { render json: @realm }
        else
-         #format.html { render action: "edit" }
-         #format.json { render json: @realm.errors, status: :unprocessable_entity }
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
 	
      end
    end
-  # 
-  # # DELETE /realms/1
-  # # DELETE /realms/1.json
-  # def destroy
-  #   @realm = Realm.find(params[:id])
-  #   @realm.destroy
-  # 
-  #   respond_to do |format|
-  #     format.html { redirect_to realms_url }
-  #     format.json { head :ok }
-  #   end
-  # end
-  def get_mappings_from_realm(realm)
+
+  # Uses the /role api to get the list of roles
+  def get_roles()
     roles = Role.all
-    mapping = []
+    toReturn = []
     roles.each do |role|
-      map = {}
-      map[:name] = role.name
-      mapping.push map
+      toReturn.push role.name
     end
-    mapping
+    toReturn
+  end
+
+  #TODO:  current we're just checking the realm the user authenticated to,
+  # but ultimately we need to get that somewhere else since the user will
+  # always be authenticated to the SLI realm
+  def get_user_realm
+    return Check.new(SessionResource.auth_id).realm
+  end
+
+  def render_404
+   respond_to do |format|
+     format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
+     #format.json { :status => :not_found}
+     format.any  { head :not_found }
+   end
   end
 end
+

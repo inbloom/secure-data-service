@@ -12,27 +12,27 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI Long Schema which validates long entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class LongSchema extends NeutralSchema {
-    
+
     // Constructors
     public LongSchema() {
         this(NeutralSchemaType.LONG.getName());
     }
-    
+
     public LongSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.LONG;
@@ -42,7 +42,7 @@ public class LongSchema extends NeutralSchema {
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -58,7 +58,7 @@ public class LongSchema extends NeutralSchema {
         if (!addError(data != null, fieldName, entity, "Long", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
-        
+
         if (this.getProperties() != null) {
             for (Entry<String, Object> entry : this.getProperties().entrySet()) {
                 if (Restriction.isRestriction(entry.getKey())) {
@@ -100,5 +100,5 @@ public class LongSchema extends NeutralSchema {
         }
         return true;
     }
-    
+
 }

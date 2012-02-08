@@ -33,13 +33,13 @@ import org.slc.sli.domain.enums.Right;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class OpenamRestTokenResolverTest {
-    
+
     private static final String     DEFAULT_REALM_ID = "dc=slidev,dc=net";
-    
+
     private OpenamRestTokenResolver resolver;
-    
+
     private RolesToRightsResolver   rightsResolver;
-    
+
     @Before
     public void init() {
         resolver = new OpenamRestTokenResolver();
@@ -48,20 +48,20 @@ public class OpenamRestTokenResolverTest {
         resolver.setLocator(Mocker.getLocator());
         rightsResolver = mock(RolesToRightsResolver.class);
         resolver.setResolver(rightsResolver);
-        
+
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
-    
+
     @Test
     public void testResolveSuccess() {
-        
+
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
         Assert.assertNotNull(auth.getAuthorities());
         Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
-    
+
     @Test
     public void testResolveFailure() {
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, null)).thenReturn(null);

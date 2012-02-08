@@ -5,6 +5,7 @@ import javax.xml.namespace.QName;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.schema.BooleanSchema;
+import org.slc.sli.validation.schema.ChoiceSchema;
 import org.slc.sli.validation.schema.ComplexSchema;
 import org.slc.sli.validation.schema.DateSchema;
 import org.slc.sli.validation.schema.DateTimeSchema;
@@ -20,16 +21,16 @@ import org.slc.sli.validation.schema.TimeSchema;
 import org.slc.sli.validation.schema.TokenSchema;
 
 /**
- * 
+ *
  * SLI Schema Factory which creates Schema instances based upon Ed-Fi type.
  * File persistence methods are also provided.
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
-    
+
     /* (non-Javadoc)
      * @see org.slc.sli.validation.SchemaFactory#createSchema(javax.xml.namespace.QName)
      */
@@ -37,7 +38,7 @@ public class NeutralSchemaFactory implements SchemaFactory {
     public NeutralSchema createSchema(QName qName) {
         return createSchema(qName.getLocalPart());
     }
-    
+
     /* (non-Javadoc)
      * @see org.slc.sli.validation.SchemaFactory#createSchema(java.lang.String)
      */
@@ -78,6 +79,8 @@ public class NeutralSchemaFactory implements SchemaFactory {
                     return new ComplexSchema(schemaType.getName());
                 case REFERENCE:
                     return new ReferenceSchema(schemaType.getName());
+                case CHOICE:
+                    return new ChoiceSchema(schemaType.getName());
                 default:
                     return null;
             }
@@ -85,5 +88,5 @@ public class NeutralSchemaFactory implements SchemaFactory {
             return new ComplexSchema(xsd);
         }
     }
-    
+
 }

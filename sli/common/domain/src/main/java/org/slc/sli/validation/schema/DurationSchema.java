@@ -13,27 +13,27 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI Duration Schema which validates duration entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class DurationSchema extends NeutralSchema {
-    
+
     // Constructors
     public DurationSchema() {
         this(NeutralSchemaType.DURATION.getName());
     }
-    
+
     public DurationSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.DURATION;
@@ -43,7 +43,7 @@ public class DurationSchema extends NeutralSchema {
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -66,5 +66,5 @@ public class DurationSchema extends NeutralSchema {
         }
         return addError(isValid, fieldName, entity, "ISO 8601 Duration", ErrorType.INVALID_DATE_FORMAT, errors);
     }
-    
+
 }

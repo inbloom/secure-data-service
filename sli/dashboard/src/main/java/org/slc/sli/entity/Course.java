@@ -4,20 +4,21 @@ import org.apache.commons.lang.ArrayUtils;
 
 
 /**
- * 
+ *
  * TODO: Write Javadoc
  *
  */
 public class Course {
 
     private Section[] sections;
-    private String course, schoolId;
-    
-    public String getSchoolId() {
-        return schoolId;
+    private String courseTitle;
+    private String id;
+
+    public String getId() {
+        return id;
     }
-    public void setSchoolId(String schoolId) {
-        this.schoolId = schoolId;
+    public void setId(String id) {
+        this.id = id;
     }
     public Section[] getSections() {
         return sections;
@@ -25,15 +26,15 @@ public class Course {
     public void setSections(Section[] sections) {
         this.sections = sections;
     }
-    public String getCourse() {
-        return course;
+    public String getCourseTitle() {
+        return courseTitle;
     }
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
-    
+
     public void addSections(Section[] sections) {
         this.sections = (Section[]) ArrayUtils.addAll(this.sections, sections);
     }
-    
+
 }

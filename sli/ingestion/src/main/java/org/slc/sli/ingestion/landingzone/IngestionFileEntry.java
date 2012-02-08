@@ -17,7 +17,7 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
 public class IngestionFileEntry implements Serializable, ErrorReportSupport {
 
     private static final long serialVersionUID = 8326156381009199389L;
-    
+
     // Attributes
     private FileFormat fileFormat;
     private FileType fileType;

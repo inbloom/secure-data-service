@@ -1,15 +1,16 @@
 [
 {
+    "id" : "Daybreak Central High",
     "nameOfInstitution": "Daybreak Central High",
     "courses": [
         {
-            "course": "Club/Team"
+            "courseTitle": "Club/Team"
         },
         {
-            "course": "Senior Homeroom"
+            "courseTitle": "Senior Homeroom"
         },
         {
-            "course": "Writing about Government",
+            "courseTitle": "Writing about Government",
             "sections": [
                 {
                     "sectionName": "Sec 923",
@@ -21,16 +22,18 @@
 			]
         },
         {
-            "course": "Honors American Literature"
+            "courseTitle": "Honors American Literature"
         },
         {
-            "course": "American Literature",
+            "courseTitle": "American Literature",
             "sections": [
                 {
-                    "sectionName": "Sec 142"
+                    "sectionName": "Sec 142",
+                    "studentUIDs": []
                 },
                 {
-                    "sectionName": "Sec 143"
+                    "sectionName": "Sec 143",
+                    "studentUIDs": []
                 },
                 {
                     "sectionName": "Sec 144",
@@ -97,5 +100,24 @@
             ]
         }
     ]
+},
+
+{
+    "id" : "Sunset Central High School",
+    "nameOfInstitution" : "Sunset Central High School",
+    "courses" : 
+        [
+          {
+            "courseTitle": "Special Elective: Debate Clinic",
+            "sections": [
+                {
+                    "sectionName": "Special Elective: Debate Clinic",
+                    "studentUIDs": []
+                }
+            ]
+          }
+
+        ]
 }
+
 ]

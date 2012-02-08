@@ -46,11 +46,11 @@ When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
 end
 
 When /^I navigate to POST "([^"]*)"$/ do |url|
-  @data["gradesOffered"] = Hash["gradeLevel"=>["First grade", "Second grade"]]
+  @data["gradesOffered"] = ["First grade", "Second grade"]
   @data["stateOrganizationId"] = "555"
   @data["address"]=[]
-  @data["organizationCategories"]= Hash["organizationCategory"=>["School"]]
-  @data["schoolCategories"]=Hash["schoolCategory"=>["Elementary School"]]
+  @data["organizationCategories"]= ["School"]
+  @data["schoolCategories"] = ["Elementary School"]
   data = prepareData(@format, @data)
   restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")

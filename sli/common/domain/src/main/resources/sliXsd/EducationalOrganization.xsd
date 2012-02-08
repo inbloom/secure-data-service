@@ -5,30 +5,7 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="educationOrganizationCategoriesType">
-		<xs:annotation>
-			<xs:documentation>The classification(s) of the education agency
-				within the geographic
-				boundaries of a state according to the level of
-				administrative and operational
-				control granted by the state.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="organizationCategory" type="educationOrganizationCategoryType"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The classification(s) of the education agency
-						within the
-						geographic boundaries of a state according to the level
-						of administrative
-						and operational control granted by the state
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
+	
 	<xs:complexType name="accountabilityRating">
 		<xs:annotation>
 			<xs:documentation>An accountability rating for a school or district.
@@ -227,26 +204,6 @@
 
 	</xs:complexType>
 
-	<xs:complexType name="schoolCategoriesType">
-		<xs:annotation>
-			<xs:documentation>The one or more categories of school. For example:
-				High School, Middle
-				School, and/or Elementary School.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolCategory" type="schoolCategoryItemType"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The one or more categories of school. For
-						example: High
-						School, Middle School, and/or Elementary School.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="classPeriodIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
@@ -386,7 +343,8 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="organizationCategories" type="educationOrganizationCategoriesType">
+					<xs:element name="organizationCategories" type="educationOrganizationCategoryType"
+				        maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The classification of the education agency
 								within the
@@ -520,13 +478,15 @@
 			<xs:complexContent>
 				<xs:extension base="educationOrganization">
 					<xs:sequence>
-						<xs:element name="gradesOffered" type="gradeLevelsType">
+						<xs:element name="gradesOffered" type="gradeLevelType"			                    
+				            maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation>The grade levels served at the school.
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="schoolCategories" type="schoolCategoriesType">
+						<xs:element name="schoolCategories" type="schoolCategoryItemType"
+				            minOccurs="0" maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation>The one or more categories of school. For
 									example:

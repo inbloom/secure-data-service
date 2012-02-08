@@ -22,54 +22,54 @@ import org.apache.ws.commons.schema.XmlSchemaTotalDigitsFacet;
 import org.slc.sli.validation.schema.Restriction;
 
 /**
- * 
+ *
  * SLI Schema Types
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 public enum NeutralSchemaType {
-    
+
     BOOLEAN("boolean"), INT("int"), INTEGER("integer"), LONG("long"), DOUBLE("double", "float"), DATE("date"), TIME(
             "time"), DATETIME("datetime"), DURATION("duration"), STRING("string"), ID("id"), IDREF("IDREF"), TOKEN(
             "token"), LIST("list"), COMPLEX("complex"), CHOICE("choice"), REFERENCE("reference");
-    
+
     // Attributes
     private final String name;
     private final List<String> mappedXsdTypes;
-    
+
     // Constructors
     NeutralSchemaType(String name) {
         this(name, new String[] {});
     }
-    
+
     NeutralSchemaType(String name, String... extraTypes) {
         this.name = name;
         List<String> xsdTypes = new ArrayList<String>(Arrays.asList(extraTypes));
         xsdTypes.add(name);
         mappedXsdTypes = Collections.unmodifiableList(xsdTypes);
     }
-    
+
     // Methods
     public String getName() {
         return name;
     }
-    
+
     public static boolean exists(QName qName) {
         boolean exists = false;
-        
+
         NeutralSchemaType schemaType = findByName(qName);
         if (schemaType != null) {
             exists = true;
         }
-        
+
         return exists;
     }
-    
+
     public static boolean isPrimitive(QName qName) {
         return findByName(qName) != null;
     }
-    
+
     public static NeutralSchemaType findByName(String name) {
         for (NeutralSchemaType neutralSchemaType : NeutralSchemaType.values()) {
             if (neutralSchemaType.getMappedXsdTypes().contains(name.toLowerCase())) {
@@ -78,7 +78,7 @@ public enum NeutralSchemaType {
         }
         return null;
     }
-    
+
     public static NeutralSchemaType findByName(QName qName) {
         if (qName != null) {
             String name = qName.getLocalPart();
@@ -86,10 +86,10 @@ public enum NeutralSchemaType {
         }
         return null;
     }
-    
+
     public static String lookupPropertyName(XmlSchemaFacet facet) {
         String propertyName = "";
-        
+
         if (facet instanceof XmlSchemaPatternFacet) {
             propertyName = Restriction.PATTERN.getValue();
         } else if (facet instanceof XmlSchemaLengthFacet) {
@@ -113,12 +113,12 @@ public enum NeutralSchemaType {
         } else {
             propertyName = "TODO_" + facet.getClass().getName();
         }
-        
+
         return propertyName;
     }
-    
+
     private List<String> getMappedXsdTypes() {
         return mappedXsdTypes;
     }
-    
+
 }

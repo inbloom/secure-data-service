@@ -29,48 +29,4 @@
 		<HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
 		<YearsOfPriorProfessionalExperience>25</YearsOfPriorProfessionalExperience>
 	</Teacher>
-	<TeacherSchoolAssociation>
-		<TeacherReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>111</StaffUniqueStateId>
-			</StaffIdentity>
-		</TeacherReference>
-		<SchoolReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>12345111</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</SchoolReference>
-		<ProgramAssignment>Regular Education</ProgramAssignment>
-		<InstructionalGradeLevels>
-			<GradeLevel>Second grade</GradeLevel>
-			<GradeLevel>Third grade</GradeLevel>
-			<GradeLevel>First grade</GradeLevel>
-		</InstructionalGradeLevels>
-		<AcademicSubjects>
-			<AcademicSubject>ELA</AcademicSubject>
-			<AcademicSubject>Reading</AcademicSubject>
-		</AcademicSubjects>
-	</TeacherSchoolAssociation>
-	<TeacherSchoolAssociation>
-		<TeacherReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>222</StaffUniqueStateId>
-			</StaffIdentity>
-		</TeacherReference>
-		<SchoolReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>12345111</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</SchoolReference>
-		<ProgramAssignment>Regular Education</ProgramAssignment>
-		<InstructionalGradeLevels>
-			<GradeLevel>First grade</GradeLevel>
-			<GradeLevel>Third grade</GradeLevel>
-		</InstructionalGradeLevels>
-		<AcademicSubjects>
-			<AcademicSubject>ELA</AcademicSubject>
-			<AcademicSubject>Mathematics</AcademicSubject>
-			<AcademicSubject>Writing</AcademicSubject>
-		</AcademicSubjects>
-	</TeacherSchoolAssociation>
 </InterchangeStaffAssociation>

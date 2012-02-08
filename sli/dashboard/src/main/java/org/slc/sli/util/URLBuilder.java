@@ -7,28 +7,28 @@ import org.springframework.web.util.UriUtils;
 /**
  * Tool to build URLs
  * @author scole
- * 
+ *
  */
 public class URLBuilder {
     private static final String ENCODING = "UTF-8";
-    
+
     private StringBuffer url = new StringBuffer();
-    
+
     public URLBuilder(String base) {
         url.append(base);
     }
-    
+
     public void addPath(String path) {
         addPathSeparaterIfNeeded();
         url.append(path);
     }
-    
+
     private void addPathSeparaterIfNeeded() {
         if (url.charAt(url.length() - 1) != '/') {
             url.append("/");
         }
     }
-    
+
     public void addQueryParam(String key, String value) {
         if (url.charAt(url.length() - 1) == '/') {
             url.deleteCharAt(url.length() - 1);
@@ -53,6 +53,6 @@ public class URLBuilder {
     public String toString() {
         return url.toString();
     }
-    
-    
+
+
 }

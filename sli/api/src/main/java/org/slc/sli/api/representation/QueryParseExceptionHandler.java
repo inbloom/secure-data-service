@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Provider
 @Component
 public class QueryParseExceptionHandler implements ExceptionMapper<QueryParseException> {
-    
+
     public Response toResponse(QueryParseException e) {
         Response.Status errorStatus = Response.Status.NOT_FOUND;
         return Response
