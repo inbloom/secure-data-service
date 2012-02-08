@@ -5,9 +5,22 @@ import org.springframework.data.mongodb.core.query.Query;
 /**
  * Define the interface for converting http GET request query string
  * to spring data query object
- *
+ * 
+ * The general format of a query string that uses filtering is as follows:
+ * ?attribute1=value1&attribute2>value2&attribute3!=value3@attribute4>=value4...
+ * 
+ * Use dot to represent the nested fields
+ * 
+ * Some examples of query string (for student entity)
+ * 
+ * ?name.firstName=Joe&name.lastName=Brown
+ * ?birthData.birthDate>=1995-01-01
+ * ?studentUniqueStateId=123456789
+ * ?name.firstName!=Joe
+ * 
+ * 
  * @author dong liu <dliu@wgen.net>
- *
+ * 
  */
 public interface QueryConverter {
 
