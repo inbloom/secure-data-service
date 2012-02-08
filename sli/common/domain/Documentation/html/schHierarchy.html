@@ -1,0 +1,701 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <p><a href="index.indexList.html">Components</a><span> | </span><a href="schHierarchy.html">Resource Hierarchy</a></p>
+      <hr />
+      <ul class="schemaHierarchy">
+         <li>
+            <p class="componentTitle"><input id="button_sHAll.xsd" type="image" value="-" src="img/btM.gif"
+                      onclick="switchState('sHAll.xsd');"
+                      class="control" /><a href="#All.xsd">All.xsd</a></p>
+            <div id="sHAll.xsd" style="display:block">
+               <ul>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdEnrollment.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdEnrollment.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Enrollment_xsd.html#Enrollment.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">Enrollment.xsd</a></p>
+                     <div id="sHAll.xsdEnrollment.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdEnrollment.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdEnrollment.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Enrollment.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Enrollment.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdEnrollment.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdAssessments.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdAssessments.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Assessments_xsd.html#Assessments.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Assessments.xsd')">Assessments.xsd</a></p>
+                     <div id="sHAll.xsdAssessments.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdAssessments.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdAssessments.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Assessments.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Assessments.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdAssessments.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdAttendance.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdAttendance.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Attendance_xsd.html#Attendance.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Attendance.xsd')">Attendance.xsd</a></p>
+                     <div id="sHAll.xsdAttendance.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdAttendance.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdAttendance.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Attendance.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Attendance.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdAttendance.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdBellSchedule.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdBellSchedule.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="BellSchedule_xsd.html#BellSchedule.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">BellSchedule.xsd</a></p>
+                     <div id="sHAll.xsdBellSchedule.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdBellSchedule.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdBellSchedule.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'BellSchedule.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'BellSchedule.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdBellSchedule.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdCalendar.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdCalendar.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Calendar_xsd.html#Calendar.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Calendar.xsd')">Calendar.xsd</a></p>
+                     <div id="sHAll.xsdCalendar.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdCalendar.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdCalendar.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Calendar.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Calendar.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdCalendar.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdCohort.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdCohort.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Cohort_xsd.html#Cohort.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Cohort.xsd')">Cohort.xsd</a></p>
+                     <div id="sHAll.xsdCohort.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdCohort.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdCohort.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Cohort.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Cohort.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdCohort.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdDiscipline.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdDiscipline.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Discipline_xsd.html#Discipline.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Discipline.xsd')">Discipline.xsd</a></p>
+                     <div id="sHAll.xsdDiscipline.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdDiscipline.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdDiscipline.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Discipline.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Discipline.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdDiscipline.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdEducationalOrganization.xsd" type="image" value="-"
+                               src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdEducationalOrganization.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="EducationalOrganization_xsd.html#EducationalOrganization.xsd"
+                           target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">EducationalOrganization.xsd</a></p>
+                     <div id="sHAll.xsdEducationalOrganization.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdEducationalOrganization.xsdComplexTypes.xsd" type="image"
+                                        value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdEducationalOrganization.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'EducationalOrganization.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'EducationalOrganization.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdEducationalOrganization.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdGraduation.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdGraduation.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Graduation_xsd.html#Graduation.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Graduation.xsd')">Graduation.xsd</a></p>
+                     <div id="sHAll.xsdGraduation.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdGraduation.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdGraduation.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Graduation.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Graduation.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdGraduation.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdParents.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdParents.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Parents_xsd.html#Parents.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Parents.xsd')">Parents.xsd</a></p>
+                     <div id="sHAll.xsdParents.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdParents.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdParents.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Parents.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Parents.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdParents.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdProgram.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdProgram.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Program_xsd.html#Program.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Program.xsd')">Program.xsd</a></p>
+                     <div id="sHAll.xsdProgram.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdProgram.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdProgram.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Program.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Program.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdProgram.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdStaff.xsd" type="image" value="-" src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdStaff.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="Staff_xsd.html#Staff.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for Staff.xsd')">Staff.xsd</a></p>
+                     <div id="sHAll.xsdStaff.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdStaff.xsdComplexTypes.xsd" type="image" value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdStaff.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Staff.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'Staff.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdStaff.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdStudentAcademicRecord.xsd" type="image" value="-"
+                               src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdStudentAcademicRecord.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="StudentAcademicRecord_xsd.html#StudentAcademicRecord.xsd"
+                           target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">StudentAcademicRecord.xsd</a></p>
+                     <div id="sHAll.xsdStudentAcademicRecord.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdStudentAcademicRecord.xsdComplexTypes.xsd" type="image"
+                                        value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdStudentAcademicRecord.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'StudentAcademicRecord.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'StudentAcademicRecord.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdStudentAcademicRecord.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdStudentAcademicRecord.xsdAttendance.xsd" type="image"
+                                        value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdStudentAcademicRecord.xsdAttendance.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'StudentAcademicRecord.xsd'." /> <a href="Attendance_xsd.html#Attendance.xsd" target="mainFrame"
+                                    title="Included by 'StudentAcademicRecord.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for Attendance.xsd')">Attendance.xsd</a></p>
+                              <div id="sHAll.xsdStudentAcademicRecord.xsdAttendance.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><input id="button_sHAll.xsdStudentAcademicRecord.xsdAttendance.xsdComplexTypes.xsd"
+                                                 type="image"
+                                                 value="-"
+                                                 src="img/btM.gif"
+                                                 onclick="switchState('sHAll.xsdStudentAcademicRecord.xsdAttendance.xsdComplexTypes.xsd');"
+                                                 class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'Attendance.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                             title="Included by 'Attendance.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                                       <div id="sHAll.xsdStudentAcademicRecord.xsdAttendance.xsdComplexTypes.xsd"
+                                            style="display:block">
+                                          <ul>
+                                             <li class="schemaHierarchy">
+                                                <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                                      title="Included by 'ComplexTypes.xsd'."
+                                                      onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHAll.xsdTeachingAndLearning.xsd" type="image" value="-"
+                               src="img/btP.gif"
+                               onclick="switchState('sHAll.xsdTeachingAndLearning.xsd');"
+                               class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'All.xsd'." /> <a href="TeachingAndLearning_xsd.html#TeachingAndLearning.xsd" target="mainFrame"
+                           title="Included by 'All.xsd'."
+                           onclick="updatePageTitle('Schema documentation for TeachingAndLearning.xsd')">TeachingAndLearning.xsd</a></p>
+                     <div id="sHAll.xsdTeachingAndLearning.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHAll.xsdTeachingAndLearning.xsdComplexTypes.xsd" type="image"
+                                        value="-"
+                                        src="img/btM.gif"
+                                        onclick="switchState('sHAll.xsdTeachingAndLearning.xsdComplexTypes.xsd');"
+                                        class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'TeachingAndLearning.xsd'." /> <a href="ComplexTypes_xsd.html#ComplexTypes.xsd" target="mainFrame"
+                                    title="Included by 'TeachingAndLearning.xsd'."
+                                    onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">ComplexTypes.xsd</a></p>
+                              <div id="sHAll.xsdTeachingAndLearning.xsdComplexTypes.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.jpg" title="Included by 'ComplexTypes.xsd'." /> <a href="SimpleTypes_xsd.html#SimpleTypes.xsd" target="mainFrame"
+                                             title="Included by 'ComplexTypes.xsd'."
+                                             onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">SimpleTypes.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </li>
+      </ul>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div>
+   </body>
+</html>

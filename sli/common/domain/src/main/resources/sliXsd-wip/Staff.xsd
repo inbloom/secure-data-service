@@ -329,7 +329,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="race" type="raceType">
+					<xs:element name="race" type="raceItemType">
 						<xs:annotation>
 							<xs:documentation>The general racial category which most clearly
 								reflects the individual's recognition of his or her community or
@@ -547,7 +547,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="instructionalGradeLevels" type="gradeLevelsType"
+					<xs:element name="instructionalGradeLevels" type="gradeLevelType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The set of grade levels for which the
@@ -752,7 +752,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="instructionalGradeLevels" type="gradeLevelsType">
+				<xs:element name="instructionalGradeLevels" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>The set of grade levels for which the
 							individual's assignment

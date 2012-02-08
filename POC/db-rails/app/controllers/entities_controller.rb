@@ -9,7 +9,7 @@ class EntitiesController < ApplicationController
   end
   
   def fix_urls
-      response.body = response.body.gsub!("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
+      response.body = response.body.gsub("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
   end
   # rescue_from ActiveResource::ResourceNotFound do |exception|
   #   render :file => "404.html"
@@ -37,8 +37,6 @@ class EntitiesController < ApplicationController
     else
       @entity = Entity.get(params[:id])
     end
-
-    raise ActiveResource::ResourceNotFound.new "Couldn't load resource with id: #{params[:id]}" unless !@entity.empty?
 
     respond_to do |format|
       format.html # show.html.erb

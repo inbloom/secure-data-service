@@ -101,19 +101,19 @@
 					<String>en</String>
 				</field>
 				<field name="unexpandedOutputFile">
-					<String>/Users/asaarela/Projects/docs/SLI/sli/common/domain/Documentation/html/index.html</String>
+					<String>${cfd}/html/schema-index.html</String>
 				</field>
 				<field name="splitMethod">
 					<Integer>3</Integer>
 				</field>
 				<field name="openOutputInBrowser">
-					<Boolean>true</Boolean>
+					<Boolean>false</Boolean>
 				</field>
 				<field name="format">
 					<Integer>4</Integer>
 				</field>
 				<field name="customXSL">
-					<URL>file:/Users/asaarela/Projects/schemas/sli/common/domain/Documentation/sli_XSDtoHTMLDocs.xsl</URL>
+					<URL>file:/Users/asaarela/Projects/master/SLI/sli/common/domain/Documentation/sli_XSDtoHTMLDocs.xsl</URL>
 				</field>
 				<field name="deleteXMLFiles">
 					<Boolean>true</Boolean>
@@ -122,10 +122,10 @@
 					<Boolean>true</Boolean>
 				</field>
 				<field name="copyAdditionalResources">
-					<Boolean>false</Boolean>
+					<Boolean>true</Boolean>
 				</field>
 				<field name="additionalResourcesDir">
-					<null/>
+					<URL>file:/Applications/oxygen/frameworks/schema_documentation/img/</URL>
 				</field>
 			</xsdDocumentationOptions>
 		</entry>
