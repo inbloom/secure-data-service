@@ -81,12 +81,16 @@ getSliRoleObject = function(sliRole, roleData) {
         for (var i in data) {
 		var tr = $("<tr style='display: none'>");
         	tr.append($("<td>" + data[i][0] +  "<td>" + data[i][1] +  "</td>"));
+
 		if (editable) {
 			tr.append("<td><button class='deleteButton'>X</button></td>");
 		}	
 		//fade in last one
 		table.append(tr);
-		tr.show();
+		// We typically wouldnt expect a user to remap sli admin, so dont show in list
+		if (data[i][1] != 'SLI Administrator') {
+			tr.show();
+		}
 		if (editable) {
         		$(tr).find(".deleteButton").each(function() {
                 		$(this).click(function() {
