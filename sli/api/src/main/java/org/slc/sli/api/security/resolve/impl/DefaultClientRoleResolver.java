@@ -52,6 +52,7 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
                     String sliRoleName = (String) role.get("sliRoleName");
                     List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
                     
+                    // Intersection operation. Discovers if any user roles match role mappings in the role def
                     clientRoleNameList.retainAll(clientRoleNames);
                     
                     if (!clientRoleNameList.isEmpty()) {

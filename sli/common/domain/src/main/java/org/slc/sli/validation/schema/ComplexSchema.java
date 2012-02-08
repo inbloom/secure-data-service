@@ -67,7 +67,9 @@ public class ComplexSchema extends NeutralSchema {
                 NeutralSchema schema = entry.getValue();
                 AppInfo appInfo = schema.getAppInfo();
                 if (appInfo != null && appInfo.isRequired() && !entityMap.containsKey(entry.getKey())) {
-                    addError(false, entry.getKey(), "", "", ErrorType.REQUIRED_FIELD_MISSING, errors);
+                    addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
+                            ErrorType.REQUIRED_FIELD_MISSING,
+                            errors);
                     isValid = false;
                 }
             }

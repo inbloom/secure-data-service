@@ -11,7 +11,7 @@
     <#if viewConfigs??>
       <select id="viewSelector" onChange="changeView(this.value)">
         <#list viewConfigs as view>
-            <option value=${view_index}>"${view.getName()}"</option>
+            <option value=${view_index}>${view.getName()}</option>
         </#list>
       </select>
     </#if>
