@@ -187,10 +187,32 @@ public class BasicService implements EntityService {
         
         List<String> results = new ArrayList<String>();
         
+        //start 403 debug
+        int entCount = 0;
+        //end 403 debug
+        
         Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+        
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
+            entCount++;
         }
+        
+        //start 403 debug
+        if (collectionName.equals("roles") && entCount == 0) {
+            LOG.info("No roles found!");
+            //wait and try again
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            
+            entities = repo.findByQuery(collectionName, query, start, numResults);
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+        }
+        //end 403 debug
         
         return results;
     }

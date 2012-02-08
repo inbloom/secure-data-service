@@ -174,7 +174,7 @@ public class PersistenceProcessor implements Processor {
 
     private ch.qos.logback.classic.Logger createErrorLoggerForFile(String fileName) throws IOException {
 
-        final String loggerName = "error." + fileName;
+        final String loggerName = "error." + fileName + System.currentTimeMillis();
 
         File logFile = lz.createFile(loggerName);
 
