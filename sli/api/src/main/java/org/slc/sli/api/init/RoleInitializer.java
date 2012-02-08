@@ -37,8 +37,8 @@ public class RoleInitializer {
 
     @PostConstruct
     public void init() {
-        //dropRoles();
-        //buildRoles();
+        dropRoles();
+        buildRoles();
     }
 
     private void dropRoles() {
