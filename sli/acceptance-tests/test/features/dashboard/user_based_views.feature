@@ -25,8 +25,7 @@ Scenario: Views are filtered based on student grades
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
     And I select <section> "Sec 923"
-  Then I should only see one view
-    And the view should be named "IL_3-8_ELA"
+  Then I should only see one view named "IL_9-12"
 
 Scenario: Check changing view changes table headings
   Given I am authenticated to SLI as "cgray" "cgray"
@@ -50,5 +49,4 @@ Scenario: Different users have different views defined
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"
     And I select <section> "Mrs. Braverman's Homeroom #38"
-  Then I should have a dropdown selector named "viewSelector"
-    And I should have a selectable view named "IL_K-3"
+  Then I should only see one view named "IL_K-3"
