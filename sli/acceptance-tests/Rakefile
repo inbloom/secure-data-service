@@ -90,7 +90,7 @@ task :production => [:apiTests, :securityTests, :ingestionTests] do
 end
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
-# It is needed so that it fails the build if there are any failures based on the 
+# It is needed so that it fails the build if there are any failures based on the
 # 'raise' exception logic below.  Rake will exit immediatly if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
@@ -108,7 +108,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:sampleIngestionTests] do
+task :ingestionTests => [:studentIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests, :teacherSectionAssociationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -117,11 +117,25 @@ task :ingestionTests => [:sampleIngestionTests] do
   end
 end
 
-desc "Run Sample Ingestion Tests"
-task :sampleIngestionTests do
-  runTests("test/features/ingestion/sample_test")
+desc "Run Student Ingestion Tests"
+task :studentIngestionTests do
+  runTests("test/features/ingestion/features/student.feature")
 end
 
+desc "Run Section Ingestion Tests"
+task :sectionIngestionTests do
+  runTests("test/features/ingestion/features/section.feature")
+end
+
+desc "Run Student Section Association Ingestion Tests"
+task :studentSectionAssociationTests do
+  runTests("test/features/ingestion/features/student_section_assocation.feature")
+end
+
+desc "Run Teacher Section Association Ingestion Tests"
+task :teacherSectionAssociationTests do
+  runTests("test/features/ingestion/features/teacher_section_assocation.feature")
+end
 ############################################################
 # Ingestion tests end
 ############################################################
@@ -342,7 +356,7 @@ task :importSandboxData do
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
-  
+
   smallvilleTestHash = Hash[
     "assessment" => "smallville_assessment_fixture.json",
     "course" => "smallville_courses_fixture.json",
