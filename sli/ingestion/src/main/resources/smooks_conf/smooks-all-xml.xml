@@ -883,9 +883,9 @@
 
     <!-- jb:value property="sourceId" data="" / -->
     <!-- jb:value property="jobId" data="" / -->
-    <jb:expression property="recordType">'course'
-    </jb:expression>
+    <jb:expression property="recordType">'course'</jb:expression>
 
+    <jb:value property="localId" data="Course/CourseCode/ID" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>
