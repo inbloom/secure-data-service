@@ -108,7 +108,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:studentIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests: teacherSectionAssociationTests] do
+task :ingestionTests => [:studentIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests, :teacherSectionAssociationTests, :educationOrganizationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -136,6 +136,12 @@ desc "Run Teacher Section Association Ingestion Tests"
 task :teacherSectionAssociationTests do
   runTests("test/features/ingestion/features/teacher_section_assocation.feature")
 end
+
+desc "Run Education Organizations Ingestion Tests"
+task :educationOrganizationTests do
+  runTests("test/features/ingestion/features/education_organization.feature")
+end
+########
 ############################################################
 # Ingestion tests end
 ############################################################
