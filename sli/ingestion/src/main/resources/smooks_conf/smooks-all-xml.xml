@@ -215,13 +215,13 @@
     <jb:value property="endDate" data="Student/StudentCharacteristics/EndDate" />
     <jb:value property="designatedBy" data="Student/StudentCharacteristics/DesignatedBy" />
   </jb:bean>
-
-  <!-- LanguageItemType -->
+  
+    <!-- LanguageItemType -->
   <jb:bean beanId="languageItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
     <jb:value data="Student/Languages/Language" />
   </jb:bean>
-
-  <!-- HomeLanguageItemType -->
+  
+   <!-- HomeLanguageItemType -->
   <jb:bean beanId="homeLanguageItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
     <jb:value data="Student/HomeLanguages/Language" />
   </jb:bean>
