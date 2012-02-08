@@ -63,8 +63,7 @@ public class ReferenceSchema extends NeutralSchema {
         try {
             //try to find an entity with the given id
             found = (repo.find(getAppInfo().getReferenceType(), (String) entity) != null);
-        }
-        catch(IllegalArgumentException iae) {
+        } catch (IllegalArgumentException iae) {
             //catch any malformed uuid exceptions
             found = false;
         }
