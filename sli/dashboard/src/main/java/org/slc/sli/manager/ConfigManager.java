@@ -2,6 +2,7 @@ package org.slc.sli.manager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.config.ConfigPersistor;
@@ -102,24 +103,24 @@ public class ConfigManager extends Manager {
      *
      * @param userId
      * @param type - e.g. studentList, studentProfile, etc.
-     * @return ViewConfig
+     * @return List<ViewConfig>
      */
-    // TODO: should return a list of ViewConfigs, once User-Based View logic is complete.
-    public ViewConfig getConfigWithType(String userId, String type) {
-
+    public List<ViewConfig> getConfigsWithType(String userId, String type) {
+        
         ViewConfigSet config = getConfigSet(userId);
-
-        if (config == null) {
-            return null;
+        List<ViewConfig> viewConfigs = null;
+        
+        if (config != null && config.getViewConfig() != null) {
+            viewConfigs = new ArrayList<ViewConfig>();
+            
+            // loop through, find right type configs
+            for (ViewConfig view : config.getViewConfig()) {
+                if (view.getType().equals(type)) {
+                    viewConfigs.add (view);
+                }
+            }            
         }
-
-        // loop through, find right config
-        for (ViewConfig view : config.getViewConfig()) {
-            if (view.getType().equals(type)) {
-                return view;
-            }
-        }
-        return null;
+        return viewConfigs;
     }
 
     /**
