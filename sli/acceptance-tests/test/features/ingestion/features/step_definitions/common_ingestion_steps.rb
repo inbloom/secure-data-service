@@ -52,7 +52,7 @@ end
 
 
 Given /^I am using local data store$/ do
-  @local_file_store_path = File.dirname(__FILE__) + '/../../sample_data/'
+  @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
 end
 
 
