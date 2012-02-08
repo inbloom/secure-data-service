@@ -58,8 +58,9 @@ public class QueryConverterTest {
 
     @Test
     public void testStringToQuery() {
-        assertEquals(queryConverter.stringToQuery("studentSchoolAssociation", "entryGradeLevel=First grade")
-                .getQueryObject(), new Query(Criteria.where("body.entryGradeLevel").is("First grade")).getQueryObject());
+        assertEquals(new Query(Criteria.where("body.entryGradeLevel").is("First grade")).getQueryObject(),
+                queryConverter.stringToQuery("studentSchoolAssociation", "entryGradeLevel=First grade")
+                        .getQueryObject());
     }
 
     @Test(expected = QueryParseException.class)
@@ -82,9 +83,11 @@ public class QueryConverterTest {
 
     @Test
     public void testStringToQueryReservedKeys() {
-        assertEquals(queryConverter.stringToQuery("student", "sessionId=12345678").getQueryObject(),
-                new Query().getQueryObject());
-        assertEquals(queryConverter.stringToQuery("student", "start-index=10").getQueryObject(),
-                new Query().getQueryObject());
+        assertEquals(new Query().getQueryObject(), queryConverter.stringToQuery("student", "sessionId=12345678")
+                .getQueryObject());
+        assertEquals(new Query().getQueryObject(), queryConverter.stringToQuery("student", "start-index=10")
+                .getQueryObject());
+        assertEquals(new Query().getQueryObject(),
+                queryConverter.stringToQuery("studentSchoolAssociation", "full-entities=true").getQueryObject());
     }
 }
