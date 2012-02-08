@@ -90,7 +90,7 @@ task :production => [:apiTests, :securityTests, :ingestionTests] do
 end
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
-# It is needed so that it fails the build if there are any failures based on the 
+# It is needed so that it fails the build if there are any failures based on the
 # 'raise' exception logic below.  Rake will exit immediatly if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
@@ -108,7 +108,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:studentIngestionTests] do
+task :ingestionTests => [:studentIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests: teacherSectionAssociationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -356,7 +356,7 @@ task :importSandboxData do
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
-  
+
   smallvilleTestHash = Hash[
     "assessment" => "smallville_assessment_fixture.json",
     "course" => "smallville_courses_fixture.json",
