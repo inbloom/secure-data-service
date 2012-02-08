@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- 	This file has to be placed in the same directory as the graphml file to display.
+	To integrate this file into an existing crossdomain file add the
+	allow-access-from-domain element to that file. -->
+<cross-domain-policy>
+    <allow-access-from domain="www.yworks.com"/>
+</cross-domain-policy>
