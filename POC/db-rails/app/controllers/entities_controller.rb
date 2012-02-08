@@ -2,15 +2,11 @@ require "active_resource/base"
 
 class EntitiesController < ApplicationController
   before_filter :set_url
-  after_filter :fix_urls
   
   def set_url
     Entity.url_type = params[:type]
   end
   
-  def fix_urls
-      response.body = response.body.gsub("#{APP_CONFIG['api_base']}", "http://#{request.host_with_port}/entities")
-  end
   # rescue_from ActiveResource::ResourceNotFound do |exception|
   #   render :file => "404.html"
   # end
