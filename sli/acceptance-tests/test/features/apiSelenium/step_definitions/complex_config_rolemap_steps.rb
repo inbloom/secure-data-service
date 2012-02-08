@@ -158,8 +158,8 @@ Then /^I see a message that tells me that I can put only alphanumeric values as 
   assert(errorMsg.include?("alphanumeric"), "Could not find an error message saying roles must be alphanumeric")
 end
 
-Then /^the mapping is not added between "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
-  step "the custom role \"#{arg1}\" is no longer mapped to the default role \"#{arg2}\""
+Then /^the mapping is not added between default role "([^"]*)" and custom role "([^"]*)"$/ do |arg1, arg2|
+  step "the custom role \"#{arg2}\" is no longer mapped to the default role \"#{arg1}\""
 end
 
 Given /^I see pre\-existing mappings$/ do

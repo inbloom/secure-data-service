@@ -22,34 +22,50 @@ import org.slc.sli.validation.EntityValidator;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class StudentSectionAssociationTest {
+public class StudentSchoolAssociationEntityTest {
 
     @Autowired
     private EntityValidator validator;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<StudentSectionAssociation>"
-            + "<UniqueSectionCode>MT100</UniqueSectionCode>"
-            + "<StudentReference>"
-            + "<StudentIdentity>"
-            + "<StudentUniqueStateId>111220001</StudentUniqueStateId>"
-            + "</StudentIdentity>"
-            + "</StudentReference>"
-            + " <SectionReference>"
-            + " </SectionReference>"
-            + " <BeginDate>2009-09-15</BeginDate>"
-            + " <EndDate>2010-06-02</EndDate>"
-            + " <HomeroomIndicator>false</HomeroomIndicator>"
-            + " <RepeatIdentifier>Not Repeated</RepeatIdentifier>"
-            + "</StudentSectionAssociation>" + "</InterchangeStudentEnrollment>";
+            + "<StudentSchoolAssociation>"
+            + " <StudentReference>"
+            + "  <StudentIdentity>"
+            + "      <StudentUniqueStateId>900000001</StudentUniqueStateId>"
+            + "  </StudentIdentity>"
+            + " </StudentReference>"
+            + " <SchoolReference>"
+            + "  <EducationalOrgIdentity>"
+            + "      <StateOrganizationId>990000001</StateOrganizationId>"
+            + "  </EducationalOrgIdentity>"
+            + " </SchoolReference>"
+            + " <EntryDate>2012-01-17</EntryDate>"
+            + " <EntryGradeLevel>Eighth grade</EntryGradeLevel>"
+            + " <EntryType>Next year school</EntryType>"
+            + " <GraduationPlan>Distinguished</GraduationPlan>"
+            + " <RepeatGradeIndicator>false</RepeatGradeIndicator>"
+            + " <EducationalPlans>"
+            + "   <EducationalPlan>Full Time Employment</EducationalPlan>"
+            + " </EducationalPlans>" + "</StudentSchoolAssociation>" + "</InterchangeStudentEnrollment>";
+
+    private void checkValidSSANeutralRecord(NeutralRecord record) {
+        Map<String, Object> entity = record.getAttributes();
+        Assert.assertEquals("900000001", entity.get("studentId"));
+        Assert.assertEquals("990000001", entity.get("schoolId"));
+        Assert.assertEquals("Eighth grade", entity.get("entryGradeLevel"));
+        Assert.assertEquals("2012-01-17", entity.get("entryDate"));
+        Assert.assertEquals("Next year school", entity.get("entryType"));
+        // Assert.assertEquals("Full Time Employment", entity.get("educationPlans"));
+        Assert.assertEquals("false", entity.get("repeatGradeIndicator").toString());
+    }
 
     @Test
-    public void testValidSectionCSV() throws Exception {
+    public void testValidStudentSchoolAssociationCSV() throws Exception {
 
-        String smooksConfig = "smooks_conf/smooks-studentSectionAssociation-csv.xml";
+        String smooksConfig = "smooks_conf/smooks-studentSchoolAssociation-csv.xml";
         String targetSelector = "csv-record";
 
-        String testData = "111220001,MT100,2009-09-15,2010-06-02,false,Not Repeated";
+        String testData = ",,,900000001,,,,,,,,,,,,,,,,,,,,,,,990000001,,,2012-01-17,Eighth grade,Next year school,false,,,,,Full Time Employment";
 
         ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
         NeutralRecordFileReader nrfr = null;
@@ -60,16 +76,16 @@ public class StudentSectionAssociationTest {
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
-            checkValidSectionNeutralRecord(record);
+            checkValidSSANeutralRecord(record);
         } finally {
             nrfr.close();
         }
     }
 
     @Test
-    public void testValidatorSection() throws Exception {
+    public void testValidatorStudentSchoolAssociation() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
+        String targetSelector = "InterchangeStudentEnrollment/StudentSchoolAssociation";
 
         ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
@@ -80,7 +96,7 @@ public class StudentSectionAssociationTest {
             Assert.assertTrue(nrfr.hasNext());
 
             NeutralRecord record = nrfr.next();
-            EntityTestUtils.mapValidation(record.getAttributes(), "studentSectionAssociation", validator);
+            EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
 
         } finally {
             nrfr.close();
@@ -89,9 +105,10 @@ public class StudentSectionAssociationTest {
     }
 
     @Test
-    public void testValidSectionXML() throws Exception {
+    public void testValidStudentSchoolAssociationXML() throws Exception {
+
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
+        String targetSelector = "InterchangeStudentEnrollment/StudentSchoolAssociation";
 
         ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
         NeutralRecordFileReader nrfr = null;
@@ -100,19 +117,11 @@ public class StudentSectionAssociationTest {
             // Tests that the NeutralRecords were created
             Assert.assertTrue(nrfr.hasNext());
             NeutralRecord record = nrfr.next();
-            checkValidSectionNeutralRecord(record);
+            checkValidSSANeutralRecord(record);
         } finally {
             nrfr.close();
         }
+
     }
 
-    private void checkValidSectionNeutralRecord(NeutralRecord record) {
-        Map<String, Object> entity = record.getAttributes();
-        Assert.assertEquals("111220001", entity.get("studentId"));
-        Assert.assertEquals("MT100", entity.get("uniqueSectionCode"));
-        Assert.assertEquals("2009-09-15", entity.get("beginDate"));
-        Assert.assertEquals("2010-06-02", entity.get("endDate"));
-        Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
-        Assert.assertEquals("Not Repeated", entity.get("repeatIdentifier"));
-    }
 }

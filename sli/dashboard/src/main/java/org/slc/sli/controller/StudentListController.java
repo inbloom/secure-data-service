@@ -38,7 +38,7 @@ public class StudentListController extends DashboardController {
 
         UserDetails user = getPrincipal();
 
-        model.addAttribute(INST_HEIRARCHY, institutionalHeirarchyManager.getInstHeirarchyJSON());
+        model.addAttribute(INST_HEIRARCHY, institutionalHeirarchyManager.getInstHeirarchyJSON(SecurityUtil.getToken()));
         model.addAttribute(USER_NAME, user.getUsername());
 
         return new ModelAndView("studentList");
@@ -50,10 +50,6 @@ public class StudentListController extends DashboardController {
         return SecurityUtil.getPrincipal();
     }
 
-
-    /*
-     * Getters and setters
-     */
     /*
      * Getters and setters
      */

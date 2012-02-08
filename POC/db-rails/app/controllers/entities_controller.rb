@@ -1,3 +1,5 @@
+require "active_resource/base"
+
 class EntitiesController < ApplicationController
   before_filter :set_url
   after_filter :fix_urls
@@ -36,7 +38,7 @@ class EntitiesController < ApplicationController
       @entity = Entity.get(params[:id])
     end
 
-    raise ActionController::RoutingError.new "Couldn't load resource with id: #{params[:id]}" unless !@entity.empty?
+    raise ActiveResource::ResourceNotFound.new "Couldn't load resource with id: #{params[:id]}" unless !@entity.empty?
 
     respond_to do |format|
       format.html # show.html.erb

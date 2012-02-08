@@ -15,7 +15,6 @@ Given /^format "([^\"]*)"$/ do |fmt|
 end
 
 Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
   
   ###### Remove eventually
   if(@res.code == 403 && Integer(arg1) != 403)
@@ -23,6 +22,8 @@ Then /^I should receive a return code of (\d+)$/ do |arg1|
     tempResponse = RestClient.get(url, {:accept => "application/json", :sessionId => @sessionId}){|response, request, result| response }
     puts "#############################################", tempResponse.body, "##########################################################"
   end
+  
+  assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
 end
 
 Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|

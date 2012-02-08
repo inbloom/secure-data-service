@@ -22,14 +22,14 @@
     ProgramReference">
   </csv:reader>
 
-  <!-- StateEducationAgency mapping -->
+  <!-- LocalEducationOrganization mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
     <jb:expression property="recordType">'educationOrganization'</jb:expression>
     <jb:value property="localId" data="StateOrganizationId" />
-    <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
+    <jb:wiring property="attributes" beanIdRef="localEducationAgencyAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap" createOnElement="csv-record">
+  <jb:bean beanId="localEducationAgencyAttributes" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="stateOrganizationId" data="StateOrganizationId" />
     <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
     <jb:value property="nameOfInstitution" data="NameOfInstitution" />
@@ -97,5 +97,5 @@
   <jb:bean beanId="programReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:value data="ProgramReference" />
   </jb:bean>
-  <!-- End StateEducationAgency Mapping -->
+  <!-- End LocalEducationOrganization Mapping -->
 </smooks-resource-list>

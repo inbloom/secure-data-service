@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,17 +13,17 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
- * Test the smooks mappings for StateEducationAgency entity
+ * Test the smooks mappings for LocalEducationAgency entity
  *
  * @author dduran
  *
  */
-public class StateEducationAgencyTest {
+public class LocalEducationAgencyTest {
 
     @Test
     public void csvStateEducationAgencyTest() throws Exception {
 
-        String smooksConfig = "smooks_conf/smooks-stateEducationAgency-csv.xml";
+        String smooksConfig = "smooks_conf/smooks-localEducationAgency-csv.xml";
 
         String targetSelector = "csv-record";
 
@@ -37,14 +37,14 @@ public class StateEducationAgencyTest {
     }
 
     @Test
-    public void edfiXmlStateEducationAgencyTest() throws IOException, SAXException {
+    public void edfiXmlLocalEducationAgencyTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
-        String targetSelector = "InterchangeEducationOrganization/StateEducationAgency";
+        String targetSelector = "InterchangeEducationOrganization/LocalEducationAgency";
 
         String edfiXml = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<StateEducationAgency>"
+                + "<LocalEducationAgency>"
                 + "    <StateOrganizationId>152901001</StateOrganizationId>"
                 + "    <EducationOrgIdentificationCode IdentificationSystem=\"identification system\">"
                 + "        <Id>9777</Id>"
@@ -82,7 +82,7 @@ public class StateEducationAgencyTest {
                 + "        <RatingProgram>rating program</RatingProgram>"
                 + "    </AccountabilityRatings>"
                 + "    <ProgramReference>program reference</ProgramReference>"
-                + "</StateEducationAgency>"
+                + "</LocalEducationAgency>"
                 + "</InterchangeEducationOrganization>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
@@ -93,6 +93,8 @@ public class StateEducationAgencyTest {
 
     @SuppressWarnings("rawtypes")
     private void checkValidSEANeutralRecord(NeutralRecord neutralRecord) {
+
+        assertEquals("educationOrganization", neutralRecord.getRecordType());
 
         assertEquals("152901001", neutralRecord.getLocalId());
         assertEquals("152901001", neutralRecord.getAttributes().get("stateOrganizationId"));
