@@ -106,7 +106,7 @@ Then /^I should see "([^"]*)" entries in the corresponding collection$/ do |reco
   @entity_collection = @db.collection(@entity_type)
   @entity_count = @entity_collection.count().to_i
 
-  puts "There are " + @entity_count.to_s + " in @entity_type collection"
+  puts "There are " + @entity_count.to_s + " in " + @entity_type.to_s + " collection"
 
   assert((record_count).eql?(@entity_count.to_s), "Record count doesn't match")
 end

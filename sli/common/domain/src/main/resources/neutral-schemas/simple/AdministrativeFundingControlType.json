@@ -1,9 +1,0 @@
-
-{
-   "type":"AdministrativeFundingControlType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Public School","Private School","Other"]}
-}

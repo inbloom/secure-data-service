@@ -7,7 +7,7 @@ Given /^I am not authenticated to SLI IDP$/ do
 end
 
 When /^I navigate to the SLI Default Roles Admin Page$/ do
-  url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  url = PropLoader.getProps['admintools_server_url']
   @driver.get url
 end
 
@@ -40,11 +40,11 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.title.index("SLI Default Roles") != nil}
+  assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.page_source.index("Default SLI Roles") != nil}
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do
-  url = PropLoader.getProps['admintools_server_url']+"/admin/roles"
+  url = PropLoader.getProps['admintools_server_url']
   @driver.get url
 end
 
@@ -99,8 +99,8 @@ Then /^I am informed that authentication has failed$/ do
 end
 
 Then /^I do not have access to the SLI Default Roles Admin Page$/ do
-  @driver.get PropLoader.getProps['admintools_server_url']+"/admin/roles"
-  assert(@driver.title.index("SLI Default Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
+  @driver.get PropLoader.getProps['admintools_server_url']
+  assert(@driver.page_source.index("Default SLI Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
 end
 
 Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
@@ -108,7 +108,7 @@ Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should get a message that I am not authorized$/ do
-  assertWithWait("Could not find Not Authorized in page title")  {@driver.title == "Not Authorized"}
+  assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("wrong")!= nil}
 end
 
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do

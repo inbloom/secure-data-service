@@ -1,9 +1,0 @@
-
-{
-   "type":"TelephoneNumberType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Fax","Emergency 1","Emergency 2","Home","Mobile","Other","Unlisted","Work"]}
-}

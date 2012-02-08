@@ -1,9 +1,0 @@
-
-{
-   "type":"EducationOrganizationCategoryType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["State Education Agency","Education Service Center","Local Education Agency","School"]}
-}
