@@ -90,6 +90,9 @@ public class TeacherEntityTest {
                 + "<ElectronicMail EmailAddressType=\"primary\">"
                 + "    <EmailAddress>teacher@school.edu</EmailAddress>"
                 + "</ElectronicMail>"
+                + "<ElectronicMail EmailAddressType=\"secondary\">"
+                + "    <EmailAddress>teacher@home.com</EmailAddress>"
+                + "</ElectronicMail>"
                 + "<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>"
                 + "<OldEthnicity>old ethnicity</OldEthnicity>"
                 + "<Race>"
@@ -181,6 +184,12 @@ public class TeacherEntityTest {
         Map emailAddressMap = (Map) emailAddressList.get(0);
         EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddressType", "primary");
         EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddress", "teacher@school.edu");
+        if (emailAddressList.size() > 1) {
+            // TODO: remove if block when we support lists in CSV
+            Map emailAddressMap2 = (Map) emailAddressList.get(1);
+            EntityTestUtils.assertObjectInMapEquals(emailAddressMap2, "emailAddressType", "secondary");
+            EntityTestUtils.assertObjectInMapEquals(emailAddressMap2, "emailAddress", "teacher@home.com");
+        }
 
         assertEquals("old ethnicity", teacherNeutralRecord.getAttributes().get("oldEthnicity"));
         assertEquals(false, teacherNeutralRecord.getAttributes().get("hispanicLatinoEthnicity"));

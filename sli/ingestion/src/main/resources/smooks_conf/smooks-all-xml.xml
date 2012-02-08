@@ -703,7 +703,7 @@
   <jb:bean beanId="teacherElectronicMailTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherElectronicMailType" />
   </jb:bean>
-  <jb:bean beanId="teacherElectronicMailType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+  <jb:bean beanId="teacherElectronicMailType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/ElectronicMail">
     <jb:value property="emailAddressType" data="ElectronicMail/@EmailAddressType" />
     <jb:value property="emailAddress" data="ElectronicMail/EmailAddress" />
   </jb:bean>
@@ -887,7 +887,8 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'course'</jb:expression>
 
-    <jb:value property="localId" data="Course/CourseCode/ID" />
+    <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
+    <!-- <jb:value property="localId" data="Course/CourseCode/ID" /> -->
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>
@@ -896,7 +897,7 @@
     <jb:value property="courseTitle" data="Course/CourseTitle" />
     <jb:value property="numberOfParts" data="Course/NumberOfParts" />
     <!-- CourseCode -->
-    <jb:wiring property="courseCode" beanIdRef="courseCodeType" />
+    <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
     <jb:value property="courseLevel" data="Course/CourseLevel" />
     <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
     <jb:wiring property="gradesOffered" beanIdRef="GradesOfferedArray" />
@@ -911,15 +912,15 @@
     <!-- MaximumAvilableCredit -->
     <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
     <jb:value property="careerPathway" data="Course/CareerPathway" />
-
   </jb:bean>
 
-  <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
-
+  <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
+    <jb:wiring beanIdRef="courseCodeType" />
+  </jb:bean>
+  <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course/CourseCode">
     <jb:value property="ID" data="Course/CourseCode/ID" />
     <jb:value property="identificationSystem" data="Course/CourseCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode" data="Course/CourseCode/@AssigningOrganizationCode" />
-
   </jb:bean>
 
   <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
