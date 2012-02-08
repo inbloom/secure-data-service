@@ -6,7 +6,11 @@ class SessionResource < ActiveResource::Base
   class << self
     
     def headers
-      @headers ||= {"sessionId" => self.auth_id}
+      if !auth_id.nil?
+        @headers = {"sessionId" => self.auth_id}
+      else
+        @headers = {}
+      end
     end
     
     ## Remove format from the url.
