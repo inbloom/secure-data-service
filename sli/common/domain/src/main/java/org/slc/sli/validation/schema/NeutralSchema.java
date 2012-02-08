@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -200,7 +201,7 @@ public abstract class NeutralSchema {
      */
     public boolean validate(Object entity) throws EntityValidationException {
         List<ValidationError> errors = new LinkedList<ValidationError>();
-        boolean isValid = this.validate("", entity, errors);
+        boolean isValid = this.validate("", entity, errors, null);
         return (isValid && (errors.size() <= 0));
     }
 
@@ -215,9 +216,11 @@ public abstract class NeutralSchema {
      *            being validated using this SLI Schema
      * @param errors
      *            list of current errors
+     * @param repo
+     *            reference to the entity repository
      * @return true if valid
      */
-    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors);
+    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo);
 
     /**
      * @param isValid
