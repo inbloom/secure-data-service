@@ -1,9 +1,0 @@
-
-{
-   "type":"SpecialAccommodationsType",
-   "validatorClass":"org.slc.sli.validation.ComplexSchema",
-   "version":"1.0",
-   "fields":{
-      "*SpecialAccommodation":["SpecialAccommodationItemType"]},
-   "properties":{}
-}

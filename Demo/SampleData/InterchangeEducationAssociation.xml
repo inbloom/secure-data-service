@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+
+ <Course>
+  <CourseTitle>Club/Team</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>1</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+  <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>Senior Homeroom</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>2</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+  <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>Writing about Government</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>3</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>Honors American Literature</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>4</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>American Literature</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>5</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+  <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>6</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>Club/Team</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>7</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+  <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>7th Grade Homeroom</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>8</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>7th Grade English</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>9</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>8th Grade English</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>10</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>Reading Group</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>11</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+ <Course>
+  <CourseTitle>1st Grade Homeroom</CourseTitle>
+  <NumberOfParts>1</NumberOfParts>
+  <CourseCode IdentificationSystem="CSSC course code"><ID>12</ID></CourseCode>
+  <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+  <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+  <MinimumAvailableCredit><Credit>1</Credit></MinimumAvailableCredit>
+  <MaximumAvailableCredit><Credit>1</Credit></MaximumAvailableCredit>
+ <EducationOrganizationReference></EducationOrganizationReference>
+ </Course>
+</InterchangeEducationOrganization>

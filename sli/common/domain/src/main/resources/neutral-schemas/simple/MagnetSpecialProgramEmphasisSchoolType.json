@@ -1,9 +1,0 @@
-
-{
-   "type":"MagnetSpecialProgramEmphasisSchoolType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["All students participate","No students participate","Some, but not all, students participate"]}
-}

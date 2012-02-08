@@ -153,7 +153,7 @@ public class BasicService implements EntityService {
         // Compute intersection of requested and allowed and encode
         Set<Object> binIds = new HashSet<Object>();
         for (String id : ids) {
-            if (allowed.contains(ids)) {
+            if (allowed.contains(id)) {
                 binIds.add(idConverter.toDatabaseId(id));
             }
         }

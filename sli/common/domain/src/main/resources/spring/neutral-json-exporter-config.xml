@@ -10,7 +10,10 @@
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd"
 	default-autowire="byName">
 
-	<context:component-scan base-package="org.slc.sli.validation" />
+	<context:component-scan base-package="org.slc.sli.validation">
+        <context:exclude-filter type="regex"
+            expression=".*NeutralSchemaValidator" />
+    </context:component-scan>
 	<bean id="entityValidator" class = "org.slc.sli.validation.AvroEntityValidator"/>
 
 </beans>
