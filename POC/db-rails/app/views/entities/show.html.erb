@@ -1,79 +1,15 @@
-<script type="text/javascript">
-    function linkify(text){
-        if (text) {
-            text = text.replace(
-                /((https?\:\/\/)|(www\.))(\S+)(\w{2,4})(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
-                function(url){
-                    var full_url = url;
-                    if (!full_url.match('^https?:\/\/')) {
-                        full_url = 'http://' + full_url;
-                    }
-                    return '<a href="' + full_url + '">' + url + '</a>';
-                }
-            );
-        }
-        return text;
-    }
-
-    $(document).ready(function(){
-        //$('div#data').html( linkify($('div#data').html()) );
-    });
-</script>
-<div id='data'>
 <p id="notice"><%= notice %></p>
-<% def build_links(hash) %>
-	<% if hash.is_a?(Array) %>
-		<ul>
-		<% hash.each do |link| %>
-				<li><%= link_to t(link["rel"]), link["href"] %></li>
-		<% end %>
-		</ul>
-	<% else %>
-		<%= link_to t(hash["rel"]), hash["href"]%>
-	<% end %>
-<% end %>
-<% def display_hash (hash = {}, indent = 0)%>
-	<%if indent != 0 %>
-	<dl>
-	<%end%>
 
-	  <% hash.each do |key, value| %>
-		<%case key
-		when 'links', 'link' %>
-			<dt><b><%= t(key) %>:</b></dt>
-			<dd><%build_links value %></dd>
-		<%when 'id'%>
-		<%else%>
-			<dt><b><%= t(key) %>:</b></dt>
-			<dd>
-				<% if value.is_a?(Hash) %>
-					<% display_hash(value, indent+1)  %>
-				<%end%>
-				<%=value unless value.is_a?(Hash) or value.is_a?(Array)%>
-				<% if value.is_a?(Array)
-					value.each do |item| 
-						if item.is_a? Hash
-							display_hash(item, indent+1)
-						else %>
-							<%= value.join(', ') %>
-							<% break
-						end
-						
-					end
-					end%>
-			</dd>
-		<% end %>
-			
-	<% end %>
-	<%if indent != 0 %>
-	</dl>
-	<%end%>
-<% end %>
-<% if @entity.is_a?(Array) %>
-  	<% @entity.each do |item|%>
-		<% display_hash(item)%>
-	<%end%>
-<% else %>
-	<% display_hash(@entity)%>
-<% end %>
-</div>
+<%=
+html = ""
+if @entity.empty?
+	html << "Entity is empty"
+elsif @entity.is_a?(Array) 
+	@entity.each do |item|
+		html << display_hash(item)
+	end
+else
+	html << display_hash(@entity)
+end
+html.html_safe
+%>

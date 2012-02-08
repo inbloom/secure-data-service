@@ -2,12 +2,18 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+# Converts the data returned by the realm API into a simpler object
+# that's basically an array of table rows, the first column being
+# the client role and the second being the SLI role.
+# e.g. [ ['foo', 'Educator'], ['bar', 'Leader'] ]
 `getTableData = function(json) {
-        toReturn = []
-        for (var sliRole in json) {
-                for (var j in json[sliRole]) {
-                        toReturn.push([json[sliRole][j], sliRole])
-                }
+        toReturn = [];
+        for (var i in json.role) {
+          var roleData = json.role[i];
+          sliRole = roleData.sliRoleName;
+          for (var j in roleData.clientRoleName) {
+            toReturn.push([roleData.clientRoleName[j], sliRole]);
+          }
         }
         return toReturn
 }`
@@ -24,18 +30,39 @@
 	return map;
 }
 `
+
+# Takes our table data and converts it into the mapping object
+# needed by the API.
 `mapData = function(data) {
 	var map = {};
+	var role = [];
+	map.role = role;
 	for (var i in data) {
 		var cRole = data[i][0];
 		var sliRole = data[i][1];
-		if (!map[sliRole])
-			map[sliRole] = [];
-		map[sliRole].push(cRole);
+		var sliRoleArray = getSliRoleObject(sliRole, role);
+		if (sliRoleArray == null) {
+		  sliRoleArray = {};
+		  sliRoleArray.sliRoleName = sliRole;
+		  sliRoleArray.clientRoleName = [];
+		  role.push(sliRoleArray);
+		}
+		sliRoleArray.clientRoleName.push(cRole);
 	}
 	return map;
 }`
 
+# Helper function used by mapData
+`
+getSliRoleObject = function(sliRole, roleData) {
+  for (var i in roleData) {
+    if (roleData[i].sliRoleName == sliRole) {
+      return roleData[i];
+    }
+  }
+  return null;
+}
+`
 `sortTable = function(data, col, order) {
 
         data.sort(function(a, b) {

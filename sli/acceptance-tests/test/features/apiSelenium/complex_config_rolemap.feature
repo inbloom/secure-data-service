@@ -147,7 +147,7 @@ When I click on the role <Role> radio button
 And I enter <Bad Text> in the text field
 And I click the add button
 Then I see a message that tells me that I can put only alphanumeric values as a custom role 
-And the mapping is not added between <Role> and <Bad Text>
+And the mapping is not added between default role <Role> and custom role <Bad Text>
 Examples:
 | Role       | Bad Text   |
 | "Educator" | "Learner!" |

@@ -1,9 +1,5 @@
 package org.slc.sli.client;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +21,6 @@ import org.slc.sli.entity.EducationalOrganization;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 

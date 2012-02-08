@@ -22,7 +22,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 @Component
 public class BasicQueryConverter implements QueryConverter {
 
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId" };
+    private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId", "full-entities" };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
 
     @Autowired
