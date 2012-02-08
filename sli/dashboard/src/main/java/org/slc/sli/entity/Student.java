@@ -9,7 +9,7 @@ import org.slc.sli.util.Constants;
  */
 public class Student {
 
-    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServicesEligibility;
+    private String id, studentUniqueStateId, sex, economicDisadvantaged, limitedEnglishProficiency, schoolFoodServicesEligibility, cohortYear;
 
     public void setLimitedEnglishProficiency(String limitedEnglishProficiency) {
         this.limitedEnglishProficiency = limitedEnglishProficiency;
@@ -135,6 +135,12 @@ public class Student {
         return (schoolFoodServicesEligibility != null) && (schoolFoodServicesEligibility.equals("Free"));
     }
     */
+    
+    public void setCohortYear(String cohortYear) {
+        this.cohortYear = cohortYear;
+    }
 
-
+    public String getCohortYear() {
+        return this.cohortYear;
+    }    
 }

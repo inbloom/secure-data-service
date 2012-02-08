@@ -8,8 +8,6 @@ class RealmsController < ApplicationController
   def index
     @realms = Realm.all
 
-    #SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-     
     #figure out the realm this user has access to
     userRealm = get_user_realm
     @realms.each do |realm|
@@ -37,11 +35,7 @@ class RealmsController < ApplicationController
   # # GET /realms/1/edit
    def edit
      @realm = Realm.find(params[:id])
-     @mapping = get_mappings_from_realm(params[:id])
-     @sli_roles = []
-     @mapping.each do |mapping|
-       @sli_roles.push mapping[:name]
-     end
+     @sli_roles = get_roles
    end
 
   # # PUT /realms/1
@@ -59,26 +53,22 @@ class RealmsController < ApplicationController
 	errorMsg = error.response.body
 	end
        if success && params[:mappings] != nil
-         #format.html { redirect_to @realm, notice: 'Realm was successfully updated.' }
          format.json { render json: @realm }
        else
-         #format.html { render action: "edit" }
-         #format.json { render json: @realm.errors, status: :unprocessable_entity }
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
 	
      end
    end
 
-  def get_mappings_from_realm(realm)
+  # Uses the /role api to get the list of roles
+  def get_roles()
     roles = Role.all
-    mapping = []
+    toReturn = []
     roles.each do |role|
-      map = {}
-      map[:name] = role.name
-      mapping.push map
+      toReturn.push role.name
     end
-    mapping
+    toReturn
   end
 
   #TODO:  current we're just checking the realm the user authenticated to,

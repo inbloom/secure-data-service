@@ -8,14 +8,18 @@
   -->
 
 <span id="viewSelectorSpan">
-    <select id="viewSelector" onChange="changeView(this.value)">
-    <#list viewConfigSet.getViewConfig() as view>
-        <option value=${view_index}>${view.getName()}</option>
-    </#list>
-    </select>
+    <#if viewConfigs??>
+      <select id="viewSelector" onChange="changeView(this.value)">
+        <#list viewConfigs as view>
+            <option value=${view_index}>"${view.getName()}"</option>
+        </#list>
+      </select>
+    </#if>
 </span>
 
 <table id="studentList"> 
+
+<#if viewConfig??>
 
 <#-- draw header -->
 <#-- TODO: Handle programatically -->
@@ -75,6 +79,8 @@
 </tr>
 
 </#list>
+
+</#if>
 
 </table>
 

@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+# Converts the data returned by the realm API into a simpler object
+# that's basically an array of table rows, the first column being
+# the client role and the second being the SLI role.
+# e.g. [ ['foo', 'Educator'], ['bar', 'Leader'] ]
 `getTableData = function(json) {
         toReturn = [];
         for (var i in json.role) {
@@ -26,6 +30,9 @@
 	return map;
 }
 `
+
+# Takes our table data and converts it into the mapping object
+# needed by the API.
 `mapData = function(data) {
 	var map = {};
 	var role = [];
@@ -45,6 +52,7 @@
 	return map;
 }`
 
+# Helper function used by mapData
 `
 getSliRoleObject = function(sliRole, roleData) {
   for (var i in roleData) {
