@@ -3,11 +3,13 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 `getTableData = function(json) {
-        toReturn = []
-        for (var sliRole in json) {
-                for (var j in json[sliRole]) {
-                        toReturn.push([json[sliRole][j], sliRole])
-                }
+        toReturn = [];
+        for (var i in json.role) {
+          var roleData = json.role[i];
+          sliRole = roleData.sliRoleName;
+          for (var j in roleData.clientRoleName) {
+            toReturn.push([roleData.clientRoleName[j], sliRole]);
+          }
         }
         return toReturn
 }`
@@ -26,16 +28,33 @@
 `
 `mapData = function(data) {
 	var map = {};
+	var role = [];
+	map.role = role;
 	for (var i in data) {
 		var cRole = data[i][0];
 		var sliRole = data[i][1];
-		if (!map[sliRole])
-			map[sliRole] = [];
-		map[sliRole].push(cRole);
+		var sliRoleArray = getSliRoleObject(sliRole, role);
+		if (sliRoleArray == null) {
+		  sliRoleArray = {};
+		  sliRoleArray.sliRoleName = sliRole;
+		  sliRoleArray.clientRoleName = [];
+		  role.push(sliRoleArray);
+		}
+		sliRoleArray.clientRoleName.push(cRole);
 	}
 	return map;
 }`
 
+`
+getSliRoleObject = function(sliRole, roleData) {
+  for (var i in roleData) {
+    if (roleData[i].sliRoleName == sliRole) {
+      return roleData[i];
+    }
+  }
+  return null;
+}
+`
 `sortTable = function(data, col, order) {
 
         data.sort(function(a, b) {
