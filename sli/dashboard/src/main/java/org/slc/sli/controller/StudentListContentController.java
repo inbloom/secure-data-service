@@ -50,6 +50,7 @@ public class StudentListContentController extends DashboardController {
      *
      * @param population Don't know what this could be yet... For now, a list of student uids
      * @param model
+     * @param viewIndex The selected view configuration index
      * @return a ModelAndView object
      * @throws Exception
      */
