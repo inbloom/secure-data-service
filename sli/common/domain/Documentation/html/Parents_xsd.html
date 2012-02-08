@@ -1,0 +1,2835 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for Parents.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Parents.xsd', 
+				'properties_parent', 
+				'properties_parent_parentUniqueStateId', 
+				'properties_parent_name', 
+				'properties_parent_otherName', 
+				'properties_parent_sex', 
+				'properties_parent_address', 
+				'properties_parent_telephone', 
+				'properties_parent_electronicMail', 
+				'properties_parent_loginId', 
+				'properties_studentParentAssociation', 
+				'properties_studentParentAssociation_studentId', 
+				'properties_studentParentAssociation_parentId', 
+				'properties_studentParentAssociation_relation', 
+				'properties_studentParentAssociation_primaryContactStatus', 
+				'properties_studentParentAssociation_livesWith', 
+				'properties_studentParentAssociation_emergencyContactStatus', 
+				'properties_studentParentAssociation_contactPriority', 
+				'properties_studentParentAssociation_contactRestrictions');
+
+        var facetsBoxes= new Array('facets_parent_parentUniqueStateId', 
+				'facets_parent_sex', 
+				'facets_parent_loginId', 
+				'facets_studentParentAssociation_relation', 
+				'facets_studentParentAssociation_contactRestrictions');
+
+        
+        
+        
+        var diagramBoxes= new Array('diagram_parent', 
+				'diagram_parent_parentUniqueStateId', 
+				'diagram_parent_name', 
+				'diagram_parent_otherName', 
+				'diagram_parent_sex', 
+				'diagram_parent_address', 
+				'diagram_parent_telephone', 
+				'diagram_parent_electronicMail', 
+				'diagram_parent_loginId', 
+				'diagram_studentParentAssociation', 
+				'diagram_studentParentAssociation_studentId', 
+				'diagram_studentParentAssociation_parentId', 
+				'diagram_studentParentAssociation_relation', 
+				'diagram_studentParentAssociation_primaryContactStatus', 
+				'diagram_studentParentAssociation_livesWith', 
+				'diagram_studentParentAssociation_emergencyContactStatus', 
+				'diagram_studentParentAssociation_contactPriority', 
+				'diagram_studentParentAssociation_contactRestrictions');
+
+        var annotationBoxes= new Array('annotations_parent', 
+				'annotations_parent_parentUniqueStateId', 
+				'annotations_parent_name', 
+				'annotations_parent_otherName', 
+				'annotations_parent_sex', 
+				'annotations_parent_address', 
+				'annotations_parent_telephone', 
+				'annotations_parent_electronicMail', 
+				'annotations_parent_loginId', 
+				'annotations_studentParentAssociation', 
+				'annotations_studentParentAssociation_studentId', 
+				'annotations_studentParentAssociation_parentId', 
+				'annotations_studentParentAssociation_relation', 
+				'annotations_studentParentAssociation_primaryContactStatus', 
+				'annotations_studentParentAssociation_livesWith', 
+				'annotations_studentParentAssociation_emergencyContactStatus', 
+				'annotations_studentParentAssociation_contactPriority', 
+				'annotations_studentParentAssociation_contactRestrictions');
+
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, annotationBoxes);"
+                                     class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, diagramBoxes);"
+                                     class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, facetsBoxes);"
+                                     class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, propertiesBoxes);"
+                                     class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button"
+                               onclick="getElementObject('global_controls').style.display = 'none';"
+                               value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Parents.xsd"></a><div class="componentTitle">Included schema <span class="qname">Parents.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Parents.xsd" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Parents.xsd');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Parents.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">attribute form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">element form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent"></a><div class="componentTitle">Element <span class="qname">parent</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_parent');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents a parent or guardian of a student, such as mother, father, or caretaker.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_parent.png"
+                                   usemap="#Parents_xsd_Element_parent" /><map name="Parents_xsd_Element_parent" id="Parents_xsd_Element_parent">
+                                 <area alt="Parents_xsd.tmp#parent_parentUniqueStateId"
+                                       href="Parents_xsd.html#parent_parentUniqueStateId"
+                                       coords="206,2,346,26" />
+                                 <area alt="Parents_xsd.tmp#parent_name" href="Parents_xsd.html#parent_name"
+                                       coords="206,66,266,90" />
+                                 <area alt="Parents_xsd.tmp#parent_otherName" href="Parents_xsd.html#parent_otherName"
+                                       coords="206,130,296,154" />
+                                 <area alt="Parents_xsd.tmp#parent_sex" href="Parents_xsd.html#parent_sex"
+                                       coords="206,207,261,231" />
+                                 <area alt="Parents_xsd.tmp#parent_address" href="Parents_xsd.html#parent_address"
+                                       coords="206,271,280,295" />
+                                 <area alt="Parents_xsd.tmp#parent_telephone" href="Parents_xsd.html#parent_telephone"
+                                       coords="206,335,290,359" />
+                                 <area alt="Parents_xsd.tmp#parent_electronicMail"
+                                       href="Parents_xsd.html#parent_electronicMail"
+                                       coords="206,412,311,436" />
+                                 <area alt="Parents_xsd.tmp#parent_loginId" href="Parents_xsd.html#parent_loginId"
+                                       coords="206,502,274,526" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_parent');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_parentUniqueStateId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / parentUniqueStateId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_parentUniqueStateId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_parent_parentUniqueStateId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_parentUniqueStateId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A unique number or alphanumeric code assigned to a person.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_parentUniqueStateId" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_parent_parentUniqueStateId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_parentUniqueStateId" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_parentUniqueStateId.png"
+                                   usemap="#Parents_xsd_Element_parentUniqueStateId" /><map name="Parents_xsd_Element_parentUniqueStateId"
+                                   id="Parents_xsd_Element_parentUniqueStateId">
+                                 <area alt="SimpleTypes_xsd.tmp#uniqueStateIdentifier"
+                                       href="SimpleTypes_xsd.html#uniqueStateIdentifier"
+                                       coords="188,0,354,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_parentUniqueStateId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_parent_parentUniqueStateId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_parentUniqueStateId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_parent_parentUniqueStateId" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_parent_parentUniqueStateId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_parent_parentUniqueStateId" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>30</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_name"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / name</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_name" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_parent_name');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_name" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Full legal name of the person.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_name" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent_name');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_name" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_name.png"
+                                   usemap="#Parents_xsd_Element_name" /><map name="Parents_xsd_Element_name" id="Parents_xsd_Element_name">
+                                 <area alt="ComplexTypes_xsd.tmp#name_personalTitlePrefix"
+                                       href="ComplexTypes_xsd.html#name_personalTitlePrefix"
+                                       coords="193,40,325,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#name_firstName"
+                                       href="ComplexTypes_xsd.html#name_firstName"
+                                       coords="193,117,276,141" />
+                                 <area alt="ComplexTypes_xsd.tmp#name_middleName"
+                                       href="ComplexTypes_xsd.html#name_middleName"
+                                       coords="193,207,290,231" />
+                                 <area alt="ComplexTypes_xsd.tmp#name_lastSurname"
+                                       href="ComplexTypes_xsd.html#name_lastSurname"
+                                       coords="193,284,290,308" />
+                                 <area alt="ComplexTypes_xsd.tmp#name_generationCodeSuffix"
+                                       href="ComplexTypes_xsd.html#name_generationCodeSuffix"
+                                       coords="193,348,341,372" />
+                                 <area alt="ComplexTypes_xsd.tmp#name_maidenName"
+                                       href="ComplexTypes_xsd.html#name_maidenName"
+                                       coords="193,425,293,449" />
+                                 <area alt="ComplexTypes_xsd.tmp#name_verification"
+                                       href="ComplexTypes_xsd.html#name_verification"
+                                       coords="193,489,284,513" />
+                                 <area alt="ComplexTypes_xsd.tmp#name" href="ComplexTypes_xsd.html#name"
+                                       coords="111,3,191,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_name" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_parent_name');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_name" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_otherName"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / otherName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_otherName" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_parent_otherName');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_otherName" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Other names (e.g., alias, nickname, previous legal name) associated with a person.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_otherName" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent_otherName');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_otherName" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_otherName.png"
+                                   usemap="#Parents_xsd_Element_otherName" /><map name="Parents_xsd_Element_otherName" id="Parents_xsd_Element_otherName">
+                                 <area alt="ComplexTypes_xsd.tmp#otherName_personalTitlePrefix"
+                                       href="ComplexTypes_xsd.html#otherName_personalTitlePrefix"
+                                       coords="223,40,355,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#otherName_firstName"
+                                       href="ComplexTypes_xsd.html#otherName_firstName"
+                                       coords="223,117,306,141" />
+                                 <area alt="ComplexTypes_xsd.tmp#otherName_middleName"
+                                       href="ComplexTypes_xsd.html#otherName_middleName"
+                                       coords="223,207,320,231" />
+                                 <area alt="ComplexTypes_xsd.tmp#otherName_lastSurname"
+                                       href="ComplexTypes_xsd.html#otherName_lastSurname"
+                                       coords="223,284,320,308" />
+                                 <area alt="ComplexTypes_xsd.tmp#otherName_generationCodeSuffix"
+                                       href="ComplexTypes_xsd.html#otherName_generationCodeSuffix"
+                                       coords="223,348,371,372" />
+                                 <area alt="ComplexTypes_xsd.tmp#otherName_otherNameType"
+                                       href="ComplexTypes_xsd.html#otherName_otherNameType"
+                                       coords="223,425,339,449" />
+                                 <area alt="ComplexTypes_xsd.tmp#otherName" href="ComplexTypes_xsd.html#otherName"
+                                       coords="141,3,251,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_otherName" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_parent_otherName');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_otherName" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_sex"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / sex</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_sex" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_parent_sex');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_sex" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A person's gender.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_sex" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent_sex');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_sex" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_sex.png"
+                                   usemap="#Parents_xsd_Element_sex" /><map name="Parents_xsd_Element_sex" id="Parents_xsd_Element_sex">
+                                 <area alt="SimpleTypes_xsd.tmp#sexType" href="SimpleTypes_xsd.html#sexType"
+                                       coords="103,0,203,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_sex" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_parent_sex');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_sex" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_parent_sex" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_parent_sex');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_parent_sex" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Female</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Male</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_address"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / address</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_address" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_parent_address');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_address" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Parent's address, if different from student address.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_address" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent_address');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_address" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_address.png"
+                                   usemap="#Parents_xsd_Element_address" /><map name="Parents_xsd_Element_address" id="Parents_xsd_Element_address">
+                                 <area alt="ComplexTypes_xsd.tmp#address_streetNumberName"
+                                       href="ComplexTypes_xsd.html#address_streetNumberName"
+                                       coords="207,40,342,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_apartmentRoomSuiteNumber"
+                                       href="ComplexTypes_xsd.html#address_apartmentRoomSuiteNumber"
+                                       coords="207,117,393,141" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_buildingSiteNumber"
+                                       href="ComplexTypes_xsd.html#address_buildingSiteNumber"
+                                       coords="207,181,344,205" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_city"
+                                       href="ComplexTypes_xsd.html#address_city"
+                                       coords="207,258,262,282" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_stateAbbreviation"
+                                       href="ComplexTypes_xsd.html#address_stateAbbreviation"
+                                       coords="207,335,333,359" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_postalCode"
+                                       href="ComplexTypes_xsd.html#address_postalCode"
+                                       coords="207,412,299,436" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_nameOfCounty"
+                                       href="ComplexTypes_xsd.html#address_nameOfCounty"
+                                       coords="207,489,319,513" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_countyFIPSCode"
+                                       href="ComplexTypes_xsd.html#address_countyFIPSCode"
+                                       coords="207,566,324,590" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_countryCode"
+                                       href="ComplexTypes_xsd.html#address_countryCode"
+                                       coords="207,656,308,680" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_latitude"
+                                       href="ComplexTypes_xsd.html#address_latitude"
+                                       coords="207,746,278,770" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_longitude"
+                                       href="ComplexTypes_xsd.html#address_longitude"
+                                       coords="207,810,289,834" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_openDate"
+                                       href="ComplexTypes_xsd.html#address_openDate"
+                                       coords="207,874,289,898" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_closeDate"
+                                       href="ComplexTypes_xsd.html#address_closeDate"
+                                       coords="207,964,290,988" />
+                                 <area alt="ComplexTypes_xsd.tmp#address_addressType"
+                                       href="ComplexTypes_xsd.html#address_addressType"
+                                       coords="207,1054,307,1078" />
+                                 <area alt="ComplexTypes_xsd.tmp#address" href="ComplexTypes_xsd.html#address"
+                                       coords="125,3,219,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_address" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_parent_address');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_address" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_telephone"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / telephone</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_telephone" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_parent_telephone');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_telephone" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The 10-digit telephone number, including the area code, for the person.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_telephone" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent_telephone');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_telephone" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_telephone.png"
+                                   usemap="#Parents_xsd_Element_telephone" /><map name="Parents_xsd_Element_telephone" id="Parents_xsd_Element_telephone">
+                                 <area alt="ComplexTypes_xsd.tmp#telephone_telephoneNumber"
+                                       href="ComplexTypes_xsd.html#telephone_telephoneNumber"
+                                       coords="217,40,344,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#telephone_telephoneNumberType"
+                                       href="ComplexTypes_xsd.html#telephone_telephoneNumberType"
+                                       coords="217,117,370,141" />
+                                 <area alt="ComplexTypes_xsd.tmp#telephone_primaryTelephoneNumberIndicator"
+                                       href="ComplexTypes_xsd.html#telephone_primaryTelephoneNumberIndicator"
+                                       coords="217,194,437,218" />
+                                 <area alt="ComplexTypes_xsd.tmp#telephone" href="ComplexTypes_xsd.html#telephone"
+                                       coords="135,3,239,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_telephone" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_parent_telephone');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_telephone" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_electronicMail"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / electronicMail</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_electronicMail" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_parent_electronicMail');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_electronicMail" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within </span><span class="tI">
+</span><span class="tT">the network to which the individual or organization belongs.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_electronicMail" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_parent_electronicMail');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_electronicMail" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_electronicMail.png"
+                                   usemap="#Parents_xsd_Element_electronicMail" /><map name="Parents_xsd_Element_electronicMail"
+                                   id="Parents_xsd_Element_electronicMail">
+                                 <area alt="ComplexTypes_xsd.tmp#electronicMail_emailAddress"
+                                       href="ComplexTypes_xsd.html#electronicMail_emailAddress"
+                                       coords="238,40,342,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#electronicMail_emailAddressType"
+                                       href="ComplexTypes_xsd.html#electronicMail_emailAddressType"
+                                       coords="238,117,368,141" />
+                                 <area alt="ComplexTypes_xsd.tmp#electronicMail"
+                                       href="ComplexTypes_xsd.html#electronicMail"
+                                       coords="156,3,281,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_electronicMail" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_parent_electronicMail');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_electronicMail" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="parent_loginId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b> / loginId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_parent_loginId" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_parent_loginId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_parent_loginId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The login ID for the user; used for security access control interface.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_parent_loginId" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_parent_loginId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_parent_loginId" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_loginId.png"
+                                   usemap="#Parents_xsd_Element_loginId" /><map name="Parents_xsd_Element_loginId" id="Parents_xsd_Element_loginId">
+                                 <area alt="SimpleTypes_xsd.tmp#identificationCode"
+                                       href="SimpleTypes_xsd.html#identificationCode"
+                                       coords="116,0,269,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_parent_loginId" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_parent_loginId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_parent_loginId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_parent_loginId" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_parent_loginId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_parent_loginId" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>60</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation"></a><div class="componentTitle">Element <span class="qname">studentParentAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This association relates students to their parents, guardians, or caretakers.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Parents_xsd_Element_studentParentAssociation.png"
+                                   usemap="#Parents_xsd_Element_studentParentAssociation" /><map name="Parents_xsd_Element_studentParentAssociation"
+                                   id="Parents_xsd_Element_studentParentAssociation">
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_studentId"
+                                       href="Parents_xsd.html#studentParentAssociation_studentId"
+                                       coords="288,2,370,26" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_parentId"
+                                       href="Parents_xsd.html#studentParentAssociation_parentId"
+                                       coords="288,66,364,90" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_relation"
+                                       href="Parents_xsd.html#studentParentAssociation_relation"
+                                       coords="288,130,360,154" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_primaryContactStatus"
+                                       href="Parents_xsd.html#studentParentAssociation_primaryContactStatus"
+                                       coords="288,220,436,244" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_livesWith"
+                                       href="Parents_xsd.html#studentParentAssociation_livesWith"
+                                       coords="288,297,366,321" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_emergencyContactStatus"
+                                       href="Parents_xsd.html#studentParentAssociation_emergencyContactStatus"
+                                       coords="288,374,453,398" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_contactPriority"
+                                       href="Parents_xsd.html#studentParentAssociation_contactPriority"
+                                       coords="288,451,398,475" />
+                                 <area alt="Parents_xsd.tmp#studentParentAssociation_contactRestrictions"
+                                       href="Parents_xsd.html#studentParentAssociation_contactRestrictions"
+                                       coords="288,528,423,552" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_studentId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / studentId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_studentId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The student associated with parent.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_studentId" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_studentId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_studentId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_parentId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / parentId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_parentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_parentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_parentId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The parent associated with the student.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_parentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_parentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_parentId" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_parentId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_parentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_parentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_parentId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_relation"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / relation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_relation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_relation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_relation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The nature of an individual's relationship to a student; for example:</span><span class="tI">
+</span><span class="tT">Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian, etc..</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_relation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_relation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_relation" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_relation.png"
+                                   usemap="#Parents_xsd_Element_relation" /><map name="Parents_xsd_Element_relation" id="Parents_xsd_Element_relation">
+                                 <area alt="SimpleTypes_xsd.tmp#relationType" href="SimpleTypes_xsd.html#relationType"
+                                       coords="120,0,242,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_relation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_relation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_relation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_studentParentAssociation_relation" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_studentParentAssociation_relation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_studentParentAssociation_relation" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Adopted daughter</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Adopted son</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Adoptive parents</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Advisor</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Agency representative</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Aunt</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Brother, half</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Brother, natural/adoptive</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Brother, step</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Brother-in-law</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Case Worker, CPS</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Court appointed guardian</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Cousin</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Daughter</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Daughter-in-law</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Dependent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Doctor</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Employer</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Emergency Contact</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Family member</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Father's significant other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Father, foster</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Father</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Father, step</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Father-in-law</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Fiance</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Fiancee</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Former husband</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Former wife</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Foster daughter</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Foster parent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Foster son</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Friend</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Granddaughter</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Grandparent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Great Grandparent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Grandson</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Great aunt</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Great uncle</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Guardian</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Husband</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Life partner</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Life partner of parent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Minister or priest</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Mother's significant other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Mother, foster</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Mother</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Mother, step</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Mother-in-law</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Nephew</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Niece</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>None</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Parent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Partner</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Partner of parent</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Probation officer</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Sibling</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Sister, half</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Sister, natural/adoptive</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Sister, step</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Sister-in-law</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Son</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Son-in-law</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Spouse</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Stepdaughter</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Stepson</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Stepsibling</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Uncle</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Ward</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Wife</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_primaryContactStatus"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / primaryContactStatus</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_primaryContactStatus"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_primaryContactStatus');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_primaryContactStatus"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicator of whether the person is a primary parental contact for the student.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_primaryContactStatus" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_primaryContactStatus');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_primaryContactStatus"
+                                style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_primaryContactStatus.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_primaryContactStatus"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_primaryContactStatus');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_primaryContactStatus"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_livesWith"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / livesWith</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_livesWith" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_livesWith');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_livesWith" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicator of whether the student lives with the associated parent.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_livesWith" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_livesWith');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_livesWith" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_livesWith.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_livesWith" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_livesWith');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_livesWith" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_emergencyContactStatus"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / emergencyContactStatus</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_emergencyContactStatus"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_emergencyContactStatus');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_emergencyContactStatus"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicator of whether the person is a designated emergency contact for the student.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_emergencyContactStatus"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_emergencyContactStatus');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_emergencyContactStatus"
+                                style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Parents_xsd_Element_emergencyContactStatus.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_emergencyContactStatus"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_emergencyContactStatus');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_emergencyContactStatus"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_contactPriority"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / contactPriority</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_contactPriority" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_contactPriority');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_contactPriority" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The numeric order of the preferred sequence or priority of contact.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_contactPriority" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_contactPriority');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_contactPriority" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_contactPriority.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_contactPriority" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_contactPriority');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_contactPriority" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="studentParentAssociation_contactRestrictions"></a><div class="componentTitle">Element <span class="qname"><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b> / contactRestrictions</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_studentParentAssociation_contactRestrictions"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_studentParentAssociation_contactRestrictions');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_studentParentAssociation_contactRestrictions"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Restrictions for student and/or teacher contact with the individual (e.g., the student may </span><span class="tI">
+</span><span class="tT">not be picked up by the individual)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_studentParentAssociation_contactRestrictions" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_studentParentAssociation_contactRestrictions');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_studentParentAssociation_contactRestrictions" style="display:block"><img alt="Diagram" border="0" src="img/Parents_xsd_Element_contactRestrictions.png"
+                                   usemap="#Parents_xsd_Element_contactRestrictions" /><map name="Parents_xsd_Element_contactRestrictions"
+                                   id="Parents_xsd_Element_contactRestrictions">
+                                 <area alt="SimpleTypes_xsd.tmp#contactRestrictions"
+                                       href="SimpleTypes_xsd.html#contactRestrictions"
+                                       coords="183,0,342,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_studentParentAssociation_contactRestrictions"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_studentParentAssociation_contactRestrictions');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_studentParentAssociation_contactRestrictions"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_studentParentAssociation_contactRestrictions" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_studentParentAssociation_contactRestrictions');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_studentParentAssociation_contactRestrictions" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>250</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Parents_xsd.html">Parents.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>
