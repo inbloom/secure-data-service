@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -44,9 +45,13 @@ public class StudentSchoolAssociationEntityTest {
             + " <EntryType>Next year school</EntryType>"
             + " <GraduationPlan>Distinguished</GraduationPlan>"
             + " <RepeatGradeIndicator>false</RepeatGradeIndicator>"
+            + " <SchoolChoiceTransfer>true</SchoolChoiceTransfer>"
+            + " <ExitWithdrawDate>2011-09-12</ExitWithdrawDate>"
+            + " <ExitWithdrawType>End of school year</ExitWithdrawType>"
             + " <EducationalPlans>"
             + "   <EducationalPlan>Full Time Employment</EducationalPlan>"
-            + " </EducationalPlans>" + "</StudentSchoolAssociation>" + "</InterchangeStudentEnrollment>";
+            + " </EducationalPlans>"
+            + "</StudentSchoolAssociation>" + "</InterchangeStudentEnrollment>";
 
     private void checkValidSSANeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
@@ -55,8 +60,15 @@ public class StudentSchoolAssociationEntityTest {
         Assert.assertEquals("Eighth grade", entity.get("entryGradeLevel"));
         Assert.assertEquals("2012-01-17", entity.get("entryDate"));
         Assert.assertEquals("Next year school", entity.get("entryType"));
-        // Assert.assertEquals("Full Time Employment", entity.get("educationPlans"));
         Assert.assertEquals("false", entity.get("repeatGradeIndicator").toString());
+        Assert.assertEquals("2011-09-12", entity.get("exitWithdrawDate"));
+        Assert.assertEquals("End of school year", entity.get("exitWithdrawType"));
+        Assert.assertEquals("true", entity.get("schoolChoiceTransfer").toString());
+        List educationalPlans = (List) record.getAttributes().get("educationalPlans");
+        Assert.assertTrue(educationalPlans != null);
+
+        Assert.assertEquals("Full Time Employment", educationalPlans.get(0));
+
     }
 
     @Test
@@ -65,7 +77,7 @@ public class StudentSchoolAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-studentSchoolAssociation-csv.xml";
         String targetSelector = "csv-record";
 
-        String testData = ",,,900000001,,,,,,,,,,,,,,,,,,,,,,,990000001,,,2012-01-17,Eighth grade,Next year school,false,,,,,Full Time Employment";
+        String testData = ",,,900000001,,,,,,,,,,,,,,,,,,,,,,,990000001,,,2012-01-17,Eighth grade,Next year school,false,true,2011-09-12,End of school year,true,Full Time Employment,Full";
 
         ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
         NeutralRecordFileReader nrfr = null;
