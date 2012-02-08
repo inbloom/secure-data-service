@@ -26,7 +26,6 @@ public class AppInfo extends Annotation {
     protected static final String REFERENCE_TYPE_ELEMENT_NAME = "ReferenceType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
 
-    NodeList nodes = null;
     private final Map<String, String> values = new LinkedHashMap<String, String>();
 
     /**
@@ -35,7 +34,6 @@ public class AppInfo extends Annotation {
      * @param nodes
      */
     public AppInfo(NodeList nodes) {
-        this.nodes = nodes;
 
         if (nodes == null) {
             return;

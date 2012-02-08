@@ -31,6 +31,7 @@ public class SliSmooksFactory {
             return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport);
 
         } else {
+            errorReport.fatal("File type not supported : " + fileType, SliSmooksFactory.class);
             throw new IllegalArgumentException("File type not supported : " + fileType);
         }
     }

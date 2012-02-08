@@ -322,7 +322,7 @@
 <xsl:template name="getDoc">
     <xsl:param name="base"/>
     <xsl:for-each select="wadl:doc">
-        <xsl:if test="position() > 1"><br/></xsl:if>
+        <xsl:if test="position() > 1"><br/><br/></xsl:if>
         <xsl:if test="@title and local-name(..) != 'application'">
             <xsl:value-of select="@title"/>:
         </xsl:if>
