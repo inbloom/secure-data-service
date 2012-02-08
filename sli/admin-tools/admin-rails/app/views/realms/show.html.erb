@@ -1,10 +1,11 @@
 <script>
 //	var roles = <%= Role.all.to_json.html_safe %>
-	var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
+var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
 
 $(document).ready(function() {
 	drawTable(rMap, false);
 });
+
 </script>
 <h2>Role mappings for <%=@realm.state%></h2>
 <table>

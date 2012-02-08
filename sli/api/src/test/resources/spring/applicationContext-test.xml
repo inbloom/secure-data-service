@@ -38,6 +38,8 @@
 			expression=".*AvroEntityValidator" />
 			<context:exclude-filter type="regex"
 			expression=".*AggregationLoader" />
+			<context:exclude-filter type="regex"
+            expression=".*NeutralSchemaValidator" />
 	</context:component-scan>
 
 

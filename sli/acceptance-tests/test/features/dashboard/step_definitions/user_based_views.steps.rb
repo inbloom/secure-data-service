@@ -47,12 +47,9 @@ Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
   arr.should include view_name
 end
 
-Then /^I should only see one view$/ do 
-  pending
-end
-
-Then /^the view should be named "([^"]*)"$/ do |view_name|
-  pending
+Then /^I should only see one view named "([^"]*)"$/ do |view_name|
+  span = @driver.find_element(:id, "viewSelectorSpan")
+  span.text.should include view_name
 end
 
 When /^I select view "([^"]*)"$/ do |view|
