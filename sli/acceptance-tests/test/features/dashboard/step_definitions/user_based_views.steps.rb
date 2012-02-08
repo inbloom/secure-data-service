@@ -1,10 +1,10 @@
 require_relative '../../utils/sli_utils.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  #url = PropLoader.getProps['devdash1']
-  #url = url + PropLoader.getProps[@appPrefix]
+  url = PropLoader.getProps['devdash1']
+  url = url + PropLoader.getProps[@appPrefix]
   
-  url = "http://localhost:8080/dashboard"
+  #url = "http://localhost:8080/dashboard"
   @driver.get(url)
   @driver.manage.timeouts.implicit_wait = 30
   @driver.find_element(:name, "j_username").clear
@@ -54,7 +54,7 @@ end
 
 When /^I select view "([^"]*)"$/ do |view|
   select_by_id(view, "viewSelector")
-  sleep(1)
+  sleep(3)
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
