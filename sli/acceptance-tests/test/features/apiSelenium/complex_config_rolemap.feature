@@ -1,4 +1,4 @@
-@wip
+
 Feature:  Complex-Configurable Role Mapping Tool
  
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to the SLI Default Roles.
@@ -120,7 +120,6 @@ Examples:
 | "Educator" | "Teachipal" | "Leader"   |
 | "Leader"   | "Princator" | "Educator" |
 
- 
 Scenario Outline: Click Save in case of repeating values for same roles
  
  Given I have an open web browser
@@ -129,6 +128,7 @@ And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
+And I wait for a second
 And I enter <Custom Role> in the text field
 And I click the add button
 Then I get a message that I already have this role mapped to a SLI Default role

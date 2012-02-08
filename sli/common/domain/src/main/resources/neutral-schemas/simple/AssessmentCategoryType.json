@@ -1,9 +1,0 @@
-
-{
-   "type":"AssessmentCategoryType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Achievement test","Advanced Placement","International Baccalaureate","Aptitude test","Attitudinal test","Benchmark test","Class test","class quiz","College entrance exam","Cognitive and perceptual skills test","Developmental observation","English proficiency screening test","Foreign language proficiency test","Interest inventory","Manual dexterity test","Mental ability (intelligence) test","Performance assessment","Personality test","Portfolio assessment","Psychological test","Psychomotor test","Reading readiness test","State summative assessment 3-8 general","State high school subject assessment","State high school course assessment","State alternative assessment/grade-level standards","State alternative assessment/modified standards","State alternate assessment/ELL","State English proficiency test","Other"]}
-}

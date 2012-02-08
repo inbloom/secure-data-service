@@ -27,7 +27,7 @@ public class CourseEntityTest {
 
         String targetSelector = "csv-record";
 
-        String courseCsv = "1,Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
+        String courseCsv = "Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
                 + "A seventh grade science course,2012-02-01,True,Applicable,LEA,1.0,Carnegie unit,1.0,2.0,Carnegie unit,1.0,"
                 + "Science Technology Engineering and Mathematics";
 
@@ -87,6 +87,8 @@ public class CourseEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidCourseNeutralRecord(NeutralRecord neutralRecord) {
 
+        assertEquals("science7", neutralRecord.getLocalId());
+        
         assertEquals("Science7", neutralRecord.getAttributes().get("courseTitle"));
 
         Map courseCodeMap = (Map) neutralRecord.getAttributes().get("courseCode");

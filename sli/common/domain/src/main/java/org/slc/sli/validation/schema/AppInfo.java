@@ -23,6 +23,7 @@ public class AppInfo extends Annotation {
     protected static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
     protected static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
     protected static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
+    protected static final String REFERENCE_TYPE_ELEMENT_NAME = "ReferenceType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
 
     NodeList nodes = null;
@@ -135,7 +136,15 @@ public class AppInfo extends Annotation {
 
         return rval;
     }
-
+    
+    public String getReferenceType() {
+        if (values.containsKey(REFERENCE_TYPE_ELEMENT_NAME)) {
+            return values.get(REFERENCE_TYPE_ELEMENT_NAME);
+        }
+        
+        return null;
+    }
+    
     public String getValue(String key) {
         return values.get(key);
 

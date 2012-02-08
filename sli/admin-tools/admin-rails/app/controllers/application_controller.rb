@@ -39,4 +39,21 @@ class ApplicationController < ActionController::Base
       logger.debug { "No cookie set" }
     end
   end
+
+  def render_404
+   respond_to do |format|
+     format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
+     #format.json { :status => :not_found}
+     format.any  { head :not_found }
+   end
+  end
+
+  def render_403
+   respond_to do |format|
+     format.html { render :file => "#{Rails.root}/public/403.html", :status => :not_found }
+     #format.json { :status => :not_found}
+     format.any  { head :not_found }
+   end
+  end
+
 end

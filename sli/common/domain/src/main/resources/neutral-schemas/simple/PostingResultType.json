@@ -1,9 +1,0 @@
-
-{
-   "type":"PostingResultType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Position Filled","Posting Cancelled"]}
-}
