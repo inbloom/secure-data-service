@@ -10,7 +10,10 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
@@ -158,8 +161,16 @@ public class ResourceUtil {
      * @return SLIPrincipal from security context
      */
     public static SLIPrincipal getSLIPrincipalFromSecurityContext() {
+        
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("Login Required");
+        }
+
         // lookup security/login information
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
         return principal;
     }
 
