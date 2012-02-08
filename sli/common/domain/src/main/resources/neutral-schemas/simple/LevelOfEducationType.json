@@ -1,9 +1,0 @@
-
-{
-   "type":"LevelOfEducationType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["No Degree","Bachelor's","Master's","Doctorate"]}
-}

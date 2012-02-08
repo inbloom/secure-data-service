@@ -1,3 +1,5 @@
+require 'selenium-webdriver'
+
 Given /^I have an open web browser$/ do
   puts "open web browser"
   @driver = Selenium::WebDriver.for :firefox
