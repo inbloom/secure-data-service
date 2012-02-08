@@ -24,7 +24,6 @@ import org.slc.sli.manager.StudentManager;
 
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.LozengeConfig;
-import org.slc.sli.config.ViewConfigSet;
 
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
@@ -83,17 +82,17 @@ public class StudentListContentController extends DashboardController {
             if (value != null && value.contains("-")) {
                 int seperatorIndex = value.indexOf('-');
 
-                Integer lowerBound = Integer.valueOf(value.substring (0, seperatorIndex));
-                Integer upperBound = Integer.valueOf(value.substring (seperatorIndex + 1, value.length()));
+                Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
+                Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
                 List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
 
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (Student student : students) {
-                    Integer gradeValue = gradeValues.get (student.getCohortYear());
+                    Integer gradeValue = gradeValues.get(student.getCohortYear());
 
-                    if (gradeValue.compareTo (lowerBound) >= 0 && gradeValue.compareTo (upperBound) <= 0)
+                    if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
                     {
-                        applicableViewConfigs.add (viewConfig);
+                        applicableViewConfigs.add(viewConfig);
                         break;
                     }
                 }                
@@ -102,7 +101,7 @@ public class StudentListContentController extends DashboardController {
 
         if (applicableViewConfigs.size() > 0) {
             // add applicable viewConfigs to model map
-            model.addAttribute ("viewConfigs", applicableViewConfigs);
+            model.addAttribute("viewConfigs", applicableViewConfigs);
 
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
@@ -159,21 +158,20 @@ public class StudentListContentController extends DashboardController {
     * grade value from the data model. Right now all we have to work with 
     * is the text representation as the cohortYear, so map that to numbers
     */
-    private Map<String, Integer> getGradeValuesFromCohortYears()
-    {
+    private Map<String, Integer> getGradeValuesFromCohortYears() {
         Map<String, Integer> gradeValues = new HashMap<String, Integer>();
-        gradeValues.put ("First grade", 1);
-        gradeValues.put ("Second grade", 2);
-        gradeValues.put ("Third grade", 3);
-        gradeValues.put ("Fourth grade", 4);
-        gradeValues.put ("Fifth grade", 5);
-        gradeValues.put ("Sixth grade", 6);
-        gradeValues.put ("Seventh grade", 7);
-        gradeValues.put ("Eighth grade", 8);
-        gradeValues.put ("Ninth grade", 9);
-        gradeValues.put ("Tenth grade", 10);
-        gradeValues.put ("Eleventh grade", 11);
-        gradeValues.put ("Twelfth grade", 12);
+        gradeValues.put("First grade", 1);
+        gradeValues.put("Second grade", 2);
+        gradeValues.put("Third grade", 3);
+        gradeValues.put("Fourth grade", 4);
+        gradeValues.put("Fifth grade", 5);
+        gradeValues.put("Sixth grade", 6);
+        gradeValues.put("Seventh grade", 7);
+        gradeValues.put("Eighth grade", 8);
+        gradeValues.put("Ninth grade", 9);
+        gradeValues.put("Tenth grade", 10);
+        gradeValues.put("Eleventh grade", 11);
+        gradeValues.put("Twelfth grade", 12);
         return gradeValues;
     } 
 

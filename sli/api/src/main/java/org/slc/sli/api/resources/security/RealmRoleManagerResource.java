@@ -10,12 +10,14 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -131,18 +133,24 @@ public class RealmRoleManagerResource {
     }
     
     @GET
-    public List<EntityBody> getRealms(@Context UriInfo info) {
+    public List<EntityBody> getRealms(@QueryParam("realm") @DefaultValue("") String realm, @Context UriInfo info) {
         List<EntityBody> result = new ArrayList<EntityBody>();
         Iterable<String> realmList = service.list(0, 100);
         for (String id : realmList) {
             EntityBody curEntity = getMappings(id);
-            curEntity.remove("mappings");
-            curEntity.put("link", info.getBaseUri() + info.getPath().replaceAll("/$", "") + "/" + id);
-            result.add(curEntity);
+            if (realm.length() == 0) {
+                curEntity.remove("mappings");
+                curEntity.put("link", info.getBaseUri() + info.getPath().replaceAll("/$", "") + "/" + id);
+                result.add(curEntity);
+            } else {
+                if (realm.equals(curEntity.get("realm"))) {
+                    result.add(curEntity);
+                }
+            }
         }
         return result;
     }
-    
+        
     @SuppressWarnings("unchecked")
     private Response validateMappings(Map<String, List<Map<String, Object>>> mappings) {
         HashMap<String, String> res = new HashMap<String, String>();
@@ -165,7 +173,7 @@ public class RealmRoleManagerResource {
                 }
                 
                 if (clientRoles.contains(clientRole)) {
-                    res.put("response", "Client have duplicate client roles");
+                    res.put("response", "Cannot have duplicate client roles");
                     return Response.status(Status.BAD_REQUEST).entity(res).build();
                 }
                 

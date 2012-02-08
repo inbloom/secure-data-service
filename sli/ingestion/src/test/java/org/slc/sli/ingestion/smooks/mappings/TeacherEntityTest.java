@@ -31,7 +31,7 @@ public class TeacherEntityTest {
                 + "other name type,Mr.,shady,guy,alias,Jr.,Male,01-01-1971,home address,100 10th street,1A,building site number,"
                 + "New York,NY,10021,New York,USA123,USA,245,432,01-01-1969,12-12-2012,cell,123-123-1234,true,primary,teacher@school.edu,"
                 + "false,old ethnicity,first racial category,Bachelors,12,13,Certification,credential id,code value 123,Computer Science certificate,"
-                + "Computer Science,ed org reference,Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
+                + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 teacherCsv);
@@ -104,8 +104,6 @@ public class TeacherEntityTest {
                 + "    <CredentialField id=\"credential id\">"
                 + "        <CodeValue>code value 123</CodeValue>"
                 + "        <Description>Computer Science certificate</Description>"
-                + "        <AcademicSubject>Computer Science</AcademicSubject>"
-                + "        <EducationOrganizationReference>ed org reference</EducationOrganizationReference>"
                 + "    </CredentialField>"
                 + "    <Level>Junior High (Grade Level 6-8)</Level>"
                 + "    <TeachingCredentialType>One Year</TeachingCredentialType>"
@@ -210,9 +208,6 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "id", "credential id");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "codeValue", "code value 123");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "description", "Computer Science certificate");
-        EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "academicSubject", "Computer Science");
-        EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "educationOrganizationReference",
-                "ed org reference");
 
         assertEquals("aTeacher", teacherNeutralRecord.getAttributes().get("loginId"));
         assertEquals("teacher123", teacherNeutralRecord.getAttributes().get("teacherUniqueStateId"));
