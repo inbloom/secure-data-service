@@ -2,6 +2,7 @@ include ActiveSupport::Rescuable
 
 class RealmsController < ApplicationController
 
+  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ActiveResource::ResourceNotFound, :with => :render_404
 
   # GET /realms
@@ -76,12 +77,4 @@ private
     return Check.new(SessionResource.auth_id).realm
   end
 
-  def render_404
-   respond_to do |format|
-     format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
-     #format.json { :status => :not_found}
-     format.any  { head :not_found }
-   end
-  end
 end
-

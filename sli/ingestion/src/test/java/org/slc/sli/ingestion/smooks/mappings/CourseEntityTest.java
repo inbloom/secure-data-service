@@ -27,7 +27,7 @@ public class CourseEntityTest {
 
         String targetSelector = "csv-record";
 
-        String courseCsv = "1,Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
+        String courseCsv = "Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
                 + "A seventh grade science course,2012-02-01,True,Applicable,LEA,1.0,Carnegie unit,1.0,2.0,Carnegie unit,1.0,"
                 + "Science Technology Engineering and Mathematics";
 
@@ -76,6 +76,7 @@ public class CourseEntityTest {
                 + "    <CareerPathway>Science Technology Engineering and Mathematics</CareerPathway>"
                 + "</Course>"
                 + "</InterchangeEducationOrganization>";
+                
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
                 targetSelector, edfiCourseXml);
@@ -86,47 +87,48 @@ public class CourseEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidCourseNeutralRecord(NeutralRecord neutralRecord) {
 
+        assertEquals("science7", neutralRecord.getLocalId());
+        
         assertEquals("Science7", neutralRecord.getAttributes().get("courseTitle"));
 
         Map courseCodeMap = (Map) neutralRecord.getAttributes().get("courseCode");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "identificationSystem", "LEA course code");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "assigningOrganizationCode", "orgCode");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "ID", "science7");
-
+        
         assertEquals("Honors", neutralRecord.getAttributes().get("courseLevel"));
-
+        
         List courseLevelCharacteristicList = (List) neutralRecord.getAttributes().get("courseLevelCharacteristics");
         assertEquals(1, courseLevelCharacteristicList.size());
         assertEquals("Advanced", courseLevelCharacteristicList.get(0));
-
+        
         List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
         assertEquals(1, gradesOfferedList.size());
         assertEquals("Seventh grade", gradesOfferedList.get(0));
-
+        
         assertEquals("Science", neutralRecord.getAttributes().get("subjectArea"));
-
+        
         assertEquals("A seventh grade science course", neutralRecord.getAttributes().get("courseDescription"));
-
+        
         assertEquals("2012-02-01", neutralRecord.getAttributes().get("dateCourseAdopted"));
-
+        
         assertEquals("True", neutralRecord.getAttributes().get("highSchoolCourseRequirement"));
-
+        
         assertEquals("Applicable", neutralRecord.getAttributes().get("courseGPAApplicability"));
-
+        
         assertEquals("LEA", neutralRecord.getAttributes().get("courseDefinedBy"));
-
+        
         Map minCreditMap = (Map) neutralRecord.getAttributes().get("minimumAvailableCredit");
         EntityTestUtils.assertObjectInMapEquals(minCreditMap, "creditType", "Carnegie unit");
         EntityTestUtils.assertObjectInMapEquals(minCreditMap, "creditConversion", "1.0");
         EntityTestUtils.assertObjectInMapEquals(minCreditMap, "credit", "1.0");
-
+        
         Map maxCreditMap = (Map) neutralRecord.getAttributes().get("maximumAvailableCredit");
         EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "creditType", "Carnegie unit");
         EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "creditConversion", "1.0");
         EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "credit", "2.0");
 
-        assertEquals("Science Technology Engineering and Mathematics",
-                neutralRecord.getAttributes().get("careerPathway"));
+        assertEquals("Science Technology Engineering and Mathematics", neutralRecord.getAttributes().get("careerPathway"));
 
     }
 
