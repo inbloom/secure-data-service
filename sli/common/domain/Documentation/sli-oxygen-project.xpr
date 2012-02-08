@@ -6,6 +6,6 @@
     </meta>
     <projectTree name="sli-oxygen-project.xpr">
         <folder path="../src/main/resources/sliXsd/"/>
-        <file name="xsdDocHtml.xsl"/>
+        <file name="sli_XSDtoHTMLDocs.xsl"/>
     </projectTree>
 </project>
