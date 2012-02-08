@@ -237,5 +237,179 @@
   </MaximumAvailableCredit>
   <EducationOrganizationReference></EducationOrganizationReference>
  </Course>
-
+<School>
+	<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+	<NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName></StreetNumberName>
+		<City></City>
+		<StateAbbreviation></StateAbbreviation>
+		<PostalCode></PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber></TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+	<NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName></StreetNumberName>
+		<City></City>
+		<StateAbbreviation></StateAbbreviation>
+		<PostalCode></PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber></TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	<NameOfInstitution>Sunset Central High School</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName></StreetNumberName>
+		<City></City>
+		<StateAbbreviation></StateAbbreviation>
+		<PostalCode></PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber></TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>Illinois PS145</StateOrganizationId>
+	<NameOfInstitution>Illinois PS145</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName></StreetNumberName>
+		<City></City>
+		<StateAbbreviation></StateAbbreviation>
+		<PostalCode></PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber></TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+	<NameOfInstitution>Daybreak Central High</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName></StreetNumberName>
+		<City></City>
+		<StateAbbreviation></StateAbbreviation>
+		<PostalCode></PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber></TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
 </InterchangeEducationOrganization>
