@@ -44,8 +44,10 @@ public class EdFiProcessor implements Processor {
                 job.getFaultsReport().append(fe.getFaultsReport());
             }
 
-            // set headers for ingestion routing
-            exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
+            // set headers
+            if (job.getErrorReport().hasErrors()) {
+                exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
+            }
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
             
         } catch (Exception exception) {

@@ -69,7 +69,9 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             // set headers for ingestion routing
             exchange.getIn().setBody(job, BatchJob.class);
-            exchange.getIn().setHeader("hasErrors", fr.hasErrors());
+            if (fr.hasErrors()) {
+                exchange.getIn().setHeader("hasErrors", fr.hasErrors());
+            }
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
             
         } catch (Exception exception) {

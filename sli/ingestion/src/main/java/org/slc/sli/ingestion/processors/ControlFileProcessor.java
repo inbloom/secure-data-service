@@ -47,8 +47,10 @@ public class ControlFileProcessor implements Processor {
             // set the exchange outbound message to the value of the job
             exchange.getIn().setBody(job, BatchJob.class);
 
-            // set headers for ingestion routing
-            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+            // set headers
+            if (job.getFaultsReport().hasErrors()) {
+                exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+            }
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
 
         } catch (Exception exception) {
