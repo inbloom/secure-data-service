@@ -25,7 +25,7 @@ public class ReferenceSchema extends NeutralSchema {
     
     // Constructors
     public ReferenceSchema() {
-        this(NeutralSchemaType.STRING.getName());
+        this(NeutralSchemaType.REFERENCE.getName());
     }
     
     public ReferenceSchema(String xsdType) {
@@ -35,7 +35,7 @@ public class ReferenceSchema extends NeutralSchema {
     // Methods
     @Override
     public NeutralSchemaType getSchemaType() {
-        return NeutralSchemaType.STRING;
+        return NeutralSchemaType.REFERENCE;
     }
 
     /**
