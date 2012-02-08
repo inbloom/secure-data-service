@@ -152,6 +152,11 @@ task :educationOrganizationTests do
   runTests("test/features/ingestion/features/education_organization.feature")
 end
 
+desc "Run State Education Agency Ingestion Tests"
+task :stateEducationAgencyIngestionTests do
+  runTests("test/features/ingestion/features/stateEducationAgency.feature")
+end
+
 desc "Run Teacher Ingestion Tests"
 task :teacherIngestionTests do
   runTests("test/features/ingestion/features/teacher.feature")
