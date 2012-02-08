@@ -1,4 +1,5 @@
 include ActiveSupport::Rescuable
+
 class RealmsController < ApplicationController
 
   rescue_from ActiveResource::ResourceNotFound, :with => :render_404
@@ -6,20 +7,14 @@ class RealmsController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    @realms = Realm.all
-
     #figure out the realm this user has access to
     userRealm = get_user_realm
-    @realms.each do |realm|
-      if realm.respond_to?(:realm)
-        if realm.realm == userRealm
-          redirect_to realm
-          return
-        end
-      end
+    realmToRedirectTo =  Realm.find(:first, :params => {'realm' => userRealm})
+    if realmToRedirectTo != nil
+      redirect_to realmToRedirectTo
+      return
     end
-    
-    render_404 
+    render_404
   end
 
   # # GET /realms/1
@@ -44,14 +39,15 @@ class RealmsController < ApplicationController
 
      @realm.mappings = params[:mappings];
      respond_to do |format|
-	success = false
-	errorMsg = ""
+       success = false
+       errorMsg = ""
 
-	begin
-        success =  @realm.save()
-	rescue ActiveResource::BadRequest => error
-	errorMsg = error.response.body
-	end
+       begin
+         success =  @realm.save()
+       rescue ActiveResource::BadRequest => error
+         errorMsg = error.response.body
+       end
+
        if success && params[:mappings] != nil
          format.json { render json: @realm }
        else
