@@ -1,4 +1,4 @@
-Feature: <US634> Sample Ingestion Gherkin Test
+Feature: <US634> Student Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
