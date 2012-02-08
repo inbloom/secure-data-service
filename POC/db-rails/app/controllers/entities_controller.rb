@@ -9,7 +9,7 @@ class EntitiesController < ApplicationController
   end
   
   def fix_urls
-      response.body = response.body.gsub("https://devapp1.slidev.org/api/rest", "http://#{request.host_with_port}/entities")
+      response.body = response.body.gsub("#{APP_CONFIG['api_base']}", "http://#{request.host_with_port}/entities")
   end
   # rescue_from ActiveResource::ResourceNotFound do |exception|
   #   render :file => "404.html"
