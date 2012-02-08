@@ -3,10 +3,8 @@ package org.slc.sli.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang.ArrayUtils;
 
@@ -26,7 +24,7 @@ import org.slc.sli.util.SecurityUtil;
  * @author svankina
  *
  */
-public class LiveAPIClient /*implements APIClient*/ {
+public class LiveAPIClient implements APIClient {
 
     private RESTClient restClient;
     private Gson gson;
@@ -50,27 +48,32 @@ public class LiveAPIClient /*implements APIClient*/ {
         gson = new Gson();
     }
     
-    //@Override
-    public GenericEntity[] getSchools(String token) {
+    @Override
+    public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
         String teacherId = getId(token);
         GenericEntity[] sections = getSectionsForTeacher(teacherId, token);
         GenericEntity[] courses = getCoursesForSections(sections, token);
         GenericEntity[] schools = getSchoolsForCourses(courses, token);
         
-        return schools;
+        List<GenericEntity> schoolList = new ArrayList<GenericEntity>();
+        
+        for (GenericEntity school : schools) {
+            schoolList.add(school);
+        }
+        return schoolList;
     }
     
-    //@Override
-    public GenericEntity[] getStudents(final String token, List<String> urls) {
+    @Override
+    public List<GenericEntity> getStudents(final String token, List<String> urls) {
         if (urls == null) {
             return null;
         }
         
-        GenericEntity[] students = new GenericEntity[urls.size()];
+        List<GenericEntity> students = new ArrayList<GenericEntity>();
         
         int i = 0;
         for (String url: urls) {
-            students[i++] = createEntityFromJson(getStudent(url, token), Constants.ENTITY_TYPE_STUDENT);
+            students.add(createEntityFromJson(getStudent(url, token), Constants.ENTITY_TYPE_STUDENT));
         }
         
         return students;
@@ -107,26 +110,27 @@ public class LiveAPIClient /*implements APIClient*/ {
         return section;
     }
 
-    //@Override
+    @Override
     public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         return mockClient.getAssessments(getUsername(), studentIds);
     }
-    //@Override
+    @Override
     public List<GenericEntity> getCustomData(final String token, String key) {
         return mockClient.getCustomData(getUsername(), key);
     }
 
-    //@Override
+    @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return mockClient.getAssessmentMetaData(getUsername());
     }
-    //@Override
-    public List<GenericEntity> getStudentProgramAssociation(final String token, List<String> studentIds) {
+    @Override
+    public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         return mockClient.getPrograms(getUsername(), studentIds);
     }
     
     private String getId(String token) {
-    //TODO: Make a call to the /home uri and retrieve id from there
+    
+        // Make a call to the /home uri and retrieve id from there
         String returnValue = "";
         String url = Constants.API_SERVER_URI + "/home";
         ResponseObject response = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), ResponseObject.class);
@@ -137,9 +141,6 @@ public class LiveAPIClient /*implements APIClient*/ {
             }
         }
         
-        //TODO: Actually return the id from the call, once teacher-section works
-        // FIXME
-        //return "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94";
         return returnValue;
     }
 
@@ -171,7 +172,6 @@ public class LiveAPIClient /*implements APIClient*/ {
 
     private GenericEntity[] getCoursesForSections(GenericEntity[] sections, String token) {
         
-        //Course[] courses = new Course[sections.length];
         HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
 
         // TODO: Make an actual api call to the courses service, when it comes up.
@@ -204,7 +204,6 @@ public class LiveAPIClient /*implements APIClient*/ {
             course.put("sections", (GenericEntity[]) ArrayUtils.addAll((GenericEntity[]) (course.get("sections")), sectionArray));
             
             //TODO: Make a mapping between courses and schools 
-            //course.setSchoolId("0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
             if (SecurityUtil.getPrincipal().getUsername().contains("Kim")) {
                 course.put("schoolId", "00000000-0000-0000-0000-000000000201");
             } else {
@@ -246,12 +245,13 @@ public class LiveAPIClient /*implements APIClient*/ {
      */
     private GenericEntity createEntityFromJson(String json, String type) {
         
-        Gson gson = new Gson();        
+        Gson gson = new Gson();
         
-        Map<String, Object> map = gson.fromJson(json, new TypeToken<Map<String, Object>>() { } .getType());
-        
-        // populate list of generic entities
-        GenericEntity e = new GenericEntity();
+        GenericEntity e = gson.fromJson(json, GenericEntity.class);
+
         return e;
     }
+    
+
+    
 }
