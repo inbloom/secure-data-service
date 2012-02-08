@@ -165,7 +165,7 @@ public class RealmRoleManagerResource {
                 }
                 
                 if (clientRoles.contains(clientRole)) {
-                    res.put("response", "Client have duplicate client roles");
+                    res.put("response", "Cannot have duplicate client roles");
                     return Response.status(Status.BAD_REQUEST).entity(res).build();
                 }
                 
