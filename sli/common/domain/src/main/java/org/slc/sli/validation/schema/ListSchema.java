@@ -82,7 +82,7 @@ public class ListSchema extends NeutralSchema {
                 for (NeutralSchema itemSchema : this.getList()) {
 
                     // Choice scenario will not provide validation errors (null)
-                    if (itemSchema.validate(fieldName, fieldEntity, errors)) {
+                    if (itemSchema.validate(fieldName, fieldEntity, errors, repo)) {
                         isFieldValid = true;
                         break;
                     }
