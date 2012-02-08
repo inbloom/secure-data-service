@@ -1,4 +1,4 @@
-Feature: Section Ingestion Test
+Feature: Teacher Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
