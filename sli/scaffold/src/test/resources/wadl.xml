@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:application xmlns:ns2="http://wadl.dev.java.net/2009/02">
+    <ns2:doc xml:lang="en" title="API Doc"><![CDATA[This document describes the SLI RESTful API]]></ns2:doc>
+    <ns2:grammars/>
+    <ns2:resources base="http://www.example.com/api/rest">
+        <ns2:resource path="{type}">
+            <ns2:doc><![CDATA[Jersey resource for all entities and associations.]]></ns2:doc>
+            <ns2:param type="xs:string" style="template" name="type" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <ns2:method name="POST" id="createEntity">
+                <ns2:doc><![CDATA[Create a new entity or association.]]></ns2:doc>
+                <ns2:request>
+                    <ns2:representation mediaType="*/*" href="badlink.html"/>
+                </ns2:request>
+                <ns2:response bad="asdf">
+                    <ns2:doc><![CDATA[This is some pretty terrible documentation for the response.]]></ns2:doc>
+                    <ns2:representation mediaType="application/json"/>
+                    <ns2:representation mediaType="application/xml"/>
+                    <ns2:representation mediaType="application/vnd.slc+xml"/>
+                    <ns2:representation mediaType="application/vnd.slc+json"/>
+                </ns2:response>
+            </ns2:method>
+        </ns2:resource>
+    </ns2:resources>
+</ns2:application>
