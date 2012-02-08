@@ -153,6 +153,102 @@
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
  </Teacher>
 
+ <TeacherSchoolAssociation>
+  <TeacherReference>
+   <StaffIdentity>
+    <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+   </StaffIdentity>
+  </TeacherReference>
+  <SchoolReference>
+   <EducationalOrgIdentity>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+   </EducationalOrgIdentity>
+  </SchoolReference>
+  <ProgramAssignment>Special Education</ProgramAssignment>
+  <InstructionalGradeLevels>
+   <GradeLevel>Kindergarten</GradeLevel>
+  </InstructionalGradeLevels>
+  <AcademicSubjects>
+   <AcademicSubject>Reading</AcademicSubject>
+  </AcademicSubjects>
+ </TeacherSchoolAssociation>
+ <TeacherSchoolAssociation>
+  <TeacherReference>
+   <StaffIdentity>
+    <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+   </StaffIdentity>
+  </TeacherReference>
+  <SchoolReference>
+   <EducationalOrgIdentity>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+   </EducationalOrgIdentity>
+  </SchoolReference>
+  <ProgramAssignment>Regular Education</ProgramAssignment>
+  <InstructionalGradeLevels>
+   <GradeLevel>First grade</GradeLevel>
+  </InstructionalGradeLevels>
+  <AcademicSubjects>
+   <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+  </AcademicSubjects>
+ </TeacherSchoolAssociation>
+ <TeacherSchoolAssociation>
+  <TeacherReference>
+   <StaffIdentity>
+    <StaffUniqueStateId>cgray</StaffUniqueStateId>
+   </StaffIdentity>
+  </TeacherReference>
+  <SchoolReference>
+   <EducationalOrgIdentity>
+    <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+   </EducationalOrgIdentity>
+  </SchoolReference>
+  <ProgramAssignment>Regular Education</ProgramAssignment>
+  <InstructionalGradeLevels>
+   <GradeLevel>First grade</GradeLevel>
+  </InstructionalGradeLevels>
+  <AcademicSubjects>
+   <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+  </AcademicSubjects>
+ </TeacherSchoolAssociation>
+ <TeacherSchoolAssociation>
+  <TeacherReference>
+   <StaffIdentity>
+    <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+   </StaffIdentity>
+  </TeacherReference>
+  <SchoolReference>
+   <EducationalOrgIdentity>
+    <StateOrganizationId>Illinois PS145</StateOrganizationId>
+   </EducationalOrgIdentity>
+  </SchoolReference>
+  <ProgramAssignment>Regular Education</ProgramAssignment>
+  <InstructionalGradeLevels>
+   <GradeLevel>First grade</GradeLevel>
+  </InstructionalGradeLevels>
+  <AcademicSubjects>
+   <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+  </AcademicSubjects>
+ </TeacherSchoolAssociation>
+ <TeacherSchoolAssociation>
+  <TeacherReference>
+   <StaffIdentity>
+    <StaffUniqueStateId>cgray</StaffUniqueStateId>
+   </StaffIdentity>
+  </TeacherReference>
+  <SchoolReference>
+   <EducationalOrgIdentity>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+   </EducationalOrgIdentity>
+  </SchoolReference>
+  <ProgramAssignment>Regular Education</ProgramAssignment>
+  <InstructionalGradeLevels>
+   <GradeLevel>First grade</GradeLevel>
+  </InstructionalGradeLevels>
+  <AcademicSubjects>
+   <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+  </AcademicSubjects>
+ </TeacherSchoolAssociation>
+
  <TeacherSectionAssociation>
   <TeacherReference>
    <StaffIdentity>

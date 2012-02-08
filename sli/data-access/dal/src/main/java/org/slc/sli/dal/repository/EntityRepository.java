@@ -2,8 +2,9 @@ package org.slc.sli.dal.repository;
 
 import java.util.Map;
 
-import org.slc.sli.domain.Entity;
 import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Define the entity repository interface that provides basic CRUD and field
@@ -103,12 +104,38 @@ public interface EntityRepository {
     /**
      * @param collectionName
      *            the name of the collection to look in
+     * @param paths
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("body.firstName","Jane"),
+     *            or new HashMap().put("metadata.regionId","Region")
+     * @param skip
+     *            the beginning index of the entity that will be returned
+     * @param max
+     *            the max number of entities that will be returned
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
      * @param fields
      *            a map with key value pairs as string that define the search
      *            criteria for example: new HashMap().put("firstName","Jane")
      * @return the collection of entities
      */
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param paths
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("body.firstName","Jane"),
+     *            or new HashMap().put("metadata.regionId","Region")
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths);
 
     /**
      * @param collectionName
