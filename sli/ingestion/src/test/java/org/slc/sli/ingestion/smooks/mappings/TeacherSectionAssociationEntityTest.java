@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,7 @@ public class TeacherSectionAssociationEntityTest {
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
 
+    @Ignore
     @Test
     public void testValidatorTeacherSectionAssociation() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -103,6 +105,7 @@ public class TeacherSectionAssociationEntityTest {
         Assert.assertTrue(validator.validate(e));
     }
 
+    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSectionAssociationMissingTeacherReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -130,6 +133,7 @@ public class TeacherSectionAssociationEntityTest {
 
     }
 
+    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSectionAssociationMissingSectionReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -157,6 +161,7 @@ public class TeacherSectionAssociationEntityTest {
 
     }
 
+    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSectionAssociationMissingClassroomPosition() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -188,6 +193,7 @@ public class TeacherSectionAssociationEntityTest {
 
     }
 
+    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSectionAssociationIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
