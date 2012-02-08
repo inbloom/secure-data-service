@@ -47,7 +47,7 @@ public class SliRequestFilter extends GenericFilterBean {
         
         Authentication auth = resolver.resolve(sessionId);
         if (auth != null) {
-            LOG.debug("Created Auth Hash: " + Integer.toHexString(auth.hashCode()));
+            LOG.debug("Created Auth Hash: {}@{}", auth.getClass(), Integer.toHexString(auth.hashCode()));
             
         }
         
