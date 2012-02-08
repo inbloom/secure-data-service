@@ -175,7 +175,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         FaultsReport fr = job.getFaultsReport();
 
-                        for (Fault fault: fr.getFaults()) {
+                        for (Fault fault : fr.getFaults()) {
                             if (fault.isError()) {
                                 jobLogger.error(fault.getMessage());
                             } else {
