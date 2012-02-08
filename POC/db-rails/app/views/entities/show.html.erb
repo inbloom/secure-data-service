@@ -1,16 +1,15 @@
 <p id="notice"><%= notice %></p>
-<%=
 
-if @entity.is_a?(Array) and @entity.any?
+<%=
+html = ""
+if @entity.empty?
+	html << "Entity is empty"
+elsif @entity.is_a?(Array) 
 	@entity.each do |item|
-		display_hash(item).html_safe
+		html << display_hash(item)
 	end
 else
-	if @entity.any?
-		display_hash(@entity).html_safe
-	else
-		"Entity is empty"
-	end
+	html << display_hash(@entity)
 end
-
+html.html_safe
 %>
