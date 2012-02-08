@@ -15,7 +15,7 @@ Scenario Outline: Create a new section
       And the "mediumOfInstruction" is "Independent study"
       And the "populationServed" is "Regular Students"
       And the "schoolId" is "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-      And the "sessionId" is "<'SPRING 2011 (SESSION)' ID>"
+      And the "sessionId" is "<'FALL 2011 (SESSION)' ID>"
       And the "courseId" is "<'FRENCH 1 (COURSE)' ID>"
     When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
@@ -27,7 +27,7 @@ Scenario Outline: Create a new section
       And the "mediumOfInstruction" should be "Independent study"
       And the "populationServed" should be "Regular Students"
       And the "schoolId" should be "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-      And the "sessionId" should be "<'SPRING 2011 (SESSION)' ID>"
+      And the "sessionId" should be "<'FALL 2011 (SESSION)' ID>"
       And the "courseId" should be "<'FRENCH 1 (COURSE)' ID>"
     Examples:
     		| format                     |

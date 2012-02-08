@@ -26,6 +26,7 @@ end
 
 When /^I navigate to POST "([^\"]+)"$/ do |url|
   data = prepareData(@format, @fields)
+  puts "about to post: #{data}"
   restHttpPost(url, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
@@ -49,7 +50,7 @@ Given /^"([^"]*)" is (\d+)$/ do |key, value|
   if !defined? @fields
     @fields = {}
   end
-  @fields[key] = value
+  @fields[key] = value.to_i
 end
 
 When /^I set "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
