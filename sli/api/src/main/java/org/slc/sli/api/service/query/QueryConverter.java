@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
  * 
  * Some examples of query string (for student entity)
  * 
- * ?name.firstName=Joe&name.lastName=Brown
+ * ?name.firstName=Joe&name.lastSurname=Brown
  * ?birthData.birthDate>=1995-01-01
  * ?studentUniqueStateId=123456789
  * ?name.firstName!=Joe
