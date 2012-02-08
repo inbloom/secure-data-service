@@ -48,18 +48,18 @@
     <jb:wiring property="address" beanIdRef="teacherAddressTypeArray" />
     <jb:wiring property="telephone" beanIdRef="teacherTelephoneTypeArray" />
     <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
-    <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" />
+    <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" default="null" />
     <jb:value property="oldEthnicity" data="OldEthnicity" />
     <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
     <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
     <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience"
-      decoder="Integer" />
+      decoder="Integer" default="null"/>
     <jb:value property="yearsOfPriorTeachingExperience" data="YearsOfPriorTeachingExperience"
-      decoder="Integer" />
+      decoder="Integer" default="null"/>
     <jb:wiring property="credentials" beanIdRef="teacherCredentialTypeArray" />
     <jb:value property="loginId" data="LoginId" />
     <jb:value property="teacherUniqueStateId" data="TeacherUniqueStateId" />
-    <jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean" />
+    <jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean" default="null"/>
   </jb:bean>
 
   <jb:bean beanId="staffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
@@ -115,7 +115,7 @@
   <jb:bean beanId="teacherTelephoneType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="telephoneNumberType" data="Telephone_TelephoneNumberType" />
     <jb:value property="primaryTelephoneNumberIndicator" data="Telephone_PrimaryTelephoneNumberIndicator"
-      decoder="Boolean" />
+      decoder="Boolean" default="null" />
     <jb:value property="telephoneNumber" data="Telephone_TelephoneNumber" />
   </jb:bean>
   <jb:bean beanId="teacherElectronicMailTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
