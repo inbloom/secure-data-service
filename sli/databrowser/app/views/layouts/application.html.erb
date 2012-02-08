@@ -16,7 +16,7 @@
 			</span>
 			<span style="float:right; ">
 				<h1 style="display:inline"></h1>
-				<h4 style="display:inline;">Hello <%= @user_name %> | Home | Logout </h4>
+				<h4 style="display:inline;">Hello <%= session[:full_name] %> | Home | <%= link_to 'Logout', '/logout'  %> </h4>
 			</span> 
 		</p>
 	</div>
