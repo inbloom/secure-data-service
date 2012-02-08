@@ -9647,7 +9647,7 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 	</xs:simpleType>
 	<xs:complexType name="Schools">
 		<xs:annotation>
-			<xs:documentation>This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.
+			<xs:documentation>Schools.
 </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -9655,7 +9655,97 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 				<xs:sequence>
 					<xs:element name="School" type="School" minOccurs="1" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>The identifier assigned to an education organization by the State Education Agency (SEA).
+							<xs:documentation>Single School.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Teachers">
+		<xs:annotation>
+			<xs:documentation>Teachers.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="Teacher" type="Teacher" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Single Teacher.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TeacherSchoolAssociations">
+		<xs:annotation>
+			<xs:documentation>TeacherSchoolAssociations.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="TeacherSchoolAssociation" type="TeacherSchoolAssociation" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Single TeacherSchoolAssociation.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Sections">
+		<xs:annotation>
+			<xs:documentation>Sections.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="Section" type="Section" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Single Section.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StudentSectionAssociations">
+		<xs:annotation>
+			<xs:documentation>StudentSectionAssociations.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="StudentSectionAssociation" type="StudentSectionAssociation" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Single StudentSectionAssociation.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TeacherSectionAssociations">
+		<xs:annotation>
+			<xs:documentation>TeacherSectionAssociations.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="TeacherSectionAssociation" type="TeacherSectionAssociation" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Single TeacherSectionAssociation.
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>

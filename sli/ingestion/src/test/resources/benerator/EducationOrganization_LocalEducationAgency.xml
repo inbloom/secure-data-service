@@ -19,27 +19,27 @@
         	user="{dbUser}" password="{dbPassword}" />
 
 	<comment>define PK generator</comment>
-	<bean id="idGen" spec="new IncrementGenerator(100001)" />
+	<bean id="idGen" spec="new IncrementGenerator(10001)" />
 	
 	<comment>Clear the records in EducationOrganization table</comment>
 	<execute target="db" onError="warn">
-	DELETE FROM School 
-	DELETE FROM EducationOrganizationAddress WHERE EducationOrganizationId in (SELECT EducationOrganizationId FROM EducationOrganization WHERE NameOfInstitution like 'School_%')
-	DELETE FROM EducationOrganizationTelephone WHERE EducationOrganizationId in (SELECT EducationOrganizationId FROM EducationOrganization WHERE NameOfInstitution like 'School_%')
-	DELETE FROM EducationOrganization WHERE NameOfInstitution like 'School_%'
+	DELETE FROM LocalEducationAgency 
+	DELETE FROM EducationOrganizationAddress WHERE EducationOrganizationId in (SELECT EducationOrganizationId FROM EducationOrganization WHERE NameOfInstitution like 'LocalEducationAgency_%')
+	DELETE FROM EducationOrganizationTelephone WHERE EducationOrganizationId in (SELECT EducationOrganizationId FROM EducationOrganization WHERE NameOfInstitution like 'LocalEducationAgency_%')
+	DELETE FROM EducationOrganization WHERE NameOfInstitution like 'LocalEducationAgency_%'
 	</execute>
 
-	<comment>create EducationOrganization for Schools</comment>
-	<generate type="EducationOrganization" count="100" consumer="db">
+	<comment>create EducationOrganization for LEA</comment>
+	<generate type="EducationOrganization" count="5" consumer="db">
 		<variable name="tempId" generator="idGen" />
 		<variable name="eoid" generator="idGen" />
 		
 		<id name="EducationOrganizationId" script="eoid" />
 		<attribute name="StateOrganizationId" script="'StateId_'+tempId" />
-		<attribute name="NameOfInstitution" script="'School_'+tempId"  />
-		<attribute name="ShortNameOfInstitution" script="'Schl_'+tempId" />
+		<attribute name="NameOfInstitution" script="'LocalEducationAgency_'+tempId"  />
+		<attribute name="ShortNameOfInstitution" script="'Lea_'+tempId" />
 		<attribute name="WebSite" values="'http://'" />
-		<attribute name="OperationalStatusTypeId" values="'1'" />
+		<attribute name="OperationalStatusTypeId" source="db" selector="SELECT OperationalStatusTypeId FROM OperationalStatusType"  distribution="random" />
 		<attribute name="Nomenclature" values="'Nomenclature'" />
 		
 		<generate type="EducationOrganizationAddress" count="1" consumer="db">
@@ -70,14 +70,13 @@
 			<attribute name="TelephoneNumber" values="'+1-(973)-123-456'" />			
 		</generate>
 
-		<generate type="School" count="1" consumer="db">
-			<id name="SchoolId" script="eoid" />
-<!--			<attribute name="LocalEducationAgencyId" mode="ignored" /> -->
-			<attribute name="SchoolTypeId" values="'2'"/>
-			<attribute name="CharterStatusTypeId" values="'2'"/>
-			<attribute name="TitleIPartASchoolDesignationTypeId" values="'2'"/>
-			<attribute name="MagnetSpecialProgramEmphasisSchoolTypeId" values="'2'"/>
-			<attribute name="AdministrativeFundingControlTypeId" values="'2'"/>
+		<generate type="LocalEducationAgency" count="1" consumer="db">
+			<id name="LocalEducationAgencyId" script="eoid" />
+			<attribute name="LEACategoryTypeId" source="db" selector="SELECT LEACategoryTypeId FROM LEACategoryType"  distribution="random" />
+			<attribute name="CharterStatusTypeId" source="db" selector="SELECT CharterStatusTypeId FROM CharterStatusType"  distribution="random" />
+<!--			<attribute name="EducationServiceCenterId" /> -->
+<!--			<attribute name="StateEducationAgencyId" /> -->
+<!--			<attribute name="ParentLocalEducationAgencyId" /> -->
     	</generate>
     	
     </generate>
