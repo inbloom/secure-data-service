@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<merges>
-    <merge action="ADDATTR" xpath="//ns2:application/ns2:resources/ns2:resource/ns2:method/ns2:response/ns2:representation[@element='Home']">
-        <attribute name="href" value="home.html"/>
+<merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
+    <merge type="node" action="delete" xpath="//ns2:application/ns2:doc"/>
+    <merge type="node" action="add" xpath="//ns2:application">
+        <ns2:doc xml:lang="en" title="an awesome title"><![CDATA[Here is some more documentation!]]></ns2:doc>
     </merge>
 </merges>
