@@ -65,7 +65,7 @@ private
     roles = Role.all
     toReturn = []
     roles.each do |role|
-      toReturn.push role.name
+      toReturn.push role.name unless role.name == "SLI Administrator"
     end
     toReturn
   end

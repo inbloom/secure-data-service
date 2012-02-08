@@ -1,19 +1,19 @@
 package org.slc.sli.scaffold;
 
+import org.w3c.dom.Document;
+
 import java.util.Iterator;
 
 import javax.xml.namespace.NamespaceContext;
 
-import org.w3c.dom.Document;
-
 /**
  * Namespace resolver for xpath expressions
- * @author srupasinghe
  *
+ * @author srupasinghe
  */
 public class DocumentNamespaceResolver implements NamespaceContext {
     private Document document = null;
-    
+
     public DocumentNamespaceResolver(Document document) {
         this.document = document;
     }
@@ -32,5 +32,5 @@ public class DocumentNamespaceResolver implements NamespaceContext {
     public Iterator getPrefixes(String namespaceURI) {
         return null;
     }
-    
+
 }

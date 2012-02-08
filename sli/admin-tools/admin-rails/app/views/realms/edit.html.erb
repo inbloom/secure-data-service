@@ -23,9 +23,6 @@
 
   <table>
     <tr>
-      <td valign="top">
-      <%= label_tag "clientRole", "Client role" %><input id=
-      "clientRole"></td>
 
       <td valign="top">
         <% @sli_roles.each do |role| %>
@@ -34,6 +31,10 @@
           <%= radio_button_tag 'role', role %><%= label_tag "role_#{role}", role %>
         </div><% end %>
       </td>
+
+      <td valign="top">
+      <%= label_tag "clientRole", "Client role" %><input id=
+      "clientRole"></td>
 
       <td valign="top"><button id="addButton">Add</button></td>
     </tr>
