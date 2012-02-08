@@ -1,9 +1,0 @@
-
-{
-   "type":"CareerPathwayType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Agriculture, Food and Natural Resources","Architecture and Construction","Arts, A/V Technology and Communications","Business, Management and Administration","Education and Training","Finance","Government and Public Administration","Health Science","Hospitality and Tourism","Human Services","Information Technology","Law, Public Safety, Corrections and Security","Manufacturing","Marketing, Sales and Service","Science, Technology, Engineering and Mathematics","Transportation, Distribution and Logistics"]}
-}

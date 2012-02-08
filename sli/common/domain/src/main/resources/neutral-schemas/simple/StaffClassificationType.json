@@ -1,9 +1,0 @@
-
-{
-   "type":"StaffClassificationType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Art Therapist","Athletic Trainer","Assistant Principal","Assistant Superintendent","Certified Interpreter","Counselor","High School Counselor","Instructional Coordinator","Instructional Aide","Librarians/Media Specialists","LEA Administrator","LEA Specialist","LEA System Administrator","LEA Administrative Support Staff","Librarian","Principal","Physical Therapist","Teacher","Other","Superintendent","School Nurse","Specialist/Consultant","School Administrator","School Administrative Support Staff","Student Support Services Staff","School Leader","School Specialist","Substitute Teacher"]}
-}
