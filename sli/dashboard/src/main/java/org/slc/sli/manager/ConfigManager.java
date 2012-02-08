@@ -116,7 +116,7 @@ public class ConfigManager extends Manager {
             // loop through, find right type configs
             for (ViewConfig view : config.getViewConfig()) {
                 if (view.getType().equals(type)) {
-                    viewConfigs.add (view);
+                    viewConfigs.add(view);
                 }
             }            
         }
