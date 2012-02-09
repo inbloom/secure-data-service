@@ -35,6 +35,7 @@ public class Constants {
     // entity attributes
     public static final String ATTR_COURSES = "courses";
     public static final String ATTR_SCHOOL_ID = "schoolId";
+    public static final String ATTR_SCHOOLS = "schools";
     public static final String ATTR_SECTIONS = "sections";
     public static final String ATTR_COURSE = "course";
     public static final String ATTR_SECTION_NAME = "sectionName";
@@ -55,6 +56,10 @@ public class Constants {
     public static final String ATTR_YEAR = "year";
     public static final String ATTR_SCALE_SCORE = "scaleScore";
     public static final String ATTR_PERF_LEVEL = "perfLevel";
+    public static final String ATTR_ED_ORG_ID = "educationOrganizationId";
+    public static final String ATTR_ED_ORG_CHILD_ID = "educationOrganizationChildId";
+    public static final String ATTR_ED_ORG_PARENT_ID = "educationOrganizationParentId";
+    public static final String ATTR_NAME_OF_INST = "nameOfInstitution";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";

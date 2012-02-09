@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.entity.EducationalOrganization;
 
 /**
  * 
@@ -23,6 +22,6 @@ public interface APIClient {
     public List<GenericEntity> getCustomData(final String token, String key);
     public AssessmentMetaData[] getAssessmentMetaData(final String token);
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds);
-    public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization educationalOrganization);
-    public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, GenericEntity school);
+    public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity educationalOrganization);
+    public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school);
 }

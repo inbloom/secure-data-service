@@ -16,10 +16,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.entity.EducationalOrganization;
-import org.slc.sli.entity.EducationalOrganizationAssociation;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.SchoolEducationalOrganizationAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
@@ -42,6 +39,9 @@ public class MockAPIClient implements APIClient {
     private static final String MOCK_ASSESSMENT_METADATA_FILE = "assessment_meta_data.json";
     private static final String MOCK_ASSESSMENTS_FILE = "assessment.json";
     private static final String MOCK_ATTENDANCE_FILE = "attendance.json";
+    private static final String MOCK_ED_ORG_FILE = "educational_organization.json";
+    private static final String MOCK_ED_ORG_ASSOC_FILE = "educational_organization_association.json";
+    private static final String MOCK_SCHOOL_ED_ORG_ASSOC_FILE = "school_educational_organization_association.json";
     
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
@@ -81,45 +81,46 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
-        EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
-        SchoolEducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/school_educational_organization_association.json"), SchoolEducationalOrganizationAssociation[].class);
+    public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
+        
+        List<GenericEntity> allEdOrgs = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
+        List<GenericEntity> allAssociations = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_SCHOOL_ED_ORG_ASSOC_FILE), null);
         // create a set of associated ed org ids, and then filter the ed or entities based on it.
         Set<String> associatedEdOrgIds = new HashSet<String>();
-        for (int i = 0; i < allAssociations.length; i++) {
-            if (school.get("id") != null && school.get("id").equals(allAssociations[i].getSchoolId())) {
-                associatedEdOrgIds.add(allAssociations[i].getEducationOrganizationId());
+        for (int i = 0; i < allAssociations.size(); i++) {
+            if (school.get(Constants.ATTR_ID) != null && school.get(Constants.ATTR_ID).equals(allAssociations.get(i).get(Constants.ATTR_SCHOOL_ID))) {
+                associatedEdOrgIds.add((String) (allAssociations.get(i).get(Constants.ATTR_ED_ORG_ID)));
             }
         }
-        Vector<EducationalOrganization> filtered = new Vector<EducationalOrganization>();
-        for (int i = 0; i < allEdOrgs.length; i++) {
-            if (associatedEdOrgIds.contains(allEdOrgs[i].getId())) {
-                filtered.add(allEdOrgs[i]);
+        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
+        for (int i = 0; i < allEdOrgs.size(); i++) {
+            if (associatedEdOrgIds.contains(allEdOrgs.get(i).get(Constants.ATTR_ID))) {
+                filtered.add(allEdOrgs.get(i));
             }
         }
-        EducationalOrganization[] retVal = new EducationalOrganization[filtered.size()];
-        return filtered.toArray(retVal);
+
+        return filtered;
     }
 
     @Override
-    public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization edOrg) {
-        EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
-        EducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/educational_organization_association.json"), EducationalOrganizationAssociation[].class);
+    public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity edOrg) {
+        List<GenericEntity> allEdOrgs = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
+        List<GenericEntity> allAssociations = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_ASSOC_FILE), null);
         // create a set of associated ed org ids, and then filter the ed or entities based on it.
         Set<String> parentEdOrgIds = new HashSet<String>();
-        for (int i = 0; i < allAssociations.length; i++) {
-            if (edOrg.getId() != null && edOrg.getId().equals(allAssociations[i].getEducationOrganizationChildId())) {
-                parentEdOrgIds.add(allAssociations[i].getEducationOrganizationParentId());
+        for (int i = 0; i < allAssociations.size(); i++) {
+            if (edOrg.get(Constants.ATTR_ID) != null && edOrg.get(Constants.ATTR_ID).equals(allAssociations.get(i).get("educationOrganizationChildId"))) {
+                parentEdOrgIds.add((String) (allAssociations.get(i).get(Constants.ATTR_ED_ORG_PARENT_ID)));
             }
         }
-        Vector<EducationalOrganization> filtered = new Vector<EducationalOrganization>();
-        for (int i = 0; i < allEdOrgs.length; i++) {
-            if (parentEdOrgIds.contains(allEdOrgs[i].getId())) {
-                filtered.add(allEdOrgs[i]);
+        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
+        for (int i = 0; i < allEdOrgs.size(); i++) {
+            if (parentEdOrgIds.contains(allEdOrgs.get(i).get(Constants.ATTR_ID))) {
+                filtered.add(allEdOrgs.get(i));
             }
         }
-        EducationalOrganization[] retVal = new EducationalOrganization[filtered.size()];
-        return filtered.toArray(retVal);
+        
+        return filtered;
     }
 
     // Helper function to translate a .json file into object.
