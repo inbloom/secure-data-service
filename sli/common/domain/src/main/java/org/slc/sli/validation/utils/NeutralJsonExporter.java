@@ -24,9 +24,9 @@ import org.slc.sli.validation.schema.NeutralSchema;
  *
  */
 public class NeutralJsonExporter {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(NeutralJsonExporter.class);
-
+    
     /**
      * Loads the XSD files and dumps the Neutral Schema objects to JSON files in the specified
      * directory.
@@ -53,23 +53,27 @@ public class NeutralJsonExporter {
             xsdPath = args[1];
             output = false;
         }
-
+        
         ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
                 new String[] { "spring/neutral-json-exporter-config.xml" });
-
+        
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo(xsdPath, new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-
+        
         File enumDir = new File(outputDir, "enums");
         File primitiveDir = new File(outputDir, "primitive");
         File complexDir = new File(outputDir, "complexDir");
-
-        enumDir.mkdirs();
-        primitiveDir.mkdirs();
-        complexDir.mkdirs();
-
+        
+        try {
+            enumDir.mkdirs();
+            primitiveDir.mkdirs();
+            complexDir.mkdirs();
+        } catch (SecurityException e) {
+            System.err.println("Failed to create output directories. Error:" + e.getLocalizedMessage());
+        }
+        
         List<NeutralSchema> schemas = repo.getSchemas();
-
+        
         // sanity check consistency
         Set<String> schemaNames = new HashSet<String>();
         for (NeutralSchema ns : schemas) {
@@ -95,7 +99,7 @@ public class NeutralJsonExporter {
         if (!sane) {
             throw new RuntimeException("Dependency check failed against XSDs in: " + xsdPath);
         }
-
+        
         if (output) {
             for (NeutralSchema ns : schemas) {
                 if (ns.isSimple() && !ns.isPrimitive()) {
@@ -108,7 +112,7 @@ public class NeutralJsonExporter {
             }
         }
     }
-
+    
     private static void writeSchema(File dir, NeutralSchema schema) throws IOException {
         BufferedWriter writer = null;
         try {
