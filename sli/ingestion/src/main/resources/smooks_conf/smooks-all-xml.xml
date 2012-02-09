@@ -739,8 +739,15 @@
     <jb:expression property="recordType">'studentSectionAssociation'
     </jb:expression>
     <jb:wiring property="attributes" beanIdRef="SSAAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="studentSectionAssociationParentIds" />
   </jb:bean>
 
+  <jb:bean beanId="studentSectionAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+
+    <jb:value property="studentId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="uniqueSectionCode" data="StudentSectionAssociation/ UniqueSectionCode" />
+  </jb:bean>
   <jb:bean beanId="SSAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
     <jb:value property="studentId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="uniqueSectionCode" data="StudentSectionAssociation/ UniqueSectionCode" />
@@ -810,8 +817,15 @@
     <jb:expression property="recordType">'teacherSectionAssociation'
     </jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="teacherSectionAssociationParentIds" />
   </jb:bean>
 
+  <jb:bean beanId="teacherSectionAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+
+    <jb:value property="teacherReference" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="sectionReference" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
   <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 
     <!-- SectionReference -->
@@ -840,14 +854,14 @@
     <jb:expression property="recordType">'teacherSchoolAssociation'
     </jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
-    <jb:wiring property="localParentIds" beanIdRef="studentSchoolAssociationParentIds" />
+    <jb:wiring property="localParentIds" beanIdRef="teacherSchoolAssociationParentIds" />
   </jb:bean>
 
-  <jb:bean beanId="studentSchoolAssociationParentIds" class="java.util.HashMap"
-    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+  <jb:bean beanId="teacherSchoolAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
-    <jb:value property="teacherId" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
-    <jb:value property="schoolId" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="teacherReference" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="schoolReference" data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
