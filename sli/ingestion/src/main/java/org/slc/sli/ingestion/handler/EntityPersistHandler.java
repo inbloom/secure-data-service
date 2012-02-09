@@ -21,7 +21,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
 
     // private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 
-    private static final String METADATA_BLOCK = "metadata";
+    private static final String METADATA_BLOCK = "metaData";
     private static final String REGION_ID_FIELD = "regionId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
 
