@@ -208,7 +208,7 @@ getSliRoleObject = function(sliRole, roleData) {
                 for (var i in SLI_ROLES) {
                       rMap.push([SLI_ROLES[i], SLI_ROLES[i]]);
                 }
-
+		rMap.push(["SLI Administrator", "SLI Administrator"]);
                 var success = function(data) {
                         rMap = getTableData(data.mappings);
                         sortTable(rMap, sortCol, sortOrder[sortCol]);
