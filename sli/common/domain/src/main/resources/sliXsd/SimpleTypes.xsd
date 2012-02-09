@@ -3732,4 +3732,14 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 		</xs:restriction>
 	</xs:simpleType>
 	
+	<xs:simpleType name="reference">
+        <xs:annotation>
+            <xs:documentation>Represents a reference to another element</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
 </xs:schema>

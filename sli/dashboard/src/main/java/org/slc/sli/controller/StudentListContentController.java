@@ -1,10 +1,7 @@
 package org.slc.sli.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import freemarker.ext.beans.BeansWrapper;
 
@@ -22,6 +19,7 @@ import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.StudentManager;
+import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.AssessmentResolver;
@@ -47,6 +45,7 @@ public class StudentListContentController extends DashboardController {
      *
      * @param population Don't know what this could be yet... For now, a list of student uids
      * @param model
+     * @param viewIndex The selected view configuration index
      * @return a ModelAndView object
      * @throws Exception
      */
@@ -54,16 +53,10 @@ public class StudentListContentController extends DashboardController {
     public ModelAndView studentListContent(String population, Integer viewIndex,
                                            ModelMap model) throws Exception {
 
-        // TODO: remove once we can get numerical grade values from data model                                               
-        Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();
-
         UserDetails user = SecurityUtil.getPrincipal();
 
         // get the list of all available viewConfigs
         List<ViewConfig> viewConfigs = configManager.getConfigsWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
-
-        // only the applicable view configs will be the ones that actually show up on the screen
-        List<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
@@ -73,28 +66,9 @@ public class StudentListContentController extends DashboardController {
         if (population != null) {
             uids = Arrays.asList(population.split(","));
         }
-
-        for (ViewConfig viewConfig : viewConfigs) {
-            String value = viewConfig.getValue();
-            if (value != null && value.contains("-")) {
-                int seperatorIndex = value.indexOf('-');
-
-                Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
-                Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
-
-                // if we can find at least one student in the range, the viewConfig is applicable
-                for (GenericEntity student : students) {
-                    Integer gradeValue = gradeValues.get(student.get("cohortYear"));
-
-                    if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
-                    {
-                        applicableViewConfigs.add(viewConfig);
-                        break;
-                    }
-                }                
-            }
-        }
+        
+        ViewManager viewManager = new ViewManager(viewConfigs, studentManager);
+        List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, user);
 
         if (applicableViewConfigs.size() > 0) {
             // add applicable viewConfigs to model map
@@ -157,27 +131,5 @@ public class StudentListContentController extends DashboardController {
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;
     }
-
-    /**
-    * This is just placeholder code until we can get an actual numerical 
-    * grade value from the data model. Right now all we have to work with 
-    * is the text representation as the cohortYear, so map that to numbers
-    */
-    private Map<String, Integer> getGradeValuesFromCohortYears() {
-        Map<String, Integer> gradeValues = new HashMap<String, Integer>();
-        gradeValues.put("First grade", 1);
-        gradeValues.put("Second grade", 2);
-        gradeValues.put("Third grade", 3);
-        gradeValues.put("Fourth grade", 4);
-        gradeValues.put("Fifth grade", 5);
-        gradeValues.put("Sixth grade", 6);
-        gradeValues.put("Seventh grade", 7);
-        gradeValues.put("Eighth grade", 8);
-        gradeValues.put("Ninth grade", 9);
-        gradeValues.put("Tenth grade", 10);
-        gradeValues.put("Eleventh grade", 11);
-        gradeValues.put("Twelfth grade", 12);
-        return gradeValues;
-    } 
 
 }

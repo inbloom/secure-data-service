@@ -1,7 +1,6 @@
-<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
-  xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
-  xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd"
-  xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd" xmlns:csv="http://www.milyn.org/xsd/smooks/csv-1.2.xsd">
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+  xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd" xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd"
+  xmlns:csv="http://www.milyn.org/xsd/smooks/csv-1.2.xsd">
 
   <params>
     <param name="stream.filter.type">SAX</param>
@@ -9,33 +8,31 @@
   </params>
 
   <csv:reader
-    fields="CourseId,CourseTitle,NumberOfParts,IdentificationSystem,AssigningOrganizationCode,CourseCodeID,CourseLevel,CourseLevelCharacteristics,
+    fields="CourseTitle,NumberOfParts,CourseCode_IdentificationSystem,CourseCode_AssigningOrganizationCode,CourseCode_CourseCodeID,CourseLevel,CourseLevelCharacteristics,
 		GradesOffered,SubjectArea,CourseDescription,DateCourseAdopted,HighSchoolCourseRequirement,CourseGPAApplicability,
 		CourseDefinedBy,MinCredit,MinCreditType,MinCreditConversion,MaxCredit,MaxCreditType,MaxCreditConversion,CareerPathway">
   </csv:reader>
 
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
-    createOnElement="csv-record">
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
     <jb:expression property="recordType">'course'</jb:expression>
-    <jb:value property="localId" data="csv-record/CourseId"
-      decoder="Long" />
+
+    <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
+    <!-- <jb:value property="localId" data="csv-record/CourseCode_CourseCodeID" /> -->
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="courseAttributes" class="java.util.HashMap"
-    createOnElement="csv-record">
+  <jb:bean beanId="courseAttributes" class="java.util.HashMap" createOnElement="csv-record">
 
     <jb:value property="courseTitle" data="csv-record/CourseTitle" />
 
     <jb:value property="numberOfParts" data="csv-record/NumberOfParts" />
 
     <!-- CourseCode -->
-    <jb:wiring property="courseCode" beanIdRef="courseCodeType" />
+    <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
 
     <jb:value property="courseLevel" data="csv-record/CourseLevel" />
 
-    <jb:wiring property="courseLevelCharacteristics"
-      beanIdRef="CourseLevelCharacteristicsArray" />
+    <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
 
     <jb:wiring property="gradesOffered" beanIdRef="GradesOfferedArray" />
 
@@ -56,32 +53,30 @@
 
   </jb:bean>
 
-  <jb:bean beanId="courseCodeType" class="java.util.HashMap"
-    createOnElement="csv-record">
-    <jb:value property="ID" data="csv-record/CourseCodeID" />
-    <jb:value property="identificationSystem" data="csv-record/IdentificationSystem" />
-    <jb:value property="assigningOrganizationCode" data="csv-record/AssigningOrganizationCode" />
+  <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="courseCodeType" />
+  </jb:bean>
+  <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="ID" data="csv-record/CourseCode_CourseCodeID" />
+    <jb:value property="identificationSystem" data="csv-record/CourseCode_IdentificationSystem" />
+    <jb:value property="assigningOrganizationCode" data="csv-record/CourseCode_AssigningOrganizationCode" />
   </jb:bean>
 
-  <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList"
-    createOnElement="csv-record">
+  <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:value data="CourseLevelCharacteristics" />
   </jb:bean>
 
-  <jb:bean beanId="GradesOfferedArray" class="java.util.ArrayList"
-    createOnElement="csv-record">
+  <jb:bean beanId="GradesOfferedArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:value data="csv-record/GradesOffered" />
   </jb:bean>
 
-  <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap"
-    createOnElement="csv-record">
+  <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="credit" data="csv-record/MinCredit" />
     <jb:value property="creditType" data="csv-record/MinCreditType" />
     <jb:value property="creditConversion" data="csv-record/MinCreditConversion" />
   </jb:bean>
 
-  <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap"
-    createOnElement="csv-record">
+  <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="credit" data="csv-record/MaxCredit" />
     <jb:value property="creditType" data="csv-record/MaxCreditType" />
     <jb:value property="creditConversion" data="csv-record/MaxCreditConversion" />

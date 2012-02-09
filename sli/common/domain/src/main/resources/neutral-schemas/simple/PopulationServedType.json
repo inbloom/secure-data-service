@@ -1,9 +1,0 @@
-
-{
-   "type":"PopulationServedType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Regular Students","Bilingual Students","Compensatory/Remedial Education Students","Gifted and Talented Students","Career and Technical Education Students","Special Education Students","ESL Students","Adult Basic Education Students","Honors Students","Migrant Students"]}
-}
