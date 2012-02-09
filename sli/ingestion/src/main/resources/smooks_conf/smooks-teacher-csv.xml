@@ -24,11 +24,10 @@
     HighestLevelOfEducationCompleted,
     YearsOfPriorProfessionalExperience,
     YearsOfPriorTeachingExperience,
-    Credentials_CredentialType,Credentials_CredentialField_ID,Credentials_CredentialField_CodeValue,Credentials_CredentialField_Description,Credentials_Level,Credentials_TeachingCredentialType,Credentials_CredentialIssuanceDate,Credentials_CredentialExpirationDate,Credentials_TeachingCredentialBasis,
+    Credentials_CredentialType,Credentials_CredentialField_CodeValue,Credentials_CredentialField_Description,Credentials_Level,Credentials_TeachingCredentialType,Credentials_CredentialIssuanceDate,Credentials_CredentialExpirationDate,Credentials_TeachingCredentialBasis,
     LoginId,
     TeacherUniqueStateId,
-    HighlyQualifiedTeacher,
-    $ignore$+">
+    HighlyQualifiedTeacher">
   </csv:reader>
 
   <!-- Start Teacher mapping -->
@@ -50,7 +49,7 @@
     <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
     <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" default="null" />
     <jb:value property="oldEthnicity" data="OldEthnicity" />
-    <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
+    <jb:value property="race" data="Race_RacialCategory" />
     <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
     <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience"
       decoder="Integer" default="null"/>
@@ -68,7 +67,7 @@
   <jb:bean beanId="staffIdentificationCodeType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="identificationSystem" data="StaffIdentificationCode_IdentificationSystem" />
     <jb:value property="assigningOrganizationCode" data="StaffIdentificationCode_AssigningOrganizationCode" />
-    <jb:value property="id" data="StaffIdentificationCode_ID" />
+    <jb:value property="ID" data="StaffIdentificationCode_ID" />
   </jb:bean>
   <jb:bean beanId="teacherNameType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="verification" data="Name_Verification" />
@@ -125,9 +124,6 @@
     <jb:value property="emailAddressType" data="ElectronicMail_EmailAddressType" />
     <jb:value property="emailAddress" data="ElectronicMail_EmailAddress" />
   </jb:bean>
-  <jb:bean beanId="teacherRaceItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-    <jb:value data="Race_RacialCategory" />
-  </jb:bean>
   <jb:bean beanId="teacherCredentialTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:wiring beanIdRef="teacherCredentialType" />
   </jb:bean>
@@ -141,7 +137,6 @@
     <jb:value property="teachingCredentialBasis" data="Credentials_TeachingCredentialBasis" />
   </jb:bean>
   <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="csv-record">
-    <jb:value property="id" data="Credentials_CredentialField_ID" />
     <jb:value property="codeValue" data="Credentials_CredentialField_CodeValue" />
     <jb:value property="description" data="Credentials_CredentialField_Description" />
   </jb:bean>

@@ -31,7 +31,7 @@ def localLogin (username, password)
   if @driver == nil 
     @driver = Selenium::WebDriver.for :firefox
   end
-  url = getBaseUrl + PropLoader.getProps['dashboard_landing_page']
+  url = getBaseUrl() + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
