@@ -37,6 +37,15 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 		     And the "AssessmentFamilyHierarchyName" is "SAT"
 		     And the "MaxRawScore" is "2400"
 		     And the "MinRawScore" is "600"
+		     And the "ObjectiveAssessment.IdentificationCode" = "SAT-Writing"
+		     And the "ObjectiveAssessment.PercentofAssessment" = "33%"
+		     And the "ObjectiveAssessment.MaxRawScore" = 600
+		     And the "ObjectiveAssessment.IdentificationCode" = "SAT-Math"
+		     And the "ObjectiveAssessment.PercentofAssessment" = "33%"
+		     And the "ObjectiveAssessment.MaxRawScore" = 600
+		     And the "ObjectiveAssessment.IdentificationCode" = "SAT-Critical Reading"
+		     And the "ObjectiveAssessment.PercentofAssessment" = "33%"
+		     And the "ObjectiveAssessment.MaxRawScore" = 600
 	  
 	 When I navigate to GET "/student-section-association/<'ImportantSection' ID>/targets"
 		Then I should receive a collection of 5 student links
@@ -48,19 +57,27 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 	         Then I get 1 student-assessment-association
 			    	 And the "AdministrationDate" is "2012/05/10"
 			     And the "GradeLevelWhenAssessed" is "Twelfth Grade"
-			     And the "ScaleScore" is "2060"
-			     And the "PercentileRank" is "92"
-			     # This might be a new field, maybe we can use ObjectiveAssessment.
-			     And the "AssessmentSections" has the 3 sections
-				     "AssessmentSection"= "Critical Reading"
-				     "ScaleScore" = "680"
-				     "PercentileRank" = "80"
-				     "AssessmentSection"= "Mathematics"
-				     "ScaleScore" = "780"
-				     "PercentileRank" = "92"
-				     "AssessmentSection"= "Writing"
-				     "ScaleScore" = "600"
-				     "PercentileRank" = "80"
+			     And the "ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
+			     And the "ScoreResults.Result" is "2060" 
+			     And the "ScoreResults.AssessmentReportingResultType" is "Percentile"	
+			     And the "ScoreResults.Result" is "92" 
+				And the "StudentObjectiveAssessment.ObjectiveAssessment" has the 3 entries
+				 And the "StudentObjectiveAssessment.ObjectiveAssessment.IdentificationCode = "SAT-Writing"
+				 And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
+			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "680"
+			     And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "PercentileScore"	
+			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "80"
+			     And the "StudentObjectiveAssessment.ObjectiveAssessment.IdentificationCode = "SAT-Math"
+				 And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
+			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "680"
+			     And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "PercentileScore"	
+			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "80"
+			     And the "StudentObjectiveAssessment.ObjectiveAssessment.IdentificationCode = "SAT-CriticalReading"
+				 And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
+			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "680"
+			     And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "PercentileScore"	
+			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "80"
+
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "educator"      | "educator1234"      | "Educator"         |

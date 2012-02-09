@@ -39,11 +39,11 @@ Scenario Outline:  As a leader I want to get the following attrubutes for all th
 		     And the "GradeLevelAssessed" is "Twelfth Grade"
 		     And the "LowestGradeLevelAssessed" is "Tenth Grade"
 		     And the "AssessmentPerformanceLevel" has the 5 levels
-				     "PerformanceLevel"= "1"
-				     "PerformanceLevel"= "2"
-				     "PerformanceLevel"= "3"
-				     "PerformanceLevel"= "4"
-				     "PerformanceLevel"= "5"
+				     "PerformanceLevel.Code"= "1"
+				     "PerformanceLevel.Code"= "2"
+				     "PerformanceLevel.Code"= "3"
+				     "PerformanceLevel.Code"= "4"
+				     "PerformanceLevel.Code"= "5"
 		     And I should recieve a link to "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'AP English' ID>"
 	  
 	  When I navigate to GET "/student-section-association/<'Each Section' ID>/targets"
@@ -55,7 +55,8 @@ Scenario Outline:  As a leader I want to get the following attrubutes for all th
 		     Then I get 1 student-assessment-association 
 			    	 And the "AdministrationDate" is "2012/01/10"
 			     And the "AdministrationEndDate" is "2012/01/15"
-			     And the "ScoreResult" is a random number between {1,5}
+			     And the "ScaleScore.AssessmentReportingResultType" = "ScaleScore"
+			     And the "ScaleScore.Result" is a random number between {1,5}
 			     
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
