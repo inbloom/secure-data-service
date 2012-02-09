@@ -22,8 +22,9 @@ import org.slc.sli.util.Constants;
 
 
 /**
- *
- * A mock API client
+ * 
+ * A mock API client. Reads json data from local files, instead of calling an API server.
+ * 
  */
 public class MockAPIClient implements APIClient {
 
@@ -50,41 +51,41 @@ public class MockAPIClient implements APIClient {
     
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
     }
 
     @Override
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
     }
 
     @Override
     public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
     }
 
     @Override
     public List<GenericEntity> getCustomData(String token, String key) {
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
     }
 
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentMetaData[].class);
+        return fromFile(getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), AssessmentMetaData[].class);
     }
 
     @Override
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         // TODO: student id logic isn't working yet. for now, pass in null.
-        return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), null);
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), null);
     }
 
     @Override
     public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
         
-        List<GenericEntity> allEdOrgs = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
-        List<GenericEntity> allAssociations = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_SCHOOL_ED_ORG_ASSOC_FILE), null);
+        List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
+        List<GenericEntity> allAssociations = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_SCHOOL_ED_ORG_ASSOC_FILE), null);
         // create a set of associated ed org ids, and then filter the ed or entities based on it.
         Set<String> associatedEdOrgIds = new HashSet<String>();
         for (int i = 0; i < allAssociations.size(); i++) {
@@ -104,8 +105,8 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity edOrg) {
-        List<GenericEntity> allEdOrgs = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
-        List<GenericEntity> allAssociations = this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_ASSOC_FILE), null);
+        List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
+        List<GenericEntity> allAssociations = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_ASSOC_FILE), null);
         // create a set of associated ed org ids, and then filter the ed or entities based on it.
         Set<String> parentEdOrgIds = new HashSet<String>();
         for (int i = 0; i < allAssociations.size(); i++) {
@@ -123,7 +124,11 @@ public class MockAPIClient implements APIClient {
         return filtered;
     }
 
-    // Helper function to translate a .json file into object.
+    /**
+     *  Helper function to translate a .json file into object.
+     *  TODO: remove this after assessment meta data is switched to use the generic entity
+     */
+    
     public static <T> T[] fromFile(String fileName, Class<T[]> c) {
 
         BufferedReader bin = null;
@@ -237,18 +242,6 @@ public class MockAPIClient implements APIClient {
         return entityList;
     }
 
-    
-    /**
-     * Gets the file path of a specified web resource.
-     * 
-     * @return filePath
-     *         possible object is {@link String }
-     * 
-     */
-    public String getResourceFilePath(String resourceName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
-        return url.getFile();
-    }
     
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);

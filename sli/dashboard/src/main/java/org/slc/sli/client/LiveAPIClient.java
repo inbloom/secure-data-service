@@ -293,6 +293,7 @@ public class LiveAPIClient implements APIClient {
 
     
     /**
+     * Creates a generic entity from a json string
      * 
      * @param json
      * @param type
