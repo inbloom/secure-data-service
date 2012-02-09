@@ -19,6 +19,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.domain.Entity;
 
 
@@ -145,7 +146,7 @@ public class AggregateResource {
 
         // create a final map of links to relevant links
         Map<String, Object> linksMap = new HashMap<String, Object>();
-        linksMap.put(ResourceUtil.LINKS, links);
+        linksMap.put(ResourceConstants.LINKS, links);
 
         // return as browser response
         return Response.ok(linksMap).build();
