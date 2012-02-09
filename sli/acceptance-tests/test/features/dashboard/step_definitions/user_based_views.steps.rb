@@ -54,7 +54,7 @@ end
 
 When /^I select view "([^"]*)"$/ do |view|
   select_by_id(view, "viewSelector")
-  sleep(3)
+  sleep(5)
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
