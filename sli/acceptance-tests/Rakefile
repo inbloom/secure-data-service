@@ -82,6 +82,8 @@ task :default => :production
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit do
   setFixture("realm", "realm_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("staff", "staff_fixture.json")
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
@@ -187,7 +189,8 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, 
+                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
   displayFailureReport()
 end
 
