@@ -13,16 +13,16 @@ import org.apache.commons.lang3.StringEscapeUtils;
  *
  */
 public class NeutralSchemaXMLStringWriter implements NeutralSchemaStringWriter {
-
-
+    
+    
     private NeutralSchema schema;
     private boolean enableHiearchy;
-
+    
     public NeutralSchemaXMLStringWriter(boolean enableHiearchy) {
         this.enableHiearchy = enableHiearchy;
     }
-
-
+    
+    
     /*
      * (non-Javadoc)
      *
@@ -35,44 +35,44 @@ public class NeutralSchemaXMLStringWriter implements NeutralSchemaStringWriter {
         this.schema = schema;
         return toXml(enableHiearchy);
     }
-
+    
     /**
      * @return XML representation of this SLI schema
      */
     public String toXml(boolean enableHierarchy) {
         StringBuffer buffer = new StringBuffer();
-
+        
         if (schema.isPrimitive()) {
             buffer.append("<primitive>" + escape(schema.getType()) + "</primitive>" + "\n");
         } else {
             buffer.append(getXmlHeader());
-
+            
             if (!schema.isPrimitive()) {
                 buffer.append(getXmlFields("fields", schema.getFields(), enableHierarchy));
                 buffer.append(getXmlProperties("properties", schema.getProperties()));
             }
-
+            
             buffer.append(getXmlFooter());
         }
-
+        
         return buffer.toString();
     }
-
+    
     private String getXmlHeader() {
         StringBuffer buffer = new StringBuffer();
-
+        
         buffer.append("\n");
         buffer.append("<" + escape(schema.getType()) + " version=\"" + escape(schema.getVersion())
                 + "\" validatorClass=\"" + escape(schema.getValidatorClass()) + "\">" + "\n");
-
+        
         return buffer.toString();
     }
-
+    
     private String getXmlFields(String label, Map<String, NeutralSchema> fields, boolean enableHierarchy) {
         StringBuffer buffer = new StringBuffer();
-
+        
         buffer.append("<fields>" + "\n");
-
+        
         for (String name : schema.getFields().keySet()) {
             Object object = schema.getFields().get(name);
             String fieldName = name;
@@ -82,10 +82,10 @@ public class NeutralSchemaXMLStringWriter implements NeutralSchemaStringWriter {
             if (object instanceof NeutralSchema) {
                 buffer.append("<" + escape(fieldName) + ">" + "\n");
                 if (object instanceof ListSchema) {
-
+                    
                     // Generate readable List element name
                     String listElementName = ((ListSchema) object).getType();
-
+                    
                     List<NeutralSchema> schemaList = ((ListSchema) object).getList();
                     buffer.append("<" + escape(listElementName) + ">" + "\n");
                     for (NeutralSchema listItemSchema : schemaList) {
@@ -107,53 +107,54 @@ public class NeutralSchemaXMLStringWriter implements NeutralSchemaStringWriter {
                 buffer.append("</" + escape(fieldName) + ">" + "\n");
             }
         }
-
+        
         buffer.append("</fields>" + "\n");
-
+        
         return buffer.toString();
     }
-
+    
     private String getXmlProperties(String label, Map<String, Object> properties) {
         StringBuffer buffer = new StringBuffer();
-
+        
         buffer.append("<properties>" + "\n");
-
+        
         for (String name : schema.getProperties().keySet()) {
             Object object = schema.getProperties().get(name);
-
-            String description = "";
+            
+            StringBuffer description = new StringBuffer();
             if (object instanceof List) {
                 List<?> list = (List<?>) object;
-                description = "[";
+                description.append("[");
                 String separator = "";
                 for (Object listItem : list) {
-                    description += separator + " '" + listItem.toString() + "'";
+                    description.append(separator + " '" + listItem.toString() + "'");
                     separator = ",";
                 }
-                description += "]";
+                description.append("]");
             } else if (object instanceof String) {
-                description = object.toString();
+                description.append(object.toString());
             }
-
-            buffer.append("<property name=\"" + escape(name) + "\" value=\"" + escape(description) + "\"/>" + "\n");
+            
+            buffer.append("<property name=\"" + escape(name) + "\" value=\"" + escape(description.toString()) + "\"/>"
+                    + "\n");
         }
-
+        
         buffer.append("</properties>" + "\n");
-
+        
         return buffer.toString();
     }
-
+    
     private String getXmlFooter() {
         StringBuffer buffer = new StringBuffer();
-
+        
         buffer.append("\n");
         buffer.append("</" + escape(schema.getType()) + ">" + "\n");
-
+        
         return buffer.toString();
     }
-
+    
     private String escape(String input) {
         return StringEscapeUtils.escapeXml(input);
     }
-
+    
 }
