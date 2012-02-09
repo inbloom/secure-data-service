@@ -88,7 +88,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         Iterable<Entity> found = entityRepository.findByPaths(collectionName, filterFields);
         if (found != null && found.iterator().hasNext()) {  // Entity exists in data store.
             // Update entity in data store.
-            NeutralRecordEntity foundNeutral = (NeutralRecordEntity) found.iterator().next();
+            Entity foundNeutral = found.iterator().next();
             entity.setEntityId(foundNeutral.getEntityId());
 
             if (!entityRepository.update(collectionName, entity)) {
