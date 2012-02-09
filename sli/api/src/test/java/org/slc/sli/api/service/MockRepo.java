@@ -385,4 +385,10 @@ public class MockRepo implements EntityRepository {
         return null;
     }
 
+    @Override
+    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
+     // Not implemented
+        return null;
+    }
+
 }
