@@ -102,11 +102,12 @@ end
 
 Then /^I should see "([^"]*)" entries in the corresponding collection$/ do |record_count|
   @conn = Mongo::Connection.new(INGESTION_DB)
+  @database_name='sli'
   @db   = @conn[@database_name]
   @entity_collection = @db.collection(@entity_type)
   @entity_count = @entity_collection.count().to_i
 
-  puts "There are " + @entity_count.to_s + " in " + @entity_type.to_s + " collection"
+  puts "There are " + @entity_count.to_s + " in " + @entity_type.to_s + " collection in db " + @database_name
 
   assert((record_count).eql?(@entity_count.to_s), "Record count doesn't match")
 end
