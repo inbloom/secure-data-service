@@ -1,6 +1,9 @@
 package org.slc.sli.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.google.gson.Gson;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.InstitutionalHeirarchyManager;
 import org.slc.sli.util.SecurityUtil;
 
@@ -40,13 +44,18 @@ public class StudentListController extends DashboardController {
 
         UserDetails user = getPrincipal();
 
-        model.addAttribute(INST_HEIRARCHY, institutionalHeirarchyManager.getInstHeirarchyJSON(SecurityUtil.getToken()));
+        model.addAttribute(INST_HEIRARCHY, convertToJson(institutionalHeirarchyManager.getInstHeirarchy(SecurityUtil.getToken())));
         model.addAttribute(USER_NAME, user.getUsername());
 
         return new ModelAndView("studentList");
     }
 
-
+    
+    private String convertToJson(List<GenericEntity> list) {
+        
+        Gson gson = new Gson();
+        return gson.toJson(list);
+    }
 
     private UserDetails getPrincipal() {
         return SecurityUtil.getPrincipal();

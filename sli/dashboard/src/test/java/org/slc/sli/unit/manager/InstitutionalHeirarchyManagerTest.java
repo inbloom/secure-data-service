@@ -2,18 +2,18 @@ package org.slc.sli.unit.manager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.powermock.api.mockito.PowerMockito.when;
+
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.InstitutionalHeirarchyManager;
-
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Unit tests for the InstitutionalHeirarchyManager class.
@@ -36,31 +36,30 @@ public class InstitutionalHeirarchyManagerTest {
         when(mockClient.getFilename("mock_data/cgray/educational_organization_association.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization_association.json");
         when(mockClient.getFilename("mock_data/cgray/educational_organization.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization.json");
         iManager.setApiClient(mockClient);
-        String json = iManager.getInstHeirarchyJSON("cgray");
+        List<GenericEntity> instArray = iManager.getInstHeirarchy("cgray");
 
-        JSONArray instArray = new JSONArray(json);
-        assertEquals(3, instArray.length());
+        assertEquals(3, instArray.size());
 
         // Check that there is one school in Sunset, one school in Daybreak, and two schools in IL
-        JSONObject sunsetJSON = null;
-        JSONObject daybreakJSON = null;
-        JSONObject ilJSON = null;
-        for (int i = 0; i < instArray.length(); i++) {
-            JSONObject obj = instArray.getJSONObject(i);
-            if ("Sunset School District 4526".equals(obj.getString("name"))) {
-                sunsetJSON = obj;
-            } else if ("Daybreak School District 4529".equals(obj.getString("name"))) {
-                daybreakJSON = obj;
-            } else if ("Illinois State Board of Education".equals(obj.getString("name"))) {
-                ilJSON = obj;
+        GenericEntity sunset = null;
+        GenericEntity daybreak = null;
+        GenericEntity il = null;
+        for (int i = 0; i < instArray.size(); i++) {
+            GenericEntity obj = instArray.get(i);
+            if ("Sunset School District 4526".equals(obj.get("name"))) {
+                sunset = obj;
+            } else if ("Daybreak School District 4529".equals(obj.get("name"))) {
+                daybreak = obj;
+            } else if ("Illinois State Board of Education".equals(obj.get("name"))) {
+                il = obj;
             }
         }
-        assertNotNull(sunsetJSON);
-        assertNotNull(daybreakJSON);
-        assertNotNull(ilJSON);
-        assertEquals(1, sunsetJSON.getJSONArray("schools").length());
-        assertEquals(1, daybreakJSON.getJSONArray("schools").length());
-        assertEquals(2, ilJSON.getJSONArray("schools").length());
+        assertNotNull(sunset);
+        assertNotNull(daybreak);
+        assertNotNull(il);
+        assertEquals(1, ((Set) (sunset.get("schools"))).size());
+        assertEquals(1, ((Set) (daybreak.get("schools"))).size());
+        assertEquals(2, ((Set) (il.get("schools"))).size());
     }
 
 }

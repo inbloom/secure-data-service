@@ -1,17 +1,12 @@
 package org.slc.sli.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
@@ -39,19 +34,18 @@ public class InstitutionalHeirarchyManager extends Manager {
     }
 
     /**
-     * Returns the institutional heirarchy visible to the user with the given auth token as a JSON string,
+     * Returns the institutional heirarchy visible to the user with the given auth token as a list of generic entities,
      * with the ed-org level flattened
      * This assumes there are no cycles in the education organization heirarchy tree.
      * @return
      */
-    public String getInstHeirarchyJSON(String token) {
-        // Okay, this function should arguably be placed in a view package, but if the school JSONs
-        // are already being constructed in the *API Client* level (WTF was that about anyway?!?),
-        // constructing inst heirarchy as JSON here isn't making things worse than they already are.
+    public List<GenericEntity> getInstHeirarchy(String token) {
 
         // Find all the schools first.
         List<GenericEntity> schools = getSchools(token);
-        if (schools == null) { return new JSONArray().toString(); }
+        if (schools == null) { 
+            return new ArrayList<GenericEntity>();
+        }
 
         // This maps ids from educational organisations to schools reachable from it via the "child" relationship
         Map<String, HashSet<GenericEntity>> schoolReachableFromEdOrg = new HashMap<String, HashSet<GenericEntity>>();
@@ -76,19 +70,18 @@ public class InstitutionalHeirarchyManager extends Manager {
         }
 
         // write out the result
-        JSONArray retVal = new JSONArray();
+        List<GenericEntity> retVal = new ArrayList<GenericEntity>();
+        
         for (String edOrgId : schoolReachableFromEdOrg.keySet()) {
-            JSONObject obj = new JSONObject();
+            GenericEntity obj = new GenericEntity();
             try {
                 obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
-                // convert school ids to the school object array, to be converted into JSON
+                // convert school ids to the school object array
                 Set<GenericEntity> reachableSchools = schoolReachableFromEdOrg.get(edOrgId);
                 GenericEntity[] reachableSchoolsArr = new GenericEntity [reachableSchools.size()];
-                Gson gson = new Gson();
-                String schoolJSONString = gson.toJson(reachableSchools.toArray(reachableSchoolsArr));
-                obj.put(Constants.ATTR_SCHOOLS, new JSONArray(schoolJSONString));
-                retVal.put(obj);
-            } catch (JSONException e) {
+                obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
+                retVal.add(obj);
+            } catch (Exception e) {
                 throw new RuntimeException("error creating json object for " + edOrgId);
             }
         }
@@ -108,19 +101,18 @@ public class InstitutionalHeirarchyManager extends Manager {
         }
         if (orphanSchools.size() > 0) {
             try {
-                JSONObject obj = new JSONObject();
+                GenericEntity obj = new GenericEntity();
                 obj.put(Constants.ATTR_NAME, DUMMY_EDORG_NAME);
                 GenericEntity [] orphanSchoolsArr = new GenericEntity[orphanSchools.size()];
-                Gson gson = new Gson();
-                String schoolJSONString = gson.toJson(orphanSchools.toArray(orphanSchoolsArr));
-                obj.put(Constants.ATTR_SCHOOLS, new JSONArray(schoolJSONString));
-                retVal.put(obj);
-            } catch (JSONException e) {
+                obj.put(Constants.ATTR_SCHOOLS, orphanSchools);
+                retVal.add(obj);
+            } catch (Exception e) {
                 throw new RuntimeException("error creating json object for dummy edOrg");
             }
         }
-        return retVal.toString();
+        return retVal;
     }
+    
     // helper function:
     // This assumes there is no cycle in the education organization heirarchy tree.
     private void insertEdOrgAndAncesterIntoSet(String token, Map<String, GenericEntity> map, GenericEntity edOrg) {
