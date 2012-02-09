@@ -68,11 +68,11 @@ public class Translator {
      * @param neutralRecord
      * @return
      */
-    public static Entity mapToEntity(NeutralRecord neutralRecord, int recordNumberInFile) {
+    public static NeutralRecordEntity mapToEntity(NeutralRecord neutralRecord, int recordNumberInFile) {
         return new NeutralRecordEntity(neutralRecord, recordNumberInFile);
     }
 
-    public static Entity mapToEntity(NeutralRecord neutralRecord) {
+    public static NeutralRecordEntity mapToEntity(NeutralRecord neutralRecord) {
         return new NeutralRecordEntity(neutralRecord);
     }
 
@@ -110,7 +110,7 @@ public class Translator {
         Object instance = null;
 
         // Extract Ingestion metadata (operation, object class, etc.)
-        String objectClassName = (String) neutralRecord.getRecordType();
+        String objectClassName = neutralRecord.getRecordType();
 
         if (!objectClassName.contains(".")) {
             objectClassName = SLI_DOMAIN_PACKAGE + "." + objectClassName;

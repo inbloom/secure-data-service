@@ -30,6 +30,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
@@ -68,6 +69,9 @@ public class BasicService implements EntityService {
     
     @Autowired
     private IdConverter idConverter;
+    
+    @Autowired
+    private QueryConverter queryConverter;
     
     public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
@@ -149,7 +153,7 @@ public class BasicService implements EntityService {
         // Compute intersection of requested and allowed and encode
         Set<Object> binIds = new HashSet<Object>();
         for (String id : ids) {
-            if (allowed.contains(ids)) {
+            if (allowed.contains(id)) {
                 binIds.add(idConverter.toDatabaseId(id));
             }
         }
@@ -171,9 +175,14 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<String> list(int start, int numResults) {
+        return list(start, numResults, null);
+    }
+    
+    @Override
+    public Iterable<String> list(int start, int numResults, String queryString) {
         checkRights(Right.READ_GENERAL);
         
-        Query query = new Query();
+        Query query = queryConverter.stringToQuery(defn.getType(), queryString);
         
         List<String> allowed = findAccessible();
         
@@ -188,10 +197,33 @@ public class BasicService implements EntityService {
         
         List<String> results = new ArrayList<String>();
         
+        // start 403 debug
+        int entCount = 0;
+        // end 403 debug
+        
         Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+        
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
+            entCount++;
         }
+        
+        // start 403 debug
+        if (collectionName.equals("roles") && entCount == 0) {
+            LOG.info("No roles found!");
+            // wait and try again
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            
+            entities = repo.findByQuery(collectionName, query, start, numResults);
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+        }
+        // end 403 debug
         
         return results;
     }
@@ -314,6 +346,7 @@ public class BasicService implements EntityService {
             // --- remove after intermittent 403 errors are resolved ---
             LOG.debug("authorities: " + auth.getAuthorities().toString());
             LOG.debug("needed right: " + neededRight);
+            LOG.debug("Stored Auth Hash: " + Integer.toHexString(SecurityContextHolder.getContext().hashCode()));
             // --- remove after intermittent 403 errors are resolved ---
             
             throw new AccessDeniedException("Insufficient Privileges");

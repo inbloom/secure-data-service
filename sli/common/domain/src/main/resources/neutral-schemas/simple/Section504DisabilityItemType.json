@@ -1,9 +1,0 @@
-
-{
-   "type":"Section504DisabilityItemType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Attention Deficit Hyperactivity Disorder (ADHD)","Medical Condition","Motor Impairment","Sensory Impairment","Other"]}
-}

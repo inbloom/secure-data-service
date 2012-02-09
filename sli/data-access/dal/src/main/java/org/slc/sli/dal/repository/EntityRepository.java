@@ -2,8 +2,9 @@ package org.slc.sli.dal.repository;
 
 import java.util.Map;
 
-import org.slc.sli.domain.Entity;
 import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Define the entity repository interface that provides basic CRUD and field
@@ -73,6 +74,19 @@ public interface EntityRepository {
     public Entity create(String type, Map<String, Object> body, String collectionName);
 
     /**
+     * @param type
+     *            the type of entity to be persisted
+     * @param body
+     *            the entity body that will be persisted
+     * @param metaData
+     *            the entity meta data that will be persisted
+     * @param collectionName
+     *            the name of the collection to save it into
+     * @return the entity that has been persisted
+     */
+    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
+
+    /**
      * @param collectionName
      *            the name of the collection to delete from
      * @param id
@@ -103,12 +117,38 @@ public interface EntityRepository {
     /**
      * @param collectionName
      *            the name of the collection to look in
+     * @param paths
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("body.firstName","Jane"),
+     *            or new HashMap().put("metadata.regionId","Region")
+     * @param skip
+     *            the beginning index of the entity that will be returned
+     * @param max
+     *            the max number of entities that will be returned
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
      * @param fields
      *            a map with key value pairs as string that define the search
      *            criteria for example: new HashMap().put("firstName","Jane")
      * @return the collection of entities
      */
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param paths
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("body.firstName","Jane"),
+     *            or new HashMap().put("metadata.regionId","Region")
+     * @return the collection of entities
+     */
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths);
 
     /**
      * @param collectionName

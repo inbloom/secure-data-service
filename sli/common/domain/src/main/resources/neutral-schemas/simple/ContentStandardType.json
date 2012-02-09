@@ -1,9 +1,0 @@
-
-{
-   "type":"ContentStandardType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["National Standard","State Standard","College Entrance Standard","LEA Standard","Texas Essential Knowledge and Skills","SAT","PSAT","ACT","Advanced Placement","International Baccalaureate"]}
-}

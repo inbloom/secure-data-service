@@ -16,10 +16,8 @@ When /^I navigate to the Dashboard home page$/ do
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  # TODO
-  # Change to actual realm page url when it is integrated
-  @realmPageUrl = getBaseUrl() + PropLoader.getProps['dashboard_login_page']
-  assert(@driver.current_url == @realmPageUrl, "Failed to navigate to "+@realmPageUrl)
+  assert(@driver.current_url.start_with?(PropLoader.getProps['realm_page_url']))
+
 end
 
 #TODO this should support both live and test mode

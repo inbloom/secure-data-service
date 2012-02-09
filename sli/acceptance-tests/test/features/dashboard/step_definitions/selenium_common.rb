@@ -1,3 +1,5 @@
+require 'selenium-webdriver'
+
 Given /^I have an open web browser$/ do
   puts "open web browser"
   @driver = Selenium::WebDriver.for :firefox
@@ -29,7 +31,7 @@ def localLogin (username, password)
   if @driver == nil 
     @driver = Selenium::WebDriver.for :firefox
   end
-  url = getBaseUrl + PropLoader.getProps['dashboard_landing_page']
+  url = getBaseUrl() + PropLoader.getProps['dashboard_landing_page']
   puts "url = " + url
   # Go to login url and verify status of the page/server is up
   @driver.get url
@@ -126,6 +128,35 @@ def listContains(desiredContent)
       # puts "student.attribute('innerHTML').to_s.include?(searchValue) = " + student.attribute("innerHTML").to_s.include?(searchValue).to_s
       
       if student.attribute("innerHTML").to_s.lstrip.rstrip.include?(searchValue)
+        nonFoundItems -= 1
+        puts "Found desired item '" + searchValue + "', " + nonFoundItems.to_s + " more items to find"
+        # Stop searching for this searchValue and move to the next one
+        break
+      end
+    end
+  end
+  return nonFoundItems == 0
+end
+
+def tableHeaderContains(desiredContent)
+  result = false
+
+  desiredContentArray = desiredContent.split(";")
+  # Find all student names based on their class attribute
+  headerNames = @driver.find_elements(:tag_name, "th")
+  puts "num of studs = "+ headerNames.length.to_s
+  
+  nonFoundItems = desiredContentArray.length
+  
+  
+  desiredContentArray.each do |searchValue|
+    
+    puts "in 1st loop, searchValue = " + searchValue
+    headerNames.each do |header|
+      # puts "in 2st loop, student.attribute('innerHTML').to_s = " + student.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
+      # puts "student.attribute('innerHTML').to_s.include?(searchValue) = " + student.attribute("innerHTML").to_s.include?(searchValue).to_s
+      
+      if header.attribute("innerHTML").to_s.lstrip.rstrip.include?(searchValue)
         nonFoundItems -= 1
         puts "Found desired item '" + searchValue + "', " + nonFoundItems.to_s + " more items to find"
         # Stop searching for this searchValue and move to the next one

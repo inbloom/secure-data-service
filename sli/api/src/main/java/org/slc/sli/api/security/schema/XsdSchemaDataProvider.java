@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.enums.Right;
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
@@ -18,74 +19,70 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Extracts required data from the XsdSchema
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 @Component
 public class XsdSchemaDataProvider implements SchemaDataProvider {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(XsdSchemaDataProvider.class);
-
+    
     @Autowired
     private SchemaRepository    repo;
-
+    
     /**
      * Bogus Schema used as fallback in case field path search turns up nothing
      */
     private NeutralSchema       defaultSchema;
-
+    
     @PostConstruct
     public void init() {
         defaultSchema = new NeutralSchema("") {
-
+            
             @Override
             public AppInfo getAppInfo() {
                 return new AppInfo(null) {
-
+                    
                     @Override
                     public Right getReadAuthority() {
                         return Right.READ_GENERAL;
                     }
-
+                    
                     @Override
                     public Right getWriteAuthority() {
                         return Right.WRITE_GENERAL;
                     }
-
+                    
                 };
             }
-
+            
             @Override
             public NeutralSchemaType getSchemaType() {
                 throw new UnsupportedOperationException("This instance is for accessing security rights only");
             }
-
+            
             @Override
-            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
+            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo) {
                 throw new UnsupportedOperationException("This instance is for accessing security rights only");
             }
         };
     }
-
+    
     @Override
     public String getDataSphere(String entityType) {
         String sphere = "CEM";
         if (repo.getSchema(entityType) != null && repo.getSchema(entityType).getAppInfo() != null) {
             sphere = repo.getSchema(entityType).getAppInfo().getSecuritySphere();
         }
-
-        if (entityType.equals("realm") || entityType.equals("roles")) { // FIXME
-            sphere = "Admin";
-        }
-
+        
         return sphere;
     }
-
+    
     @Override
     public Right getRequiredReadLevel(String entityType, String fieldPath) {
         Right auth = Right.READ_GENERAL;
-
+        
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
@@ -95,7 +92,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         }
         return auth;
     }
-
+    
     @Override
     public Right getRequiredWriteLevel(String entityType, String fieldPath) {
         Right auth = Right.WRITE_GENERAL;
@@ -108,16 +105,16 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         }
         return auth;
     }
-
+    
     private NeutralSchema traverse(String entityType, String fieldPath) {
         NeutralSchema schema = repo.getSchema(entityType);
-
+        
         if (schema != null) {
             String[] chunks = fieldPath.split("\\.");
-
+            
             for (String chunk : chunks) {
                 schema = schema.getFields().get(chunk);
-
+                
                 if (schema == null) {
                     LOG.warn("Reached end of the line for type {} and path {}", entityType, fieldPath);
                     schema = defaultSchema;
@@ -127,7 +124,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         } else {
             schema = defaultSchema;
         }
-
+        
         return schema;
     }
 }

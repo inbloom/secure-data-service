@@ -1,25 +1,21 @@
 include ActiveSupport::Rescuable
+
 class RealmsController < ApplicationController
 
+  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ActiveResource::ResourceNotFound, :with => :render_404
 
   # GET /realms
   # GET /realms.json
   def index
-    @realms = Realm.all
-
     #figure out the realm this user has access to
     userRealm = get_user_realm
-    @realms.each do |realm|
-      if realm.respond_to?(:realm)
-        if realm.realm == userRealm
-          redirect_to realm
-          return
-        end
-      end
+    realmToRedirectTo =  Realm.find(:first, :params => {'realm' => userRealm})
+    if realmToRedirectTo != nil
+      redirect_to realmToRedirectTo
+      return
     end
-    
-    render_404 
+    render_404
   end
 
   # # GET /realms/1
@@ -44,14 +40,15 @@ class RealmsController < ApplicationController
 
      @realm.mappings = params[:mappings];
      respond_to do |format|
-	success = false
-	errorMsg = ""
+       success = false
+       errorMsg = ""
 
-	begin
-        success =  @realm.save()
-	rescue ActiveResource::BadRequest => error
-	errorMsg = error.response.body
-	end
+       begin
+         success =  @realm.save()
+       rescue ActiveResource::BadRequest => error
+         errorMsg = error.response.body
+       end
+
        if success && params[:mappings] != nil
          format.json { render json: @realm }
        else
@@ -61,12 +58,14 @@ class RealmsController < ApplicationController
      end
    end
 
+private
+
   # Uses the /role api to get the list of roles
   def get_roles()
     roles = Role.all
     toReturn = []
     roles.each do |role|
-      toReturn.push role.name
+      toReturn.push role.name unless role.name == "SLI Administrator"
     end
     toReturn
   end
@@ -78,12 +77,4 @@ class RealmsController < ApplicationController
     return Check.new(SessionResource.auth_id).realm
   end
 
-  def render_404
-   respond_to do |format|
-     format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
-     #format.json { :status => :not_found}
-     format.any  { head :not_found }
-   end
-  end
 end
-

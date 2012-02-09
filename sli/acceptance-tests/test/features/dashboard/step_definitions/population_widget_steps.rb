@@ -89,6 +89,13 @@ When /^I select section "([^"]*)"$/ do |optionToSelect|
   selectOption(@dropDownId, optionToSelect)
 end
 
+When /^I select user view "([^"]*)"$/ do |optionToSelect|
+  @dropDownId = "viewSelector"
+  puts "@dropDownId = " + @dropDownId
+  selectOption(@dropDownId, optionToSelect)
+end
+
+
 Then /^the list includes: "([^"]*)"$/ do |desiredContent|
   assert(listContains(desiredContent), "List does not contain desired values: '" + desiredContent + "'")
 end

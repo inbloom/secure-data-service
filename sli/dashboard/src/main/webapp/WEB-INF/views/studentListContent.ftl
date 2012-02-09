@@ -9,11 +9,12 @@
 
 <span id="viewSelectorSpan">
     <#if viewConfigs??>
-      <select id="viewSelector" onChange="changeView(this.value)">
-        <#list viewConfigs as view>
-            <option value=${view_index}>"${view.getName()}"</option>
-        </#list>
-      </select>
+      <#assign listSize = viewConfigs?size>  
+        <select id="viewSelector" onChange="changeView(this.value)">
+          <#list viewConfigs as view>
+            <option value=${view_index}>${view.getName()}</option>
+          </#list>
+        </select>
     </#if>
 </span>
 
@@ -80,6 +81,8 @@
 
 </#list>
 
+<#else>
+  There are no applicable views for your students.
 </#if>
 
 </table>

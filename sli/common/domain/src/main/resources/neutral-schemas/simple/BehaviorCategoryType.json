@@ -1,9 +1,0 @@
-
-{
-   "type":"BehaviorCategoryType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["State Law Crime","State Offense","School Violation","School Code of Conduct"]}
-}

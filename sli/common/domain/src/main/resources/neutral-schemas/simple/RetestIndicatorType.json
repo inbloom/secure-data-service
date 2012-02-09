@@ -1,9 +1,0 @@
-
-{
-   "type":"RetestIndicatorType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Primary Administration","1st Retest","2nd Retest"]}
-}

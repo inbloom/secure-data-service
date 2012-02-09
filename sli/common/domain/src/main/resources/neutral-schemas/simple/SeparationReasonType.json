@@ -1,9 +1,0 @@
-
-{
-   "type":"SeparationReasonType",
-   "validatorClass":"org.slc.sli.validation.TokenSchema",
-   "version":"1.0",
-   "fields":{},
-   "properties":{
-      "tokens":["Employment in education","Employment outside of education","Retirement","Family/personal relocation","Change of assignment","Formal study or research","Illness/disability","Homemaking/caring for a family member","Layoff due to budgetary reduction","Layoff due to organizational restructuring","Layoff due to decreased workload","Discharge due to unsuitability","Discharge due to misconduct","Discharge due to continued absence or tardiness","Discharge due to a falsified application form","Discharge due to credential revoked or suspended","Discharge due to unsatisfactory work performance","Death","Personal reason","Lay off due to lack of funding","Lost credential","Unknown","Other"]}
-}

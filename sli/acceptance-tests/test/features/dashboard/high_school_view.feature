@@ -15,9 +15,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
+And I wait for "2" seconds
+And I select user view "IL_9-12"
 And I wait for "4" seconds
-Then the table includes header "ACT"
-And the table includes header "SAT"
-And the table includes header "PSAT/NMSQT"
-And the table includes header "Reading Test Scores (Highest)"
-And the table includes header "Writing Test Scores (Highest)"
+Then the table includes header "ACT;SAT;PSAT/NMSQT;Reading Test Scores (Highest);Writing Test Scores (Highest)"

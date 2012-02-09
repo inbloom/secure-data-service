@@ -3,11 +3,20 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.io.IOException;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.core.FileAppender;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
@@ -18,14 +27,6 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 import org.slc.sli.util.performance.Profiled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.PatternLayout;
-import ch.qos.logback.core.FileAppender;
 
 /**
  * Ingestion Persistence Processor.
@@ -149,7 +150,7 @@ public class PersistenceProcessor implements Processor {
                 LOG.debug("processing " + neutralRecord);
 
                 // map NeutralRecord to Entity
-                Entity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
+                NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
                 entityPersistHandler.handle(neutralRecordEntity, recordLevelErrorsInFile);
 
@@ -174,7 +175,7 @@ public class PersistenceProcessor implements Processor {
 
     private ch.qos.logback.classic.Logger createErrorLoggerForFile(String fileName) throws IOException {
 
-        final String loggerName = "error." + fileName;
+        final String loggerName = "error." + fileName + "." + System.currentTimeMillis() + ".log";
 
         File logFile = lz.createFile(loggerName);
 
