@@ -52,6 +52,9 @@ public class TeacherEntityTest {
                 + "<StaffIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
                 + "    <ID>111111111</ID>"
                 + "</StaffIdentificationCode>"
+                + "<StaffIdentificationCode IdentificationSystem=\"District2\" AssigningOrganizationCode=\"OrgCode2\">"
+                + "    <ID>1111111112</ID>"
+                + "</StaffIdentificationCode>"
                 + "<Name Verification=\"verificationString\">"
                 + "    <PersonalTitlePrefix>Dr.</PersonalTitlePrefix>"
                 + "    <FirstName>Teacher</FirstName>"
@@ -66,6 +69,13 @@ public class TeacherEntityTest {
                 + "    <MiddleName>guy</MiddleName>"
                 + "    <LastSurname>alias</LastSurname>"
                 + "    <GenerationCodeSuffix>Jr.</GenerationCodeSuffix>"
+                + "</OtherName>"
+                + "<OtherName OtherNameType=\"other name type2\">"
+                + "    <PersonalTitlePrefix>Mr.2</PersonalTitlePrefix>"
+                + "    <FirstName>shady2</FirstName>"
+                + "    <MiddleName>guy2</MiddleName>"
+                + "    <LastSurname>alias2</LastSurname>"
+                + "    <GenerationCodeSuffix>Jr.2</GenerationCodeSuffix>"
                 + "</OtherName>"
                 + "<Sex>Male</Sex>"
                 + "<BirthDate>01-01-1971</BirthDate>"
@@ -135,6 +145,14 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "identificationSystem", "District");
         EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "id", "111111111");
         EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "assigningOrganizationCode", "OrgCode");
+        if (staffIdentificationCodeList.size() > 1) {
+            // TODO: remove when we support csv lists
+            Map staffIdentificationCodeMap2 = (Map) staffIdentificationCodeList.get(1);
+            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "identificationSystem", "District2");
+            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "id", "1111111112");
+            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "assigningOrganizationCode",
+                    "OrgCode2");
+        }
 
         Map nameMap = (Map) teacherNeutralRecord.getAttributes().get("name");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "verification", "verificationString");
@@ -153,6 +171,17 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(otherNameMap, "middleName", "guy");
         EntityTestUtils.assertObjectInMapEquals(otherNameMap, "lastSurname", "alias");
         EntityTestUtils.assertObjectInMapEquals(otherNameMap, "generationCodeSuffix", "Jr.");
+        if (otherNameList.size() > 1) {
+            // TODO: remove if block when we support CSV lists
+            Map otherNameMap2 = (Map) otherNameList.get(1);
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "otherNameType", "other name type2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "personalTitlePrefix", "Mr.2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "firstName", "shady2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "middleName", "guy2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "lastSurname", "alias2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "generationCodeSuffix", "Jr.2");
+
+        }
 
         assertEquals("Male", teacherNeutralRecord.getAttributes().get("sex"));
         assertEquals("01-01-1971", teacherNeutralRecord.getAttributes().get("birthDate"));

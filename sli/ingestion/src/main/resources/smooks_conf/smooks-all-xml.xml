@@ -647,11 +647,12 @@
   <jb:bean beanId="staffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="staffIdentificationCodeType" />
   </jb:bean>
-  <jb:bean beanId="staffIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+  <jb:bean beanId="staffIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/StaffIdentificationCode">
     <jb:value property="identificationSystem" data="StaffIdentificationCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode" data="StaffIdentificationCode/@AssigningOrganizationCode" />
     <jb:value property="id" data="StaffIdentificationCode/ID" />
   </jb:bean>
+
   <jb:bean beanId="teacherNameType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:value property="verification" data="Name/@Verification" />
     <jb:value property="personalTitlePrefix" data="Name/PersonalTitlePrefix" />
@@ -661,10 +662,11 @@
     <jb:value property="generationCodeSuffix" data="Name/GenerationCodeSuffix" />
     <jb:value property="maidenName" data="Name/MaidenName" />
   </jb:bean>
+
   <jb:bean beanId="teacherOtherNameTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherOtherNameType" />
   </jb:bean>
-  <jb:bean beanId="teacherOtherNameType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+  <jb:bean beanId="teacherOtherNameType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/OtherName">
     <jb:value property="otherNameType" data="OtherName/@OtherNameType" />
     <jb:value property="personalTitlePrefix" data="OtherName/PersonalTitlePrefix" />
     <jb:value property="firstName" data="OtherName/FirstName" />
@@ -672,10 +674,11 @@
     <jb:value property="lastSurname" data="OtherName/LastSurname" />
     <jb:value property="generationCodeSuffix" data="OtherName/GenerationCodeSuffix" />
   </jb:bean>
+
   <jb:bean beanId="teacherAddressTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherAddressType" />
   </jb:bean>
-  <jb:bean beanId="teacherAddressType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+  <jb:bean beanId="teacherAddressType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Address">
     <jb:value property="addressType" data="Address/@AddressType" />
     <jb:value property="streetNumberName" data="Address/StreetNumberName" />
     <jb:value property="apartmentRoomSuiteNumber" data="Address/ApartmentRoomSuiteNumber" />
@@ -694,12 +697,13 @@
   <jb:bean beanId="teacherTelephoneTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherTelephoneType" />
   </jb:bean>
-  <jb:bean beanId="teacherTelephoneType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+  <jb:bean beanId="teacherTelephoneType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Telephone">
     <jb:value property="telephoneNumberType" data="Telephone/@TelephoneNumberType" />
     <jb:value property="primaryTelephoneNumberIndicator" data="Telephone/@PrimaryTelephoneNumberIndicator"
       decoder="Boolean" />
     <jb:value property="telephoneNumber" data="Telephone/TelephoneNumber" />
   </jb:bean>
+
   <jb:bean beanId="teacherElectronicMailTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherElectronicMailType" />
   </jb:bean>
@@ -713,7 +717,7 @@
   <jb:bean beanId="teacherCredentialTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherCredentialType" />
   </jb:bean>
-  <jb:bean beanId="teacherCredentialType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
+  <jb:bean beanId="teacherCredentialType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials">
     <jb:value property="credentialType" data="Credentials/CredentialType" />
     <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptor" />
     <jb:value property="level" data="Credentials/Level" />
@@ -722,7 +726,7 @@
     <jb:value property="credentialExpirationDate" data="Credentials/CredentialExpirationDate" />
     <jb:value property="teachingCredentialBasis" data="Credentials/TeachingCredentialBasis" />
   </jb:bean>
-  <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials">
+  <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
     <jb:value property="id" data="Credentials/CredentialField/@id" />
     <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
     <jb:value property="description" data="Credentials/CredentialField/Description" />
