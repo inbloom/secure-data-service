@@ -50,7 +50,7 @@
     <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
     <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" default="null" />
     <jb:value property="oldEthnicity" data="OldEthnicity" />
-    <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
+    <jb:value property="race" data="Race_RacialCategory" />
     <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
     <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience"
       decoder="Integer" default="null"/>
@@ -124,9 +124,6 @@
   <jb:bean beanId="teacherElectronicMailType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="emailAddressType" data="ElectronicMail_EmailAddressType" />
     <jb:value property="emailAddress" data="ElectronicMail_EmailAddress" />
-  </jb:bean>
-  <jb:bean beanId="teacherRaceItemTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-    <jb:value data="Race_RacialCategory" />
   </jb:bean>
   <jb:bean beanId="teacherCredentialTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:wiring beanIdRef="teacherCredentialType" />

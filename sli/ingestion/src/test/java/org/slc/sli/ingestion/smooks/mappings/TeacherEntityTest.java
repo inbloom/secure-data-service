@@ -107,7 +107,6 @@ public class TeacherEntityTest {
                 + "<OldEthnicity>old ethnicity</OldEthnicity>"
                 + "<Race>"
                 + "    <RacialCategory>first racial category</RacialCategory>"
-                + "    <RacialCategory>second racial category</RacialCategory>"
                 + "</Race>"
                 + "<HighestLevelOfEducationCompleted>Bachelors</HighestLevelOfEducationCompleted>"
                 + "<YearsOfPriorProfessionalExperience>12</YearsOfPriorProfessionalExperience>"
@@ -223,12 +222,7 @@ public class TeacherEntityTest {
         assertEquals("old ethnicity", teacherNeutralRecord.getAttributes().get("oldEthnicity"));
         assertEquals(false, teacherNeutralRecord.getAttributes().get("hispanicLatinoEthnicity"));
 
-        List raceList = (List) teacherNeutralRecord.getAttributes().get("race");
-        assertEquals("first racial category", raceList.get(0));
-        if (raceList.size() > 1) {
-            // TODO: remove if block when we support lists in CSV
-            assertEquals("second racial category", raceList.get(1));
-        }
+        assertEquals("first racial category", teacherNeutralRecord.getAttributes().get("race"));
 
         assertEquals("Bachelors", teacherNeutralRecord.getAttributes().get("highestLevelOfEducationCompleted"));
         assertEquals(12, teacherNeutralRecord.getAttributes().get("yearsOfPriorProfessionalExperience"));

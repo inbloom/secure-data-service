@@ -634,7 +634,7 @@
     <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
     <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" />
     <jb:value property="oldEthnicity" data="OldEthnicity" />
-    <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
+    <jb:value property="race" data="Race/RacialCategory" />
     <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
     <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience" decoder="Integer" />
     <jb:value property="yearsOfPriorTeachingExperience" data="YearsOfPriorTeachingExperience" decoder="Integer" />
@@ -711,9 +711,7 @@
     <jb:value property="emailAddressType" data="ElectronicMail/@EmailAddressType" />
     <jb:value property="emailAddress" data="ElectronicMail/EmailAddress" />
   </jb:bean>
-  <jb:bean beanId="teacherRaceItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
-    <jb:value data="Race/RacialCategory" />
-  </jb:bean>
+
   <jb:bean beanId="teacherCredentialTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:wiring beanIdRef="teacherCredentialType" />
   </jb:bean>
