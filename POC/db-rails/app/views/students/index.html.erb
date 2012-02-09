@@ -1,0 +1,6 @@
+<div id='data'>
+  <h1>Students Listing</h1>
+  <% @studentData.each do |student| %>
+      <p><%= link_to student["id"]  , student["link"]["href"] + "?sessionId=#{SessionResource.auth_id}" %></p>
+  <% end %>
+</div>

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PostSecondaryEventDescriptorType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A code describing the type of postsecondary event (e.g., college application or acceptance)",
-  "xsd-type" : "token",
-  "symbols" : [ "College_Application", "College_Acceptance", "College_Enrollment", "FAFSA_Application", "Vocation_Certification" ]
-}

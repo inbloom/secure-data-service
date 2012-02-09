@@ -12,11 +12,13 @@ Scenario: Deny access when request session debug context without session ID
 
 	When I GET the url "/system/session/debug" using a blank session ID
     Then I should receive a return code of 401
+    And I should see a link in the responce header telling me where to authenicate
 
 Scenario: Deny access when request session debug context with invalid session ID
 
 	When I GET the url "/system/session/debug" using an invalid session ID
     Then I should receive a return code of 401
+    And I should see a link in the responce header telling me where to authenicate
 
 Scenario: Access the session check resource with valid authentication session ID
 

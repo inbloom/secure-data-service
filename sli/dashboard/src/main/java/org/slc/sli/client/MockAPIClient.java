@@ -5,20 +5,27 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 import com.google.gson.Gson;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.entity.EducationalOrganization;
+import org.slc.sli.entity.EducationalOrganizationAssociation;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.SchoolEducationalOrganizationAssociation;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
+
 /**
- * 
+ *
  * A mock API client
  */
 public class MockAPIClient implements APIClient {
@@ -39,17 +46,18 @@ public class MockAPIClient implements APIClient {
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
+
     
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
     }
-    
+
     @Override
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
     }
-    
+
     @Override
     public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
@@ -60,24 +68,65 @@ public class MockAPIClient implements APIClient {
     public List<GenericEntity> getCustomData(String token, String key) {
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
     }
-    
-    
+
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return fromFile(getFilename("mock_data/assessment_meta_data.json"), AssessmentMetaData[].class);
     }
-    
+
     @Override
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         // TODO: student id logic isn't working yet. for now, pass in null.
         return this.getEntities(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), null);
     }
 
-    // Helper function to translate a .json file into object. 
+    @Override
+    public EducationalOrganization[] getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
+        EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
+        SchoolEducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/school_educational_organization_association.json"), SchoolEducationalOrganizationAssociation[].class);
+        // create a set of associated ed org ids, and then filter the ed or entities based on it.
+        Set<String> associatedEdOrgIds = new HashSet<String>();
+        for (int i = 0; i < allAssociations.length; i++) {
+            if (school.get("id") != null && school.get("id").equals(allAssociations[i].getSchoolId())) {
+                associatedEdOrgIds.add(allAssociations[i].getEducationOrganizationId());
+            }
+        }
+        Vector<EducationalOrganization> filtered = new Vector<EducationalOrganization>();
+        for (int i = 0; i < allEdOrgs.length; i++) {
+            if (associatedEdOrgIds.contains(allEdOrgs[i].getId())) {
+                filtered.add(allEdOrgs[i]);
+            }
+        }
+        EducationalOrganization[] retVal = new EducationalOrganization[filtered.size()];
+        return filtered.toArray(retVal);
+    }
+
+    @Override
+    public EducationalOrganization[] getParentEducationalOrganizations(final String token, EducationalOrganization edOrg) {
+        EducationalOrganization[] allEdOrgs = fromFile(getFilename("mock_data/" + token + "/educational_organization.json"), EducationalOrganization[].class);
+        EducationalOrganizationAssociation[] allAssociations = fromFile(getFilename("mock_data/" + token + "/educational_organization_association.json"), EducationalOrganizationAssociation[].class);
+        // create a set of associated ed org ids, and then filter the ed or entities based on it.
+        Set<String> parentEdOrgIds = new HashSet<String>();
+        for (int i = 0; i < allAssociations.length; i++) {
+            if (edOrg.getId() != null && edOrg.getId().equals(allAssociations[i].getEducationOrganizationChildId())) {
+                parentEdOrgIds.add(allAssociations[i].getEducationOrganizationParentId());
+            }
+        }
+        Vector<EducationalOrganization> filtered = new Vector<EducationalOrganization>();
+        for (int i = 0; i < allEdOrgs.length; i++) {
+            if (parentEdOrgIds.contains(allEdOrgs[i].getId())) {
+                filtered.add(allEdOrgs[i]);
+            }
+        }
+        EducationalOrganization[] retVal = new EducationalOrganization[filtered.size()];
+        return filtered.toArray(retVal);
+    }
+
+    // Helper function to translate a .json file into object.
     public static <T> T[] fromFile(String fileName, Class<T[]> c) {
-    
+
         BufferedReader bin = null;
-    
+
         try {
             FileReader filein;
             filein = new FileReader(fileName);
@@ -87,14 +136,14 @@ public class MockAPIClient implements APIClient {
             while ((s = bin.readLine()) != null) {
                 total += s;
             }
-            Gson gson = new Gson();        
+            Gson gson = new Gson();
             T[] temp = gson.fromJson(total, c);
             return temp;
-            
+
         } catch (IOException e) {
             System.err.println(e);
             return null;
-            
+
         } finally {
 
             try {
@@ -105,12 +154,6 @@ public class MockAPIClient implements APIClient {
                 System.err.println(e);
             }
         }
-    }
-
-    
-    public String getFilename(String filename) {
-        URL url = classLoader.getResource(filename);
-        return url.getFile();
     }
 
     
@@ -203,6 +246,11 @@ public class MockAPIClient implements APIClient {
      */
     public String getResourceFilePath(String resourceName) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
+        return url.getFile();
+    }
+    
+    public String getFilename(String filename) {
+        URL url = classLoader.getResource(filename);
         return url.getFile();
     }
 

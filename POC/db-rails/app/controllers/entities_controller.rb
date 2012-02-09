@@ -1,12 +1,21 @@
+require "active_resource/base"
+
 class EntitiesController < ApplicationController
   before_filter :set_url
   
   def set_url
     Entity.url_type = params[:type]
   end
+  
+  # rescue_from ActiveResource::ResourceNotFound do |exception|
+  #   render :file => "404.html"
+  # end
+  
+  
   # GET /entities
   # GET /entities.json
   def index
+
     @entities = Entity.all
 
     respond_to do |format|
@@ -18,7 +27,12 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
-    @entity = Entity.find(params[:id])
+    if(params[:targets])
+      logger.debug("Building targets link")
+      @entity = Entity.get("#{params[:id]}/#{params[:targets]}")
+    else
+      @entity = Entity.get(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb

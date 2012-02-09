@@ -10,8 +10,8 @@ import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
 
 /**
- * Logic used by a widget that displays lozenges for a student 
- * 
+ * Logic used by a widget that displays lozenges for a student
+ *
  * @author syau
  */
 public class Lozenge {
@@ -19,22 +19,24 @@ public class Lozenge {
     // list of lozenges that need to be displayed
     private List<LozengeConfig> lozenges;
 
+
     // Constructor: process the field and determine which lozenge needs to be displayed. 
     public Lozenge(Field field, Map student, StudentResolver students, LozengeConfigResolver lozengeConfigs) {
+
         lozenges = new ArrayList<LozengeConfig>();
 
         int maxCount = Integer.MAX_VALUE;
 
-        // it is possible for a field not to have lozenges. 
+        // it is possible for a field not to have lozenges.
         if (field.getLozenges() == null) { return; }
-        
-        // check the max count, if it exists. 
-        if (field.getLozenges().getMaxCount() != null) { 
+
+        // check the max count, if it exists.
+        if (field.getLozenges().getMaxCount() != null) {
             maxCount = field.getLozenges().getMaxCount().intValue();
         }
-        
-        // Find the lozenges that needs to be displayed and put them into a list 
-        if (field.getLozenges() != null 
+
+        // Find the lozenges that needs to be displayed and put them into a list
+        if (field.getLozenges() != null
             && field.getLozenges().getNames() != null) {
             String lozengeNames = field.getLozenges().getNames();
             String[] lozengeNamesArr = lozengeNames.split("\\s+");
@@ -54,7 +56,7 @@ public class Lozenge {
             }
         }
     }
-    
+
     /**
      * Get the number of lozenges to be displayed
      */
@@ -63,5 +65,5 @@ public class Lozenge {
      * Returns the lozenge to display
      */
     public LozengeConfig get(int i) { return lozenges.get(i); }
-    
+
 }

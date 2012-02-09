@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+  xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd" xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd"
+  xmlns:csv="http://www.milyn.org/xsd/smooks/csv-1.2.xsd">
+
+  <params>
+    <param name="stream.filter.type">SAX</param>
+    <param name="terminate.on.visitor.exception">false</param>
+  </params>
+
+<csv:reader
+    fields="StaffReference_StaffIdentity_StaffUniqueStateId,
+    StaffReference_StaffIdentity_StaffIdentificationCode_IdentificationSystem,StaffReference_StaffIdentity_StaffIdentificationCode_AssigningOrganizationCode,StaffReference_StaffIdentity_StaffIdentificationCode_Id,
+    StaffReference_StaffIdentity_Name_Verification,StaffReference_StaffIdentity_Name_PersonalInformationVerificationType,StaffReference_StaffIdentity_Name_FirstName,StaffReference_StaffIdentity_Name_MiddleName,StaffReference_StaffIdentity_Name_LastSurname,StaffReference_StaffIdentity_Name_PersonalTitlePrefix,StaffReference_StaffIdentity_Name_GenerationCodeSuffix,StaffReference_StaffIdentity_Name_MaidenName,
+    StaffReference_StaffIdentity_OtherName_OtherNameType,StaffReference_StaffIdentity_OtherName_PersonalTitlePrefix,StaffReference_StaffIdentity_OtherName_FirstName,StaffReference_StaffIdentity_OtherName_MiddleName,StaffReference_StaffIdentity_OtherName_LastSurname,StaffReference_StaffIdentity_OtherName_GenerationCodeSuffix,
+    StaffReference_StaffIdentity_Sex,
+    StaffReference_StaffIdentity_BirthDate,
+    StaffReference_StaffIdentity_HispanicLatinoEthnicity,
+    StaffReference_StaffIdentity_Race_RacialCategory,
+    StaffReference_StaffIdentity_Telephone_TelephoneNumberType,StaffReference_StaffIdentity_Telephone_TelephoneNumber,StaffReference_StaffIdentity_Telephone_PrimaryTelephoneNumberIndicator,
+    StaffReference_StaffIdentity_ElectronicMail_EmailAddressType,StaffReference_StaffIdentity_ElectronicMail_EmailAddress,
+    SectionReference_SectionIdentity_UniqueSectionCode,SectionReference_SectionIdentity_Term,SectionReference_SectionIdentity_SchoolYear,SectionReference_SectionIdentity_ClassPeriodName,SectionReference_SectionIdentity_Location,SectionReference_SectionIdentity_LocalCourseCode,
+    SectionReference_SectionIdentity_CourseCode_IdentificationSystem,SectionReference_SectionIdentity_CourseCode_AssigningOrganizationCode,SectionReference_SectionIdentity_CourseCode_Id,
+    BeginDate,
+    EndDate,
+    HighlyQualifiedTeacher,
+    ClassroomPosition
+    ">
+
+</csv:reader>
+
+	<!-- TeacherSectionAssociation Mapping-->
+   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
+
+    <jb:expression property="recordType">'section'</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="studentAttributes" />
+  </jb:bean>
+
+    <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="csv-record">
+
+        <!-- SectionReference -->
+		<jb:value property="sectionReference" data="SectionReference_SectionIdentity_UniqueSectionCode" />
+
+		<!-- TeacherReference -->
+		<jb:value property="teacherReference"  data="StaffReference_StaffIdentity_StaffUniqueStateId" />
+
+    	<!-- BeginDate -->
+       	<jb:value property="beginDate" data="BeginDate"/>
+
+       	<!--EndDate -->
+       	<jb:value property="endDate" data="EndDate"/>
+
+       	<!--HighlyQualifiedTeacher -->
+      	<jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean"/>
+
+       	<!-- ClassroomPosition -->
+       	<jb:value property="classroomPosition" data="ClassroomPosition"/>
+    </jb:bean>
+
+    <!-- StaffReferenceType -->
+	<jb:bean beanId="StaffReferenceType" class="java.util.HashMap" createOnElement="csv-record">
+		<jb:value property="staffUniqueStateId" data="StaffReference_StaffIdentity_StaffUniqueStateId"/>
+		<jb:wiring property="staffIdentificationCode" beanIdRef="StaffIdentificationCodeTypeArray" />
+		<jb:wiring property="name" beanIdRef="NameType_TeacherSectionAssociation" />
+   	    <jb:wiring property="otherName" beanIdRef="OtherNameTypeArray_TeacherSectionAssociation" />
+		<jb:value property="sex" data="StaffReference_StaffIdentity_Sex"/>
+		<jb:value property="birthDate" data="StaffReference_StaffIdentity_BirthDate"/>
+		<jb:value property="hispanicLatinoEthnicity" data="StaffReference_StaffIdentity_HispanicLatinoEthnicity"/>
+		<jb:value property="race" data="StaffReference_StaffIdentity_Race_RacialCategory"/>
+		<jb:wiring property="telephone" beanIdRef="TelephoneTypeArray_TeacherSectionAssociation" />
+ 	   <jb:wiring property="electronicMail" beanIdRef="ElectronicMailTypeArray_TeacherSectionAssociation" />
+	</jb:bean>
+
+		<jb:bean beanId="StaffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+			<jb:wiring beanIdRef="StaffIdentificationCodeType" />
+		</jb:bean>
+		<jb:bean beanId="StaffIdentificationCodeType" class="java.util.HashMap" createOnElement="csv-record">
+			<jb:value property="identificationSystem" data="StaffReference_StaffIdentity_StaffIdentificationCode_IdentificationSystem"/>
+			<jb:value property="assigningOrganizationCode" data="StaffReference_StaffIdentity_StaffIdentificationCode_AssigningOrganizationCode"/>
+			<jb:value property="iD" data="StaffReference_StaffIdentity_StaffIdentificationCode_Id"/>
+		</jb:bean>
+
+	      <!-- NameType_Section -->
+	  <jb:bean beanId="NameType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="csv-record">
+	    <jb:value property="verification" data="StaffReference_StaffIdentity_Name_Verification" />
+	    <jb:value property="personalInformationVerificationType" data="StaffReference_StaffIdentity_Name_PersonalInformationVerificationType" />
+	    <jb:value property="firstName" data="StaffReference_StaffIdentity_Name_FirstName" />
+	    <jb:value property="middleName" data="StaffReference_StaffIdentity_Name_MiddleName" />
+	    <jb:value property="lastSurname" data="StaffReference_StaffIdentity_Name_LastSurname" />
+	    <jb:value property="personalTitlePrefix" data="StaffReference_StaffIdentity_Name_PersonalTitlePrefix" />
+	    <jb:value property="generationCodeSuffix" data="StaffReference_StaffIdentity_Name_GenerationCodeSuffix" />
+	    <jb:value property="maidenName" data="StaffReference_StaffIdentity_Name_MaidenName" />
+	  </jb:bean>
+
+	  <!-- OtherNameType_Section -->
+	  <jb:bean beanId="OtherNameTypeArray_TeacherSectionAssociation" class="java.util.ArrayList" createOnElement="csv-record">
+	    <jb:wiring beanIdRef="OtherNameType_TeacherSectionAssociation" />
+	  </jb:bean>
+
+	  <jb:bean beanId="OtherNameType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="csv-record">
+	    <jb:value property="otherNameType" data="StaffReference_StaffIdentity_OtherName_OtherNameType" />
+	    <jb:value property="personalTitlePrefix" data="StaffReference_StaffIdentity_OtherName_PersonalTitlePrefix" />
+	    <jb:value property="firstName" data="StaffReference_StaffIdentity_OtherName_FirstName" />
+	    <jb:value property="middleName" data="StaffReference_StaffIdentity_OtherName_MiddleName" />
+	    <jb:value property="lastSurname" data="StaffReference_StaffIdentity_OtherName_LastSurname" />
+	    <jb:value property="generationCodeSuffix" data="StaffReference_StaffIdentity_OtherName_GenerationCodeSuffix" />
+	  </jb:bean>
+
+	    <!-- TelephoneType_Section -->
+	  <jb:bean beanId="TelephoneTypeArray_TeacherSectionAssociation" class="java.util.ArrayList" createOnElement="csv-record">
+	    <jb:wiring beanIdRef="TelephoneType_TeacherSectionAssociation" />
+	  </jb:bean>
+
+	  <jb:bean beanId="TelephoneType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="csv-record">
+	    <jb:value property="telephoneNumberType" data="StaffReference_StaffIdentity_Telephone_TelephoneNumberType" />
+	    <jb:value property="telephoneNumber" data="StaffReference_StaffIdentity_Telephone_TelephoneNumber" />
+	    <jb:value property="primaryTelephoneNumberIndicator" data="StaffReference_StaffIdentity_Telephone_PrimaryTelephoneNumberIndicator"
+	      decoder="Boolean" />
+	  </jb:bean>
+
+	  <!-- ElectronicMailType_TeacherSectionAssociation -->
+	  <jb:bean beanId="ElectronicMailTypeArray_TeacherSectionAssociation" class="java.util.ArrayList" createOnElement="csv-record">
+	    <jb:wiring beanIdRef="ElectronicMailType_TeacherSectionAssociation" />
+	  </jb:bean>
+
+	  <jb:bean beanId="ElectronicMailType_TeacherSectionAssociation" class="java.util.HashMap" createOnElement="csv-record">
+	    <jb:value property="emailAddressType" data="StaffReference_StaffIdentity_ElectronicMail_EmailAddressType" />
+	    <jb:value property="emailAddress" data="StaffReference_StaffIdentity_ElectronicMail_EmailAddress" />
+	  </jb:bean>
+
+</smooks-resource-list>

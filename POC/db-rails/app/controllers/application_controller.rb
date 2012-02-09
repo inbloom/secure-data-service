@@ -2,6 +2,7 @@ require "active_resource/base"
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :check_login
+  rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
@@ -18,6 +19,13 @@ class ApplicationController < ActionController::Base
     SessionResource.auth_id = nil
   end
 
+
+  private 
+  def not_found
+    logger.debug {"Not found"}
+    flash[:alert] = "No resource found with id: #{params[:id]}"
+    redirect_to :back
+  end
   
   def begin_authenticate(authentication)
     redirect_to authentication + "?RelayState=" + current_url
@@ -34,7 +42,7 @@ class ApplicationController < ActionController::Base
       SessionResource.auth_id = cookies['iPlanetDirectoryPro']
       Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
       # Get the state unique id and state to identify and key logging
-      session[:full_name] = Check.new(SessionResource.auth_id).full_name
+      # session[:full_name] = Check.new(SessionResource.auth_id).full_name
     else
       logger.debug { "No cookie set" }
     end

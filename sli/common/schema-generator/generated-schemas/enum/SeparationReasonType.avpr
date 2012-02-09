@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SeparationReasonType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Reason for terminating the employment; for example:  Employment in education, Employment outside of education, Retirement, Family/personal relocation, Change of assignment",
-  "xsd-type" : "token",
-  "symbols" : [ "Employment_in_education", "Employment_outside_of_education", "Retirement", "Family_personal_relocation", "Change_of_assignment", "Formal_study_or_research", "Illness_disability", "Homemaking_caring_for_a_family_member", "Layoff_due_to_budgetary_reduction", "Layoff_due_to_organizational_restructuring", "Layoff_due_to_decreased_workload", "Discharge_due_to_unsuitability", "Discharge_due_to_misconduct", "Discharge_due_to_continued_absence_or_tardiness", "Discharge_due_to_a_falsified_application_form", "Discharge_due_to_credential_revoked_or_suspended", "Discharge_due_to_unsatisfactory_work_performance", "Death", "Personal_reason", "Lay_off_due_to_lack_of_funding", "Lost_credential", "Unknown", "Other" ]
-}

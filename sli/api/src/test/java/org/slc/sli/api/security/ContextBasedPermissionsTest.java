@@ -17,10 +17,10 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @DirtiesContext
 public class ContextBasedPermissionsTest {
-    
+
     @Autowired
     private ContextResolverStore resolverStore;
-    
+
     @Ignore
     @Test
     public void testTeacherCanAccessAnotherTeacherAtSameSchool() {

@@ -4,18 +4,17 @@
   xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd   
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-        
+
     <context:component-scan base-package="org.slc.sli" >
-    		<context:exclude-filter type="regex" expression=".*NeutralSchemaValidator"></context:exclude-filter>
+    		<context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     </context:component-scan>
 	<context:annotation-config />
-	
-<!-- 	<bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
-	<bean id="entityValidator" class = "org.slc.sli.validation.AvroEntityValidator"/>
-	
+
+	<bean id="validator" class = "org.slc.sli.validation.schema.NeutralSchemaValidator"/>
+
   <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
     <!-- this avoids errors with *other* property placeholders -->
@@ -38,7 +37,7 @@
   </bean>
 
   <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
-  
+
   <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
     <property name="connectionFactory">
   	  <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
@@ -78,10 +77,10 @@
   <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"
     /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect> </aop:config> -->
 
-  
-  <!-- perf4j performance tracking -->
+
+  <!-- performance tracking -->
   <aop:aspectj-autoproxy/>
-  <bean id="timingAspect" class="org.perf4j.log4j.aop.TimingAspect"/>
+  <bean id="ingestionPerformaceTrackingAspect" class="org.slc.sli.ingestion.measurement.IngestionPerformanceTrackingAspect"/>
 
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">

@@ -19,48 +19,57 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Utility class for exporting Neutral Schema files to flat files.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public class NeutralJsonExporter {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(NeutralJsonExporter.class);
-    
+
     /**
      * Loads the XSD files and dumps the Neutral Schema objects to JSON files in the specified
      * directory.
-     * 
-     * Param 1: xsdDirectory (defaults to "classpath:xliXsd")
+     *
+     * Option 1:
+     * Param 1: xsdDirectory (defaults to "classpath:sliXsd-wip")
      * Param 2: outputDir (defaults to "neutral-schemas")
-     * 
+     *
+     * Option 2: (does not print out JSON files)
+     * Param 1: --test
+     * Param 2: xsdDirectory (defaults to classpath:sliXsd-wip)
+     *
      * @param args
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        String xsdPath = "classpath:sliXsd-wip";
+        String xsdPath = "classpath:sliXsd";
         String outputDir = "neutral-schemas";
-        if (args.length == 2) {
+        boolean output = true;
+        if (args.length == 2 && !args[0].equals("--test")) {
             xsdPath = args[0];
             outputDir = args[1];
+        } else if (args.length == 2 && args[0].equals("--test")) {
+            xsdPath = args[1];
+            output = false;
         }
-        
+
         ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
                 new String[] { "spring/neutral-json-exporter-config.xml" });
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo(xsdPath, new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         File enumDir = new File(outputDir, "enums");
         File primitiveDir = new File(outputDir, "primitive");
         File complexDir = new File(outputDir, "complexDir");
-        
+
         enumDir.mkdirs();
         primitiveDir.mkdirs();
         complexDir.mkdirs();
-        
+
         List<NeutralSchema> schemas = repo.getSchemas();
-        
+
         // sanity check consistency
         Set<String> schemaNames = new HashSet<String>();
         for (NeutralSchema ns : schemas) {
@@ -68,7 +77,7 @@ public class NeutralJsonExporter {
         }
         boolean sane = true;
         for (NeutralSchema ns : schemas) {
-            for (Entry<String, Object> entry : ns.getFields().entrySet()) {
+            for (Entry<String, NeutralSchema> entry : ns.getFields().entrySet()) {
                 Object obj = entry.getValue();
                 if (obj instanceof NeutralSchema) {
                     NeutralSchema field = (NeutralSchema) obj;
@@ -84,20 +93,22 @@ public class NeutralJsonExporter {
             }
         }
         if (!sane) {
-            throw new RuntimeException("Sanity check failed");
+            throw new RuntimeException("Dependency check failed against XSDs in: " + xsdPath);
         }
-        
-        for (NeutralSchema ns : schemas) {
-            if (ns.isSimple() && !ns.isPrimitive()) {
-                writeSchema(enumDir, ns);
-            } else if (ns.isPrimitive()) {
-                writeSchema(primitiveDir, ns);
-            } else {
-                writeSchema(complexDir, ns);
+
+        if (output) {
+            for (NeutralSchema ns : schemas) {
+                if (ns.isSimple() && !ns.isPrimitive()) {
+                    writeSchema(enumDir, ns);
+                } else if (ns.isPrimitive()) {
+                    writeSchema(primitiveDir, ns);
+                } else {
+                    writeSchema(complexDir, ns);
+                }
             }
         }
     }
-    
+
     private static void writeSchema(File dir, NeutralSchema schema) throws IOException {
         BufferedWriter writer = null;
         try {

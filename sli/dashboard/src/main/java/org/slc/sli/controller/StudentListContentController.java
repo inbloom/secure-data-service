@@ -1,7 +1,10 @@
 package org.slc.sli.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import freemarker.ext.beans.BeansWrapper;
 
@@ -27,8 +30,8 @@ import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
 
 /**
- * Controller for showing the list of studentview.  
- * 
+ * Controller for showing the list of studentview.
+ *
  */
 public class StudentListContentController extends DashboardController {
 
@@ -36,56 +39,86 @@ public class StudentListContentController extends DashboardController {
     private StudentManager studentManager;
     private PopulationManager populationManager;
     private AssessmentManager assessmentManager;
-    
-    
+
     public StudentListContentController() { }
-    
 
     /**
      * Retrieves information for the student list and sends back an html table to be displayed
-     * 
+     *
      * @param population Don't know what this could be yet... For now, a list of student uids
      * @param model
      * @return a ModelAndView object
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population, 
+    public ModelAndView studentListContent(String population, Integer viewIndex,
                                            ModelMap model) throws Exception {
 
+        // TODO: remove once we can get numerical grade values from data model                                               
+        Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();
+
         UserDetails user = SecurityUtil.getPrincipal();
-        // insert the viewConfig object into the modelmap
-        ViewConfig viewConfig = configManager.getConfigWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
-        model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
+
+        // get the list of all available viewConfigs
+        List<ViewConfig> viewConfigs = configManager.getConfigsWithType(user.getUsername(), Constants.VIEW_TYPE_STUDENT_LIST);
+
+        // only the applicable view configs will be the ones that actually show up on the screen
+        List<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));  
+        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
-        //TODO: Get student uids from target view.
-        // insert the students object into the modelmap
         List<String> uids = null;
         if (population != null) {
             uids = Arrays.asList(population.split(","));
         }
 
-        //List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
-        List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig);
-        List<GenericEntity> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
+        for (ViewConfig viewConfig : viewConfigs) {
+            String value = viewConfig.getValue();
+            if (value != null && value.contains("-")) {
+                int seperatorIndex = value.indexOf('-');
 
-        model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
+                Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
+                Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
+                List<GenericEntity> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
 
-        // insert the assessments object into the modelmap
-        List<GenericEntity> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
-        List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));
+                // if we can find at least one student in the range, the viewConfig is applicable
+                for (GenericEntity student : students) {
+                    Integer gradeValue = gradeValues.get(student.get("cohortYear"));
+
+                    if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
+                    {
+                        applicableViewConfigs.add(viewConfig);
+                        break;
+                    }
+                }                
+            }
+        }
+
+        if (applicableViewConfigs.size() > 0) {
+            // add applicable viewConfigs to model map
+            model.addAttribute("viewConfigs", applicableViewConfigs);
+
+            ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
+            model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
+
+            List<GenericEntity> students = studentManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
+            List<GenericEntity> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
+            model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
+
+            // insert the assessments object into the modelmap
+            List<GenericEntity> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
+            List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
+            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));            
+        }
 
         // insert a widget factory into the modelmap
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        
+
         // let template access Constants
         model.addAttribute(Constants.MM_KEY_CONSTANTS, BeansWrapper.getDefaultInstance().getStaticModels().get(Constants.class.getName()));
-        
+
         return new ModelAndView("studentListContent");
     }
 
@@ -124,5 +157,27 @@ public class StudentListContentController extends DashboardController {
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;
     }
+
+    /**
+    * This is just placeholder code until we can get an actual numerical 
+    * grade value from the data model. Right now all we have to work with 
+    * is the text representation as the cohortYear, so map that to numbers
+    */
+    private Map<String, Integer> getGradeValuesFromCohortYears() {
+        Map<String, Integer> gradeValues = new HashMap<String, Integer>();
+        gradeValues.put("First grade", 1);
+        gradeValues.put("Second grade", 2);
+        gradeValues.put("Third grade", 3);
+        gradeValues.put("Fourth grade", 4);
+        gradeValues.put("Fifth grade", 5);
+        gradeValues.put("Sixth grade", 6);
+        gradeValues.put("Seventh grade", 7);
+        gradeValues.put("Eighth grade", 8);
+        gradeValues.put("Ninth grade", 9);
+        gradeValues.put("Tenth grade", 10);
+        gradeValues.put("Eleventh grade", 11);
+        gradeValues.put("Twelfth grade", 12);
+        return gradeValues;
+    } 
 
 }

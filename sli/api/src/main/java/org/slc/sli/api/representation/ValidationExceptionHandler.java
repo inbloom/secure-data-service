@@ -16,7 +16,7 @@ import org.slc.sli.validation.EntityValidationException;
 @Provider
 @Component
 public class ValidationExceptionHandler implements ExceptionMapper<EntityValidationException> {
-    
+
     public Response toResponse(EntityValidationException e) {
         String exceptionMessage = "Validation failed: " + StringUtils.join(e.getValidationErrors(), "\n");
         return Response

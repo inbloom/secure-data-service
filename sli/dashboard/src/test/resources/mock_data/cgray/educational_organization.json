@@ -1,0 +1,29 @@
+[
+   {
+      "id": "IL-DAYBREAK", 
+      "organizationCategories":[
+         "Local_Education_Agency"
+      ],
+      "address":[],
+      "stateOrganizationId":"IL-DAYBREAK",
+      "nameOfInstitution":"Daybreak School District 4529"
+   },
+   {
+      "id": "IL-SUNSET", 
+      "organizationCategories":[
+         "Local_Education_Agency"
+      ],
+      "address":[],
+      "stateOrganizationId":"IL-SUNSET",
+      "nameOfInstitution":"Sunset School District 4526"
+   },
+   {
+      "id": "IL", 
+      "organizationCategories":[
+         "State_Education_Agency"
+      ],
+      "address":[],
+      "stateOrganizationId":"IL",
+      "nameOfInstitution":"Illinois State Board of Education"
+   }
+]

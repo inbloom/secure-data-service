@@ -9,6 +9,11 @@ Given /^I selected the "([^"]*)" application$/ do |appName|
   @driver.find_element(:link_text, appName).click
 end
 
+When /^I look in the ed org drop\-down$/ do
+  @dropDownId = "edOrgSelect"
+  assertMissingField(@dropDownId, "id")
+end
+
 When /^I look in the school drop\-down$/ do
   @dropDownId = "schoolSelect"
   assertMissingField(@dropDownId, "id")
@@ -55,6 +60,13 @@ Then /^I see a list of (\d+) students$/ do |numOfStudents|
   puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
   # TODO enable this
   assert(actualCount != numOfStudents, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
+end
+
+When /^I select ed org "([^"]*)"$/ do |optionToSelect|
+  @dropDownId = "edOrgSelect"
+  puts "@dropDownId = " + @dropDownId
+  selectOption(@dropDownId, optionToSelect)
+  @dropDownId = "schoolSelect"
 end
 
 When /^I select school "([^"]*)"$/ do |optionToSelect|

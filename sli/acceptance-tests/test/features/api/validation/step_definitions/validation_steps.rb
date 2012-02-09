@@ -6,7 +6,7 @@ require_relative '../../../utils/sli_utils.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = @newId.to_s                            if template == "'Previous School' ID"
-  id = "344cf68d-50fd-8dd7-e8d6-ed9df76c219c" if template == "'Belle' ID"
+  id = "51db306f-2393-405b-b587-5fac7605e4b3" if template == "'Belle' ID"
   id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
   id
 end
@@ -63,8 +63,8 @@ end
 
 Given /^I create a create a school object with "([^"]*)" set to a single map$/ do |arg1|
   @result = CreateEntityHash.createBaseSchool()
-  @result[arg1] = Hash["streetNumberName" => "123 Elm Street", 
-                       'city'=>"New York", 
+  @result[arg1] = Hash["streetNumberName" => "123 Elm Street",
+                       'city'=>"New York",
                        "stateAbbreviation" => "NY",
                        "postalCode" => "12345"
                        ]
@@ -73,8 +73,8 @@ end
 Given /^I create the same school object with "([^"]*)" as an array with the same map$/ do |arg1|
   @result = CreateEntityHash.createBaseSchool()
   @result[arg1] = [
-                    Hash["streetNumberName" => "123 Elm Street", 
-                         'city'=>"New York", 
+                    Hash["streetNumberName" => "123 Elm Street",
+                         'city'=>"New York",
                          "stateAbbreviation" => "NY",
                          "postalCode" => "12345"
                          ]
@@ -99,13 +99,13 @@ Given /^an SSA object is valid except for "([^"]*)"$/ do |arg1|
   @result[arg1] = "11111111-1111-1111-1111-111111111111"
 end
 
-Given /^I create a student object with "([^"]*)" equal to a string$/ do |arg1|
+Given /^I create a student object with "learningStyles.([^"]*)" equal to a string$/ do |arg1|
   @result = CreateEntityHash.createBaseStudent()
-  @result[arg1] = "123456"
+  @result["learningStyles"][arg1] = "no"
 end
 
-Given /^I create a school object with "([^"]*)" equal to a integer$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchool()
+Given /^I create a student object with "([^"]*)" equal to a integer$/ do |arg1|
+  @result = CreateEntityHash.createBaseStudent()
   @result[arg1] = 12345678
 end
 
@@ -125,7 +125,7 @@ Given /^I create a student object with "([^"]*)" set to MM\-DD\-YYYY$/ do |arg1|
 end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
-  @result = {} if !defined? @result 
+  @result = {} if !defined? @result
   data = prepareData(@format, @result)
   restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")
@@ -155,6 +155,9 @@ end
 Then /^there should be no other contents in the response body other than links$/ do
   @result.delete('links')
   @result.delete('id')
+  @result.delete('address')
+  @result.delete('organizationCategories')
+  @result.delete('schoolCategories')
   assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data")
 end
 

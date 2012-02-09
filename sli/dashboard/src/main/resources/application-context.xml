@@ -20,7 +20,7 @@
 -->
     
     <bean name="/studentlist"        class="org.slc.sli.controller.StudentListController">
-        <property name="schoolManager" ref="schoolManager"/>
+        <property name="institutionalHeirarchyManager" ref="institutionalHeirarchyManager"/>
     </bean>
 
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
@@ -36,6 +36,7 @@
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
         <property name="apiClient" ref="${apiclient}Client"/>
     </bean>
+
     <bean id="assessmentManager" class="org.slc.sli.manager.AssessmentManager" parent="manager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
@@ -55,6 +56,9 @@
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
         <property name="apiClient" ref="${apiclient}Client"/>
     </bean>
+
+    <bean id="institutionalHeirarchyManager"    class="org.slc.sli.manager.InstitutionalHeirarchyManager"    parent="manager"/>
+
     
     <bean id="populationManager" class="org.slc.sli.manager.PopulationManager">
         <property name="entityManager" ref="entityManager"/>

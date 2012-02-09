@@ -5,7 +5,7 @@ DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
-EXPAND = ENV['NO_EXPAND'] ? "" : "--expand"
+EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
 COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
@@ -90,7 +90,7 @@ task :production => [:apiTests, :securityTests, :ingestionTests] do
 end
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
-# It is needed so that it fails the build if there are any failures based on the 
+# It is needed so that it fails the build if there are any failures based on the
 # 'raise' exception logic below.  Rake will exit immediatly if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
@@ -108,7 +108,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:sampleIngestionTests] do
+task :ingestionTests => [:studentIngestionTests, :schoolIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests, :teacherSectionAssociationTests, :educationOrganizationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -117,11 +117,36 @@ task :ingestionTests => [:sampleIngestionTests] do
   end
 end
 
-desc "Run Sample Ingestion Tests"
-task :sampleIngestionTests do
-  runTests("test/features/ingestion/sample_test")
+desc "Run Student Ingestion Tests"
+task :studentIngestionTests do
+  runTests("test/features/ingestion/features/student.feature")
 end
 
+desc "Run School Ingestion Tests"
+task :schoolIngestionTests do
+  runTests("test/features/ingestion/features/school.feature")
+end
+
+desc "Run Section Ingestion Tests"
+task :sectionIngestionTests do
+  runTests("test/features/ingestion/features/section.feature")
+end
+
+desc "Run Student Section Association Ingestion Tests"
+task :studentSectionAssociationTests do
+  runTests("test/features/ingestion/features/student_section_assocation.feature")
+end
+
+desc "Run Teacher Section Association Ingestion Tests"
+task :teacherSectionAssociationTests do
+  runTests("test/features/ingestion/features/teacher_section_assocation.feature")
+end
+
+desc "Run Education Organizations Ingestion Tests"
+task :educationOrganizationTests do
+  runTests("test/features/ingestion/features/education_organization.feature")
+end
+########
 ############################################################
 # Ingestion tests end
 ############################################################
@@ -130,8 +155,14 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,:listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
   displayFailureReport()
+end
+
+desc "Run Heirachy Traversal Tests"
+task :heirarchyTraversalTests do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/heirarchyTraversal")
 end
 
 desc "Run Course Tests"
@@ -173,6 +204,7 @@ desc "Run Validation Tests"
 task :validationTests do
   setFixture("school", "school_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
   runTests("test/features/api/validation")
 end
 
@@ -186,6 +218,17 @@ desc "Run Target Tests"
 task :targetTests do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/targets")
+end
+
+desc "Run Collection Tests"
+task :collectionTests do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/api/collections")
 end
 
 # dependecy on importSandboxData so that association tests can depend on the associated
@@ -289,6 +332,12 @@ task :dashboardTests do
   runTests("test/features/dashboard")
 
 end
+
+
+desc "Run Dashboard integration acceptance tests"
+task :dashboardIntegratedTests do
+    runTests("test/features/dashboard/dashboard_integrated_login.feature")
+end
 ############################################################
 # Dashboard tests end
 ############################################################
@@ -318,20 +367,27 @@ task :importSandboxData do
     "realm" => "realm_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
-  
+
   smallvilleTestHash = Hash[
     "assessment" => "smallville_assessment_fixture.json",
+    "course" => "smallville_courses_fixture.json",
+    "courseSectionAssociation" => "smallville_course_section_association_fixture.json",
+    "sessionCourseAssociation" => "smallville_course_session_association_fixture.json",
+    "educationOrganizationAssociation" => "smallville_edOrg_edOrg_association_fixture.json",
+    "educationOrganization" => "smallville_edOrg_fixture.json",
     "school" => "smallville_schools_fixture.json",
-    "sectionAssessmentAssociation" => "smallville_section_assessment_fixture.json",
+    "educationOrganizationSchoolAssociation" => "smallville_school_edOrg_fixture.json",
+    "schoolSessionAssociation" => "smallville_school_session_association_fixture.json",
     "section" => "smallville_sections_fixture.json",
+    "sectionAssessmentAssociation" => "smallville_section_assessment_fixture.json",
+    "session" => "smallville_sessions_fixture.json",
+    "student" => "smallville_students_fixture.json",
     "studentAssessmentAssociation" => "smallville_student_assessment_fixture.json",
     "studentSchoolAssociation" => "smallville_student_school_association_fixture.json",
     "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
-    "student" => "smallville_students_fixture.json",
-    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
     "teacher" => "smallville_teachers_fixture.json",
-    "educationOrganization" => "smallville_educationOrganization_fixture.json",
-    "educationOrganizationSchoolAssociation" => "smallville_school_educationOrganization_fixure.json"
+    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
+    "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
   ]
   addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end

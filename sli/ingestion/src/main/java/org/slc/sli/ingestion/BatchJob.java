@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
+import org.slc.sli.util.performance.PutResultInContext;
 
 /**
  * Batch Job class.
@@ -82,6 +83,7 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
     /**
      * generates a new unique ID
      */
+    @PutResultInContext(returnName = "ingestionBatchJobId")
     protected static String createId(String filename) {
         if (filename == null)
             return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();

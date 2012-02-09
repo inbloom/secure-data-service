@@ -12,15 +12,15 @@ import org.slc.sli.util.Constants;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
- * 
+ *
  * @author syau
  *
  */
 public class TimedLogic {
 
-    // These implementations are *all* temporary. 
-    // We can implement this only after we have a final spec from the API team on what the 
-    // Assessment entity really looks like. For now we're just going by the mock assessment entity. 
+    // These implementations are *all* temporary.
+    // We can implement this only after we have a final spec from the API team on what the
+    // Assessment entity really looks like. For now we're just going by the mock assessment entity.
 
     /**
      * Returns the assessment with the most recent timestamp
@@ -55,8 +55,8 @@ public class TimedLogic {
                                                            AssessmentMetaDataResolver metaDataResolver,
                                                            String assmtName) {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        
-        // if the window has already passed in the current year, then the latest window is in this year. 
+
+        // if the window has already passed in the current year, then the latest window is in this year.
         // Otherwise it's the last year.
 
         // First, find the "most recent window".
@@ -75,12 +75,12 @@ public class TimedLogic {
                 } else {
                     return windowEnd1Day - windowEnd2Day;
                 }
-                
+
             }
         });
         Period mostRecentPeriod = familyPeriods.get(familyPeriods.size() - 1); // start with last period of last year
         int year = currentYear - 1;
-        // iterate through all periods for this year chronologically and find the last one that is before the current date. 
+        // iterate through all periods for this year chronologically and find the last one that is before the current date.
         for (Period p : familyPeriods) {
             int windowEndMonth = Integer.parseInt(p.getWindowEnd().split("/")[0]);
             int windowEndDay = Integer.parseInt(p.getWindowEnd().split("/")[1]);
@@ -90,10 +90,11 @@ public class TimedLogic {
                 year = currentYear;
             }
         }
-        
+
         for (GenericEntity  ass : a) {
             if (Integer.parseInt((String) (ass.get(Constants.ATTR_YEAR))) == year 
                 &&  metaDataResolver.findPeriodForFamily((String) (ass.get(Constants.ATTR_ASSESSMENT_NAME))) == mostRecentPeriod) {
+
                 return ass;
             }
         }

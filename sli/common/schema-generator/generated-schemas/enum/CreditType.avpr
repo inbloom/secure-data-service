@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CreditType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of credits or units of value awarded for the completion of a course.",
-  "xsd-type" : "token",
-  "symbols" : [ "Carnegie_unit", "Semester_hour_credit", "Trimester_hour_credit", "Quarter_hour_credit", "Nine_month_year_hour_credit", "Twelve_month_year_hour_credit", "Other" ]
-}

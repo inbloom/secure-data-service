@@ -36,7 +36,9 @@ Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
   if !defined? @data
     @data = {}
   end
-  value = convert(value)
+  if !/^studentUniqueStateId$/.match key
+    value = convert(value)
+  end
   if key == 'birthDate'
     @data['birthData'] = Hash[key => value]
   else
@@ -46,7 +48,9 @@ end
 
 
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
-  value = convert(value)
+  if !/^studentUniqueStateId$/.match key
+    value = convert(value)
+  end
   if key == 'birthDate'
     @result['birthData'] = Hash[key => value]
   else

@@ -15,11 +15,12 @@ import org.slc.sli.util.Constants;
 /**
  * A utility class for views in SLI dashboard. As a wrapper around student data passed onto
  *  dashboard views. Contains useful tools look up student data
- * 
+ *
  * @author syau
  *
  */
 public class StudentResolver {
+
     List<GenericEntity> students;
     List<GenericEntity> programs;
     
@@ -34,12 +35,13 @@ public class StudentResolver {
     public List<GenericEntity> list() {
         return students;
     }
-    
+
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      */
     //public String get(Field field, GenericEntity student) {
     public String get(Field field, Map student) {
+
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals(Constants.ATTR_NAME)) {

@@ -10,28 +10,28 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.util.Constants;
 
 /**
- * 
+ *
  * ConfigPersistor reads and persists view configuration information.
- * 
+ *
  * @author dwu
  */
 public class ConfigPersistor {
 
     private static final String VIEW_CONFIG_API_KEY = "view_config";
     private static final String LOZENGE_CONFIG_API_KEY = "lozenge_config";
-    
+
     private APIClient apiClient;
     private EntityManager entityManager;
     
     /**
      * Get the view configuration for an entity
-     * 
+     *
      * @param entityId
      * @return ViewConfigSet
      * @throws Exception
      */
     public ViewConfigSet getConfigSet(String entityId) throws Exception {
-    
+
         // make API call with entity id
         List<GenericEntity> customData = entityManager.getCustomData(entityId, VIEW_CONFIG_API_KEY);
         
@@ -44,19 +44,19 @@ public class ConfigPersistor {
         
         // convert data block to POJO
         ViewConfigSet configSet = ConfigUtil.fromXMLString(configStr);
-        
+
         return configSet;
     }
 
-    
     /**
      * Get the lozenges display configuration for an entity
-     * 
+     *
      * @param entityId
      * @return LozengeConfig
      * @throws Exception
      */
     public LozengeConfig[] getLozengeConfig(String entityId) throws Exception {
+        
         // make API call with entity id
         List<GenericEntity> customData = entityManager.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
         
@@ -68,12 +68,12 @@ public class ConfigPersistor {
         String configStr = (String) (customData.get(0).get(Constants.ATTR_CUSTOM_DATA));
         
         // convert data block to POJO
-        Gson gson = new Gson();        
+        Gson gson = new Gson();
         LozengeConfig[] retVal = gson.fromJson(configStr, LozengeConfig[].class);
-        
+
         return retVal;
     }
-    
+
     /*
      * Getters and setters
      */

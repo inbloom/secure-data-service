@@ -1,9 +1,10 @@
 [
 {
+    "id": "Illinois PS145",
     "schoolId": "Illinois PS145",
     "courses": [
         {
-            "course": "Algebra",
+            "courseTitle": "Algebra",
             "sections": [
                 {
                     "section": "Section1",

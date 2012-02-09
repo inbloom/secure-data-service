@@ -60,8 +60,7 @@ public class ControlFileProcessorTest {
 
         boolean hasErrors = (Boolean) eObject.getIn().getHeader("hasErrors");
 
-        assertNotNull("header [hasErrors] not set on the exchange", hasErrors);
-
+        assertTrue("header [hasErrors] not set to true", hasErrors);
     }
 
 }

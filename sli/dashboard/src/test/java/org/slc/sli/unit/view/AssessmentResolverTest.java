@@ -24,16 +24,16 @@ import org.slc.sli.view.AssessmentResolver;
 /**
  * Unit tests for the AssessmentResolver class.
  * Uses canned data for user rbraverman
- * 
+ *
  */
 public class AssessmentResolverTest {
-    
+
     // test subject
     private AssessmentResolver resolver;
     
     // only one student data for testing. 
     private GenericEntity student;
-    
+
     @Before
     public void setup() {
         resolver = new AssessmentResolver(getAssessments(), getAssessmentMetaData());
@@ -85,12 +85,13 @@ public class AssessmentResolverTest {
         
         EntityManager entityManager = new EntityManager();
         entityManager.setApiClient(mockClient);
+
         ConfigManager configManager = new ConfigManager();
         configManager.setApiClient(mockClient);
         configManager.setEntityManager(entityManager);
         ViewConfig config = configManager.getConfig("rbraverman", "IL_K-3"); // this view has Dibels and TRC
-        
-        AssessmentManager aManager = new AssessmentManager(); 
+
+        AssessmentManager aManager = new AssessmentManager();
         when(mockClient.getFilename("mock_data/rbraverman/school.json")).thenReturn("src/test/resources/mock_data/rbraverman/school.json");
         when(mockClient.getFilename("mock_data/rbraverman/custom_view_config.json")).thenReturn("src/test/resources/mock_data/rbraverman/custom_view_config.json");
         aManager.setApiClient(mockClient);
@@ -99,6 +100,7 @@ public class AssessmentResolverTest {
         return assmts;
     }
     private List<AssessmentMetaData> getAssessmentMetaData() {
+
         EntityManager entityManager = new EntityManager();
         AssessmentManager aManager = new AssessmentManager(); 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());

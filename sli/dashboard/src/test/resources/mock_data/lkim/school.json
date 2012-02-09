@@ -1,9 +1,10 @@
 [
     {
+        "id": "East Daybreak Junior High",
         "nameOfInstitution": "East Daybreak Junior High",
         "courses": [
             {
-                "course": "Club/Team",
+                "courseTitle": "Club/Team",
                 "sections": [
                     {
                         "sectionName": "Spartans Softball Team",
@@ -12,7 +13,7 @@
                 ]
             },
             {
-                "course": "7th Grade Homeroom",
+                "courseTitle": "7th Grade Homeroom",
                 "sections": [
                     {
                         "sectionName": "Mrs. Kim's Homeroom",
@@ -21,7 +22,7 @@
                 ]
             },
             {
-                "course": "7th Grade English",
+                "courseTitle": "7th Grade English",
                 "sections": [
                     {
                         "sectionName": "M. Jones - 7th Grade English - Sec. 1",
@@ -43,7 +44,7 @@
                 ]
             },
             {
-                "course": "8th Grade English",
+                "courseTitle": "8th Grade English",
                 "sections": [
                     {
                         "sectionName": "M. Jones - 8th Grade English - Sec 4",

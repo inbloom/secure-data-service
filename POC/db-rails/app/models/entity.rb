@@ -1,3 +1,3 @@
 class Entity < SessionResource
-  self.site = "https://devapi1.slidev.org/api/rest"
+  self.site = APP_CONFIG['api_base']
 end

@@ -16,7 +16,7 @@ public class SecurityUtil {
     public static UserDetails getPrincipal() {
         return  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    
+
     public static String getToken() {
         UserDetails user = getPrincipal();
         System.out.println("******** User.getUsername: " + user.getUsername());
@@ -28,5 +28,5 @@ public class SecurityUtil {
             return user.getUsername();
         }
     }
-    
+
 }

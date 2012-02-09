@@ -1,4 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-
-
+<%=
+html = ""
+if @entity.empty?
+	html << "Entity is empty"
+elsif @entity.is_a?(Array) 
+	@entity.each do |item|
+		html << display_hash(item)
+	end
+else
+	html << display_hash(@entity)
+end
+html.html_safe
+%>

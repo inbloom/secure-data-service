@@ -1,21 +1,21 @@
 package org.slc.sli.api.security.resolve.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.service.EntityService;
+import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.Entity;
 
 /**
- * Default converter for client roles to sli roles
- * Does absolutely nothing but give back exactly same list
+ * Default converter for client roles to sli roles Does absolutely nothing but
+ * give back exactly same list
  * 
  * @author dkornishev
  * 
@@ -24,34 +24,43 @@ import org.slc.sli.api.service.EntityService;
 public class DefaultClientRoleResolver implements ClientRoleResolver {
     
     @Autowired
-    private RoleRightAccess roleRightAccess;
+    private EntityRepository repo;
     
-    @Autowired
-    private EntityDefinitionStore store;
-    
-    private EntityService service;
-
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName("realm");
-        setService(def.getService());
-    }
-   
-    //Injector
-    public void setStore(EntityDefinitionStore store) {
-        this.store = store;
-    }
-
-    //Injector
-    public void setService(EntityService service) {
-        this.service = service;
-    }
-
-    @Override
     /**
      */
-    public List<String> resolveRoles(String realmId, List<String> clientRoleNames) {
-        return clientRoleNames;
+    @SuppressWarnings({ "unchecked" })
+    @Override
+    public List<String> resolveRoles(final String realmId, List<String> clientRoleNames) {
+        List<String> result = new ArrayList<String>();
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.realm").is(realmId)), 0, 1);
+        Map<String, Object> realm = null;
+        for (Entity firstRealm : realms) {
+            realm = firstRealm.getBody();
+        }
+        
+        Map<String, List<Map<String, Object>>> mappings = null;
+        
+        if (realm != null) {
+            mappings = (Map<String, List<Map<String, Object>>>) realm.get("mappings");
+        }
+        
+        if (mappings != null) {
+            List<Map<String, Object>> roles = mappings.get("role");
+            
+            if (roles != null) {
+                for (Map<String, Object> role : roles) {
+                    String sliRoleName = (String) role.get("sliRoleName");
+                    List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
+                    
+                    // Intersection operation. Discovers if any user roles match role mappings in the role def
+                    clientRoleNameList.retainAll(clientRoleNames);
+                    
+                    if (!clientRoleNameList.isEmpty()) {
+                        result.add(sliRoleName);
+                    }
+                }
+            }
+        }
+        return result;
     }
-    
 }

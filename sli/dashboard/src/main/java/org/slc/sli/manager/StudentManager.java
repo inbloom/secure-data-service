@@ -13,8 +13,8 @@ import org.slc.sli.util.SecurityUtil;
 /**
  * StudentManager supplies student data to the controllers.
  * Given a configuration object, it will source the correct data, apply
- * the necessary business logic, and return the results. 
- * 
+ * the necessary business logic, and return the results.
+ *
  * @author dwu
  *
  */
@@ -32,7 +32,7 @@ public class StudentManager extends Manager {
         if (dataFields.size() > 0) {
             studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
         }
-        
+
         // return the results
         return studentInfo;
     }

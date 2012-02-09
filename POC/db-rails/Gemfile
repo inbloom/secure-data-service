@@ -13,6 +13,8 @@ gem 'execjs'
 
 gem 'therubyracer'
 
+gem 'rest-client'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -30,7 +32,10 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+group :deoployment, :production do
+	gem 'capistrano'
+	gem 'thin'
+end
 
 # To use debugger
 # gem 'ruby-debug'
@@ -43,8 +48,8 @@ gem 'simplecov-rcov', :require=>false, :group=>:test
 # gem 'webrat', :require=>false, :group=>:test
 
 #Cucumber
-gem 'cucumber'
-gem 'cucumber-rails'
+# gem 'cucumber'
+# gem 'cucumber-rails'
 
 #Use Roodi for style check
 gem 'roodi', :require=>false

@@ -9,13 +9,13 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
- * Logic used by a widget that displays assessment results color-coded by performance level and 
- * shows rectangles sized corresponding to scale score. 
- * 
+ * Logic used by a widget that displays assessment results color-coded by performance level and
+ * shows rectangles sized corresponding to scale score.
+ *
  * @author syau
  */
 public class FuelGauge {
-    
+
     private Field field;
     private Map student;
     private AssessmentResolver assmts;
@@ -27,7 +27,7 @@ public class FuelGauge {
         this.assmts = assmts;
         this.colorByPerf = WidgetFactory.createColorByPerf(field, student, assmts);
     }
-    
+
     /**
      * Get the color index for display
      */
@@ -36,31 +36,34 @@ public class FuelGauge {
      * Returns the text to display
      */
     public String getText() { return colorByPerf.getText(); }
-    
+
     /**
-     * Returns the cut points 
+     * Returns the cut points
      */
     public List<Integer> getCutpoints() { return assmts.getCutpoints(field, student); }
 
     /**
-     * Returns the number of possible performance levels that are "real" 
+     * Returns the number of possible performance levels that are "real"
      */
     public Integer getNumRealPerfLevels() { 
         GenericEntity assmt = assmts.resolveAssessment(field, student);
+
         if (assmt == null) { return null; }
         return assmts.getMetaData().findNumRealPerfLevelsForFamily((String) (assmt.get(Constants.ATTR_ASSESSMENT_NAME)));
     }
+    
     /**
-     * Returns the performance level 
+     * Returns the performance level
      */
     public Integer getPerfLevel() { 
         GenericEntity assmt = assmts.resolveAssessment(field, student);
+
         if (assmt == null) { return null; }
         return (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
     }
 
     /**
-     * Returns the score 
+     * Returns the score
      */
     public Integer getScore() { 
         GenericEntity a = assmts.resolveAssessment(field, student);

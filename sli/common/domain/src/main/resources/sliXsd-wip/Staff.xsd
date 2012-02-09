@@ -3,9 +3,9 @@
 	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:include schemaLocation="ReferenceTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="StaffIdentificationCode">
+	<xs:complexType name="staffIdentificationCode">
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and
 				record-keeping
@@ -14,7 +14,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ID" type="IdentificationCode">
+			<xs:element name="ID" type="identificationCode">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a staff
@@ -22,7 +22,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="IdentificationSystem" type="StaffIdentificationSystemType">
+			<xs:element name="identificationSystem" type="staffIdentificationSystemType">
 				<xs:annotation>
 					<xs:documentation>A coding scheme that is used for identification
 						and record-keeping
@@ -32,7 +32,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AssigningOrganizationCode" type="IdentificationCode"
+			<xs:element name="assigningOrganizationCode" type="identificationCode"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The organization code or name assigning the staff
@@ -44,7 +44,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="EmploymentPeriod">
+	<xs:complexType name="employmentPeriod">
 		<xs:annotation>
 			<xs:documentation>The set of elements defining and characterizing a
 				person's period of
@@ -53,7 +53,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="HireDate" type="xs:date">
+			<xs:element name="hireDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an individual
 						was hired for
@@ -61,7 +61,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which a contract
 						between an
@@ -72,7 +72,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Separation" type="SeparationType"
+			<xs:element name="separation" type="separationType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Type of employment separation; for example:
@@ -81,7 +81,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SeparationReason" type="SeparationReasonType"
+			<xs:element name="separationReason" type="separationReasonType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Reason for terminating the employment; for
@@ -95,7 +95,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="CredentialFieldDescriptor">
+	<xs:complexType name="credentialFieldDescriptor">
 		<xs:annotation>
 			<xs:documentation>This descriptor defines the fields of certification
 				that the SEA
@@ -103,9 +103,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="CodeValue" type="CodeValue" minOccurs="0">
+					<xs:element name="codeValue" type="codeValue" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to
 								the
@@ -113,24 +113,9 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Description" type="Description">
+					<xs:element name="description" type="description">
 						<xs:annotation>
 							<xs:documentation>The description of the service.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="AcademicSubject" type="AcademicSubjectType"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A classification of the certification fields to
-								academic subjects.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
-						<xs:annotation>
-							<xs:documentation>The Education Organization associated with the
-								credential field definition.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -139,7 +124,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="Credential">
+	<xs:complexType name="credential">
 		<xs:annotation>
 			<xs:documentation>The legal document or authorization giving
 				authorization to perform
@@ -147,7 +132,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="CredentialType" type="CredentialType">
+			<xs:element name="credentialType" type="credentialType">
 				<xs:annotation>
 					<xs:documentation>An indication of the category of credential an
 						individual
@@ -155,7 +140,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CredentialField" type="CredentialFieldDescriptor">
+			<xs:element name="credentialField" type="credentialFieldDescriptor">
 				<xs:annotation>
 					<xs:documentation>The field of certification for the certificate
 						(e.g.,
@@ -163,13 +148,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Level" type="LevelType">
+			<xs:element name="level" type="levelType">
 				<xs:annotation>
 					<xs:documentation>The grade level(s) certified for teaching.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TeachingCredentialType" type="TeachingCredentialType">
+			<xs:element name="teachingCredentialType" type="teachingCredentialType">
 				<xs:annotation>
 					<xs:documentation>An indication of the category of a legal document
 						giving
@@ -177,7 +162,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CredentialIssuanceDate" type="xs:date">
+			<xs:element name="credentialIssuanceDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an active
 						credential was
@@ -185,7 +170,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CredentialExpirationDate" type="xs:date"
+			<xs:element name="credentialExpirationDate" type="xs:date"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an active
@@ -194,7 +179,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TeachingCredentialBasis" type="TeachingCredentialBasisType"
+			<xs:element name="teachingCredentialBasis" type="teachingCredentialBasisType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An indication of the pre-determined criteria for
@@ -206,7 +191,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="Staff">
+	<xs:complexType name="staff">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual who performs
 				specified activities
@@ -231,9 +216,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="StaffUniqueStateId" type="UniqueStateIdentifier">
+					<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned
 								to a
@@ -241,7 +226,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StaffIdentificationCode" type="StaffIdentificationCode"
+					<xs:element name="staffIdentificationCode" type="staffIdentificationCode"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned
@@ -251,13 +236,13 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Name" type="Name">
+					<xs:element name="name" type="name">
 						<xs:annotation>
 							<xs:documentation>Full legal name of the person.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="OtherName" type="OtherName" minOccurs="0"
+					<xs:element name="otherName" type="otherName" minOccurs="0"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Other names (e.g., alias, nickname, previous
@@ -266,12 +251,12 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Sex" type="SexType">
+					<xs:element name="sex" type="sexType">
 						<xs:annotation>
 							<xs:documentation>A person's gender. </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="BirthDate" type="xs:date" minOccurs="0">
+					<xs:element name="birthDate" type="xs:date" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The month, day, and year on which an individual
 								was
@@ -279,7 +264,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Address" type="Address" minOccurs="0"
+					<xs:element name="address" type="address" minOccurs="0"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The set of elements that describes an address,
@@ -287,7 +272,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Telephone" type="Telephone" minOccurs="0"
+					<xs:element name="telephone" type="telephone" minOccurs="0"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The 10-digit telephone number, including the
@@ -296,7 +281,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ElectronicMail" type="ElectronicMail"
+					<xs:element name="electronicMail" type="electronicMail"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The numbers, letters, and symbols used to
@@ -306,7 +291,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="HispanicLatinoEthnicity" type="xs:boolean"
+					<xs:element name="hispanicLatinoEthnicity" type="xs:boolean"
 						nillable="true">
 						<xs:annotation>
 							<xs:documentation>An indication that the individual traces his or
@@ -318,7 +303,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="OldEthnicity" type="OldEthnicityType"
+					<xs:element name="oldEthnicity" type="oldEthnicityType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Previous definition of Ethnicity combining
@@ -329,7 +314,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Race" type="RaceType">
+					<xs:element name="race" type="raceItemType">
 						<xs:annotation>
 							<xs:documentation>The general racial category which most clearly
 								reflects the individual's recognition of his or her community or
@@ -340,8 +325,8 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="HighestLevelOfEducationCompleted"
-						type="LevelOfEducationType">
+					<xs:element name="highestLevelOfEducationCompleted"
+						type="levelOfEducationType">
 						<xs:annotation>
 							<xs:documentation>The extent of formal instruction an individual
 								has
@@ -350,7 +335,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="YearsOfPriorProfessionalExperience"
+					<xs:element name="yearsOfPriorProfessionalExperience"
 						type="xs:int" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The total number of years that an individual
@@ -360,7 +345,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="YearsOfPriorTeachingExperience" type="xs:int"
+					<xs:element name="yearsOfPriorTeachingExperience" type="xs:int"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The total number of years that an individual
@@ -370,7 +355,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Credentials" type="Credential"
+					<xs:element name="credentials" type="credential"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The legal document or authorization giving
@@ -378,7 +363,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LoginId" type="IdentificationCode"
+					<xs:element name="loginId" type="identificationCode"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The login ID for the user; used for security
@@ -404,9 +389,9 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="Staff">
+				<xs:extension base="staff">
 					<xs:sequence>
-						<xs:element name="TeacherUniqueStateId" type="UniqueStateIdentifier"
+						<xs:element name="teacherUniqueStateId" type="uniqueStateIdentifier"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>An ID number maintained by the state that
@@ -415,7 +400,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="HighlyQualifiedTeacher" type="xs:boolean"
+						<xs:element name="highlyQualifiedTeacher" type="xs:boolean"
 							minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>An indication of whether a teacher is
@@ -432,7 +417,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="LeaveEvent">
+	<xs:complexType name="leaveEvent">
 		<xs:annotation>
 			<xs:documentation>This event entity represents the recording of the
 				dates of staff leave
@@ -440,14 +425,14 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="EventDate" type="xs:date">
+					<xs:element name="eventDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>Date for this leave event.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LeaveEventCategory" type="LeaveEventCategoryType">
+					<xs:element name="leaveEventCategory" type="leaveEventCategoryType">
 						<xs:annotation>
 							<xs:documentation>The code describing the type of leave taken,
 								for
@@ -455,14 +440,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LeaveEventReason" type="LeaveEventReason"
+					<xs:element name="leaveEventReason" type="leaveEventReason"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Expanded reason for the staff leave.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="HoursOnLeave" type="xs:decimal"
+					<xs:element name="hoursOnLeave" type="xs:double"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The hours the staff was absent, if not the
@@ -471,7 +456,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SubstituteAssigned" type="xs:boolean"
+					<xs:element name="substituteAssigned" type="xs:boolean"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicator of whether a substitute was assigned
@@ -480,7 +465,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StaffReference" type="StaffSimpleReference">
+					<xs:element name="staffReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The staff associated with this leave event.
 							</xs:documentation>
@@ -491,7 +476,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="OpenStaffPosition">
+	<xs:complexType name="openStaffPosition">
 		<xs:annotation>
 			<xs:documentation>This entity represents an open staff position that
 				is seeking to be
@@ -499,9 +484,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
+			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="EmploymentStatus" type="EmploymentStatusType">
+					<xs:element name="employmentStatus" type="employmentStatusType">
 						<xs:annotation>
 							<xs:documentation>Reflects the type of employment or contract
 								desired
@@ -511,7 +496,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StaffClassification" type="StaffClassificationType">
+					<xs:element name="staffClassification" type="staffClassificationType">
 						<xs:annotation>
 							<xs:documentation>The titles of employment, official status, or
 								rank of
@@ -519,7 +504,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PositionTitle" type="PositionTitle"
+					<xs:element name="positionTitle" type="positionTitle"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The descriptive name of an individual's
@@ -527,7 +512,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="RequisitionNumber" type="RequisitionNumber">
+					<xs:element name="requisitionNumber" type="requisitionNumber">
 						<xs:annotation>
 							<xs:documentation>The number or identifier assigned to an open
 								staff
@@ -536,7 +521,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ProgramAssignment" type="ProgramAssignmentType"
+					<xs:element name="programAssignment" type="programAssignmentType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The name of the program for which the position
@@ -547,7 +532,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="InstructionalGradeLevels" type="GradeLevelsType"
+					<xs:element name="instructionalGradeLevels" type="gradeLevelType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The set of grade levels for which the
@@ -556,7 +541,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AcademicSubjects" type="AcademicSubjectsType"
+					<xs:element name="academicSubjects" type="academicSubjectsType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The teaching field required for the position,
@@ -566,20 +551,20 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DatePosted" type="xs:date">
+					<xs:element name="datePosted" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>Date the open position was posted.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DatePostingRemoved" type="xs:date"
+					<xs:element name="datePostingRemoved" type="xs:date"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The date the posting was removed or filled.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PostingResult" type="PostingResultType"
+					<xs:element name="postingResult" type="postingResultType"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indication of whether the position was filled
@@ -588,7 +573,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+					<xs:element name="educationOrganizationReference" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>The Education Organization with the open staff
 								position.
@@ -600,7 +585,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="StaffEducationOrgEmploymentAssociation">
+	<xs:complexType name="staffEducationOrgEmploymentAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the education
 				organization an employee,
@@ -611,20 +596,20 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffSimpleReference">
+			<xs:element name="staffReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The staff employed by the education organization.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+			<xs:element name="educationOrganizationReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The Education Organization with which the staff
 						is employed.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EmploymentStatus" type="EmploymentStatusType">
+			<xs:element name="employmentStatus" type="employmentStatusType">
 				<xs:annotation>
 					<xs:documentation>Reflects the type of employment or contract; for
 						example:
@@ -633,7 +618,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EmploymentPeriod" type="EmploymentPeriod">
+			<xs:element name="employmentPeriod" type="employmentPeriod">
 				<xs:annotation>
 					<xs:documentation>The set of elements defining and characterizing a
 						person's
@@ -643,7 +628,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Department" type="Department" minOccurs="0">
+			<xs:element name="department" type="department" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The department or suborganization the
 						employee/contractor is
@@ -651,7 +636,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="FullTimeEquivalency" type="Percent"
+			<xs:element name="fullTimeEquivalency" type="percent"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The ratio between the hours of work expected in a
@@ -665,7 +650,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="StaffEducationOrgAssignmentAssociation">
+	<xs:complexType name="staffEducationOrgAssignmentAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the education
 				organization to which a staff
@@ -673,13 +658,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffSimpleReference">
+			<xs:element name="staffReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The staff assigned to the education organization.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationOrganizationReference" type="EducationalOrgSimpleReference">
+			<xs:element name="educationOrganizationReference" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
 						memeber
@@ -687,7 +672,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StaffClassification" type="StaffClassificationType">
+			<xs:element name="staffClassification" type="staffClassificationType">
 				<xs:annotation>
 					<xs:documentation>The titles of employment, official status, or
 						rank of
@@ -695,14 +680,14 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PositionTitle" type="PositionTitle"
+			<xs:element name="positionTitle" type="positionTitle"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The descriptive name of an individual's position.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" type="xs:date">
+			<xs:element name="beginDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the start or effective
 						date of a staff
@@ -710,7 +695,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the end or termination
 						date of a staff
@@ -742,7 +727,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ProgramAssignment" type="ProgramAssignmentType">
+				<xs:element name="programAssignment" type="programAssignmentType">
 					<xs:annotation>
 						<xs:documentation>The name of the program for which the individual
 							is assigned;
@@ -752,7 +737,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="InstructionalGradeLevels" type="GradeLevelsType">
+				<xs:element name="instructionalGradeLevels" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>The set of grade levels for which the
 							individual's assignment
@@ -760,7 +745,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="AcademicSubjects" type="AcademicSubjectsType">
+				<xs:element name="academicSubjects" type="academicSubjectsType">
 					<xs:annotation>
 						<xs:documentation>The teaching field taught by an individual, for
 							example

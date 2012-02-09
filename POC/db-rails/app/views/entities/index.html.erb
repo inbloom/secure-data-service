@@ -1,17 +1,6 @@
-<h1>Listing entities</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
+<div id='data'>
+<h1>Listing <%= params[:type]%> </h1>
 <% @entities.each do |entity| %>
-  <tr>
-    <td></td>
-  </tr>
+	<p><%= link_to t(entity.rel), localize_url(entity.href) %></p>
 <% end %>
-</table>
-
-<br />
+</div>
