@@ -650,7 +650,7 @@
   <jb:bean beanId="staffIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/StaffIdentificationCode">
     <jb:value property="identificationSystem" data="StaffIdentificationCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode" data="StaffIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="id" data="StaffIdentificationCode/ID" />
+    <jb:value property="ID" data="StaffIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="teacherNameType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
@@ -725,7 +725,6 @@
     <jb:value property="teachingCredentialBasis" data="Credentials/TeachingCredentialBasis" />
   </jb:bean>
   <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
-    <jb:value property="id" data="Credentials/CredentialField/@id" />
     <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
     <jb:value property="description" data="Credentials/CredentialField/Description" />
   </jb:bean>
