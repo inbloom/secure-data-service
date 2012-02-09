@@ -110,7 +110,7 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
 	 	 	
 	When I navigate to each student 	
-		 Then I navigate to "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets" and filter by assessmentFamily is like is "DIBELS Next*"
+		 Then I navigate to "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets" and filter by assessmentFamily is "DIBELS Next"
 		 And  filter by assessmentTitle is "Grade 2 MOY DIBELS"
 	    Then I should receive 1 assessment with ID <'Grade 2 MOY DIBELS' ID>
 		    And the "AssessmentCategory" is "Benchmark Test"
