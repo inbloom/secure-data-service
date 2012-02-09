@@ -187,8 +187,9 @@ Scenario Outline:  As a AggregateViewer I should not see assessment data
 	When I navigate to GET "student/<'John Doe' ID>"  	
 	Then I should not receive a link named "getAssessments" with URI "/student-assessment-associations/<'John Doe' ID>/targets"
 	
-	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets"
-	Then I should receive a collection of 5 student links
+	When I navigate to GET "section/<'ImportantSection' ID>"  	
+	Then I should receive a link named "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets"
+	Then I should receive a collection of 2 assessment links
 		And after resolution, I should receive a "Assessment" with ID <'Grade 2 MOY DIBELS' ID>
 		And after resolution, I should receive a "Assessment" with ID  <'Grade 2 BOY DIBELS' ID>
 		
