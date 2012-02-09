@@ -74,6 +74,19 @@ public interface EntityRepository {
     public Entity create(String type, Map<String, Object> body, String collectionName);
 
     /**
+     * @param type
+     *            the type of entity to be persisted
+     * @param body
+     *            the entity body that will be persisted
+     * @param metaData
+     *            the entity meta data that will be persisted
+     * @param collectionName
+     *            the name of the collection to save it into
+     * @return the entity that has been persisted
+     */
+    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
+
+    /**
      * @param collectionName
      *            the name of the collection to delete from
      * @param id

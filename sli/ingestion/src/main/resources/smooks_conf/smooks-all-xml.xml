@@ -113,7 +113,7 @@
     <jb:wiring beanIdRef="studentIdentificationCodeType" />
   </jb:bean>
 
-  <jb:bean beanId="studentIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="studentIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/StudentIdentificationCode">
     <jb:value property="identificationSystem" data="Student/StudentIdentificationCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode" data="Student/StudentIdentificationCode/@AssigningOrganizationCode" />
     <jb:value property="identificationCode" data="Student/StudentIdentificationCode/IdentificationCode" />
@@ -136,7 +136,7 @@
     <jb:wiring beanIdRef="otherNameType" />
   </jb:bean>
 
-  <jb:bean beanId="otherNameType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="otherNameType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/OtherName">
     <jb:value property="otherNameType" data="Student/OtherName/@OtherNameType" />
     <jb:value property="personalTitlePrefix" data="Student/OtherName/PersonalTitlePrefix" />
     <jb:value property="firstName" data="Student/OtherName/FirstName" />
@@ -160,7 +160,7 @@
     <jb:wiring beanIdRef="addressType" />
   </jb:bean>
 
-  <jb:bean beanId="addressType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="addressType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/Address">
     <jb:value property="addressType" data="Student/Address/@AddressType" />
     <jb:value property="streetNumberName" data="Student/Address/StreetNumberName" />
     <jb:value property="apartmentRoomSuiteNumber" data="Student/Address/ApartmentRoomSuiteNumber" />
@@ -182,7 +182,7 @@
     <jb:wiring beanIdRef="telephoneType" />
   </jb:bean>
 
-  <jb:bean beanId="telephoneType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="telephoneType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/Telephone">
     <jb:value property="telephoneNumberType" data="Student/Telephone/@TelephoneNumberType" />
     <jb:value property="telephoneNumber" data="Student/Telephone/TelephoneNumber" />
     <jb:value property="primaryTelephoneNumberIndicator" data="Student/Telephone/@PrimaryTelephoneNumberIndicator"
@@ -194,7 +194,7 @@
     <jb:wiring beanIdRef="electronicMailType" />
   </jb:bean>
 
-  <jb:bean beanId="electronicMailType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="electronicMailType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/ElectronicMail">
     <jb:value property="emailAddressType" data="Student/ElectronicMail/@EmailAddressType" />
     <jb:value property="emailAddress" data="Student/ElectronicMail/EmailAddress" />
   </jb:bean>
@@ -210,7 +210,7 @@
     <jb:wiring beanIdRef="studentCharacteristicType" />
   </jb:bean>
 
-  <jb:bean beanId="studentCharacteristicType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="studentCharacteristicType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/StudentCharacteristics">
     <jb:value property="characteristic" data="Student/StudentCharacteristics/Characteristic" />
     <jb:value property="beginDate" data="Student/StudentCharacteristics/BeginDate" />
     <jb:value property="endDate" data="Student/StudentCharacteristics/EndDate" />
@@ -231,7 +231,7 @@
   <jb:bean beanId="disabilityTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
     <jb:wiring beanIdRef="disabilityType" />
   </jb:bean>
-  <jb:bean beanId="disabilityType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="disabilityType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/Disabilities">
     <jb:value property="disability" data="Student/Disabilities/Disability" />
     <jb:value property="disabilityDiagnosis" data="Student/Disabilities/DisabilityDiagnosis" />
     <jb:value property="orderOfDisability" data="Student/Disabilities/OrderOfDisability" decoder="Integer" />
@@ -250,7 +250,7 @@
   <jb:bean beanId="programParticipationTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
     <jb:wiring beanIdRef="programParticipationType" />
   </jb:bean>
-  <jb:bean beanId="programParticipationType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="programParticipationType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/ProgramParticipations">
     <jb:value property="program" data="Student/ProgramParticipations/Program" />
     <jb:value property="beginDate" data="Student/ProgramParticipations/BeginDate" />
     <jb:value property="endDate" data="Student/ProgramParticipations/EndDate" />
@@ -269,7 +269,7 @@
     <jb:wiring beanIdRef="cohortYearType" />
   </jb:bean>
 
-  <jb:bean beanId="cohortYearType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="cohortYearType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/CohortYears">
     <jb:value property="cohortYearType" data="Student/CohortYears/@CohortYearType" />
     <jb:value property="schoolYear" data="Student/CohortYears/SchoolYear" />
   </jb:bean>
@@ -279,7 +279,7 @@
     <jb:wiring beanIdRef="studentIndicatorType" />
   </jb:bean>
 
-  <jb:bean beanId="studentIndicatorType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student">
+  <jb:bean beanId="studentIndicatorType" class="java.util.HashMap" createOnElement="InterchangeStudent/Student/StudentIndicators">
     <jb:value property="indicatorGroup" data="Student/StudentIndicators/IndicatorGroup" />
     <jb:value property="indicatorName" data="Student/StudentIndicators/IndicatorName" />
     <jb:value property="indicator" data="Student/StudentIndicators/Indicator" />
@@ -321,7 +321,7 @@
   <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
   </jb:bean>
-  <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+  <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/EducationOrgIdentificationCode">
     <jb:value property="identificationSystem" data="School/EducationOrgIdentificationCode/@IdentificationSystem" />
     <jb:value property="ID" data="School/EducationOrgIdentificationCode/Id" />
   </jb:bean>
@@ -333,7 +333,7 @@
   <jb:bean beanId="addressSchoolTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="addressSchoolType" />
   </jb:bean>
-  <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+  <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/Address">
     <jb:value property="addressType" data="School/Address/@AddressType" />
     <jb:value property="streetNumberName" data="School/Address/StreetNumberName" />
     <jb:value property="apartmentRoomSuiteNumber" data="School/Address/ApartmentRoomSuiteNumber" />
@@ -353,7 +353,7 @@
   <jb:bean beanId="institutionTelephoneTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="institutionTelephoneType" />
   </jb:bean>
-  <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+  <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/Telephone">
     <jb:value property="institutionTelephoneNumberType" data="School/Telephone/@InstitutionTelephoneNumberType" />
     <jb:value property="telephoneNumber" data="School/Telephone/TelephoneNumber" />
   </jb:bean>
@@ -361,7 +361,7 @@
   <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
     <jb:wiring beanIdRef="accountabilityRatingsType" />
   </jb:bean>
-  <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+  <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/AccountabilityRatings">
     <jb:value property="ratingTitle" data="School/AccountabilityRatings/RatingTitle" />
     <jb:value property="rating" data="School/AccountabilityRatings/Rating" />
     <jb:value property="ratingDate" data="School/AccountabilityRatings/RatingDate" />
@@ -568,8 +568,8 @@
   <jb:bean beanId="studentSchoolAssociationParentIds" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
 
-    <jb:value property="studentId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="schoolId" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="Student" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="School" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap"
@@ -736,8 +736,15 @@
     <jb:expression property="recordType">'studentSectionAssociation'
     </jb:expression>
     <jb:wiring property="attributes" beanIdRef="SSAAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="studentSectionAssociationParentIds" />
   </jb:bean>
 
+  <jb:bean beanId="studentSectionAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+
+    <jb:value property="Student" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="Section" data="StudentSectionAssociation/UniqueSectionCode" />
+  </jb:bean>
   <jb:bean beanId="SSAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
     <jb:value property="studentId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="uniqueSectionCode" data="StudentSectionAssociation/ UniqueSectionCode" />
@@ -807,8 +814,15 @@
     <jb:expression property="recordType">'teacherSectionAssociation'
     </jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="teacherSectionAssociationParentIds" />
   </jb:bean>
 
+  <jb:bean beanId="teacherSectionAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+
+    <jb:value property="Teacher" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="Section" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
   <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 
     <!-- SectionReference -->
@@ -837,14 +851,14 @@
     <jb:expression property="recordType">'teacherSchoolAssociation'
     </jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
-    <jb:wiring property="localParentIds" beanIdRef="studentSchoolAssociationParentIds" />
+    <jb:wiring property="localParentIds" beanIdRef="teacherSchoolAssociationParentIds" />
   </jb:bean>
 
-  <jb:bean beanId="studentSchoolAssociationParentIds" class="java.util.HashMap"
-    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+  <jb:bean beanId="teacherSchoolAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
-    <jb:value property="teacherId" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
-    <jb:value property="schoolId" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="Teacher" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="School" data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
@@ -897,7 +911,7 @@
     <jb:expression property="recordType">'course'</jb:expression>
 
     <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
-    <!-- <jb:value property="localId" data="Course/CourseCode/ID" /> -->
+    <jb:value property="localId" data="Course/CourseCode/ID" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>

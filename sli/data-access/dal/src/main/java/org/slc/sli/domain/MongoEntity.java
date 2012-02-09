@@ -80,7 +80,7 @@ public class MongoEntity implements Entity {
 
         dbObj.put("_id", uid);
         dbObj.put("body", body);
-        dbObj.put("metadata", metaData);
+        dbObj.put("metaData", metaData);
 
         return dbObj;
     }
@@ -104,8 +104,8 @@ public class MongoEntity implements Entity {
             body.putAll((Map<String, ?>) map.get("body"));
         }
         Map<String, Object> metaData = new HashMap<String, Object>();
-        if (map.containsKey("metadata")) {
-            metaData.putAll((Map<String, ?>) map.get("metadata"));
+        if (map.containsKey("metaData")) {
+            metaData.putAll((Map<String, ?>) map.get("metaData"));
         }
         return new MongoEntity(type, id, body, metaData);
     }

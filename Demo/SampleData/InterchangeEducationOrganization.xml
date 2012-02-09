@@ -244,14 +244,14 @@
 		<OrganizationCategory>School</OrganizationCategory>
 	</OrganizationCategories>
 	<Address AddressType="Physical">
-		<StreetNumberName></StreetNumberName>
-		<City></City>
-		<StateAbbreviation></StateAbbreviation>
-		<PostalCode></PostalCode>
+		<StreetNumberName>111 Ave A</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>11011</PostalCode>
 		<NameOfCounty>Wake</NameOfCounty>
 	</Address>
 	<Telephone InstitutionTelephoneNumberType="Main">
-		<TelephoneNumber></TelephoneNumber>
+		<TelephoneNumber>(917)-555-0212</TelephoneNumber>
 	</Telephone>
 	<GradesOffered>
 		<GradeLevel>Kindergarten</GradeLevel>
@@ -279,14 +279,14 @@
 		<OrganizationCategory>School</OrganizationCategory>
 	</OrganizationCategories>
 	<Address AddressType="Physical">
-		<StreetNumberName></StreetNumberName>
-		<City></City>
-		<StateAbbreviation></StateAbbreviation>
-		<PostalCode></PostalCode>
+		<StreetNumberName>111 Ave B</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10112</PostalCode>
 		<NameOfCounty>Wake</NameOfCounty>
 	</Address>
 	<Telephone InstitutionTelephoneNumberType="Main">
-		<TelephoneNumber></TelephoneNumber>
+		<TelephoneNumber>(917)-555-3312</TelephoneNumber>
 	</Telephone>
 	<GradesOffered>
 		<GradeLevel>Kindergarten</GradeLevel>
@@ -314,14 +314,14 @@
 		<OrganizationCategory>School</OrganizationCategory>
 	</OrganizationCategories>
 	<Address AddressType="Physical">
-		<StreetNumberName></StreetNumberName>
-		<City></City>
-		<StateAbbreviation></StateAbbreviation>
-		<PostalCode></PostalCode>
+		<StreetNumberName>111 Ave C</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10098</PostalCode>
 		<NameOfCounty>Wake</NameOfCounty>
 	</Address>
 	<Telephone InstitutionTelephoneNumberType="Main">
-		<TelephoneNumber></TelephoneNumber>
+		<TelephoneNumber>(917)-555-0216</TelephoneNumber>
 	</Telephone>
 	<GradesOffered>
 		<GradeLevel>Kindergarten</GradeLevel>
@@ -349,14 +349,14 @@
 		<OrganizationCategory>School</OrganizationCategory>
 	</OrganizationCategories>
 	<Address AddressType="Physical">
-		<StreetNumberName></StreetNumberName>
-		<City></City>
-		<StateAbbreviation></StateAbbreviation>
-		<PostalCode></PostalCode>
+		<StreetNumberName>111 Ave Z</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10102</PostalCode>
 		<NameOfCounty>Wake</NameOfCounty>
 	</Address>
 	<Telephone InstitutionTelephoneNumberType="Main">
-		<TelephoneNumber></TelephoneNumber>
+		<TelephoneNumber>(917)-555-06070</TelephoneNumber>
 	</Telephone>
 	<GradesOffered>
 		<GradeLevel>Kindergarten</GradeLevel>
@@ -384,14 +384,14 @@
 		<OrganizationCategory>School</OrganizationCategory>
 	</OrganizationCategories>
 	<Address AddressType="Physical">
-		<StreetNumberName></StreetNumberName>
-		<City></City>
-		<StateAbbreviation></StateAbbreviation>
-		<PostalCode></PostalCode>
+		<StreetNumberName>111 Ave X</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10120</PostalCode>
 		<NameOfCounty>Wake</NameOfCounty>
 	</Address>
 	<Telephone InstitutionTelephoneNumberType="Main">
-		<TelephoneNumber></TelephoneNumber>
+		<TelephoneNumber>(917)-555-0299</TelephoneNumber>
 	</Telephone>
 	<GradesOffered>
 		<GradeLevel>Kindergarten</GradeLevel>

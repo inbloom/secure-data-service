@@ -35,7 +35,7 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
 end
 
 Then /^I should be redirected to the app selection page$/ do
-  expected_url = "https://" + PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode'] + PropLoader.getProps['dashboard_app_selector_page']
+  expected_url = "http://" + PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode'] + PropLoader.getProps['dashboard_app_selector_page']
   print expected_url
   assert(@driver.current_url == expected_url)
 end
@@ -52,7 +52,8 @@ Then /^The students who have an ELL lozenge exist in the API$/ do
   
   students_w_lozenges = getStudentsWithELLLozenge()
   students_w_lozenges.each do |student_id|
-    restHttpGet("/students/"+student_id)
+    urlHeader = makeUrlAndHeaders('get',false ,"/students/"+student_id, @sessionId, @format)
+    @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
     @result = JSON.parse(@res.body)
     assert(@result["limitedEnglishProficiency"].to_s == "Yes")
   end  

@@ -11,6 +11,7 @@ When I select "New York Realm " and click go
 When I login as "mario.sanchez" "mario.sanchez1234"
 Then I should be redirected to the app selection page
 When I click on the Dashboard page
+When I select ed org "No Ed-Org"
 When I select school "P.S. 5"
 When I select course "8th Grade English"
 When I select section "Period 2"

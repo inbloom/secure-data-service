@@ -1,7 +1,7 @@
 require_relative '../../utils/sli_utils.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  url = PropLoader.getProps['devdash1']
+  url = PropLoader.getProps['dashboard_server_address']
   url = url + PropLoader.getProps[@appPrefix]
   
   #url = "http://localhost:8080/dashboard"

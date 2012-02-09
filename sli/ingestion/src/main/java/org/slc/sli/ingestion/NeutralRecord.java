@@ -176,6 +176,14 @@ public class NeutralRecord {
     }
 
     /**
+     * @author tshewchuk 2/6/2010 (PI3 US811)
+     */
+    public void setAttributeField(String fieldName, Object fieldValue) {
+        this.attributes.remove(fieldName);
+        this.attributes.put(fieldName, fieldValue);
+    }
+
+    /**
      * @return the attributesCrc
      */
     public String getAttributesCrc() {
@@ -201,6 +209,7 @@ public class NeutralRecord {
      *
      * TODO - replace with version incorporating CRC as basis for comparison
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
