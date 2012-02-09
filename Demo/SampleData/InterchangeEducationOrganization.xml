@@ -237,5 +237,179 @@
   </MaximumAvailableCredit>
   <EducationOrganizationReference></EducationOrganizationReference>
  </Course>
-
+<School>
+	<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+	<NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName>111 Ave A</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>11011</PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber>(917)-555-0212</TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+	<NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName>111 Ave B</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10112</PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber>(917)-555-3312</TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	<NameOfInstitution>Sunset Central High School</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName>111 Ave C</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10098</PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber>(917)-555-0216</TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>Illinois PS145</StateOrganizationId>
+	<NameOfInstitution>Illinois PS145</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName>111 Ave Z</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10102</PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber>(917)-555-06070</TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
+<School>
+	<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+	<NameOfInstitution>Daybreak Central High</NameOfInstitution>
+	<OrganizationCategories>
+		<OrganizationCategory>School</OrganizationCategory>
+	</OrganizationCategories>
+	<Address AddressType="Physical">
+		<StreetNumberName>111 Ave X</StreetNumberName>
+		<City>Chicago</City>
+		<StateAbbreviation>IL</StateAbbreviation>
+		<PostalCode>10120</PostalCode>
+		<NameOfCounty>Wake</NameOfCounty>
+	</Address>
+	<Telephone InstitutionTelephoneNumberType="Main">
+		<TelephoneNumber>(917)-555-0299</TelephoneNumber>
+	</Telephone>
+	<GradesOffered>
+		<GradeLevel>Kindergarten</GradeLevel>
+		<GradeLevel>First grade</GradeLevel>
+		<GradeLevel>Second grade</GradeLevel>
+		<GradeLevel>Third grade</GradeLevel>
+		<GradeLevel>Fourth grade</GradeLevel>
+		<GradeLevel>Fifth grade</GradeLevel>
+		<GradeLevel>Sixth grade</GradeLevel>
+		<GradeLevel>Seventh grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Ninth grade</GradeLevel>
+		<GradeLevel>Tenth grade</GradeLevel>
+		<GradeLevel>Eighth grade</GradeLevel>
+		<GradeLevel>Twelfth grade</GradeLevel>
+	</GradesOffered>
+	<SchoolCategories>
+		<SchoolCategory>Elementary School</SchoolCategory>
+	</SchoolCategories>
+</School>
 </InterchangeEducationOrganization>

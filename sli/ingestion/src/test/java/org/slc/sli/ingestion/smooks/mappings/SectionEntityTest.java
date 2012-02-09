@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -32,10 +33,7 @@ public class SectionEntityTest {
     @Autowired
     private EntityValidator validator;
 
-    String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
-
-
-    String xmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+    String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<Section> "
             + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
             + "<SequenceOfCourse>1</SequenceOfCourse>"
@@ -84,12 +82,13 @@ public class SectionEntityTest {
         + "</Section>"
     + "</InterchangeMasterSchedule>";
 
+    @Ignore
     @Test
     public void testValidSection() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -100,11 +99,208 @@ public class SectionEntityTest {
 
     @Ignore
     @Test(expected = EntityValidationException.class)
-    public void testInvalidSection() throws Exception {
+    public void testInvalidSectionMissingUniqueSectionCode() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        String invalidXmlMissingUniqueSectionCode = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<Section> "
+                + "<SequenceOfCourse>1</SequenceOfCourse>"
+                + "<CourseOfferingReference>"
+                +    "<CourseOfferingIdentity>"
+                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+                +    "</CourseOfferingIdentity>"
+                + "</CourseOfferingReference>"
+                + "<SchoolReference>"
+                +    "<EducationalOrgIdentity>"
+                +       "<StateOrganizationId>152901001</StateOrganizationId>"
+                +    "</EducationalOrgIdentity>"
+                + "</SchoolReference>"
+                + "<SessionReference>"
+                +   "<SessionIdentity>"
+                +       "<SessionName>223</SessionName>"
+                +   "</SessionIdentity>"
+                + "</SessionReference>"
+            + "</Section>"
+        + "</InterchangeMasterSchedule>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingUniqueSectionCode);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        validator.validate(e);
+
+    }
+
+    @Ignore
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidSectionMissingSequenceOfCourse() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
+
+        String invalidXmlMissingSequenceOfCourse = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<Section> "
+                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+                + "<CourseOfferingReference>"
+                +    "<CourseOfferingIdentity>"
+                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+                +    "</CourseOfferingIdentity>"
+                + "</CourseOfferingReference>"
+                + "<SchoolReference>"
+                +    "<EducationalOrgIdentity>"
+                +       "<StateOrganizationId>152901001</StateOrganizationId>"
+                +    "</EducationalOrgIdentity>"
+                + "</SchoolReference>"
+                + "<SessionReference>"
+                +   "<SessionIdentity>"
+                +       "<SessionName>223</SessionName>"
+                +   "</SessionIdentity>"
+                + "</SessionReference>"
+            + "</Section>"
+        + "</InterchangeMasterSchedule>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSequenceOfCourse);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        validator.validate(e);
+
+    }
+
+    @Ignore
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidSectionMissingCourseOfferingReference() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
+
+        String invalidXmlMissingCourseOfferingReference = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<Section> "
+                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+                + "<SequenceOfCourse>1</SequenceOfCourse>"
+                + "<SchoolReference>"
+                +    "<EducationalOrgIdentity>"
+                +       "<StateOrganizationId>152901001</StateOrganizationId>"
+                +    "</EducationalOrgIdentity>"
+                + "</SchoolReference>"
+                + "<SessionReference>"
+                +   "<SessionIdentity>"
+                +       "<SessionName>223</SessionName>"
+                +   "</SessionIdentity>"
+                + "</SessionReference>"
+            + "</Section>"
+        + "</InterchangeMasterSchedule>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingCourseOfferingReference);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        validator.validate(e);
+
+    }
+
+    @Ignore
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidSectionMissingSchoolReference() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
+
+        String invalidXmlMissingSchoolReference = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<Section> "
+                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+                + "<SequenceOfCourse>1</SequenceOfCourse>"
+                + "<CourseOfferingReference>"
+                +    "<CourseOfferingIdentity>"
+                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+                +    "</CourseOfferingIdentity>"
+                + "</CourseOfferingReference>"
+                + "<SessionReference>"
+                +   "<SessionIdentity>"
+                +       "<SessionName>223</SessionName>"
+                +   "</SessionIdentity>"
+                + "</SessionReference>"
+            + "</Section>"
+        + "</InterchangeMasterSchedule>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSchoolReference);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        validator.validate(e);
+
+    }
+
+    @Ignore
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidSectionMissingSessionReference() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
+
+        String invalidXmlMissingSessionReference = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<Section> "
+                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+                + "<SequenceOfCourse>1</SequenceOfCourse>"
+                + "<CourseOfferingReference>"
+                +    "<CourseOfferingIdentity>"
+                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+                +    "</CourseOfferingIdentity>"
+                + "</CourseOfferingReference>"
+                + "<SchoolReference>"
+                +    "<EducationalOrgIdentity>"
+                +       "<StateOrganizationId>152901001</StateOrganizationId>"
+                +    "</EducationalOrgIdentity>"
+                + "</SchoolReference>"
+            + "</Section>"
+        + "</InterchangeMasterSchedule>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSessionReference);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("section");
+
+        validator.validate(e);
+
+    }
+
+
+    @Ignore
+    @Test(expected = EntityValidationException.class)
+    public void testInvalidSectionIncorrectEnum() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeMasterSchedule/Section";
+
+        String invalidXmlIncorrectEnum = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<Section> "
+                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
+                + "<SequenceOfCourse>1</SequenceOfCourse>"
+                + "<EducationalEnvironment>Mainstrean (Special Education)</EducationalEnvironment>"
+                + "<CourseOfferingReference>"
+                +    "<CourseOfferingIdentity>"
+                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
+                +    "</CourseOfferingIdentity>"
+                + "</CourseOfferingReference>"
+                + "<SchoolReference>"
+                +    "<EducationalOrgIdentity>"
+                +       "<StateOrganizationId>152901001</StateOrganizationId>"
+                +    "</EducationalOrgIdentity>"
+                + "</SchoolReference>"
+                + "<SessionReference>"
+                +   "<SessionIdentity>"
+                +       "<SessionName>223</SessionName>"
+                +   "</SessionIdentity>"
+                + "</SessionReference>"
+            + "</Section>"
+        + "</InterchangeMasterSchedule>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlIncorrectEnum);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -120,6 +316,8 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
+        String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 csvTestData);
 
@@ -133,7 +331,7 @@ public class SectionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
-                targetSelector, xmlTestData);
+                targetSelector, validXmlTestData);
 
         checkValidSectionNeutralRecord(neutralRecord);
 

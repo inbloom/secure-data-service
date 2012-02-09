@@ -373,4 +373,16 @@ public class MockRepo implements EntityRepository {
         return UUID.randomUUID().toString();
     }
 
+    @Override
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+        // Not implemented
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
+        // Not implemented
+        return null;
+    }
+
 }

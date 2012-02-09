@@ -26,12 +26,12 @@ class ActiveSupport::TestCase
     @student_fixtures = load_fixture("entities")
     # @realm_fixtures = load_fixture("realms")
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/students", {"Accept" => "application/json", "sessionId" => nil}, [@student_fixtures['one'], @student_fixtures['two']].to_json
-      mock.get "/api/rest/teachers", {"Accept" => "application/json", "sessionId" => nil}, [@student_fixtures['one'], @student_fixtures['two']].to_json
-      mock.get "/api/rest/students/1", {"Accept" => "application/json", "sessionId" => nil}, @student_fixtures['one'].to_json
-      mock.get "/api/rest/students/2/targets", {"Accept" => "application/json", "sessionId" => nil}, @student_fixtures['two'].to_json
+      mock.get "/api/rest/students", {"Accept" => "application/json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json
+      mock.get "/api/rest/teachers", {"Accept" => "application/json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json
+      mock.get "/api/rest/students/1", {"Accept" => "application/json"}, @student_fixtures['one'].to_json
+      mock.get "/api/rest/students/2/targets", {"Accept" => "application/json"}, @student_fixtures['two'].to_json
       
-      mock.get "/api/rest/system/session/check", {"Accept" => "application/json", "sessionId" => nil}, {'name' => "Peter Griffin"}.to_json
+      mock.get "/api/rest/system/session/check", {"Accept" => "application/json"}, {'name' => "Peter Griffin"}.to_json
     end
   end
 end
