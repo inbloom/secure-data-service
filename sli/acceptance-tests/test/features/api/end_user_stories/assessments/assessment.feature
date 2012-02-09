@@ -110,7 +110,7 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
 	 	 	
 	When I navigate to each student 	
-		 Then I navigate to "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets" and filter by assessmentFamily is like is "DIBELS Next*"
+		 Then I navigate to "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets" and filter by assessmentFamily is "DIBELS Next"
 		 And  filter by assessmentTitle is "Grade 2 MOY DIBELS"
 	    Then I should receive 1 assessment with ID <'Grade 2 MOY DIBELS' ID>
 		    And the "AssessmentCategory" is "Benchmark Test"
@@ -187,8 +187,9 @@ Scenario Outline:  As a AggregateViewer I should not see assessment data
 	When I navigate to GET "student/<'John Doe' ID>"  	
 	Then I should not receive a link named "getAssessments" with URI "/student-assessment-associations/<'John Doe' ID>/targets"
 	
-	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets"
-	Then I should receive a collection of 5 student links
+	When I navigate to GET "section/<'ImportantSection' ID>"  	
+	Then I should receive a link named "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets"
+	Then I should receive a collection of 2 assessment links
 		And after resolution, I should receive a "Assessment" with ID <'Grade 2 MOY DIBELS' ID>
 		And after resolution, I should receive a "Assessment" with ID  <'Grade 2 BOY DIBELS' ID>
 		

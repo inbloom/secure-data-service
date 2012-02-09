@@ -1,4 +1,4 @@
-dashboard_server_address: "devapp1.slidev.org"
+dashboard_server_address: "devdash1.slidev.org:8080"
 dashboard_app_prefix_live_mode: "/dashboard"
 dashboard_app_prefix_test_mode: "/dashboard-test-mode"
 dashboard_login_page: "/spring_security_login" 
