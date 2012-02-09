@@ -47,6 +47,10 @@ public class MongoEntityRepository implements EntityRepository, EntityValidation
     @Override
     public Entity find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
+        if (databaseId == null) {
+            LOG.debug("Unable to process id {}", new Object[] { id });
+            return null;
+        }
         LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
         return template.findById(databaseId, MongoEntity.class, collectionName);
     }
