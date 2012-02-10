@@ -46,7 +46,6 @@ class ApplicationController < ActionController::Base
       Check.url_type = "check"
       # Get the state unique id and state to identify and key logging
       check = Check.get("")
-      logger.debug {"#{check}"}
       session[:full_name] = Check.get("")["full_name"]
     else
       logger.debug { "No cookie set" }
