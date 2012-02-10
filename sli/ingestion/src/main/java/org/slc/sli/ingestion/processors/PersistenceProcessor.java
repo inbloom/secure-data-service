@@ -26,6 +26,7 @@ import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
+import org.slc.sli.ingestion.validation.ProxyErrorReport;
 import org.slc.sli.util.performance.Profiled;
 
 /**
@@ -152,7 +153,7 @@ public class PersistenceProcessor implements Processor {
                 // map NeutralRecord to Entity
                 NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
-                entityPersistHandler.handle(neutralRecordEntity, recordLevelErrorsInFile);
+                entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
             }
 
