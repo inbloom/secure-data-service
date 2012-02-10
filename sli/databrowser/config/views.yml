@@ -5,6 +5,6 @@ student:
     - name/firstName
     - name/lastSurname
 teacher:
-    - body/sex
+    - sex
     - name/firstName
     - name/lastSurname

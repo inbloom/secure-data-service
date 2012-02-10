@@ -18,7 +18,7 @@ class EntityHelperTest < ActionView::TestCase
   test "simple value generator with valid" do
     v = value_for_simple_view(VIEW_CONFIG['teacher'].first, @teacher_fixtures['one'])
     assert_not_nil(v)
-    assert_equal(v, "Linda")
+    assert_equal(v, "Female")
   end
   
   test "simple value generator with nested type" do
