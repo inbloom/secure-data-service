@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -82,6 +83,9 @@ public class HomeResource {
 
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
+        }
+        else {
+            return Response.status(Status.UNAUTHORIZED).build();
         }
         return Response.ok(home).build();
     }

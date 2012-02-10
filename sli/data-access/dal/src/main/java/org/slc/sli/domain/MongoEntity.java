@@ -113,4 +113,12 @@ public class MongoEntity implements Entity {
     public static MongoEntity create(String type, Map<String, Object> body) {
         return new MongoEntity(type, body);
     }
+
+   
+    /**
+     * Returns the meta data map.
+     */
+    public Map<String, Object> getMetaData() {
+       return metaData;
+    }
 }
