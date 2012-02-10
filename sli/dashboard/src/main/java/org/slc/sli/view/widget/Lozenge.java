@@ -1,12 +1,13 @@
 package org.slc.sli.view.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.slc.sli.config.Field;
 import org.slc.sli.config.LozengeConfig;
-import org.slc.sli.entity.Student;
-import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
-import java.util.List;
-import java.util.ArrayList;
+import org.slc.sli.view.StudentResolver;
 
 /**
  * Logic used by a widget that displays lozenges for a student
@@ -18,8 +19,10 @@ public class Lozenge {
     // list of lozenges that need to be displayed
     private List<LozengeConfig> lozenges;
 
-    // Constructor: process the field and determine which lozenge needs to be displayed.
-    public Lozenge(Field field, Student student, StudentResolver students, LozengeConfigResolver lozengeConfigs) {
+
+    // Constructor: process the field and determine which lozenge needs to be displayed. 
+    public Lozenge(Field field, Map student, StudentResolver students, LozengeConfigResolver lozengeConfigs) {
+
         lozenges = new ArrayList<LozengeConfig>();
 
         int maxCount = Integer.MAX_VALUE;
@@ -39,6 +42,7 @@ public class Lozenge {
             String[] lozengeNamesArr = lozengeNames.split("\\s+");
             for (int i = 0; i < lozengeNamesArr.length; i++) {
                 String lozengeName = lozengeNamesArr[i];
+                
                 if (students.lozengeApplies(student, lozengeName)) {
                     LozengeConfig config = lozengeConfigs.get(lozengeName);
                     if (config != null) {
@@ -48,6 +52,7 @@ public class Lozenge {
                         }
                     }
                 }
+                
             }
         }
     }

@@ -1,11 +1,13 @@
 package org.slc.sli.view;
 
-import org.slc.sli.entity.Student;
-import org.slc.sli.entity.StudentProgramAssociation;
-import org.slc.sli.config.Field;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.StudentProgramUtil;
+import org.slc.sli.util.Constants;
 
 
 //Hopefully there will be one for each of dataSet types
@@ -18,54 +20,58 @@ import java.util.List;
  *
  */
 public class StudentResolver {
-    List<Student> students;
-    List<StudentProgramAssociation> programs;
 
-    public static final String DATA_SET_TYPE = "studentInfo";
-
+    List<GenericEntity> students;
+    List<GenericEntity> programs;
+    
     /**
      * Constructor
      */
-    public StudentResolver(List<Student> s, List<StudentProgramAssociation> p) {
+    public StudentResolver(List<GenericEntity> s, List<GenericEntity> p) {
         students = s;
         programs = p;
     }
-
-    public List<Student> list() {
+    
+    public List<GenericEntity> list() {
         return students;
     }
 
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      */
-    public String get(Field field, Student student) {
+    //public String get(Field field, GenericEntity student) {
+    public String get(Field field, Map student) {
+
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
-        if (dataPointName.equals("name")) {
-            // formatting class and logic should be added here later. Or maybe in the view. Don't know...
-            return student.getFirstName() + " " + student.getLastName();
-        }
+        if (dataPointName.equals(Constants.ATTR_NAME)) {
+            // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
+            //return student.getFirstName() + " " + student.getLastName();
+            return ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
+                 + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
+        } 
         return "";
     }
 
     /**
      * returns true if the given lozenge code applies to the given student
      */
-    public boolean lozengeApplies(Student student, String code) {
-
-        String[] studentProgramCodes = Student.getProgramCodesForStudent();
-
+    public boolean lozengeApplies(Map student, String code) {
+        
+        String[] studentProgramCodes = StudentProgramUtil.getProgramCodesForStudent();
+        
         // Check if program in student entity
         if (Arrays.asList(studentProgramCodes).contains(code)) {
-            return student.hasProgramParticipation(code);
-        }
-
+            return StudentProgramUtil.hasProgramParticipation(student, code);
+        } 
+        
         // Now check program participation
-        for (StudentProgramAssociation p : programs) {
-            if (p.getStudentId().equals(student.getId())) {
-                return Arrays.asList(p.getPrograms()).contains(code);
+        for (GenericEntity p : programs) {
+            if (p.get(Constants.ATTR_STUDENT_ID).equals(student.get(Constants.ATTR_ID))) {
+                return ((List<String>) (p.get(Constants.ATTR_PROGRAMS))).contains(code);
             }
         }
+
         return false;
     }
 }
