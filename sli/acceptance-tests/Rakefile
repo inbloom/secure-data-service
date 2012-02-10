@@ -190,8 +190,14 @@ end
 ############################################################
 desc "Run API Acceptances Tests"
 task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, 
-                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
+                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :directEntityRelationsTests] do
   displayFailureReport()
+end
+
+desc "Run Direct Entity Relations Tests"
+task :directEntityRelationsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/associations/directEntityRelations")
 end
 
 desc "Run Heirachy Traversal Tests"

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+import java.util.Collection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +22,7 @@ import org.json.JSONException;
  * @author syau
  *
  */
-public class InstitutionalHeirarchyManager extends Manager {
+public class InstitutionalHierarchyManager extends Manager {
 
     // JSON key names
     public static final String NAME = "name";
@@ -41,16 +42,12 @@ public class InstitutionalHeirarchyManager extends Manager {
     }
 
     /**
-     * Returns the institutional heirarchy visible to the user with the given auth token as a JSON string,
+     * Returns the institutional hierarchy visible to the user with the given auth token as a JSON string,
      * with the ed-org level flattened
-     * This assumes there are no cycles in the education organization heirarchy tree.
+     * This assumes there are no cycles in the education organization hierarchy tree.
      * @return
      */
-    public String getInstHeirarchyJSON(String token) {
-        // Okay, this function should arguably be placed in a view package, but if the school JSONs
-        // are already being constructed in the *API Client* level (WTF was that about anyway?!?),
-        // constructing inst heirarchy as JSON here isn't making things worse than they already are.
-
+    public String getInstHierarchyJSON(String token) {
         // Find all the schools first.
         School[] schools = getSchools(token);
         if (schools == null) { return new JSONArray().toString(); }
@@ -78,6 +75,31 @@ public class InstitutionalHeirarchyManager extends Manager {
         }
 
         // write out the result
+        // Okay, this part should arguably be placed in a view package, but if the school JSONs
+        // are already being constructed in the *API Client* level (WTF was that about anyway?!?),
+        // constructing inst hierarchy as JSON here isn't making things worse than they already are.
+        JSONArray retVal = makeInstHierarchyJSON(schoolReachableFromEdOrg, edOrgIdMap);
+        
+        // Temporary: insert a dummy edorg for all orphan schools.
+        Collection<School> orphanSchools = findOrphanSchools(schools, schoolReachableFromEdOrg);
+        if (orphanSchools.size() > 0) {
+            insertSchoolsUnderDummyEdOrg(retVal, orphanSchools);
+        }
+        return retVal.toString();
+    }
+
+    // ------------- helper functions ----------------
+    // This assumes there is no cycle in the education organization hierarchy tree.
+    private void insertEdOrgAndAncesterIntoSet(String token, Map<String, EducationalOrganization> map, EducationalOrganization edOrg) {
+        map.put(edOrg.getId(), edOrg);
+        EducationalOrganization[] parentEdOrgs = getParentEducationalOrganizations(token, edOrg);
+        for (int i = 0; i < parentEdOrgs.length; i++) {
+            insertEdOrgAndAncesterIntoSet(token, map, parentEdOrgs[i]);
+        }
+    }
+    // Creates a JSONArray to represent the ed-org hierarchy
+    private static JSONArray makeInstHierarchyJSON(Map<String, HashSet<School>> schoolReachableFromEdOrg,
+                                                   Map<String, EducationalOrganization> edOrgIdMap) {
         JSONArray retVal = new JSONArray();
         for (String edOrgId : schoolReachableFromEdOrg.keySet()) {
             JSONObject obj = new JSONObject();
@@ -94,9 +116,10 @@ public class InstitutionalHeirarchyManager extends Manager {
                 throw new RuntimeException("error creating json object for " + edOrgId);
             }
         }
-
-        // TODO: remove this block when ed-org is implemented on live server
-        // Temporary: insert a dummy edorg for all orphan schools.
+        return retVal;
+    }
+    // Finds schools that do not belong to any ed-orgs
+    private static Collection<School> findOrphanSchools(School[] schools, Map<String, HashSet<School>> schoolReachableFromEdOrg) {
         Vector<School> orphanSchools = new Vector<School>();
         for (int i = 0; i < schools.length; i++) {
             School s = schools[i];
@@ -108,29 +131,22 @@ public class InstitutionalHeirarchyManager extends Manager {
                 orphanSchools.add(s);
             }
         }
-        if (orphanSchools.size() > 0) {
-            try {
-                JSONObject obj = new JSONObject();
-                obj.put(NAME, DUMMY_EDORG_NAME);
-                School [] orphanSchoolsArr = new School[orphanSchools.size()];
-                Gson gson = new Gson();
-                String schoolJSONString = gson.toJson(orphanSchools.toArray(orphanSchoolsArr));
-                obj.put(SCHOOLS, new JSONArray(schoolJSONString));
-                retVal.put(obj);
-            } catch (JSONException e) {
-                throw new RuntimeException("error creating json object for dummy edOrg");
-            }
-        }
-        return retVal.toString();
+        return orphanSchools;
     }
-    // helper function:
-    // This assumes there is no cycle in the education organization heirarchy tree.
-    private void insertEdOrgAndAncesterIntoSet(String token, Map<String, EducationalOrganization> map, EducationalOrganization edOrg) {
-        map.put(edOrg.getId(), edOrg);
-        EducationalOrganization[] parentEdOrgs = getParentEducationalOrganizations(token, edOrg);
-        for (int i = 0; i < parentEdOrgs.length; i++) {
-            insertEdOrgAndAncesterIntoSet(token, map, parentEdOrgs[i]);
+    // Insert schools into the JSONArray under a "dummy" ed-org
+    private static JSONArray insertSchoolsUnderDummyEdOrg(JSONArray retVal, Collection<School> schools) {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put(NAME, DUMMY_EDORG_NAME);
+            School [] orphanSchoolsArr = new School[schools.size()];
+            Gson gson = new Gson();
+            String schoolJSONString = gson.toJson(schools.toArray(orphanSchoolsArr));
+            obj.put(SCHOOLS, new JSONArray(schoolJSONString));
+            retVal.put(obj);
+        } catch (JSONException e) {
+            throw new RuntimeException("error creating json object for dummy edOrg");
         }
+        return retVal;
     }
 
 }
