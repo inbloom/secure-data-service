@@ -1,8 +1,9 @@
 package org.slc.sli.client;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 
@@ -229,41 +230,14 @@ public class LiveAPIClient implements APIClient {
 
     private School[] getSchoolsForSection(Section[] sections, String token) {
         // collect associated course first.
-        HashMap<String, Course> courseMap = new HashMap<String, Course>();
-        HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
-        for (int i = 0; i < sections.length; i++) {
-            Section section = sections[i];
-            String url = Constants.API_SERVER_URI + "/course-section-associations/" + section.getId() + "/targets";
-            AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
-            if (responses.length > 0) {
-                AssociationResponseObject response = responses[0]; // there should be only one.
-                Course course = getCourse(parseId(response.getLink()), token);
-                if (!courseMap.containsKey(course.getId())) {
-                    courseMap.put(course.getId(), course);
-                }
-                course = courseMap.get(course.getId());
-                Section [] singleSectionArray = { section };
-                course.addSections(singleSectionArray);
-                sectionIDToCourseIDMap.put(section.getId(), course.getId());
-            }
-        }
+        Map<String, Course> courseMap = new HashMap<String, Course>();
+        Map<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
+        getCoursesSectionsMappings(sections, token, courseMap, sectionIDToCourseIDMap);
 
         // now collect associated schools.
         HashMap<String, School> schoolMap = new HashMap<String, School>();
         HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
-        for (int i = 0; i < sections.length; i++) {
-            Section section = sections[i];
-            String url = Constants.API_SERVER_URI + "/section-school-associations/" + section.getId() + "/targets";
-            AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
-            if (responses.length > 0) {
-                AssociationResponseObject response = responses[0]; // there should be only one.
-                School school = getSchool(parseId(response.getLink()), token);
-                if (!schoolMap.containsKey(school.getId())) {
-                    schoolMap.put(school.getId(), school);
-                }
-                sectionIDToSchoolIDMap.put(section.getId(), school.getId());
-            }
-        }
+        getSchoolSectionsMappings(sections, token, schoolMap, sectionIDToSchoolIDMap);
 
         // Now associate course and school.
         // There is no direct course-school association in ed-fi, so in dashboard
@@ -285,6 +259,58 @@ public class LiveAPIClient implements APIClient {
 
         School[] retVal = new School[schoolMap.values().size()];
         return schoolMap.values().toArray(retVal);
+    }
+
+    // fills up the course map, which maps course ID to course entities
+    // and fills up the sectionIDToCourseIDMap, which maps section ID to the course ID it references
+    private void getCoursesSectionsMappings(Section[] sections,
+                                            String token,
+                                            Map<String, Course> courseMap,
+                                            Map<String, String> sectionIDToCourseIDMap) {
+        for (int i = 0; i < sections.length; i++) {
+            Section section = sections[i];
+            // TODO: This API team is going to remove this call when they have implemented direct course  
+            //       reference from the section entity. This "parseId(response.getLink()" expression
+            //       below should then be replaced by looking up the courseReferenceId in the section entity
+            //       (refer to ed-fi). 
+            String url = Constants.API_SERVER_URI + "/course-section-associations/" + section.getId() + "/targets";
+            AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+            if (responses.length > 0) {
+                AssociationResponseObject response = responses[0]; // there should be only one.
+                Course course = getCourse(parseId(response.getLink()), token);
+                if (!courseMap.containsKey(course.getId())) {
+                    courseMap.put(course.getId(), course);
+                }
+                course = courseMap.get(course.getId());
+                Section [] singleSectionArray = { section };
+                course.addSections(singleSectionArray);
+                sectionIDToCourseIDMap.put(section.getId(), course.getId());
+            }
+        }
+    }
+    // fills up the course map, which maps course ID to course entities
+    // and fills up the sectionIDToCourseIDMap, which maps section ID to the course ID it references
+    private void getSchoolSectionsMappings(Section[] sections,
+                                           String token,
+                                           Map<String, School> schoolMap,
+                                           Map<String, String> sectionIDToSchoolIDMap) {
+        for (int i = 0; i < sections.length; i++) {
+            Section section = sections[i];
+            // TODO: This API team is going to remove this call when they have implemented direct school  
+            //       reference from the section entity. This "parseId(response.getLink()" expression
+            //       below should then be replaced by looking up the schoolReferenceId in the section entity
+            //       (refer to ed-fi). 
+            String url = Constants.API_SERVER_URI + "/section-school-associations/" + section.getId() + "/targets";
+            AssociationResponseObject[] responses = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), AssociationResponseObject[].class);
+            if (responses.length > 0) {
+                AssociationResponseObject response = responses[0]; // there should be only one.
+                School school = getSchool(parseId(response.getLink()), token);
+                if (!schoolMap.containsKey(school.getId())) {
+                    schoolMap.put(school.getId(), school);
+                }
+                sectionIDToSchoolIDMap.put(section.getId(), school.getId());
+            }
+        }
     }
 
     private String getUsername() {

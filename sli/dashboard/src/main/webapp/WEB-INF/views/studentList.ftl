@@ -11,13 +11,13 @@
 
 <#-- TODO: find better way to pass freemarker variable to javascript -->
 <script type="text/javascript">
-var instHeirarchy = ${instHeirarchy};
+var instHierarchy = ${instHierarchy};
 $.ajaxSetup ({cache: false});
 </script>
 
 <link rel="stylesheet" type="text/css" href="static/css/common.css" media="screen" />
 </head>
-<body onLoad="populateInstHeirarchy()">
+<body onLoad="populateInstHierarchy()">
 <div id="container">
 
     <div id="header">

@@ -279,6 +279,7 @@ task :associationTests => [:realmInit] do
   runTests("test/features/api/associations/teacher_section_association")
   runTests("test/features/api/associations/school_session_association")
   runTests("test/features/api/associations/session_course_association")
+  runTests("test/features/api/associations/directEntityRelations")
 end
 
 desc "Run Home URI Tests"
@@ -310,6 +311,7 @@ end
 ############################################################
 desc "Run API Selenium Tests"
 task :apiSeleniumTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiSelenium")
   displayFailureReport()
   if $SUCCESS

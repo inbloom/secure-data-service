@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore">
+  <expression:EMFExpression id="null=>Var=>var1" expression="">
+    <variables name="Var.StaffUniqueStateId" value="12345" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>Var=>StaffUniqueStateId" expression=" ">
+    <variables name="Var.StaffUniqueStateId" value="12345" talendType="id_String"/>
+  </expression:EMFExpression>
+</xmi:XMI>
