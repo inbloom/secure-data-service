@@ -4,7 +4,6 @@ class StudentsController < ApplicationController
 
   def index
     @api_url = "https://devapp1.slidev.org/api/rest"
-    @api_call = "/teacher-section-associations/"
 
     @accept = {"Accept" => "application/json"}
     @studentData = []
@@ -18,7 +17,7 @@ class StudentsController < ApplicationController
   end
 
   def explore(url, searchFor, nextArray = [])
-    print("\nStarted explore() the element to search for is #{searchFor} and the search Array is #{nextArray}\n")
+    print("\nStarted explore() the element to search for is #{searchFor} and the search Array is #{nextArray}, auth_id is #{SessionResource.auth_id}\n")
     res = RestClient.get("#{url}?sessionId=#{SessionResource.auth_id}", @accept)
     json = ActiveSupport::JSON.decode(res)
     print("JSON response was #{json} searching for #{searchFor}\n")

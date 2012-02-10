@@ -28,9 +28,9 @@ public class StudentSectionAssociationTest {
     private EntityValidator validator;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<StudentSectionAssociation>"
+            + "<StudentSectionAssociation><SectionReference><SectionIdentity>"
             + "<UniqueSectionCode>MT100</UniqueSectionCode>"
-            + "<StudentReference>"
+            + "</SectionIdentity></SectionReference><StudentReference>"
             + "<StudentIdentity>"
             + "<StudentUniqueStateId>111220001</StudentUniqueStateId>"
             + "</StudentIdentity>"
@@ -41,7 +41,7 @@ public class StudentSectionAssociationTest {
             + " <EndDate>2010-06-02</EndDate>"
             + " <HomeroomIndicator>false</HomeroomIndicator>"
             + " <RepeatIdentifier>Not Repeated</RepeatIdentifier>"
-            + "</StudentSectionAssociation>" + "</InterchangeStudentEnrollment>";
+            + "</StudentSectionAssociation></InterchangeStudentEnrollment>";
 
     @Test
     public void testValidSectionCSV() throws Exception {
@@ -108,7 +108,7 @@ public class StudentSectionAssociationTest {
 
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
-        Assert.assertEquals("111220001", entity.get("studentId"));
+        Assert.assertEquals("111220001", entity.get("studentUniqueStateId"));
         Assert.assertEquals("MT100", entity.get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals("2010-06-02", entity.get("endDate"));

@@ -195,35 +195,13 @@ public class BasicService implements EntityService {
             query = new Query(Criteria.where("_id").in(binIds));
         }
         
-        List<String> results = new ArrayList<String>();
-        
-        // start 403 debug
-        int entCount = 0;
-        // end 403 debug
+        List<String> results = new ArrayList<String>();      
         
         Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
         
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
-            entCount++;
-        }
-        
-        // start 403 debug
-        if (collectionName.equals("roles") && entCount == 0) {
-            LOG.info("No roles found!");
-            // wait and try again
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            
-            entities = repo.findByQuery(collectionName, query, start, numResults);
-            for (Entity entity : entities) {
-                results.add(entity.getEntityId());
-            }
-        }
-        // end 403 debug
+        }   
         
         return results;
     }
@@ -343,12 +321,6 @@ public class BasicService implements EntityService {
         } else if (auths.contains(neededRight)) {
             LOG.debug("User has needed right: " + neededRight);
         } else {
-            // --- remove after intermittent 403 errors are resolved ---
-            LOG.debug("authorities: " + auth.getAuthorities().toString());
-            LOG.debug("needed right: " + neededRight);
-            LOG.debug("Stored Auth Hash: " + Integer.toHexString(SecurityContextHolder.getContext().hashCode()));
-            // --- remove after intermittent 403 errors are resolved ---
-            
             throw new AccessDeniedException("Insufficient Privileges");
         }
     }

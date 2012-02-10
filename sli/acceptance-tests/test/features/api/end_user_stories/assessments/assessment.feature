@@ -110,23 +110,27 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
 	 	 	
 	When I navigate to each student 	
-		 Then I navigate to "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets" and filter by assessmentTitle is "DIBELS-MOY"
-	    Then I should receive 1 assessment with ID "Grade 2 MOY DIBELS"
+		 Then I navigate to "getAssessments" with URI "/student-assessment-associations/<'Each Student' ID>/targets" and filter by assessmentFamily is "DIBELS Next"
+		 And  filter by assessmentTitle is "Grade 2 MOY DIBELS"
+	    Then I should receive 1 assessment with ID <'Grade 2 MOY DIBELS' ID>
 		    And the "AssessmentCategory" is "Benchmark Test"
 		     And the "AssessmentSubjectType" is "Reading"
 		     And the "GradeLevelAssessed" is "Second Grade"
 		     And the "LowestGradeLevelAssessed" is "Second Grade"
 		     And the "AssessmentPerformanceLevel" has the 3 levels
-				     "PerformanceLevel"= "At or Above Benchmark"
-				     "MinimumScore" = "190"
-				     "MaximumScore" = "380"
-				     "PerformanceLevel"= "Below Benchmark"
-				     "MaximumScore" = "189"
-				     "MinimumScore" = "145"
-				     "PerformanceLevel"= "Well Below Benchmark"
-				     "MaximumScore" = "144"
-				     "MinimumScore" = "13"
-		     And the "AssessmentFamilyHierarchyName" is "DIBELS Next"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Description"= "At or Above Benchmark"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Code"= "Level 1"
+				     "AssessmentPerformanceLevel.MinimumScore" = "190"
+				     "AssessmentPerformanceLevel.MaximumScore" = "380"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Description"= "Below Benchmark"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Code"= "Level 2"
+				     "AssessmentPerformanceLevel.MaximumScore" = "189"
+				     "AssessmentPerformanceLevel.MinimumScore" = "145"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Description"= "Well Below Benchmark"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Code"= "Level 3"
+				     "AssessmentPerformanceLevel.MaximumScore" = "144"
+				     "AssessmentPerformanceLevel.MinimumScore" = "13"
+			 And the "AssessmentFamilyHierarchyName" is "DIBELS.DIBELS Next.DIBELS Next Grade 2"
 		     And the "MaxRawScore" is "380"
 		     And the "MinRawScore" is "13"
 		     And the "AssessmentPeriodDescriptor.BeginDate" = "2012/01/01"
@@ -145,9 +149,10 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 			    	 And the "AdministrationDate" is "2012/01/10"
 			     And the "AdministrationEndDate" is "2012/01/15"
 			     And the "GradeLevelWhenAssessed" is "Second Grade" 
-			     And the "PerformanceLevel" is "Below Benchmark"
-			     And the "ScoreResult" is "120"	
-			     And the "ScaleScore" is "120"     
+			     And the "PerformanceLevelDescriptor.Code" is "Level 2"
+			     And the "PerformanceLevelDescriptor.Code" is "Below Benchmark"
+			     And the "ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
+			     And the "ScoreResults.Result" is "120"     
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "educator"      | "educator1234"      | "Educator"         |
@@ -173,7 +178,7 @@ Scenario Outline:  As a AggregateViewer I should not see assessment data
 				
 	When I navigate to "getStudents" with URI "/student-section-associations/<'ImportantSection' ID>/targets"
 	Then I should receive a collection of 5 student links
-		And after resolution, I should receive a "Student"" with ID <'John Doe' ID>
+		And after resolution, I should receive a "Student" with ID <'John Doe' ID>
 		And after resolution, I should receive a "Student" with ID  <'Sean Deer' ID>
 		And after resolution, I should receive a "Student" with ID  <'Suzy Queue' ID>
 		And after resolution, I should receive a "Student" with ID  <'Mary Line' ID>
@@ -181,6 +186,16 @@ Scenario Outline:  As a AggregateViewer I should not see assessment data
 	 	
 	When I navigate to GET "student/<'John Doe' ID>"  	
 	Then I should not receive a link named "getAssessments" with URI "/student-assessment-associations/<'John Doe' ID>/targets"
+	
+	When I navigate to GET "section/<'ImportantSection' ID>"  	
+	Then I should receive a link named "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets"
+	Then I should receive a collection of 2 assessment links
+		And after resolution, I should receive a "Assessment" with ID <'Grade 2 MOY DIBELS' ID>
+		And after resolution, I should receive a "Assessment" with ID  <'Grade 2 BOY DIBELS' ID>
+		
+	When I navigate to "/assessment/<'Grade 2 BOY DIBELS' ID>"
+	Then I should be able to access all data fields for the assessment entity
+
 Examples:
 | Username         | Password             | AnyDefaultSLIRole  |
 | "aggregateViewer"| "aggregate1234"      | "AggregateViewer"         |

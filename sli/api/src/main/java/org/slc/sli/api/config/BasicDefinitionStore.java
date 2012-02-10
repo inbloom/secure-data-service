@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.validation.SchemaRepository;
+
 /**
  * Default implementation of the entity definition store
  *
@@ -28,6 +30,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     @Autowired
     private DefinitionFactory factory;
+
+    @Autowired
+    private SchemaRepository    repo;
 
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
@@ -162,6 +167,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
         addDefinition(factory.makeEntity("realm").storeAs("realm").build());
+        
+        // Adding the application collection
+        addDefinition(factory.makeEntity("application").storeAs("application").build());
     }
 
     /**
@@ -198,6 +206,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     }
 
     private void add(EntityDefinition defn) {
+        defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
         this.mapping.put(defn.getResourceName(), defn);
     }
 

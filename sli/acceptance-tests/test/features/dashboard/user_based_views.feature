@@ -41,7 +41,7 @@ Scenario: Check changing view changes table headings
   Then I should see a table heading "Reading Test Scores (Highest)"
     And I should see a table heading "Writing Test Scores (Highest)"
     And I should see a table heading "AP Eng. Exam Scores"
-  
+
 Scenario: Different users have different views defined
   Given I am authenticated to SLI as "rbraverman" "rbraverman"
   When I go to "/studentlist"

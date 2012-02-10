@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TeacherSectionAssociations>
+  <TeacherSectionAssociation>
+    <TeacherReference>12345</TeacherReference>
+    <SectionReference/>
+    <ClassroomPosition/>
+    <BeginDate/>
+    <EndDate/>
+    <HighlyQualifiedTeacher/>
+  </TeacherSectionAssociation>
+</TeacherSectionAssociations>

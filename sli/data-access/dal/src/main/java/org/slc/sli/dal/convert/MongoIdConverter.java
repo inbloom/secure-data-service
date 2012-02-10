@@ -27,8 +27,12 @@ public class MongoIdConverter implements IdConverter {
     @Override
     public Object toDatabaseId(String id) {
 
-        UUID uuid = UUID.fromString(id);
-        return uuid;
+        try {
+            UUID uuid = UUID.fromString(id);
+            return uuid;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**
