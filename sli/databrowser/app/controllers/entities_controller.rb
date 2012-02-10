@@ -4,6 +4,7 @@ class EntitiesController < ApplicationController
   before_filter :set_url
   
   def set_url
+    @type = VIEW_CONFIG[params[:type]]
     Entity.url_type = params[:type]
   end
   

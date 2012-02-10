@@ -1,15 +1,29 @@
 <p id="notice"><%= notice %></p>
-
-<%=
-html = ""
-if @entity.empty?
-	html << "Entity is empty"
-elsif @entity.is_a?(Array) 
-	@entity.each do |item|
-		html << display_hash(item)
-	end
-else
-	html << display_hash(@entity)
-end
-html.html_safe
-%>
+<table>
+	<!-- Load the configuration for the type -->
+	<tr>
+		<th>ID</th>
+		<%unless @type.nil? %>
+			<% @type.each do |type| %>
+				<th><%= t(type.split('/').last) %></th>
+			<%end%>
+		<%end%>
+	</tr>
+	<% if @entity.is_a?(Array) %>
+		<% @entity.each do |entity| %>
+			<tr>
+				<td><%= entity["id"]%></td>
+				<% @type.each do |type| %>
+				<td><%= entity[type]%></td>
+				<% end %>
+			</tr>
+		<%end%>
+	<% else %>
+		<tr>
+			<td><%= @entity["id"]%></td>
+			<% @type.each do |type| %>
+			<td><%=value_for_simple_view(type, @entity)%></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
