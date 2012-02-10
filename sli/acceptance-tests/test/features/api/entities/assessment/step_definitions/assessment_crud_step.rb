@@ -26,7 +26,9 @@ end
 Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
   @data = {} if !defined? @data
   if key == "assessmentIdentificationCode"
-    @data[key] = [Hash["identificationSystem"=>"School","id"=>value]]
+    @data[key] = [Hash["identificationSystem"=>"School","ID"=>value]]
+  elsif key == "version"
+    @data[key] = Integer(value)
   else
     @data[key] = value
   end
@@ -34,7 +36,9 @@ end
 
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   if key == "assessmentIdentificationCode"
-    assert(@result[key][0]['id'] == value, "Expected value of #{value} but received #{@result[key][0]['id']} in the response body")
+    assert(@result[key][0]['ID'] == value, "Expected value of #{value} but received #{@result[key][0]['ID']} in the response body")
+  elsif key == "version"
+    assert(@result[key] == Integer(value),"Expected value of #{value} but received #{@result[key]}")
   else
     assert(@result[key] == value, "Expected value of #{value} but received #{@result[key]}")
   end

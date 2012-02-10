@@ -306,10 +306,7 @@
 								<phase>package</phase>
 								<configuration>
 									<executable>xsltproc</executable>
-									<commandlineArgs>-o
-										${project.build.outputDirectory}/application.html
-										${project.build.outputDirectory}/wadl.xsl
-										${project.build.outputDirectory}/eapplication.wadl</commandlineArgs>
+									<commandlineArgs>-o ${project.build.outputDirectory}/application.html ${project.build.outputDirectory}/wadl.xsl ${project.build.outputDirectory}/eapplication.wadl</commandlineArgs>
 								</configuration>
 							</execution>
 						</executions>

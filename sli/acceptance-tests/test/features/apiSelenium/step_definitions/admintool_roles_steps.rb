@@ -108,7 +108,7 @@ Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should get a message that I am not authorized$/ do
-  assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("wrong")!= nil}
+  assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("Forbidden")!= nil}
 end
 
 Given /^I have navigated to the SLI Default Roles Admin Page$/ do
