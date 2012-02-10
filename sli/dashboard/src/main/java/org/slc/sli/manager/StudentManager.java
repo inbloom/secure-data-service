@@ -1,15 +1,14 @@
 package org.slc.sli.manager;
 
-import org.slc.sli.entity.Student;
-import org.slc.sli.entity.StudentProgramAssociation;
-import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.Field;
-import org.slc.sli.config.ConfigUtil;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.slc.sli.config.ConfigUtil;
+import org.slc.sli.config.Field;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 
 /**
  * StudentManager supplies student data to the controllers.
@@ -20,18 +19,18 @@ import java.util.ArrayList;
  *
  */
 public class StudentManager extends Manager {
-
-
-    public List<Student> getStudentInfo(String token, List<String> studentIds, ViewConfig config) {
-
+    
+    private EntityManager entityManager;
+    
+    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
+        
         // extract the studentInfo data fields
-        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
-
+        List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_STUDENT_INFO);
+        
         // call the api
-        // TODO: do we need more logic to grab the correct fields?
-        List<Student> studentInfo = new ArrayList<Student>();
+        List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
         if (dataFields.size() > 0) {
-            studentInfo.addAll(Arrays.asList(apiClient.getStudents(token, studentIds)));
+            studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
         }
 
         // return the results
@@ -40,10 +39,18 @@ public class StudentManager extends Manager {
 
     /**
      * Returns the student program association data for the giving list of students
-     */
-    public List<StudentProgramAssociation> getStudentProgramAssociations(String username, List<String> studentIds) {
-        List<StudentProgramAssociation> programs = new ArrayList<StudentProgramAssociation>();
-        programs.addAll(Arrays.asList(apiClient.getStudentProgramAssociation(SecurityUtil.getToken(), studentIds)));
+     */    
+    public List<GenericEntity> getStudentProgramAssociations(String username, List<String> studentIds) {
+        List<GenericEntity> programs = new ArrayList<GenericEntity>();
+        programs.addAll(entityManager.getPrograms(SecurityUtil.getToken(), studentIds));
         return programs;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 }

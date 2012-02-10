@@ -676,7 +676,7 @@ public class JsonToFixtureConverter
 		}
 	}
 	
-	private String getString(JsonObject obj, String attr, String defValue)
+    private String getString(JsonObject obj, String attr, String defValue)
 	{
 		JsonElement el = obj.get(attr);
 		if(el == null){
