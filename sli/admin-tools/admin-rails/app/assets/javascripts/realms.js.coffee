@@ -18,18 +18,6 @@
         return toReturn
 }`
 
-`extractData = function() {
-	var map = {};
-	$("#mTable > tr").each(function () {
-		var cRole = $(this).children("td:eq(0)")[0].innerText;		
-		var sRole = $(this).children("td:eq(1)")[0].innerText;		
-		if (!map[sRole])
-			map[sRole] = [];
-		map[sRole].push(cRole);
-	});
-	return map;
-}
-`
 
 # Takes our table data and converts it into the mapping object
 # needed by the API.
@@ -79,6 +67,9 @@ getSliRoleObject = function(sliRole, roleData) {
         table.empty();
 
         for (var i in data) {
+		if (data[i][1] == 'SLI Administrator') {
+			continue	
+		}
 		var tr = $("<tr style='display: none'>");
         	tr.append($("<td>" + data[i][0] +  "<td>" + data[i][1] +  "</td>"));
 
@@ -88,9 +79,7 @@ getSliRoleObject = function(sliRole, roleData) {
 		//fade in last one
 		table.append(tr);
 		// We typically wouldnt expect a user to remap sli admin, so dont show in list
-		if (data[i][1] != 'SLI Administrator') {
-			tr.show();
-		}
+		tr.show();
 		if (editable) {
         		$(tr).find(".deleteButton").each(function() {
                 		$(this).click(function() {
@@ -208,7 +197,7 @@ getSliRoleObject = function(sliRole, roleData) {
                 for (var i in SLI_ROLES) {
                       rMap.push([SLI_ROLES[i], SLI_ROLES[i]]);
                 }
-		rMap.push(["SLI Administrator", "SLI Administrator"]);
+                rMap.push(["SLI Administrator", "SLI Administrator"]);
                 var success = function(data) {
                         rMap = getTableData(data.mappings);
                         sortTable(rMap, sortCol, sortOrder[sortCol]);
