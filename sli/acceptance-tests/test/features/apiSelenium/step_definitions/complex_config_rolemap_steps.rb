@@ -147,18 +147,15 @@ Then /^the custom role "([^"]*)" is no longer mapped to the default role "([^"]*
 end
 
 Then /^I get a message that I cannot map the same custom role to multiple SLI Default roles$/ do
-  errorMsg = @driver.find_element(:class, "errorNotification").text
-  assert(errorMsg.include?("duplicate"), "Could not find an error message complaining about mapping the same role to different SLI roles")
+  assertWithWait("Could not find an error message complaining about mapping the same role to different SLI roles")  {@driver.find_element(:class, "errorNotification").text.include?("duplicate")}
 end
 
 Then /^I get a message that I already have this role mapped to a SLI Default role$/ do
-  errorMsg = @driver.find_element(:class, "errorNotification").text
-  assert(errorMsg.include?("duplicate"), "Could not find an error message complaining about the role already existing")
+  assertWithWait("Could not find an error message complaining about the role already existing")  {@driver.find_element(:class, "errorNotification").text.include?("duplicate")}
 end
 
 Then /^I see a message that tells me that I can put only alphanumeric values as a custom role$/ do
-  errorMsg = @driver.find_element(:class, "errorNotification").text
-  assert(errorMsg.include?("alphanumeric"), "Could not find an error message saying roles must be alphanumeric")
+  assertWithWait("Could not find an error message saying roles must be alphanumeric")  {@driver.find_element(:class, "errorNotification").text.include?("alphanumeric")}
 end
 
 Then /^the mapping is not added between default role "([^"]*)" and custom role "([^"]*)"$/ do |arg1, arg2|

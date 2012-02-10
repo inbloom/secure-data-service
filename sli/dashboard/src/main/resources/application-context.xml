@@ -11,7 +11,7 @@
 
     <!-- controllers -->
     <bean name="/studentlist"        class="org.slc.sli.controller.StudentListController">
-        <property name="institutionalHeirarchyManager" ref="institutionalHeirarchyManager"/>
+        <property name="institutionalHierarchyManager" ref="institutionalHierarchyManager"/>
     </bean>
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
         <property name="configManager"     ref="configManager"/>
@@ -28,7 +28,7 @@
     <bean id="assessmentManager" class="org.slc.sli.manager.AssessmentManager" parent="manager"/>
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager"/>
     <bean id="studentManager"    class="org.slc.sli.manager.StudentManager"    parent="manager"/>
-    <bean id="institutionalHeirarchyManager"    class="org.slc.sli.manager.InstitutionalHeirarchyManager"    parent="manager"/>
+    <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.InstitutionalHierarchyManager"    parent="manager"/>
     
     
     
