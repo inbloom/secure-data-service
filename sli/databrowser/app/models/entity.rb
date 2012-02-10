@@ -3,7 +3,6 @@ class Entity < SessionResource
   
   def self.get_simple_and_complex(parameters)
     base = get(parameters)
-    base if base.nil? or base.empty?
     entity = []
     if base.is_a?(Array)
       type = nil

@@ -21,7 +21,8 @@ import org.slc.sli.config.LozengeConfig;
 public class ConfigManager extends Manager {
 
     ConfigPersistor persistor;
-
+    EntityManager entityManager;
+    
     public ConfigManager() {
         persistor = new ConfigPersistor();
     }
@@ -134,17 +135,13 @@ public class ConfigManager extends Manager {
         return null;
     }
 
-    /**
-     * Save a config set for a particular entity
-     *
-     * @param entityId
-     * @param configSet
-     * @throws Exception
-     */
-    public void saveConfigSet(String entityId, ViewConfigSet configSet) throws Exception {
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
-        persistor.saveConfigSet(entityId, configSet);
-
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        persistor.setEntityManager(entityManager);
     }
 
 }

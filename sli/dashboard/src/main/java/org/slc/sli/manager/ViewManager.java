@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Student;
+import org.slc.sli.entity.GenericEntity;
 
 /**
  * Handles the logic behind filtering view configurations
@@ -36,11 +36,11 @@ public class ViewManager extends Manager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+                List<GenericEntity> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
 
                 // if we can find at least one student in the range, the viewConfig is applicable
-                for (Student student : students) {
-                    Integer gradeValue = gradeValues.get(student.getCohortYear());
+                for (GenericEntity student : students) {
+                    Integer gradeValue = gradeValues.get(student.get("cohortYear"));
 
                     if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
                     {

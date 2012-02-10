@@ -1,0 +1,29 @@
+<%= javascript_include_tag :jExpand %>
+<table id="simple">
+	<tr>
+		<% entity.each do |single| %>
+			<% simple = single[:simple] %>
+			<% simple.keys do |header| %>
+				<th><%= t(header) %></th>
+			<%end%>
+		<%end%>
+	</tr>
+	<% entity.each do |entity| %>
+	<% single = entity[:simple] %>
+		<tr>
+		<% single.each do |keys, value| %>
+			<td><%= value %>
+		<% end %>
+		</tr>
+		<tr colspan=<%= "#{1 + single.keys.count}" %>>
+			<td> <%= render :partial => "detail", :locals => {:entity => entity}%></td>
+		</tr>
+	<%end%>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+	jQuery(document).ready(function() {
+		jQuery.noConflict();
+		jQuery('#simple').jExpand();
+	});
+</script>

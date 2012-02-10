@@ -3,6 +3,8 @@ package org.slc.sli.view;
 import org.slc.sli.config.LozengeConfig;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * A utility class for views in SLI dashboard. As a wrapper around lozenge configuration data passed onto
@@ -13,22 +15,20 @@ import java.util.List;
  *
  */
 public class LozengeConfigResolver {
-    List<LozengeConfig> lozengeConfigs;
+    Map<String, LozengeConfig> lozengeConfigs;
 
     /**
      * Constructor
      */
     public LozengeConfigResolver(List<LozengeConfig> s) {
-        lozengeConfigs = s;
+        lozengeConfigs = new HashMap<String, LozengeConfig>();
+        for (LozengeConfig lc : s) {
+            lozengeConfigs.put(lc.getName(), lc);
+        }
     }
 
     public LozengeConfig get(String name) {
-        for (LozengeConfig c : lozengeConfigs) {
-            if (c.getName().equals(name)) {
-                return c;
-            }
-        }
-        return null;
+        return lozengeConfigs.get(name);
     }
 
 }

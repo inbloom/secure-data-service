@@ -1,11 +1,13 @@
 package org.slc.sli.view.widget;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.config.Field;
-import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.Student;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -18,7 +20,7 @@ public class ColorByPerf {
     private static Logger logger = LoggerFactory.getLogger(ColorByPerf.class);
 
     private Field field;
-    private Student student;
+    private Map student;
     private AssessmentResolver assmts;
 
     private static final int MAX_LEVELS = 5;
@@ -29,8 +31,9 @@ public class ColorByPerf {
                                           {1, 2, 5, 0, 0}, // 3 levels
                                           {1, 2, 4, 5, 0}, // 4 levels
                                           {1, 2, 3, 4, 5}};  // 5 levels
+                                         
+    public ColorByPerf(Field field, Map student, AssessmentResolver assmts) {
 
-    public ColorByPerf(Field field, Student student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;
@@ -44,8 +47,8 @@ public class ColorByPerf {
         // get data point id for the perf level
         String dataPointId = field.getValue();
         String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
-        String perfDataPointId = assmtName + ".perfLevel";
-
+        String perfDataPointId = assmtName + "." + Constants.ATTR_PERF_LEVEL;
+        
         // create temporary Field to get perfLevel - TODO: there should be a better way to do this
         Field perfField = new Field();
         perfField.setType(field.getType());
@@ -56,9 +59,9 @@ public class ColorByPerf {
         Integer numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
         if (numLevels == null) { numLevels = 0; }
 
-        Assessment assmt = assmts.resolveAssessment(perfField, student);
+        GenericEntity assmt = assmts.resolveAssessment(perfField, student);
         if (assmt == null) { return 0; }
-        int level = assmt.getPerfLevel();
+        int level = (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
         return getColorIndex(level, numLevels);
     }
 
