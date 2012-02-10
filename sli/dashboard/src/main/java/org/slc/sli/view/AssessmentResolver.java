@@ -3,6 +3,7 @@ package org.slc.sli.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
@@ -21,7 +22,7 @@ import org.slc.sli.util.Constants;
  *
  */
 public class AssessmentResolver {
-    List<GenericEntity> assessments;
+    Map<String, List<GenericEntity> > studentIdToAssessments;
     AssessmentMetaDataResolver metaDataResolver;
 
     public static final String DATA_SET_TYPE = "assessment";
@@ -39,7 +40,13 @@ public class AssessmentResolver {
      * Constructor
      */
     public AssessmentResolver(List<GenericEntity> a, List<AssessmentMetaData> md) {
-        assessments = a;
+        studentIdToAssessments = new HashMap<String, List<GenericEntity>>();
+        for (GenericEntity ass : a) {
+            studentIdToAssessments.put(ass.get(Constants.ATTR_STUDENT_ID).toString(), new ArrayList<GenericEntity>());
+        }
+        for (GenericEntity ass : a) {
+            studentIdToAssessments.get(ass.get(Constants.ATTR_STUDENT_ID).toString()).add(ass);
+        }
         metaDataResolver = new AssessmentMetaDataResolver(md);
 
     }
@@ -103,13 +110,8 @@ public class AssessmentResolver {
         // thrown away.
 
         // A) filter out students first
-        List<GenericEntity> studentFiltered = new ArrayList<GenericEntity>();
-        for (GenericEntity a : assessments) {
-            if (a.get(Constants.ATTR_STUDENT_ID).equals(student.get(Constants.ATTR_ID))) {
-                studentFiltered.add(a);
-            }
-        }
-        if (studentFiltered.isEmpty()) { return null; }
+        List<GenericEntity> studentFiltered = studentIdToAssessments.get(student.get(Constants.ATTR_ID));
+        if (studentFiltered == null || studentFiltered.isEmpty()) { return null; }
 
         // B) filter out assessments based on dataset path
         String assessmentName = extractAssessmentName(field.getValue());
