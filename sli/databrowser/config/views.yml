@@ -1,10 +1,10 @@
 #The root key is for the entity type, it needs to match the url_type that is passed through.
 #Each key below is the key to be displayed for the simple view
 
-students:
+student:
     - name/firstName
     - name/lastSurname
-    - sex
-teachers:
+teacher:
+    - body/sex
     - name/firstName
     - name/lastSurname

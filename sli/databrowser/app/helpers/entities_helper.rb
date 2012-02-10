@@ -1,13 +1,22 @@
 module EntitiesHelper
   
+  def build_simple_hash(type, hash)
+    return nil if type.nil? or hash.nil?
+    one = {}
+    final_type = type.split('/').last
+    one[final_type] = value_for_simple_view(type, hash)
+    one
+  end
+  
   def value_for_simple_view (type, hash)
+    return nil if hash.nil? or type.nil?
     hash[type] unless type.include? '/'
     type_split = type.split '/'
     temp_hash = hash
     type_split.each do |split|
       temp_hash = temp_hash[split]
     end
-    temp_hash    
+    temp_hash
   end
   
   def localize_url(url)

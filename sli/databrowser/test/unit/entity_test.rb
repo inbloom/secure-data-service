@@ -10,6 +10,6 @@ class EntityTest < ActiveSupport::TestCase
   test "get teachers" do
     Entity.url_type = "teachers"
     students = Entity.all
-    assert_equal(students.size, @student_fixtures.size)
+    assert_equal(students.size, @teacher_fixtures.size)
   end
 end
