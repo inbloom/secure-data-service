@@ -1,19 +1,19 @@
 // This should get cleaned up. 
 // Put these under its onwn namespace, at least. 
 
-function populateInstHeirarchy(){
+function populateInstHierarchy(){
     var y = "<select id=\"edOrgSelect\" onChange=\"populateSchoolMenu(this.value)\">"
     y += "<option value=\"-1\"></option>"
     var i = 0;
-    for(i = 0;i<instHeirarchy.length;i++){
-        y += "<option value=\"" +i +"\">"+ instHeirarchy[i].name + "</option>"
+    for(i = 0;i<instHierarchy.length;i++){
+        y += "<option value=\"" +i +"\">"+ instHierarchy[i].name + "</option>"
     }
     y += "</select>"
     document.getElementById("edorgDiv").innerHTML = y;
 }
 
 function populateSchoolMenu(edorgIndex){
-    var temp = instHeirarchy[edorgIndex].schools
+    var temp = instHierarchy[edorgIndex].schools
 
     var y = "<select id=\"schoolSelect\" onChange=\"populateCourseMenu("+edorgIndex+",this.value)\">"
     y += "<option value=\"-1\"></option>"   
@@ -26,7 +26,7 @@ function populateSchoolMenu(edorgIndex){
 }
 
 function populateCourseMenu(edorgIndex,schoolIndex){
-    var temp = instHeirarchy[edorgIndex].schools[schoolIndex].courses
+    var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses
  
     var y = "<select id=\"courseSelect\" onChange=\"populateSectionMenu("+edorgIndex+","+schoolIndex+",this.value)\">"
     y += "<option value=\"\"></option>"
@@ -38,7 +38,7 @@ function populateCourseMenu(edorgIndex,schoolIndex){
 }
 
 function populateSectionMenu(edorgIndex,schoolIndex, courseIndex){
-    var temp = instHeirarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
+    var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
     var y = "<select id=\"sectionSelect\" onChange=\"printStudentList("+edorgIndex+","+schoolIndex+","+courseIndex+", this.value, 0)\">"
     y += "<option value=\"\"></option>"
     var i = 0
@@ -59,7 +59,7 @@ function changeView(viewIndex) {
 
 function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, viewIndex){
     var i = 0;
-    var temp = instHeirarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
+    var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
     var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
