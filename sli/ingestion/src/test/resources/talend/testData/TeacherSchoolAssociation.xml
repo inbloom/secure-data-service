@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TeacherSchoolAssociations>
+  <TeacherSchoolAssociation>
+    <TeacherReference>1234</TeacherReference>
+    <SchoolReference/>
+    <ProgramAssignment/>
+    <InstructionalGradeLevels>
+      <GradeLevel/>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject/>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+</TeacherSchoolAssociations>
