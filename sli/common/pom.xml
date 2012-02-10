@@ -12,6 +12,10 @@
   <name>Common</name>
   <description>Common Stuff</description>
 
+	<properties>
+		<gson.version>2.0</gson.version>
+	</properties>
+
   <modules>
     <module>domain</module>
     <module>common-test-data</module>
@@ -40,6 +44,11 @@
         <version>${project.version}</version>
       </dependency>
 
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
     </dependencies>
   </dependencyManagement>
 
