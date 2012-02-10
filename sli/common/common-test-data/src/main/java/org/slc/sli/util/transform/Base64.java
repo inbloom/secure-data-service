@@ -2,6 +2,11 @@ package org.slc.sli.util.transform;
 
 import java.util.HashMap;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Base64 {
     private static HashMap<String, Integer> idMap = new HashMap<String, Integer>();
     

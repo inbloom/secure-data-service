@@ -2,6 +2,11 @@ package org.slc.sli.util.transform;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Course implements MongoDataEmitter {
     private String courseDef = null;
     private String adoptionDate = null;

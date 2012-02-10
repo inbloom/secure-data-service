@@ -1,9 +1,13 @@
 package org.slc.sli.util.transform;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class DataManager {
     private static HashMap<String, School> schools = null;
     private static HashMap<String, Student> students = null;

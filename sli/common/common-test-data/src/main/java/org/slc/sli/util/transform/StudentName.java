@@ -1,5 +1,10 @@
 package org.slc.sli.util.transform;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class StudentName implements MongoDataEmitter {
     private String firstName = null;
     private String middleName = null;

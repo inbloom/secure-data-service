@@ -3,6 +3,11 @@ package org.slc.sli.util.transform;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class School implements MongoDataEmitter {
     // {"_id":{"$binary":"I9+C9TWMO+vyGZokR2kG5A==","$type":"03"},"type":"school","body":{"stateOrganizationId":152901001,
     // "nameOfInstitution":"Apple Alternative Elementary School","organizationCategories":["School"],"address":[{"addressType":"Physical",

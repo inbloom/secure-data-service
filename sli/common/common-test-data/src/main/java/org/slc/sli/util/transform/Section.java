@@ -1,5 +1,10 @@
 package org.slc.sli.util.transform;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Section implements MongoDataEmitter {
     private String generatedUuid = null;
     private String uniqueSectionCode = null;

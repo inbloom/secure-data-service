@@ -8,8 +8,11 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.slc.sli.util.transform.Configuration.OutputType;
-
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Configuration {
     public enum OutputType {
         Fixture, EdFiXml
@@ -49,8 +52,7 @@ public class Configuration {
         return answer;
     }
     
-    public static OutputType getOutputType()
-    {
+    public static OutputType getOutputType() {
         return outputType;
     }
     
@@ -67,9 +69,8 @@ public class Configuration {
             }
         }
     }
-
-    public static void setOutputType(OutputType type) 
-    {
+    
+    public static void setOutputType(OutputType type) {
         outputType = type;
     }
 }

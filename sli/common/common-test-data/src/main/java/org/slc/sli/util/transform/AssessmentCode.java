@@ -1,5 +1,10 @@
 package org.slc.sli.util.transform;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class AssessmentCode implements MongoDataEmitter {
     private String idSystem = null;
     private String id = null;

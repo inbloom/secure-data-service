@@ -1,5 +1,10 @@
 package org.slc.sli.util.transform;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class StudentAssessment implements MongoDataEmitter {
     // Student ID,Performance Level,State,Family,Year,Subject,Grade Level,Assessment ID
     // 862,3,NC,EOG,2010-2011,Math,8,1

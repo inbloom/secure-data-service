@@ -1,5 +1,10 @@
 package org.slc.sli.util.transform;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Session implements MongoDataEmitter {
     private String schoolYear = null;
     private String semester = null;

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Teacher implements MongoDataEmitter {
     private String generatedUuid = null;
     

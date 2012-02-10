@@ -6,10 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,6 +18,11 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class JsonToFixtureConverter {
     private String dataDirectory = null;
     private FilenameFilter edOrgFilter = null;

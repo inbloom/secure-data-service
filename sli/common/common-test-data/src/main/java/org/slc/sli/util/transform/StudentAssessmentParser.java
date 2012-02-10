@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
@@ -13,13 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.JsonReader;
 
 /**
  * The purpose of this class is to transform a CSV input file into Mongo-importable form. The CSV
@@ -137,7 +129,7 @@ public class StudentAssessmentParser {
         }
         
         DataManager.setSchools(parseSchools());
-        parseEdOrgSchoolAssociations();	// data is stored in School objects
+        parseEdOrgSchoolAssociations(); // data is stored in School objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSchoolFixture(schoolFixtureFile, false);
         } else {
@@ -157,7 +149,7 @@ public class StudentAssessmentParser {
             // what does School-Session XML look like?
         }
         
-        parseCourseSessionAssociations();	// data is stored in Course objects
+        parseCourseSessionAssociations(); // data is stored in Course objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeCourseSessionAssociationFixture(courseSessionAssociationFixtureFile, false);
         //} else {
@@ -179,7 +171,7 @@ public class StudentAssessmentParser {
         }
         
         DataManager.setSections(parseSections());
-        parseCourseSectionAssociations();	// data is stored in Course objects
+        parseCourseSectionAssociations(); // data is stored in Course objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionFixture(sectionFixtureFile, false);
         //} else {
@@ -302,7 +294,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===STUDENT ASSESSMENTS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -335,7 +327,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===ASSESSMENTS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -409,7 +401,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===TEACHER SECTIONS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -439,7 +431,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===SECTIONS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -481,7 +473,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===STUDENTS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -533,7 +525,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===SCHOOLS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -565,7 +557,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===SESSIONS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -594,7 +586,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===COURSES===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -645,7 +637,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===ED-ORGS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -681,7 +673,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===ED-ORG SCHOOLS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -708,7 +700,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===COURSE SESSIONS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -737,7 +729,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===COURSE SECTIONS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -764,7 +756,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===SCHOOL SESSIONS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
@@ -795,7 +787,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===ED-ORG ED-ORGS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");

@@ -3,6 +3,11 @@ package org.slc.sli.util.transform;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Assessment implements MongoDataEmitter {
     private AssessmentBody body = null;
     private String studentId = null;

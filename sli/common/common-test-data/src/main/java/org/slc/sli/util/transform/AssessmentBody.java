@@ -2,6 +2,11 @@ package org.slc.sli.util.transform;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class AssessmentBody implements MongoDataEmitter, Cloneable {
     private ArrayList<AssessmentCode> assessmentIdentificationCodes = null;
     private String academicSubject = null;
