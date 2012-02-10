@@ -86,6 +86,11 @@ task :realmInit do
   setFixture("staff", "staff_fixture.json")
 end
 
+# Task that initializes the application registration fixture
+task :appInit do
+  setFixture("application", "application_fixture.json")
+end
+
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -100,7 +105,7 @@ end
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
 # It is needed so that it fails the build if there are any failures based on the
-# 'raise' exception logic below.  Rake will exit immediatly if you raise an exception
+# 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
 task :apiAndSecurityTests => [:apiTests, :securityTests] do
