@@ -8,14 +8,16 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slc.sli.util.transform.Configuration.OutputType;
+
 public class Configuration {
     public enum OutputType {
         Fixture, EdFiXml
     }
     
-    public static OutputType outputType = OutputType.Fixture;
+    private static OutputType outputType = OutputType.Fixture;
     
-    public static HashMap<String, String> xmlDestFiles = new HashMap<String, String>();
+    private static HashMap<String, String> xmlDestFiles = new HashMap<String, String>();
     static {
         xmlDestFiles.put(EducationalOrganization.class.getSimpleName(), "InterchangeSchool.xml");
         xmlDestFiles.put(School.class.getSimpleName(), "InterchangeSchool.xml");
@@ -23,7 +25,7 @@ public class Configuration {
         
     }
     
-    public static HashMap<String, OutputStreamWriter> streams = new HashMap<String, OutputStreamWriter>();
+    private static HashMap<String, OutputStreamWriter> streams = new HashMap<String, OutputStreamWriter>();
     
     public static String getOutputFileName(String key) {
         if (outputType.equals(OutputType.EdFiXml)) {
@@ -47,6 +49,11 @@ public class Configuration {
         return answer;
     }
     
+    public static OutputType getOutputType()
+    {
+        return outputType;
+    }
+    
     public void closeStreams() {
         Iterator<String> keys = streams.keySet().iterator();
         while (keys.hasNext()) {
@@ -59,5 +66,10 @@ public class Configuration {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void setOutputType(OutputType type) 
+    {
+        outputType = type;
     }
 }

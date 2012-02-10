@@ -67,9 +67,6 @@ import com.google.gson.stream.JsonReader;
  * 
  */
 public class StudentAssessmentParser {
-    // TODO: don't you dare check in without fixing this constant!!
-    private static final String AvroPath = "/Users/dwilliams/git/SLI/sli/common/domain/src/main/resources/avroSchema/";
-    
     private String dataFile = null;
     private String dataDirectory = null;
     
@@ -78,9 +75,9 @@ public class StudentAssessmentParser {
         this.dataDirectory = dataDir;
         
         if (outputType.equals("xml")) {
-            Configuration.outputType = Configuration.OutputType.EdFiXml;
+            Configuration.setOutputType(Configuration.OutputType.EdFiXml);
         } else {
-            Configuration.outputType = Configuration.OutputType.Fixture;
+            Configuration.setOutputType(Configuration.OutputType.Fixture);
         }
     }
     
@@ -112,28 +109,28 @@ public class StudentAssessmentParser {
         // InterchangeStaffAssociation contains Teacher
         
         DataManager.setEdOrgs(parseEdOrgs());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeEdOrgFixture(edOrgFixtureFile, false);
         } else {
             writeEdOrgFixture("InterchangeSchool.xml", false);
         }
         
         parseEdOrgEdOrgAssociations(); // data is stored in EdOrg objects (on the child)
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeEdOrgEdOrgAssociationFixture(edOrgEdOrgAssociationFixtureFile, false);
-        } else {
+        //} else {
             // what does EdOrg-EdOrg Association XML look like?
         }
         
         DataManager.setSessions(parseSessions());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSessionFixture(sessionFixtureFile, false);
-        } else {
+        //} else {
             // what does Session XML look like?
         }
         
         DataManager.setCourses(parseCourses());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeCourseFixture(coursesFixtureFile, false);
         } else {
             writeCourseFixture("InterchangeSchool.xml", true);
@@ -141,101 +138,101 @@ public class StudentAssessmentParser {
         
         DataManager.setSchools(parseSchools());
         parseEdOrgSchoolAssociations();	// data is stored in School objects
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSchoolFixture(schoolFixtureFile, false);
         } else {
             writeSchoolFixture("InterchangeSchool.xml", true);
         }
         
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeEdOrgSchoolsAssociationFixture(edOrgSchoolAssociationFixtureFile, false);
-        } else {
+        //} else {
             // edorg-school associations are written as part of a school object in XML
         }
         
         parseSchoolSessionAssociations(); // data is stored in School objects
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSchoolSessionAssociationFixture(schoolSessionAssociationFixtureFile, false);
-        } else {
+        //} else {
             // what does School-Session XML look like?
         }
         
         parseCourseSessionAssociations();	// data is stored in Course objects
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeCourseSessionAssociationFixture(courseSessionAssociationFixtureFile, false);
-        } else {
+        //} else {
             // what does Course-Session XML look like?
         }
         
         DataManager.setTeachers(parseTeachers());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeTeacherFixture(teacherFixtureFile, false);
         } else {
             writeTeacherFixture("InterchangeStaffAssociation.xml", false);
         }
         
         DataManager.setAssessments(parseAssessments());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeAssessmentFixture(assessmentFixtureFile, false);
-        } else {
+        //} else {
             // what does assessment XML look like?
         }
         
         DataManager.setSections(parseSections());
         parseCourseSectionAssociations();	// data is stored in Course objects
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionFixture(sectionFixtureFile, false);
-        } else {
+        //} else {
             // what does section XML look like?
         }
         
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeCourseSectionAssociationFixture(courseSectionAssociationFixtureFile, false);
-        } else {
+        //} else {
             // what does course-section XML look like?
         }
         
         parseTeacherSections();	// data is stored in Teacher objects
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeTeacherSectionAssociationFixture(teacherSectionAssociationFixtureFile, false);
         } else {
             // what does teacher-section XML look like?
         }
         
         DataManager.setStudents(parseStudents());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeStudentFixture(studentFixtureFile, false);
         } else {
             writeStudentFixture("InterchangeStudent.xml", false);
         }
         
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeStudentSchoolAssociationFixture(studentSchoolAssociationFixtureFile, false);
         } else {
             writeStudentSchoolAssociationFixture("InterchangeEnrollment.xml", false);
         }
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeStudentSectionAssociationFixture(studentSectionAssociationFixtureFile, false);
-        } else {
+        //} else {
             // what does student-section XML look like?
         }
         
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionAssessmentAssociationFixture(sectionAssessmentFixtureFile, false);
-        } else {
+        //} else {
             // what does section-assessment XML look like?
         }
         
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionSchoolAssociationFixture(sectionSchoolFixtureFile, false);
-        } else {
+        //} else {
             // what does section-school XML look like?
         }
         
         DataManager.setStudentAssessments(parseStudentAssessments());
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeStudentAssessmentFixture(studentAssessmentFixtureFile, false);
-        } else {
+        //} else {
             // what does student-assessment XML look like?
         }
     }
@@ -518,58 +515,6 @@ public class StudentAssessmentParser {
                 student.addSection(section);
             }
             answer.put(id, student);
-        }
-        return answer;
-    }
-    
-    private HashMap<String, School> parseSchoolsAvro() throws JsonIOException, JsonSyntaxException,
-            FileNotFoundException {
-        // ID,Name,street,city,state,postal code,telephone,grades,categories
-        // 1,Small Fry Elementary School,111 Main
-        // St.,Smallville,NC,27500,919-191-9191,K-5,Elementary_School
-        String data = readFile(dataDirectory + dataFile);
-        ArrayList<String> lines = makeLines(data);
-        HashMap<String, School> answer = new HashMap<String, School>();
-        
-        // TODO - incomplete
-        JsonParser parser = new JsonParser();
-        try {
-            JsonElement jsonElement = parser.parse(new JsonReader(new FileReader(AvroPath + "school_body.avpr")));
-            JsonObject obj = jsonElement.getAsJsonObject();
-            JsonObject nameObj = obj.getAsJsonObject("name");
-            JsonArray fields = obj.getAsJsonArray("fields");
-            System.out.println(obj);
-        } catch (JsonIOException e) {
-            e.printStackTrace();
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        
-        boolean inParseBlock = false;
-        for (String line : lines) {
-            if (line.startsWith("===")) {
-                inParseBlock = line.contains("===SCHOOLS===");
-                continue;
-            }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
-                continue;
-            }
-            String[] parts = line.split(",");
-            int i = -1;
-            String id = (parts.length > ++i) ? parts[i] : "";
-            String name = (parts.length > ++i) ? parts[i] : "";
-            String street = (parts.length > ++i) ? parts[i] : "";
-            String city = (parts.length > ++i) ? parts[i] : "";
-            String state = (parts.length > ++i) ? parts[i] : "";
-            String zip = (parts.length > ++i) ? parts[i] : "";
-            String telephone = (parts.length > ++i) ? parts[i] : "";
-            String grades = (parts.length > ++i) ? parts[i] : "";
-            String categories = (parts.length > ++i) ? parts[i] : "";
-            
-            School school = new School(name, id, street, city, state, zip, "Wake", telephone, grades, categories);
-            answer.put(id, school);
         }
         return answer;
     }
@@ -876,7 +821,7 @@ public class StudentAssessmentParser {
     
     private void writeStudentFixture(String fileName, boolean append) {
         String header = "", footer = "";
-        if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<InterchangeStudent xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-Student.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">\n";
             footer = "</InterchangeStudent>\n";
         }
@@ -889,7 +834,7 @@ public class StudentAssessmentParser {
         try {
             fos = new FileOutputStream(fileName, append);
             
-            if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+            if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
                 String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">\n";
                 fos.write(header.getBytes());
             }
@@ -901,7 +846,7 @@ public class StudentAssessmentParser {
                 fos.write(s.getBytes());
             }
             
-            if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+            if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
                 String footer = "</InterchangeStudentEnrollment>\n";
                 fos.write(footer.getBytes());
             }
@@ -1065,7 +1010,7 @@ public class StudentAssessmentParser {
     
     private void writeTeacherFixture(String fileName, boolean append) {
         String header = "", footer = "";
-        if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">\n";
             footer = "</InterchangeStaffAssociation>\n";
         }
@@ -1075,7 +1020,7 @@ public class StudentAssessmentParser {
     
     private void writeEdOrgFixture(String fileName, boolean append) {
         String header = "", footer = "";
-        if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">\n";
         }
         
@@ -1225,7 +1170,7 @@ public class StudentAssessmentParser {
     
     private void writeSchoolFixture(String fileName, boolean append) {
         String header = "", footer = "";
-        if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             footer = "</InterchangeEducationOrganization>\n";
         }
         Iterator<School> iter = DataManager.getSchools().values().iterator();

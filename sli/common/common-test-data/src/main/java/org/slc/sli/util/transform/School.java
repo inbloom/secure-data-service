@@ -200,7 +200,7 @@ public class School implements MongoDataEmitter {
     
     @Override
     public String emit() {
-        if (Configuration.outputType == Configuration.OutputType.EdFiXml) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             return emitXml();
         }
         StringBuffer answer = new StringBuffer();

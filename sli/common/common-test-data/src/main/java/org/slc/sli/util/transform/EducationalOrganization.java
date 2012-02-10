@@ -104,7 +104,7 @@ public class EducationalOrganization implements MongoDataEmitter {
     
     @Override
     public String emit() {
-        if (Configuration.outputType == Configuration.OutputType.EdFiXml) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             return emitXml();
         }
         // {"_id":{"$binary":"SkDUiGE8MB3FSzLMxdcTug==","$type":"03"},"type":"educationOrganization","body":{"organizationCategories":["State_Education_Agency"],

@@ -93,7 +93,7 @@ public class Course implements MongoDataEmitter {
     
     @Override
     public String emit() {
-        if (Configuration.outputType == Configuration.OutputType.EdFiXml) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             return emitXml();
         }
         // {"_id":{"$binary":"EUEZNYFxd1OZmEJQk1IQkg==","$type":"03"},"type":"course","body":{"courseDefinedBy":"NAAFP","dateCourseAdopted":"2000-01-01","courseDescription":

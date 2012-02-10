@@ -104,7 +104,7 @@ public class Teacher implements MongoDataEmitter {
     
     @Override
     public String emit() {
-        if (Configuration.outputType.equals(Configuration.OutputType.EdFiXml)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             return emitXml();
         }
         // {"_id":{"$binary":"PmRlKik+QI+yDQBTy1ysbw==","$type":"03"},"type":"teacher","stateId":"dc=slidev,dc=net",

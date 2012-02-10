@@ -253,7 +253,7 @@ public class Student implements MongoDataEmitter {
     
     @Override
     public String emit() {
-        if (Configuration.outputType == Configuration.OutputType.EdFiXml) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.EdFiXml)) {
             return emitXml();
         }
         // {"_id":{"$binary":"gUWAH6emhnpQtrkok0o3sA==","$type":"03"},"type":"student",
@@ -302,7 +302,7 @@ public class Student implements MongoDataEmitter {
         
         StringBuffer answer = new StringBuffer();
         
-        if (Configuration.outputType.equals(Configuration.OutputType.Fixture)) {
+        if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             answer.append("{\"_id\":{\"$binary\":\"").append(Base64.toBase64(generatedStudentSchoolAssociationUuid))
                     .append("\",\"$type\":\"03\"},\"type\":\"studentSchoolAssociation\",\"")
                     .append("body\":{\"entryGradeLevel\":\"").append(gradeLevel).append("\",\"studentId\":\"")
