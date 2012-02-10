@@ -18,7 +18,7 @@
         <xsl:call-template name="getStyle"/>
         <title><xsl:call-template name="getTitle"/></title>
     </head>
-    <body>
+    <body><div id="sli-api-doc">
     <h1><xsl:call-template name="getTitle"/></h1>
     <xsl:call-template name="getDoc">
         <xsl:with-param name="base" select="$g_resourcesBase"/>
@@ -70,7 +70,7 @@
         </xsl:call-template>
     </xsl:for-each>
 
-    </body>
+    </div></body>
     </html>
 </xsl:template>
 
