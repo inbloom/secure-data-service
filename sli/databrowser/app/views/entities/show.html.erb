@@ -1,7 +1,7 @@
 
 <p id="notice"><%= notice %></p>
 <% if @entity.size == 1%>
-	<%= render :partial => "detail", :locals => {:entity => @entity.first}%>
+	<%= render :partial => "detail", :locals => {:entity => @entity.first} %>
 <%else%>
 	<%= javascript_include_tag :jExpand %>
 	<table id="simple">

@@ -3,17 +3,20 @@ class Entity < SessionResource
   
   def self.get_simple_and_complex(parameters)
     base = get(parameters)
+    base if base.nil? or base.empty?
     entity = []
     if base.is_a?(Array)
-      type = base.first['type']
+      type = nil
+      return entity if base.first.nil?
+      type = base.first['type'] if base.first.has_key? 'type'
       base.each do |single|
         one = Hash.new
-        one[:simple] = build_simple_hash(@type, single)
+        one[:simple] = build_simple_hash(type, single)
         one[:complex] = single
         entity.push(one)
       end
     else
-      entity.push({:complex => entity, :simple => nil})
+      entity.push({:complex => base, :simple => nil})
     end
     entity
   end
