@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup>
+	<import domains = "person" />
+	<import platforms = "db"/>
+
+	<comment>set default values</comment>
+	<setting name="database" default="sql_server" />
+
+	<comment>import database specific properties</comment>
+	<include uri="edfi.sql_server.properties" /> 
+
+	<comment>echo the settings to the console</comment>
+	<echo>{ftl: Database URL: ${dbUrl}}</echo>
+	<echo>{ftl: JDBC URL: ${dbUrl}}</echo>
+	<echo>{ftl: Username: ${dbUser}}</echo>
+	
+	<comment>define the database that will be referred by the id 'db' subsequently</comment>
+	<database id="db" url="{dbUrl}" driver="{dbDriver}" catalog="{dbCatalog}" schema="{dbSchema}"
+        	user="{dbUser}" password="{dbPassword}" />
+
+	<comment>Clear teacher records from Stuff table</comment>
+	<execute target="db" onError="warn">
+	DELETE FROM Staff WHERE TeacherUSI IS NOT NULL 
+	</execute>
+
+	<comment>define StaffUSI, TeacherUSI generators</comment>
+	<bean id="StaffIdGen" spec="new IncrementGenerator(1000001)" />
+	<bean id="TeacherIdGen" spec="new IncrementGenerator(200001)" />
+	
+	<comment>create teacher stuffs</comment>
+	<generate type="Staff" count="100" consumer="db">
+		
+		<variable name="staffGen" generator="PersonGenerator" dataset="US" locale="en" />
+		
+		<id name="StaffUSI" generator="StaffIdGen" />
+<!--		<attribute name="PersonalTitlePrefixTypeId" /> -->
+		<attribute name="FirstName" source="staffGen.givenName" />
+<!--		<attribute name="MiddleName" /> -->
+		<attribute name="LastSurname" source="staffGen.familyName" />
+<!--		<attribute name="GenerationCodeSuffixTypeId" /> -->
+<!--		<attribute name="MaidenName" /> -->
+<!--		<attribute name="PersonalInformationVerificationTypeId" /> -->
+		<attribute name="SexTypeId" script="staffGen.gender.name()" map="'MALE'->'2','FEMALE'->'1'" />
+<!--		<attribute name="BirthDate" /> -->
+		<attribute name="HispanicLatinoEthnicity" values="'0','1'" />
+<!--		<attribute name="OldEthnicityTypeId" /> -->
+		<attribute name="HighestLevelOfEducationCompletedTypeId" values="'1','2','3'" />
+<!--		<attribute name="YearsOfPriorProfessionalExperience" /> -->
+<!--		<attribute name="YearsOfPriorTeachingExperience" /> -->
+<!--		<attribute name="HighlyQualifiedTeacher" /> -->
+		<attribute name="TeacherUSI" generator="TeacherIdGen" />
+<!--		<attribute name="LoginId" /> -->
+	</generate>
+
+</setup>
+
