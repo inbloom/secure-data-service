@@ -311,6 +311,7 @@ end
 ############################################################
 desc "Run API Selenium Tests"
 task :apiSeleniumTests do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiSelenium")
   displayFailureReport()
   if $SUCCESS
