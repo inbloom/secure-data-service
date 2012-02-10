@@ -8,20 +8,14 @@ require_relative '../../../../utils/sli_utils.rb'
 # transform <Place Holder Id>
 Transform /^<.+>$/ do |template|
   id = template
-  id = @newId.to_s if template == "<'newly created section' ID>"
-  id = "1e1cdb04-2094-46b7-8140-e3e481013480" if template == "<'chemistryF11' ID>"
-  if template == "<'biologyF09' ID>"
-    if @format == "application/json" or @format == "application/vnd.slc+json"
-      id = "2934f72d-f9e3-48fd-afdd-56b94e2a3454" # biologyF09J
-    elsif @format == "application/xml" or @format == "application/vnd.slc+xml"
-      id = "c2efa2b3-f0c6-472a-b0d3-2e7495554acc" # biologyF09X
-    end
-  end
+  id = @newId.to_s if template == "<'NEWLY CREATED SECTION' ID>"
   id = "11111111-1111-1111-1111-111111111111" if template == "<'Invalid' ID>"
   id = "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431" if template == "<'physicsS08' ID>"
   id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "<'APPLE ELEMENTARY (SCHOOL)' ID>"
   id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e" if template == "<'FALL 2011 (SESSION)' ID>"
   id = "53777181-3519-4111-9210-529350429899" if template == "<'FRENCH 1 (COURSE)' ID>"
+  id = "67ce204b-9999-4a11-aacc-000000000003" if template == "<'RUSSIAN 1 (COURSE)' ID>"
+  puts "#{template}->#{id}"
   id
 end
 
@@ -37,6 +31,7 @@ end
 
 
 ### GIVEN ###
+
 
 
 Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
