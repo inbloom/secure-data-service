@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Project xmi:id="_VvbqUVDpEeGSW5GyyqcrNA" label="ExportTool" description="a set of jobs/tools to export data from MSSQL server to xml/cvs format." language="java" technicalLabel="EXPORTTOOL" local="true" author="_VyaF0FDpEeGSW5GyyqcrNA"/>
+  <TalendProperties:User xmi:id="_VyaF0FDpEeGSW5GyyqcrNA" login="test@talend.com" password="D41D8CD98F00B204E9800998ECF8427E"/>
+  <TalendProperties:ExchangeUser xmi:id="_VyaF0VDpEeGSW5GyyqcrNA" username="" login="" password=""/>
+</xmi:XMI>
