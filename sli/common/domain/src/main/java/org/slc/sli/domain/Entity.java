@@ -27,4 +27,9 @@ public interface Entity {
      */
     public Map<String, Object> getBody();
 
+    /**
+     * Returns the metaData.
+     */
+     public Map<String,Object> getMetaData();
+    
 }
