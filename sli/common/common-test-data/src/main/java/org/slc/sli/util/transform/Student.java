@@ -30,9 +30,6 @@ public class Student implements MongoDataEmitter {
     private String displacementStatus = null;
     private String disability = null;
     
-    public static final String typeCode = "aaaf";
-    public static final String schoolAssocTypeCode = "aaba";
-    public static final String sectionAssocTypeCode = "aaae";
     
     public Student(StudentName name, BirthData birth, String stateId, String sex, String econDis, School school,
             String grade, String sfse, String stuChar, String lep, String sect504Dis, String progPartic,
@@ -44,8 +41,8 @@ public class Student implements MongoDataEmitter {
         this.econDis = econDis;
         this.school = school;
         
-        generatedUuid = Base64.nextUuid(typeCode);
-        generatedStudentSchoolAssociationUuid = Base64.nextUuid(schoolAssocTypeCode);
+        generatedUuid = Base64.nextUuid("aaaf");
+        generatedStudentSchoolAssociationUuid = Base64.nextUuid("aaba");
         
         if (grade.equalsIgnoreCase("K")) {
             gradeLevel = "Kindergarten";
@@ -385,7 +382,7 @@ public class Student implements MongoDataEmitter {
         while (iter.hasNext()) {
             String sectionId = iter.next();
             // Section section = sections.get(sectionId);
-            answer.append("{\"_id\":{\"$binary\":\"").append(Base64.toBase64(Base64.nextUuid(sectionAssocTypeCode)))
+            answer.append("{\"_id\":{\"$binary\":\"").append(Base64.toBase64(Base64.nextUuid("aaae")))
                     .append("\",\"$type\":\"03\"},\"type\":\"studentSectionAssociation\",\"")
                     .append("body\":{\"repeatIdentifier\":\"Not repeated\",\"studentId\":\"").append(generatedUuid)
                     .append("\",\"sectionId\":\"").append(sectionId).append("\"},\"tenantId\":\"Zork\"}\n");

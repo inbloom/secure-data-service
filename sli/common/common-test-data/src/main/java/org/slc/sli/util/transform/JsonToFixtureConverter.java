@@ -669,7 +669,7 @@ public class JsonToFixtureConverter {
                                 studentJson,
                                 "studentUniqueStateId",
                                 getString(studentJson, "stateId",
-                                        getString(studentJson, "id", Base64.nextUuid(Student.typeCode)))));
+                                        getString(studentJson, "id", Base64.nextUuid("aaba")))));
                 String suffix = getString(studentJson, "nameSuffix", "");
                 String stateId = getString(studentJson, "stateId", uid);
                 String sex = getString(studentJson, "sex", "Male");

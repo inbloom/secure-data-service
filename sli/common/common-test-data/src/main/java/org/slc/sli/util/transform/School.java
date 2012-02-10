@@ -21,14 +21,14 @@ public class School implements MongoDataEmitter {
     private String city = null;
     private String state = null;
     private String postalCode = null;
-    private String county = "Wake";	// default
+    private String county = "Wake"; // default
     private String telephone = null;
     private int gradesOfferedStart = 0;
     private int gradesOfferedEnd = 0;
     private String schoolCategories = null;
     
     private String generatedUuid = null;
-    private String generatedEdOrgAssociationId = null;	// this ID is already Base64 encoded!!!
+    private String generatedEdOrgAssociationId = null; // this ID is already Base64 encoded!!!
     private HashMap<String, String> idHackMap = null;
     private EducationalOrganization educationalOrganization = null;
     
