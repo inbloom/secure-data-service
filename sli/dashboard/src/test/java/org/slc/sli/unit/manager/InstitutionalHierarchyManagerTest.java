@@ -13,22 +13,22 @@ import org.powermock.api.mockito.PowerMockito;
 
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.InstitutionalHeirarchyManager;
+import org.slc.sli.manager.InstitutionalHierarchyManager;
 
 /**
- * Unit tests for the InstitutionalHeirarchyManager class.
+ * Unit tests for the InstitutionalHierarchyManager class.
  *
  */
-public class InstitutionalHeirarchyManagerTest {
+public class InstitutionalHierarchyManagerTest {
 
     @Before
     public void setup() {
     }
 
     @Test
-    public void testGetInstHeirarhy() throws Exception {
+    public void testGetInstHierarhy() throws Exception {
 
-        InstitutionalHeirarchyManager iManager = new InstitutionalHeirarchyManager(); 
+        InstitutionalHierarchyManager iManager = new InstitutionalHierarchyManager(); 
 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/cgray/school.json")).thenReturn("src/test/resources/mock_data/cgray/school.json");
@@ -36,7 +36,7 @@ public class InstitutionalHeirarchyManagerTest {
         when(mockClient.getFilename("mock_data/cgray/educational_organization_association.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization_association.json");
         when(mockClient.getFilename("mock_data/cgray/educational_organization.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization.json");
         iManager.setApiClient(mockClient);
-        List<GenericEntity> instArray = iManager.getInstHeirarchy("cgray");
+        List<GenericEntity> instArray = iManager.getInstHierarchy("cgray");
 
         assertEquals(3, instArray.size());
 

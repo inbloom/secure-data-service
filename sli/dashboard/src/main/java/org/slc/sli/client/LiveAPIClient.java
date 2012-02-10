@@ -230,40 +230,12 @@ public class LiveAPIClient implements APIClient {
         // collect associated course first.
         HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
-        for (int i = 0; i < sections.length; i++) {
-            GenericEntity section = sections[i];
-            String url = Constants.API_SERVER_URI + "/course-section-associations/" + section.get(Constants.ATTR_ID) + "/targets";
-            List<GenericEntity> responses = fromAPI(url, token);
-            if (responses.size() > 0) {
-                GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity course = getCourse(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
-                if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
-                    courseMap.put((String) (course.get(Constants.ATTR_ID)), course);
-                }
-                course = courseMap.get(course.get(Constants.ATTR_ID));
-                GenericEntity[] singleSectionArray = { section };
-                course.put(Constants.ATTR_SECTIONS, singleSectionArray);
-                sectionIDToCourseIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (course.get(Constants.ATTR_ID)));
-
-            }
-        }
+        getCourseSectionsMappings(sections, token, courseMap, sectionIDToCourseIDMap);
 
         // now collect associated schools.
         HashMap<String, GenericEntity> schoolMap = new HashMap<String, GenericEntity>();
         HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
-        for (int i = 0; i < sections.length; i++) {
-            GenericEntity section = sections[i];
-            String url = Constants.API_SERVER_URI + "/section-school-associations/" + section.get(Constants.ATTR_ID) + "/targets";
-            List<GenericEntity> responses = fromAPI(url, token);
-            if (responses.size() > 0) {
-                GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity school = getSchool(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
-                if (!schoolMap.containsKey(school.get(Constants.ATTR_ID))) {
-                    schoolMap.put((String) (school.get(Constants.ATTR_ID)), school);
-                }
-                sectionIDToSchoolIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (school.get(Constants.ATTR_ID)));
-            }
-        }
+        getSchoolSectionsMappings(sections, token, schoolMap, sectionIDToSchoolIDMap);
 
         // Now associate course and school.
         // There is no direct course-school association in ed-fi, so in dashboard
@@ -287,6 +259,54 @@ public class LiveAPIClient implements APIClient {
         return schoolMap.values().toArray(retVal);
     }
 
+    private void getCourseSectionsMappings(GenericEntity[] sections,
+                                           String token,
+                                           Map<String, GenericEntity> courseMap,
+                                           Map<String, String> sectionIDToCourseIDMap) { 
+        for (int i = 0; i < sections.length; i++) {
+            GenericEntity section = sections[i];
+            // TODO: This API team is going to remove this call when they have implemented direct course  
+            //       reference from the section entity. This "parseId(response.getLink()" expression
+            //       below should then be replaced by looking up the schoolReferenceId in the section entity
+            //       (refer to ed-fi).  
+            String url = Constants.API_SERVER_URI + "/course-section-associations/" + section.get(Constants.ATTR_ID) + "/targets";
+            List<GenericEntity> responses = fromAPI(url, token);
+            if (responses.size() > 0) {
+                GenericEntity response = responses.get(0); // there should be only one.
+                GenericEntity course = getCourse(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
+                if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
+                    courseMap.put((String) (course.get(Constants.ATTR_ID)), course);
+                }
+                course = courseMap.get(course.get(Constants.ATTR_ID));
+                GenericEntity[] singleSectionArray = { section };
+                course.put(Constants.ATTR_SECTIONS, singleSectionArray);
+                sectionIDToCourseIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (course.get(Constants.ATTR_ID)));
+            }
+        }
+    }
+    private void getSchoolSectionsMappings(GenericEntity[] sections,
+                                           String token,
+                                           Map<String, GenericEntity> schoolMap,
+                                           Map<String, String> sectionIDToSchoolIDMap) { 
+        for (int i = 0; i < sections.length; i++) {
+            GenericEntity section = sections[i];
+            // TODO: This API team is going to remove this call when they have implemented direct school  
+            //       reference from the section entity. This "parseId(response.getLink()" expression
+            //       below should then be replaced by looking up the schoolReferenceId in the section entity
+            //       (refer to ed-fi).  
+            String url = Constants.API_SERVER_URI + "/section-school-associations/" + section.get(Constants.ATTR_ID) + "/targets";
+            List<GenericEntity> responses = fromAPI(url, token);
+            if (responses.size() > 0) {
+                GenericEntity response = responses.get(0); // there should be only one.
+                GenericEntity school = getSchool(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
+                if (!schoolMap.containsKey(school.get(Constants.ATTR_ID))) {
+                    schoolMap.put((String) (school.get(Constants.ATTR_ID)), school);
+                }
+                sectionIDToSchoolIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (school.get(Constants.ATTR_ID)));
+            }
+        }
+    }
+        
     private String getUsername() {
         return SecurityUtil.getPrincipal().getUsername().replace(" ", "");
     }

@@ -18,7 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.controller.StudentListController;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.InstitutionalHeirarchyManager;
+import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.manager.SchoolManager;
 import org.slc.sli.security.SLIPrincipal;
 
@@ -60,14 +60,14 @@ public class StudentListControllerTest {
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, "common", new LinkedList<GrantedAuthority>()));
 
         ModelAndView result;
-        partiallyMocked.setInstitutionalHeirarchyManager(schoolManager);
+        partiallyMocked.setInstitutionalHierarchyManager(schoolManager);
         result = partiallyMocked.retrieveStudentList(model);
         assertEquals(result.getViewName(), "studentList");
-        String instHeirarchyJSONString = (String) model.get(StudentListController.INST_HEIRARCHY);
-        JSONArray instHeirarchyJSON = new JSONArray(instHeirarchyJSONString);
-        assertTrue(instHeirarchyJSON.length() == 1);
-        JSONObject edOrgJSON = instHeirarchyJSON.getJSONObject(0);
-        JSONArray schoolsJSONArray = edOrgJSON.getJSONArray(InstitutionalHeirarchyManager.SCHOOLS);
+        String instHierarchyJSONString = (String) model.get(StudentListController.INST_HEIRARCHY);
+        JSONArray instHierarchyJSON = new JSONArray(instHierarchyJSONString);
+        assertTrue(instHierarchyJSON.length() == 1);
+        JSONObject edOrgJSON = instHierarchyJSON.getJSONObject(0);
+        JSONArray schoolsJSONArray = edOrgJSON.getJSONArray(InstitutionalHierarchyManager.SCHOOLS);
         Gson gson = new Gson();
         School[] retrievedList = gson.fromJson(schoolsJSONArray.toString(), School[].class);
         assertTrue(retrievedList.length > 0);
@@ -82,16 +82,16 @@ public class StudentListControllerTest {
     public void testStudentListNullReturn() throws Exception {
     	/*
         StudentListController mocked = PowerMockito.spy(new StudentListController());
-        InstitutionalHeirarchyManager schoolManager = PowerMockito.spy(new InstitutionalHeirarchyManager());
+        InstitutionalHierarchyManager schoolManager = PowerMockito.spy(new InstitutionalHierarchyManager());
         PowerMockito.doReturn(null).when(schoolManager, "getSchools", Matchers.anyObject());
-        mocked.setInstitutionalHeirarchyManager(schoolManager);
+        mocked.setInstitutionalHierarchyManager(schoolManager);
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
         PowerMockito.doReturn(principal).when(mocked, "getPrincipal");
         ModelMap model = new ModelMap();
         mocked.retrieveStudentList(model);
-        String instHeirarchyJSONString = (String) model.get(StudentListController.INST_HEIRARCHY);
-        JSONArray instHeirarchyJSON = new JSONArray(instHeirarchyJSONString);
-        assertTrue(instHeirarchyJSON.length() == 0);
+        String instHierarchyJSONString = (String) model.get(StudentListController.INST_HEIRARCHY);
+        JSONArray instHierarchyJSON = new JSONArray(instHierarchyJSONString);
+        assertTrue(instHierarchyJSON.length() == 0);
 */
     }
 

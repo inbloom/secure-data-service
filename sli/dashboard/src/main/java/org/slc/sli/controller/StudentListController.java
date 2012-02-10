@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.InstitutionalHeirarchyManager;
+import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -24,9 +24,9 @@ public class StudentListController extends DashboardController {
 
     // model map keys required by the view for the student list view
     public static final String USER_NAME = "username";
-    public static final String INST_HEIRARCHY = "instHeirarchy";
+    public static final String INST_HIERARCHY = "instHierarchy";
 
-    private InstitutionalHeirarchyManager institutionalHeirarchyManager;
+    private InstitutionalHierarchyManager institutionalHierarchyManager;
 
     public StudentListController() { }
 
@@ -44,7 +44,7 @@ public class StudentListController extends DashboardController {
 
         UserDetails user = getPrincipal();
 
-        model.addAttribute(INST_HEIRARCHY, convertToJson(institutionalHeirarchyManager.getInstHeirarchy(SecurityUtil.getToken())));
+        model.addAttribute(INST_HIERARCHY, convertToJson(institutionalHierarchyManager.getInstHierarchy(SecurityUtil.getToken())));
         model.addAttribute(USER_NAME, user.getUsername());
 
         return new ModelAndView("studentList");
@@ -64,12 +64,12 @@ public class StudentListController extends DashboardController {
     /*
      * Getters and setters
      */
-    public InstitutionalHeirarchyManager getInstitutionalHeirarchyManager() {
-        return institutionalHeirarchyManager;
+    public InstitutionalHierarchyManager getInstitutionalHierarchyManager() {
+        return institutionalHierarchyManager;
     }
 
-    public void setInstitutionalHeirarchyManager(InstitutionalHeirarchyManager institutionalHeirarchyManager) {
-        this.institutionalHeirarchyManager = institutionalHeirarchyManager;
+    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
+        this.institutionalHierarchyManager = institutionalHierarchyManager;
     }
 
 }
