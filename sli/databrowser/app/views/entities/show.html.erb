@@ -1,6 +1,9 @@
+
 <p id="notice"><%= notice %></p>
-<table>
-	<!-- Load the configuration for the type -->
+<%= render "detail" if @entity.is_a?(Hash) %>
+<% if @entity.is_a?(Array) %>
+<%= javascript_include_tag :jExpand %>
+<table id="simple">
 	<tr>
 		<th>ID</th>
 		<%unless @type.nil? %>
@@ -14,16 +17,20 @@
 			<tr>
 				<td><%= entity["id"]%></td>
 				<% @type.each do |type| %>
-				<td><%= entity[type]%></td>
+				<td><%= value_for_simple_view(type, @entity) %></td>
 				<% end %>
 			</tr>
+			<tr colspan=<%= "#{1 + @type.count}" %>>
+				<td> <%= render "detail"%></td>
+			</tr>
 		<%end%>
-	<% else %>
-		<tr>
-			<td><%= @entity["id"]%></td>
-			<% @type.each do |type| %>
-			<td><%=value_for_simple_view(type, @entity)%></td>
-			<% end %>
-		</tr>
 	<% end %>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+	jQuery(document).ready(function() {
+		jQuery.noConflict();
+		jQuery('#simple').jExpand();
+	});
+</script>
+<% end %>

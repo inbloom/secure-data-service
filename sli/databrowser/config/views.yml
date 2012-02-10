@@ -6,6 +6,5 @@ students:
     - name/lastSurname
     - sex
 teachers:
-    - loginId
     - name/firstName
     - name/lastSurname
