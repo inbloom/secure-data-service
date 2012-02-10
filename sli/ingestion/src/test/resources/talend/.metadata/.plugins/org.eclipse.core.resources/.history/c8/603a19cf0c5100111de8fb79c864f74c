@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Property xmi:id="_zqk6gFEMEeGFbedsFkhfog" id="_zqbJgFEMEeGFbedsFkhfog" label="ExportTeacher" creationDate="2012-02-06T16:52:04.648-0500" modificationDate="2012-02-06T16:52:04.648-0500" version="0.1" statusCode="" item="_zqk6glEMEeGFbedsFkhfog">
+    <author href="../talend.project#_VyaF0FDpEeGSW5GyyqcrNA"/>
+  </TalendProperties:Property>
+  <TalendProperties:ItemState xmi:id="_zqk6gVEMEeGFbedsFkhfog" path=""/>
+  <TalendProperties:ProcessItem xmi:id="_zqk6glEMEeGFbedsFkhfog" property="_zqk6gFEMEeGFbedsFkhfog" state="_zqk6gVEMEeGFbedsFkhfog">
+    <process href="ExportTeacher_0.1.item#/"/>
+  </TalendProperties:ProcessItem>
+</xmi:XMI>
