@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:TalendMetadata="http://www.talend.org/metadata/connection/2010" xmlns:orgomg.cwm.foundation.softwaredeployment="http:///orgomg/cwm/foundation/softwaredeployment.ecore" xmlns:orgomg.cwm.resource.relational="http:///orgomg/cwm/resource/relational.ecore">
+  <TalendMetadata:DatabaseConnection xmi:id="_r0OLoVDzEeGFbedsFkhfog" name="MSSQL" label="MSSQL" component="_r13KYlDzEeGFbedsFkhfog" dataPackage="_r13KYFDzEeGFbedsFkhfog" DatabaseType="Microsoft SQL Server" DriverClass="net.sourceforge.jtds.jdbc.Driver" URL="jdbc:jtds:sqlserver://10.211.55.3:1433/data;" Port="1433" Username="sa" Password="kA4KLXteHsPotvvMGD2dbg==" ServerName="10.211.55.3" DatasourceName="" FileFieldName="" SID="data" SqlSynthax="SQL Syntax" DbmsId="id_MSSQL" ProductId="SQL_SERVER" AdditionalParams="" StandardSQL="true" SQLMode="false" UiSchema="dbo">
+    <taggedValue xmi:id="_r0q3kFDzEeGFbedsFkhfog" tag="Using URL" value="jdbc:jtds:sqlserver://10.211.55.3:1433/data;"/>
+    <taggedValue xmi:id="_r1RUgFDzEeGFbedsFkhfog" tag="Status" value=""/>
+    <taggedValue xmi:id="_r1RUgVDzEeGFbedsFkhfog" tag="Version" value="0.1"/>
+    <taggedValue xmi:id="_r1RUglDzEeGFbedsFkhfog" tag="Purpose" value=""/>
+    <taggedValue xmi:id="_r1RUg1DzEeGFbedsFkhfog" tag="Description" value=""/>
+    <taggedValue xmi:id="_r1RUhFDzEeGFbedsFkhfog" tag="Author" value=""/>
+    <taggedValue xmi:id="_r1RUhVDzEeGFbedsFkhfog" tag="otherParameter" value=""/>
+    <taggedValue xmi:id="_r1aecFDzEeGFbedsFkhfog" tag="DB IdentifierQuoteString" value="&quot;"/>
+  </TalendMetadata:DatabaseConnection>
+  <orgomg.cwm.resource.relational:Catalog xmi:id="_r13KYFDzEeGFbedsFkhfog" name="data" dataManager="_r0OLoVDzEeGFbedsFkhfog">
+    <ownedElement xsi:type="orgomg.cwm.resource.relational:Schema" xmi:id="_r13KYVDzEeGFbedsFkhfog" name="dbo"/>
+  </orgomg.cwm.resource.relational:Catalog>
+  <orgomg.cwm.foundation.softwaredeployment:Component xmi:id="_r13KYlDzEeGFbedsFkhfog" deployment="_r0OLoVDzEeGFbedsFkhfog"/>
+</xmi:XMI>

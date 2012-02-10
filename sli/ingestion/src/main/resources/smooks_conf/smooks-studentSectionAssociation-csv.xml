@@ -30,7 +30,7 @@
     <jb:value property="beginDate" data="csv-record/BeginDate" />
     <jb:value property="endDate" data="csv-record/EndDate" />
     <jb:value property="homeroomIndicator" data="csv-record/HomeroomIndicator" />
-        <jb:value property="studentId" data="csv-record/StudentUniqueStateId" />
+        <jb:value property="studentUniqueStateId" data="csv-record/StudentUniqueStateId" />
         <jb:value property="uniqueSectionCode" data="csv-record/ UniqueSectionCode" />
         <jb:value property="repeatIdentifier" data="csv-record/RepeatIdentifier" />
 

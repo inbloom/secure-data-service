@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
 /**
@@ -23,17 +22,17 @@ import org.slc.sli.api.service.EntityService;
  */
 @Component
 public class SecureRoleRightAccessImpl implements RoleRightAccess {
-    private static final Logger   LOG              = LoggerFactory.getLogger(SecureRoleRightAccessImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SecureRoleRightAccessImpl.class);
     
     @Autowired
     private EntityDefinitionStore store;
     
-    private EntityService         service;
+    private EntityService service;
     
-    public static final String    EDUCATOR         = "Educator";
-    public static final String    LEADER           = "Leader";
-    public static final String    AGGREGATOR       = "Aggregate Viewer";
-    public static final String    IT_ADMINISTRATOR = "IT Administrator";
+    public static final String EDUCATOR = "Educator";
+    public static final String LEADER = "Leader";
+    public static final String AGGREGATOR = "Aggregate Viewer";
+    public static final String IT_ADMINISTRATOR = "IT Administrator";
     
     @PostConstruct
     private void init() {
@@ -47,17 +46,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body;
-            try {
-                body = service.get(id); // FIXME massive hack for roles disappearing sporadically
-            } catch (EntityNotFoundException e) {
-                LOG.error("Error reading role.  Will try again", e);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e1) {
-                    LOG.error("Thread go boom", e);
-                }
-                body = service.get(id);
-            }
+            body = service.get(id); // FIXME massive hack for roles disappearing sporadically
             
             if (body.get("name").equals(name)) {
                 return getRoleWithBodyAndID(id, body);
