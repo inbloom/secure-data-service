@@ -36,7 +36,7 @@ public class MongoUserLocator implements UserLocator {
         user.setRealm(realm);
         user.setExternalId(externalUserId);
 
-        Query query = new Query(Criteria.where("stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
+        Query query = new Query(Criteria.where("metaData.stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
         for (String entityName : ENTITY_NAMES) {
             Iterable<Entity> staff = repo.findByQuery(entityName, query, 0, 1);
 

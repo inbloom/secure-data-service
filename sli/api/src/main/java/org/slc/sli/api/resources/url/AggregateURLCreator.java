@@ -12,11 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.domain.Entity;
-
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGREGATION;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_GROUPBY;
 
 /**
  * Creates URL sets for aggregations.
@@ -38,12 +35,12 @@ public class AggregateURLCreator extends URLCreator {
         LOG.debug("aggregation params : " + params);
 
         // get the aggregations that match the query params
-        Iterable<Entity> aggregations = repo.findByFields(ENTITY_TYPE_AGGREGATION, convertParamsToEnitiyFormat(params));
+        Iterable<Entity> aggregations = repo.findByFields(ResourceConstants.ENTITY_TYPE_AGGREGATION, convertParamsToEnitiyFormat(params));
 
         // iterate through the aggregations and build the embedded links list
         for (Entity e : aggregations) {
-            results.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), ResourceUtil.getURI(uriInfo,
-                    ENTITY_EXPOSE_TYPE_AGGREGATIONS, e.getEntityId()).toString()));
+            results.add(new EmbeddedLink(ResourceConstants.LINKS, e.getType(), ResourceUtil.getURI(uriInfo,
+                    ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS, e.getEntityId()).toString()));
         }
 
         return results;
@@ -59,7 +56,7 @@ public class AggregateURLCreator extends URLCreator {
         Map<String, String> results = new HashMap<String, String>();
 
         for (Map.Entry<String, String> e : params.entrySet()) {
-            results.put(ENTITY_BODY_GROUPBY + "." + e.getKey(), e.getValue());
+            results.put(ResourceConstants.ENTITY_BODY_GROUPBY + "." + e.getKey(), e.getValue());
         }
 
         return results;

@@ -1,5 +1,6 @@
 package org.slc.sli.dal.repository;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +47,10 @@ public class MongoEntityRepository implements EntityRepository, EntityValidation
     @Override
     public Entity find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
+        if (databaseId == null) {
+            LOG.debug("Unable to process id {}", new Object[] { id });
+            return null;
+        }
         LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
         return template.findById(databaseId, MongoEntity.class, collectionName);
     }
@@ -83,8 +88,13 @@ public class MongoEntityRepository implements EntityRepository, EntityValidation
 
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
+        return create(type, body, Collections.<String, Object>emptyMap(), collectionName);
+    }
+
+    @Override
+    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
-        Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
+        Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
         template.save(entity, collectionName);
         LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, entity.getEntityId() });

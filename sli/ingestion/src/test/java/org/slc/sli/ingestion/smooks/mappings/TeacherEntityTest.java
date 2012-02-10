@@ -30,7 +30,7 @@ public class TeacherEntityTest {
         String teacherCsv = "111111111,District,OrgCode,111111111,verificationString,Dr.,Teacher,Jose,NotStaff,III,maiden name,"
                 + "other name type,Mr.,shady,guy,alias,Jr.,Male,01-01-1971,home address,100 10th street,1A,building site number,"
                 + "New York,NY,10021,New York,USA123,USA,245,432,01-01-1969,12-12-2012,cell,123-123-1234,true,primary,teacher@school.edu,"
-                + "false,old ethnicity,first racial category,Bachelors,12,13,Certification,credential id,code value 123,Computer Science certificate,"
+                + "false,old ethnicity,first racial category,Bachelors,12,13,Certification,code value 123,Computer Science certificate,"
                 + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
@@ -107,14 +107,13 @@ public class TeacherEntityTest {
                 + "<OldEthnicity>old ethnicity</OldEthnicity>"
                 + "<Race>"
                 + "    <RacialCategory>first racial category</RacialCategory>"
-                + "    <RacialCategory>second racial category</RacialCategory>"
                 + "</Race>"
                 + "<HighestLevelOfEducationCompleted>Bachelors</HighestLevelOfEducationCompleted>"
                 + "<YearsOfPriorProfessionalExperience>12</YearsOfPriorProfessionalExperience>"
                 + "<YearsOfPriorTeachingExperience>13</YearsOfPriorTeachingExperience>"
                 + "<Credentials>"
                 + "    <CredentialType>Certification</CredentialType>"
-                + "    <CredentialField id=\"credential id\">"
+                + "    <CredentialField>"
                 + "        <CodeValue>code value 123</CodeValue>"
                 + "        <Description>Computer Science certificate</Description>"
                 + "    </CredentialField>"
@@ -143,13 +142,13 @@ public class TeacherEntityTest {
         List staffIdentificationCodeList = (List) teacherNeutralRecord.getAttributes().get("staffIdentificationCode");
         Map staffIdentificationCodeMap = (Map) staffIdentificationCodeList.get(0);
         EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "identificationSystem", "District");
-        EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "id", "111111111");
+        EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "ID", "111111111");
         EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap, "assigningOrganizationCode", "OrgCode");
         if (staffIdentificationCodeList.size() > 1) {
             // TODO: remove when we support csv lists
             Map staffIdentificationCodeMap2 = (Map) staffIdentificationCodeList.get(1);
             EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "identificationSystem", "District2");
-            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "id", "1111111112");
+            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "ID", "1111111112");
             EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "assigningOrganizationCode",
                     "OrgCode2");
         }
@@ -223,12 +222,7 @@ public class TeacherEntityTest {
         assertEquals("old ethnicity", teacherNeutralRecord.getAttributes().get("oldEthnicity"));
         assertEquals(false, teacherNeutralRecord.getAttributes().get("hispanicLatinoEthnicity"));
 
-        List raceList = (List) teacherNeutralRecord.getAttributes().get("race");
-        assertEquals("first racial category", raceList.get(0));
-        if (raceList.size() > 1) {
-            // TODO: remove if block when we support lists in CSV
-            assertEquals("second racial category", raceList.get(1));
-        }
+        assertEquals("first racial category", teacherNeutralRecord.getAttributes().get("race"));
 
         assertEquals("Bachelors", teacherNeutralRecord.getAttributes().get("highestLevelOfEducationCompleted"));
         assertEquals(12, teacherNeutralRecord.getAttributes().get("yearsOfPriorProfessionalExperience"));
@@ -243,7 +237,6 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "credentialExpirationDate", "2013-09-25");
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "teachingCredentialBasis", "Doctoral degree");
         Map credentialFieldMap = (Map) credentialsMap.get("credentialField");
-        EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "id", "credential id");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "codeValue", "code value 123");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "description", "Computer Science certificate");
 

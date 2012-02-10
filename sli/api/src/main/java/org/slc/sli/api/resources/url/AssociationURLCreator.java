@@ -1,8 +1,5 @@
 package org.slc.sli.api.resources.url;
 
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_MAPPINGS;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -85,9 +82,9 @@ public class AssociationURLCreator extends URLCreator {
 
                 for (Entity e : entityList) {
                     // add the link to the list
-                    urls.add(new EmbeddedLink(ResourceUtil.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
-                            .path(RESOURCE_PATH_AGG)
-                            .path(RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
+                    urls.add(new EmbeddedLink(ResourceConstants.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
+                            .path(ResourceConstants.RESOURCE_PATH_AGG)
+                            .path(ResourceConstants.RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
                             .path((String) e.getBody().get(assoc.getTargetKey()))
                             .build().toString()));
 

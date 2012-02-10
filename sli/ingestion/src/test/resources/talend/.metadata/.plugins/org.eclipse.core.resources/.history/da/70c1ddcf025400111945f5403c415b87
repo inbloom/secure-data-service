@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Property xmi:id="_wLBz0VDzEeGFbedsFkhfog" id="_wLBz0FDzEeGFbedsFkhfog" label="ExportSchool" creationDate="2012-02-06T13:52:43.789-0500" modificationDate="2012-02-10T11:17:02.285-0500" version="0.1" statusCode="" item="_wLBz01DzEeGFbedsFkhfog" maxInformationLevel="ERROR">
+    <author href="../talend.project#_VyaF0FDpEeGSW5GyyqcrNA"/>
+    <informations xmi:id="_LPUEEFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEEVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEElD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEE1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEFFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEFVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEFlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEF1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEGFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEGVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEGlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEG1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEHFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEHVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEHlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j.DocumentHelper cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEH1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEIFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEIVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEIlD1EeGFbedsFkhfog" level="ERROR" text="Type mismatch: cannot convert from element type Element to org.dom4j"/>
+    <informations xmi:id="_LPUEI1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEJFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j.DocumentHelper cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEJVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEJlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEJ1D1EeGFbedsFkhfog" level="ERROR" text="Type mismatch: cannot convert from element type Element to org.dom4j"/>
+    <informations xmi:id="_LPUEKFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEKVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEKlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEK1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUELFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUELVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j.DocumentHelper cannot be resolved to a type"/>
+    <informations xmi:id="_LPUELlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEL1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j.io.OutputFormat cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEMFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEMVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEMlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEM1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j.DocumentHelper cannot be resolved to a type"/>
+    <informations xmi:id="_LPUENFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUENVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUENlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEN1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEOFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEOVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEOlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEO1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEPFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEPVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEPlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEP1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEQFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEQVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEQlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEQ1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUERFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUERVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUERlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUER1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUESFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUESVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUESlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUES1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUETFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUETVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUETlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUET1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEUFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEUVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEUlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEU1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEVFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEVVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEVlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEV1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEWFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEWVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEWlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEW1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEXFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEXVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEXlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEX1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEYFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEYVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEYlD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEY1D1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEZFD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+    <informations xmi:id="_LPUEZVD1EeGFbedsFkhfog" level="ERROR" text="org.dom4j cannot be resolved to a type"/>
+  </TalendProperties:Property>
+  <TalendProperties:ItemState xmi:id="_wLBz0lDzEeGFbedsFkhfog" path=""/>
+  <TalendProperties:ProcessItem xmi:id="_wLBz01DzEeGFbedsFkhfog" property="_wLBz0VDzEeGFbedsFkhfog" state="_wLBz0lDzEeGFbedsFkhfog">
+    <process href="ExportSchool_0.1.item#/"/>
+  </TalendProperties:ProcessItem>
+</xmi:XMI>

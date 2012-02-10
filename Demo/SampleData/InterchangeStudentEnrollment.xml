@@ -1,0 +1,1248 @@
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>111111111</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>222222222</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>333333333</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>444444444</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>453827070</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>943715230</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>164420088</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>505331723</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>530425896</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>429526969</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>178828452</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>525878920</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>510152105</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>802709591</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>437680177</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>170011136</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>547028299</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>258392050</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>178875887</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>100644447</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>376191021</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>336344132</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>711411586</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>131758477</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>670703438</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>851123275</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>423037202</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>250918988</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>421216329</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 923</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>525878920</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 923</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>510152105</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>802709591</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>437680177</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>170011136</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>547028299</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>258392050</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>178875887</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>100644447</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>376191021</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>336344132</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>711411586</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>131758477</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>670703438</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>851123275</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>423037202</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>250918988</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>421216329</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>746199592</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>323538529</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>428250371</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>114989598</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>558780133</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>196038854</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>992193581</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>541397175</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>555685100</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>453827023</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>555685177</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>453827070</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>943715230</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>164420088</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>505331723</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>530425896</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>429526969</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>178828452</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>525878920</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>510152105</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>802709591</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>437680177</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>170011136</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>547028299</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>258392050</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>178875887</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>100644447</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>376191021</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>336344132</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>711411586</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>131758477</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>670703438</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>851123275</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>423037202</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>250918988</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+ <StudentSectionAssociation>
+  <StudentReference>
+   <StudentIdentity>
+    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+   </StudentIdentity>
+  </StudentReference>
+  <SectionReference>
+   <SectionIdentity>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+     <ID>1</ID>
+    </EducationOrgIdentificationCode>
+    <UniqueSectionCode>421216329</UniqueSectionCode>
+   </SectionIdentity>
+  </SectionReference>
+ </StudentSectionAssociation>
+</InterchangeStudentEnrollment>

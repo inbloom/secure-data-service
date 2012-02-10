@@ -16,6 +16,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.domain.Entity;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -77,7 +78,7 @@ public class HomeResource {
 
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
-            linksMap.put(ResourceUtil.LINKS, links);
+            linksMap.put(ResourceConstants.LINKS, links);
 
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
