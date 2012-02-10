@@ -9,14 +9,17 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
 
 /**
  * JUnits for DAL
@@ -24,24 +27,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
-
+    
     @Autowired
     private EntityRepository repository;
-
+    
     @Test
     public void testCRUDEntityRepository() {
-
+        
         // clean up the existing student data
         repository.deleteAll("student");
-
+        
         // create new student entity
         Map<String, Object> student = buildTestStudentEntity();
-
+        
         // test save
         Entity saved = repository.create("student", student);
         String id = saved.getEntityId();
         assertTrue(!id.equals(""));
-
+        
         // test findAll
         Iterable<Entity> entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
@@ -49,13 +52,13 @@ public class EntityRepositoryTest {
         assertEquals(found.getBody().get("birthDate"), student.get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         assertEquals((found.getBody()).get("lastName"), "Doe");
-
+        
         // test find by id
         Entity foundOne = repository.find("student", saved.getEntityId());
         assertNotNull(foundOne);
         assertEquals(foundOne.getBody().get("birthDate"), student.get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
-
+        
         // test find by field
         Map<String, String> searchFields = new HashMap<String, String>();
         searchFields.put("firstName", "Jane");
@@ -65,7 +68,7 @@ public class EntityRepositoryTest {
         searchResults = repository.findByFields("student", searchFields);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
-
+        
         // test find by query
         Query query = new Query();
         query.addCriteria(Criteria.where("body.firstName").is("Jane"));
@@ -79,13 +82,13 @@ public class EntityRepositoryTest {
         query = null;
         searchResults = repository.findByQuery("student", query, 0, 20);
         assertTrue(searchResults.iterator().hasNext());
-
+        
         // test match by query object
         Query query2 = new Query(Criteria.where("body.firstName").is("Jane"));
         assertTrue(repository.matchQuery("student", id, query2));
         query2 = null;
         assertTrue(!repository.matchQuery("student", id, query2));
-
+        
         // test update
         found.getBody().put("firstName", "Mandy");
         assertTrue(repository.update("student", found));
@@ -93,7 +96,7 @@ public class EntityRepositoryTest {
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
         assertEquals(updated.getBody().get("firstName"), "Mandy");
-
+        
         // test delete by id
         Map<String, Object> student2Body = buildTestStudentEntity();
         Entity student2 = repository.create("student", student2Body);
@@ -104,13 +107,13 @@ public class EntityRepositoryTest {
         assertNull(zombieStudent);
         assertFalse(repository.update("student", student2));
         assertFalse(repository.delete("student", student2.getEntityId()));
-
+        
         // test deleteAll by entity type
         repository.deleteAll("student");
         entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
     }
-
+    
     // @Test
     // public void testValidation() {
     // Map<String, Object> badBody = buildTestStudentEntity();
@@ -138,9 +141,9 @@ public class EntityRepositoryTest {
     // assertTrue(!badEntities.iterator().hasNext());
     // repository.delete("student", id);
     // }
-
+    
     private Map<String, Object> buildTestStudentEntity() {
-
+        
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("firstName", "Jane");
         body.put("lastName", "Doe");
@@ -167,5 +170,31 @@ public class EntityRepositoryTest {
         body.put("studentSchoolId", "DOE-JANE-222");
         return body;
     }
-
+    
+    @Test
+    public void testTimestamps() {
+        
+        // clean up the existing student data
+        repository.deleteAll("student");
+        
+        // create new student entity
+        Map<String, Object> student = buildTestStudentEntity();
+        
+        // test save
+        Entity saved = repository.create("student", student);
+        
+        DateTime created = new DateTime(saved.getMetaData().get(EntityMetadataKey.CREATED.toString()));
+        DateTime updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.toString()));
+        
+        assertEquals(created, updated);
+        
+        saved.getBody().put("cityOfBirth", "Evanston");
+        
+        repository.update("student", saved);
+        
+        updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.toString()));
+        
+        assertTrue( updated.isAfter( created ) );
+        
+    }
 }
