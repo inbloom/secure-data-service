@@ -1,19 +1,19 @@
 package org.slc.sli.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.domain.Entity;
 
 /**
  * JUnit for validating section
@@ -24,16 +24,16 @@ import org.slc.sli.validation.schema.NeutralSchema;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionValidation {
-    private static final Logger LOG = LoggerFactory.getLogger(SectionValidation.class);
-    
+
     @Autowired
-    private SchemaRepository repo;
+    private EntityValidator validator;
     
-    @Test
-    public void testSectionValidation() {
-        NeutralSchema schema = repo.getSchema("section");
-        assertNotNull(schema);
-        Map<String, Object> goodSection = new HashMap<String, Object>();
+    @Before
+    public void init() {
+    }
+    
+    private Entity goodSection() {
+        final Map<String, Object> goodSection = new HashMap<String, Object>();
         goodSection.put("uniqueSectionCode", "Math101");
         goodSection.put("sequenceOfCourse", 1);
         goodSection.put("educationalEnvironment", "Classroom");
@@ -44,6 +44,48 @@ public class SectionValidation {
         credit.put("creditType", "Semester hour credit");
         credit.put("creditConversion", 2.5);
         goodSection.put("credits", credit);
-        schema.validate(goodSection);
+        goodSection.put("schoolId", "42");
+        goodSection.put("sessionId", "MySessionId");
+        return new Entity() {
+            
+            @Override
+            public String getType() {
+                return "section";
+            }
+            
+            @Override
+            public String getEntityId() {
+                return "id";
+            }
+            
+            @Override
+            public Map<String, Object> getBody() {
+                return goodSection;
+            }
+        };
+    }
+    
+    @Test
+    public void testSectionValidation() {
+        Entity goodSection = goodSection();
+        assertTrue(validator.validate(goodSection));
+    }
+    
+    @Test
+    public void testMinimumSection() {
+        Entity minSection = goodSection();
+        minSection.getBody().remove("educationalEnvironment");
+        minSection.getBody().remove("mediumOfInstruction");
+        minSection.getBody().remove("populationServed");
+        minSection.getBody().remove("availableCredit");
+        assertTrue(validator.validate(minSection));
+    }
+    
+    @Test
+    public void testMissingRequiredFields() {
+        Entity missingSectionCode = goodSection();
+        missingSectionCode.getBody().remove("uniqueSectionCode");
+        assertFalse(validator.validate(missingSectionCode));
+        
     }
 }
