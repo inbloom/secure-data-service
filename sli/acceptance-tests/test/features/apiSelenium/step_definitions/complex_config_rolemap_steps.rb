@@ -86,7 +86,10 @@ end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 1)
-  wait.until { @driver.execute_script("return document.getElementById(\"mTable\").childNodes.length;") == 4 }
+  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
+    wait.until { @driver.execute_script("return document.getElementById(\"mTable\").childNodes.length;") == 4 }
+  rescue
+  end
 
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
