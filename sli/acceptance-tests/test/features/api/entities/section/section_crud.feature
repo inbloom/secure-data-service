@@ -14,9 +14,9 @@ Scenario Outline: Create a new section
       And the "educationalEnvironment" is "Off-school center"
       And the "mediumOfInstruction" is "Independent study"
       And the "populationServed" is "Regular Students"
-      And the "schoolId" is "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-      And the "sessionId" is "<'FALL 2011 (SESSION)' ID>"
-      And the "courseId" is "<'FRENCH 1 (COURSE)' ID>"
+      And the "schoolReference" is "<'APPLE ELEMENTARY (SCHOOL)' ID>"
+      And the "sessionReference" is "<'FALL 2011 (SESSION)' ID>"
+      And the "courseOfferingReference" is "<'FRENCH 1 (COURSE)' ID>"
     When I navigate to POST "/sections/" 
     Then I should receive a return code of 201
       And I should receive an ID for the newly created section
@@ -26,9 +26,9 @@ Scenario Outline: Create a new section
       And the "educationalEnvironment" should be "Off-school center"
       And the "mediumOfInstruction" should be "Independent study"
       And the "populationServed" should be "Regular Students"
-      And the "schoolId" should be "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-      And the "sessionId" should be "<'FALL 2011 (SESSION)' ID>"
-      And the "courseId" should be "<'FRENCH 1 (COURSE)' ID>"
+      And the "schoolReference" should be "<'APPLE ELEMENTARY (SCHOOL)' ID>"
+      And the "sessionReference" should be "<'FALL 2011 (SESSION)' ID>"
+      And the "courseOfferingReference" should be "<'FRENCH 1 (COURSE)' ID>"
     Examples:
     		| format                     |
     		| application/json 			 |
