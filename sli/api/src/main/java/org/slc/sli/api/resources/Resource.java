@@ -33,6 +33,7 @@ import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.util.ResourceConstants;
 
 /**
  * Jersey resource for all entities and associations.
@@ -133,7 +134,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
+                    entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
@@ -174,7 +175,7 @@ public class Resource {
         if (associationIds != null && associationIds.iterator().hasNext()) {
             for (String id : associationIds) {
                 String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
+                collection.add(id, ResourceConstants.SELF, entityDef.getType(), href);
             }
         }
         return collection;
@@ -239,7 +240,7 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 if (entityDef.isOfType(id)) {
                     EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put(ResourceUtil.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
+                    entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
                     Entities entities = new Entities(entityDef.getStoredCollectionName(), entityBody);
                     return Response.ok(entities).build();
                 } else if (entityDef instanceof AssociationDefinition) {
@@ -260,7 +261,7 @@ public class Resource {
                     if (associationIds != null) {
                         for (String id : associationIds) {
                             String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                            collection.add(id, ResourceUtil.SELF, entityDef.getType(), href);
+                            collection.add(id, ResourceConstants.SELF, entityDef.getType(), href);
                         }
                     }
                     Associations associations = new Associations(collection);
@@ -337,7 +338,7 @@ public class Resource {
         if (relatives != null && relatives.iterator().hasNext()) {
             for (String id : relatives) {
                 String href = ResourceUtil.getURI(uriInfo, relative.getResourceName(), id).toString();
-                collection.add(id, ResourceUtil.SELF, relative.getType(), href);
+                collection.add(id, ResourceConstants.SELF, relative.getType(), href);
             }
         }
         return collection;
@@ -414,7 +415,7 @@ public class Resource {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
-                copy.remove(ResourceUtil.LINKS);
+                copy.remove(ResourceConstants.LINKS);
                 LOG.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
                 LOG.debug("updating entity {}", copy);
@@ -464,6 +465,7 @@ public class Resource {
                     targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
         } else {
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
+            links.addAll(ResourceUtil.getReferenceLinks(uriInfo, this.entityDefs, defn, entityBody));
         }
         return links;
     }

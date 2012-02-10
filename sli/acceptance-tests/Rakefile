@@ -3,6 +3,8 @@
 
 DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
+DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
+
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
@@ -41,7 +43,7 @@ end
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
-  sh "#{MONGO_BIN}mongoimport #{dropOption} -d sli -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+  sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
@@ -80,6 +82,8 @@ task :default => :production
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit do
   setFixture("realm", "realm_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("staff", "staff_fixture.json")
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
@@ -113,7 +117,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:studentIngestionTests, :schoolIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests, :teacherSectionAssociationTests, :educationOrganizationTests] do
+task :ingestionTests => [:studentIngestionTests, :schoolIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests, :teacherSectionAssociationTests, :localEducationAgencyIngestionTests, :stateEducationAgencyIngestionTests, :educationOrganizationTests, :teacherIngestionTests, :teacherSchoolAssociationTests, :courseIngestionTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -147,9 +151,34 @@ task :teacherSectionAssociationTests do
   runTests("test/features/ingestion/features/teacher_section_assocation.feature")
 end
 
+desc "Run Teacher School Association Ingestion Tests"
+task :teacherSchoolAssociationTests do
+  runTests("test/features/ingestion/features/teacher_school_assocation.feature")
+end
+
 desc "Run Education Organizations Ingestion Tests"
 task :educationOrganizationTests do
   runTests("test/features/ingestion/features/education_organization.feature")
+end
+
+desc "Run State Education Agency Ingestion Tests"
+task :stateEducationAgencyIngestionTests do
+  runTests("test/features/ingestion/features/stateEducationAgency.feature")
+end
+
+desc "Run Local Education Agency Ingestion Tests"
+task :localEducationAgencyIngestionTests do
+  runTests("test/features/ingestion/features/localEducationAgency.feature")
+end
+
+desc "Run Teacher Ingestion Tests"
+task :teacherIngestionTests do
+  runTests("test/features/ingestion/features/teacher.feature")
+end
+
+desc "Run Course Ingestion Tests"
+task :courseIngestionTests do
+  runTests("test/features/ingestion/features/course.feature")
 end
 ########
 ############################################################
@@ -160,7 +189,8 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, 
+                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
   displayFailureReport()
 end
 
@@ -345,7 +375,7 @@ end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dashboard_integrated_login.feature")
+    runTests("test/features/dashboard/dashboard_api_integration.feature")
 end
 ############################################################
 # Dashboard tests end
@@ -427,13 +457,14 @@ cmd>rake DB_HOST=myNewDbHost.domain.name api_server_url=my.API.server.com produc
 The properties available to override are as follows:
 
 DB_HOST                This property selects which mongo instance to set the fixture to (default: localhost)
+DB_NAME                This property selects which mongo db to set the fixture to (default: sli)
 api_server_url         This property selects which running instance of the API to run tests against (default: localhost)
 admintools_server_url  This property selects which running instance of the Admin Tools to run tests against (default: localhost)
 sli_idp_server_url     This property selects which running IDP should be used as the SLI IDP (default http://devdanil.slidev.org:8080/idp)
 sea_idp_server_url     This property selects which running IDP should be used as a mock State IDP (default http://devopenam1.slidev.com:8080/idp1)
 lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
-DEBUG             This property tells the test code to display debug output in the console
-NO_EXPAND         This property tells cucumber no to expand Scenario Outlines (for use in jenkins)
+DEBUG                  This property tells the test code to display debug output in the console
+CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
 eos
 
 end

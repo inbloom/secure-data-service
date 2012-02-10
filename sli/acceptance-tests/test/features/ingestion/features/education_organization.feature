@@ -11,5 +11,5 @@ Given I post "educationOrganization_v1.zip" as the payload of the ingestion job
 	And there are none of this type of entity in the DS
 When zip file is scp to ingestion landing zone
 	And "10" seconds have elapsed
-Then I should see "100" entries in the corresponding collection
-	And I should see "Processed 100 records." in the resulting batch job file
+Then I should see "5" entries in the corresponding collection
+	And I should see "Processed 5 records." in the resulting batch job file

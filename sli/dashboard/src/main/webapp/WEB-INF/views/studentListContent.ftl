@@ -9,18 +9,12 @@
 
 <span id="viewSelectorSpan">
     <#if viewConfigs??>
-      <#assign listSize = viewConfigs?size>
-        <#if (listSize > 1)>      
-          <select id="viewSelector" onChange="changeView(this.value)">
-            <#list viewConfigs as view>
-              <option value=${view_index}>${view.getName()}</option>
-            </#list>
-          </select>
-        <#else>
+      <#assign listSize = viewConfigs?size>  
+        <select id="viewSelector" onChange="changeView(this.value)">
           <#list viewConfigs as view>
-            ${view.getName()}
+            <option value=${view_index}>${view.getName()}</option>
           </#list>
-        </#if>
+        </select>
     </#if>
 </span>
 

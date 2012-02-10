@@ -30,6 +30,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
@@ -47,27 +48,30 @@ import org.slc.sli.domain.enums.Right;
 @Component("basicService")
 public class BasicService implements EntityService {
     
-    private static final String  ADMIN_SPHERE    = "Admin";
+    private static final String ADMIN_SPHERE = "Admin";
     
-    private static final Logger  LOG             = LoggerFactory.getLogger(BasicService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
-    private static final int     MAX_RESULT_SIZE = 9999;
+    private static final int MAX_RESULT_SIZE = 9999;
     
-    private String               collectionName;
-    private List<Treatment>      treatments;
-    private EntityDefinition     defn;
+    private String collectionName;
+    private List<Treatment> treatments;
+    private EntityDefinition defn;
     
     @Autowired
-    private EntityRepository     repo;
+    private EntityRepository repo;
     
     @Autowired
     private ContextResolverStore contextResolverStore;
     
     @Autowired
-    private SchemaDataProvider   provider;
+    private SchemaDataProvider provider;
     
     @Autowired
-    private IdConverter          idConverter;
+    private IdConverter idConverter;
+    
+    @Autowired
+    private QueryConverter queryConverter;
     
     public BasicService(String collectionName, List<Treatment> treatments) {
         this.collectionName = collectionName;
@@ -149,13 +153,14 @@ public class BasicService implements EntityService {
         // Compute intersection of requested and allowed and encode
         Set<Object> binIds = new HashSet<Object>();
         for (String id : ids) {
-            if (allowed.contains(ids)) {
+            if (allowed.contains(id)) {
                 binIds.add(idConverter.toDatabaseId(id));
             }
         }
         
         if (!binIds.isEmpty()) {
-            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
+            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)),
+                    0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -170,9 +175,14 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<String> list(int start, int numResults) {
+        return list(start, numResults, null);
+    }
+    
+    @Override
+    public Iterable<String> list(int start, int numResults, String queryString) {
         checkRights(Right.READ_GENERAL);
         
-        Query query = new Query();
+        Query query = queryConverter.stringToQuery(defn.getType(), queryString);
         
         List<String> allowed = findAccessible();
         
@@ -185,34 +195,13 @@ public class BasicService implements EntityService {
             query = new Query(Criteria.where("_id").in(binIds));
         }
         
-        List<String> results = new ArrayList<String>();
-        
-        //start 403 debug
-        int entCount = 0;
-        //end 403 debug
+        List<String> results = new ArrayList<String>();      
         
         Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
         
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
-            entCount++;
-        }
-        
-        //start 403 debug
-        if (collectionName.equals("roles") && entCount == 0) {
-            LOG.info("No roles found!");
-            //wait and try again
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-            }
-            
-            entities = repo.findByQuery(collectionName, query, start, numResults);
-            for (Entity entity : entities) {
-                results.add(entity.getEntityId());
-            }
-        }
-        //end 403 debug
+        }   
         
         return results;
     }
@@ -294,7 +283,8 @@ public class BasicService implements EntityService {
      * @throws AccessDeniedException
      *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
+    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException,
+            EntityNotFoundException, AccessDeniedException {
         
         // Check that user has the needed right
         checkRights(right);
@@ -344,7 +334,8 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(), defn.getType());
+        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
+                defn.getType());
         
         return resolver.findAccessible(principal.getEntity());
     }

@@ -10,16 +10,18 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.security.SLIPrincipal;
-
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG;
+import org.slc.sli.validation.schema.ReferenceSchema;
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -30,9 +32,6 @@ import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_AGG
  *
  */
 public class ResourceUtil {
-
-    public static final String SELF = "self";
-    public static final String LINKS = "links";
 
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
@@ -55,7 +54,7 @@ public class ResourceUtil {
 
         // add a "self" link
         if (defn != null) {
-            links.add(new EmbeddedLink(SELF, defn.getType(), ResourceUtil.getURI(uriInfo, defn.getResourceName(),
+            links.add(new EmbeddedLink(ResourceConstants.SELF, defn.getType(), ResourceUtil.getURI(uriInfo, defn.getResourceName(),
                     userId).toString()));
         }
 
@@ -102,6 +101,48 @@ public class ResourceUtil {
         }
         return links;
     }
+    
+
+    /**
+     * Returns a list of links that are referenced by the specified entity body.
+     *
+     * @param uriInfo
+     *            The base URI
+     * @param store 
+     *            All entity definitions
+     * @param definition
+     *            entity whose references (away from) are being generated
+     * @param body
+     *            instance of the definition that contains values
+     *            
+     * @return A list of links pointing to the referenced IDs
+     */
+    public static List<EmbeddedLink> getReferenceLinks(final UriInfo uriInfo, EntityDefinitionStore store, EntityDefinition definition, EntityBody body) {
+        
+        //new list to store links
+        List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
+        
+        //loop for all fields on the entity that are reference fields
+        for (Map.Entry<String, ReferenceSchema> entry : definition.getReferenceFields().entrySet()) {
+            //get what value is stored in the reference field
+            Object value = body.get(entry.getKey());
+            
+            //if the reference field contains a value
+            if (value != null && value instanceof String) {
+                //cast object to a string because all references are strings
+                String id = (String) value;
+                //determine what (collection) is being referenced 
+                String reference = entry.getValue().getAppInfo().getReferenceType();
+                //determine how the API exposes that (collection)
+                String resourceName = store.lookupByEntityType(reference).getResourceName();
+                //add a new link to the collection for the associated ID
+                links.add(new EmbeddedLink(entry.getKey(), reference, ResourceUtil.getURI(uriInfo, resourceName, id).toString()));
+            }
+        }
+
+        return links;
+    }
+
 
     /**
      * Returns the URI for aggregations
@@ -113,8 +154,8 @@ public class ResourceUtil {
     public static List<EmbeddedLink> getAggregateLink(final UriInfo uriInfo) {
         List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
 
-        links.add(new EmbeddedLink(ResourceUtil.LINKS, ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder()
-                .path(RESOURCE_PATH_AGG).build().toString()));
+        links.add(new EmbeddedLink(ResourceConstants.LINKS, ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS, uriInfo.getBaseUriBuilder()
+                .path(ResourceConstants.RESOURCE_PATH_AGG).build().toString()));
 
         return links;
     }
@@ -158,8 +199,16 @@ public class ResourceUtil {
      * @return SLIPrincipal from security context
      */
     public static SLIPrincipal getSLIPrincipalFromSecurityContext() {
+        
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("Login Required");
+        }
+
         // lookup security/login information
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
         return principal;
     }
 

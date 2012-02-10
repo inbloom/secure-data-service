@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.enums.Right;
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
@@ -62,7 +63,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
             }
             
             @Override
-            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors) {
+            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo) {
                 throw new UnsupportedOperationException("This instance is for accessing security rights only");
             }
         };

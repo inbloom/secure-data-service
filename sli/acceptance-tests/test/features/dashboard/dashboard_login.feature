@@ -16,6 +16,7 @@ Then I should be redirected to the Realm page
 Scenario: Go to Dashboard page when authenticated to SLI
 
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "cgray" password "cgray"
 When I navigate to the Dashboard home page
 And I wait for "2" seconds
@@ -24,6 +25,7 @@ Then I should be redirected to the Dashboard landing page
 Scenario: Valid user login
 
 Given I have an open web browser
+Given the server is in "test" mode
 And I am not authenticated to SLI
 And I navigate to the Dashboard home page
 And was redirected to the Realm page
@@ -38,6 +40,7 @@ Then I should be redirected to the Dashboard landing page
 Scenario: Invalid user login
 
 Given I have an open web browser
+Given the server is in "test" mode
 And I am not authenticated to SLI
 And I navigate to the Dashboard home page
 And was redirected to the Realm page
@@ -53,6 +56,7 @@ And I am redirected to the SLI-IDP Login page
 Scenario: hitting denied URL
 
 Given I have an open web browser
+Given the server is in "test" mode
 And I am authenticated to SLI as "cgray" password "cgray"
 When I access "dashboard/simon"
 Then I get an error code "403"
@@ -60,6 +64,7 @@ Then I get an error code "403"
 Scenario: hitting static URL
 
 Given I have an open web browser
+Given the server is in "test" mode
 And I am not authenticated to SLI
 When I access "/static/html/test.html" 
 Then I can see "Static HTML page"
@@ -67,6 +72,7 @@ Then I can see "Static HTML page"
 Scenario: hitting protected URL
 
 Given I have an open web browser
+Given the server is in "live" mode
 And I am not authenticated to SLI
 When I access "/studentlist"
 And I wait for "1" seconds

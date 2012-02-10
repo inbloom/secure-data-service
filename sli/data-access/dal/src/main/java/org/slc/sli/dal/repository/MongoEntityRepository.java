@@ -1,5 +1,6 @@
 package org.slc.sli.dal.repository;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -30,7 +32,7 @@ import org.slc.sli.validation.EntityValidator;
  *
  */
 
-public class MongoEntityRepository implements EntityRepository {
+public class MongoEntityRepository implements EntityRepository, EntityValidationRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     @Autowired
@@ -45,6 +47,10 @@ public class MongoEntityRepository implements EntityRepository {
     @Override
     public Entity find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
+        if (databaseId == null) {
+            LOG.debug("Unable to process id {}", new Object[] { id });
+            return null;
+        }
         LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
         return template.findById(databaseId, MongoEntity.class, collectionName);
     }
@@ -82,8 +88,13 @@ public class MongoEntityRepository implements EntityRepository {
 
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
+        return create(type, body, Collections.<String, Object>emptyMap(), collectionName);
+    }
+
+    @Override
+    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
-        Entity entity = new MongoEntity(type, null, body, new HashMap<String, Object>());
+        Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
         template.save(entity, collectionName);
         LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, entity.getEntityId() });
@@ -109,6 +120,14 @@ public class MongoEntityRepository implements EntityRepository {
     }
 
     @Override
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+        Query query = new Query();
+        query.skip(skip).limit(max);
+
+        return findByQuery(collectionName, addSearchPathsToQuery(query, paths), skip, max);
+    }
+
+    @Override
     public void deleteAll(String collectionName) {
         template.remove(new Query(), collectionName);
         LOG.info("delete all entities in collection {}", collectionName);
@@ -127,6 +146,14 @@ public class MongoEntityRepository implements EntityRepository {
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
         Query query = new Query();
         List<MongoEntity> results = template.find(addSearchFieldsToQuery(query, fields), MongoEntity.class, collectionName);
+        logResults(collectionName, results);
+        return new LinkedList<Entity>(results);
+    }
+
+    @Override
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
+        Query query = new Query();
+        List<MongoEntity> results = template.find(addSearchPathsToQuery(query, paths), MongoEntity.class, collectionName);
         logResults(collectionName, results);
         return new LinkedList<Entity>(results);
     }
@@ -155,12 +182,23 @@ public class MongoEntityRepository implements EntityRepository {
     }
 
     private Query addSearchFieldsToQuery(Query query, Map<String, String> searchFields) {
+        Map<String, String> paths = new HashMap<String, String>();
         for (Map.Entry<String, String> field : searchFields.entrySet()) {
-            Criteria criteria = Criteria.where("body." + field.getKey()).is(field.getValue());
+            paths.put("body." + field.getKey(), field.getValue());
+        }
+
+        return addSearchPathsToQuery(query, paths);
+    }
+
+    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
+        for (Map.Entry<String, String> field : searchPaths.entrySet()) {
+            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
         }
+
         return query;
     }
+
 
     private void logResults(String collectioName, List<MongoEntity> results) {
         if (results == null) {

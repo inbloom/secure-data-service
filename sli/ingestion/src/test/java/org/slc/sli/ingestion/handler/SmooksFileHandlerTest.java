@@ -34,6 +34,7 @@ public class SmooksFileHandlerTest {
     SmooksFileHandler smooksFileHandler;
 
     @Test
+    @Ignore
     public void firstRecordMissingColumnCsv() throws IOException, SAXException {
 
         // Get Input File
@@ -51,6 +52,7 @@ public class SmooksFileHandlerTest {
     }
 
     @Test
+    @Ignore
     public void incorrectColumnNameCsv() throws IOException, SAXException {
 
         // Get Input File

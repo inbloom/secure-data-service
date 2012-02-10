@@ -8,8 +8,8 @@ Background: Logged in as a super-user and using the small data set
 Scenario: Create a new session
   Given format "application/json"
     And "sessionName" is "Spring 2012"
-    And "schoolYear" is "Year_2011_2012"
-    And "term" is "Spring_Semester"
+    And "schoolYear" is "2011-2012"
+    And "term" is "Spring Semester"
     And "beginDate" is "2012-01-01"
     And "endDate" is "2012-06-31"
     And "totalInstructionalDays" is 88
@@ -19,8 +19,8 @@ Scenario: Create a new session
   When I navigate to GET "/sessions/<newly created ID>"
   Then I should receive a return code of 200
     And "sessionName" should be "Spring 2012"
-    And "schoolYear" should be "Year_2011_2012"
-    And "term" should be "Spring_Semester"
+    And "schoolYear" should be "2011-2012"
+    And "term" should be "Spring Semester"
     And "beginDate" should be "2012-01-01"
     And "endDate" should be "2012-06-31"
     And "totalInstructionalDays" should be 88
@@ -31,8 +31,8 @@ Scenario: Read a session by ID
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/sessions/<'FALL 2011 SESSION' ID>"
     And "sessionName" should be "Fall 2011"
-    And "schoolYear" should be "Year_2011_2012"
-    And "term" should be "Fall_Semester"
+    And "schoolYear" should be "2011-2012"
+    And "term" should be "Fall Semester"
     And "beginDate" should be "2011-09-01"
     And "endDate" should be "2011-12-31"
     And "totalInstructionalDays" should be 90

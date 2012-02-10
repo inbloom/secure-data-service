@@ -5,32 +5,32 @@ import org.slc.sli.api.representation.EntityBody;
 
 /**
  * Service for retrieving entities in DB
- *
+ * 
  * @author nbrown
- *
+ * 
  */
 public interface EntityService {
-
+    
     /**
      * Create an entity and store it in the data store
-     *
+     * 
      * @param content
      *            the body of the entity
      * @return id of the new entity
      */
     public String create(EntityBody content);
-
+    
     /**
      * Delete an entity from the data store
-     *
+     * 
      * @param id
      *            the id of the entity to delete
      */
     public void delete(String id);
-
+    
     /**
      * Change an entity in the data store
-     *
+     * 
      * @param id
      *            the id of the entity to update
      * @param content
@@ -38,46 +38,63 @@ public interface EntityService {
      * @return if the entity was changed
      */
     public boolean update(String id, EntityBody content);
-
+    
     /**
      * Retrieves an entity from the data store
-     *
+     * 
      * @param id
      *            the id of the entity to retrieve
      * @return the body of the entity
      */
     public EntityBody get(String id);
-
+    
     /**
      * Get multiple entities from the data store
-     *
+     * 
      * @param ids
      *            the ids of the entities to retrieve
      * @return the entities matching the given ids
      */
     public Iterable<EntityBody> get(Iterable<String> ids);
-
+    
     /**
      * List the ids of the entities in the data store
-     *
+     * 
+     * @param start
+     *            the index of the first index to return
+     * @param numResults
+     *            the number of results to return
      * @return the ids of the entities in the data store
      */
     public Iterable<String> list(int start, int numResults);
-
+    
+    /**
+     * List the ids of the entities in the data store, filtered by a query
+     * 
+     * @param start
+     *            the index of the first index to return
+     * @param numResults
+     *            the number of results to return
+     * @param queryString
+     *            the string to query against
+     * @return a list of ids of matching entities
+     */
+    public Iterable<String> list(int start, int numResults, String queryString);
+    
     /**
      * Whether or not an element exists with the given id
-     *
+     * 
      * @param id
      *            the id to check
      * @return true iff there is an entity with this id
      */
     public boolean exists(String id);
-
+    
     /**
      * Retrieve entity definition
-     *
+     * 
      * @return the definition of the entity
      */
     public EntityDefinition getEntityDefinition();
-
+    
 }

@@ -27,7 +27,7 @@ public class CourseEntityTest {
 
         String targetSelector = "csv-record";
 
-        String courseCsv = "1,Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
+        String courseCsv = "Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
                 + "A seventh grade science course,2012-02-01,True,Applicable,LEA,1.0,Carnegie unit,1.0,2.0,Carnegie unit,1.0,"
                 + "Science Technology Engineering and Mathematics";
 
@@ -51,6 +51,10 @@ public class CourseEntityTest {
                 + "    <CourseCode IdentificationSystem=\"LEA course code\""
                 + "        AssigningOrganizationCode=\"orgCode\">"
                 + "        <ID>science7</ID>"
+                + "    </CourseCode>"
+                + "    <CourseCode IdentificationSystem=\"LEA course code2\""
+                + "        AssigningOrganizationCode=\"orgCode2\">"
+                + "        <ID>science72</ID>"
                 + "    </CourseCode>"
                 + "    <CourseLevel>Honors</CourseLevel>"
                 + "    <CourseLevelCharacteristics>"
@@ -86,12 +90,25 @@ public class CourseEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidCourseNeutralRecord(NeutralRecord neutralRecord) {
 
+        // assertEquals("science7", neutralRecord.getLocalId()); there can be multiple CourseCode.
+        // this is not unique
+
+        assertEquals("course", neutralRecord.getRecordType());
+
         assertEquals("Science7", neutralRecord.getAttributes().get("courseTitle"));
 
-        Map courseCodeMap = (Map) neutralRecord.getAttributes().get("courseCode");
+        List courseCodeList = (List) neutralRecord.getAttributes().get("courseCode");
+        Map courseCodeMap = (Map) courseCodeList.get(0);
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "identificationSystem", "LEA course code");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "assigningOrganizationCode", "orgCode");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "ID", "science7");
+        if (courseCodeList.size() > 1) {
+            // TODO: remove if block when we support lists in CSV
+            Map courseCodeMap2 = (Map) courseCodeList.get(1);
+            EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "identificationSystem", "LEA course code2");
+            EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "assigningOrganizationCode", "orgCode2");
+            EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "ID", "science72");
+        }
 
         assertEquals("Honors", neutralRecord.getAttributes().get("courseLevel"));
 
