@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.talend.designer.runprocess.jobLaunchConfiguration">
+<stringAttribute key="CURRENT_PROJECT_NAME" value="ExportTool"/>
+<stringAttribute key="TALEND_JOB_ID" value="_zqbJgFEMEeGFbedsFkhfog"/>
+<stringAttribute key="TALEND_JOB_NAME" value="ExportTeacher"/>
+<stringAttribute key="TALEND_JOB_VERSION" value="0.1"/>
+</launchConfiguration>

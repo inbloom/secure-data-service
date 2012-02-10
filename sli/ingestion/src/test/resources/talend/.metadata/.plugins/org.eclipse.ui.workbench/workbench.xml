@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbench progressCount="16" version="2.0">
+<workbenchAdvisor/>
+<window height="750" maximized="true" width="1000" x="176" y="107">
+<fastViewData fastViewLocation="1024"/>
+<perspectiveBar>
+<itemSize x="160"/>
+</perspectiveBar>
+<coolbarLayout locked="0">
+<coolItem id="!!!ApplicationActionBarAdvisor.save!!!" itemType="typeToolBarContribution" x="37" y="22"/>
+<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.talend.repository.localprovider.actionSet" itemType="typeToolBarContribution" x="61" y="22"/>
+<coolItem id="org.talend.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="74" y="22"/>
+<coolItem id="org.talend.repository.CreateactionSet" itemType="typeToolBarContribution" x="50" y="22"/>
+<coolItem id="org.talend.repository.actionSet" itemType="typeToolBarContribution" x="85" y="22"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.talend.designer.core.ui.MultiPageTalendEditor" itemType="typePlaceholder" x="147" y="22"/>
+<coolItem id="org.talend.rcp.CoolItemLinks" itemType="typeToolBarContribution" x="283" y="22"/>
+</coolbarLayout>
+<page focus="true" label="Workspace - Integration">
+<editors>
+<editorArea activeWorkbook="DefaultEditorWorkbook">
+<info part="DefaultEditorWorkbook">
+<folder appearance="1" expanded="2">
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+</editorArea>
+</editors>
+<views>
+<view id="org.talend.designer.core.ui.views.ContextsView" partName="Contexts">
+<viewState/>
+</view>
+<view id="org.talend.designer.core.codeView" partName="Code Viewer">
+<viewState/>
+</view>
+<view id="org.talend.designer.core.ui.views.ProblemsView" partName="Problems">
+<viewState/>
+</view>
+<view id="org.talend.designer.core.ui.views.jobsettings.JobSettingsView" partName="Job">
+<viewState/>
+</view>
+<view id="org.talend.designer.runprocess.ui.views.processview" partName="Run job">
+<viewState/>
+</view>
+<view id="org.talend.repository.views.repository" partName="Repository">
+<viewState/>
+</view>
+<view id="org.eclipse.gef.ui.palette_view" partName="Palette">
+<viewState/>
+</view>
+<view id="org.talend.designer.core.ui.views.properties.ComponentSettingsView" partName="Component">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
+<viewState/>
+</view>
+</views>
+<perspectives activePart="org.talend.designer.core.ui.views.properties.ComponentSettingsView" activePerspective="org.talend.rcp.perspective">
+<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="org.talend.rcp.perspective.Perspective" id="org.talend.rcp.perspective" label="Integration"/>
+<alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
+<alwaysOnActionSet id="org.talend.debug.ui.launchActionSet"/>
+<alwaysOnActionSet id="org.talend.repository.CreateactionSet"/>
+<alwaysOnActionSet id="org.talend.repository.actionSet"/>
+<alwaysOnActionSet id="org.talend.repository.localprovider.actionSet"/>
+<hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
+<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<view id="org.talend.repository.views.repository"/>
+<view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="org.talend.designer.core.codeView"/>
+<view id="org.eclipse.gef.ui.palette_view"/>
+<view id="org.talend.designer.core.ui.views.jobsettings.JobSettingsView"/>
+<view id="org.talend.designer.core.ui.views.ContextsView"/>
+<view id="org.talend.designer.core.ui.views.properties.ComponentSettingsView"/>
+<view id="org.talend.designer.runprocess.ui.views.processview"/>
+<view id="org.talend.designer.core.ui.views.ProblemsView"/>
+<fastViewBars/>
+<layout>
+<mainWindow>
+<info folder="true" part="navigatorLayout">
+<folder activePageID="org.talend.repository.views.repository" appearance="2" expanded="2">
+<page content="org.talend.repository.views.repository" label="Repository"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@11e1b0e7" ratio="0.75" ratioLeft="738" ratioRight="246" relationship="2" relative="navigatorLayout">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.29979676" ratioLeft="295" ratioRight="689" relationship="2" relative="navigatorLayout"/>
+<info folder="true" part="paletteLayout" ratio="0.79970974" ratioLeft="551" ratioRight="138" relationship="2" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.gef.ui.palette_view" appearance="2" expanded="2">
+<page content="org.eclipse.gef.ui.palette_view" label="Palette"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="bottomLayout" ratio="0.59906393" ratioLeft="384" ratioRight="257" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.talend.designer.core.ui.views.properties.ComponentSettingsView" appearance="2" expanded="2">
+<page content="org.talend.designer.core.ui.views.jobsettings.JobSettingsView" label="Job"/>
+<page content="org.talend.designer.core.ui.views.ContextsView" label="Contexts"/>
+<page content="org.talend.designer.core.ui.views.properties.ComponentSettingsView" label="Component"/>
+<page content="org.talend.designer.runprocess.ui.views.processview" label="Run job"/>
+<page content="org.talend.designer.core.ui.views.ProblemsView" label="Problems"/>
+<page content="*" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="outlineCodeLayout" ratio="0.59906393" ratioLeft="384" ratioRight="257" relationship="4" relative="navigatorLayout">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<page content="org.talend.designer.core.codeView" label="Code Viewer"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+</mainWindow>
+</layout>
+</perspective>
+</perspectives>
+<workingSets/>
+<navigationHistory/>
+<input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
+</page>
+<workbenchWindowAdvisor/>
+<actionBarAdvisor/>
+<trimLayout>
+<trimArea IMemento.internal.id="128">
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
+</trimArea>
+<trimArea IMemento.internal.id="1024">
+<trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+</trimArea>
+</trimLayout>
+</window>
+<mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.talend.designer.core.ui.MultiPageTalendEditor" name="test" tooltip="test">
+<persistable path="/TEMP/temp/tmpPROCESS_j4YIsFDuEeGkLf9AuDuueQ"/>
+</file>
+</mruList>
+</workbench>
