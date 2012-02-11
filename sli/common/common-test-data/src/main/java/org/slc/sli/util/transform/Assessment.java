@@ -62,6 +62,11 @@ public class Assessment implements MongoDataEmitter {
         }
     }
     
+    /**
+     * 
+     * @author dwilliams
+     *
+     */
     public class Period {
         private String name = null;
         private String start = null;

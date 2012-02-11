@@ -30,7 +30,7 @@ public class EducationalOrganization implements MongoDataEmitter {
         this.stateOrganizationId = stateOrgId;
         
         if (edOrgName.equals("Greater Smallville K-12 School District")) { // SkDUiGE8MB3FSzLMxdcTug==
-            generatedUuid = "1d303c61-88d4-404a-ba13-d7c5cc324bc5";	// hack to deal with an id that
+            generatedUuid = "1d303c61-88d4-404a-ba13-d7c5cc324bc5"; // hack to deal with an id that
                                                                     // was created manually, that we
                                                                     // don't want to change
         } else {

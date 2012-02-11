@@ -14,6 +14,11 @@ import java.util.Iterator;
  *
  */
 public class Configuration {
+    /**
+     * 
+     * @author dwilliams
+     *
+     */
     public enum OutputType {
         Fixture, EdFiXml
     }
@@ -34,7 +39,7 @@ public class Configuration {
         if (outputType.equals(OutputType.EdFiXml)) {
             return xmlDestFiles.get(key);
         } else {
-            return null;	// fixture file generation does this in a different way, should never call
+            return null; // fixture file generation does this in a different way, should never call
                          // this method
         }
     }

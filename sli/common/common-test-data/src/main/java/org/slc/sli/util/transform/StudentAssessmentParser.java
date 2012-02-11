@@ -184,10 +184,10 @@ public class StudentAssessmentParser {
             // what does course-section XML look like?
         }
         
-        parseTeacherSections();	// data is stored in Teacher objects
+        parseTeacherSections(); // data is stored in Teacher objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeTeacherSectionAssociationFixture(teacherSectionAssociationFixtureFile, false);
-        } else {
+        //} else {
             // what does teacher-section XML look like?
         }
         
