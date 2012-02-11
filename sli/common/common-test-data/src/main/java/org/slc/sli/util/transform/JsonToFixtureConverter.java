@@ -390,52 +390,52 @@ public class JsonToFixtureConverter {
             // EdOrgs
             File[] children = file.listFiles(edOrgFilter);
             for (File child : children) {
-                loadAndStoreEdOrgs(loadJson(child));	// should be only one
+                loadAndStoreEdOrgs(loadJson(child)); // should be only one
             }
             
             // EdOrg-EdOrg associations
             children = file.listFiles(edOrgAssocFilter);
             for (File child : children) {
-                loadAndStoreEdOrgEdOrgAssociations(loadJson(child));	// should be only one
+                loadAndStoreEdOrgEdOrgAssociations(loadJson(child)); // should be only one
             }
             
             // assessments
             children = file.listFiles(assessmentFilter);
             for (File child : children) {
-                loadAndStoreAssessments(loadJson(child));	// should be only one
+                loadAndStoreAssessments(loadJson(child)); // should be only one
             }
             
             // students - we'll have to reach back and insert school/section/teacher data later
             children = file.listFiles(studentFilter);
             for (File child : children) {
-                loadAndStoreStudents(loadJson(child));	// should be only one
+                loadAndStoreStudents(loadJson(child)); // should be only one
             }
             
             // student assessments
             children = file.listFiles(studentAssessmentFilter);
             for (File child : children) {
-                loadAndStoreStudentAssessments(loadJson(child));	// should be only one
+                loadAndStoreStudentAssessments(loadJson(child)); // should be only one
             }
             
             // student program participants
             children = file.listFiles(studentProgAssocFilter);
             for (File child : children) {
-                loadAndStoreProgramParticipants(loadJson(child));	// should be only one
+                loadAndStoreProgramParticipants(loadJson(child)); // should be only one
             }
             
             // schools
             children = file.listFiles(schoolFilter);
             for (File child : children) {
-                loadAndStoreSchools(loadJson(child));	// should be only one
+                loadAndStoreSchools(loadJson(child)); // should be only one
             }
             
             // school-EdOrg associations
             children = file.listFiles(schoolEdOrgAssocFilter);
             for (File child : children) {
-                loadAndStoreSchoolEdOrgAssociations(loadJson(child));	// should be only one
+                loadAndStoreSchoolEdOrgAssociations(loadJson(child)); // should be only one
             }
             
-            children = file.listFiles();	// look for subdirectories
+            children = file.listFiles(); // look for subdirectories
             for (File child : children) {
                 if (child.isDirectory()) {
                     loadAndStore(child);
@@ -455,7 +455,7 @@ public class JsonToFixtureConverter {
                 String type = "";
                 JsonArray types = edOrgJson.get("organizationCategories").getAsJsonArray();
                 if (types != null && types.size() > 0) {
-                    type = types.get(0).getAsString();	// one is enough
+                    type = types.get(0).getAsString(); // one is enough
                 }
                 
                 String street = "", suite = "", city = "", state = "", postalCode = "";
@@ -525,7 +525,7 @@ public class JsonToFixtureConverter {
                 String name = getString(schoolJson, "nameOfInstitution", schoolId);
                 
                 if (schoolId.length() == 0) {
-                    schoolId = name;	// hack to handle inconsistent dashboard mock data
+                    schoolId = name; // hack to handle inconsistent dashboard mock data
                 }
                 
                 School school = new School(name, schoolId, "", "", "", "", "", "", "K-12", "Elementary_School");

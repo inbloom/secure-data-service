@@ -13,8 +13,8 @@ public class Student implements MongoDataEmitter {
     private StudentName name = null;
     private BirthData birthData = null;
     private String stateStudentId = null;
-    private String sex = "Male";	// default
-    private String econDis = "false";	// default
+    private String sex = "Male"; // default
+    private String econDis = "false"; // default
     private School school = null;
     private String generatedUuid = null;
     private String generatedStudentSchoolAssociationUuid = null;
@@ -396,7 +396,7 @@ public class Student implements MongoDataEmitter {
     }
     
     public void setUuid(String id) {
-        generatedUuid = id;	// okay, so it isn't really generated at this point. This helps to keep
+        generatedUuid = id; // okay, so it isn't really generated at this point. This helps to keep
                             // dashboard IDs predictable.
     }
     
