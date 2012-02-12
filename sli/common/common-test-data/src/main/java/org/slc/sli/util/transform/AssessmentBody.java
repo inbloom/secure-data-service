@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author dwilliams
  *
  */
-public class AssessmentBody implements MongoDataEmitter, Cloneable {
+public class AssessmentBody implements MongoDataEmitter {
     private ArrayList<AssessmentCode> assessmentIdentificationCodes = null;
     private String academicSubject = null;
     private String assessmentCategory = null;

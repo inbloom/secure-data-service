@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * 
  * @author dwilliams
- *
+ * 
  */
 public class Base64 {
     private static HashMap<String, Integer> idMap = new HashMap<String, Integer>();
@@ -48,13 +48,13 @@ public class Base64 {
         
         Integer idCount = idMap.get(typeCode);
         if (idCount == null) {
-            idCount = new Integer(0);
+            idCount = Integer.valueOf(0);
             idMap.put(typeCode, idCount);
         }
         String variable = "000000000000" + idCount;  // start with 12 zeroes
         String mungedVariable = variable.substring(variable.length() - 12);
         
-        idMap.put(typeCode, new Integer(idCount.intValue() + 1));
+        idMap.put(typeCode, Integer.valueOf(idCount.intValue() + 1));
         
         return fixed + mungedVariable;
     }

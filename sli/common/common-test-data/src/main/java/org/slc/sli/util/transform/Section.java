@@ -17,7 +17,7 @@ public class Section implements MongoDataEmitter {
     
     public Section(String uniqueId, String name, String sequence) {
         this.uniqueSectionCode = uniqueId;
-        this.sectionName = name;
+        this.setSectionName(name);
         this.sequenceOfCourse = sequence;
         generatedUuid = Base64.nextUuid("aaac");
     }
@@ -83,5 +83,13 @@ public class Section implements MongoDataEmitter {
     
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 }

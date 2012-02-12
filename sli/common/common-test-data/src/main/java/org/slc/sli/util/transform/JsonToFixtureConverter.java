@@ -98,7 +98,7 @@ public class JsonToFixtureConverter {
         File dir = new File(dataDirectory);
         if (!dir.isDirectory()) {
             System.out.println("ERROR: '" + dataDirectory + "' is not a directory");
-            System.exit(1);
+            return;
         }
         
         loadAndStore(dir);
@@ -639,11 +639,11 @@ public class JsonToFixtureConverter {
     }
     
     private void loadAndStoreStudentAssessments(JsonElement root) {
-        if (root.isJsonArray()) {
+        /*if (root.isJsonArray()) {
             HashMap<String, StudentAssessment> assessments = new HashMap<String, StudentAssessment>();
             
             // TODO - parse
-        }
+        }*/
     }
     
     private String getString(JsonObject obj, String attr, String defValue) {

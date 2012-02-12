@@ -2,11 +2,12 @@ package org.slc.sli.util.transform;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * 
  * @author dwilliams
- *
+ * 
  */
 public class DataManager {
     private static HashMap<String, School> schools = null;
@@ -39,10 +40,11 @@ public class DataManager {
         if (schools == null) {
             schools = more;
         } else {
-            Iterator<String> iter = more.keySet().iterator();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                School s = more.get(key);
+            Iterator<Entry<String, School>> it = more.entrySet().iterator();
+            while (it.hasNext()) {
+                Entry<String, School> entry = it.next();
+                String key = entry.getKey();
+                School s = entry.getValue();
                 if (schools.containsKey(key)) {
                     School existing = schools.get(key);
                     if (s.getEdOrg() == null) {
@@ -139,10 +141,11 @@ public class DataManager {
         if (edOrgs == null) {
             edOrgs = more;
         } else {
-            Iterator<String> iter = more.keySet().iterator();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                EducationalOrganization newEdOrg = more.get(key);
+            Iterator<Entry<String, EducationalOrganization>> it = more.entrySet().iterator();
+            while (it.hasNext()) {
+                Entry<String, EducationalOrganization> entry = it.next();
+                String key = entry.getKey();
+                EducationalOrganization newEdOrg = entry.getValue();
                 if (edOrgs.containsKey(key)) {
                     EducationalOrganization existing = edOrgs.get(key);
                     existing.updateFrom(newEdOrg);

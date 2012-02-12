@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * 
  * @author dwilliams
- *
+ * 
  */
 public class Student implements MongoDataEmitter {
     private StudentName name = null;
@@ -29,7 +29,6 @@ public class Student implements MongoDataEmitter {
     private String racialCategory = null;
     private String displacementStatus = null;
     private String disability = null;
-    
     
     public Student(StudentName name, BirthData birth, String stateId, String sex, String econDis, School school,
             String grade, String sfse, String stuChar, String lep, String sect504Dis, String progPartic,
@@ -118,8 +117,10 @@ public class Student implements MongoDataEmitter {
         answer.append("      <TelephoneNumber>410-555-1212</TelephoneNumber>\n");
         answer.append("   </Telephone>\n");
         answer.append("   <ElectronicMail EmailAddressType=\"Home/Personal\">\n");
-        answer.append("      <TelephoneNumber>").append(name.getFirstName()).append(".").append(name.getLastSurname())
-                .append("@example.com").append("</TelephoneNumber>\n");
+        if (name != null) {
+            answer.append("      <EmailAddress>").append(name.getFirstName()).append(".").append(name.getLastSurname())
+                    .append("@example.com").append("</EmailAddress>\n");
+        }
         answer.append("   </ElectronicMail>\n");
         answer.append("   <HispanicLatinoEthnicity>").append(hispanicLatinoEthnicity)
                 .append("</HispanicLatinoEthnicity>\n");

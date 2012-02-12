@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * 
  * @author dwilliams
- *
+ * 
  */
 public class Teacher implements MongoDataEmitter {
     private String generatedUuid = null;
@@ -16,13 +16,13 @@ public class Teacher implements MongoDataEmitter {
     private ArrayList<TeacherOtherName> otherNames = null;
     private String sex = null;
     private String birthDate = "";
-    private ArrayList<TeacherAddress> addresses = null;
-    private ArrayList<TeacherPhone> phones = null;
-    private ArrayList<TeacherEmail> emails = null;
+    private ArrayList<TeacherAddress> addresses = new ArrayList<TeacherAddress>();
+    private ArrayList<TeacherPhone> phones = new ArrayList<TeacherPhone>();
+    private ArrayList<TeacherEmail> emails = new ArrayList<TeacherEmail>();
     private String edLevel = null;
     private int years = 1;
     private int priorYears = 0;
-    private ArrayList<TeacherCredential> credentials = null;
+    private ArrayList<TeacherCredential> credentials = new ArrayList<TeacherCredential>();
     private String uniqueStateId = null;
     private HashMap<String, String> sectionIds = new HashMap<String, String>();
     
@@ -36,6 +36,29 @@ public class Teacher implements MongoDataEmitter {
         this.credentials.add(new TeacherCredential("LICENSURE", "Mathematics", highestLevelOfEducationCompleted,
                 "Professional", "1998-01-01"));
         this.edLevel = highestLevelOfEducationCompleted;
+    }
+    
+    public void addAddress(String type, String street, String suite, String site, String city, String state,
+            String postalCode, String county) {
+        TeacherAddress address = new TeacherAddress(type, street, suite, site, city, state, postalCode, county);
+        addresses.add(address);
+    }
+    
+    public void addPhone(String type, String number, boolean isPrimary) {
+        TeacherPhone phone = new TeacherPhone(type, number, isPrimary);
+        phones.add(phone);
+    }
+    
+    public void addEmail(String type, String email) {
+        TeacherEmail emailObj = new TeacherEmail(type, email);
+        emails.add(emailObj);
+    }
+    
+    public void addCredential(String credentialType, String field, String level, String teachingCredentialType,
+            String credentialIssuanceDate) {
+        TeacherCredential cred = new TeacherCredential(credentialType, field, level, teachingCredentialType,
+                credentialIssuanceDate);
+        credentials.add(cred);
     }
     
     public String getUuid() {
