@@ -371,7 +371,7 @@ public class StudentAssessmentParser {
                 inParseBlock = line.contains("===TEACHERS===");
                 continue;
             }
-            if (!inParseBlock || line.startsWith("#")) {	// use '#' to indicate full line comments
+            if (!inParseBlock || line.startsWith("#")) { // use '#' to indicate full line comments
                 continue;
             }
             String[] parts = line.split(",");
