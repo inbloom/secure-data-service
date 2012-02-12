@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-
 /**
  * The purpose of this class is to transform a CSV input file into Mongo-importable form. The CSV
  * file must be of a particular format
@@ -110,14 +109,14 @@ public class StudentAssessmentParser {
         parseEdOrgEdOrgAssociations(); // data is stored in EdOrg objects (on the child)
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeEdOrgEdOrgAssociationFixture(edOrgEdOrgAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // what does EdOrg-EdOrg Association XML look like?
         }
         
         DataManager.setSessions(parseSessions());
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSessionFixture(sessionFixtureFile, false);
-        //} else {
+            // } else {
             // what does Session XML look like?
         }
         
@@ -138,21 +137,21 @@ public class StudentAssessmentParser {
         
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeEdOrgSchoolsAssociationFixture(edOrgSchoolAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // edorg-school associations are written as part of a school object in XML
         }
         
         parseSchoolSessionAssociations(); // data is stored in School objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSchoolSessionAssociationFixture(schoolSessionAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // what does School-Session XML look like?
         }
         
         parseCourseSessionAssociations(); // data is stored in Course objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeCourseSessionAssociationFixture(courseSessionAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // what does Course-Session XML look like?
         }
         
@@ -166,7 +165,7 @@ public class StudentAssessmentParser {
         DataManager.setAssessments(parseAssessments());
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeAssessmentFixture(assessmentFixtureFile, false);
-        //} else {
+            // } else {
             // what does assessment XML look like?
         }
         
@@ -174,20 +173,20 @@ public class StudentAssessmentParser {
         parseCourseSectionAssociations(); // data is stored in Course objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionFixture(sectionFixtureFile, false);
-        //} else {
+            // } else {
             // what does section XML look like?
         }
         
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeCourseSectionAssociationFixture(courseSectionAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // what does course-section XML look like?
         }
         
         parseTeacherSections(); // data is stored in Teacher objects
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeTeacherSectionAssociationFixture(teacherSectionAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // what does teacher-section XML look like?
         }
         
@@ -205,26 +204,26 @@ public class StudentAssessmentParser {
         }
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeStudentSectionAssociationFixture(studentSectionAssociationFixtureFile, false);
-        //} else {
+            // } else {
             // what does student-section XML look like?
         }
         
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionAssessmentAssociationFixture(sectionAssessmentFixtureFile, false);
-        //} else {
+            // } else {
             // what does section-assessment XML look like?
         }
         
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeSectionSchoolAssociationFixture(sectionSchoolFixtureFile, false);
-        //} else {
+            // } else {
             // what does section-school XML look like?
         }
         
         DataManager.setStudentAssessments(parseStudentAssessments());
         if (Configuration.getOutputType().equals(Configuration.OutputType.Fixture)) {
             writeStudentAssessmentFixture(studentAssessmentFixtureFile, false);
-        //} else {
+            // } else {
             // what does student-assessment XML look like?
         }
     }
@@ -611,7 +610,9 @@ public class StudentAssessmentParser {
             
             Course course = new Course(courseDefinedBy, adoptionDate, description, characteristics,
                     Boolean.parseBoolean(required), code, gpaAppl, idSystem, Integer.parseInt(minCredit),
-                    Integer.parseInt(maxCredit), subject, level, title, Integer.parseInt(numParts), orgCode, careerPath);
+                    Integer.parseInt(maxCredit));
+            course.setAdditionalParametersThatExceedFascistCheckstyleLimitOnConstructorArgs(subject, level, title,
+                    Integer.parseInt(numParts), orgCode, careerPath);
             
             for (int k = i + 1; k < parts.length; k++) {
                 String grade = parts[k];
