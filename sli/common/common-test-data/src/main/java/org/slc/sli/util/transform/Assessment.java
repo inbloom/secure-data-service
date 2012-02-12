@@ -87,7 +87,7 @@ public class Assessment implements MongoDataEmitter {
     }
     
     public Assessment copyWithName(String childName) {
-        Assessment child = new Assessment(getBody().clone(), studentId);
+        Assessment child = new Assessment(getBody().makeCopy(), studentId);
         child.getBody().setTitle(childName);
         return child;
     }

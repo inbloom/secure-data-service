@@ -28,7 +28,7 @@ public class AssessmentBody implements MongoDataEmitter {
         this.version = version;
     }
     
-    public AssessmentBody clone() {
+    public AssessmentBody makeCopy() {
         AssessmentBody clone = new AssessmentBody(assessmentTitle, assessmentIdentificationCodes, academicSubject,
                 assessmentCategory, gradeLevelAssessed, contentStandard, version);
         return clone;

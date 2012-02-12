@@ -13,7 +13,7 @@ public class Teacher implements MongoDataEmitter {
     private String generatedUuid = null;
     
     private TeacherName name = null;
-    private ArrayList<TeacherOtherName> otherNames = null;
+    private ArrayList<TeacherOtherName> otherNames = new ArrayList<TeacherOtherName>();
     private String sex = null;
     private String birthDate = "";
     private ArrayList<TeacherAddress> addresses = new ArrayList<TeacherAddress>();
@@ -52,6 +52,12 @@ public class Teacher implements MongoDataEmitter {
     public void addEmail(String type, String email) {
         TeacherEmail emailObj = new TeacherEmail(type, email);
         emails.add(emailObj);
+    }
+    
+    public void addName(String prefix, String first, String middle, String last, String generationCode,
+            String maidenName, String otherType) {
+        TeacherOtherName name = new TeacherOtherName(prefix, first, middle, last, generationCode, maidenName, otherType);
+        otherNames.add(name);
     }
     
     public void addCredential(String credentialType, String field, String level, String teachingCredentialType,

@@ -21,7 +21,7 @@ import com.google.gson.stream.JsonReader;
 /**
  * 
  * @author dwilliams
- *
+ * 
  */
 public class JsonToFixtureConverter {
     private String dataDirectory = null;
@@ -639,11 +639,14 @@ public class JsonToFixtureConverter {
     }
     
     private void loadAndStoreStudentAssessments(JsonElement root) {
-        /*if (root.isJsonArray()) {
-            HashMap<String, StudentAssessment> assessments = new HashMap<String, StudentAssessment>();
-            
-            // TODO - parse
-        }*/
+        /*
+         * if (root.isJsonArray()) {
+         * HashMap<String, StudentAssessment> assessments = new HashMap<String,
+         * StudentAssessment>();
+         * 
+         * // TODO - parse
+         * }
+         */
     }
     
     private String getString(JsonObject obj, String attr, String defValue) {
@@ -668,8 +671,7 @@ public class JsonToFixtureConverter {
                         getString(
                                 studentJson,
                                 "studentUniqueStateId",
-                                getString(studentJson, "stateId",
-                                        getString(studentJson, "id", Base64.nextUuid("aaba")))));
+                                getString(studentJson, "stateId", getString(studentJson, "id", Base64.nextUuid("aaba")))));
                 String suffix = getString(studentJson, "nameSuffix", "");
                 String stateId = getString(studentJson, "stateId", uid);
                 String sex = getString(studentJson, "sex", "Male");
