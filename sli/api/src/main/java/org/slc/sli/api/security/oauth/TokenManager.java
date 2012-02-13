@@ -3,6 +3,8 @@ package org.slc.sli.api.security.oauth;
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,8 +14,11 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.OAuth2ProviderTokenServices;
 import org.springframework.security.oauth2.provider.token.RandomValueOAuth2ProviderTokenServices;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 
@@ -48,6 +53,11 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
     @Autowired
     EntityRepository repo;
 
+    @Autowired
+    private EntityDefinitionStore store;
+
+    private EntityService         service;
+
 
     @Override
     protected OAuth2Authentication<?, ?> readAuthentication(
@@ -77,7 +87,7 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
         accessToken.put("refresh_token", refreshToken);
         
         container.put("access_token", accessToken);
-        repo.create("authorizedSessions", container);
+        service.create(container);
     }
 
     @Override
@@ -86,6 +96,7 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", 
                 new Query(Criteria.where("body.access_token.value").is(tokenValue)), 0, 1);
         for (Entity entity : results) {
+            @SuppressWarnings("unchecked")
             Map<String, Object> accessToken = (Map<String, Object>) entity.getBody().get("access_token");
             result.setValue((String) accessToken.get("value")); 
             result.setExpiration((Date) accessToken.get("expiration"));
@@ -101,7 +112,7 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", 
                 new Query(Criteria.where("body.access_token.value").is(tokenValue)), 0, 1);
         for (Entity entity : results) {
-            repo.delete("authorizedSessions", entity.getEntityId());
+            service.delete(entity.getEntityId());
         }
     }
 
@@ -127,6 +138,7 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
         ExpiringOAuth2RefreshToken result = new ExpiringOAuth2RefreshToken();
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
         for (Entity cur : results) {
+            @SuppressWarnings("unchecked")
             Map<String, Object> refreshToken = (Map<String, Object>) cur.getBody().get("refresh_token");
             result.setExpiration((Date) refreshToken.get("expiration"));
             result.setValue((String) refreshToken.get("value"));
@@ -147,8 +159,24 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
     protected void removeAccessTokenUsingRefreshToken(String refreshToken) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(refreshToken)), 0, 1);
         for (Entity cur : results) {
-            repo.delete("authorizedSessions", cur.getEntityId());
+            service.delete(cur.getEntityId());
         }
-
     }
+    
+    @PostConstruct
+    public void init() {
+        EntityDefinition def = store.lookupByResourceName("authorizedSessions");
+        setService(def.getService());
+    }
+    
+    // Injector
+    public void setStore(EntityDefinitionStore store) {
+        this.store = store;
+    }
+    
+    // Injector
+    public void setService(EntityService service) {
+        this.service = service;
+    }
+
 }
