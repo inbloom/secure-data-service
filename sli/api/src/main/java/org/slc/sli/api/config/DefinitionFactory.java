@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.Treatment;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Factory class for building Entity and Association definition objects.

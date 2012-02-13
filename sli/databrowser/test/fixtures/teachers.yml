@@ -4,8 +4,112 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
+one:
+    id: 1
+    type: teacher
+    name:
+        personalTitlePrefix: Miss
+        firstName: Linda
+        middleName: null
+        lastSurname: Kim
+        generationCodeSuffix: null
+        maidenName: null
+    
+    otherName:
+        otherNameType: ALIAS
+        personalTitlePrefix: null
+        firstName: null
+        middleName: null
+        lastSurname: null
+        generationCodeSuffix: null
+    
+    sex: Female
+    birthDate: "1954-12-13"
+    address:
+        addressType: Physical
+        streetNumberName: null
+        apartmentRoomSuiteNumber: null
+        buildingSiteNumber: null
+        city: null
+        stateAbbreviation: NY
+        postalCode: null
+        nameOfCounty: null
+    
+    telephone:
+        telephoneNumberType: HOME
+        telephoneNumber: "555-555-5555"
+        primaryTelephoneNumberIndicator: true
+    
+    electronicMail:
+        emailAddressType: "HOME_PERSONAL"
+        emailAddress: "teacher@gmail.com"
+    
+    hispanicLatinoEthnicity: false
+    highestLevelOfEducationCompleted: "Bachelors"
+    yearsOfPriorProfessionalExperience: 26
+    yearsOfPriorTeachingExperience: 22
+    credentials:
+        credentialType: LICENSURE
+        field: "Mathematics"
+        level: ALL_LEVEL_GRADE_LEVEL_PK_12
+        teachingCredentialType: Professional
+        credentialIssuanceDate: "1998-01-01"
+    
+    staffUniqueStateId: 1
+
+# column:value
 #
-two: {}
-#  column: value
+two:
+    id: 2
+    type: teacher
+    name:
+        personalTitlePrefix: MRS
+        firstName: Marcy
+        middleName: null
+        lastSurname: Walberg
+        generationCodeSuffix: null
+        maidenName: null
+    
+    otherName:
+        otherNameType: ALIAS
+        personalTitlePrefix: null
+        firstName: null
+        middleName: null
+        lastSurname: null
+        generationCodeSuffix: null
+    
+    sex: Female
+    birthDate: "1964-12-24"
+    address:
+        addressType: Physical
+        streetNumberName: null
+        apartmentRoomSuiteNumber: null
+        buildingSiteNumber: null
+        city: null
+        stateAbbreviation: NY
+        postalCode: null
+        nameOfCounty: null
+    
+    telephone:
+        telephoneNumberType: HOME
+        telephoneNumber: "555-555-5556"
+        primaryTelephoneNumberIndicator: true
+    
+    electronicMail:
+        emailAddressType: "HOME_PERSONAL"
+        emailAddress: "teacher2@gmail.com"
+    
+    hispanicLatinoEthnicity: false
+    highestLevelOfEducationCompleted: "Bachelors"
+    yearsOfPriorProfessionalExperience: 26
+    yearsOfPriorTeachingExperience: 22
+    credentials:
+        credentialType: LICENSURE
+        field: "Mathematics"
+        level: ALL_LEVEL_GRADE_LEVEL_PK_12
+        teachingCredentialType: Professional
+        credentialIssuanceDate: "1998-01-01"
+    
+    staffUniqueStateId: 1
+
+#  column:value

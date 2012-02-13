@@ -1,6 +1,10 @@
 package org.slc.sli.util.transform;
 
-public interface MongoDataEmitter 
-{
-	public String emit();
+/**
+ * 
+ * @author dwilliams
+ *
+ */
+public interface MongoDataEmitter {
+    public String emit();
 }

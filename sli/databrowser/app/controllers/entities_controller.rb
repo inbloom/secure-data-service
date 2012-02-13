@@ -29,18 +29,17 @@ class EntitiesController < ApplicationController
   # GET /entities/1.json
   def show
     if(params[:targets])
-      logger.debug("Building targets link")
-      @entity = Entity.get("#{params[:id]}/#{params[:targets]}")
+      @entity = Entity.get_simple_and_complex("#{params[:id]}/#{params[:targets]}")
     else
-      @entity = Entity.get(params[:id])
+      @entity = Entity.get_simple_and_complex(params[:id])
     end
-
+   
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @entity }
     end
   end
-
+  
   # GET /entities/new
   # GET /entities/new.json
   # def new

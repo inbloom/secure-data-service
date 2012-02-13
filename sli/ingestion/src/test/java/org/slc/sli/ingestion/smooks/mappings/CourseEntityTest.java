@@ -78,6 +78,11 @@ public class CourseEntityTest {
                 + "        <Credit>2.0</Credit>"
                 + "    </MaximumAvailableCredit>"
                 + "    <CareerPathway>Science Technology Engineering and Mathematics</CareerPathway>"
+                + "    <EducationOrganizationReference>"
+                + "        <EducationalOrgIdentity>"
+                + "            <StateOrgId>Gary's Code Generator</StateOrgId>"
+                + "        </EducationalOrgIdentity>"
+                + "    </EducationOrganizationReference>"
                 + "</Course>"
                 + "</InterchangeEducationOrganization>";
 
@@ -90,10 +95,9 @@ public class CourseEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidCourseNeutralRecord(NeutralRecord neutralRecord) {
 
-        // assertEquals("science7", neutralRecord.getLocalId()); there can be multiple CourseCode.
-        // this is not unique
-
         assertEquals("course", neutralRecord.getRecordType());
+
+        assertEquals("Science7", neutralRecord.getLocalId());
 
         assertEquals("Science7", neutralRecord.getAttributes().get("courseTitle"));
 

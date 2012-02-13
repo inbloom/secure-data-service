@@ -6,13 +6,15 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.client.APIClient;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
-import org.slc.sli.config.ViewConfigSet;
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.LozengeConfig;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.ViewConfigSet;
+import org.slc.sli.manager.EntityManager;
 
 /**
  * Unit tests for the ConfigPersistor class.
@@ -31,7 +33,11 @@ public class ConfigPersistorTest {
         ViewConfigSet configSet = null;
         try {
             ConfigPersistor persistor = new ConfigPersistor();
-            persistor.setApiClient(new MockAPIClient());
+            APIClient apiClient = new MockAPIClient();
+            EntityManager entityManager = new EntityManager();
+            entityManager.setApiClient(apiClient);
+            persistor.setApiClient(apiClient);
+            persistor.setEntityManager(entityManager);
             configSet = persistor.getConfigSet("lkim");
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +54,11 @@ public class ConfigPersistorTest {
         LozengeConfig[] lozengeConfigs = null;
         try {
             ConfigPersistor persistor = new ConfigPersistor();
-            persistor.setApiClient(new MockAPIClient());
+            APIClient apiClient = new MockAPIClient();
+            EntityManager entityManager = new EntityManager();
+            entityManager.setApiClient(apiClient);
+            persistor.setApiClient(apiClient);
+            persistor.setEntityManager(entityManager);
             lozengeConfigs = persistor.getLozengeConfig("lkim");
         } catch (Exception e) {
             e.printStackTrace();

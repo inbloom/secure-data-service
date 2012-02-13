@@ -19,9 +19,9 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.util.datetime.DateTimeUtil;
-import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -33,7 +33,7 @@ import org.slc.sli.validation.EntityValidator;
  * 
  */
 
-public class MongoEntityRepository implements EntityRepository, EntityValidationRepository {
+public class MongoEntityRepository implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
     
     @Autowired

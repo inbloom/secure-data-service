@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Student;
+import org.slc.sli.entity.GenericEntity;
 
 /**
  * Handles the logic behind filtering view configurations
@@ -17,11 +17,11 @@ import org.slc.sli.entity.Student;
  */
 public class ViewManager extends Manager {
     List<ViewConfig> viewConfigs;
-    StudentManager studentManager;
+    PopulationManager populationManager;
     
-    public ViewManager(List<ViewConfig> viewConfigs, StudentManager studentManager) {
+    public ViewManager(List<ViewConfig> viewConfigs, PopulationManager populationManager) {
         this.viewConfigs = viewConfigs;
-        this.studentManager = studentManager;
+        this.populationManager = populationManager;
     }
     
     public List<ViewConfig> getApplicableViewConfigs(List<String> uids, UserDetails user) {
@@ -36,11 +36,11 @@ public class ViewManager extends Manager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<Student> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+                List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig);
 
                 // if we can find at least one student in the range, the viewConfig is applicable
-                for (Student student : students) {
-                    Integer gradeValue = gradeValues.get(student.getCohortYear());
+                for (GenericEntity student : students) {
+                    Integer gradeValue = gradeValues.get(student.get("cohortYear"));
 
                     if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
                     {
