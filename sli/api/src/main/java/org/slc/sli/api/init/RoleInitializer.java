@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.enums.Right;
 
 /**

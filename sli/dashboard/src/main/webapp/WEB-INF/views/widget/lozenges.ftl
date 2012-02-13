@@ -19,7 +19,7 @@
   <#list 0..maxLozengeIndx as lozengeIndx>
     <#assign lozengeConfig = lozengeWidget.get(lozengeIndx)>
   
-    <#assign id = "${field.getValue()}.${student.getId()}.lozenge.${lozengeIndx}">
+    <#assign id = "${field.getValue()}.${student.id}.lozenge.${lozengeIndx}">
   
     <#-- drawing code -->
     <span id="${id}" class="lozenge"></span>

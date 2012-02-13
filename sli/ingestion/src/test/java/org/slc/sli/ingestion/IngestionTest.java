@@ -25,8 +25,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.util.ResourceUtils;
 
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 

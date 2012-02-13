@@ -3,12 +3,11 @@ class Entity < SessionResource
   
   def self.get_simple_and_complex(parameters)
     base = get(parameters)
-    base if base.nil? or base.empty?
     entity = []
     if base.is_a?(Array)
       type = nil
       return entity if base.first.nil?
-      type = base.first['type'] if base.first.has_key? 'type'
+      type = VIEW_CONFIG[base.first['entityType']] if base.first.has_key? 'entityType'
       base.each do |single|
         one = Hash.new
         one[:simple] = build_simple_hash(type, single)
@@ -25,14 +24,16 @@ class Entity < SessionResource
     return nil if hash.nil?
     type = get_basic_types(hash) if type.nil?
     one = {}
-    final_type = type.split('/').last
-    one[final_type] = value_for_simple_view(type, hash)
+    type.each do |item|
+      final_type = item.split('/').last
+      one[final_type] = value_for_simple_view(item, hash)
+    end
     one
   end
   
   def self.value_for_simple_view (type, hash)
     return nil if hash.nil? or type.nil?
-    hash[type] unless type.include? '/'
+    return hash[type] unless type.include? '/'
     type_split = type.split '/'
     temp_hash = hash
     type_split.each do |split|
@@ -43,16 +44,11 @@ class Entity < SessionResource
   
   def self.get_basic_types(hash)
     types = []
-    counter = 0
-    hash.keys do |key|
-      if counter == 4
-        break
-      end
-      if hash[key].is_a?(Hash) or hash[key].is_a?(Array)
+    hash.keys.each do |key|
+      if !hash[key].is_a?(Hash) and !hash[key].is_a?(Array)
         types.push(key)
-        counter += 1
       end
     end
-    types
+    types.slice(0, 5)
   end
 end

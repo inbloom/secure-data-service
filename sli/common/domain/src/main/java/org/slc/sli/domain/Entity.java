@@ -30,6 +30,6 @@ public interface Entity {
     /**
      * Returns the metaData.
      */
-     public Map<String,Object> getMetaData();
+     public Map<String, Object> getMetaData();
     
 }

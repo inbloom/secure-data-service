@@ -1,5 +1,6 @@
 package org.slc.sli.dal.repository;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,9 +20,9 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.util.datetime.DateTimeUtil;
-import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -33,7 +34,7 @@ import org.slc.sli.validation.EntityValidator;
  * 
  */
 
-public class MongoEntityRepository implements EntityRepository, EntityValidationRepository {
+public class MongoEntityRepository implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
     
     @Autowired
@@ -112,7 +113,9 @@ public class MongoEntityRepository implements EntityRepository, EntityValidation
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
         
-        String now = DateTimeUtil.getNowInUTC();
+        
+        //String now = DateTimeUtil.getNowInUTC();
+        Date now = DateTimeUtil.getNowInUTC();
         Map<String, Object> metaData = entity.getMetaData();
         metaData.put(EntityMetadataKey.CREATED.getKey(), now);
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
@@ -121,7 +124,7 @@ public class MongoEntityRepository implements EntityRepository, EntityValidation
     /** Update the updated timestamp on the document metadata. */
     private void updateTimestamp(Entity entity) {
         
-        String now = DateTimeUtil.getNowInUTC();
+        Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
         
     }

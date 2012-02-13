@@ -19,7 +19,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  *

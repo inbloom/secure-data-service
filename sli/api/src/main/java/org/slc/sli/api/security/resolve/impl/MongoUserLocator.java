@@ -2,8 +2,9 @@ package org.slc.sli.api.security.resolve.impl;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class MongoUserLocator implements UserLocator {
         user.setRealm(realm);
         user.setExternalId(externalUserId);
 
-        Query query = new Query(Criteria.where("metaData.stateId").is(realm).and("body.staffUniqueStateId").is(externalUserId));
+        Query query = new Query(Criteria.where("metaData.idNamespace").is(realm).and("body.staffUniqueStateId").is(externalUserId));
         for (String entityName : ENTITY_NAMES) {
             Iterable<Entity> staff = repo.findByQuery(entityName, query, 0, 1);
 

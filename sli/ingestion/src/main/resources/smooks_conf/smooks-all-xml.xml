@@ -865,32 +865,22 @@
   <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
     <!-- TeacherReference -->
-    <jb:value property="teacherReference" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="teacherId" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
 
     <!-- SchoolReference -->
-    <jb:wiring property="schoolReference" beanIdRef="SchoolReferenceTypeArray" />
+    <jb:value property="schoolId" data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
 
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="TeacherSchoolAssociation/ProgramAssignment" />
 
     <!-- InstructionGradeLevels -->
-    <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsType" />
+    <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
 
     <!-- AcademicSubjects -->
     <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
   </jb:bean>
 
-
-
-  <!--School Reference -->
-  <jb:bean beanId="SchoolReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
-    <jb:value data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
-  </jb:bean>
-
   <!--Gravelevels -->
-  <jb:bean beanId="GradeLevelsType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
-    <jb:wiring property="gradeLevel" beanIdRef="GradeLevelsTypeArray" />
-  </jb:bean>
   <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
     <jb:value data="TeacherSchoolAssociation/InstructionalGradeLevels/GradeLevel" />
   </jb:bean>
@@ -911,8 +901,7 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'course'</jb:expression>
 
-    <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
-    <jb:value property="localId" data="Course/CourseCode/ID" />
+    <jb:value property="localId" data="CourseTitle" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>
