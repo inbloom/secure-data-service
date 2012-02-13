@@ -10,7 +10,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

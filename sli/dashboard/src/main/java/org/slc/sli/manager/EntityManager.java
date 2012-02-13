@@ -21,8 +21,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
 /**
@@ -37,7 +37,7 @@ import org.slc.sli.util.Constants;
  * 
  */
 @Component
-public class EntityManager {
+public class EntityManager extends Manager {
     
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
     
@@ -49,8 +49,6 @@ public class EntityManager {
     private static final String MOCK_ASSESSMENT_METADATA_FILE = "assessment_meta_data.json";
     private static final String MOCK_ASSESSMENTS_FILE = "assessment.json";
     private static final String MOCK_ATTENDANCE_FILE = "attendance.json";
-    
-    APIClient apiClient;
     
     // API Session Id
     private static final String API_SESSION_KEY = "sessionId";
@@ -152,8 +150,8 @@ public class EntityManager {
      * @return assessmentMetadataList
      *         - the assessment metadata entity list
      */
-    public List<GenericEntity> getAssessmentMetadata() {
-        return this.getEntities("", getResourceFilePath(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
+    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
+        return apiClient.getAssessmentMetaData(token);
     }
     
     /**
@@ -400,36 +398,6 @@ public class EntityManager {
         URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
         return url.getFile();
     }
-    
-    public APIClient getApiClient() {
-        return apiClient;
-    }
 
-    public void setApiClient(APIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public static void main(String[] arguments) {
-        
-        log.info("Starting EntityManager...");
-        
-        try {
-            String token = "rbraverman";
-            
-            EntityManager entityManager = new EntityManager();
-            
-            List<GenericEntity> students = entityManager.getStudents(token, null);
-            
-            log.info(students.toString());
-            
-            entityManager.toFile("testStudents.json", students);
-            
-        } catch (Exception exception) {
-            log.error(exception.getMessage());
-        }
-        
-        log.info("Finished EntityManager.");
-        
-    }
     
 }

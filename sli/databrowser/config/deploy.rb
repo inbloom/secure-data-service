@@ -5,6 +5,7 @@ working_dir = "sli/databrowser"
 set :application, "Identity Management Admin Tool"
 set :repository,  "git@github.com:WGEN-SLI/SLI.git"
 set :bundle_gemfile, "#{working_dir}/Gemfile"
+set :keep_releases, 2
 
 set :user, "rails"
 set :use_sudo, false
@@ -60,6 +61,7 @@ namespace :deploy do
       asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).map { |p| "#{latest_release}/#{working_dir}/public/#{p}" }.join(" ")
       run "find #{asset_paths} -exec touch -t #{stamp} {} ';'; true", :env => { "TZ" => "UTC" }
     end
+    cleanup
   end
 
 end

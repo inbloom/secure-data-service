@@ -9,7 +9,7 @@
     <param name="terminate.on.visitor.exception">false</param>
   </params>
 
-<csv:reader
+  <csv:reader
     fields="TeacherReference_StaffIdentity_StaffUniqueStateId,
     SchoolReference_EducationalOrgIdentity_StateOrganizationId,
     ProgramAssignment,
@@ -17,53 +17,51 @@
     AcademicSubjects_AcademicSubject
     ">
 
-</csv:reader>
+  </csv:reader>
 
-	<!-- TeacherSectionAssociation Mapping-->
-   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
+  <!-- TeacherSchoolAssociation Mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
 
-    <jb:expression property="recordType">'section'</jb:expression>
+    <jb:expression property="recordType">'teacherSchoolAssociation'</jb:expression>
+
     <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
+
+    <jb:wiring property="localParentIds" beanIdRef="teacherSchoolAssociationParentIds" />
   </jb:bean>
 
-    <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="csv-record">
-    	<!-- TeacherReference -->
-	<jb:value property="teacherReference" data="TeacherReference_StaffIdentity_StaffUniqueStateId" />
+  <jb:bean beanId="teacherSchoolAssociationParentIds" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="Teacher" data="TeacherReference_StaffIdentity_StaffUniqueStateId" />
+    <jb:value property="School" data="SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
+  </jb:bean>
 
-	<!-- SchoolReference -->
-	<jb:wiring property="schoolReference" beanIdRef="SchoolReferenceTypeArray" />
+  <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="csv-record">
+    <!-- TeacherReference -->
+    <jb:value property="teacherId" data="TeacherReference_StaffIdentity_StaffUniqueStateId" />
 
-	  <!-- ProgramAssignment -->
-	  	<jb:value property="programAssignment" data="ProgramAssignment" />
+    <!-- SchoolReference -->
+    <jb:value property="schoolId" data="SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
 
-	  	<!-- InstructionGradeLevels -->
-	  <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsType" />
+    <!-- ProgramAssignment -->
+    <jb:value property="programAssignment" data="ProgramAssignment" />
 
-	  <!-- AcademicSubjects -->
-	  <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
-	  </jb:bean>
+    <!-- InstructionGradeLevels -->
+    <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
 
+    <!-- AcademicSubjects -->
+    <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
+  </jb:bean>
 
+  <!--Gradelevels -->
+  <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="InstructionalGradeLevels_GradeLevel" />
+  </jb:bean>
 
-	  <!--School Reference -->
-	 <jb:bean beanId="SchoolReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  	<jb:value data="SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
-	  </jb:bean>
-
-	  <!--Gravelevels -->
-	  <jb:bean beanId="GradeLevelsType" class="java.util.HashMap" createOnElement="csv-record">
-	  	  <jb:wiring property="gradeLevel" beanIdRef="GradeLevelsTypeArray" />
-	 </jb:bean>
-	 <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  	<jb:value data="InstructionalGradeLevels_GradeLevel" />
-	  </jb:bean>
-
-	 <!--AcademicSubjects -->
-	 	 <jb:bean beanId="AcademicSubjectsType" class="java.util.HashMap" createOnElement="csv-record">
-	  	  	  <jb:wiring property="academicSubject" beanIdRef="AcademicSubjectsTypeArray" />
-	  	  </jb:bean>
-	 <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-	  	<jb:value data="AcademicSubjects_AcademicSubject" />
-	  </jb:bean>
+  <!--AcademicSubjects -->
+  <jb:bean beanId="AcademicSubjectsType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:wiring property="academicSubject" beanIdRef="AcademicSubjectsTypeArray" />
+  </jb:bean>
+  <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="AcademicSubjects_AcademicSubject" />
+  </jb:bean>
 
 </smooks-resource-list>

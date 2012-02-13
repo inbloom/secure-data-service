@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Handles creating different types of URL sets.

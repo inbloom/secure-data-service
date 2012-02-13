@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Stores context based permission resolvers.

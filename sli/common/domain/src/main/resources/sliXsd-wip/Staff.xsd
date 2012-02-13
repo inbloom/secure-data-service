@@ -737,7 +737,8 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="instructionalGradeLevels" type="gradeLevelType">
+				<xs:element name="instructionalGradeLevels" type="gradeLevelType" 
+					minOccurs="1" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The set of grade levels for which the
 							individual's assignment

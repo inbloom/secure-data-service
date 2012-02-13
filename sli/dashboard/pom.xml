@@ -30,9 +30,9 @@
 			<properties>
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
-				<server.mode>test</server.mode>
+				<server.mode>live</server.mode>
 				<!-- set to 'Live' to use live server, 'Mock' for mock data -->
-				<apiclient>Mock</apiclient>
+				<apiclient>Live</apiclient>
 				<war.file.name>dashboard</war.file.name>
 			</properties>
 			<build>

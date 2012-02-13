@@ -8,17 +8,22 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.junit.Test;
 
-public class IdGeneratorTest {
+/**
+ * 
+ * @author pwolf
+ *
+ */
+public class TokenGeneratorTest {
     
     @Test
     public void testIdGeneratorZeroLength() {
-        String string = IdGenerator.generateId(0);
+        String string = TokenGenerator.generateToken(0);
         assertEquals("", string);
     }
     
     @Test
     public void testIdGeneratorLargeLength() {
-        String string = IdGenerator.generateId(1000);
+        String string = TokenGenerator.generateToken(1000);
         assertEquals(1000, string.length());
         for (int i = 0; i < string.length(); i++) {
             assertTrue(Character.isDigit(string.charAt(i)) || Character.isLetter(string.charAt(i)));
@@ -29,9 +34,8 @@ public class IdGeneratorTest {
      * Not enabled, but would be a quick and dirty way of verifying some amount 
      * of entropy in our pseudo-randomness by checking out well it compresses
      */
-    @Test
     public void testEntropy() throws Exception {
-        String string = IdGenerator.generateId(1000);
+        String string = TokenGenerator.generateToken(1000);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         GZIPOutputStream out = new GZIPOutputStream(bytes);
         out.write(string.getBytes());
