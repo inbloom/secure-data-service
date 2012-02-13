@@ -27,7 +27,6 @@ class EntityTest < ActiveSupport::TestCase
   test "build simple hash with invalid type" do
     v = Entity.build_simple_hash(nil, @teacher_fixtures['one'])
     assert_not_nil(v)
-
   end
 
   test "build simple hash with invalid hash" do
