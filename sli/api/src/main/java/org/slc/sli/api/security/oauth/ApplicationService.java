@@ -67,14 +67,23 @@ public class ApplicationService {
 
     @POST
     public Response createApplication(EntityBody newApp) {
-        newApp.put("client_id", IdGenerator.generateId(CLIENT_ID_LENGTH));
+        String newToken = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        while (isDuplicateToken(newToken)) {
+            newToken = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        }
+
+        newApp.put("client_id", newToken);
         newApp.put("client_secret",
-                IdGenerator.generateId(CLIENT_SECRET_LENGTH));
+                TokenGenerator.generateToken(CLIENT_SECRET_LENGTH));
         String id = service.create(newApp);
         EntityBody resObj = new EntityBody();
         resObj.put("id", id);
 
         return Response.status(Status.CREATED).entity(resObj).build();
+    }
+
+    private boolean isDuplicateToken(String token) {
+        return (service.list(0, 1, "client_id=" + token)).iterator().hasNext();
     }
 
     @GET

@@ -2,7 +2,7 @@ package org.slc.sli.api.security.oauth;
 
 import java.security.SecureRandom;
 
-public class IdGenerator {
+public class TokenGenerator {
 
 	private static char[] validChars = null;
 
@@ -26,7 +26,7 @@ public class IdGenerator {
 
 	}
 
-	public static String generateId(int len) {
+	public static String generateToken(int len) {
 		SecureRandom rand = new SecureRandom();
 		StringBuffer id = new StringBuffer(len);
 		for (int i = 0; i < len; i++) {

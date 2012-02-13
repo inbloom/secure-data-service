@@ -32,8 +32,8 @@ import org.slc.sli.api.security.context.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.service.query.QueryConverter;
 import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.enums.Right;
 
 /**

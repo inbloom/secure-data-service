@@ -15,8 +15,8 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 		
 	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
 	Then I should receive a collection of 2 section links 
-		And I should find section with sectionName is "Section I" 
-		And I should find section with sectionName is "Section II"  with <'ImportantSection' ID>
+		And I should find section with uniqueSectionCode is "Section I" 
+		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
 		And filter by  "AssessmentFamilyHierarchyName" = "ISAT Reading for Grades 3-8" 

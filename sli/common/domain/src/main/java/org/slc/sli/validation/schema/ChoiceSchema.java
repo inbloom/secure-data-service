@@ -2,7 +2,7 @@ package org.slc.sli.validation.schema;
 
 import java.util.List;
 
-import org.slc.sli.validation.EntityValidationRepository;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -77,7 +77,7 @@ public class ChoiceSchema extends NeutralSchema {
     }
 
     @Override
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
 
         boolean isValid = true;
 

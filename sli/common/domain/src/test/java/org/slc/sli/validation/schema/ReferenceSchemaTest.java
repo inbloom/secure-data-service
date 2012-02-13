@@ -2,6 +2,9 @@ package org.slc.sli.validation.schema;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +15,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.spy;
-
 import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntityValidationRepository;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.ValidationError;
 
 /**
@@ -73,7 +73,7 @@ public class ReferenceSchemaTest {
      * @author srupasinghe
      *
      */
-    class ValidationRepo implements EntityValidationRepository {
+    class ValidationRepo implements EntityRepository {
         Map<String, List<Entity>> data = new HashMap<String, List<Entity>>();
         
         public void addEntity(String collectionName, Entity entity) {
@@ -122,6 +122,66 @@ public class ReferenceSchemaTest {
         public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
             // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        public boolean update(String collection, Entity entity) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public Entity create(String type, Map<String, Object> body) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Entity create(String type, Map<String, Object> body, String collectionName) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public boolean delete(String collectionName, String id) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public void deleteAll(String collectionName) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public boolean matchQuery(String collectioName, String id, Query query) {
+            // TODO Auto-generated method stub
+            return false;
         }
         
     }

@@ -16,9 +16,9 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -91,10 +91,9 @@ public class AssessmentResolverTest {
         configManager.setEntityManager(entityManager);
         ViewConfig config = configManager.getConfig("rbraverman", "IL_K-3"); // this view has Dibels and TRC
 
-        AssessmentManager aManager = new AssessmentManager();
+        PopulationManager aManager = new PopulationManager();
         when(mockClient.getFilename("mock_data/rbraverman/school.json")).thenReturn("src/test/resources/mock_data/rbraverman/school.json");
         when(mockClient.getFilename("mock_data/rbraverman/custom_view_config.json")).thenReturn("src/test/resources/mock_data/rbraverman/custom_view_config.json");
-        aManager.setApiClient(mockClient);
         aManager.setEntityManager(entityManager);
         List<GenericEntity> assmts = aManager.getAssessments("rbraverman", studentIds, config);
         return assmts;
@@ -102,11 +101,10 @@ public class AssessmentResolverTest {
     private List<AssessmentMetaData> getAssessmentMetaData() {
 
         EntityManager entityManager = new EntityManager();
-        AssessmentManager aManager = new AssessmentManager(); 
+        PopulationManager aManager = new PopulationManager(); 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
         entityManager.setApiClient(mockClient);
-        aManager.setApiClient(mockClient);
         aManager.setEntityManager(entityManager);
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("rbraverman");
         return metaData;
