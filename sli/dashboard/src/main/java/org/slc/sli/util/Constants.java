@@ -27,6 +27,7 @@ public class Constants {
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
+    public static final String MM_KEY_VIEW_CONFIGS = "viewConfigs";
     public static final String MM_KEY_ASSESSMENTS = "assessments";
     public static final String MM_KEY_STUDENTS = "students";
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
@@ -60,6 +61,9 @@ public class Constants {
     public static final String ATTR_ED_ORG_CHILD_ID = "educationOrganizationChildId";
     public static final String ATTR_ED_ORG_PARENT_ID = "educationOrganizationParentId";
     public static final String ATTR_NAME_OF_INST = "nameOfInstitution";
+    public static final String ATTR_ASSESSMENT_FAMILY = "assessmentFamily";
+    public static final String ATTR_ASSESSMENTS = "assessments";
+    public static final String ATTR_COHORT_YEAR = "cohortYear";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";

@@ -343,8 +343,7 @@
 					</xs:annotation>
 				</xs:element>
 
-                <!-- TODO: minOccurs="0" should not be present in the schoolReference element -->
-				<xs:element name="schoolReference" type="reference" minOccurs="0">
+				<xs:element name="schoolId" type="reference">
                     <xs:annotation>
                         <xs:documentation>The school where the section is taught.
                         </xs:documentation>
@@ -355,9 +354,9 @@
                 </xs:element>
 
     <!-- obtain location information via SectionBellScheduleAssocation -->
-                <!-- TODO: minOccurs="0" should be minOccurs="1" in the sessionReference element -->
-                <xs:element name="sessionReference" type="reference"
-                 minOccurs="0" maxOccurs="1">
+
+                <xs:element name="sessionId" type="reference"
+                 minOccurs="1" maxOccurs="1">
                     <xs:annotation>
                         <xs:documentation>The session associated with the section. This reference is required.
                         </xs:documentation>
@@ -378,10 +377,8 @@
                     </xs:annotation>
                 </xs:element>
     
-    
-                <!-- TODO: minOccurs="0" should be minOccurs="1" in the courseOfferingReference element -->
-                <xs:element name="courseOfferingReference" type="reference"
-                    minOccurs="0" maxOccurs="1">
+                <xs:element name="courseId" type="reference"
+                    minOccurs="1" maxOccurs="1">
                     <xs:annotation>
                         <xs:documentation>The course associated with the section. This
                             reference is required.
