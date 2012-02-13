@@ -9,11 +9,12 @@
   </params>
 
 <csv:reader
-    fields="UniqueSectionCode,
-    SequenceOfCourse,
-    EducationalEnvironment,
-    MediumOfInstruction,
-    PopulationServed,
+    fields="SessionName,
+    SchoolYear,
+    Term,
+    BeginDate,
+    EndDate,
+    TotalInstructionalDays,
     AvailableCredit_CreditType,AvailableCredit_CreditConversion,AvailableCredit_Credit,
     CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode,CourseOfferingReference_CourseOfferingIdentity_Term,CourseOfferingReference_CourseOfferingIdentity_SchoolYear,
     	CourseOfferingReference_CourseOfferingIdentity_CourseCode_IdentificationSystem,CourseOfferingReference_CourseOfferingIdentity_CourseCode_AssigningOrganizationCode,CourseOfferingReference_CourseOfferingIdentity_CourseCode_Id,
@@ -27,27 +28,30 @@
 
 <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
 
-    <jb:expression property="recordType">'section'</jb:expression>
-    <jb:value property="localId" data="csv-record/UniqueSectionCode" />
-    <jb:wiring property="attributes" beanIdRef="sectionAttributes" />
+    <jb:expression property="recordType">'session'</jb:expression>
+    <jb:value property="localId" data="csv-record/SessionName" />
+    <jb:wiring property="attributes" beanIdRef="sessionAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="sectionAttributes" class="java.util.HashMap" createOnElement="csv-record">
+  <jb:bean beanId="sessionAttributes" class="java.util.HashMap" createOnElement="csv-record">
 
-   <!-- UniqueSectionCode -->
-   <jb:value property="uniqueSectionCode" data="csv-record/UniqueSectionCode" />
+   <!-- UniqueSessionCode -->
+   <jb:value property="sessionName" data="csv-record/SessionName" />
 
    <!--SequenceOfCourse -->
-   <jb:value property="sequenceOfCourse" data="csv-record/SequenceOfCourse"/>
+   <jb:value property="schoolYear" data="csv-record/SchoolYear"/>
 
    <!-- EducationalEnvironment -->
-   <jb:value property="educationalEnvironment" data="csv-record/EducationalEnvironment"/>
+   <jb:value property="term" data="csv-record/Term"/>
 
    <!-- MediumOfinstruction -->
-   <jb:value property="mediumOfInstruction" data="csv-record/MediumOfInstruction"/>
+   <jb:value property="beginDate" data="csv-record/BeginDate"/>
 
    <!-- PopulationServed -->
-   <jb:value property="populationServed" data="csv-record/PopulationServed"/>
+   <jb:value property="endDate" data="csv-record/EndDate"/>
+
+   <!-- PopulationServed -->
+   <jb:value property="totalInstructionalDays" data="csv-record/TotalInstructionalDays"/>
 
    <!-- AvailableCredit -->
    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
