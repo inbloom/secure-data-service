@@ -1,10 +1,12 @@
 package org.slc.sli.view.widget;
 
-import org.slc.sli.config.Field;
-import org.slc.sli.entity.Assessment;
-import org.slc.sli.entity.Student;
-import org.slc.sli.view.AssessmentResolver;
 import java.util.List;
+import java.util.Map;
+
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
+import org.slc.sli.view.AssessmentResolver;
 
 /**
  * Logic used by a widget that displays assessment results color-coded by performance level and
@@ -15,11 +17,11 @@ import java.util.List;
 public class FuelGauge {
 
     private Field field;
-    private Student student;
+    private Map student;
     private AssessmentResolver assmts;
     private ColorByPerf colorByPerf;
 
-    public FuelGauge(Field field, Student student, AssessmentResolver assmts) {
+    public FuelGauge(Field field, Map student, AssessmentResolver assmts) {
         this.field = field;
         this.student = student;
         this.assmts = assmts;
@@ -43,25 +45,28 @@ public class FuelGauge {
     /**
      * Returns the number of possible performance levels that are "real"
      */
-    public Integer getNumRealPerfLevels() {
-        Assessment assmt = assmts.resolveAssessment(field, student);
+    public Integer getNumRealPerfLevels() { 
+        GenericEntity assmt = assmts.resolveAssessment(field, student);
+
         if (assmt == null) { return null; }
-        return assmts.getMetaData().findNumRealPerfLevelsForFamily(assmt.getAssessmentName());
+        return assmts.getMetaData().findNumRealPerfLevelsForFamily((String) (assmt.get(Constants.ATTR_ASSESSMENT_NAME)));
     }
+    
     /**
      * Returns the performance level
      */
-    public Integer getPerfLevel() {
-        Assessment assmt = assmts.resolveAssessment(field, student);
+    public Integer getPerfLevel() { 
+        GenericEntity assmt = assmts.resolveAssessment(field, student);
+
         if (assmt == null) { return null; }
-        return assmt.getPerfLevel();
+        return (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
     }
 
     /**
      * Returns the score
      */
-    public Integer getScore() {
-        Assessment a = assmts.resolveAssessment(field, student);
-        return a == null ? null : a.getScaleScore();
+    public Integer getScore() { 
+        GenericEntity a = assmts.resolveAssessment(field, student);
+        return a == null ? null : (Integer.parseInt((String) (a.get(Constants.ATTR_SCALE_SCORE))));
     }
 }

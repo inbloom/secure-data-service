@@ -3,6 +3,11 @@ package org.slc.sli.util.transform;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * 
+ * @author dwilliams
+ *
+ */
 public class Assessment implements MongoDataEmitter {
     private AssessmentBody body = null;
     private String studentId = null;
@@ -57,6 +62,11 @@ public class Assessment implements MongoDataEmitter {
         }
     }
     
+    /**
+     * 
+     * @author dwilliams
+     *
+     */
     public class Period {
         private String name = null;
         private String start = null;
@@ -77,7 +87,7 @@ public class Assessment implements MongoDataEmitter {
     }
     
     public Assessment copyWithName(String childName) {
-        Assessment child = new Assessment(getBody().clone(), studentId);
+        Assessment child = new Assessment(getBody().makeCopy(), studentId);
         child.getBody().setTitle(childName);
         return child;
     }
