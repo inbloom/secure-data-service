@@ -43,7 +43,6 @@ public class SessionEntityTest {
         + "</Session>"
     + "</InterchangeMasterSchedule>";
 
-    @Ignore
     @Test
     public void testValidSession() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -59,7 +58,6 @@ public class SessionEntityTest {
         Assert.assertTrue(validator.validate(e));
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingSessionName() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -86,7 +84,6 @@ public class SessionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingSchoolYear() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -113,7 +110,6 @@ public class SessionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingTerm() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -140,7 +136,6 @@ public class SessionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingBeginDate() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -167,7 +162,6 @@ public class SessionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingEndDate() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -194,7 +188,6 @@ public class SessionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingTotalInstructionalDays() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -221,7 +214,6 @@ public class SessionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";

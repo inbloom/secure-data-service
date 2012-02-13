@@ -970,7 +970,7 @@
 
   </jb:bean>
 
-  <jb:bean beanId="sessionAttributes" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Course">
+  <jb:bean beanId="sessionAttributes" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Session">
     <jb:value property="sessionName" data="Session/SessionName" />
     <jb:value property="schoolYear" data="Session/SchoolYear" />
     <jb:value property="term" data="Session/Term" />
