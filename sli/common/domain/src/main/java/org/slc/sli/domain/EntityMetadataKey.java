@@ -29,7 +29,7 @@ public enum EntityMetadataKey {
      * considered unique. This is an SLI generated ID that comes into
      * existence when a new state is brought on board.
      */
-    STATE_ID("stateId");
+    ID_NAMESPACE("idNamespace");
     
     private String key;
     
