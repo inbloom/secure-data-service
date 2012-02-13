@@ -237,6 +237,42 @@ public class LiveAPIClient implements APIClient {
         HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
         getSchoolSectionsMappings(sections, token, schoolMap, sectionIDToSchoolIDMap);
 
+        
+        
+        // TODO: Hack for Sprint 3.1 demo
+        // @@@ Begin Hack
+        // The associations called above won't work because API and ingestion teams have not 
+        // implemented the direct linke *or* the temporary association. So, we're faking a
+        // course association here now. 
+        // First, create a fake course and associate it to all sections
+        GenericEntity fakeCourse = new GenericEntity(); 
+        fakeCourse.put("courseTitle", "Dummy Course");
+        String dummmyCourseID = "dummy course id";
+        courseMap.put(dummmyCourseID, fakeCourse);
+        for (int j = 0; j < sections.length; j++) {
+            sectionIDToCourseIDMap.put(sections[j].get(Constants.ATTR_ID).toString(), dummmyCourseID);
+            GenericEntity[] singleSectionArray = { sections[j] };
+            fakeCourse.put(Constants.ATTR_SECTIONS, singleSectionArray);
+        }
+        // Then create schools and associate the first one to all sections
+        String teacherId = getId(token); 
+        String url = Constants.API_SERVER_URI + "/teacher-school-associations/" + teacherId + "/targets"; 
+        List<GenericEntity> responses = fromAPI(url, token);
+        for (int i = 0; i < responses.size(); i++) {
+            GenericEntity response = responses.get(i);
+            String schoolId = parseId((Map) (response.get(Constants.ATTR_LINK)));
+            GenericEntity school = getSchool(schoolId, token); 
+            schoolMap.put(schoolId, school);
+            if (i == 0) {
+                for (int j = 0; j < sections.length; j++) {
+                    sectionIDToSchoolIDMap.put(sections[i].get(Constants.ATTR_ID).toString(), schoolId);
+                }
+            }
+        }
+        // @@@ End Hack for Sprint 3.1 demo
+        
+        
+        
         // Now associate course and school.
         // There is no direct course-school association in ed-fi, so in dashboard
         // the "course-school" association is defined as follows:

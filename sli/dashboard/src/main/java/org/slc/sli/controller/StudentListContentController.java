@@ -68,7 +68,7 @@ public class StudentListContentController extends DashboardController {
 
         if (applicableViewConfigs.size() > 0) {
             // add applicable viewConfigs to model map
-            model.addAttribute("viewConfigs", applicableViewConfigs);
+            model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
 
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
