@@ -6,8 +6,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.json.JSONObject;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
+/**
+ * This does something which the author did not feel important enough to doc
+ * TODO write real javadoc
+ *
+ */
 public class ApplicationDetails implements ClientDetails {
-
+    
     private String clientId;
     private String clientSecret;
     private String redirectUri;
@@ -16,14 +21,14 @@ public class ApplicationDetails implements ClientDetails {
     private List<String> myScope;
     private List<String> authorizedGrantTypes;
     private List<GrantedAuthority> myAuthorities;
-
+    
     /**
      * Default constructor for the ApplicationDetails class.
      */
     public ApplicationDetails() {
-
+        
     }
-
+    
     /**
      * Constructor for creating application details from a Mongo JSON object.
      * 
@@ -35,12 +40,12 @@ public class ApplicationDetails implements ClientDetails {
         // assign value associated with each key in corresponding application
         // fields
     }
-
+    
     @Override
     public String getClientId() {
         return clientId;
     }
-
+    
     /**
      * Sets the 'clientId' field.
      * 
@@ -50,12 +55,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setClientId(String newClientId) {
         this.clientId = newClientId;
     }
-
+    
     @Override
     public boolean isSecretRequired() {
         return isSecretRequired;
     }
-
+    
     /**
      * Sets the 'isSecretRequired' field.
      * 
@@ -65,12 +70,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setIsSecretRequired(boolean newIsSecretRequired) {
         this.isSecretRequired = newIsSecretRequired;
     }
-
+    
     @Override
     public String getClientSecret() {
         return clientSecret;
     }
-
+    
     /**
      * Sets the 'clientSecret' field.
      * 
@@ -80,12 +85,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setClientSecret(String newClientSecret) {
         this.clientSecret = newClientSecret;
     }
-
+    
     @Override
     public boolean isScoped() {
         return isScoped;
     }
-
+    
     /**
      * Sets the 'isScoped' field.
      * 
@@ -95,12 +100,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setIsScoped(boolean newIsScoped) {
         this.isScoped = newIsScoped;
     }
-
+    
     @Override
     public List<String> getScope() {
         return myScope;
     }
-
+    
     /**
      * Sets the 'myScope' field (representing the application's scope).
      * 
@@ -110,12 +115,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setScope(List<String> newApplicationScope) {
         this.myScope = newApplicationScope;
     }
-
+    
     @Override
     public List<String> getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
     }
-
+    
     /**
      * Sets the 'authorizedGrantTypes' field.
      * 
@@ -125,12 +130,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setAuthorizedGrantTypes(List<String> newAuthorizedGrantTypes) {
         this.authorizedGrantTypes = newAuthorizedGrantTypes;
     }
-
+    
     @Override
     public String getWebServerRedirectUri() {
         return redirectUri;
     }
-
+    
     /**
      * Sets the 'redirectUri' field.
      * 
@@ -140,12 +145,12 @@ public class ApplicationDetails implements ClientDetails {
     public void setWebServerRedirectUri(String newRedirectUri) {
         this.redirectUri = newRedirectUri;
     }
-
+    
     @Override
     public List<GrantedAuthority> getAuthorities() {
         return myAuthorities;
     }
-
+    
     /**
      * Sets the 'myAuthorities' field.
      * 

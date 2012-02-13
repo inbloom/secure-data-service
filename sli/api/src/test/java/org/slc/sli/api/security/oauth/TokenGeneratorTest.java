@@ -8,6 +8,11 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.junit.Test;
 
+/**
+ * 
+ * @author pwolf
+ *
+ */
 public class TokenGeneratorTest {
     
     @Test
@@ -29,7 +34,6 @@ public class TokenGeneratorTest {
      * Not enabled, but would be a quick and dirty way of verifying some amount 
      * of entropy in our pseudo-randomness by checking out well it compresses
      */
-    @Test
     public void testEntropy() throws Exception {
         String string = TokenGenerator.generateToken(1000);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
