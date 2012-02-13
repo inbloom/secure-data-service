@@ -1,15 +1,11 @@
 package org.slc.sli.unit.controller;
 
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
-import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -18,9 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.controller.StudentListController;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
-import org.slc.sli.manager.SchoolManager;
-import org.slc.sli.security.SLIPrincipal;
 
 
 /**
@@ -51,8 +44,8 @@ public class StudentListControllerTest {
         
         ModelMap model = new ModelMap();
         StudentListController partiallyMocked = PowerMockito.spy(new StudentListController());
-        SchoolManager schoolManager = PowerMockito.spy(new SchoolManager());
         /*
+        SchoolManager schoolManager = PowerMockito.spy(new SchoolManager());       
         PowerMockito.doReturn(schools).when(schoolManager, "getSchools");
 
         SLIPrincipal principal = new SLIPrincipal("demo", "demo", "active");
@@ -80,7 +73,7 @@ public class StudentListControllerTest {
 
     @Test
     public void testStudentListNullReturn() throws Exception {
-    	/*
+        /*
         StudentListController mocked = PowerMockito.spy(new StudentListController());
         InstitutionalHierarchyManager schoolManager = PowerMockito.spy(new InstitutionalHierarchyManager());
         PowerMockito.doReturn(null).when(schoolManager, "getSchools", Matchers.anyObject());

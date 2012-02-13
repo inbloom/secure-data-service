@@ -8,6 +8,7 @@ set :user, "rails"
 set :use_sudo, false
 set :deploy_via, :remote_cache
 set :deploy_to, "~/admin"
+set :keep_releases, 2
 
 set :scm, :git
 
@@ -55,6 +56,7 @@ namespace :deploy do
       asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).map { |p| "#{latest_release}/sli/admin-tools/admin-rails/public/#{p}" }.join(" ")
       run "find #{asset_paths} -exec touch -t #{stamp} {} ';'; true", :env => { "TZ" => "UTC" }
     end
+    cleanup
   end
 
 end

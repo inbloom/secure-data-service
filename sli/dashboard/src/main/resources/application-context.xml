@@ -25,7 +25,6 @@
 
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
         <property name="configManager"     ref="configManager"/>
-        <property name="studentManager"    ref="studentManager"/>
         <property name="assessmentManager" ref="assessmentManager"/>
         <property name="populationManager" ref="populationManager"/>
     </bean>
@@ -41,12 +40,6 @@
         <property name="entityManager" ref="entityManager"/>
     </bean>
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager">
-        <property name="entityManager" ref="entityManager"/>
-    </bean>
-    <bean id="schoolManager"     class="org.slc.sli.manager.SchoolManager"     parent="manager">
-        <property name="entityManager" ref="entityManager"/>
-    </bean>
-    <bean id="studentManager"    class="org.slc.sli.manager.StudentManager"    parent="manager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
     
