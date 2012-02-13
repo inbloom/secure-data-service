@@ -22,12 +22,10 @@
         <value>classpath:ingestion-dev.properties</value>
 
 
-        <value>classpath:/data-access/dal/config/${sli.env}/project.properties
-        </value>
+        <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
 
         <!-- override specific properties for testing -->
-        <value>classpath:/data-access/dal/config/${sli.env}/test.properties
-        </value>
+        <value>classpath:/data-access/dal/config/${sli.env}/test.properties</value>
       </list>
     </property>
   </bean>
