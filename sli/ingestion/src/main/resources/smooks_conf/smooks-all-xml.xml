@@ -912,8 +912,7 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'course'</jb:expression>
 
-    <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
-    <jb:value property="localId" data="Course/CourseCode/ID" />
+    <jb:value property="localId" data="CourseTitle" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>

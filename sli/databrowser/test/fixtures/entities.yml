@@ -8,7 +8,9 @@ one:
     rel: Greg
     href: "blah blah"
     id: 1
-    name: Greg
+    name:
+        firstName: Greg
+        lastSurname: Dude
     links:
         -
             href: "http://somesite.com"
@@ -27,7 +29,9 @@ two:
     id: 2
     rel: Peter
     href: "blah blah"
-    name: Peter
+    name:
+           firstName: Peter
+           lastSurname: Rabbit
     links:
         -9234098
         -0293485

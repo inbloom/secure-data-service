@@ -22,7 +22,7 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.enums.Right;
 
 /**

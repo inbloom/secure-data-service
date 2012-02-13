@@ -24,7 +24,6 @@ public class SecurityUtil {
             System.out.println("******** User.getId: " + ((SLIPrincipal) user).getId());
             return ((SLIPrincipal) user).getId();
         } else {
-
             // gets here in mock server mode
             return user.getUsername();
         }

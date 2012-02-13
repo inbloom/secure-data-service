@@ -27,6 +27,11 @@ When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
 end
 
 When /^I click on the page Go button$/ do
+  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
+  begin
+    wait.until { @driver.find_element(:id, "go") }
+  rescue
+  end
   @driver.find_element(:id, "go").click
 end
 

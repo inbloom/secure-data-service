@@ -26,6 +26,7 @@ import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
+import org.slc.sli.ingestion.validation.ProxyErrorReport;
 import org.slc.sli.util.performance.Profiled;
 
 /**
@@ -84,7 +85,7 @@ public class PersistenceProcessor implements Processor {
                 if (errorReportForFile != null && errorReportForFile.hasErrors()) {
                     job.getFaultsReport().error(
                             "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
-                            + "\" for details.", this);
+                                    + "\" for details.", this);
                 }
 
             }
@@ -101,7 +102,7 @@ public class PersistenceProcessor implements Processor {
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Exception:",  exception);
+            LOG.error("Exception:", exception);
         }
     }
 
@@ -112,7 +113,6 @@ public class PersistenceProcessor implements Processor {
      *
      * @param ingestionFileEntry
      * @throws IOException
-
      */
     public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry) throws IOException {
 
@@ -152,7 +152,7 @@ public class PersistenceProcessor implements Processor {
                 // map NeutralRecord to Entity
                 NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
-                entityPersistHandler.handle(neutralRecordEntity, recordLevelErrorsInFile);
+                entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
             }
 
@@ -161,6 +161,9 @@ public class PersistenceProcessor implements Processor {
                 exchange.setProperty("records.processed", recordNumber);
             }
 
+        } catch (Exception e) {
+            recordLevelErrorsInFile.fatal("Fatal problem saving records to database.", PersistenceProcessor.class);
+            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + "./n", e);
         } finally {
             nrFileReader.close();
             errorLogger.detachAndStopAllAppenders();
