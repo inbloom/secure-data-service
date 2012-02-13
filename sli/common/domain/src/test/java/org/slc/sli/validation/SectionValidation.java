@@ -28,8 +28,39 @@ public class SectionValidation {
     @Autowired
     private EntityValidator validator;
     
+    @Autowired
+    private DummyEntityRepository repo;
+    
     @Before
     public void init() {
+        repo.addEntity("school", "42", makeDummyEntity("school", "42"));
+        repo.addEntity("session", "MySessionId", makeDummyEntity("session", "MySessionId"));
+        repo.addEntity("course", "MyCourseId", makeDummyEntity("course", "MyCourseId"));
+    }
+
+    private Entity makeDummyEntity(final String type, final String id) {
+        return new Entity() {
+            
+            @Override
+            public String getType() {
+                return type;
+            }
+            
+            @Override
+            public Map<String, Object> getMetaData() {
+                return new HashMap<String, Object>();
+            }
+            
+            @Override
+            public String getEntityId() {
+                return id;
+            }
+            
+            @Override
+            public Map<String, Object> getBody() {
+                return new HashMap<String, Object>();
+            }
+        };
     }
     
     private Entity goodSection() {
@@ -46,6 +77,7 @@ public class SectionValidation {
         goodSection.put("credits", credit);
         goodSection.put("schoolId", "42");
         goodSection.put("sessionId", "MySessionId");
+        goodSection.put("courseId", "MyCourseId");
         return new Entity() {
             
             @Override
@@ -61,6 +93,11 @@ public class SectionValidation {
             @Override
             public Map<String, Object> getBody() {
                 return goodSection;
+            }
+
+            @Override
+            public Map<String, Object> getMetaData() {
+                return new HashMap<String, Object>();
             }
         };
     }
