@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+  xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd" xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd"
+  xmlns:csv="http://www.milyn.org/xsd/smooks/csv-1.2.xsd">
+
+  <params>
+    <param name="stream.filter.type">SAX</param>
+    <param name="terminate.on.visitor.exception">false</param>
+  </params>
+
+  <csv:reader
+    fields="IdentificationCode,MaxRawScore,
+    AssessmentPerformanceLevel_PerformanceLevel_CodeValue,AssessmentPerformanceLevel_PerformanceLevel_Description,
+    AssessmentPerformanceLevel_AssessmentReportingMethod,AssessmentPerformanceLevel_MinimumScore,AssessmentPerformanceLevel_MaximumScore,
+    PercentOfAssessment,Nomenclature,
+    AssessmentItemReference_AssessmentItemIdentity_AssessmentItemIdentificationCode,
+    LearningObjectiveReference_LearningObjectivceIdentity_LearningObjectiveId_IdentificationCode,
+    LearningStandardReference_LearningStandardIdentity_LearningStandardId_IdentificationCode,
+    ObjectiveAssessmentReference_ObjectiveAssessmentIdentity_ObjectiveAssessmentIdentificationCode">
+  </csv:reader>
+
+
+  <!--  ObjectiveAssessment Mapping-->
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
+
+    <jb:expression property="recordType">'objectiveAssessment'</jb:expression>
+
+    <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
+    <jb:value property="localId" data="" />
+    <jb:wiring property="attributes" beanIdRef="objectiveAssessmentAttributes" />
+
+  </jb:bean>
+
+    <jb:bean beanId="objectiveAssessmentAttributes" class="java.util.HashMap" createOnElement="csv-record">
+	    <jb:value property="identificationCode" data="IdentificationCode" />
+
+	    <jb:value property="maxRawScore" data="MaxRawScore" decoder="Integer"/>
+
+	    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
+
+	    <jb:value property="percentOfAssessment" data="PercentOfAssessment" />
+
+	    <jb:value property="nomenclature" data="Nomenclature" />
+
+	    <jb:wiring property="assessmentItemReference" beanIdRef="assessmentItemReferenceTypeArray" />
+
+	    <jb:wiring property="learningObjectiveReference" beanIdRef="LearningObjectiveReferenceTypeArray" />
+
+	    <jb:wiring property="learningStandardReference" beanIdRef="LearningStandardReferenceTypeArray" />
+
+	    <jb:wiring property="objectiveAssessmentReference" beanIdRef="ObjectiveAssessmentReferenceTypeArray" />
+
+  </jb:bean>
+
+  <!-- AssessmentItemReferenceType -->
+  <jb:bean beanId="assessmentItemReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="AssessmentItemReference_AssessmentItemIdentity_AssessmentItemIdentificationCode" />
+  </jb:bean>
+
+    <!-- LearningObjectiveReferenceType -->
+  <jb:bean beanId="LearningObjectiveReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="LearningObjectiveReference_LearningObjectivceIdentity_LearningObjectiveId_IdentificationCode" />
+  </jb:bean>
+
+     <!-- LearningStandardReferenceType -->
+  <jb:bean beanId="LearningStandardReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="LearningStandardReference_LearningStandardIdentity_LearningStandardId_IdentificationCode"  />
+  </jb:bean>
+
+  <!-- ObjectiveAssessmentReferenceType -->
+  <jb:bean beanId="ObjectiveAssessmentReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="ObjectiveAssessmentReference_ObjectiveAssessmentIdentity_ObjectiveAssessmentIdentificationCode" />
+  </jb:bean>
+
+  <!-- AssessmentPerformanceLevelsType -->
+  <jb:bean beanId="assessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="assessmentPerformanceLevelTypeArray" />
+  </jb:bean>
+  <jb:bean beanId="assessmentPerformanceLevelType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:wiring property="performanceLevel" beanIdRef="PerformanceLevelType" />
+    <jb:value property="assessmentReportingMethod" data="AssessmentPerformanceLevel_AssessmentReportingMethod" />
+    <jb:value property="minimumScore" data="AssessmentPerformanceLevel_MinimumScore" />
+    <jb:value property="maximumScore" data="AssessmentPerformanceLevel_MaximumScore" />
+  </jb:bean>
+  <jb:bean beanId="performanceLevelType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="codeValue" data="AssessmentPerformanceLevel_PerformanceLevel/CodeValue" />
+    <jb:value property="description" data="AssessmentPerformanceLevel_PerformanceLevel/Description" />
+  </jb:bean>
+
+  </smooks-resource-list>
