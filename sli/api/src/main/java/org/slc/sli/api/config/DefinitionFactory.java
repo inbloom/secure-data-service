@@ -33,6 +33,9 @@ public class DefinitionFactory {
     private IdTreatment        idTreatment;
 
     @Autowired
+    private TypeTreatment      typeTreatment;
+
+    @Autowired
     private ApplicationContext beanFactory;
 
     public EntityBuilder makeEntity(String type) {
@@ -72,6 +75,7 @@ public class DefinitionFactory {
             this.resourceName = type;
             this.repo = DefinitionFactory.this.defaultRepo;
             this.treatments.add(DefinitionFactory.this.idTreatment);
+            this.treatments.add(DefinitionFactory.this.typeTreatment);
         }
 
         /**

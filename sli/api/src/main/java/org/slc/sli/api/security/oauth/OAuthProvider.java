@@ -24,23 +24,23 @@ import org.springframework.stereotype.Component;
 @Path("/oauth")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class OAuthProvider {
-
-	// @Autowired
-	// private EntityDefinitionStore store;
-
-	// private EntityService service;
-
-	@GET
-	@Path("authorize")
-	public Response authorizeApplication(EntityBody newApp) {
-		EntityBody response = new EntityBody();
-		return Response.status(Status.CREATED).entity(response).build();
-	}
-
-	@POST
-	@Path("token")
-	public Response createAccessToken() {
-		EntityBody response = new EntityBody();
-		return Response.status(Status.CREATED).entity(response).build();
-	}
+    
+    // @Autowired
+    // private EntityDefinitionStore store;
+    
+    // private EntityService service;
+    
+    @GET
+    @Path("authorize")
+    public Response authorizeApplication(EntityBody newApp) {
+        EntityBody response = new EntityBody();
+        return Response.status(Status.CREATED).entity(response).build();
+    }
+    
+    @POST
+    @Path("token")
+    public Response createAccessToken() {
+        EntityBody response = new EntityBody();
+        return Response.status(Status.CREATED).entity(response).build();
+    }
 }

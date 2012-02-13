@@ -132,7 +132,6 @@ public class ApplicationService {
         for (String id : results) {
             service.delete(id);
             return Response.status(Status.NO_CONTENT).build();
-
         }
 
         return Response.status(Status.NOT_FOUND).build();
