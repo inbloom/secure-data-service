@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.validation.EntityValidationRepository;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -54,7 +54,7 @@ public class DoubleSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors,
-            EntityValidationRepository repo) {
+            EntityRepository repo) {
         Double data = NumberUtils.toDouble(entity);
         if (!addError(data != null, fieldName, entity, "Double", ErrorType.INVALID_DATATYPE, errors)) {
             return false;

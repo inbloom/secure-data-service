@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.Treatment;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Factory class for building Entity and Association definition objects.
@@ -31,6 +31,9 @@ public class DefinitionFactory {
 
     @Autowired
     private IdTreatment        idTreatment;
+
+    @Autowired
+    private TypeTreatment      typeTreatment;
 
     @Autowired
     private ApplicationContext beanFactory;
@@ -72,6 +75,7 @@ public class DefinitionFactory {
             this.resourceName = type;
             this.repo = DefinitionFactory.this.defaultRepo;
             this.treatments.add(DefinitionFactory.this.idTreatment);
+            this.treatments.add(DefinitionFactory.this.typeTreatment);
         }
 
         /**

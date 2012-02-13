@@ -3,7 +3,7 @@
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+    <StudentUniqueStateId>111111111</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -11,14 +11,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>111111111</UniqueSectionCode>
+    <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+    <StudentUniqueStateId>222222222</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -26,14 +26,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>222222222</UniqueSectionCode>
+    <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+    <StudentUniqueStateId>333333333</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -41,14 +41,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>333333333</UniqueSectionCode>
+    <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>7th Grade English - Sec. 3</StudentUniqueStateId>
+    <StudentUniqueStateId>444444444</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -56,14 +56,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>444444444</UniqueSectionCode>
+    <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>453827070</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -71,14 +71,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>453827070</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>943715230</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -86,14 +86,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>943715230</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>164420088</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -101,14 +101,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>164420088</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>505331723</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -116,14 +116,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>505331723</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>530425896</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -131,14 +131,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>530425896</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>429526969</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -146,14 +146,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>429526969</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>178828452</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -161,14 +161,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>178828452</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>525878920</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -176,14 +176,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>525878920</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>510152105</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -191,14 +191,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>510152105</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>802709591</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -206,14 +206,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>802709591</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>437680177</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -221,14 +221,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>437680177</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>170011136</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -236,14 +236,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>170011136</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>547028299</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -251,14 +251,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>547028299</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>258392050</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -266,14 +266,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>258392050</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>178875887</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -281,14 +281,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>178875887</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>100644447</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -296,14 +296,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>100644447</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>376191021</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -311,14 +311,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>376191021</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>336344132</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -326,14 +326,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>336344132</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>711411586</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -341,14 +341,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>711411586</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>131758477</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -356,14 +356,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>131758477</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>670703438</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -371,14 +371,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>670703438</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>851123275</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -386,14 +386,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>851123275</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>423037202</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -401,14 +401,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>423037202</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>250918988</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -416,14 +416,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>250918988</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>8th Grade English - Sec 6</StudentUniqueStateId>
+    <StudentUniqueStateId>421216329</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -431,14 +431,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>421216329</UniqueSectionCode>
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 923</StudentUniqueStateId>
+    <StudentUniqueStateId>525878920</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -446,14 +446,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>525878920</UniqueSectionCode>
+    <UniqueSectionCode>Sec 923</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 923</StudentUniqueStateId>
+    <StudentUniqueStateId>510152105</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -461,14 +461,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>510152105</UniqueSectionCode>
+    <UniqueSectionCode>Sec 923</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>802709591</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -476,14 +476,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>802709591</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>437680177</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -491,14 +491,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>437680177</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>170011136</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -506,14 +506,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>170011136</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>547028299</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -521,14 +521,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>547028299</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>258392050</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -536,14 +536,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>258392050</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>178875887</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -551,14 +551,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>178875887</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>100644447</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -566,14 +566,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>100644447</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>376191021</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -581,14 +581,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>376191021</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>336344132</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -596,14 +596,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>336344132</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>711411586</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -611,14 +611,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>711411586</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>131758477</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -626,14 +626,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>131758477</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>670703438</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -641,14 +641,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>670703438</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>851123275</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -656,14 +656,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>851123275</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>423037202</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -671,14 +671,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>423037202</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>250918988</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -686,14 +686,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>250918988</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>421216329</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -701,14 +701,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>421216329</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>746199592</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -716,14 +716,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>746199592</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>323538529</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -731,14 +731,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>323538529</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>428250371</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -746,14 +746,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>428250371</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>114989598</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -761,14 +761,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>114989598</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>558780133</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -776,14 +776,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>558780133</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>196038854</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -791,14 +791,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>196038854</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>992193581</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -806,14 +806,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>992193581</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 144</StudentUniqueStateId>
+    <StudentUniqueStateId>541397175</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -821,14 +821,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>541397175</UniqueSectionCode>
+    <UniqueSectionCode>Sec 144</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>555685100</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -836,14 +836,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>555685100</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>453827023</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -851,14 +851,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>453827023</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>555685177</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -866,14 +866,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>555685177</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>453827070</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -881,14 +881,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>453827070</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>943715230</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -896,14 +896,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>943715230</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>164420088</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -911,14 +911,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>164420088</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>505331723</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -926,14 +926,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>505331723</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>530425896</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -941,14 +941,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>530425896</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>429526969</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -956,14 +956,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>429526969</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>178828452</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -971,14 +971,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>178828452</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>525878920</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -986,14 +986,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>525878920</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>510152105</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1001,14 +1001,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>510152105</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>802709591</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1016,14 +1016,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>802709591</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>437680177</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1031,14 +1031,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>437680177</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>170011136</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1046,14 +1046,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>170011136</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>547028299</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1061,14 +1061,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>547028299</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>258392050</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1076,14 +1076,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>258392050</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>178875887</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1091,14 +1091,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>178875887</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>100644447</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1106,14 +1106,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>100644447</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>376191021</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1121,14 +1121,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>376191021</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>336344132</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1136,14 +1136,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>336344132</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>711411586</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1151,14 +1151,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>711411586</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>131758477</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1166,14 +1166,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>131758477</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>670703438</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1181,14 +1181,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>670703438</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>851123275</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1196,14 +1196,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>851123275</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>423037202</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1211,14 +1211,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>423037202</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>250918988</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1226,14 +1226,14 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>250918988</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
  <StudentSectionAssociation>
   <StudentReference>
    <StudentIdentity>
-    <StudentUniqueStateId>Sec 145</StudentUniqueStateId>
+    <StudentUniqueStateId>421216329</StudentUniqueStateId>
    </StudentIdentity>
   </StudentReference>
   <SectionReference>
@@ -1241,7 +1241,7 @@
     <EducationOrgIdentificationCode IdentificationSystem="School">
      <ID>1</ID>
     </EducationOrgIdentificationCode>
-    <UniqueSectionCode>421216329</UniqueSectionCode>
+    <UniqueSectionCode>Sec 145</UniqueSectionCode>
    </SectionIdentity>
   </SectionReference>
  </StudentSectionAssociation>
