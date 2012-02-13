@@ -1,5 +1,7 @@
 package org.slc.sli.util.datetime;
 
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -16,9 +18,9 @@ public class DateTimeUtil {
      * 
      * @return
      */
-    public static String getNowInUTC() {
+    public static Date getNowInUTC() {
         
-        return new DateTime(DateTimeZone.UTC).toString();
+        return new DateTime(DateTimeZone.UTC).toDate();
         
     }
 }

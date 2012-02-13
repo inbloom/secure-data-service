@@ -319,21 +319,16 @@ public class TeacherSchoolAssociationEntityTest {
         Map localParentIds = (Map) neutralRecord.getLocalParentIds();
         Assert.assertNotNull("null localParentIds map", localParentIds);
 
-        Assert.assertEquals("333333332", neutralRecord.getAttributes().get("teacherReference"));
+        Assert.assertEquals("333333332", neutralRecord.getAttributes().get("teacherId"));
 
-        List schoolReferences = (List) neutralRecord.getAttributes().get("schoolReference");
-        Assert.assertNotNull("null schoolReferences map", schoolReferences);
-        Assert.assertEquals("schoolReferences list does not contain one element", 1, schoolReferences.size());
-        Assert.assertEquals("123456111", schoolReferences.get(0));
+        Assert.assertEquals("123456111", neutralRecord.getAttributes().get("schoolId"));
 
         Assert.assertEquals("Title I-Academic", neutralRecord.getAttributes().get("programAssignment"));
 
-        Map gradelevels = (Map) neutralRecord.getAttributes().get("instructionalGradeLevels");
-        Assert.assertNotNull("Null gradelevels map", gradelevels);
-        List gradelevel = (List) gradelevels.get("gradeLevel");
-        Assert.assertNotNull("Null gradelevel list", gradelevel);
-        Assert.assertEquals("gradelevel list does not contain one element", 1, gradelevel.size());
-        Assert.assertEquals("Ungraded", gradelevel.get(0));
+        List gradelevels = (List) neutralRecord.getAttributes().get("instructionalGradeLevels");
+        Assert.assertNotNull("Null gradelevel list", gradelevels);
+        Assert.assertEquals("gradelevel list does not contain one element", 1, gradelevels.size());
+        Assert.assertEquals("Ungraded", gradelevels.get(0));
 
         Map academicSubjects = (Map) neutralRecord.getAttributes().get("academicSubjects");
         Assert.assertTrue(academicSubjects != null);
