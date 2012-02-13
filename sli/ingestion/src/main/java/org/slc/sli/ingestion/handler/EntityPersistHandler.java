@@ -3,8 +3,8 @@ package org.slc.sli.ingestion.handler;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.dal.repository.EntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.validation.ErrorReport;
 

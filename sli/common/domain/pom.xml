@@ -71,6 +71,12 @@
 			<version>${avro.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.0.0.M4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
