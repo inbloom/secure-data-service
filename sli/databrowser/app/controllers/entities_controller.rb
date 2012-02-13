@@ -4,7 +4,6 @@ class EntitiesController < ApplicationController
   before_filter :set_url
   
   def set_url
-    @type = VIEW_CONFIG[params[:type]]
     Entity.url_type = params[:type]
   end
   
@@ -33,7 +32,7 @@ class EntitiesController < ApplicationController
     else
       @entity = Entity.get_simple_and_complex(params[:id])
     end
-   
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @entity }
