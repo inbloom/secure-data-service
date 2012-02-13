@@ -184,8 +184,9 @@ public class EntityRepositoryTest {
         // test save
         Entity saved = repository.create("student", student);
         
-        DateTime created = new DateTime(saved.getMetaData().get(EntityMetadataKey.CREATED.toString()));
-        DateTime updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.toString()));
+        
+        DateTime created = new DateTime(saved.getMetaData().get(EntityMetadataKey.CREATED.getKey()));
+        DateTime updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
         
         assertEquals(created, updated);
         
@@ -193,7 +194,7 @@ public class EntityRepositoryTest {
         
         repository.update("student", saved);
         
-        updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.toString()));
+        updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
         
         assertTrue(updated.isAfter(created));
         

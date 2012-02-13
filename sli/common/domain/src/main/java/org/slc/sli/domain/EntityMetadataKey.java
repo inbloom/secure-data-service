@@ -45,4 +45,11 @@ public enum EntityMetadataKey {
     public String getKey() {
         return key;
     }
+    
+    /**
+     * Returns the key
+     */
+    public String toString() {
+        return key;
+    }
 }
