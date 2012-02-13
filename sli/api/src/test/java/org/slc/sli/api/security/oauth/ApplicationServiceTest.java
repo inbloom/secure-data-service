@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
@@ -38,30 +39,23 @@ public class ApplicationServiceTest {
     @Autowired
     private ApplicationService resource;
 
-    private EntityService service;
-    private EntityBody app;
-
     private static final int STATUS_CREATED = 201;
+    private static final int STATUS_DELETED = 204;
+    private static final int STATUS_NOT_FOUND = 404;
+    private static final int STATUS_FOUND = 200;
 
     @Before
     public void setUp() throws Exception {
 
-        app = new EntityBody();
-        app.put("client_type", "PUBLIC");
-        app.put("redirect_uri", "https://slidev.org");
-        app.put("description", "blah blah blah");
-        app.put("name", "TestApp");
-        // app.put("client_id", "Eg6eseKRzN");
-        // app.put("client_secret",
-        // "FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF");
-
-        service = mock(EntityService.class);
-
-        resource.setService(service);
     }
 
     @Test
-    public void testCreate() {
+    public void testGoodCreate() {
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        
+        EntityBody app = getNewApp();
+        
         // test create during dup check
         Mockito.when(
                 service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
@@ -69,11 +63,83 @@ public class ApplicationServiceTest {
 
         Response resp = resource.createApplication(app);
         assertEquals(STATUS_CREATED, resp.getStatus());
-        // EntityBody body = (EntityBody) resp.getEntity();
-        // assertTrue("Client id set",
-        // body.get("client_id").toString().length() == 10);
-        // assertTrue("Client secrete set", body.get("client_secret").toString()
-        // .length() == 48);
+       
+        assertTrue("Client id set", app.get("client_id").toString().length() == 10);
+        assertTrue("Client secrete set", app.get("client_secret").toString().length() == 48);
+    }
+    
+    
+    private EntityBody getNewApp() {
+        EntityBody app = new EntityBody();
+        app.put("client_type", "PUBLIC");
+        app.put("redirect_uri", "https://slidev.org");
+        app.put("description", "blah blah blah");
+        app.put("name", "TestApp");
+        return app;
+    }
+    
+    @Test
+    public void testGoodDelete() {
+        String client_id = "1234567890";
+        String uuid = "123";
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        
+        EntityBody toDelete = getNewApp();
+        ArrayList<String> existingEntitiesIds = new ArrayList<String>();
+        
+        toDelete.put("client_id", client_id);
+        toDelete.put("id", uuid);
+        existingEntitiesIds.add(uuid);
+        Mockito.when(
+                service.list(0, 1, "client_id=" + client_id))
+                .thenReturn(existingEntitiesIds);
+        Response resp = resource.deleteApplication(client_id);
+        assertEquals(STATUS_DELETED, resp.getStatus());
+    }
+    
+    @Test
+    public void testBadDelete() {
+        String client_id = "9999999999";
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        Mockito.when(
+                service.list(0, 1, "client_id=" + client_id))
+                .thenReturn(new ArrayList<String>());
+        Response resp = resource.deleteApplication("9999999999");
+        assertEquals(STATUS_NOT_FOUND, resp.getStatus());
+    }
+    
+    @Test
+    public void testGoodGet() {
+        String client_id = "1234567890";
+        String uuid = "123";
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        
+        EntityBody toGet = getNewApp();
+        ArrayList<String> existingEntitiesIds = new ArrayList<String>();
+        
+        toGet.put("client_id", client_id);
+        toGet.put("id", uuid);
+        existingEntitiesIds.add(uuid);
+        Mockito.when(
+                service.list(0, 1, "client_id=" + client_id))
+                .thenReturn(existingEntitiesIds);
+        Response resp = resource.getApplication(client_id);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+    }
+    
+    @Test
+    public void testBadGet() {
+        String client_id = "9999999999";
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        Mockito.when(
+                service.list(0, 1, "client_id=" + client_id))
+                .thenReturn(new ArrayList<String>());
+        Response resp = resource.getApplication("9999999999");
+        assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
 
 }
