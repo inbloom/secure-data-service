@@ -25,7 +25,9 @@ class EntityTest < ActiveSupport::TestCase
   end
 
   test "build simple hash with invalid type" do
-    assert_not_nil(Entity.build_simple_hash(nil, @teacher_fixtures['one']))
+    v = Entity.build_simple_hash(nil, @teacher_fixtures['one'])
+    assert_not_nil(v)
+
   end
 
   test "build simple hash with invalid hash" do
@@ -35,6 +37,21 @@ class EntityTest < ActiveSupport::TestCase
   test "build simple hash with valid data" do
     assert_not_nil(Entity.build_simple_hash(VIEW_CONFIG['teacher'], @teacher_fixtures['one']))
   end
+  
+  test "getting keys with type" do
+    v = Entity.build_simple_hash(VIEW_CONFIG['teacher'], @teacher_fixtures['one'])
+    assert_not_nil(v)
+    assert(v.has_key?("firstName"), "Should have 'firstName'")
+    assert(v.has_key?("sex"), "Should have 'sex'")
+  end
+  
+  test "getting basic keys" do
+     v = Entity.get_basic_types(@teacher_fixtures['one'])
+     assert_not_nil(v)
+     assert(v.include?("birthDate"), "Should have birthdate")
+     assert(v.include?("sex"), "Should have sex")
+     assert(v.size == 5, "Should be 5 of the fields")
+   end
   
   test "get students" do
     Entity.url_type = "students"
