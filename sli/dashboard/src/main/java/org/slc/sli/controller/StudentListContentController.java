@@ -1,31 +1,27 @@
 package org.slc.sli.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
+import freemarker.ext.beans.BeansWrapper;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
-import java.util.List;
-
-import freemarker.ext.beans.BeansWrapper;
-
-import org.slc.sli.entity.Assessment;
+import org.slc.sli.config.LozengeConfig;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.entity.Student;
-import org.slc.sli.entity.StudentProgramAssociation;
 import org.slc.sli.manager.AssessmentManager;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.StudentManager;
 import org.slc.sli.manager.ViewManager;
-
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.LozengeConfig;
-
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
@@ -39,6 +35,7 @@ public class StudentListContentController extends DashboardController {
 
     private ConfigManager configManager;
     private StudentManager studentManager;
+    private PopulationManager populationManager;
     private AssessmentManager assessmentManager;
 
     public StudentListContentController() { }
@@ -80,12 +77,12 @@ public class StudentListContentController extends DashboardController {
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
-            List<Student> students = studentManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
-            List<StudentProgramAssociation> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
+            List<GenericEntity> students = studentManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
+            List<GenericEntity> programs = studentManager.getStudentProgramAssociations(user.getUsername(), uids);
             model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
 
             // insert the assessments object into the modelmap
-            List<Assessment> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
+            List<GenericEntity> assessments = assessmentManager.getAssessments(user.getUsername(), uids, viewConfig);
             List<AssessmentMetaData> assessmentsMetaData = assessmentManager.getAssessmentMetaData(user.getUsername());
             model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));            
         }
@@ -125,6 +122,14 @@ public class StudentListContentController extends DashboardController {
 
     public void setAssessmentManager(AssessmentManager assessmentManager) {
         this.assessmentManager = assessmentManager;
+    }
+    
+    public PopulationManager getPopulationManager() {
+        return populationManager;
+    }
+
+    public void setPopulationManager(PopulationManager populationManager) {
+        this.populationManager = populationManager;
     }
 
 }

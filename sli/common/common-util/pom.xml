@@ -16,6 +16,7 @@
   <properties>
     <aspectj.version>1.6.11</aspectj.version>
     <jexl.version>1.1</jexl.version>
+    <joda.version>2.0</joda.version>
     <aspectj.maven.version>1.4</aspectj.maven.version>
     <aspectjweaver.version>1.6.12</aspectjweaver.version>
   </properties>
@@ -37,6 +38,13 @@
 	    <artifactId>aspectjrt</artifactId>
 	    <version>${aspectj.version}</version>
 	</dependency>
+	
+	<dependency>
+		<groupId>joda-time</groupId>
+		<artifactId>joda-time</artifactId>
+		<version>${joda.version}</version>
+	</dependency>
+            
 	
 	<dependency>
 	    <groupId>commons-jexl</groupId>

@@ -3,6 +3,7 @@ package org.slc.sli.api.security.oauth;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.OAuth2ProviderTokenServices;
 import org.springframework.security.oauth2.provider.token.RandomValueOAuth2ProviderTokenServices;
 
 /**
@@ -30,7 +31,8 @@ import org.springframework.security.oauth2.provider.token.RandomValueOAuth2Provi
  * 
  * @author shalka
  */
-public class TokenManager extends RandomValueOAuth2ProviderTokenServices {
+public class TokenManager extends RandomValueOAuth2ProviderTokenServices
+		implements OAuth2ProviderTokenServices {
 
     @Override
     protected OAuth2Authentication<?, ?> readAuthentication(
