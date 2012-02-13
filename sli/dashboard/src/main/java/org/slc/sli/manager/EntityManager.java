@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
 /**
@@ -152,8 +153,8 @@ public class EntityManager {
      * @return assessmentMetadataList
      *         - the assessment metadata entity list
      */
-    public List<GenericEntity> getAssessmentMetadata() {
-        return this.getEntities("", getResourceFilePath(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
+    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
+        return apiClient.getAssessmentMetaData(token);
     }
     
     /**
