@@ -66,6 +66,9 @@ public class ApplicationServiceTest {
        
         assertTrue("Client id set", app.get("client_id").toString().length() == 10);
         assertTrue("Client secrete set", app.get("client_secret").toString().length() == 48);
+        
+        EntityBody body = (EntityBody) resp.getEntity();
+        assertTrue("Making sure response contains client_id", body.containsKey("client_id"));
     }
     
     
