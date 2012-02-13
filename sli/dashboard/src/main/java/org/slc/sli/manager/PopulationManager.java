@@ -129,6 +129,16 @@ public class PopulationManager {
     }
     
     
+    /**
+     * Returns the student program association data for the giving list of students
+     */    
+    public List<GenericEntity> getStudentProgramAssociations(String username, List<String> studentIds) {
+        List<GenericEntity> programs = new ArrayList<GenericEntity>();
+        programs.addAll(entityManager.getPrograms(SecurityUtil.getToken(), studentIds));
+        return programs;
+    }
+    
+    
     public static void main(String[] arguments) {
         
         log.info("Starting PopulationManager...");

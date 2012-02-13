@@ -113,4 +113,30 @@ public class PopulationManagerTest {
         assertTrue(assessments.get("assessmentName").equals(assessmentName));
         assertTrue(assessments.get("assessmentFamily") == null);
     }
+    
+    
+    //TODO: Unskip test after debugging
+    @Test
+    public void testGetStudentInfo() {
+/*
+        String[] studentIdArray = {"453827070", "943715230"};
+        List<String> studentIds = Arrays.asList(studentIdArray);
+
+        MockAPIClient mockClient = new MockAPIClient();
+        EntityManager entityManager = new EntityManager();
+        entityManager.setApiClient(mockClient);
+        
+        ConfigManager configManager = new ConfigManager();
+        configManager.setApiClient(mockClient);
+        configManager.setEntityManager(entityManager);
+        ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA");
+
+        StudentManager studentManager = new StudentManager();
+        studentManager.setApiClient(mockClient);
+        studentManager.setEntityManager(entityManager);
+        List<GenericEntity> studentInfo = studentManager.getStudentInfo("lkim", studentIds, config);
+        assertEquals(2, studentInfo.size());
+        */
+    }
+    
 }
