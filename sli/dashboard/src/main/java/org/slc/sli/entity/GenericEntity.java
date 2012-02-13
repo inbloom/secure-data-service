@@ -2,6 +2,7 @@ package org.slc.sli.entity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Simple application entity
@@ -20,4 +21,12 @@ public class GenericEntity<String, Object> extends LinkedHashMap<String, Object>
         super(map);
     }
     
+    public void appendToList(String key, GenericEntity obj) {
+        if(!containsKey(key)) {
+            put(key, (Object) new ArrayList<GenericEntity>());
+        }
+        ArrayList<GenericEntity> list = (ArrayList<GenericEntity>) get(key);
+        list.add(obj);
+        put(key, (Object) list);
+    }
 }
