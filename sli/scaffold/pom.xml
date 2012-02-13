@@ -10,7 +10,21 @@
   
   <dependencies>
   
-
+	<dependency>
+		<groupId>org.slc.sli.common</groupId>
+		<artifactId>domain</artifactId>
+	</dependency>
   
+ 	<!-- Spring Core dependency -->
+	<dependency>
+       	<groupId>org.springframework</groupId>
+       	<artifactId>spring-core</artifactId>
+	</dependency>
+
+	<!-- Spring Context dependency -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+	</dependency>
   </dependencies>
 </project>

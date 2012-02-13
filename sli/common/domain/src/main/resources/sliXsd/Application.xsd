@@ -27,7 +27,7 @@
 				</xs:simpleType>
 			</xs:element>
 			
-            <!--  These are generated during creation -->
+            <!--  These two are generated during creation -->
             <xs:element name="client_id" type="xs:string" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -44,6 +44,8 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+			
+			
 			<xs:element name="developer_info" type="developer_info" minOccurs="1" />
          </xs:sequence>
       </xs:complexType>
@@ -51,8 +53,8 @@
    
    <xs:complexType name="developer_info">
       <xs:sequence>
-         <xs:element name="company" type="xs:string" minOccurs="1"/>
-         <xs:element name="legal_terms" type="xs:string" minOccurs="1"/>
+         <xs:element name="organization" type="xs:string" minOccurs="1"/>
+         <xs:element name="license_acceptance" type="xs:boolean" minOccurs="1"/>
       </xs:sequence>
    </xs:complexType>
 
