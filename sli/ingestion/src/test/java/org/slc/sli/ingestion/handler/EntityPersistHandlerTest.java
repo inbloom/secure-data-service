@@ -49,7 +49,7 @@ public class EntityPersistHandlerTest {
     private static final String BAD_STUDENT_ID = "234567";
     private static final String REGION_ID = "dc=slidev,dc=net";
     private static final String METADATA_BLOCK = "metaData";
-    private static final String REGION_ID_FIELD = "stateId";
+    private static final String REGION_ID_FIELD = "idNamespace";
     private static final String EXTERNAL_ID_FIELD = "externalId";
 
 

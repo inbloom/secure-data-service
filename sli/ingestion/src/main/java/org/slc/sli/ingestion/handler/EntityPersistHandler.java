@@ -22,7 +22,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     // private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 
     private static final String METADATA_BLOCK = "metaData";
-    private static final String REGION_ID_FIELD = "stateId";
+    private static final String REGION_ID_FIELD = "idNamespace";
     private static final String EXTERNAL_ID_FIELD = "externalId";
 
     // Hard-code region ID here for now, until it is set for real!
