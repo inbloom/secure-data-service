@@ -1,9 +1,11 @@
 package org.slc.sli.validation;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -74,7 +76,7 @@ public class SectionValidation {
         credit.put("credit", 1.5);
         credit.put("creditType", "Semester hour credit");
         credit.put("creditConversion", 2.5);
-        goodSection.put("credits", credit);
+        goodSection.put("availableCredit", credit);
         goodSection.put("schoolId", "42");
         goodSection.put("sessionId", "MySessionId");
         goodSection.put("courseId", "MyCourseId");
@@ -122,7 +124,13 @@ public class SectionValidation {
     public void testMissingRequiredFields() {
         Entity missingSectionCode = goodSection();
         missingSectionCode.getBody().remove("uniqueSectionCode");
-        assertFalse(validator.validate(missingSectionCode));
+        try {
+            assertFalse(validator.validate(missingSectionCode));
+        } catch (EntityValidationException e) {
+            List<ValidationError> errors = e.getValidationErrors();
+            ValidationError error = errors.get(0);
+            assertEquals(ValidationError.ErrorType.REQUIRED_FIELD_MISSING, error.getType());
+        }
         
     }
 }
