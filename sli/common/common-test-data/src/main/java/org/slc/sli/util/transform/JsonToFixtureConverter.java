@@ -554,8 +554,9 @@ public class JsonToFixtureConverter {
                     String careerPath = "Carnival Barker";
                     
                     Course course = new Course(courseDefinedBy, adoptionDate, description, characteristics, required,
-                            code, gpaAppl, idSystem, minCredit, maxCredit, subject, level, courseName, parts, orgCode,
-                            careerPath);
+                            code, gpaAppl, idSystem, minCredit, maxCredit);
+                    course.setAdditionalParametersThatExceedFascistCheckstyleLimitOnConstructorArgs(subject, level,
+                            courseName, parts, orgCode, careerPath);
                     course.createSessionAssociation(fakeSession, code, courseName);
                     courses.put(courseName, course);
                     

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * 
  * @author dwilliams
- *
+ * 
  */
 public class Course implements MongoDataEmitter {
     private String courseDef = null;
@@ -32,8 +32,7 @@ public class Course implements MongoDataEmitter {
     private ArrayList<SectionAssociation> sectionAssociations = new ArrayList<SectionAssociation>();
     
     public Course(String courseDefinedBy, String adoptionDate, String description, String characteristics,
-            boolean required, String code, String gpaAppl, String idSystem, int minCredit, int maxCredit,
-            String subject, String level, String title, int parts, String orgCode, String careerPath) {
+            boolean required, String code, String gpaAppl, String idSystem, int minCredit, int maxCredit) {
         this.courseDef = courseDefinedBy;
         this.adoptionDate = adoptionDate;
         this.courseDesc = description;
@@ -44,14 +43,18 @@ public class Course implements MongoDataEmitter {
         this.idSystem = idSystem;
         this.minCredit = minCredit;
         this.maxCredit = maxCredit;
+        
+        generatedUuid = Base64.nextUuid("aacc");
+    }
+    
+    public void setAdditionalParametersThatExceedFascistCheckstyleLimitOnConstructorArgs(String subject, String level,
+            String title, int parts, String orgCode, String careerPath) {
         this.subject = subject;
         this.level = level;
         this.courseTitle = title;
         this.parts = parts;
         this.orgCode = orgCode;
         this.careerPath = careerPath;
-        
-        generatedUuid = Base64.nextUuid("aacc");
     }
     
     public void addGrade(String grade) {
