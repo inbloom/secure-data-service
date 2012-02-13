@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * JUnits for DAL
@@ -194,7 +195,7 @@ public class EntityRepositoryTest {
         
         updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.toString()));
         
-        assertTrue( updated.isAfter( created ) );
+        assertTrue(updated.isAfter(created));
         
     }
 }

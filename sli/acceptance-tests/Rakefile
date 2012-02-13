@@ -84,6 +84,7 @@ task :realmInit do
   setFixture("realm", "realm_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
+  setFixture("application", "application_fixture.json")
 end
 
 # Task that initializes the application registration fixture
