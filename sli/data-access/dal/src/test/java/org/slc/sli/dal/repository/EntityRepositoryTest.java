@@ -173,7 +173,7 @@ public class EntityRepositoryTest {
     }
     
     @Test
-    public void testTimestamps() {
+    public void testTimestamps() throws Exception {
         
         // clean up the existing student data
         repository.deleteAll("student");
@@ -191,7 +191,8 @@ public class EntityRepositoryTest {
         assertEquals(created, updated);
         
         saved.getBody().put("cityOfBirth", "Evanston");
-        
+
+        Thread.sleep(2);	// Needs to be here to prevent cases where code execution is so fast, there is no difference between create/update times
         repository.update("student", saved);
         
         updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
