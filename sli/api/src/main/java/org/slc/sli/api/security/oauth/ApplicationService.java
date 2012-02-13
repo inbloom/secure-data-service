@@ -77,8 +77,8 @@ public class ApplicationService {
                 TokenGenerator.generateToken(CLIENT_SECRET_LENGTH));
         String id = service.create(newApp);
         EntityBody resObj = new EntityBody();
+        resObj.put("client_id", newToken);
         resObj.put("id", id);
-
         return Response.status(Status.CREATED).entity(resObj).build();
     }
 
