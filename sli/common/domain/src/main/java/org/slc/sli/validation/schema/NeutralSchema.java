@@ -12,8 +12,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidationRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -220,7 +220,7 @@ public abstract class NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
-    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityValidationRepository repo);
+    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo);
 
     /**
      * @param isValid

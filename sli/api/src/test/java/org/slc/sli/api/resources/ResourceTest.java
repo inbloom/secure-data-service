@@ -1,13 +1,29 @@
 package org.slc.sli.api.resources;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.CollectionResponse.EntityReference;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,32 +33,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
-import com.sun.jersey.api.uri.UriBuilderImpl;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.CollectionResponse.EntityReference;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the generic Resource class.
@@ -642,12 +639,14 @@ public class ResourceTest {
         Response createResponse = api.createEntity("students", student1, uriInfo);
         String studentId1 = parseIdFromLocation(createResponse);
         student1.put("id", studentId1);
+        student1.put("entityType", "student");
 
         EntityBody student2 = new EntityBody(createTestEntity());
         student2.put("name", "student2");
         Response createResponse2 = api.createEntity("students", student2, uriInfo);
         String studentId2 = parseIdFromLocation(createResponse2);
         student2.put("id", studentId2);
+        student2.put("entityType", "student");
 
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
@@ -655,9 +654,11 @@ public class ResourceTest {
         EntityBody ssa1 = new EntityBody(createTestAssociation(studentId1, schoolId));
         String ssa1Id = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa1, uriInfo));
         ssa1.put("id", ssa1Id);
+        ssa1.put("entityType", "studentSchoolAssociation");
         EntityBody ssa2 = new EntityBody(createTestAssociation(studentId2, schoolId));
         String ssa2Id = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa2, uriInfo));
         ssa2.put("id", ssa2Id);
+        ssa2.put("entityType", "studentSchoolAssociation");
 
         Response resp = api.getFullEntities(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
         assertEquals(200, resp.getStatus());

@@ -17,11 +17,11 @@ import org.slc.sli.entity.GenericEntity;
  */
 public class ViewManager extends Manager {
     List<ViewConfig> viewConfigs;
-    StudentManager studentManager;
+    PopulationManager populationManager;
     
-    public ViewManager(List<ViewConfig> viewConfigs, StudentManager studentManager) {
+    public ViewManager(List<ViewConfig> viewConfigs, PopulationManager populationManager) {
         this.viewConfigs = viewConfigs;
-        this.studentManager = studentManager;
+        this.populationManager = populationManager;
     }
     
     public List<ViewConfig> getApplicableViewConfigs(List<String> uids, UserDetails user) {
@@ -36,7 +36,7 @@ public class ViewManager extends Manager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = studentManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+                List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig);
 
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {

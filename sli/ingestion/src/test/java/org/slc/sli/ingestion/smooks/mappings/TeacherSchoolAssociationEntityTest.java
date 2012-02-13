@@ -314,24 +314,32 @@ public class TeacherSchoolAssociationEntityTest {
 
     private void checkValidTeacherSchoolAssociationNeutralRecord(NeutralRecord neutralRecord) {
 
+        Assert.assertEquals("RecordType not teacherSchoolAssociation", "teacherSchoolAssociation", neutralRecord.getRecordType());
+
+        Map localParentIds = (Map) neutralRecord.getLocalParentIds();
+        Assert.assertNotNull("null localParentIds map", localParentIds);
+
         Assert.assertEquals("333333332", neutralRecord.getAttributes().get("teacherReference"));
 
         List schoolReferences = (List) neutralRecord.getAttributes().get("schoolReference");
-        Assert.assertTrue(schoolReferences != null);
+        Assert.assertNotNull("null schoolReferences map", schoolReferences);
+        Assert.assertEquals("schoolReferences list does not contain one element", 1, schoolReferences.size());
         Assert.assertEquals("123456111", schoolReferences.get(0));
 
         Assert.assertEquals("Title I-Academic", neutralRecord.getAttributes().get("programAssignment"));
 
         Map gradelevels = (Map) neutralRecord.getAttributes().get("instructionalGradeLevels");
-        Assert.assertTrue(gradelevels != null);
+        Assert.assertNotNull("Null gradelevels map", gradelevels);
         List gradelevel = (List) gradelevels.get("gradeLevel");
-        Assert.assertTrue(gradelevel != null);
+        Assert.assertNotNull("Null gradelevel list", gradelevel);
+        Assert.assertEquals("gradelevel list does not contain one element", 1, gradelevel.size());
         Assert.assertEquals("Ungraded", gradelevel.get(0));
 
         Map academicSubjects = (Map) neutralRecord.getAttributes().get("academicSubjects");
         Assert.assertTrue(academicSubjects != null);
         List academicSubject = (List) academicSubjects.get("academicSubject");
-        Assert.assertTrue(academicSubject != null);
+        Assert.assertNotNull("Null academiSubject list", academicSubject);
+        Assert.assertEquals("academicSubject list does not contain one element", 1, academicSubject.size());
         Assert.assertEquals("English", academicSubject.get(0));
     }
 }

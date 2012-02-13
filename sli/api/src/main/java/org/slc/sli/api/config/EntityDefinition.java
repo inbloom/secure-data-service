@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.dal.repository.EntityRepository;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
