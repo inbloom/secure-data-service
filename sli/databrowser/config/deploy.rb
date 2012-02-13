@@ -5,6 +5,7 @@ working_dir = "sli/databrowser"
 set :application, "Identity Management Admin Tool"
 set :repository,  "git@github.com:WGEN-SLI/SLI.git"
 set :bundle_gemfile, "#{working_dir}/Gemfile"
+set :keep_releases, 2
 
 set :user, "rails"
 set :use_sudo, false

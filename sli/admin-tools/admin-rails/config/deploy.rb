@@ -8,6 +8,7 @@ set :user, "rails"
 set :use_sudo, false
 set :deploy_via, :remote_cache
 set :deploy_to, "~/admin"
+set :keep_releases, 2
 
 set :scm, :git
 
