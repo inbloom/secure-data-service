@@ -1,7 +1,10 @@
 package org.slc.sli.unit.manager;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.powermock.api.mockito.PowerMockito.when;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +15,12 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
+import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 
@@ -29,6 +37,7 @@ public class PopulationManagerTest {
     /*
      * Test that the assessmentFamilyMap is populated from values in entityManager.
      */
+    /*
     @Test
     public void testAssessmentFamilyMapFromInit() throws Exception {
         
@@ -44,14 +53,14 @@ public class PopulationManagerTest {
         LinkedList<GenericEntity> assessmentMetaDataList = new LinkedList<GenericEntity>();
         assessmentMetaDataList.add(genericEntity);
         
-        PowerMockito.doReturn(assessmentMetaDataList).when(mockedEntityManager, "getAssessmentMetadata");
+        PowerMockito.doReturn(assessmentMetaDataList).when(mockedEntityManager, "getAssessmentMetaData");
         PopulationManager popManager = new PopulationManager();
         assertTrue(popManager.getAssessmentFamilyMap().size() == 0);
         popManager.setEntityManager(mockedEntityManager);
         popManager.init();
         assertTrue(popManager.getAssessmentFamilyMap().containsKey("Dibels"));
     }
-    
+    */
     
     
     /*
@@ -139,4 +148,37 @@ public class PopulationManagerTest {
         */
     }
     
+    @Test
+    public void testGetAssessments() throws Exception {
+
+        String[] studentIdArray = {"453827070", "943715230"};
+        List<String> studentIds = Arrays.asList(studentIdArray);
+        MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
+        EntityManager entityManager = new EntityManager();
+        entityManager.setApiClient(mockClient);
+        ConfigManager configManager = new ConfigManager();
+        configManager.setApiClient(mockClient);
+        configManager.setEntityManager(entityManager);
+        ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA"); // this view has ISAT Reading and ISAT Writing
+
+        PopulationManager aManager = new PopulationManager();
+        when(mockClient.getFilename("mock_data/lkim/school.json")).thenReturn("src/test/resources/mock_data/lkim/school.json");
+        when(mockClient.getFilename("mock_data/lkim/custom_view_config.json")).thenReturn("src/test/resources/mock_data/lkim/custom_view_config.json");
+        aManager.setEntityManager(entityManager);
+        List<GenericEntity> assmts = aManager.getAssessments("lkim", studentIds, config);
+        
+        assertEquals(111, assmts.size());
+
+    }
+
+/*
+    @Test
+    public void testGetAssessmentMetaData() throws Exception {
+        PopulationManager aManager = new PopulationManager();
+        MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
+        when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
+        List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
+        assertEquals(8, metaData.size()); // mock data has now 8 families: ISAT Reading, ISAT Writing, DIBELS Next, TRC, AP English, ACT, SAT, and PSAT
+    }
+  */  
 }
