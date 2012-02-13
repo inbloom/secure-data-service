@@ -7,7 +7,7 @@ class Entity < SessionResource
     if base.is_a?(Array)
       type = nil
       return entity if base.first.nil?
-      type = base.first['type'] if base.first.has_key? 'type'
+      type = base.first['entityType'] if base.first.has_key? 'entityType'
       base.each do |single|
         one = Hash.new
         one[:simple] = build_simple_hash(type, single)
