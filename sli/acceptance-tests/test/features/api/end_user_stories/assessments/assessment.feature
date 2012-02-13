@@ -16,8 +16,8 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		
 	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
 	Then I should receive a collection of 2 section links 
-		And I should find section with sectionName is "Section I" 
-		And I should find section with sectionName is "Section II"  with <'ImportantSection' ID>
+		And I should find section with uniqueSectionCode is "Section I" 
+		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
 		and filter by  "AssessmentFamilyHierarchyName" = "DIBELS Next" 
@@ -36,15 +36,18 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		     And the "GradeLevelAssessed" is "Second Grade"
 		     And the "LowestGradeLevelAssessed" is "Second Grade"
 		     And the "AssessmentPerformanceLevel" has the 3 levels
-				     "PerformanceLevel""= "At or Above Benchmark"
-				     "MinimumScore" = "190"
-				     "MaximumScore" = "380"
-				     "PerformanceLevel"= "Below Benchmark"
-				     "MinimumScore" = "189"
-				     "MaximumScore" = "145"
-				     "PerformanceLevel= "Well Below Benchmark"
-				     "MinimumScore" = "144"
-				     "MaximumScore" = "13"
+			And "AssessmentPerformanceLevel.PerformanceLevel.Description"= "At or Above Benchmark"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Code"= "Level 1"
+				     "AssessmentPerformanceLevel.MinimumScore" = "190"
+				     "AssessmentPerformanceLevel.MaximumScore" = "380"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Description"= "Below Benchmark"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Code"= "Level 2"
+				     "AssessmentPerformanceLevel.MaximumScore" = "189"
+				     "AssessmentPerformanceLevel.MinimumScore" = "145"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Description"= "Well Below Benchmark"
+				     "AssessmentPerformanceLevel.PerformanceLevel.Code"= "Level 3"
+				     "AssessmentPerformanceLevel.MaximumScore" = "144"
+				     "AssessmentPerformanceLevel.MinimumScore" = "13"
 		     And the "AssessmentFamilyHierarchyName" is "DIBELS Next"
 		     And the "MaxRawScore" is "380"
 		     And the "MinRawScore" is "13"
@@ -98,8 +101,8 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		
 	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
 	Then I should receive a collection of 2 section links 
-		And I should find section with sectionName is "Section I" 
-		And I should find section with sectionName is "Section II"  with <'ImportantSection' ID>
+		And I should find section with uniqueSectionCode is "Section I" 
+		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getStudents" with URI "/student-section-associations/<'ImportantSection' ID>/targets"
 	Then I should receive a collection of 5 student links
@@ -173,8 +176,8 @@ Scenario Outline:  As a AggregateViewer I should not see assessment data
 		
 	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
 	Then I should receive a collection of 2 section links 
-		And I should find section with sectionName is "Section I" 
-		And I should find section with sectionName is "Section II"  with <'ImportantSection' ID>
+		And I should find section with uniqueSectionCode is "Section I" 
+		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getStudents" with URI "/student-section-associations/<'ImportantSection' ID>/targets"
 	Then I should receive a collection of 5 student links
