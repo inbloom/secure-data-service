@@ -80,7 +80,7 @@ public class ApplicationServiceTest {
     
     @Test
     public void testGoodDelete() {
-        String client_id = "1234567890";
+        String clientId = "1234567890";
         String uuid = "123";
         EntityService service = mock(EntityService.class);
         resource.setService(service);
@@ -88,23 +88,23 @@ public class ApplicationServiceTest {
         EntityBody toDelete = getNewApp();
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         
-        toDelete.put("client_id", client_id);
+        toDelete.put("client_id", clientId);
         toDelete.put("id", uuid);
         existingEntitiesIds.add(uuid);
         Mockito.when(
-                service.list(0, 1, "client_id=" + client_id))
+                service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(existingEntitiesIds);
-        Response resp = resource.deleteApplication(client_id);
+        Response resp = resource.deleteApplication(clientId);
         assertEquals(STATUS_DELETED, resp.getStatus());
     }
     
     @Test
     public void testBadDelete() {
-        String client_id = "9999999999";
+        String clientId = "9999999999";
         EntityService service = mock(EntityService.class);
         resource.setService(service);
         Mockito.when(
-                service.list(0, 1, "client_id=" + client_id))
+                service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
         Response resp = resource.deleteApplication("9999999999");
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
@@ -112,7 +112,7 @@ public class ApplicationServiceTest {
     
     @Test
     public void testGoodGet() {
-        String client_id = "1234567890";
+        String clientId = "1234567890";
         String uuid = "123";
         EntityService service = mock(EntityService.class);
         resource.setService(service);
@@ -120,23 +120,23 @@ public class ApplicationServiceTest {
         EntityBody toGet = getNewApp();
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         
-        toGet.put("client_id", client_id);
+        toGet.put("client_id", clientId);
         toGet.put("id", uuid);
         existingEntitiesIds.add(uuid);
         Mockito.when(
-                service.list(0, 1, "client_id=" + client_id))
+                service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(existingEntitiesIds);
-        Response resp = resource.getApplication(client_id);
+        Response resp = resource.getApplication(clientId);
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
     
     @Test
     public void testBadGet() {
-        String client_id = "9999999999";
+        String clientId = "9999999999";
         EntityService service = mock(EntityService.class);
         resource.setService(service);
         Mockito.when(
-                service.list(0, 1, "client_id=" + client_id))
+                service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
         Response resp = resource.getApplication("9999999999");
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
