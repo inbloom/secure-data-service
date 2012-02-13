@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.gson.Gson;
 
@@ -82,8 +84,12 @@ public class LiveAPIClient implements APIClient {
     
     private String getStudent(String id, String token) {
         String url = Constants.API_SERVER_URI + "/students/" + id;
-        return restClient.makeJsonRequestWHeaders(url, token);
-    }    
+        try {
+            return restClient.makeJsonRequestWHeaders(url, token);
+        } catch (org.springframework.web.client.HttpClientErrorException ex) {
+            throw ex;
+        }
+    }
     
     private GenericEntity getSchool(String id, String token) {
 
@@ -251,8 +257,7 @@ public class LiveAPIClient implements APIClient {
         courseMap.put(dummmyCourseID, fakeCourse);
         for (int j = 0; j < sections.length; j++) {
             sectionIDToCourseIDMap.put(sections[j].get(Constants.ATTR_ID).toString(), dummmyCourseID);
-            GenericEntity[] singleSectionArray = { sections[j] };
-            fakeCourse.put(Constants.ATTR_SECTIONS, singleSectionArray);
+            fakeCourse.appendToList(Constants.ATTR_SECTIONS, sections[j]);
         }
         // Then create schools and associate the first one to all sections
         String teacherId = getId(token); 
@@ -265,7 +270,7 @@ public class LiveAPIClient implements APIClient {
             schoolMap.put(schoolId, school);
             if (i == 0) {
                 for (int j = 0; j < sections.length; j++) {
-                    sectionIDToSchoolIDMap.put(sections[i].get(Constants.ATTR_ID).toString(), schoolId);
+                    sectionIDToSchoolIDMap.put(sections[j].get(Constants.ATTR_ID).toString(), schoolId);
                 }
             }
         }
@@ -278,19 +283,27 @@ public class LiveAPIClient implements APIClient {
         // the "course-school" association is defined as follows:
         // course C is associated with school S if there exists a section X s.t. C is associated
         // with X and S is associated with X.
+        HashMap<String, HashSet<String> > schoolIDToCourseIDMap = new HashMap<String, HashSet<String> >();
         for (int i = 0; i < sections.length; i++) {
             GenericEntity section = sections[i];
             if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
                 && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
                 String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
                 String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
-                GenericEntity s = schoolMap.get(schoolId);
-                GenericEntity c = courseMap.get(courseId);
-                GenericEntity [] singleCourseArray = { c };
-                s.put(Constants.ATTR_COURSES, singleCourseArray);
+                if (!schoolIDToCourseIDMap.containsKey(schoolId)) { schoolIDToCourseIDMap.put(schoolId, new HashSet<String> ()); }
+                schoolIDToCourseIDMap.get(schoolId).add(courseId);
             }
         }
 
+        // now create the generic entity
+        for (String schoolId : schoolIDToCourseIDMap.keySet()) {
+            for (String courseId : schoolIDToCourseIDMap.get(schoolId)) {
+                GenericEntity s = schoolMap.get(schoolId);
+                GenericEntity c = courseMap.get(courseId);
+                s.appendToList(Constants.ATTR_COURSES, c);
+            }
+        }
+        
         GenericEntity[] retVal = new GenericEntity[schoolMap.values().size()];
         return schoolMap.values().toArray(retVal);
     }
@@ -314,8 +327,7 @@ public class LiveAPIClient implements APIClient {
                     courseMap.put((String) (course.get(Constants.ATTR_ID)), course);
                 }
                 course = courseMap.get(course.get(Constants.ATTR_ID));
-                GenericEntity[] singleSectionArray = { section };
-                course.put(Constants.ATTR_SECTIONS, singleSectionArray);
+                course.appendToList(Constants.ATTR_SECTIONS, section);
                 sectionIDToCourseIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (course.get(Constants.ATTR_ID)));
             }
         }
