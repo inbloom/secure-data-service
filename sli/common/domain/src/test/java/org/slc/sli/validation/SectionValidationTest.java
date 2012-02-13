@@ -25,7 +25,7 @@ import org.slc.sli.domain.Entity;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class SectionValidation {
+public class SectionValidationTest {
 
     @Autowired
     private EntityValidator validator;
