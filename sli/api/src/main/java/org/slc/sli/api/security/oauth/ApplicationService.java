@@ -42,9 +42,6 @@ public class ApplicationService {
 
     private EntityService service;
 
-    private static final String[] ATTRIBUTES_TO_HIDE = new String[] {
-            "client_type", "redirect_uri", "name", "developer_info",
-            "client_secret", "description" };
 
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
@@ -77,8 +74,8 @@ public class ApplicationService {
                 TokenGenerator.generateToken(CLIENT_SECRET_LENGTH));
         String id = service.create(newApp);
         EntityBody resObj = new EntityBody();
+        resObj.put("client_id", newToken);
         resObj.put("id", id);
-
         return Response.status(Status.CREATED).entity(resObj).build();
     }
 
@@ -92,9 +89,7 @@ public class ApplicationService {
         Iterable<String> realmList = service.list(0, 1000);
         for (String id : realmList) {
             EntityBody result = service.get(id);
-            for (String toRemove : ATTRIBUTES_TO_HIDE) {
-                result.remove(toRemove);
-            }
+
             result.put("link",
                     info.getBaseUri() + info.getPath().replaceAll("/$", "")
                             + "/" + result.get("client_id"));
