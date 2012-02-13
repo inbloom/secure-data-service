@@ -3,8 +3,5 @@
 <% if @entity.size == 1 %>
 	<%= render :partial => "detail", :locals => {:entity => @entity.first} %>
 <%else%>
-	<% @entity.each do |entity|%>
-	<%= @entity%>
-		<%= render :partial => "detail", :locals => {:entity => entity} %>
-	<% end %>
+	<%= render :partial => "simple", :locals => {:entity => @entity} %>
 <% end %>

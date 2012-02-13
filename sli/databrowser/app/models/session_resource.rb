@@ -21,7 +21,7 @@ class SessionResource < ActiveResource::Base
   cattr_accessor :auth_id, :url_type
   Rails.logger.debug { "Session ID: #{@auth_id}" }
   Rails.logger.debug { "Entity Type: #{@url_type}" }
-  self._format = ActiveResource::Formats::JsonFullFormat
+  self._format = ActiveResource::Formats::JsonFormat
   class << self
     
     def headers
