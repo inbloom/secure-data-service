@@ -19,15 +19,15 @@ public class NumberUtilsTest {
     
     @Test
     public void testToDouble() {
-        assertEquals(new Double(3), NumberUtils.toDouble(new Integer(3)));
-        assertEquals(new Double(3), NumberUtils.toDouble(new Long(3)));
+        assertEquals(Double.valueOf(3), NumberUtils.toDouble(Integer.valueOf(3)));
+        assertEquals(Double.valueOf(3), NumberUtils.toDouble(Integer.valueOf(3)));
         assertEquals(null, NumberUtils.toDouble("3"));
     }
     
     @Test
     public void testToLong() {
-        assertEquals(new Long(3), NumberUtils.toLong(new Integer(3)));
-        assertEquals(new Long(3), NumberUtils.toLong(new Long(3)));
+        assertEquals(Long.valueOf(3), NumberUtils.toLong(Integer.valueOf(3)));
+        assertEquals(Long.valueOf(3), NumberUtils.toLong(Long.valueOf(3)));
         assertEquals(null, NumberUtils.toDouble("3"));
     }
 }
