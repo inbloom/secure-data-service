@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
@@ -15,30 +14,27 @@
 
 	<tx:annotation-driven />
 
-	<bean id="placeholderConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="classpath:config/${sli.env}/data-access/db.properties" />
+	<bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:config/${sli.env}/data-access/db.properties" />
 	</bean>
 
 
 	<!-- MONGODB CONFIG -->
 
-	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
-		host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
+	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" host="${sli.mongodb.host}"
+		port="${sli.mongodb.port}" />
 	<!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
 
 
-	<mongo:mapping-converter id="mappingConverter"
-		base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
+	<mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
 		<mongo:custom-converters>
 			<mongo:converter>
-				<bean class="org.slc.sli.dal.convert.MongoEntityReadConverter" />
+				<bean class="org.slc.sli.dal.convert.EntityReadConverter" />
 			</mongo:converter>
 			<mongo:converter>
-				<bean class="org.slc.sli.dal.convert.MongoEntityWriteConverter" />
+				<bean class="org.slc.sli.dal.convert.EntityWriteConverter" />
 			</mongo:converter>
-		
+
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 

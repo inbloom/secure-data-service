@@ -3,7 +3,7 @@ require "bundler/capistrano"
 working_dir = "sli/databrowser"
 
 set :application, "Identity Management Admin Tool"
-set :repository,  "git@github.com:WGEN-SLI/SLI.git"
+set :repository,  "git@git.slidev.org:sli/sli.git"
 set :bundle_gemfile, "#{working_dir}/Gemfile"
 set :keep_releases, 2
 

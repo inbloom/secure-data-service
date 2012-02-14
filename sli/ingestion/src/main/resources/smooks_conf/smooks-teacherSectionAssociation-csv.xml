@@ -40,10 +40,10 @@
     <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="csv-record">
 
         <!-- SectionReference -->
-		<jb:value property="sectionReference" data="SectionReference_SectionIdentity_UniqueSectionCode" />
+		<jb:value property="sectionId" data="SectionReference_SectionIdentity_UniqueSectionCode" />
 
 		<!-- TeacherReference -->
-		<jb:value property="teacherReference"  data="StaffReference_StaffIdentity_StaffUniqueStateId" />
+		<jb:value property="teacherId"  data="StaffReference_StaffIdentity_StaffUniqueStateId" />
 
     	<!-- BeginDate -->
        	<jb:value property="beginDate" data="BeginDate"/>

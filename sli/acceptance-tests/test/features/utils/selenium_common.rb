@@ -1,5 +1,5 @@
 def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
-  return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc+"\n\n"+message
+  return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
 end
 
 Given /^I have an open web browser$/ do

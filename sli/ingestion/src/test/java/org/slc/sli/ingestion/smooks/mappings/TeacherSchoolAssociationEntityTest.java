@@ -320,7 +320,7 @@ public class TeacherSchoolAssociationEntityTest {
         Assert.assertEquals("RecordType not teacherSchoolAssociation", "teacherSchoolAssociation",
                 neutralRecord.getRecordType());
 
-        Map localParentIds = (Map) neutralRecord.getLocalParentIds();
+        Map<?, ?> localParentIds = neutralRecord.getLocalParentIds();
         Assert.assertNotNull("null localParentIds map", localParentIds);
 
         Assert.assertEquals("333333332", neutralRecord.getAttributes().get("teacherId"));
@@ -329,7 +329,7 @@ public class TeacherSchoolAssociationEntityTest {
 
         Assert.assertEquals("Title I-Academic", neutralRecord.getAttributes().get("programAssignment"));
 
-        List gradeLevels = (List) neutralRecord.getAttributes().get("instructionalGradeLevels");
+        List<?> gradeLevels = (List<?>) neutralRecord.getAttributes().get("instructionalGradeLevels");
         Assert.assertNotNull("Null gradelevel list", gradeLevels);
         // Assert.assertEquals("gradelevel list does not contain one element", 1,
         // gradelevels.size());
@@ -339,9 +339,9 @@ public class TeacherSchoolAssociationEntityTest {
             Assert.assertEquals("Graded", gradeLevels.get(1));
         }
 
-        Map academicSubjectMap = (Map) neutralRecord.getAttributes().get("academicSubjects");
+        Map<?, ?> academicSubjectMap = (Map<?, ?>) neutralRecord.getAttributes().get("academicSubjects");
         Assert.assertTrue(academicSubjectMap != null);
-        List academicSubjectList = (List) academicSubjectMap.get("academicSubject");
+        List<?> academicSubjectList = (List<?>) academicSubjectMap.get("academicSubject");
         Assert.assertNotNull("Null academiSubject list", academicSubjectList);
         Assert.assertEquals("English", academicSubjectList.get(0));
         if (academicSubjectList.size() > 1) {
