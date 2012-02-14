@@ -22,6 +22,9 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 @Path("/apps")
 @Produces({ Resource.JSON_MEDIA_TYPE })
-public class ApplicationService {
+public class ApplicationService implements ClientDetailsService {
 
     @Autowired
     private EntityDefinitionStore store;
@@ -122,13 +125,53 @@ public class ApplicationService {
     @DELETE
     @Path("{client_id}")
     public Response deleteApplication(@PathParam("client_id") String clientId) {
-        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
-
-        for (String id : results) {
-            service.delete(id);
+        
+        String uuid = lookupIdFromClientId(clientId);
+        if (uuid != null) {
+            service.delete(uuid);
             return Response.status(Status.NO_CONTENT).build();
         }
 
         return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    /**
+     * Since entries are keyed off a uuid instead of the client ID,
+     * we need to look up the uuid using the client id.
+     * 
+     * @param clientId
+     * @return a uuid, or null if not found
+     */
+    private String lookupIdFromClientId(String clientId) {
+        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
+        if (results.iterator().hasNext()) {
+            return results.iterator().next();
+        }
+        return null;
+    }
+
+    @Override
+    public ClientDetails loadClientByClientId(String clientId)
+            throws OAuth2Exception {
+        String uuid = lookupIdFromClientId(clientId);
+        if (uuid != null) {
+            EntityBody result = service.get(uuid);
+            ApplicationDetails details = new ApplicationDetails();
+            details.setClientId((String) result.get("client_id"));
+            details.setClientSecret((String) result.get("client_secret"));
+            details.setWebServerRedirectUri((String) result.get("redirect_uri"));
+            details.setIsScoped(true);
+            details.setIsSecretRequired(true);
+            
+            String scope = (String) result.get("scope");
+            List<String> scopes = new ArrayList<String>();
+            scopes.add(scope);
+            details.setScope(scopes);
+            
+            //TODO: set authorities and grant types
+            return details;
+        } else {
+            throw new OAuth2Exception("Could not find client with ID " + clientId);
+        }
     }
 }
