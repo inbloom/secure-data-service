@@ -68,7 +68,6 @@ public class TokenManagerTest {
         
     }
     
-    @Test
     public void testReadRefreshToken() {
         ExpiringOAuth2RefreshToken token = tokenManager.readRefreshToken("Test-refresh-token-one");
         System.out.println("The token is " + token);
