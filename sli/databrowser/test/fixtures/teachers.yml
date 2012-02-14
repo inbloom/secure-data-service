@@ -30,8 +30,8 @@ one:
         streetNumberName: null
         apartmentRoomSuiteNumber: null
         buildingSiteNumber: null
-        city: null
-        stateAbbreviation: NY
+        city: Durham
+        stateAbbreviation: NC
         postalCode: null
         nameOfCounty: null
     
@@ -85,8 +85,8 @@ two:
         streetNumberName: null
         apartmentRoomSuiteNumber: null
         buildingSiteNumber: null
-        city: null
-        stateAbbreviation: NY
+        city: Raleigh
+        stateAbbreviation: NC
         postalCode: null
         nameOfCounty: null
     
