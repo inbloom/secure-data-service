@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
@@ -57,12 +59,25 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
     private EntityDefinitionStore store;
 
     private EntityService         service;
+    
+    @Autowired
+    private RolesToRightsResolver rolesToRightsResolver;
 
 
     @Override
     protected OAuth2Authentication<?, ?> readAuthentication(
             OAuth2AccessToken token) {
-        token.getValue();
+        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.value").is(token.getValue())), 0, 1);
+        for (Entity cur : results) {
+            Map<String, Object> body = cur.getBody();
+            SLIPrincipal principal = new SLIPrincipal();
+            principal.setRealm((String) body.get("realm"));
+            principal.setId((String) body.get("user_id"));
+            principal.setRoles((List<String>) body.get("roles"));
+            
+            SLIAuthenticationToken auth = new SLIAuthenticationToken(rolesToRightsResolver.resolveRoles(principal.getRealm(), principal.getRoles()), principal);
+            return new OAuth2Authentication(auth, null);
+        }
         return null;
     }
 
@@ -121,7 +136,15 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
             ExpiringOAuth2RefreshToken token) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(token.getValue())), 0, 1);
         for (Entity cur : results) {
-            cur.getBody();
+            Map<String, Object> body = cur.getBody();
+            SLIPrincipal principal = new SLIPrincipal();
+            principal.setRealm((String) body.get("realm"));
+            principal.setId((String) body.get("user_id"));
+            principal.setRoles((List<String>) body.get("roles"));
+            
+            SLIAuthenticationToken auth = new SLIAuthenticationToken(rolesToRightsResolver.resolveRoles(principal.getRealm(), principal.getRoles()), principal);
+            return new OAuth2Authentication(auth, null);
+
         }
         return null;
     }
