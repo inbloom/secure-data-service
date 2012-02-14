@@ -67,18 +67,20 @@ public class ApplicationService implements ClientDetailsService {
 
     @POST
     public Response createApplication(EntityBody newApp) {
-        String newToken = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
-        while (isDuplicateToken(newToken)) {
-            newToken = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        while (isDuplicateToken(clientId)) {
+            clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
 
-        newApp.put("client_id", newToken);
-        newApp.put("client_secret",
-                TokenGenerator.generateToken(CLIENT_SECRET_LENGTH));
+        newApp.put("client_id", clientId);
+        
+        String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
+        newApp.put("client_secret", clientSecret);
         String id = service.create(newApp);
+        
         EntityBody resObj = new EntityBody();
-        resObj.put("client_id", newToken);
-        resObj.put("id", id);
+        resObj.put("client_id", clientId);
+        resObj.put("client_secret", clientSecret);
         return Response.status(Status.CREATED).entity(resObj).build();
     }
 
