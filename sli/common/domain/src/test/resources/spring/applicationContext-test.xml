@@ -11,9 +11,6 @@
 	default-autowire="byName">
 
 	    <context:component-scan base-package="org.slc">
-            <context:exclude-filter type="regex"
-                expression=".*NeutralSchemaValidator" />
         </context:component-scan>
-	<bean id="entityValidator" class = "org.slc.sli.validation.AvroEntityValidator"/>
 
 </beans>

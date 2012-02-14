@@ -2,14 +2,11 @@ package org.slc.sli.validation;
 
 import java.util.ArrayList;
 
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 
 /**
  * Mock validator for the dal
  */
-@Component
 public class MockValidator implements EntityValidator {
 
     @Override
