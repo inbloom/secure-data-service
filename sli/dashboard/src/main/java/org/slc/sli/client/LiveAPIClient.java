@@ -8,9 +8,6 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
@@ -27,28 +24,36 @@ import org.slc.sli.util.SecurityUtil;
  */
 public class LiveAPIClient implements APIClient {
 
+    private static final String TARGETS = "/targets";
+    private static final String SECTIONS_URL = Constants.API_SERVER_URI + "/sections/";
+    private static final String STUDENT_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/student-section-associations/";
+    private static final String SCHOOLS_URL = Constants.API_SERVER_URI + "/schools/";
+    private static final String STUDENTS_URL = Constants.API_SERVER_URI + "/students/";
+    private static final String COURSES_URL = Constants.API_SERVER_URI + "/courses/";
+    private static final String ED_ORG_URL = Constants.API_SERVER_URI + "/educationOrganizations/";
+    private static final String ED_ORG_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/educationOrganization-school-associations/";
+    private static final String ED_ORG_ASSOC_URL = Constants.API_SERVER_URI + "/educationOrganization-associations/";
+    private static final String HOME_URL = Constants.API_SERVER_URI + "/home";
+    private static final String TEACHER_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-section-associations/";
+    private static final String TEACHER_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-school-associations/";
+    private static final String COURSE_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/course-section-associations/";
+    private static final String SECTION_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/section-school-associations/";
+    
     private RESTClient restClient;
     private Gson gson;
 
     // For now, the live client will use the mock client for api calls not yet implemented
     private MockAPIClient mockClient;
 
-    /**
-     * Getter and Setter used by Spring to instantiate the live/test api class
-     * @return
-     */
-    public RESTClient getRestClient() {
-        return restClient;
-    }
-    public void setRestClient(RESTClient restClient) {
-        this.restClient = restClient;
-    }
 
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
         gson = new Gson();
     }
 
+    /**
+     * Get a list of schools for the user
+     */
     @Override
     public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
         
@@ -64,6 +69,9 @@ public class LiveAPIClient implements APIClient {
         return schoolList;
     }
 
+    /**
+     * Get a list of student objects, given the student ids
+     */
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> ids) {
         if (ids == null) {
@@ -72,7 +80,6 @@ public class LiveAPIClient implements APIClient {
         
         List<GenericEntity> students = new ArrayList<GenericEntity>();
         
-        int i = 0;
         for (String id: ids) {
             students.add(getStudent(id, token));
         }
@@ -80,115 +87,152 @@ public class LiveAPIClient implements APIClient {
         return students;
     }
 
-    
-    private GenericEntity getStudent(String id, String token) {
-        String url = Constants.API_SERVER_URI + "/students/" + id;
-        return createEntityFromAPI(url, token);
-    }    
-    
-    private GenericEntity getSchool(String id, String token) {
-
-        String url = Constants.API_SERVER_URI + "/schools/" + id;
-        return createEntityFromAPI(url, token);
-    }
-
-    private String[] getStudentIdsForSection(String id, String token) {
-        String url = Constants.API_SERVER_URI + "/student-section-associations/" + id + "/targets";
-
-        List<GenericEntity> responses = createEntitiesFromAPI(url, token);
-        
-        String[] studentIds = new String[responses.size()];
-
-        int i = 0;
-        for (GenericEntity response : responses) {
-            studentIds[i++] = (String) (response.get(Constants.ATTR_ID));
-        }
-        return studentIds;
-    }
-    
-    
-    private GenericEntity getSection(String id, String token) {
-        String url = Constants.API_SERVER_URI + "/sections/" + id;
-        GenericEntity section = createEntityFromAPI(url, token);
-        section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(id, token));
-
-        if (section.get("sectionName") == null) { section.put("sectionName", section.get("uniqueSectionCode")); }
-
-        return section;
-    }
-
-    private GenericEntity getCourse(String id, String token) {
-        String url = Constants.API_SERVER_URI + "/courses/" + id;
-        GenericEntity course = createEntityFromAPI(url, token);
-        return course;
-    }
-
-    private GenericEntity getEducationalOrganization(String id, String token) {
-        String url = Constants.API_SERVER_URI + "/educationOrganizations/" + id;
-        GenericEntity edOrg = createEntityFromAPI(url, token);
-        return edOrg;
-    }
-
+    /**
+     * Get a list of assessment results, given the student ids
+     */
     @Override
     public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
         return mockClient.getAssessments(getUsername(), studentIds);
     }
     
+    /**
+     * Get custom data
+     */
     @Override
     public List<GenericEntity> getCustomData(final String token, String key) {
         return mockClient.getCustomData(getUsername(), key);
     }
 
+    /**
+     * Get all assessment meta-data
+     */
     @Override
     public AssessmentMetaData[] getAssessmentMetaData(final String token) {
         return mockClient.getAssessmentMetaData(getUsername());
     }
+    
+    /**
+     * Get program participation, given a list of student ids
+     */
     @Override
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         return mockClient.getPrograms(getUsername(), studentIds);
     }
 
+    /**
+     * Get the associated educational organizations for a school
+     */
     @Override
     public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
-        String url = Constants.API_SERVER_URI + "/educationOrganization-school-associations/" + school.get(Constants.ATTR_ID) + "/targets";
+        String url = ED_ORG_SCHOOL_ASSOC_URL + school.get(Constants.ATTR_ID) + TARGETS;
         List<GenericEntity> responses = createEntitiesFromAPI(url, token);
         List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
         for (GenericEntity response : responses) {
-            edOrgs.add(getEducationalOrganization(parseId((Map) (response.get(Constants.ATTR_LINK))), token));
+            edOrgs.add(getEducationalOrganization(parseId(response.getMap(Constants.ATTR_LINK)), token));
         }
         return edOrgs;
     }
 
+    
+    /**
+     * Get a list of parent ed-orgs, given an ed-org
+     */
     @Override
     public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity edOrg) {
-        String url = Constants.API_SERVER_URI + "/educationOrganization-associations/" + edOrg.get(Constants.ATTR_ID);
+        String url = ED_ORG_ASSOC_URL + edOrg.get(Constants.ATTR_ID);
         List<GenericEntity> responses = createEntitiesFromAPI(url, token);
         List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
         // For every association, find the ones that this ed org is a child, and get the parent 
         for (GenericEntity response : responses) {
             try {
-                String assLink = (String) (((Map) (response.get(Constants.ATTR_LINK))).get(Constants.ATTR_HREF));
-                // TODO convert to createEntityFromJSON
-                JSONObject assResponse = new JSONObject(restClient.makeJsonRequestWHeaders(assLink, token));
-                String childId = assResponse.optString(Constants.ATTR_ED_ORG_CHILD_ID);
+                String assLink = (String) ((response.getMap(Constants.ATTR_LINK)).get(Constants.ATTR_HREF));
+                
+                GenericEntity assResponse = createEntityFromAPI(assLink, token);
+                String childId = (String) (assResponse.get(Constants.ATTR_ED_ORG_CHILD_ID));
                 if (childId != null && childId.equals(edOrg.get(Constants.ATTR_ID))) {
-                    String parentId = assResponse.optString(Constants.ATTR_ED_ORG_PARENT_ID);
+                    String parentId = assResponse.getString(Constants.ATTR_ED_ORG_PARENT_ID);
                     if (parentId != null) {
                         edOrgs.add(getEducationalOrganization(parentId, token));
                     }
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 throw new RuntimeException("malformed json from educationOrganization-associations api call.");
             }
         }
         return edOrgs;
     }
 
+
+    /**
+     * Get a list of student ids belonging to a section
+     */
+    private List<String> getStudentIdsForSection(String id, String token) {
+
+        List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_SECTION_ASSOC_URL + id + TARGETS, token);
+        
+        List<String> studentIds = new ArrayList<String>();
+
+        for (GenericEntity response : responses) {
+            studentIds.add(response.getString(Constants.ATTR_ID));
+        }
+        return studentIds;
+    }
+    
+    
+    /**
+     * Get one student
+     */
+    private GenericEntity getStudent(String id, String token) {
+        return createEntityFromAPI(STUDENTS_URL + id, token);
+    }    
+    
+    /**
+     * Get one school
+     */
+    private GenericEntity getSchool(String id, String token) {
+        return createEntityFromAPI(SCHOOLS_URL + id, token);
+    }
+    
+    /**
+     * Get one section
+     */
+    private GenericEntity getSection(String id, String token) {
+
+        GenericEntity section = createEntityFromAPI(SECTIONS_URL + id, token);
+        section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(id, token));
+
+        // if no section name, fill in with section code
+        if (section.get(Constants.ATTR_SECTION_NAME) == null) { 
+            section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE)); 
+        }
+
+        return section;
+    }
+
+    /**
+     * Get one course
+     */
+    private GenericEntity getCourse(String id, String token) {
+        return createEntityFromAPI(COURSES_URL + id, token);
+    }
+
+    /**
+     * Get one ed-org
+     */
+    private GenericEntity getEducationalOrganization(String id, String token) {
+        return createEntityFromAPI(ED_ORG_URL + id, token);
+    }
+
+    /**
+     * Get the user's unique identifier
+     * @param token
+     * @return
+     */
     private String getId(String token) {
+        
         // Make a call to the /home uri and retrieve id from there
         String returnValue = "";
-        String url = Constants.API_SERVER_URI + "/home";
-        GenericEntity response = createEntityFromAPI(url, token);
+        GenericEntity response = createEntityFromAPI(HOME_URL, token);
         
         for (Map link : (List<Map>) (response.get(Constants.ATTR_LINKS))) {
             if (link.get(Constants.ATTR_REL).equals(Constants.ATTR_SELF)) {
@@ -211,19 +255,27 @@ public class LiveAPIClient implements APIClient {
         return returnValue;
     }
     
+    /**
+     * Get a list of sections, given a teacher id
+     */
     private List<GenericEntity> getSectionsForTeacher(String id, String token) {
-        String url = Constants.API_SERVER_URI + "/teacher-section-associations/" + id + "/targets";
-        List<GenericEntity> responses = createEntitiesFromAPI(url, token);
+
+        List<GenericEntity> responses = createEntitiesFromAPI(TEACHER_SECTION_ASSOC_URL + id + TARGETS, token);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
         
         for (GenericEntity response : responses) {
-            sections.add(getSection(parseId(((Map) (response.get(Constants.ATTR_LINK)))), token));
+            sections.add(getSection(parseId((response.getMap(Constants.ATTR_LINK))), token));
         }
 
         return sections;
     }
 
-        
+    /**
+     * Get a list of schools, given a list of sections
+     * @param sections
+     * @param token
+     * @return
+     */
     private List<GenericEntity> getSchoolsForSection(List<GenericEntity> sections, String token) {
         // collect associated course first.
         HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
@@ -254,11 +306,11 @@ public class LiveAPIClient implements APIClient {
         }
         // Then create schools and associate the first one to all sections
         String teacherId = getId(token); 
-        String url = Constants.API_SERVER_URI + "/teacher-school-associations/" + teacherId + "/targets"; 
+        String url = TEACHER_SCHOOL_ASSOC_URL + teacherId + TARGETS; 
         List<GenericEntity> responses = createEntitiesFromAPI(url, token);
         for (int i = 0; i < responses.size(); i++) {
             GenericEntity response = responses.get(i);
-            String schoolId = parseId((Map) (response.get(Constants.ATTR_LINK)));
+            String schoolId = parseId(response.getMap(Constants.ATTR_LINK));
             GenericEntity school = getSchool(schoolId, token); 
             schoolMap.put(schoolId, school);
             if (i == 0) {
@@ -303,6 +355,10 @@ public class LiveAPIClient implements APIClient {
 
     }
 
+    
+    /**
+     * Get the associations between courses and sections
+     */
     private void getCourseSectionsMappings(List<GenericEntity> sections,
                                            String token,
                                            Map<String, GenericEntity> courseMap,
@@ -313,21 +369,24 @@ public class LiveAPIClient implements APIClient {
             //       reference from the section entity. This "parseId(response.getLink()" expression
             //       below should then be replaced by looking up the schoolReferenceId in the section entity
             //       (refer to ed-fi).  
-            String url = Constants.API_SERVER_URI + "/course-section-associations/" + section.get(Constants.ATTR_ID) + "/targets";
+            String url = COURSE_SECTION_ASSOC_URL + section.get(Constants.ATTR_ID) + TARGETS;
             List<GenericEntity> responses = createEntitiesFromAPI(url, token);
             if (responses.size() > 0) {
                 GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity course = getCourse(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
+                GenericEntity course = getCourse(parseId(response.getMap(Constants.ATTR_LINK)), token);
                 if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
-                    courseMap.put((String) (course.get(Constants.ATTR_ID)), course);
+                    courseMap.put(course.getString(Constants.ATTR_ID), course);
                 }
                 course = courseMap.get(course.get(Constants.ATTR_ID));
                 course.appendToList(Constants.ATTR_SECTIONS, section);
-                sectionIDToCourseIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (course.get(Constants.ATTR_ID)));
+                sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
             }
         }
     }
     
+    /**
+     * Get the associations between schools and sections
+     */
     private void getSchoolSectionsMappings(List<GenericEntity> sections,
                                            String token,
                                            Map<String, GenericEntity> schoolMap,
@@ -338,19 +397,20 @@ public class LiveAPIClient implements APIClient {
             //       reference from the section entity. This "parseId(response.getLink()" expression
             //       below should then be replaced by looking up the schoolReferenceId in the section entity
             //       (refer to ed-fi).  
-            String url = Constants.API_SERVER_URI + "/section-school-associations/" + section.get(Constants.ATTR_ID) + "/targets";
+            String url = SECTION_SCHOOL_ASSOC_URL + section.get(Constants.ATTR_ID) + TARGETS;
             List<GenericEntity> responses = createEntitiesFromAPI(url, token);
             if (responses.size() > 0) {
                 GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity school = getSchool(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
+                GenericEntity school = getSchool(parseId(response.getMap(Constants.ATTR_LINK)), token);
                 if (!schoolMap.containsKey(school.get(Constants.ATTR_ID))) {
-                    schoolMap.put((String) (school.get(Constants.ATTR_ID)), school);
+                    schoolMap.put(school.getString(Constants.ATTR_ID), school);
                 }
-                sectionIDToSchoolIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (school.get(Constants.ATTR_ID)));
+                sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID), school.getString(Constants.ATTR_ID));
             }
         }
     }
-        
+    
+    
     private String getUsername() {
         return SecurityUtil.getPrincipal().getUsername().replace(" ", "");
     }
@@ -382,7 +442,7 @@ public class LiveAPIClient implements APIClient {
      * @return entityList
      *         - the generic entity list
      */
-    public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
+    private List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         // Parse JSON
@@ -395,4 +455,16 @@ public class LiveAPIClient implements APIClient {
         return entityList;
     }
 
+
+    /**
+     * Getter and Setter used by Spring to instantiate the live/test api class
+     * @return
+     */
+    public RESTClient getRestClient() {
+        return restClient;
+    }
+    public void setRestClient(RESTClient restClient) {
+        this.restClient = restClient;
+    }
+    
 }

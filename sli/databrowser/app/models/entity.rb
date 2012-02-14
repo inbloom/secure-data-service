@@ -37,7 +37,11 @@ class Entity < SessionResource
     type_split = type.split '/'
     temp_hash = hash
     type_split.each do |split|
-      temp_hash = temp_hash[split]
+      if temp_hash.is_a?(Array)
+        temp_hash = temp_hash.first[split]
+      else
+        temp_hash = temp_hash[split]
+      end
     end
     temp_hash
   end

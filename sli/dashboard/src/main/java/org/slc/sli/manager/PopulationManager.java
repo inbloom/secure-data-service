@@ -103,7 +103,7 @@ public class PopulationManager {
 
         // Initialize student summaries
         for (GenericEntity studentSummary : studentSummaries) {
-            String id = (String) studentSummary.get(Constants.ATTR_ID);
+            String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_ASSESSMENTS, studentAssessmentMap.get(id));
         }
