@@ -286,7 +286,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="objectiveAssessment" type="reference"
+				<xs:element name="objectiveAssessment" type="objectiveAssessment"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>This entity represents subtests that assess specific learning objectives. 
