@@ -12,8 +12,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.OAuth2ProviderTokenServices;
-import org.springframework.security.oauth2.provider.token.RandomValueOAuth2ProviderTokenServices;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -49,11 +47,11 @@ import org.slc.sli.domain.EntityRepository;
  * 
  * @author shalka
  */
-public class TokenManager extends RandomValueOAuth2ProviderTokenServices
-        implements OAuth2ProviderTokenServices {
+public class TokenManager {//extends RandomValueOAuth2ProviderTokenServices
+        //implements OAuth2ProviderTokenServices {
     
     @Autowired
-    EntityRepository repo;
+    private EntityRepository repo;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -173,8 +171,8 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
     protected void removeRefreshToken(String tokenValue) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
         for (Entity cur : results) {
-            cur.getBody().put("refresh_token", null);
-            repo.update("authorizedSessions", cur);
+            cur.getBody().remove("refresh_token");
+            service.update(cur.getEntityId(), (EntityBody) cur.getBody());
         }
     }
 
@@ -202,4 +200,8 @@ public class TokenManager extends RandomValueOAuth2ProviderTokenServices
         this.service = service;
     }
 
+    //Injector 
+    public void setEntityRepository(EntityRepository repo) {
+        this.repo = repo;
+    }
 }
