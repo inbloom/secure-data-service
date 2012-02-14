@@ -270,9 +270,7 @@ end
 #       all these tests to fail
 ############################################################
 desc "Run API Selenium Tests"
-task :apiSeleniumTests do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiSelenium")
+task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -280,6 +278,17 @@ task :apiSeleniumTests do
     raise "Tests have failed"
   end
 end
+
+desc "Run Admin-Tools Selenium Tests"
+task :adminToolsTests => [:realmInit] do
+  runTests("test/features/admintools")
+end
+
+desc "Run Dataprowler Selenium Tests"
+task :databrowserTests => [:realmInit] do
+  runTests("test/features/databrowser")
+end
+
 ############################################################
 # API Selenium tests end
 ############################################################
