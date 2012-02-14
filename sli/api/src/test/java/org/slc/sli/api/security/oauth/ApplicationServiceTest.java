@@ -66,12 +66,12 @@ public class ApplicationServiceTest {
 
         Response resp = resource.createApplication(app);
         assertEquals(STATUS_CREATED, resp.getStatus());
-       
         assertTrue("Client id set", app.get("client_id").toString().length() == 10);
         assertTrue("Client secret set", app.get("client_secret").toString().length() == 48);
-        
+
         EntityBody body = (EntityBody) resp.getEntity();
         assertTrue("Making sure response contains client_id", body.containsKey("client_id"));
+        assertTrue("Making sure response contains client_secret", body.containsKey("client_secret"));
     }
     
     
