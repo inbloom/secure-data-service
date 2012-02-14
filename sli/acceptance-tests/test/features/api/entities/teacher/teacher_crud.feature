@@ -34,7 +34,7 @@ Scenario: Read a teacher by ID in JSON format
    Given format "application/json"
    When I navigate to GET "/teachers/<'Macey' ID>"
    Then I should receive a return code of 200
-      And the "name" should be "Macey" "" "Finch"
+      And the "name" should be "Macey" "Mae" "Finch"
       And the "sex" should be "Female"
       And the "birthDate" should be "1956-08-14"
       And the "yearsOfPriorTeachingExperience" should be "22"
