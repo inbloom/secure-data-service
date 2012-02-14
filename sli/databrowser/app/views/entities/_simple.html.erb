@@ -1,11 +1,8 @@
 <%= javascript_include_tag :jExpand %>
 <table id="simple">
 	<tr>
-		<% entity.each do |single| %>
-			<% simple = single[:simple] %>
-			<% simple.keys do |header| %>
-				<th><%= t(header) %></th>
-			<%end%>
+		<% entity.first[:simple].keys.each do |header| %>
+			<th><%= t(header) %></th>
 		<%end%>
 	</tr>
 	<% entity.each do |entity| %>
@@ -15,8 +12,8 @@
 			<td><%= value %>
 		<% end %>
 		</tr>
-		<tr colspan=<%= "#{1 + single.keys.count}" %>>
-			<td> <%= render :partial => "detail", :locals => {:entity => entity}%></td>
+		<tr >
+			<td colspan=<%= "#{single.keys.size}" %>> <%= render :partial => "detail", :locals => {:entity => entity}%></td>
 		</tr>
 	<%end%>
 </table>
@@ -24,6 +21,14 @@
 <script type="text/javascript" charset="utf-8">
 	jQuery(document).ready(function() {
 		jQuery.noConflict();
-		jQuery('#simple').jExpand();
+		// jQuery('#simple').jExpand();
+		jQuery("#simple tr:odd").addClass("odd");
+		        jQuery("#simple tr:not(.odd)").hide();
+		        jQuery("#simple tr:first-child").show();
+		        
+		        jQuery("#simple tr.odd").click(function(){
+		            jQuery(this).next("tr").slideToggle();
+		            // $(this).find(".arrow").toggleClass("up");
+		        });
 	});
 </script>

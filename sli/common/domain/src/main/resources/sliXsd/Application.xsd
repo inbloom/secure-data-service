@@ -53,7 +53,7 @@
    
    <xs:complexType name="developer_info">
       <xs:sequence>
-         <xs:element name="company" type="xs:string" minOccurs="1"/>
+         <xs:element name="organization" type="xs:string" minOccurs="1"/>
          <xs:element name="license_acceptance" type="xs:boolean" minOccurs="1"/>
       </xs:sequence>
    </xs:complexType>

@@ -89,23 +89,23 @@ public class PopulationManager {
         // Initialize student programs
         Map studentProgramMap = new HashMap<String, Object>();
         for (GenericEntity studentProgram : studentPrograms) {
-            List<String> programs = (List<String>) studentProgram.get("programs");            
-            studentProgramMap.put(studentProgram.get("studentId"), programs);
+            List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);            
+            studentProgramMap.put(studentProgram.get(Constants.ATTR_STUDENT_ID), programs);
         }
 
         // Initialize student assessments
         Map studentAssessmentMap = new HashMap<String, Object>();
         for (GenericEntity studentAssessment : studentAssessments) {
-            String assessmentName = (String) studentAssessment.get("assessmentName");
-            studentAssessment.put("assessmentFamily", this.getAssessmentFamilyMap().get(assessmentName));
-            studentAssessmentMap.put(studentAssessment.get("studentId"), studentAssessment);
+            String assessmentName = (String) studentAssessment.get(Constants.ATTR_ASSESSMENT_NAME);
+            studentAssessment.put(Constants.ATTR_ASSESSMENT_FAMILY, this.getAssessmentFamilyMap().get(assessmentName));
+            studentAssessmentMap.put(studentAssessment.get(Constants.ATTR_STUDENT_ID), studentAssessment);
         }
 
         // Initialize student summaries
         for (GenericEntity studentSummary : studentSummaries) {
-            String id = (String) studentSummary.get("id");
-            studentSummary.put("programs", studentProgramMap.get(id));
-            studentSummary.put("assessments", studentAssessmentMap.get(id));
+            String id = (String) studentSummary.get(Constants.ATTR_ID);
+            studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
+            studentSummary.put(Constants.ATTR_ASSESSMENTS, studentAssessmentMap.get(id));
         }
         
         return studentSummaries;
@@ -121,7 +121,7 @@ public class PopulationManager {
     public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
         
         // extract the studentInfo data fields
-        List<Field> dataFields = ConfigUtil.getDataFields(config, "studentInfo");
+        List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_STUDENT_INFO);
         
         // call the entity manager
         List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
@@ -193,35 +193,6 @@ public class PopulationManager {
         return Arrays.asList(metaData);    
     }
 
-    
-    public static void main(String[] arguments) {
-        
-        log.info("Starting PopulationManager...");
-        
-        try {
-            String token = "rbraverman";
-            
-            EntityManager entityManager = new EntityManager();
-            
-            PopulationManager populationManager = new PopulationManager();
-            populationManager.setEntityManager(entityManager);
-            populationManager.init();
-            
-            log.info("Building Student Summaries...");
-
-            List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(token, null);
-            
-            log.info("Building Student Summaries Again...");
-
-            studentSummaries = populationManager.getStudentSummaries(token, null);
-            
-        } catch (Exception exception) {
-            log.error(exception.getMessage());
-        }
-        
-        log.info("Finished PopulationManager.");
-        
-    }
     
     public EntityManager getEntityManager() {
         return this.entityManager;

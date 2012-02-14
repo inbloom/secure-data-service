@@ -148,6 +148,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "nameOfInstitution" should be "school name"
       And "stateOrganizationId" should be "12345678"
       And "gradesOffered" should contain "First_grade" and "Second_grade"
+      And "entityType" should be "school"
       And there should be no other contents in the response body other than links
 
 Scenario: Given a school entity with no associations, when a GET is performed with an association id, an empty collection should be returned (not 404)

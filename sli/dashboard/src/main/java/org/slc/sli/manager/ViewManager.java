@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  * Handles the logic behind filtering view configurations
@@ -40,8 +41,12 @@ public class ViewManager extends Manager {
 
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
-                    Integer gradeValue = gradeValues.get(student.get("cohortYear"));
+                    Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));
 
+                    // On the live api, "cohortYear" is apparently not an integer but an array 
+                    // I'll leave it for you guys to figure out what's the right way to handle this.
+                    if (gradeValue == null) { applicableViewConfigs.add(viewConfig); break; }
+                    
                     if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
                     {
                         applicableViewConfigs.add(viewConfig);

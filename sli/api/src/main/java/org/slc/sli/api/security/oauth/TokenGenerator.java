@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
 import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * 
@@ -10,6 +11,8 @@ import java.security.SecureRandom;
 public class TokenGenerator {
 
     private static char[] validChars = null;
+    
+    private static Random random = new SecureRandom();
 
     static {
         validChars = new char[62];
@@ -31,11 +34,17 @@ public class TokenGenerator {
 
     }
 
-    public static String generateToken(int len) {
-        SecureRandom rand = new SecureRandom();
-        StringBuffer id = new StringBuffer(len);
-        for (int i = 0; i < len; i++) {
-            id.append(validChars[rand.nextInt(validChars.length)]);
+    /**
+     * Generates a random string containing characters a-z, A-Z, 0-9
+     * 
+     * @param length length of string
+     * @return a securely random string
+     */
+    public static String generateToken(int length) {
+        
+        StringBuffer id = new StringBuffer(length);
+        for (int i = 0; i < length; i++) {
+            id.append(validChars[random.nextInt(validChars.length)]);
         }
         return id.toString();
     }

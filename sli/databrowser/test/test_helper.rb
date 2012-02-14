@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'simplecov-rcov'
+
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.start 'rails'
 
@@ -32,9 +33,10 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/students/1", {"Accept" => "application/json"}, @student_fixtures['one'].to_json
       mock.get "/api/rest/students/2/targets", {"Accept" => "application/json"}, @student_fixtures['two'].to_json
       
-      mock.get "/api/rest/teacher-school-associations/1", {"Accept" => "application/json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
+      mock.get "/api/rest/teacher-school-associations/1", {"Accept" => "application/vnd.slc.full+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
             
-      mock.get "/api/rest/system/session/check", {"Accept" => "application/json"}, {'name' => "Peter Griffin"}.to_json
+      mock.get "/api/rest/system/session/check", {"Accept" => "application/json"}, {'full_name' => "Peter Griffin"}.to_json
+      mock.get "/api/rest/system/session/check", {"Accept" => "application/json", "sessionId" => "Waffles"}, {'full_name' => "Peter Griffin"}.to_json
     end
   end
 end
