@@ -26,8 +26,8 @@ public class GenericEntity extends LinkedHashMap<String, Object> {
         return (String) (get(key));
     }
     
-    public GenericEntity getMap(String key) {
-        return (GenericEntity) (get(key));    
+    public Map getMap(String key) {
+        return (Map) (get(key));    
     }
     
     public List getList(String key) {
