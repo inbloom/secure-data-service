@@ -5,14 +5,24 @@ student:
     - id
     - name/firstName
     - name/lastSurname
+    - studentUniqueStateId
+    
 teacher:
     - id
-    - sex
+    - staffUniqueStateId
     - name/firstName
     - name/lastSurname
     
 school:
     - id
     - nameOfInstitution
+    - stateOrganizationId
     #This is actually an array.
-    # - address/city
+    - address/city
+    
+section:
+    - uniqueSectionCode
+    - educationalEnvironment
+    - availableCredit
+    
+

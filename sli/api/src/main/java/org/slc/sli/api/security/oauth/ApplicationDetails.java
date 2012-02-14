@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.provider.ClientDetails;
  * TODO write real javadoc
  *
  */
+@SuppressWarnings("serial")
 public class ApplicationDetails implements ClientDetails {
     
     private String clientId;
@@ -150,7 +151,7 @@ public class ApplicationDetails implements ClientDetails {
         this.myAuthorities = newGrantedAuthorityList;
     }
 
-    //TODO: Add @Override annotation once we flip switch on M5
+    @Override
     public List<String> getResourceIds() {
         //apidocs say to return empty list to ignore resource checks
         return new ArrayList<String>();
