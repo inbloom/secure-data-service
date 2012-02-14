@@ -143,7 +143,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- 
+
 	<xs:element name="courseSessionAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
@@ -417,7 +417,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-<!-- 
+
 	<xs:element name="studentSectionAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the course sections a
@@ -490,7 +490,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
 <!-- 	<xs:element name="studentAcademicRecordsAssociation">
 		<xs:annotation>
 			<xs:documentation>This association contains the cumulative record of
