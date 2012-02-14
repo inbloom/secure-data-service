@@ -204,6 +204,9 @@
     <jb:value data="Student/Race/RacialCategory" />
   </jb:bean>
 
+  <jb:bean beanId="teacherRaceItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value data="Teacher/Race/RacialCategory" />
+  </jb:bean>
 
   <!-- StudentCharacteristicsType -->
   <jb:bean beanId="studentCharacteristicTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
@@ -634,7 +637,7 @@
     <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
     <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" />
     <jb:value property="oldEthnicity" data="OldEthnicity" />
-    <jb:value property="race" data="Race/RacialCategory" />
+    <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
     <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
     <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience" decoder="Integer" />
     <jb:value property="yearsOfPriorTeachingExperience" data="YearsOfPriorTeachingExperience" decoder="Integer" />
@@ -717,13 +720,18 @@
   </jb:bean>
   <jb:bean beanId="teacherCredentialType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials">
     <jb:value property="credentialType" data="Credentials/CredentialType" />
-    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptor" />
+    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptorArray" />
     <jb:value property="level" data="Credentials/Level" />
     <jb:value property="teachingCredentialType" data="Credentials/TeachingCredentialType" />
     <jb:value property="credentialIssuanceDate" data="Credentials/CredentialIssuanceDate" />
     <jb:value property="credentialExpirationDate" data="Credentials/CredentialExpirationDate" />
     <jb:value property="teachingCredentialBasis" data="Credentials/TeachingCredentialBasis" />
   </jb:bean>
+  
+  <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
+  	<jb:wiring beanIdRef="teacherCredentialFieldDescriptor" />
+  </jb:bean>
+  
   <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
     <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
     <jb:value property="description" data="Credentials/CredentialField/Description" />

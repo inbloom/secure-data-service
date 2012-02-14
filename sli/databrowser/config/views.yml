@@ -14,4 +14,5 @@ teacher:
 school:
     - id
     - nameOfInstitution
-    - address/city
+    #This is actually an array.
+    # - address/city
