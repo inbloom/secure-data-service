@@ -286,7 +286,7 @@ end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
-  runTests("test/features/admintools")
+  runTests("test/features/databrowser")
 end
 
 ############################################################
