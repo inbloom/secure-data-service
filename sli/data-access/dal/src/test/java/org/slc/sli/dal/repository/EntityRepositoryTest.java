@@ -134,7 +134,6 @@ public class EntityRepositoryTest {
         body3.put("firstName", "Mary");
         body4.put("firstName", "Suzy");
         
-        
         // save entities
         Entity student1 = repository.create("student", body1);
         Entity student2 = repository.create("student", body2);
@@ -234,7 +233,6 @@ public class EntityRepositoryTest {
         // test save
         Entity saved = repository.create("student", student);
         
-        
         DateTime created = new DateTime(saved.getMetaData().get(EntityMetadataKey.CREATED.getKey()));
         DateTime updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
         
@@ -242,7 +240,10 @@ public class EntityRepositoryTest {
         
         saved.getBody().put("cityOfBirth", "Evanston");
 
-        Thread.sleep(2);	// Needs to be here to prevent cases where code execution is so fast, there is no difference between create/update times
+        // Needs to be here to prevent cases where code execution is so fast, there
+        // is no difference between create/update times
+        Thread.sleep(2);
+        
         repository.update("student", saved);
         
         updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
