@@ -132,12 +132,15 @@
   </jb:bean>
   <jb:bean beanId="teacherCredentialType" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="credentialType" data="Credentials_CredentialType" />
-    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptor" />
+    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptorArray" />
     <jb:value property="level" data="Credentials_Level" />
     <jb:value property="teachingCredentialType" data="Credentials_TeachingCredentialType" />
     <jb:value property="credentialIssuanceDate" data="Credentials_CredentialIssuanceDate" />
     <jb:value property="credentialExpirationDate" data="Credentials_CredentialExpirationDate" />
     <jb:value property="teachingCredentialBasis" data="Credentials_TeachingCredentialBasis" />
+  </jb:bean>
+  <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList" createOnElement="csv-record">
+  	<jb:wiring beanIdRef="teacherCredentialFieldDescriptor" />
   </jb:bean>
   <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="csv-record">
     <jb:value property="codeValue" data="Credentials_CredentialField_CodeValue" />

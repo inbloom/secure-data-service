@@ -243,7 +243,11 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "credentialIssuanceDate", "2005-09-25");
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "credentialExpirationDate", "2013-09-25");
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "teachingCredentialBasis", "Doctoral degree");
-        Map credentialFieldMap = (Map) credentialsMap.get("credentialField");
+        List credentialFieldList = (List) credentialsMap.get("credentialField");
+        assertNotNull(credentialFieldList);
+        assertEquals(1, credentialFieldList.size());
+        Map credentialFieldMap = (Map) credentialFieldList.get(0);
+        assertNotNull(credentialFieldMap);
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "codeValue", "code value 123");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "description", "Computer Science certificate");
         
