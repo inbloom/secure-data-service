@@ -1,0 +1,37 @@
+<InterchangeStudentAssessment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentAssessment.xsd">
+    <StudentAssessment>
+        <AdministrationDate>1999-07-12</AdministrationDate>
+        <AdministrationEndDate>2010-06-14</AdministrationEndDate>
+        <SerialNumber>231101422</SerialNumber>
+        <AdministrationLanguage>English</AdministrationLanguage>
+        <AdministrationEnvironment>School</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Presentation</SpecialAccommodation>
+        </SpecialAccommodations>
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Absent</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Pass-fail">
+            <Result>Pass</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>12</CodeValue>
+            <Description>performancelvldescription</Description>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>108000601</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="School" AssigningOrganizationCode="orgcode" >
+                    <ID>234000601</ID>
+                </AssessmentIdentificationCode>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+</InterchangeStudentAssessment>
