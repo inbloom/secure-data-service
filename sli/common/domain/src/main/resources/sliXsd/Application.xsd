@@ -11,7 +11,7 @@
          <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="1" />
             <xs:element name="description" type="xs:string" minOccurs="1" />
-            <xs:element name="client_type" type="xs:string" minOccurs="1">
+            <xs:element name="client_type" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:enumeration value="PUBLIC"/>
@@ -19,7 +19,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="scope" type="xs:string" minOccurs="1">
+			<xs:element name="scope" minOccurs="1">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:enumeration value="ENABLED"/>
@@ -27,7 +27,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-			<xs:element name="redirect_uri" type="xs:string" minOccurs="1">
+			<xs:element name="redirect_uri" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern value="https://.*"/>
@@ -36,7 +36,7 @@
 			</xs:element>
 			
             <!--  These two are generated during creation -->
-            <xs:element name="client_id" type="xs:string" minOccurs="1">
+            <xs:element name="client_id" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern value="([a-zA-Z0-9])*"/>
@@ -44,7 +44,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-            <xs:element name="client_secret" type="xs:string" minOccurs="1">
+            <xs:element name="client_secret" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern value="([a-zA-Z0-9])*"/>
