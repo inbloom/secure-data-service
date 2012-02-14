@@ -40,7 +40,7 @@ public class ConfigPersistor {
             return null;
         }
         
-        String configStr = (String) (customData.get(0).get(Constants.ATTR_CUSTOM_DATA));
+        String configStr = customData.get(0).getString(Constants.ATTR_CUSTOM_DATA);
         
         // convert data block to POJO
         ViewConfigSet configSet = ConfigUtil.fromXMLString(configStr);
@@ -65,7 +65,7 @@ public class ConfigPersistor {
             return null;
         }
         
-        String configStr = (String) (customData.get(0).get(Constants.ATTR_CUSTOM_DATA));
+        String configStr = customData.get(0).getString(Constants.ATTR_CUSTOM_DATA);
         
         // convert data block to POJO
         Gson gson = new Gson();
