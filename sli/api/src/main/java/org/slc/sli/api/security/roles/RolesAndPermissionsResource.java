@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  * @see org.slc.sli.common.domain.enums.Right
  * @see org.slc.sli.api.security.roles.Role
  */
-@Path("/admin/roles")
+@Path("/admin")
 @Component
 @Scope("request")
 @Produces("application/json")
@@ -44,7 +44,7 @@ public class RolesAndPermissionsResource {
      * @return an object that is technically a list of maps that are the roles
      */
     @GET
-    @Path("/")
+    @Path("/roles")
     @PreAuthorize("hasRole('READ_ROLES')")
     public List<Map<String, Object>> getRolesAndPermissions() {
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
@@ -65,7 +65,7 @@ public class RolesAndPermissionsResource {
      * @see org.slc.sli.common.domain.enums.Right
      */
     @POST
-    @Path("/")
+    @Path("/roles")
     public boolean createRoleWithPermission(String name, List<String> rights) {
         // TODO prevent default role manipulation
         return roleAccessor.addRole(RoleBuilder.makeRole(name).addRights(rights).build());
