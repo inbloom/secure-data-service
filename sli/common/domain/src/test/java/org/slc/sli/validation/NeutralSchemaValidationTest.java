@@ -20,10 +20,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.schema.NeutralSchemaValidator;
 
 /**
- * Tests sample fixture data against Neutral schema for Students.
- *
+ * Tests sample fixture data against Neutral schema.
+ * 
  * @author Dong Liu <dliu@wgen.net>
- *
+ * 
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,51 +31,92 @@ import org.slc.sli.validation.schema.NeutralSchemaValidator;
 public class NeutralSchemaValidationTest {
     @Autowired
     private SchemaRepository schemaRepo;
-
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSchool() throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/school_fixture_neutral.json"));
-        String school;
-        while ((school = reader.readLine()) != null) {
-            ObjectMapper oRead = new ObjectMapper();
-            Map<String, Object> obj = oRead.readValue(school, Map.class);
-            mapValidation((Map<String, Object>) obj.get("body"), "school");
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("src/test/resources/school_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "school");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudent() throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/student_fixture_neutral.json"));
-        String school;
-        while ((school = reader.readLine()) != null) {
-            ObjectMapper oRead = new ObjectMapper();
-            Map<String, Object> obj = oRead.readValue(school, Map.class);
-            mapValidation((Map<String, Object>) obj.get("body"), "student");
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("src/test/resources/student_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "student");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
     }
     
     @SuppressWarnings("unchecked")
     @Test
     public void testValidAssessment() throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/assessment_fixture_neutral.json"));
-        String school;
-        while ((school = reader.readLine()) != null) {
-            ObjectMapper oRead = new ObjectMapper();
-            Map<String, Object> obj = oRead.readValue(school, Map.class);
-            mapValidation((Map<String, Object>) obj.get("body"), "assessment");
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("src/test/resources/assessment_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "assessment");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
     }
-
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStudentAssessmentAssociation() throws Exception {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/student_assessment_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+    
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
         validator.setSchemaRegistry(schemaRepo);
-
+        
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
         when(e.getType()).thenReturn(schemaName);
-
+        
         try {
             assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {

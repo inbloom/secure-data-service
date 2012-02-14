@@ -47,7 +47,7 @@ public class NumberUtils {
      */
     public static Integer toInteger(Object data) {
         if (data instanceof Integer) {
-            return ((Integer) data).intValue();
+            return (Integer) data;
         }
         return null;
     }

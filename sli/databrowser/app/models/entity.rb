@@ -4,7 +4,7 @@ class Entity < SessionResource
   def self.get_simple_and_complex(parameters)
     base = get(parameters)
     entity = []
-    if base.is_a?(Array)
+    if base.is_a?(Array) and !base.empty?
       type = nil
       return entity if base.first.nil?
       type = VIEW_CONFIG[base.first['entityType']] if base.first.has_key? 'entityType'
@@ -37,7 +37,11 @@ class Entity < SessionResource
     type_split = type.split '/'
     temp_hash = hash
     type_split.each do |split|
-      temp_hash = temp_hash[split]
+      if temp_hash.is_a?(Array)
+        temp_hash = temp_hash.first[split]
+      else
+        temp_hash = temp_hash[split]
+      end
     end
     temp_hash
   end
@@ -45,7 +49,7 @@ class Entity < SessionResource
   def self.get_basic_types(hash)
     types = []
     hash.keys.each do |key|
-      if !hash[key].is_a?(Hash) and !hash[key].is_a?(Array)
+      if !hash[key].is_a?(Hash) and !hash[key].is_a?(Array) and key != 'entityType'
         types.push(key)
       end
     end

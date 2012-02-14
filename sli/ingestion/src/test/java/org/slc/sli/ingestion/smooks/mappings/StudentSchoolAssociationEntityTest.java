@@ -64,7 +64,7 @@ public class StudentSchoolAssociationEntityTest {
         Assert.assertEquals("2011-09-12", entity.get("exitWithdrawDate"));
         Assert.assertEquals("End of school year", entity.get("exitWithdrawType"));
         Assert.assertEquals("true", entity.get("schoolChoiceTransfer").toString());
-        List educationalPlans = (List) record.getAttributes().get("educationalPlans");
+        List<?> educationalPlans = (List<?>) record.getAttributes().get("educationalPlans");
         Assert.assertTrue(educationalPlans != null);
 
         Assert.assertEquals("Full Time Employment", educationalPlans.get(0));

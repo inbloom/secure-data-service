@@ -22,14 +22,14 @@ Given format "application/json"
 	And "studentId" is "<'Jane Doe' ID>"
 	And "administrationDate" is "2011-12-01"
 	And "scoreResults" is "85"
-	And "performanceLevel" is "3"
+	And "performanceLevelDescriptors" is "At or Above Benchmark"
 When I navigate to POST "/student-assessment-associations"
 Then I should receive a return code of 201
 	And I should receive an ID for the newly created student-assessment-association
 	 When I navigate to GET "/student-assessment-associations/<'newly created student assessment association' ID>"
     Then the "administrationDate" should be "2011-12-01"
 	And the "scoreResults" should be "85"
-	And the "performanceLevel" should be "3"
+	And the "performanceLevelDescriptors" should be "At or Above Benchmark"
 
 
 Scenario: Read a student-assessment-association
@@ -41,9 +41,9 @@ Then I should receive a return code of 200
 	And I should receive a link named "getAssessment" with URI "/assessments/<'Writing Achievement Assessment Test' ID>"
 	And the "administrationDate" should be "2011-09-15"
 	And the "administrationEndDate" should be "2011-12-15"
-	And the "retestIndicator" should be "1"
+	And the "retestIndicator" should be "1st Retest"
 	And the "scoreResults" should be "85"
-	And the "performanceLevel" should be "3"
+	And the "performanceLevelDescriptors" should be "At or Above Benchmark"
 	
 	
 Scenario: Reading a student-assessment-association for a student
@@ -71,12 +71,12 @@ Given  format "application/json"
 When I navigate to GET "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>"
 	Then  the "scoreResults" should be "85"
 When I set the "scoreResults" to "95" 
-	And I set the "performanceLevel" to "4"
+	And I set the "performanceLevelDescriptors" to "At Benchmark"
 	And I navigate to PUT "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>"
 Then I should receive a return code of 204
 When I navigate to GET "/student-assessment-associations/<Student 'Jane Doe' and AssessmentTitle 'Mathematics Achievement  Assessment Test' ID>"
 	Then the "scoreResults" should be "95"
-	And the "performanceLevel" should be "4"
+	And the "performanceLevelDescriptors" should be "At Benchmark"
 
 
 Scenario: Delete a student-assessment-association

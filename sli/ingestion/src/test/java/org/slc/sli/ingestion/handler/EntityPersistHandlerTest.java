@@ -46,6 +46,8 @@ public class EntityPersistHandlerTest {
 
     private static final String STUDENT_ID = "765432";
     private static final String SCHOOL_ID = "654321";
+    private static final String INTERNAL_STUDENT_ID = "0x" + STUDENT_ID;
+    private static final String INTERNAL_SCHOOL_ID = "0x" + SCHOOL_ID;
     private static final String BAD_STUDENT_ID = "234567";
     private static final String REGION_ID = "dc=slidev,dc=net";
     private static final String METADATA_BLOCK = "metaData";
@@ -77,8 +79,8 @@ public class EntityPersistHandlerTest {
 
         // Student-School Association search.
         studentSchoolAssociationFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
-        studentSchoolAssociationFilterFields.put("body.studentId", STUDENT_ID);
-        studentSchoolAssociationFilterFields.put("body.schoolId", SCHOOL_ID);
+        studentSchoolAssociationFilterFields.put("body.studentId", INTERNAL_STUDENT_ID);
+        studentSchoolAssociationFilterFields.put("body.schoolId", INTERNAL_SCHOOL_ID);
         when(mockedEntityRepository.findByPaths("studentSchoolAssociation", studentSchoolAssociationFilterFields))
                 .thenReturn(studentSchoolAssociationFound);
 
@@ -162,7 +164,7 @@ public class EntityPersistHandlerTest {
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
-        foundStudent.setEntityId("0x765432");
+        foundStudent.setEntityId(INTERNAL_STUDENT_ID);
 
         LinkedList<Entity> studentList = new LinkedList<Entity>();
         studentList.add(foundStudent);
@@ -175,7 +177,7 @@ public class EntityPersistHandlerTest {
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
-        foundSchool.setEntityId("0x654321");
+        foundSchool.setEntityId(INTERNAL_SCHOOL_ID);
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
@@ -199,7 +201,7 @@ public class EntityPersistHandlerTest {
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
-        foundStudent.setEntityId("0x765432");
+        foundStudent.setEntityId(INTERNAL_STUDENT_ID);
 
         LinkedList<Entity> studentList = new LinkedList<Entity>();
         studentList.add(foundStudent);
@@ -212,7 +214,7 @@ public class EntityPersistHandlerTest {
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
-        foundSchool.setEntityId("0x654321");
+        foundSchool.setEntityId(INTERNAL_SCHOOL_ID);
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
@@ -236,7 +238,7 @@ public class EntityPersistHandlerTest {
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
-        foundStudent.setEntityId("0x765432");
+        foundStudent.setEntityId(INTERNAL_STUDENT_ID);
 
         LinkedList<Entity> studentList = new LinkedList<Entity>();
         studentList.add(foundStudent);
@@ -249,7 +251,7 @@ public class EntityPersistHandlerTest {
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
-        foundSchool.setEntityId("0x654321");
+        foundSchool.setEntityId(INTERNAL_SCHOOL_ID);
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);

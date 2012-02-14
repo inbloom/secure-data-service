@@ -35,7 +35,9 @@ Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
     @fields = {}
   end
   if key == 'scoreResults'
-    @fields[key] = [Hash["assessmentReportingMethod"=>"Raw_score","result"=> value]]
+    @fields[key] = [Hash["assessmentReportingMethod"=>"Raw score","result"=> value]]
+  elsif key == 'performanceLevelDescriptors'
+    @fields[key]=[{"description" => value}]
   else
     @fields[key] = value
   end
@@ -89,6 +91,8 @@ end
 Then /^the "([^"]*)" should be "([^"]*)"$/ do |key,value|  
   if key == "scoreResults"
     assert(@result["scoreResults"][0]["result"]==value,"Expected #{key} not found in response")
+  elsif key == 'performanceLevelDescriptors'
+    assert(@result["performanceLevelDescriptors"][0]['description']==value,"Expected #{key} not found in response")
   elsif
   assert(@result[key]==value,"Expected #{key} not found in response")
   end

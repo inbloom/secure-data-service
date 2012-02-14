@@ -12,8 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -52,30 +52,27 @@ public class ApplicationService {
         setService(def.getService());
     }
 
-    // Injector
-    public void setStore(EntityDefinitionStore store) {
-        this.store = store;
-    }
-
-    // Injector
     public void setService(EntityService service) {
         this.service = service;
     }
 
     @POST
     public Response createApplication(EntityBody newApp) {
-        String newToken = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
-        while (isDuplicateToken(newToken)) {
-            newToken = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        while (isDuplicateToken(clientId)) {
+            clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
 
-        newApp.put("client_id", newToken);
-        newApp.put("client_secret",
-                TokenGenerator.generateToken(CLIENT_SECRET_LENGTH));
+        newApp.put("client_id", clientId);
+        
+        String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
+        newApp.put("client_secret", clientSecret);
         String id = service.create(newApp);
+        
         EntityBody resObj = new EntityBody();
-        resObj.put("client_id", newToken);
-        resObj.put("id", id);
+        resObj.put(id, id);
+        resObj.put("client_id", clientId);
+        resObj.put("client_secret", clientSecret);
         return Response.status(Status.CREATED).entity(resObj).build();
     }
 
@@ -109,10 +106,10 @@ public class ApplicationService {
     @GET
     @Path("{client_id}")
     public Response getApplication(@PathParam("client_id") String clientId) {
-        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
+        String uuid = lookupIdFromClientId(clientId);
 
-        for (String id : results) {
-            return Response.status(Status.OK).entity(service.get(id)).build();
+        if (uuid != null) {
+            return Response.status(Status.OK).entity(service.get(uuid)).build();
         }
 
         return Response.status(Status.NOT_FOUND).build();
@@ -122,13 +119,29 @@ public class ApplicationService {
     @DELETE
     @Path("{client_id}")
     public Response deleteApplication(@PathParam("client_id") String clientId) {
-        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
-
-        for (String id : results) {
-            service.delete(id);
+        
+        String uuid = lookupIdFromClientId(clientId);
+        if (uuid != null) {
+            service.delete(uuid);
             return Response.status(Status.NO_CONTENT).build();
         }
 
         return Response.status(Status.NOT_FOUND).build();
     }
+    
+    /**
+     * Since entries are keyed off a uuid instead of the client ID,
+     * we need to look up the uuid using the client id.
+     * 
+     * @param clientId
+     * @return a uuid, or null if not found
+     */
+    private String lookupIdFromClientId(String clientId) {
+        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
+        if (results.iterator().hasNext()) {
+            return results.iterator().next();
+        }
+        return null;
+    }
+
 }

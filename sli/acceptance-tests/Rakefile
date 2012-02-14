@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:studentIngestionTests, :schoolIngestionTests, :sectionIngestionTests, :studentSectionAssociationTests, :teacherSectionAssociationTests, :localEducationAgencyIngestionTests, :stateEducationAgencyIngestionTests, :educationOrganizationTests, :teacherIngestionTests, :teacherSchoolAssociationTests, :courseIngestionTests] do
+task :ingestionTests => [:ingestionDemoDataTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -132,60 +132,11 @@ task :ingestionTests => [:studentIngestionTests, :schoolIngestionTests, :section
   end
 end
 
-desc "Run Student Ingestion Tests"
-task :studentIngestionTests do
-  runTests("test/features/ingestion/features/student.feature")
+desc "Run Ingestion Demo Tests"
+task :ingestionDemoDataTest do
+  runTests("test/features/ingestion/features/ingestion_demo.feature")
 end
 
-desc "Run School Ingestion Tests"
-task :schoolIngestionTests do
-  runTests("test/features/ingestion/features/school.feature")
-end
-
-desc "Run Section Ingestion Tests"
-task :sectionIngestionTests do
-  runTests("test/features/ingestion/features/section.feature")
-end
-
-desc "Run Student Section Association Ingestion Tests"
-task :studentSectionAssociationTests do
-  runTests("test/features/ingestion/features/student_section_assocation.feature")
-end
-
-desc "Run Teacher Section Association Ingestion Tests"
-task :teacherSectionAssociationTests do
-  runTests("test/features/ingestion/features/teacher_section_assocation.feature")
-end
-
-desc "Run Teacher School Association Ingestion Tests"
-task :teacherSchoolAssociationTests do
-  runTests("test/features/ingestion/features/teacher_school_assocation.feature")
-end
-
-desc "Run Education Organizations Ingestion Tests"
-task :educationOrganizationTests do
-  runTests("test/features/ingestion/features/education_organization.feature")
-end
-
-desc "Run State Education Agency Ingestion Tests"
-task :stateEducationAgencyIngestionTests do
-  runTests("test/features/ingestion/features/stateEducationAgency.feature")
-end
-
-desc "Run Local Education Agency Ingestion Tests"
-task :localEducationAgencyIngestionTests do
-  runTests("test/features/ingestion/features/localEducationAgency.feature")
-end
-
-desc "Run Teacher Ingestion Tests"
-task :teacherIngestionTests do
-  runTests("test/features/ingestion/features/teacher.feature")
-end
-
-desc "Run Course Ingestion Tests"
-task :courseIngestionTests do
-  runTests("test/features/ingestion/features/course.feature")
-end
 ########
 ############################################################
 # Ingestion tests end
@@ -218,6 +169,9 @@ end
 
 desc "Run Section Tests"
 task :sectionTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("session", "session_fixture.json")
+  setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
 
@@ -316,9 +270,7 @@ end
 #       all these tests to fail
 ############################################################
 desc "Run API Selenium Tests"
-task :apiSeleniumTests do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiSelenium")
+task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -326,6 +278,17 @@ task :apiSeleniumTests do
     raise "Tests have failed"
   end
 end
+
+desc "Run Admin-Tools Selenium Tests"
+task :adminToolsTests => [:realmInit] do
+  runTests("test/features/admintools")
+end
+
+desc "Run Dataprowler Selenium Tests"
+task :databrowserTests => [:realmInit] do
+  runTests("test/features/databrowser")
+end
+
 ############################################################
 # API Selenium tests end
 ############################################################

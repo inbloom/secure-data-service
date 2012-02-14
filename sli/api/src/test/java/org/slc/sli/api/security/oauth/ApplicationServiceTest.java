@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -12,16 +13,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * 
@@ -31,24 +35,24 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
-        DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class ApplicationServiceTest {
-
+    
     @Autowired
     private ApplicationService resource;
-
+    
     private static final int STATUS_CREATED = 201;
     private static final int STATUS_DELETED = 204;
     private static final int STATUS_NOT_FOUND = 404;
     private static final int STATUS_FOUND = 200;
-
+    
     @Before
     public void setUp() throws Exception {
-
+        
     }
-
+    
     @Test
     public void testGoodCreate() {
         EntityService service = mock(EntityService.class);
@@ -60,15 +64,15 @@ public class ApplicationServiceTest {
         Mockito.when(
                 service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
                 .thenReturn(new ArrayList<String>());
-
+        
         Response resp = resource.createApplication(app);
         assertEquals(STATUS_CREATED, resp.getStatus());
-       
         assertTrue("Client id set", app.get("client_id").toString().length() == 10);
-        assertTrue("Client secrete set", app.get("client_secret").toString().length() == 48);
+        assertTrue("Client secret set", app.get("client_secret").toString().length() == 48);
         
         EntityBody body = (EntityBody) resp.getEntity();
         assertTrue("Making sure response contains client_id", body.containsKey("client_id"));
+        assertTrue("Making sure response contains client_secret", body.containsKey("client_secret"));
     }
     
     
@@ -78,6 +82,7 @@ public class ApplicationServiceTest {
         app.put("redirect_uri", "https://slidev.org");
         app.put("description", "blah blah blah");
         app.put("name", "TestApp");
+        app.put("scope", "ENABLED");
         return app;
     }
     
@@ -144,5 +149,49 @@ public class ApplicationServiceTest {
         Response resp = resource.getApplication("9999999999");
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
-
+    
+    @Test
+    public void testClientLookup() {
+        String clientId = "1234567890";
+        String uuid = "123";
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        ArrayList<String> existingEntitiesIds = new ArrayList<String>();
+        existingEntitiesIds.add(uuid);
+        Mockito.when(
+                service.list(0, 1, "client_id=" + clientId))
+                .thenReturn(existingEntitiesIds);
+        
+        EntityBody mockApp = getNewApp();
+        mockApp.put("client_id", clientId);
+        mockApp.put("id", uuid);
+        mockApp.put("client_secret", "ldkafjladsfjdsalfadsl");
+        Mockito.when(service.get(uuid)).thenReturn(mockApp);
+        
+        SLIClientDetailService detailService = new SLIClientDetailService();
+        detailService.setApplicationServer(resource);
+        ClientDetails details = detailService.loadClientByClientId(clientId);
+        assertNotNull(details);
+        assertNotNull("Checking for client id", details.getClientId());
+        assertNotNull("Checking for client secret", details.getClientSecret());
+        assertNotNull("Checking for redirect uri", details.getWebServerRedirectUri());
+        assertNotNull("Checking for scope", details.getScope());
+    }
+    
+    @Test(expected = OAuth2Exception.class)
+    public void testBadClientLookup() {
+        String clientId = "1234567890";
+        EntityService service = mock(EntityService.class);
+        resource.setService(service);
+        
+        //return empty list
+        Mockito.when(
+                service.list(0, 1, "client_id=" + clientId))
+                .thenReturn(new ArrayList<String>());
+        
+        SLIClientDetailService detailService = new SLIClientDetailService();
+        detailService.setApplicationServer(resource);
+        detailService.loadClientByClientId(clientId);
+    }
+    
 }

@@ -87,49 +87,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="specialAccommodationsType">
-		<xs:annotation>
-			<xs:documentation>The specific type of special variation used in how
-				an examination is presented, how it is administered, or how the test
-				taker is allowed to respond. This generally refers to changes that
-				do not substantially alter what the examination measures. The proper
-				use of accommodations does not substantially change academic level
-				or performance criteria.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="specialAccommodation" type="specialAccommodationItemType"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The specific type of special variation used in
-						how an examination is presented, how it is administered, or how
-						the test taker is allowed to respond. This generally refers to
-						changes that do not substantially alter what the examination
-						measures. The proper use of accommodations does not substantially
-						change academic level or performance criteria.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 
-	<xs:complexType name="linguisticAccommodationsType">
-		<xs:annotation>
-			<xs:documentation>Linguistic accommodations used with the student for
-				the test.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="linguisticAccommodation" type="linguisticAccommodationItemType"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Linguistic accommodations used with the student
-						for the test.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 
 	<xs:complexType name="scoreResult">
 		<xs:annotation>
@@ -306,11 +264,32 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="minRawScore" type="xs:int" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The minimum raw score achievable across all
+							assessment items that are correct and scored at the minimum.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="nomenclature" type="nomenclature"
 					minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Reflects the specific nomenclature used for
 							Assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="assessmentPeriodDescriptor" type="assessmentPeriodDescriptor"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="objectiveAssessment" type="objectiveAssessment"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>This entity represents subtests that assess specific learning objectives. 
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
@@ -336,11 +315,17 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="performanceLevels" type="description"
+					<xs:element name="performanceLevelDescriptors" type="performanceLevelDescriptor"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>The performance level(s) achieved for the
-								objective assessment.
+							<xs:documentation>This descriptor defines various levels or thresholds for performance on the assessment. 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="objectiveAssessment" type="objectiveAssessment"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This entity represents subtests that assess specific learning objectives. 
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -402,7 +387,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<!-- <xs:element name="studentAssessmentAssociation">
+	<xs:element name="studentAssessmentAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the analysis or scoring of a
 				student's response on an assessment. The analysis results in a value
@@ -455,8 +440,8 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="specialAccommodations" type="specialAccommodationsType"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="specialAccommodations" type="specialAccommodationItemType"
+				    minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The specific type of special variation used in
 							how an examination is presented, how it is administered, or how
@@ -475,8 +460,8 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="linguisticAccommodations" type="linguisticAccommodationsType"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="linguisticAccommodations" type="linguisticAccommodationItemType"
+				    minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Linguistic accommodations used with the student
 							for the test. For example:
@@ -533,11 +518,10 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="performanceLevels" type="description"
+				<xs:element name="performanceLevelDescriptors" type="performanceLevelDescriptor"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>The performance level(s) achieved for the
-							assessment.
+						<xs:documentation>This descriptor defines various levels or thresholds for performance on the assessment. 
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
@@ -574,7 +558,116 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
+	
+	<xs:complexType name="performanceLevelDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor defines various levels or thresholds for performance on the assessment.  </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="codeValue" type="codeValue" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A code or abbreviation that is used to refer to a Performance Level, </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="description">
+						<xs:annotation>
+							<xs:documentation>The description of the Performance Level, for example.
+									Passing
+									Standard
+									Commended
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="performanceBaseConversion" type="performanceBaseType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A conversion of the level to a standard set of performance levels.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="objectiveAssessment">
+		<xs:annotation>
+			<xs:documentation>This entity represents subtests that assess specific learning objectives.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="identificationCode" type="identificationCode">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="maxRawScore" type="xs:int" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The maximum raw score achievable across all assessment items that are correct and scored at the maximum.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="assessmentPerformanceLevel" type="assessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Definition of the performance levels and the associated cut scores.  Three styles are supported:
+							   1. Specification of performance level by min and max score
+							   2. Specification of performance level by cut score - min only
+							   3. Specification of performance level without any mapping to scores</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="percentOfAssessment" type="percent" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The percent of the assessment that tests this objective.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nomenclature" type="nomenclature" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reflects the specific nomenclature used for this level of ObjectiveAssessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="assessmentPeriodDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="codeValue" type="codeValue">
+						<xs:annotation>
+							<xs:documentation>A code or abbreviation that is used to refer to an Assessment Period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="description">
+						<xs:annotation>
+							<xs:documentation>The description of the Assessment Period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shortDescription" type="shortDescription" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A shortened description for reference.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="beginDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The first date the assessment is to be administered.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The last date the assessment is to be administered.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
 	<!-- <xs:element name="sectionAssessmentAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a section

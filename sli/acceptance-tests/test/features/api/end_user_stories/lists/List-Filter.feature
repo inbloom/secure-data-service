@@ -45,6 +45,6 @@ Scenario: As a teacher I want to see all my students in 3rd period Algebra II cl
 		  And filter by administrationDate is between "2011-01-01" and "2011-12-31"
 	      And filter by studentId is <'Suzy Queue' ID>
 	    Then I should find a ScoreResult is 89
-		  And I should find a PerformanceLevel is 3
+		  And I should find a performanceLevelDescriptors is "At or Above Benchmark"
 
 

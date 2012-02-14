@@ -1,7 +1,7 @@
 require "bundler/capistrano"
 
 set :application, "Identity Management Admin Tool"
-set :repository,  "git@github.com:WGEN-SLI/SLI.git"
+set :repository,  "git@git.slidev.org:sli/sli.git"
 set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
 set :user, "rails"
