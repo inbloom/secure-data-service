@@ -42,8 +42,11 @@ end
 # gem 'ruby-debug'
 
 # Lets use SimpleCov for Ruby > 1.9
-gem 'simplecov', :require=>false, :group=>:test
-gem 'simplecov-rcov', :require=>false, :group=>:test
+group :development, :test do
+	gem 'simplecov', :require=>false, :group=>:test
+	gem 'simplecov-rcov', :require=>false, :group=>:test
+	gem 'turn'
+end
 # gem 'rspec', :require=>false, :group=>:test
 # gem 'rspec-rails', :require=>false, :group=>:test
 # gem 'webrat', :require=>false, :group=>:test

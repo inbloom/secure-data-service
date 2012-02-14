@@ -20,10 +20,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.schema.NeutralSchemaValidator;
 
 /**
- * Tests sample fixture data against Neutral schema for Students.
- *
+ * Tests sample fixture data against Neutral schema.
+ * 
  * @author Dong Liu <dliu@wgen.net>
- *
+ * 
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,6 +65,19 @@ public class NeutralSchemaValidationTest {
             ObjectMapper oRead = new ObjectMapper();
             Map<String, Object> obj = oRead.readValue(school, Map.class);
             mapValidation((Map<String, Object>) obj.get("body"), "assessment");
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStudentAssessmentAssociation() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader(
+                "src/test/resources/student_assessment_association_fixture_neutral.json"));
+        String school;
+        while ((school = reader.readLine()) != null) {
+            ObjectMapper oRead = new ObjectMapper();
+            Map<String, Object> obj = oRead.readValue(school, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
         }
     }
 

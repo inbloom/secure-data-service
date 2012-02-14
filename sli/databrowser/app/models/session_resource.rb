@@ -1,8 +1,27 @@
+module ActiveResource
+  module Formats
+    module JsonFullFormat
+      def self.decode(json)
+        Formats.remove_root(ActiveSupport::JSON.decode(json))
+      end
+      def self.encode(hash, options = nil)
+        ActiveSupport::JSON.encode(hash, options)
+      end
+      def self.extension
+        "json"
+      end
+      def self.mime_type
+        "application/vnd.slc.full+json"
+      end
+    end
+  end
+end
+
 class SessionResource < ActiveResource::Base
   cattr_accessor :auth_id, :url_type
   Rails.logger.debug { "Session ID: #{@auth_id}" }
   Rails.logger.debug { "Entity Type: #{@url_type}" }
-  
+  self._format = ActiveResource::Formats::JsonFormat
   class << self
     
     def headers
@@ -37,4 +56,6 @@ class SessionResource < ActiveResource::Base
         something
       end
   end
+  
+
 end

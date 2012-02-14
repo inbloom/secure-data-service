@@ -2,9 +2,16 @@
 #Each key below is the key to be displayed for the simple view
 
 student:
+    - id
     - name/firstName
     - name/lastSurname
 teacher:
+    - id
     - sex
     - name/firstName
     - name/lastSurname
+    
+school:
+    - id
+    - nameOfInstitution
+    - address/city

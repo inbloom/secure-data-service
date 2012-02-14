@@ -53,6 +53,19 @@ public class QueryConverterTest {
                 "graduationPlan.totalCreditsRequired.creditType"));
         assertEquals("DOUBLE", queryConverter.findParamType("studentSchoolAssociation",
                 "graduationPlan.totalCreditsRequired.creditConversion"));
+        
+        // test assessment entity
+        assertEquals("STRING", queryConverter.findParamType("assessment", "assessmentTitle"));
+        assertEquals("TOKEN", queryConverter.findParamType("assessment", "academicSubject"));
+        assertEquals("TOKEN", queryConverter.findParamType("assessment", "assessmentCategory"));
+        assertEquals("TOKEN", queryConverter.findParamType("assessment", "contentStandard"));
+        assertEquals("INTEGER", queryConverter.findParamType("assessment", "version"));
+        
+        // test student assessment association
+        assertEquals("DATE", queryConverter.findParamType("studentAssessmentAssociation", "administrationDate"));
+        assertEquals("DATE", queryConverter.findParamType("studentAssessmentAssociation", "administrationEndDate"));
+        assertEquals("TOKEN", queryConverter.findParamType("studentAssessmentAssociation", "retestIndicator"));
+        assertEquals("STRING", queryConverter.findParamType("studentAssessmentAssociation", "scoreResults.result"));
 
     }
 
@@ -64,19 +77,17 @@ public class QueryConverterTest {
     }
 
     @Test(expected = QueryParseException.class)
-    @Ignore("need to be replaced with neutral schema")
+    @Ignore("remove after neutral schema validation for all existint entities are turned on")
     public void testStringToQueryException1() {
         queryConverter.stringToQuery("studentSchoolAssociationn", "nonexist.field=test");
     }
 
     @Test(expected = QueryParseException.class)
-    @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException2() {
         queryConverter.stringToQuery("studentSchoolAssociation", "incomplete.field=");
     }
 
     @Test(expected = QueryParseException.class)
-    @Ignore("need to be replaced with neutral schema")
     public void testStringToQueryException3() {
         queryConverter.stringToQuery("studentSchoolAssociation", "incomplete.field");
     }

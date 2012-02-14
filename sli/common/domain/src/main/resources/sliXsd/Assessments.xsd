@@ -402,7 +402,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<!-- <xs:element name="studentAssessmentAssociation">
+	<xs:element name="studentAssessmentAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the analysis or scoring of a
 				student's response on an assessment. The analysis results in a value
@@ -574,7 +574,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
 	<!-- <xs:element name="sectionAssessmentAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a section

@@ -45,7 +45,7 @@ class Entity < SessionResource
   def self.get_basic_types(hash)
     types = []
     hash.keys.each do |key|
-      if !hash[key].is_a?(Hash) and !hash[key].is_a?(Array)
+      if !hash[key].is_a?(Hash) and !hash[key].is_a?(Array) and key != 'entityType'
         types.push(key)
       end
     end
