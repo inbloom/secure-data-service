@@ -121,8 +121,8 @@
 		<!-- OAuth 2.0 Provider Dependency -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth</artifactId>
-			<version>1.0.0.M3</version>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>1.0.0.M5</version>
 		</dependency>
 	</dependencies>
 
