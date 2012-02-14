@@ -11,7 +11,7 @@
          <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="1" />
             <xs:element name="description" type="xs:string" minOccurs="1" />
-            <xs:element name="client_type" type="xs:string" minOccurs="1">
+            <xs:element name="client_type" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:enumeration value="PUBLIC"/>
@@ -19,7 +19,15 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="redirect_uri" type="xs:string" minOccurs="1">
+			<xs:element name="scope" minOccurs="1">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="ENABLED"/>
+                        <xs:enumeration value="DISABLED"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="redirect_uri" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern value="https://.*"/>
@@ -27,8 +35,8 @@
 				</xs:simpleType>
 			</xs:element>
 			
-            <!--  These are generated during creation -->
-            <xs:element name="client_id" type="xs:string" minOccurs="1">
+            <!--  These two are generated during creation -->
+            <xs:element name="client_id" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern value="([a-zA-Z0-9])*"/>
@@ -36,7 +44,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-            <xs:element name="client_secret" type="xs:string" minOccurs="1">
+            <xs:element name="client_secret" minOccurs="1">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern value="([a-zA-Z0-9])*"/>
@@ -44,6 +52,8 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+			
+			
 			<xs:element name="developer_info" type="developer_info" minOccurs="1" />
          </xs:sequence>
       </xs:complexType>
@@ -51,8 +61,8 @@
    
    <xs:complexType name="developer_info">
       <xs:sequence>
-         <xs:element name="company" type="xs:string" minOccurs="1"/>
-         <xs:element name="legal_terms" type="xs:string" minOccurs="1"/>
+         <xs:element name="organization" type="xs:string" minOccurs="1"/>
+         <xs:element name="license_acceptance" type="xs:boolean" minOccurs="1"/>
       </xs:sequence>
    </xs:complexType>
 

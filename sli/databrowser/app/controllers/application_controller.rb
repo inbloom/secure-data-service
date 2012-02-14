@@ -45,8 +45,7 @@ class ApplicationController < ActionController::Base
       Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
       Check.url_type = "check"
       # Get the state unique id and state to identify and key logging
-      check = Check.get("")
-      session[:full_name] = Check.get("")["full_name"]
+      session[:full_name] ||= Check.get("")["full_name"]
     else
       logger.debug { "No cookie set" }
     end

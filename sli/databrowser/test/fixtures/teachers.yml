@@ -6,7 +6,7 @@
 #
 one:
     id: 1
-    type: teacher
+    entityType: teacher
     name:
         personalTitlePrefix: Miss
         firstName: Linda
@@ -16,7 +16,7 @@ one:
         maidenName: null
     
     otherName:
-        otherNameType: ALIAS
+        otherNameentityType: ALIAS
         personalTitlePrefix: null
         firstName: null
         middleName: null
@@ -26,22 +26,22 @@ one:
     sex: Female
     birthDate: "1954-12-13"
     address:
-        addressType: Physical
+        addressentityType: Physical
         streetNumberName: null
         apartmentRoomSuiteNumber: null
         buildingSiteNumber: null
-        city: null
-        stateAbbreviation: NY
+        city: Durham
+        stateAbbreviation: NC
         postalCode: null
         nameOfCounty: null
     
     telephone:
-        telephoneNumberType: HOME
+        telephoneNumberentityType: HOME
         telephoneNumber: "555-555-5555"
         primaryTelephoneNumberIndicator: true
     
     electronicMail:
-        emailAddressType: "HOME_PERSONAL"
+        emailAddressentityType: "HOME_PERSONAL"
         emailAddress: "teacher@gmail.com"
     
     hispanicLatinoEthnicity: false
@@ -49,10 +49,10 @@ one:
     yearsOfPriorProfessionalExperience: 26
     yearsOfPriorTeachingExperience: 22
     credentials:
-        credentialType: LICENSURE
+        credentialentityType: LICENSURE
         field: "Mathematics"
         level: ALL_LEVEL_GRADE_LEVEL_PK_12
-        teachingCredentialType: Professional
+        teachingCredentialentityType: Professional
         credentialIssuanceDate: "1998-01-01"
     
     staffUniqueStateId: 1
@@ -61,7 +61,7 @@ one:
 #
 two:
     id: 2
-    type: teacher
+    entityType: teacher
     name:
         personalTitlePrefix: MRS
         firstName: Marcy
@@ -71,7 +71,7 @@ two:
         maidenName: null
     
     otherName:
-        otherNameType: ALIAS
+        otherNameentityType: ALIAS
         personalTitlePrefix: null
         firstName: null
         middleName: null
@@ -81,22 +81,22 @@ two:
     sex: Female
     birthDate: "1964-12-24"
     address:
-        addressType: Physical
+        addressentityType: Physical
         streetNumberName: null
         apartmentRoomSuiteNumber: null
         buildingSiteNumber: null
-        city: null
-        stateAbbreviation: NY
+        city: Raleigh
+        stateAbbreviation: NC
         postalCode: null
         nameOfCounty: null
     
     telephone:
-        telephoneNumberType: HOME
+        telephoneNumberentityType: HOME
         telephoneNumber: "555-555-5556"
         primaryTelephoneNumberIndicator: true
     
     electronicMail:
-        emailAddressType: "HOME_PERSONAL"
+        emailAddressentityType: "HOME_PERSONAL"
         emailAddress: "teacher2@gmail.com"
     
     hispanicLatinoEthnicity: false
@@ -104,10 +104,10 @@ two:
     yearsOfPriorProfessionalExperience: 26
     yearsOfPriorTeachingExperience: 22
     credentials:
-        credentialType: LICENSURE
+        credentialentityType: LICENSURE
         field: "Mathematics"
         level: ALL_LEVEL_GRADE_LEVEL_PK_12
-        teachingCredentialType: Professional
+        teachingCredentialentityType: Professional
         credentialIssuanceDate: "1998-01-01"
     
     staffUniqueStateId: 1

@@ -41,10 +41,7 @@
 <!-- 
     <bean id="viewManager" class="org.slc.sli.view.ViewManager"/>
 -->    
-    <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
-        <property name="apiClient" ref="${apiclient}Client"/>
-    </bean>
-
+    <bean id="entityManager" class="org.slc.sli.manager.EntityManager" parent="manager"/>
     <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.InstitutionalHierarchyManager"    parent="manager"/>
 
     

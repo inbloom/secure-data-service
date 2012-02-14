@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Transform a NeutralSchema to JSON.
- *
+ * 
  * @author asaarela
- *
+ * 
  */
 public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter {
     
@@ -22,7 +22,7 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.validation.schema.NeutralSchemaStringWriter#transform(org.slc.sli.validation.
      * schema.NeutralSchema)
@@ -106,25 +106,6 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
                         throw new RuntimeException(exception);
                     }
                     
-                } else if (object instanceof ChoiceSchema) {
-                    description.append("\"" + object.getType() + "\"");
-                    
-                    ChoiceSchema c = (ChoiceSchema) object;
-                    
-                    if (c.getMinChoices() != Long.MAX_VALUE) {
-                        description.append(", \"minoccurs\":\"" + c.getMinChoices() + "\"");
-                    } else {
-                        description.append(", \"minoccurs\":\"unbounded\"");
-                    }
-                    if (c.getMaxChoices() != Long.MAX_VALUE) {
-                        description.append(", \"maxoccurs\":\"" + c.getMaxChoices() + "\"");
-                        
-                    } else {
-                        description.append(", \"maxoccurs\":\"unbounded\"");
-                        
-                    }
-                    description.append(getJsonChoices("choices", object.getFields()));
-                    
                 } else {
                     description.append("\"" + object.getType() + "\"");
                 }
@@ -143,32 +124,6 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
         }
         
         buffer.append("}");
-        
-        return buffer.toString();
-    }
-    
-    private String getJsonChoices(String label, Map<String, NeutralSchema> fields) {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append(", \"" + label + "\":[");
-        
-        if (fields != null && fields.size() > 0) {
-            int count = fields.size();
-            
-            for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
-                
-                String name = entry.getKey();
-                NeutralSchema choice = entry.getValue();
-                
-                buffer.append("\"" + name + "\":\"" + choice.getType() + "\"");
-                
-                if (--count > 0) {
-                    buffer.append(", ");
-                }
-            }
-        }
-        
-        buffer.append("]");
         
         return buffer.toString();
     }

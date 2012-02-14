@@ -1,5 +1,6 @@
 package org.slc.sli.dal.repository;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,8 +109,9 @@ public class MongoEntityRepository implements EntityRepository {
 
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
+        //String now = DateTimeUtil.getNowInUTC();
+        Date now = DateTimeUtil.getNowInUTC();
 
-        String now = DateTimeUtil.getNowInUTC();
         Map<String, Object> metaData = entity.getMetaData();
         metaData.put(EntityMetadataKey.CREATED.getKey(), now);
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
@@ -117,10 +119,8 @@ public class MongoEntityRepository implements EntityRepository {
 
     /** Update the updated timestamp on the document metadata. */
     private void updateTimestamp(Entity entity) {
-
-        String now = DateTimeUtil.getNowInUTC();
+        Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
-
     }
 
     @Override

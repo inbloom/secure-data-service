@@ -27,8 +27,8 @@ public class InstitutionalHierarchyManager extends Manager {
     public List<GenericEntity> getSchools(String token) {
         return apiClient.getSchools(token, null);
     }
-    public List<GenericEntity> getAssociatedEducationalOrganizations(String token, GenericEntity s) {
-        return apiClient.getAssociatedEducationalOrganizations(token, s);
+    public List<GenericEntity> getAssociatedEducationalOrganizations(String token, GenericEntity school) {
+        return apiClient.getAssociatedEducationalOrganizations(token, school);
     }
     public List<GenericEntity> getParentEducationalOrganizations(String token, GenericEntity edOrg) {
         return apiClient.getParentEducationalOrganizations(token, edOrg);

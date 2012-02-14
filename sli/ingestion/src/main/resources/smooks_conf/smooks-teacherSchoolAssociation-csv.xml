@@ -45,23 +45,13 @@
     <jb:value property="programAssignment" data="ProgramAssignment" />
 
     <!-- InstructionGradeLevels -->
-    <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsType" />
+    <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
 
     <!-- AcademicSubjects -->
     <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
   </jb:bean>
 
-
-
-  <!--School Reference -->
-  <jb:bean beanId="SchoolReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-    <jb:value data="SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
-  </jb:bean>
-
-  <!--Gravelevels -->
-  <jb:bean beanId="GradeLevelsType" class="java.util.HashMap" createOnElement="csv-record">
-    <jb:wiring property="gradeLevel" beanIdRef="GradeLevelsTypeArray" />
-  </jb:bean>
+  <!--Gradelevels -->
   <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:value data="InstructionalGradeLevels_GradeLevel" />
   </jb:bean>
