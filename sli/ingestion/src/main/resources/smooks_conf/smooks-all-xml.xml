@@ -894,7 +894,7 @@
     <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
 
     <!-- AcademicSubjects -->
-    <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
+    <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsTypeArray" />
   </jb:bean>
 
   <!--Gravelevels -->
@@ -903,9 +903,6 @@
   </jb:bean>
 
   <!--AcademicSubjects -->
-  <jb:bean beanId="AcademicSubjectsType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
-    <jb:wiring property="academicSubject" beanIdRef="AcademicSubjectsTypeArray" />
-  </jb:bean>
   <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
     <jb:value data="TeacherSchoolAssociation/AcademicSubjects/AcademicSubject" />
   </jb:bean>

@@ -65,9 +65,18 @@ public class NeutralJsonExporter {
         File complexDir = new File(outputDir, "complexDir");
         
         try {
-            enumDir.mkdirs();
-            primitiveDir.mkdirs();
-            complexDir.mkdirs();
+            if (!enumDir.mkdirs()) {
+                System.err.println("Failed to create enum output directory");
+                return;
+            }
+            if (!primitiveDir.mkdirs()) {
+                System.err.println("Failed to freate primitive output directory");
+                return;
+            }
+            if (!complexDir.mkdirs()) {
+                System.err.println("Failed to create complex output directory");
+                return;
+            }
         } catch (SecurityException e) {
             System.err.println("Failed to create output directories. Error:" + e.getLocalizedMessage());
         }
@@ -120,7 +129,9 @@ public class NeutralJsonExporter {
             writer.write(schema.toJson());
             writer.flush();
         } finally {
-            writer.close();
+            if (writer != null) {
+                writer.close();
+            }
         }
     }
 }
