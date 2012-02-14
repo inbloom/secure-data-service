@@ -11,7 +11,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -47,8 +49,7 @@ import org.slc.sli.domain.EntityRepository;
  * 
  * @author shalka
  */
-public class TokenManager {//extends RandomValueOAuth2ProviderTokenServices
-        //implements OAuth2ProviderTokenServices {
+public class TokenManager implements TokenStore {
     
     @Autowired
     private EntityRepository repo;
@@ -62,27 +63,177 @@ public class TokenManager {//extends RandomValueOAuth2ProviderTokenServices
     private RolesToRightsResolver rolesToRightsResolver;
 
 
+//    @Override
+//    protected OAuth2Authentication<?, ?> readAuthentication(
+//            OAuth2AccessToken token) {
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.value").is(token.getValue())), 0, 1);
+//        for (Entity cur : results) {
+//            Map<String, Object> body = cur.getBody();
+//            SLIPrincipal principal = new SLIPrincipal();
+//            principal.setRealm((String) body.get("realm"));
+//            principal.setId((String) body.get("user_id"));
+//            principal.setRoles((List<String>) body.get("roles"));
+//            
+//            SLIAuthenticationToken auth = new SLIAuthenticationToken(rolesToRightsResolver.resolveRoles(principal.getRealm(), principal.getRoles()), principal);
+//            return new OAuth2Authentication(auth, null);
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    protected void storeAccessToken(OAuth2AccessToken token,
+//            @SuppressWarnings("rawtypes") OAuth2Authentication authentication) {
+//        
+//        EntityBody container = new EntityBody();
+//        SLIPrincipal principal = (SLIPrincipal) authentication.getPrincipal();
+//        container.put("user_id", principal.getId());
+//        container.put("user_realm", principal.getRealm());
+//        container.put("user_roles", principal.getRoles());  // ?
+//
+//        EntityBody accessToken = new EntityBody();
+//        accessToken.put("value", token.getValue());
+//        accessToken.put("expiration", token.getExpiration());
+//        accessToken.put("token_type", token.getTokenType());
+//        ExpiringOAuth2RefreshToken rt = (ExpiringOAuth2RefreshToken) token.getRefreshToken();
+//        EntityBody refreshToken = new EntityBody();
+//        refreshToken.put("value", token.getRefreshToken().getValue());
+//        refreshToken.put("expiration", rt.getExpiration());
+//        accessToken.put("refresh_token", refreshToken);
+//        
+//        container.put("access_token", accessToken);
+//        service.create(container);
+//    }
+//
+//    @Override
+//    protected OAuth2AccessToken readAccessToken(String tokenValue) {
+//        OAuth2AccessToken result = new OAuth2AccessToken();
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", 
+//                new Query(Criteria.where("body.access_token.value").is(tokenValue)), 0, 1);
+//        for (Entity entity : results) {
+//            @SuppressWarnings("unchecked")
+//            Map<String, Object> accessToken = (Map<String, Object>) entity.getBody().get("access_token");
+//            result.setValue((String) accessToken.get("value")); 
+//            result.setExpiration((Date) accessToken.get("expiration"));
+//            result.setTokenType((String) accessToken.get("token_type"));
+//            
+//            //TODO - Also add the Refresh Token
+//        }
+//        return result;
+//    }
+//
+//    @Override
+//    protected void removeAccessToken(String tokenValue) {
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", 
+//                new Query(Criteria.where("body.access_token.value").is(tokenValue)), 0, 1);
+//        for (Entity entity : results) {
+//            service.delete(entity.getEntityId());
+//        }
+//    }
+//
+//    @Override
+//    protected OAuth2Authentication<?, ?> readAuthentication(
+//            ExpiringOAuth2RefreshToken token) {
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(token.getValue())), 0, 1);
+//        for (Entity cur : results) {
+//            Map<String, Object> body = cur.getBody();
+//            SLIPrincipal principal = new SLIPrincipal();
+//            principal.setRealm((String) body.get("realm"));
+//            principal.setId((String) body.get("user_id"));
+//            principal.setRoles((List<String>) body.get("roles"));
+//            
+//            SLIAuthenticationToken auth = new SLIAuthenticationToken(rolesToRightsResolver.resolveRoles(principal.getRealm(), principal.getRoles()), principal);
+//            return new OAuth2Authentication(auth, null);
+//
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    protected void storeRefreshToken(ExpiringOAuth2RefreshToken refreshToken,
+//            @SuppressWarnings("rawtypes") OAuth2Authentication authentication) {
+//        // - ?
+//
+//    }
+//
+//    @Override
+//    protected ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
+//        ExpiringOAuth2RefreshToken result = new ExpiringOAuth2RefreshToken();
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
+//        for (Entity cur : results) {
+//            @SuppressWarnings("unchecked")
+//            Map<String, Object> refreshToken = (Map<String, Object>) cur.getBody().get("refresh_token");
+//            result.setExpiration((Date) refreshToken.get("expiration"));
+//            result.setValue((String) refreshToken.get("value"));
+//        }
+//        return result;
+//    }
+//
+//    @Override
+//    protected void removeRefreshToken(String tokenValue) {
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
+//        for (Entity cur : results) {
+//            cur.getBody().remove("refresh_token");
+//            service.update(cur.getEntityId(), (EntityBody) cur.getBody());
+//        }
+//    }
+//
+//    @Override
+//    protected void removeAccessTokenUsingRefreshToken(String refreshToken) {
+//        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(refreshToken)), 0, 1);
+//        for (Entity cur : results) {
+//            service.delete(cur.getEntityId());
+//        }
+//    }
+    
+    @PostConstruct
+    public void init() {
+        EntityDefinition def = store.lookupByResourceName("authorizedSessions");
+        setService(def.getService());
+    }
+    
+    // Injector
+    public void setStore(EntityDefinitionStore store) {
+        this.store = store;
+    }
+    
+    // Injector
+    public void setService(EntityService service) {
+        this.service = service;
+    }
+
+    //Injector 
+    public void setEntityRepository(EntityRepository repo) {
+        this.repo = repo;
+    }
+
     @Override
-    protected OAuth2Authentication<?, ?> readAuthentication(
-            OAuth2AccessToken token) {
+    public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.value").is(token.getValue())), 0, 1);
         for (Entity cur : results) {
             Map<String, Object> body = cur.getBody();
-            SLIPrincipal principal = new SLIPrincipal();
-            principal.setRealm((String) body.get("realm"));
-            principal.setId((String) body.get("user_id"));
-            principal.setRoles((List<String>) body.get("roles"));
             
-            SLIAuthenticationToken auth = new SLIAuthenticationToken(rolesToRightsResolver.resolveRoles(principal.getRealm(), principal.getRoles()), principal);
-            return new OAuth2Authentication(auth, null);
+            ClientToken clientToken = new ClientToken(((String) body.get("user_id")), null, null, null, 
+                    rolesToRightsResolver.resolveRoles((String) body.get("user_realm"), (List<String>) body.get("user_roles")));
+            return new OAuth2Authentication(clientToken, null);
         }
         return null;
     }
 
     @Override
-    protected void storeAccessToken(OAuth2AccessToken token,
-            @SuppressWarnings("rawtypes") OAuth2Authentication authentication) {
-        
+    public OAuth2Authentication readAuthentication(ExpiringOAuth2RefreshToken token) {
+        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(token.getValue())), 0, 1);
+        for (Entity cur : results) {
+            Map<String, Object> body = cur.getBody();
+            
+            ClientToken clientToken = new ClientToken(((String) body.get("user_id")), null, null, null, 
+                    rolesToRightsResolver.resolveRoles((String) body.get("user_realm"), (List<String>) body.get("user_roles")));
+            return new OAuth2Authentication(clientToken, null);
+        }
+        return null;
+    }
+
+    @Override
+    public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         EntityBody container = new EntityBody();
         SLIPrincipal principal = (SLIPrincipal) authentication.getPrincipal();
         container.put("user_id", principal.getId());
@@ -104,24 +255,24 @@ public class TokenManager {//extends RandomValueOAuth2ProviderTokenServices
     }
 
     @Override
-    protected OAuth2AccessToken readAccessToken(String tokenValue) {
-        OAuth2AccessToken result = new OAuth2AccessToken();
+    public OAuth2AccessToken readAccessToken(String tokenValue) {
+        OAuth2AccessToken result = new OAuth2AccessToken(tokenValue);
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", 
                 new Query(Criteria.where("body.access_token.value").is(tokenValue)), 0, 1);
         for (Entity entity : results) {
             @SuppressWarnings("unchecked")
             Map<String, Object> accessToken = (Map<String, Object>) entity.getBody().get("access_token");
-            result.setValue((String) accessToken.get("value")); 
             result.setExpiration((Date) accessToken.get("expiration"));
             result.setTokenType((String) accessToken.get("token_type"));
             
             //TODO - Also add the Refresh Token
         }
         return result;
+
     }
 
     @Override
-    protected void removeAccessToken(String tokenValue) {
+    public void removeAccessToken(String tokenValue) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", 
                 new Query(Criteria.where("body.access_token.value").is(tokenValue)), 0, 1);
         for (Entity entity : results) {
@@ -130,45 +281,25 @@ public class TokenManager {//extends RandomValueOAuth2ProviderTokenServices
     }
 
     @Override
-    protected OAuth2Authentication<?, ?> readAuthentication(
-            ExpiringOAuth2RefreshToken token) {
-        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(token.getValue())), 0, 1);
-        for (Entity cur : results) {
-            Map<String, Object> body = cur.getBody();
-            SLIPrincipal principal = new SLIPrincipal();
-            principal.setRealm((String) body.get("realm"));
-            principal.setId((String) body.get("user_id"));
-            principal.setRoles((List<String>) body.get("roles"));
-            
-            SLIAuthenticationToken auth = new SLIAuthenticationToken(rolesToRightsResolver.resolveRoles(principal.getRealm(), principal.getRoles()), principal);
-            return new OAuth2Authentication(auth, null);
+    public void storeRefreshToken(ExpiringOAuth2RefreshToken refreshToken, OAuth2Authentication authentication) {
+        // TODO Auto-generated method stub
+        // - ?
+    }
 
+    @Override
+    public ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
+        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
+        for (Entity cur : results) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> refreshToken = (Map<String, Object>) cur.getBody().get("refresh_token");
+            Date expirationDate = (Date) refreshToken.get("expiration");
+            return new ExpiringOAuth2RefreshToken(tokenValue, expirationDate);
         }
         return null;
     }
 
     @Override
-    protected void storeRefreshToken(ExpiringOAuth2RefreshToken refreshToken,
-            @SuppressWarnings("rawtypes") OAuth2Authentication authentication) {
-        // - ?
-
-    }
-
-    @Override
-    protected ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
-        ExpiringOAuth2RefreshToken result = new ExpiringOAuth2RefreshToken();
-        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
-        for (Entity cur : results) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> refreshToken = (Map<String, Object>) cur.getBody().get("refresh_token");
-            result.setExpiration((Date) refreshToken.get("expiration"));
-            result.setValue((String) refreshToken.get("value"));
-        }
-        return result;
-    }
-
-    @Override
-    protected void removeRefreshToken(String tokenValue) {
+    public void removeRefreshToken(String tokenValue) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
         for (Entity cur : results) {
             cur.getBody().remove("refresh_token");
@@ -177,31 +308,10 @@ public class TokenManager {//extends RandomValueOAuth2ProviderTokenServices
     }
 
     @Override
-    protected void removeAccessTokenUsingRefreshToken(String refreshToken) {
+    public void removeAccessTokenUsingRefreshToken(String refreshToken) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(refreshToken)), 0, 1);
         for (Entity cur : results) {
             service.delete(cur.getEntityId());
         }
-    }
-    
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName("authorizedSessions");
-        setService(def.getService());
-    }
-    
-    // Injector
-    public void setStore(EntityDefinitionStore store) {
-        this.store = store;
-    }
-    
-    // Injector
-    public void setService(EntityService service) {
-        this.service = service;
-    }
-
-    //Injector 
-    public void setEntityRepository(EntityRepository repo) {
-        this.repo = repo;
     }
 }
