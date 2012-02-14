@@ -27,7 +27,6 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 
 /**
