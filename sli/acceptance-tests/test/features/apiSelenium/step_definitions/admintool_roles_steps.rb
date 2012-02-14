@@ -1,6 +1,7 @@
 require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 Given /^I am not authenticated to SLI IDP$/ do
   @driver.manage.delete_all_cookies
@@ -53,11 +54,8 @@ Given /^I was redirected to the Realm page$/ do
 end
 
 Given /^I choose my realm$/ do
-  dropdownbox = @driver.find_element(:name, "realmId")
-  dropdownbox.click
-  dropdownbox.find_elements(:tag_name => "option").find do |option|
-    option.text == "Shared Learning Initiative"
-  end.click
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, "Shared Learning Infrastructure")
   @driver.find_element(:id, "go").click
 end
 

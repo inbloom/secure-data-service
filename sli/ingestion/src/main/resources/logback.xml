@@ -56,7 +56,7 @@
   </appender>
 
   <!-- jsa: temporarily debugging issues on deving1. -->
-  <root level="debug">
+  <root level="info">
       <appender-ref ref="FILE"/>
   </root>
 
@@ -68,7 +68,7 @@
   <logger name="Job.PerformanceMonitor" level="INFO">
     <appender-ref ref="PERF_FILE" />
   </logger>
-  
+
   <logger name="PerformanceLogger" level="INFO">
     <appender-ref ref="PERFORMANCE_LOGGER" />
   </logger>

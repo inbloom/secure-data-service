@@ -1,6 +1,15 @@
-<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
-  xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd" xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd"
-  xmlns:csv="http://www.milyn.org/xsd/smooks/csv-1.2.xsd">
+<smooks-resource-list
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd"
+    xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd"
+    xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xsi:schemaLocation="
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.3.xsd http://www.milyn.org/xsd/smooks/javabean-1.3.xsd
+        http://www.milyn.org/xsd/smooks/camel-1.4.xsd http://www.milyn.org/xsd/smooks/camel-1.4.xsd
+        http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
   <params>
     <param name="stream.filter.type">SAX</param>
@@ -204,6 +213,9 @@
     <jb:value data="Student/Race/RacialCategory" />
   </jb:bean>
 
+  <jb:bean beanId="teacherRaceItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:value data="Teacher/Race/RacialCategory" />
+  </jb:bean>
 
   <!-- StudentCharacteristicsType -->
   <jb:bean beanId="studentCharacteristicTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudent/Student">
@@ -634,7 +646,7 @@
     <jb:wiring property="electronicMail" beanIdRef="teacherElectronicMailTypeArray" />
     <jb:value property="hispanicLatinoEthnicity" data="HispanicLatinoEthnicity" decoder="Boolean" />
     <jb:value property="oldEthnicity" data="OldEthnicity" />
-    <jb:value property="race" data="Race/RacialCategory" />
+    <jb:wiring property="race" beanIdRef="teacherRaceItemTypeArray" />
     <jb:value property="highestLevelOfEducationCompleted" data="HighestLevelOfEducationCompleted" />
     <jb:value property="yearsOfPriorProfessionalExperience" data="YearsOfPriorProfessionalExperience" decoder="Integer" />
     <jb:value property="yearsOfPriorTeachingExperience" data="YearsOfPriorTeachingExperience" decoder="Integer" />
@@ -717,13 +729,18 @@
   </jb:bean>
   <jb:bean beanId="teacherCredentialType" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials">
     <jb:value property="credentialType" data="Credentials/CredentialType" />
-    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptor" />
+    <jb:wiring property="credentialField" beanIdRef="teacherCredentialFieldDescriptorArray" />
     <jb:value property="level" data="Credentials/Level" />
     <jb:value property="teachingCredentialType" data="Credentials/TeachingCredentialType" />
     <jb:value property="credentialIssuanceDate" data="Credentials/CredentialIssuanceDate" />
     <jb:value property="credentialExpirationDate" data="Credentials/CredentialExpirationDate" />
     <jb:value property="teachingCredentialBasis" data="Credentials/TeachingCredentialBasis" />
   </jb:bean>
+
+  <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
+  	<jb:wiring beanIdRef="teacherCredentialFieldDescriptor" />
+  </jb:bean>
+
   <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
     <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
     <jb:value property="description" data="Credentials/CredentialField/Description" />
@@ -745,8 +762,8 @@
     <jb:value property="Section" data="StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
   <jb:bean beanId="SSAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
-    <jb:value property="studentUniqueStateId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="uniqueSectionCode" data="StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="studentId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="sectionId" data="StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
     <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
     <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
     <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" />
@@ -825,10 +842,10 @@
   <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
 
     <!-- SectionReference -->
-    <jb:value property="sectionReference" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="sectionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
 
     <!-- TeacherReference -->
-    <jb:value property="teacherReference" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="teacherId" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
 
     <!-- BeginDate -->
     <jb:value property="beginDate" data="TeacherSectionAssociation/BeginDate" />

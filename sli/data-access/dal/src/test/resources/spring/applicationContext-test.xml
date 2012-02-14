@@ -28,7 +28,7 @@
 		<context:exclude-filter type="regex"
 			expression=".*CustomImpl" />
 		<context:exclude-filter type="regex"
-			expression=".*MongoEntityRepository" />
+			expression=".*DummyEntityRepository" />
 		<context:exclude-filter type="regex"
 			expression=".*AvroEntityValidator" />
 		<context:exclude-filter type="regex"

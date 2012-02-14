@@ -14,7 +14,7 @@ Then I should be directed to the Realm page
 Scenario: Go to Realm Login page with a chosen realm
  
 Given I see the Realm page
-When I choose realm "Shared Learning Initiative" in the drop-down list
+When I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the page Go button
 Then I should be redirected to "SLI" Realm Login page
  

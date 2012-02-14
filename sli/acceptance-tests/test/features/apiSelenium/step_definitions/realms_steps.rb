@@ -1,6 +1,7 @@
 require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 When /^I navigate to the Realm page URL$/ do
   @url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
@@ -19,11 +20,8 @@ Given /^I see the Realm page$/ do
 end
 
 When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
-  dropdownbox = @driver.find_element(:name, "realmId")
-  dropdownbox.click
-  dropdownbox.find_elements(:tag_name => "option").find do |option|
-    option.text == arg1
-  end.click
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, arg1)
 end
 
 When /^I click on the page Go button$/ do

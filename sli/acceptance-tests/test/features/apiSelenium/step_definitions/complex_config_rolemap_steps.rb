@@ -2,6 +2,7 @@ require "selenium-webdriver"
 require 'json'
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 Then /^The user "([^"]*)" who is a "([^"]*)" can now log in to SLI as a "([^"]*)" from my realm "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   # Login and get a session ID
@@ -117,18 +118,24 @@ end
 
 Then /^the custom role "([^"]*)" is mapped to the default role "([^"]*)"$/ do |arg1, arg2|
   wait = Selenium::WebDriver::Wait.new(:timeout => 1)
-  wait.until { @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']") }
+  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
+    wait.until { @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']") }
+  rescue
+  end
   
   # Make sure that the new custom role is mapped to the default role we expect
   found_rows = @driver.find_elements(:xpath, "//tr/td[text()='#{arg1}']/..")
 
-  assert(found_rows.size==1, "Found multiple rows with client role of "+arg1)
-  assert(found_rows[0].text.include?(arg2), "Row with client role "+arg1+" was not mapped to default role "+arg2)
+  assert(found_rows.size==1, webdriverDebugMessage(@driver, "Found multiple rows with client role of "+arg1))
+  assert(found_rows[0].text.include?(arg2), webdriverDebugMessage(@driver, "Row with client role "+arg1+" was not mapped to default role "+arg2))
 end
 
 When /^I click on the remove button between role "([^"]*)" and custom role "([^"]*)"$/ do |arg1, arg2|
   wait = Selenium::WebDriver::Wait.new(:timeout => 1)
-  wait.until { @driver.find_element(:xpath, "//tr/td[text()='#{arg2}']") }
+  begin
+    wait.until { @driver.find_element(:xpath, "//tr/td[text()='#{arg2}']") }
+  rescue
+  end
 
   # Make sure that the new custom role is mapped to the default role we expect
   @driver.find_element(:xpath, "//tr/td[text()='#{arg2}']/../td/button").click
@@ -143,7 +150,7 @@ Then /^the custom role "([^"]*)" is no longer mapped to the default role "([^"]*
 
   # Make sure that the new custom role is mapped to the default role we expect
   found_rows = @driver.find_elements(:xpath, "//tr/td[text()='#{arg1}']/..")
-  assert(found_rows.size==0, "Still found a row that with client role of "+arg1)
+  assert(found_rows.size==0, webdriverDebugMessage(@driver, "Still found a row that with client role of "+arg1))
 end
 
 Then /^I get a message that I cannot map the same custom role to multiple SLI Default roles$/ do

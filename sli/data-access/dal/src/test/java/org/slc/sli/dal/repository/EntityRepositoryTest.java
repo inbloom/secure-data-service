@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
@@ -14,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -115,6 +118,79 @@ public class EntityRepositoryTest {
         assertFalse(entities.iterator().hasNext());
     }
     
+    @Test
+    public void testSort() {
+        
+        // clean up the existing student data
+        repository.deleteAll("student");
+        
+        // create new student entity
+        Map<String, Object> body1 = buildTestStudentEntity();
+        Map<String, Object> body2 = buildTestStudentEntity();
+        Map<String, Object> body3 = buildTestStudentEntity();
+        Map<String, Object> body4 = buildTestStudentEntity();
+        
+        body1.put("firstName", "Austin");
+        body2.put("firstName", "Jane");
+        body3.put("firstName", "Mary");
+        body4.put("firstName", "Suzy");
+        
+        body1.put("performanceLevels", new String[] { "1" });
+        body2.put("performanceLevels", new String[] { "2" });
+        body3.put("performanceLevels", new String[] { "3" });
+        body4.put("performanceLevels", new String[] { "4" });
+
+        // save entities
+        Entity student1 = repository.create("student", body1);
+        Entity student2 = repository.create("student", body2);
+        Entity student3 = repository.create("student", body3);
+        Entity student4 = repository.create("student", body4);
+        
+        // sort entities by firstName with ascending order
+        Query query = new Query();
+        query.sort().on("body.firstName", Order.ASCENDING);
+        Iterable<Entity> entities = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(entities);
+        Iterator<Entity> it = entities.iterator();
+        assertEquals("Austin", it.next().getBody().get("firstName"));
+        assertEquals("Jane", it.next().getBody().get("firstName"));
+        assertEquals("Mary", it.next().getBody().get("firstName"));
+        assertEquals("Suzy", it.next().getBody().get("firstName"));
+        
+        // sort entities by firstName with descending order
+        query = new Query();
+        query.sort().on("body.firstName", Order.DESCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(entities);
+        it = entities.iterator();
+        assertEquals("Suzy", it.next().getBody().get("firstName"));
+        assertEquals("Mary", it.next().getBody().get("firstName"));
+        assertEquals("Jane", it.next().getBody().get("firstName"));
+        assertEquals("Austin", it.next().getBody().get("firstName"));
+        
+        // sort entities by performanceLevels which is an array with ascending order
+        query = new Query();
+        query.sort().on("body.performanceLevels", Order.ASCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(entities);
+        it = entities.iterator();
+        assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("2", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("3", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        
+        // sort entities by performanceLevels which is an array with descending order
+        query = new Query();
+        query.sort().on("body.performanceLevels", Order.DESCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(entities);
+        it = entities.iterator();
+        assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("3", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("2", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+    }
+
     // @Test
     // public void testValidation() {
     // Map<String, Object> badBody = buildTestStudentEntity();
@@ -184,7 +260,6 @@ public class EntityRepositoryTest {
         // test save
         Entity saved = repository.create("student", student);
         
-        
         DateTime created = new DateTime(saved.getMetaData().get(EntityMetadataKey.CREATED.getKey()));
         DateTime updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
         
@@ -192,7 +267,10 @@ public class EntityRepositoryTest {
         
         saved.getBody().put("cityOfBirth", "Evanston");
 
-        Thread.sleep(2);	// Needs to be here to prevent cases where code execution is so fast, there is no difference between create/update times
+        // Needs to be here to prevent cases where code execution is so fast, there
+        // is no difference between create/update times
+        Thread.sleep(2);
+        
         repository.update("student", saved);
         
         updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));

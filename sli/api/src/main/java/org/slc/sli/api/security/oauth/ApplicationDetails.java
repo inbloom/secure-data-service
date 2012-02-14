@@ -1,9 +1,9 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.json.JSONObject;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
@@ -29,17 +29,6 @@ public class ApplicationDetails implements ClientDetails {
         
     }
     
-    /**
-     * Constructor for creating application details from a Mongo JSON object.
-     * 
-     * @param appFromMongo
-     *            Raw JSON object returned from MongoDB.
-     */
-    public ApplicationDetails(JSONObject appFromMongo) {
-        // iterate over JSONObject keys
-        // assign value associated with each key in corresponding application
-        // fields
-    }
     
     @Override
     public String getClientId() {
@@ -159,5 +148,11 @@ public class ApplicationDetails implements ClientDetails {
      */
     public void setAuthorities(List<GrantedAuthority> newGrantedAuthorityList) {
         this.myAuthorities = newGrantedAuthorityList;
+    }
+
+    //TODO: Add @Override annotation once we flip switch on M5
+    public List<String> getResourceIds() {
+        //apidocs say to return empty list to ignore resource checks
+        return new ArrayList<String>();
     }
 }
