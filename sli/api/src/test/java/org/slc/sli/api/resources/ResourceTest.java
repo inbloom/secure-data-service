@@ -78,6 +78,7 @@ public class ResourceTest {
     private static final String SCHOOL_SESSION_ASSOCIATION_URI        = "school-session-associations";
     private static final String SESSION_COURSE_ASSOCIATION_URI        = "session-course-associations";
     private static final String COURSE_SECTION_ASSOCIATION_URI        = "course-section-associations";
+    private static final String STUDENT_URI                           = "students";
 
     @Autowired
     Resource                    api;
@@ -634,43 +635,58 @@ public class ResourceTest {
 
     @Test
     public void testGetFullEntities() {
+        // create student 1
         EntityBody student1 = new EntityBody(createTestEntity());
         student1.put("name", "student1");
         Response createResponse = api.createEntity("students", student1, uriInfo);
         String studentId1 = parseIdFromLocation(createResponse);
-        student1.put("id", studentId1);
-        student1.put("entityType", "student");
 
+        // create student 2
         EntityBody student2 = new EntityBody(createTestEntity());
         student2.put("name", "student2");
         Response createResponse2 = api.createEntity("students", student2, uriInfo);
         String studentId2 = parseIdFromLocation(createResponse2);
-        student2.put("id", studentId2);
-        student2.put("entityType", "student");
 
+        // create school
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
 
+        // create associations
         EntityBody ssa1 = new EntityBody(createTestAssociation(studentId1, schoolId));
         String ssa1Id = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa1, uriInfo));
-        ssa1.put("id", ssa1Id);
-        ssa1.put("entityType", "studentSchoolAssociation");
         EntityBody ssa2 = new EntityBody(createTestAssociation(studentId2, schoolId));
         String ssa2Id = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa2, uriInfo));
-        ssa2.put("id", ssa2Id);
-        ssa2.put("entityType", "studentSchoolAssociation");
 
+        //test getFullEntities from schoolId
         Response resp = api.getFullEntities(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
         assertEquals(200, resp.getStatus());
         List<?> collection = (List<?>) resp.getEntity();
-        assertTrue(collection.contains(ssa1));
-        assertTrue(collection.contains(ssa2));
+        EntityBody ssa1FromApi =
+                (EntityBody) api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa1Id, 0, 10, false, uriInfo).getEntity();
+        EntityBody ssa2FromApi =
+                (EntityBody) api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, ssa2Id, 0, 10, false, uriInfo).getEntity();
 
+        assertTrue(ssa1FromApi.containsKey("links"));
+        assertTrue(ssa2FromApi.containsKey("links"));
+        assertTrue(collection.size() == 2);
+        assertTrue(collection.contains(ssa1FromApi));
+        assertTrue(collection.contains(ssa2FromApi));
+
+        //test getFullHoppedRelatives from school id
         Response hopResp = api.getFullHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, 0, 10, uriInfo);
         assertEquals(200, hopResp.getStatus());
         List<?> hoppedCollection = (List<?>) hopResp.getEntity();
-        assertTrue(hoppedCollection.contains(student1));
-        assertTrue(hoppedCollection.contains(student2));
+        EntityBody student1FromApi =
+                (EntityBody) api.getEntity(STUDENT_URI, studentId1, 0, 10, false, uriInfo).getEntity();
+        EntityBody student2FromApi =
+                (EntityBody) api.getEntity(STUDENT_URI, studentId2, 0, 10, false, uriInfo).getEntity();
+
+        assertTrue(student1FromApi.containsKey("links"));
+        assertTrue(student2FromApi.containsKey("links"));
+        assertTrue(hoppedCollection.size() == 2);
+        assertTrue(hoppedCollection.contains(student1FromApi));
+        assertTrue(hoppedCollection.contains(student2FromApi));
+
     }
 
     private static String parseIdFromLocation(Response response) {
