@@ -167,7 +167,9 @@ public class ApplicationServiceTest {
         mockApp.put("client_secret", "ldkafjladsfjdsalfadsl");
         Mockito.when(service.get(uuid)).thenReturn(mockApp);
         
-        ClientDetails details = resource.loadClientByClientId(clientId);
+        SLIClientDetailService detailService = new SLIClientDetailService();
+        detailService.setApplicationServer(resource);
+        ClientDetails details = detailService.loadClientByClientId(clientId);
         assertNotNull(details);
         assertNotNull("Checking for client id", details.getClientId());
         assertNotNull("Checking for client secret", details.getClientSecret());
@@ -186,7 +188,9 @@ public class ApplicationServiceTest {
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
         
-        ClientDetails details = resource.loadClientByClientId(clientId);
+        SLIClientDetailService detailService = new SLIClientDetailService();
+        detailService.setApplicationServer(resource);
+        ClientDetails details = detailService.loadClientByClientId(clientId);
     }
 
 }

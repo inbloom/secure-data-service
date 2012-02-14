@@ -12,8 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -22,9 +22,6 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +35,7 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 @Path("/apps")
 @Produces({ Resource.JSON_MEDIA_TYPE })
-public class ApplicationService implements ClientDetailsService {
+public class ApplicationService {
 
     @Autowired
     private EntityDefinitionStore store;
@@ -55,12 +52,6 @@ public class ApplicationService implements ClientDetailsService {
         setService(def.getService());
     }
 
-    // Injector
-    public void setStore(EntityDefinitionStore store) {
-        this.store = store;
-    }
-
-    // Injector
     public void setService(EntityService service) {
         this.service = service;
     }
@@ -79,6 +70,7 @@ public class ApplicationService implements ClientDetailsService {
         String id = service.create(newApp);
         
         EntityBody resObj = new EntityBody();
+        resObj.put(id, id);
         resObj.put("client_id", clientId);
         resObj.put("client_secret", clientSecret);
         return Response.status(Status.CREATED).entity(resObj).build();
@@ -114,10 +106,10 @@ public class ApplicationService implements ClientDetailsService {
     @GET
     @Path("{client_id}")
     public Response getApplication(@PathParam("client_id") String clientId) {
-        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
+        String uuid = lookupIdFromClientId(clientId);
 
-        for (String id : results) {
-            return Response.status(Status.OK).entity(service.get(id)).build();
+        if (uuid != null) {
+            return Response.status(Status.OK).entity(service.get(uuid)).build();
         }
 
         return Response.status(Status.NOT_FOUND).build();
@@ -152,28 +144,4 @@ public class ApplicationService implements ClientDetailsService {
         return null;
     }
 
-    @Override
-    public ClientDetails loadClientByClientId(String clientId)
-            throws OAuth2Exception {
-        String uuid = lookupIdFromClientId(clientId);
-        if (uuid != null) {
-            EntityBody result = service.get(uuid);
-            ApplicationDetails details = new ApplicationDetails();
-            details.setClientId((String) result.get("client_id"));
-            details.setClientSecret((String) result.get("client_secret"));
-            details.setWebServerRedirectUri((String) result.get("redirect_uri"));
-            details.setIsScoped(true);
-            details.setIsSecretRequired(true);
-            
-            String scope = (String) result.get("scope");
-            List<String> scopes = new ArrayList<String>();
-            scopes.add(scope);
-            details.setScope(scopes);
-            
-            //TODO: set authorities and grant types
-            return details;
-        } else {
-            throw new OAuth2Exception("Could not find client with ID " + clientId);
-        }
-    }
 }
