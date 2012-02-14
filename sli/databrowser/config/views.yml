@@ -14,3 +14,4 @@ teacher:
 school:
     - id
     - nameOfInstitution
+    - address/city
