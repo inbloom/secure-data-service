@@ -43,6 +43,10 @@ public class ViewManager extends Manager {
                 for (GenericEntity student : students) {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));
 
+                    // On the live api, "cohortYear" is apparently not an integer but an array 
+                    // I'll leave it for you guys to figure out what's the right way to handle this.
+                    if (gradeValue == null) { applicableViewConfigs.add(viewConfig); break; }
+                    
                     if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
                     {
                         applicableViewConfigs.add(viewConfig);

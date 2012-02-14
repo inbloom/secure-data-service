@@ -5,6 +5,13 @@ class EntitiesController < ApplicationController
   
   def set_url
     Entity.url_type = params[:type]
+    case params[:type]
+    when /association/
+      logger.debug {"Full jsons support on"}
+      Entity._format = ActiveResource::Formats::JsonFullFormat
+    else
+      Entity._format = ActiveResource::Formats::JsonFormat
+    end
   end
   
   # rescue_from ActiveResource::ResourceNotFound do |exception|
