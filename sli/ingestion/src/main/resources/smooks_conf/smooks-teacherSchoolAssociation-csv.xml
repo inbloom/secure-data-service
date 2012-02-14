@@ -48,7 +48,7 @@
     <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
 
     <!-- AcademicSubjects -->
-    <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsType" />
+    <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsTypeArray" />
   </jb:bean>
 
   <!--Gradelevels -->
@@ -57,9 +57,6 @@
   </jb:bean>
 
   <!--AcademicSubjects -->
-  <jb:bean beanId="AcademicSubjectsType" class="java.util.HashMap" createOnElement="csv-record">
-    <jb:wiring property="academicSubject" beanIdRef="AcademicSubjectsTypeArray" />
-  </jb:bean>
   <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
     <jb:value data="AcademicSubjects_AcademicSubject" />
   </jb:bean>
