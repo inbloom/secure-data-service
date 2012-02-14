@@ -3,7 +3,6 @@ package org.slc.sli.api.security.oauth;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.json.JSONObject;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
@@ -29,17 +28,6 @@ public class ApplicationDetails implements ClientDetails {
         
     }
     
-    /**
-     * Constructor for creating application details from a Mongo JSON object.
-     * 
-     * @param appFromMongo
-     *            Raw JSON object returned from MongoDB.
-     */
-    public ApplicationDetails(JSONObject appFromMongo) {
-        // iterate over JSONObject keys
-        // assign value associated with each key in corresponding application
-        // fields
-    }
     
     @Override
     public String getClientId() {

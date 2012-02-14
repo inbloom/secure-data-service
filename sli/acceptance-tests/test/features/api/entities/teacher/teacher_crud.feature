@@ -17,7 +17,7 @@ Scenario: Create a new teacher in JSON format
       And the "yearsOfPriorTeachingExperience" is "32"
       And the "staffUniqueStateId" is "12345678"
       And the "highlyQualifiedTeacher" status is "true"
-      And the "highestLevelOfEducationCompleted" is "Masters"
+      And the "highestLevelOfEducationCompleted" is "Master's"
    When I navigate to POST "/teachers/"
    Then I should receive a return code of 201
       And I should receive an ID for the newly created teacher
@@ -28,19 +28,19 @@ Scenario: Create a new teacher in JSON format
       And the "yearsOfPriorTeachingExperience" should be "32"
       And the "staffUniqueStateId" should be "12345678"
       And the "highlyQualifiedTeacher" status should be "true"
-      And the "highestLevelOfEducationCompleted" should be "Masters"
+      And the "highestLevelOfEducationCompleted" should be "Master's"
               
 Scenario: Read a teacher by ID in JSON format
    Given format "application/json"
    When I navigate to GET "/teachers/<'Macey' ID>"
    Then I should receive a return code of 200
-      And the "name" should be "Macey" "" "Finch"
+      And the "name" should be "Macey" "Mae" "Finch"
       And the "sex" should be "Female"
       And the "birthDate" should be "1956-08-14"
       And the "yearsOfPriorTeachingExperience" should be "22"
       And the "staffUniqueStateId" should be "<'Macey Home State' ID>"
       And the "highlyQualifiedTeacher" status should be "false"
-      And the "highestLevelOfEducationCompleted" should be "Bachelors"
+      And the "highestLevelOfEducationCompleted" should be "Bachelor's"
       And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Macey' ID>"
       And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Macey' ID>/targets"
       And I should receive a link named "getTeacherSchoolAssociations" with URI "/teacher-school-associations/<'Macey' ID>"
