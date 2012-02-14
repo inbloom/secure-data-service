@@ -1,6 +1,7 @@
 require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 Given /^I am not authenticated to SLI IDP$/ do
   @driver.manage.delete_all_cookies

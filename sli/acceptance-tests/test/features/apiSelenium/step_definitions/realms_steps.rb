@@ -1,6 +1,7 @@
 require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 When /^I navigate to the Realm page URL$/ do
   @url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
