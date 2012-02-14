@@ -1,5 +1,7 @@
 package org.slc.sli.api.service.query;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,9 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Default implementation of the QueryConverter interface
- *
+ * 
  * @author dong liu <dliu@wgen.net>
- *
+ * 
  */
 
 @Component
@@ -126,41 +128,41 @@ public class BasicQueryConverter implements QueryConverter {
         if (schema == null)
             return null;
         switch (schema.getSchemaType()) {
-        case STRING:
-        case INTEGER:
-        case DATE:
-        case TIME:
-        case DATETIME:
-        case ID:
-        case IDREF:
-        case INT:
-        case LONG:
-        case DOUBLE:
-        case BOOLEAN:
-        case TOKEN:
-            return null;
-        case LIST:
-            for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-                LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
-                if (getNestedSchema(possibleSchema, field) != null) {
-                    return getNestedSchema(possibleSchema, field);
+            case STRING:
+            case INTEGER:
+            case DATE:
+            case TIME:
+            case DATETIME:
+            case ID:
+            case IDREF:
+            case INT:
+            case LONG:
+            case DOUBLE:
+            case BOOLEAN:
+            case TOKEN:
+                return null;
+            case LIST:
+                for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+                    LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                    if (getNestedSchema(possibleSchema, field) != null) {
+                        return getNestedSchema(possibleSchema, field);
+                    }
                 }
+                return null;
+            case COMPLEX:
+                for (String key : schema.getFields().keySet()) {
+                    NeutralSchema possibleSchema = schema.getFields().get(key);
+                    if (key.startsWith("*")) {
+                        key = key.substring(1);
+                    }
+                    if (key.equals(field)) {
+                        return possibleSchema;
+                    }
+                }
+                return null;
+            default: {
+                throw new RuntimeException("Unknown Avro Schema Type: " + schema.getSchemaType());
             }
-            return null;
-        case COMPLEX:
-            for (String key : schema.getFields().keySet()) {
-                NeutralSchema possibleSchema = schema.getFields().get(key);
-                if (key.startsWith("*")) {
-                    key = key.substring(1);
-                }
-                if (key.equals(field)) {
-                    return possibleSchema;
-                }
-            }
-            return null;
-        default: {
-            throw new RuntimeException("Unknown Avro Schema Type: " + schema.getSchemaType());
-        }
         }
     }
 
@@ -182,30 +184,36 @@ public class BasicQueryConverter implements QueryConverter {
     }
 
     private Object convertToType(String type, String value) {
-        if (type.equals("INT") || type.equals("INTEGER")) {
-            return Integer.parseInt(value);
-        } else if (type.equals("BOOLEAN")) {
-            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
-                return Boolean.parseBoolean(value);
-            else
-                throw new QueryParseException("");
-
-            // TODO null type need to be removed after the assessment neutral schema implemented
-        } else if (type.equals("STRING") || type.equals("NULL")) {
-            return value;
-        } else if (type.equals("TOKEN")) {
-            return value;
-        } else if (type.equals("LONG")) {
-            return Long.parseLong(value);
-        } else if (type.equals("DOUBLE")) {
-            return Double.parseDouble(value);
-        } else if (type.equals("DATE")) {
-            return javax.xml.bind.DatatypeConverter.parseDate(value);
-        } else if (type.equals("DATETIME")) {
-            return javax.xml.bind.DatatypeConverter.parseDateTime(value);
-        } else if (type.equals("TIME")) {
-            return javax.xml.bind.DatatypeConverter.parseTime(value);
+        try {
+            if (type.equals("INT") || type.equals("INTEGER")) {
+                return Integer.parseInt(value);
+            } else if (type.equals("BOOLEAN")) {
+                if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+                    return Boolean.parseBoolean(value);
+                else
+                    throw new QueryParseException("");
+            } else if (type.equals("STRING") || type.equals("NULL")) {
+                return value;
+            } else if (type.equals("TOKEN")) {
+                return value;
+            } else if (type.equals("LONG")) {
+                return Long.parseLong(value);
+            } else if (type.equals("DOUBLE")) {
+                return Double.parseDouble(value);
+            } else if (type.equals("DATE")) {
+                DatatypeConverter.parseDate(value);
+                return value;
+            } else if (type.equals("DATETIME")) {
+                DatatypeConverter.parseDateTime(value).toString();
+                return value;
+            } else if (type.equals("TIME")) {
+                DatatypeConverter.parseTime(value).toString();
+                return value;
+            }
+            throw new RuntimeException("Unsupported Neutral Schema Type: " + type);
+        } catch (Exception e) {
+            throw new QueryParseException("");
         }
-        throw new RuntimeException("Unsupported Neutral Schema Type: " + type);
+
     }
 }
