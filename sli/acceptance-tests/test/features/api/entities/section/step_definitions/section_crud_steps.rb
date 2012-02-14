@@ -20,7 +20,7 @@ Transform /^<.+>$/ do |template|
   id = "11111111-1111-1111-1111-111111111111" if template == "<'Invalid' ID>"
   id = "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431" if template == "<'physicsS08' ID>"
   id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-  id = "67ce204b-9999-4a11-aacb-000000000001" if template == "<'FALL 2011 (SESSION)' ID>"
+  id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e" if template == "<'FALL 2011 (SESSION)' ID>"
   id = "53777181-3519-4111-9210-529350429899" if template == "<'FRENCH 1 (COURSE)' ID>"
   id
 end

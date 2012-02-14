@@ -218,6 +218,9 @@ end
 
 desc "Run Section Tests"
 task :sectionTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("session", "session_fixture.json")
+  setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
 

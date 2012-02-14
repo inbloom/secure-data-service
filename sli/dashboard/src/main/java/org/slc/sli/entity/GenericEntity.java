@@ -22,7 +22,7 @@ public class GenericEntity<String, Object> extends LinkedHashMap<String, Object>
     }
     
     public void appendToList(String key, GenericEntity obj) {
-        if(!containsKey(key)) {
+        if (!containsKey(key)) {
             put(key, (Object) new ArrayList<GenericEntity>());
         }
         ArrayList<GenericEntity> list = (ArrayList<GenericEntity>) get(key);
