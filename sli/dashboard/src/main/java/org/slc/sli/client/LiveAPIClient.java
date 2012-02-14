@@ -1,8 +1,9 @@
 package org.slc.sli.client;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -246,10 +247,10 @@ public class LiveAPIClient implements APIClient {
         fakeCourse.put("courseTitle", "Dummy Course");
         String dummmyCourseID = "dummy course id";
         courseMap.put(dummmyCourseID, fakeCourse);
+        
         for (int j = 0; j < sections.size(); j++) {
             sectionIDToCourseIDMap.put(sections.get(j).get(Constants.ATTR_ID).toString(), dummmyCourseID);
-            GenericEntity[] singleSectionArray = { sections.get(j) };
-            fakeCourse.put(Constants.ATTR_SECTIONS, singleSectionArray);
+            fakeCourse.put(Constants.ATTR_SECTIONS, sections.get(j));
         }
         // Then create schools and associate the first one to all sections
         String teacherId = getId(token); 
@@ -262,7 +263,7 @@ public class LiveAPIClient implements APIClient {
             schoolMap.put(schoolId, school);
             if (i == 0) {
                 for (int j = 0; j < sections.size(); j++) {
-                    sectionIDToSchoolIDMap.put(sections.get(i).get(Constants.ATTR_ID).toString(), schoolId);
+                    sectionIDToSchoolIDMap.put(sections.get(j).get(Constants.ATTR_ID).toString(), schoolId);
                 }
             }
         }
@@ -275,20 +276,31 @@ public class LiveAPIClient implements APIClient {
         // the "course-school" association is defined as follows:
         // course C is associated with school S if there exists a section X s.t. C is associated
         // with X and S is associated with X.
+        HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
+
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
+
             if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
                 && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
                 String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
                 String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
+                if (!schoolIDToCourseIDMap.containsKey(schoolId)) { schoolIDToCourseIDMap.put(schoolId, new HashSet<String>()); }
+                schoolIDToCourseIDMap.get(schoolId).add(courseId);
+            }
+        }
+
+        // now create the generic entity
+        for (String schoolId : schoolIDToCourseIDMap.keySet()) {
+            for (String courseId : schoolIDToCourseIDMap.get(schoolId)) {
                 GenericEntity s = schoolMap.get(schoolId);
                 GenericEntity c = courseMap.get(courseId);
-                GenericEntity [] singleCourseArray = { c };
-                s.put(Constants.ATTR_COURSES, singleCourseArray);
+                s.appendToList(Constants.ATTR_COURSES, c);
             }
         }
 
         return new ArrayList<GenericEntity>(schoolMap.values());
+
     }
 
     private void getCourseSectionsMappings(List<GenericEntity> sections,
@@ -310,8 +322,7 @@ public class LiveAPIClient implements APIClient {
                     courseMap.put((String) (course.get(Constants.ATTR_ID)), course);
                 }
                 course = courseMap.get(course.get(Constants.ATTR_ID));
-                GenericEntity[] singleSectionArray = { section };
-                course.put(Constants.ATTR_SECTIONS, singleSectionArray);
+                course.appendToList(Constants.ATTR_SECTIONS, section);
                 sectionIDToCourseIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (course.get(Constants.ATTR_ID)));
             }
         }
