@@ -1,13 +1,12 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,18 +15,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidator;
-
-import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
+import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  *
@@ -77,7 +75,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlMissingSessionName = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingSessionName = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
@@ -103,7 +102,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlMissingSchoolYear = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingSchoolYear = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<Term>Spring Semester</Term>"
@@ -129,7 +129,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlMissingTerm = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingTerm = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -155,7 +156,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlMissingBeginDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingBeginDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -181,7 +183,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlMissingEndDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingEndDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -207,7 +210,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlMissingTotalInstructionalDays = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingTotalInstructionalDays = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -231,7 +235,8 @@ public class SessionEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Session";
 
-        String invalidXmlIncorrectEnum = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlIncorrectEnum = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -264,6 +269,30 @@ public class SessionEntityTest {
                 csvTestData);
 
         checkValidSessionNeutralRecord(neutralRecord);
+
+    }
+
+    @Test
+    public void testInvalidSessionCSV() throws Exception {
+
+        String smooksConfig = "smooks_conf/smooks-session-csv.xml";
+        String targetSelector = "csv-record";
+
+        String csvTestData = "2012 Spring,2011-2012,Winter Semester,2012-01-02,2012-06-22,118";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                csvTestData);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("session");
+
+        try {
+        validator.validate(e);
+        } catch (EntityValidationException ex) {
+            assertEquals(ex.getEntityType(), "session");
+            assertFalse(ex.getValidationErrors().isEmpty());
+        }
 
     }
 
