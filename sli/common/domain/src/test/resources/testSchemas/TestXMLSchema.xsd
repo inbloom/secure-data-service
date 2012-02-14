@@ -65,7 +65,8 @@
 			<xs:element name="WeeksInCycle">
 				<xs:annotation>
 					<xs:documentation>
-						The number of weeks in which the meeting time schedules repeat.
+						The number of weeks in which the meeting time
+						schedules repeat.
 					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
@@ -83,7 +84,8 @@
 			<xs:element name="WeeksInCycle">
 				<xs:annotation>
 					<xs:documentation>
-						The number of weeks in which the meeting time schedules repeat.
+						The number of weeks in which the meeting time
+						schedules repeat.
 					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
@@ -101,7 +103,8 @@
 			<xs:element name="SimpleTypeRestriction">
 				<xs:annotation>
 					<xs:documentation>
-						The number of weeks in which the meeting time schedules repeat.
+						The number of weeks in which the meeting time
+						schedules repeat.
 					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
@@ -126,79 +129,79 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-    
-    <xs:complexType name="TestDocumentationComplex">
-        <xs:annotation>
-            <xs:documentation>Test complex documentation.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="base1" type="complexType1"/>        
-            <xs:element name="simple" type="TestDocumentationSimple"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <!-- non PII complex object with a PII element -->
-    <xs:complexType name="TestNotPersonallyIdentifiableInfoComplex">
-        <xs:sequence>
-            <xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple"/>
-        </xs:sequence>
-    </xs:complexType>    
-    
-    
-     <xs:complexType name="TestPersonallyIdentifiableInfoComplex">
-        <xs:annotation>
-            <xs:appinfo>
-                <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>            
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="base1" type="complexType1"/>
-            <xs:element name="base2" type="complexType1"/>
-            <xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple"/>
-            <xs:element name="notPII" type="TestNotPersonallyIdentifiableInfoSimple"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    
-    <xs:complexType name="TestSecurityComplex">
-        <xs:annotation>
-           <xs:appinfo>
-                <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-            </xs:appinfo>        
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="base1" type="complexType1"/>
-            <xs:element name="security" type="TestSecuritySimple"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name ="TestChoiceNoMinOccurs">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="intChoice" type="xs:int"/>
-            <xs:element name="stringChoice" type="xs:string"/>
-        </xs:choice>
-    </xs:complexType>
-    
-    <xs:complexType name="TestChoiceOnlyOne">
-        <xs:choice minOccurs="1" maxOccurs="1">
-            <xs:element name="intChoice" type="xs:int"/>
-            <xs:element name="stringChoice" type="xs:string"/>
-        </xs:choice>
-    </xs:complexType>
 
-    <xs:complexType name="TestChoiceMinTwoMaxTwo">
-        <xs:choice minOccurs="1" maxOccurs="2">
-            <xs:element name="intChoice" type="xs:int"/>
-            <xs:element name="stringChoice" type="xs:string"/>
-        </xs:choice>
-    </xs:complexType>        
+	<xs:complexType name="TestDocumentationComplex">
+		<xs:annotation>
+			<xs:documentation>Test complex documentation.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="base1" type="complexType1" />
+			<xs:element name="simple" type="TestDocumentationSimple" />
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="TestChoiceMinOneMaxUnbounded">
-        <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element name="intChoice" type="xs:int"/>
-            <xs:element name="stringChoice" type="xs:string"/>
-        </xs:choice>
-    </xs:complexType>        
+	<!-- non PII complex object with a PII element -->
+	<xs:complexType name="TestNotPersonallyIdentifiableInfoComplex">
+		<xs:sequence>
+			<xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple" />
+		</xs:sequence>
+	</xs:complexType>
 
+
+	<xs:complexType name="TestPersonallyIdentifiableInfoComplex">
+		<xs:annotation>
+			<xs:appinfo>
+				<sli:PersonallyIdentifiableInfo>true
+				</sli:PersonallyIdentifiableInfo>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="base1" type="complexType1" />
+			<xs:element name="base2" type="complexType1" />
+			<xs:element name="simple" type="TestPersonallyIdentifiableInfoSimple" />
+			<xs:element name="notPII" type="TestNotPersonallyIdentifiableInfoSimple" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TestSecurityComplex">
+		<xs:annotation>
+			<xs:appinfo>
+				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="base1" type="complexType1" />
+			<xs:element name="security" type="TestSecuritySimple" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TestChoiceNoMinOccurs">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="intChoice" type="xs:int" />
+			<xs:element name="stringChoice" type="xs:string" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TestChoiceOnlyOne">
+		<xs:choice minOccurs="1" maxOccurs="1">
+			<xs:element name="intChoice" type="xs:int" />
+			<xs:element name="stringChoice" type="xs:string" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TestChoiceMinTwoMaxTwo">
+		<xs:choice minOccurs="1" maxOccurs="2">
+			<xs:element name="intChoice" type="xs:int" />
+			<xs:element name="stringChoice" type="xs:string" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TestChoiceMinOneMaxUnbounded">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="intChoice" type="xs:int" />
+			<xs:element name="stringChoice" type="xs:string" />
+		</xs:choice>
+	</xs:complexType>
 
 </xs:schema>
