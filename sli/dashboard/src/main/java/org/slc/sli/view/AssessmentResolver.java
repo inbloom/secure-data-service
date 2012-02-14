@@ -22,7 +22,7 @@ import org.slc.sli.util.Constants;
  *
  */
 public class AssessmentResolver {
-    Map<String, List<GenericEntity> > studentIdToAssessments;
+    Map<String, List<GenericEntity>> studentIdToAssessments;
     AssessmentMetaDataResolver metaDataResolver;
 
     public static final String DATA_SET_TYPE = "assessment";

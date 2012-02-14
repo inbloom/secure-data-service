@@ -1,4 +1,4 @@
-
+<h2>Viewing information for <%= t(params[:type].split('-').join(' '))%> with ID: <%= params[:id]%></h2>
 <p id="notice"><%= notice %></p>
 <% if @entity.size == 1 %>
 	<%= render :partial => "detail", :locals => {:entity => @entity.first} %>
