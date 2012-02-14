@@ -108,8 +108,8 @@ public class StudentSectionAssociationTest {
 
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
-        Assert.assertEquals("111220001", entity.get("studentUniqueStateId"));
-        Assert.assertEquals("MT100", entity.get("uniqueSectionCode"));
+        Assert.assertEquals("111220001", entity.get("studentId"));
+        Assert.assertEquals("MT100", entity.get("sectionId"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals("2010-06-02", entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());

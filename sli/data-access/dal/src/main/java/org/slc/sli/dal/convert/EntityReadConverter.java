@@ -4,6 +4,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.core.convert.converter.Converter;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
 
@@ -11,10 +12,10 @@ import org.slc.sli.domain.MongoEntity;
  * Spring converter registered in the Mongo configuration to convert DBObjects into MongoEntity.
  *
  */
-public class MongoEntityReadConverter implements Converter<DBObject, MongoEntity> {
+public class EntityReadConverter implements Converter<DBObject, Entity> {
 
     @Override
-    public MongoEntity convert(DBObject dbObj) {
+    public Entity convert(DBObject dbObj) {
         return MongoEntity.fromDBObject(dbObj);
     }
 
