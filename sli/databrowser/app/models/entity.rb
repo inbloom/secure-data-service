@@ -4,7 +4,7 @@ class Entity < SessionResource
   def self.get_simple_and_complex(parameters)
     base = get(parameters)
     entity = []
-    if base.is_a?(Array)
+    if base.is_a?(Array) and !base.empty?
       type = nil
       return entity if base.first.nil?
       type = VIEW_CONFIG[base.first['entityType']] if base.first.has_key? 'entityType'
