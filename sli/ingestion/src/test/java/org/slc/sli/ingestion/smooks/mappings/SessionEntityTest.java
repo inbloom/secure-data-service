@@ -1,13 +1,14 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
-
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Ignore;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +21,42 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
+import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.util.MD5;
+import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
+
 /**
  *
  * @author tshewchuk
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "classpath:/spring/applicationContext-test.xml" })
 public class SessionEntityTest {
 
     @Autowired
     private EntityValidator validator;
 
-    String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-        + "<Session> "
+    private TestErrorReport errorReport = new TestErrorReport();
+
+    private LocalFileSystemLandingZone landingZone = new LocalFileSystemLandingZone();
+
+    private FileTypeValidator fileTypeValidator = new FileTypeValidator();
+
+    private String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+            + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+            + "<Session> "
             + "<SessionName>2012 Spring</SessionName>"
             + "<SchoolYear>2011-2012</SchoolYear>"
             + "<Term>Spring Semester</Term>"
             + "<BeginDate>2012-01-02</BeginDate>"
             + "<EndDate>2012-06-22</EndDate>"
-            + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-        + "</Session>"
-    + "</InterchangeMasterSchedule>";
+            + "<TotalInstructionalDays>118</TotalInstructionalDays>" + "</Session>" + "</InterchangeMasterSchedule>";
 
     @Test
     public void testValidSession() throws Exception {
@@ -55,7 +70,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        Assert.assertTrue(validator.validate(e));
+        assertTrue(validator.validate(e));
     }
 
     @Test(expected = EntityValidationException.class)
@@ -64,14 +79,14 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlMissingSessionName = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "</Session>"
+                + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingSessionName);
@@ -80,7 +95,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -90,14 +105,14 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlMissingSchoolYear = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "</Session>"
+                + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingSchoolYear);
@@ -106,7 +121,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -116,14 +131,14 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlMissingTerm = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "</Session>"
+                + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingTerm);
@@ -132,7 +147,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -142,14 +157,14 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlMissingBeginDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "</Session>"
+                + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingBeginDate);
@@ -158,7 +173,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -168,14 +183,14 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlMissingEndDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "</Session>"
+                + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingEndDate);
@@ -184,7 +199,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -194,14 +209,12 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlMissingTotalInstructionalDays = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
-                + "<EndDate>2012-06-22</EndDate>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "<EndDate>2012-06-22</EndDate>" + "</Session>" + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingTotalInstructionalDays);
@@ -210,7 +223,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -220,15 +233,14 @@ public class SessionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Session";
 
         String invalidXmlIncorrectEnum = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Session> "
+                + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Winter Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-            + "</Session>"
-        + "</InterchangeMasterSchedule>";
+                + "</Session>" + "</InterchangeMasterSchedule>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlIncorrectEnum);
@@ -237,7 +249,7 @@ public class SessionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("session");
 
-        validator.validate(e);
+        assertFalse(validator.validate(e));
 
     }
 
@@ -271,12 +283,23 @@ public class SessionEntityTest {
     private void checkValidSessionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
 
-        Assert.assertEquals("2012 Spring", entity.get("sessionName"));
-        Assert.assertEquals("2011-2012", entity.get("schoolYear"));
-        Assert.assertEquals("Spring Semester", entity.get("term"));
-        Assert.assertEquals("2012-01-02", entity.get("beginDate"));
-        Assert.assertEquals("2012-06-22", entity.get("endDate"));
-        Assert.assertEquals("118", entity.get("totalInstructionalDays").toString());
+        assertEquals("2012 Spring", entity.get("sessionName"));
+        assertEquals("2011-2012", entity.get("schoolYear"));
+        assertEquals("Spring Semester", entity.get("term"));
+        assertEquals("2012-01-02", entity.get("beginDate"));
+        assertEquals("2012-06-22", entity.get("endDate"));
+        assertEquals("118", entity.get("totalInstructionalDays").toString());
 
     }
+
+    @Test
+    public void testValidSessionCSVFileType() throws Exception {
+        // Create a valid CSV file of type Session.
+        FileEntryDescriptor entry = new FileEntryDescriptor(new IngestionFileEntry(FileFormat.CSV,
+                FileType.CSV_SESSION, "Dummy.csv", ""), landingZone);
+
+        // Now validate that the file is indeed of type Session.
+        assertTrue(fileTypeValidator.isValid(entry, errorReport));
+    }
+
 }
