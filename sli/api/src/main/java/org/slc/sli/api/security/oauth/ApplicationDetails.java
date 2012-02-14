@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -147,5 +148,11 @@ public class ApplicationDetails implements ClientDetails {
      */
     public void setAuthorities(List<GrantedAuthority> newGrantedAuthorityList) {
         this.myAuthorities = newGrantedAuthorityList;
+    }
+
+    //TODO: Add @Override annotation once we flip switch on M5
+    public List<String> getResourceIds() {
+        //apidocs say to return empty list to ignore resource checks
+        return new ArrayList<String>();
     }
 }
