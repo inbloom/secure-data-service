@@ -36,6 +36,13 @@ class EntityTest < ActiveSupport::TestCase
     assert_not_nil(Entity.build_simple_hash(VIEW_CONFIG['teacher'], @teacher_fixtures['one']))
   end
   
+  test "try to get address/city from teacher" do
+    v = Entity.value_for_simple_view('address/city', @teacher_fixtures['one'])
+    assert_not_nil(v)
+    assert(v == 'Durham', "City should be Durham.")
+    
+  end
+  
   test "getting keys with type" do
     v = Entity.build_simple_hash(VIEW_CONFIG['teacher'], @teacher_fixtures['one'])
     assert_not_nil(v)
