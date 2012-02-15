@@ -78,10 +78,22 @@ end
 
 Given /^I have navigated to my Complex\-Configurable Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/realms"
+  
+  # Wait for page to load
+  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
+  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
+    wait.until { @driver.find_element(:link_text, "Edit") }
+  rescue
+  end
   @driver.find_element(:link_text, "Edit").click
 end
 
 When /^I click on the Reset Mapping button$/ do
+  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
+  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
+    wait.until { @driver.find_element(:id, "resetButton") }
+  rescue
+  end
   @driver.find_element(:id, "resetButton").click
 end
 

@@ -30,6 +30,24 @@ public class TokenGeneratorTest {
         }
     }
     
+    @Test
+    public void testEdgeCharacters() {
+        //can find random As, Zs, 0s, and 9s.
+        boolean foundChars = false;
+        for (int i = 0; i < 25; i++) {   //try a few times to increase our probability
+            String token = TokenGenerator.generateToken(10000);
+            foundChars = token.indexOf('a') > -1 
+                    && token.indexOf('A') > -1
+                    && token.indexOf('z') > -1
+                    && token.indexOf('Z') > -1
+                    && token.indexOf('0') > -1
+                    && token.indexOf('9') > -1;
+            if (foundChars)
+                break;
+        }
+        assertTrue(foundChars);
+    }
+    
     /**
      * Not enabled, but would be a quick and dirty way of verifying some amount 
      * of entropy in our pseudo-randomness by checking out well it compresses
