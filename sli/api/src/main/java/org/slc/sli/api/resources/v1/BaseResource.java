@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Context;
@@ -19,7 +20,6 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
 
@@ -38,8 +38,10 @@ public abstract class BaseResource {
     public static final String SLC_JSON_MEDIA_TYPE = "application/vnd.slc+json";
     public static final String SLC_LONG_XML_MEDIA_TYPE = "application/vnd.slc.full+xml";
     public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
+    
+    public static final int MAX_MULTIPLE_UUIDS = 100;
 
-    private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseResource.class);
     private final EntityDefinitionStore entityDefs;
     
     /**
@@ -88,14 +90,8 @@ public abstract class BaseResource {
      * represents a
      * source entity for that association.
      *
-     * @param typePath
-     *            resrouceUri for the entity/association
-     * @param id
-     *            either the association id or the association's source entity id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
+     * @param idList
+     *            comma separated list of the association id(s) or the association's source entity id(s)
      * @param fullEntities
      *            whether or not the full entity should be returned or just the link.  Defaults to false
      * @param uriInfo
@@ -103,65 +99,43 @@ public abstract class BaseResource {
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
-    public Response getEntity(final String id,
-            final int skip,
-            final int max,
-            final boolean fullEntities,
-            final UriInfo uriInfo) {
-        return handle(typePath, new ResourceLogic() {
+    public Response getEntity(final String idList, final boolean fullEntities, final UriInfo uriInfo) {
+        return handle(this.typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                if (entityDef.isOfType(id)) {
-                    EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
-                    return Response.ok(entityBody).build();
-                } else if (entityDef instanceof AssociationDefinition) {
-                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    Iterable<String> associationIds = null;
-
-                    boolean checkAgainstSourceEntity = associationDefinition.getSourceEntity().isOfType(id);
-                    boolean checkAgainstTargetEntity = associationDefinition.getTargetEntity().isOfType(id);
-
-                    if (checkAgainstSourceEntity && checkAgainstTargetEntity) {
-                        associationIds = associationDefinition.getService().getAssociationsFor(id, skip, max,
-                                uriInfo.getRequestUri().getQuery());
-                    } else if (checkAgainstSourceEntity) {
-                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-                                uriInfo.getRequestUri().getQuery());
-                    } else if (checkAgainstTargetEntity) {
-                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-                                uriInfo.getRequestUri().getQuery());
-                    } else {
+                //split list of IDs into individual ID(s)
+                String[]ids = idList.split(",");
+                boolean multipleIds = (ids.length > 1);
+                List<EntityBody> results = new ArrayList<EntityBody>();
+                
+                //validate the number of input IDs is lower than the max acceptable amount
+                if (ids.length > BaseResource.MAX_MULTIPLE_UUIDS) {
+                    Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
+                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs " + BaseResource.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), errorMessage)).build();
+                }
+                
+                //loop through all input ID(s)
+                for (String id : ids) {
+                    //ID is a valid entity from the collection
+                    if (entityDef.isOfType(id)) {
+                        EntityBody entityBody = entityDef.getService().get(id);
+                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
+                        results.add(entityBody);
+                    } else if (multipleIds) { //ID not found but multiple IDs are being searched for
+                        results.add(null);
+                    } else { //ID not found and only one ID being searched for
                         return Response.status(Status.NOT_FOUND).build();
                     }
-
-                    if (fullEntities) {
-                        return Response.ok(getFullEntities(associationIds, entityDef)).build();
-                    } else {
-                        CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
-                        return Response.ok(collection).build();
-                    }
                 }
-                return Response.status(Status.NOT_FOUND).build();
+                
+                //get a response appropriate for the GET request
+                Object responseBodyEntity = multipleIds ? results : results.get(0);
+                
+                //Return results as an array if multiple IDs were requested (comma separated list), single entity otherwise
+                return Response.ok(responseBodyEntity).build();
             }
-
         });
-    }
-
-    private CollectionResponse getShortEntities(final UriInfo uriInfo, EntityDefinition entityDef,
-            Iterable<String> associationIds) {
-        CollectionResponse collection = new CollectionResponse();
-        if (associationIds != null && associationIds.iterator().hasNext()) {
-            for (String id : associationIds) {
-                String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                collection.add(id, ResourceConstants.SELF, entityDef.getType(), href);
-            }
-        }
-        return collection;
-    }
-
-    private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
-        return entityDef.getService().get(associationIds);
     }
 
     /**
@@ -171,20 +145,14 @@ public abstract class BaseResource {
      *            resrouceUri for the entity/association
      * @param id
      *            either the association id or the association's source entity id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
    
-    public Response getFullEntities(final String id,
-            final int skip,
-            final int max, final UriInfo uriInfo) {
-        return getEntity(id, skip, max, true, uriInfo);
+    public Response getFullEntities(final String id, final UriInfo uriInfo) {
+        return getEntity(id, true, uriInfo);
     }
     
     /**
@@ -195,9 +163,9 @@ public abstract class BaseResource {
      *            resrouceUri for the entity/association
      * @param id
      *            either the association id or the association's source entity id
-     * @param skip
+     * @param offset
      *            number of results to skip
-     * @param max
+     * @param limit
      *            maximum number of results to return
      * @param fullEntities
      *            whether or not the full entity should be returned or just the link.  Defaults to false
@@ -208,8 +176,8 @@ public abstract class BaseResource {
      */
 
     public Response getHoppedRelatives(final String id,
-            final int skip,
-            final int max,
+            final int offset,
+            final int limit,
             final boolean fullEntities,
             final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
@@ -220,11 +188,11 @@ public abstract class BaseResource {
                     Iterable<String> relatives = null;
                     EntityDefinition relative = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max,
+                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, offset, limit,
                                 uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max,
+                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, offset, limit,
                                 uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getSourceEntity();
                     } else {
@@ -268,9 +236,9 @@ public abstract class BaseResource {
      *            resrouceUri for the entity/association
      * @param id
      *            either the association id or the association's source entity id
-     * @param skip
+     * @param offset
      *            number of results to skip
-     * @param max
+     * @param limit
      *            maximum number of results to return
      * @param uriInfo
      * @return A collection of entities that are the targets of the specified source in an
@@ -279,9 +247,9 @@ public abstract class BaseResource {
      */
 
     public Response getFullHoppedRelatives(final String id,
-            final int skip,
-            final int max, final UriInfo uriInfo) {
-        return getHoppedRelatives(id, skip, max, true, uriInfo);
+            final int offset,
+            final int limit, final UriInfo uriInfo) {
+        return getHoppedRelatives(id, offset, limit, true, uriInfo);
     }
 
     /**
@@ -339,7 +307,7 @@ public abstract class BaseResource {
      * Handle preconditions and exceptions.
      */
     private Response handle(String typePath, ResourceLogic logic) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
+        EntityDefinition entityDef = this.entityDefs.lookupByResourceName(typePath);
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
