@@ -36,7 +36,7 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
  *
  */
 @Component
-@Path("/pub/realms")
+@Path("/pub")
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class RealmResource implements IdpResolver {
@@ -54,7 +54,7 @@ public class RealmResource implements IdpResolver {
      * Provides a list of all available realms
      */
     @GET
-    @Path("/")
+    @Path("/realms")
     @Override
     public Set<EntityBody> getRealms() {
 
@@ -81,7 +81,7 @@ public class RealmResource implements IdpResolver {
      *            id of the user preferred idp
      */
     @GET
-    @Path("ssoInit")
+    @Path("/realms/ssoInit")
     @Override
     public String getSsoInitUrl(@QueryParam("id") final String realmId) {
 

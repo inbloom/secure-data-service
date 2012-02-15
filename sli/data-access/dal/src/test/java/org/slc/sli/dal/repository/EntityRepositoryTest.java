@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
@@ -134,11 +135,16 @@ public class EntityRepositoryTest {
         body3.put("firstName", "Mary");
         body4.put("firstName", "Suzy");
         
+        body1.put("performanceLevels", new String[] { "1" });
+        body2.put("performanceLevels", new String[] { "2" });
+        body3.put("performanceLevels", new String[] { "3" });
+        body4.put("performanceLevels", new String[] { "4" });
+        
         // save entities
-        Entity student1 = repository.create("student", body1);
-        Entity student2 = repository.create("student", body2);
-        Entity student3 = repository.create("student", body3);
-        Entity student4 = repository.create("student", body4);
+        repository.create("student", body1);
+        repository.create("student", body2);
+        repository.create("student", body3);
+        repository.create("student", body4);
         
         // sort entities by firstName with ascending order
         Query query = new Query();
@@ -161,9 +167,30 @@ public class EntityRepositoryTest {
         assertEquals("Mary", it.next().getBody().get("firstName"));
         assertEquals("Jane", it.next().getBody().get("firstName"));
         assertEquals("Austin", it.next().getBody().get("firstName"));
-
+        
+        // sort entities by performanceLevels which is an array with ascending order
+        query = new Query();
+        query.sort().on("body.performanceLevels", Order.ASCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(entities);
+        it = entities.iterator();
+        assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("2", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("3", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        
+        // sort entities by performanceLevels which is an array with descending order
+        query = new Query();
+        query.sort().on("body.performanceLevels", Order.DESCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(entities);
+        it = entities.iterator();
+        assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("3", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("2", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+        assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
     }
-
+    
     // @Test
     // public void testValidation() {
     // Map<String, Object> badBody = buildTestStudentEntity();
@@ -239,7 +266,7 @@ public class EntityRepositoryTest {
         assertEquals(created, updated);
         
         saved.getBody().put("cityOfBirth", "Evanston");
-
+        
         // Needs to be here to prevent cases where code execution is so fast, there
         // is no difference between create/update times
         Thread.sleep(2);

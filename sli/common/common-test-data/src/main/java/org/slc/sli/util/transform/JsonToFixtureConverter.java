@@ -35,7 +35,7 @@ public class JsonToFixtureConverter {
     private FilenameFilter studentProgAssocFilter = null;
     
     public JsonToFixtureConverter(String dir, String outputType) {
-        this.dataDirectory = dir;
+        dataDirectory = dir;
         
         if (outputType.equals("xml")) {
             Configuration.setOutputType(Configuration.OutputType.EdFiXml);
@@ -749,9 +749,7 @@ public class JsonToFixtureConverter {
         }
     }
     
-    private void convertEdOrgs(OutputStreamWriter writer) throws IOException {
-        writer.write("===ED-ORGS===");
-    }
+    
     
     /*
      * private void convertStudent(OutputStreamWriter writer) throws IOException
@@ -847,7 +845,7 @@ public class JsonToFixtureConverter {
             usage();
         }
         
-        String dataDir = (args == null || args.length < 1) ? "." : args[0];
+        String dataDir = (args.length < 1) ? "." : args[0];
         if (!dataDir.endsWith(File.separator)) {
             dataDir += File.separator;
         }

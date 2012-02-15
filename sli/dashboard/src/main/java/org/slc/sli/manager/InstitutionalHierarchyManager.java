@@ -97,7 +97,7 @@ public class InstitutionalHierarchyManager extends Manager {
     // ------------- helper functions ----------------
     // This assumes there is no cycle in the education organization hierarchy tree.
     private void insertEdOrgAndAncesterIntoSet(String token, Map<String, GenericEntity> map, GenericEntity edOrg) {
-        map.put((String) (edOrg.get(Constants.ATTR_ID)), edOrg);
+        map.put(edOrg.getString(Constants.ATTR_ID), edOrg);
         List<GenericEntity> parentEdOrgs = getParentEducationalOrganizations(token, edOrg);
         for (int i = 0; i < parentEdOrgs.size(); i++) {
             insertEdOrgAndAncesterIntoSet(token, map, parentEdOrgs.get(i));

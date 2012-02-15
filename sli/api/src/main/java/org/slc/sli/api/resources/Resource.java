@@ -1,6 +1,21 @@
 package org.slc.sli.api.resources;
 
-import java.util.List;
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.Associations;
+import org.slc.sli.api.representation.CollectionResponse;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.Entities;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -16,24 +31,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.Associations;
-import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.Entities;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import java.util.List;
 
 /**
  * Jersey resource for all entities and associations.
@@ -157,7 +155,7 @@ public class Resource {
                     }
 
                     if (fullEntities) {
-                        return Response.ok(getFullEntities(associationIds, entityDef)).build();
+                        return Response.ok(getFullEntities(associationIds, entityDef, uriInfo)).build();
                     } else {
                         CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
                         return Response.ok(collection).build();
@@ -181,8 +179,10 @@ public class Resource {
         return collection;
     }
 
-    private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
-        return entityDef.getService().get(associationIds);
+    private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef, UriInfo uriInfo) {
+        Iterable<EntityBody> entityBodies = entityDef.getService().get(associationIds);
+        addLinksToEntities(entityBodies, entityDef, uriInfo);
+        return entityBodies;
     }
 
     /**
@@ -319,7 +319,7 @@ public class Resource {
                     }
 
                     if (fullEntities) {
-                        return Response.ok(getHoppedEntities(relatives, relative)).build();
+                        return Response.ok(getHoppedEntities(relatives, relative, uriInfo)).build();
                     } else {
                         CollectionResponse collection = getHoppedLinks(uriInfo, relatives, relative);
                         return Response.ok(collection).build();
@@ -344,8 +344,18 @@ public class Resource {
         return collection;
     }
 
-    private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef) {
-        return relativeDef.getService().get(relatives);
+    private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef,
+                                                   UriInfo uriInfo) {
+        Iterable<EntityBody> entityBodies = relativeDef.getService().get(relatives);
+        addLinksToEntities(entityBodies, relativeDef, uriInfo);
+        return entityBodies;
+    }
+
+    private void addLinksToEntities(Iterable<EntityBody> entityBodies, EntityDefinition relativeDef, UriInfo uriInfo) {
+        for (EntityBody entityBody : entityBodies) {
+            entityBody.put(ResourceConstants.LINKS,
+                    getLinks(uriInfo, relativeDef, (String) entityBody.get("id"), entityBody));
+        }
     }
 
     /**

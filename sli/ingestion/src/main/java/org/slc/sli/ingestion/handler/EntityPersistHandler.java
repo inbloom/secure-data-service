@@ -63,7 +63,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
 
                     // Set up search fields for next associated entity and association entity.
                     associatedFilterFields.remove(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD);
-                    filterFields.put("body." + associatedEntityClientId, externalId);
+                    filterFields.put("body." + associatedEntityClientId, uuid);
                 } else {  // Error! Associated entity not in data store!
                     // Generate error message and process next entity in ingestion stream.
                     errorReport.error("Error: Region " + regionId + ": " + localParentIdName + " " + externalId
