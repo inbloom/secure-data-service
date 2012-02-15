@@ -3,10 +3,14 @@ package org.slc.sli.api.resources.security;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +54,8 @@ public class ApplicationResourceTest {
     
     @Mock EntityService service;
     
+    UriInfo uriInfo = null;
+    
     private static final int STATUS_CREATED = 201;
     private static final int STATUS_DELETED = 204;
     private static final int STATUS_NOT_FOUND = 404;
@@ -58,6 +64,7 @@ public class ApplicationResourceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        uriInfo = buildMockUriInfo(null);
     }
     
     @Test
@@ -70,14 +77,11 @@ public class ApplicationResourceTest {
                 service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
                 .thenReturn(new ArrayList<String>());
         
-        Response resp = resource.createApplication(app);
+        Response resp = resource.createApplication(app, uriInfo);
         assertEquals(STATUS_CREATED, resp.getStatus());
         assertTrue("Client id set", app.get("client_id").toString().length() == 10);
         assertTrue("Client secret set", app.get("client_secret").toString().length() == 48);
         
-        EntityBody body = (EntityBody) resp.getEntity();
-        assertTrue("Making sure response contains client_id", body.containsKey("client_id"));
-        assertTrue("Making sure response contains client_secret", body.containsKey("client_secret"));
     }
     
     
@@ -184,5 +188,13 @@ public class ApplicationResourceTest {
                 .thenReturn(new ArrayList<String>());
         detailsService.loadClientByClientId(clientId);
     }
+    
+    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
+        UriInfo mock = mock(UriInfo.class);
+        when(mock.getBaseUri()).thenReturn(new URI("http://blah.org"));
+        when(mock.getPath()).thenReturn("blah");
+        return mock;
+    }
+
     
 }

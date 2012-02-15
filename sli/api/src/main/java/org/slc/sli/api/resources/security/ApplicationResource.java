@@ -54,7 +54,7 @@ public class ApplicationResource {
     }
 
     @POST
-    public Response createApplication(EntityBody newApp) {
+    public Response createApplication(EntityBody newApp, @Context final UriInfo uriInfo) {
         String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
@@ -64,13 +64,10 @@ public class ApplicationResource {
         
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put("client_secret", clientSecret);
-        String id = service.create(newApp);
-        
-        EntityBody resObj = new EntityBody();
-        resObj.put(id, id);
-        resObj.put(CLIENT_ID, clientId);
-        resObj.put("client_secret", clientSecret);
-        return Response.status(Status.CREATED).entity(resObj).build();
+        service.create(newApp);
+
+        String uri = uriToString(uriInfo) + "/" + clientId;
+        return Response.status(Status.CREATED).header("Location", uri).build();
     }
 
     private boolean isDuplicateToken(String token) {
@@ -84,12 +81,14 @@ public class ApplicationResource {
         for (String id : realmList) {
             EntityBody result = service.get(id);
 
-            result.put("link",
-                    info.getBaseUri() + info.getPath().replaceAll("/$", "")
-                            + "/" + result.get(CLIENT_ID));
+            result.put("link", uriToString(info) + "/" + result.get(CLIENT_ID));
             results.add(result);
         }
         return results;
+    }
+    
+    private static String uriToString(UriInfo uri) {
+        return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
     }
 
     /**
