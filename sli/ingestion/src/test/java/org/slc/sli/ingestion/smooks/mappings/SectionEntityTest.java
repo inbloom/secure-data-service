@@ -2,13 +2,13 @@ package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
 
+
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +82,7 @@ public class SectionEntityTest {
         + "</Section>"
     + "</InterchangeMasterSchedule>";
 
-    @Ignore
+
     @Test
     public void testValidSection() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -97,7 +97,6 @@ public class SectionEntityTest {
         Assert.assertTrue(validator.validate(e));
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSectionMissingUniqueSectionCode() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -134,7 +133,6 @@ public class SectionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSectionMissingSequenceOfCourse() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -171,7 +169,6 @@ public class SectionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSectionMissingCourseOfferingReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -204,7 +201,6 @@ public class SectionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSectionMissingSchoolReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -237,7 +233,6 @@ public class SectionEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSectionMissingSessionReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -270,8 +265,6 @@ public class SectionEntityTest {
 
     }
 
-
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidSectionIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
