@@ -92,10 +92,6 @@ public abstract class BaseResource {
      *
      * @param idList
      *            comma separated list of the association id(s) or the association's source entity id(s)
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
      * @param fullEntities
      *            whether or not the full entity should be returned or just the link.  Defaults to false
      * @param uriInfo
@@ -103,7 +99,7 @@ public abstract class BaseResource {
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
-    public Response getEntity(final String idList, final int skip, final int max, final boolean fullEntities, final UriInfo uriInfo) {
+    public Response getEntity(final String idList, final boolean fullEntities, final UriInfo uriInfo) {
         return handle(this.typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -149,20 +145,14 @@ public abstract class BaseResource {
      *            resrouceUri for the entity/association
      * @param id
      *            either the association id or the association's source entity id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
    
-    public Response getFullEntities(final String id,
-            final int skip,
-            final int max, final UriInfo uriInfo) {
-        return getEntity(id, skip, max, true, uriInfo);
+    public Response getFullEntities(final String id, final UriInfo uriInfo) {
+        return getEntity(id, true, uriInfo);
     }
     
     /**
@@ -173,9 +163,9 @@ public abstract class BaseResource {
      *            resrouceUri for the entity/association
      * @param id
      *            either the association id or the association's source entity id
-     * @param skip
+     * @param offset
      *            number of results to skip
-     * @param max
+     * @param limit
      *            maximum number of results to return
      * @param fullEntities
      *            whether or not the full entity should be returned or just the link.  Defaults to false
@@ -186,8 +176,8 @@ public abstract class BaseResource {
      */
 
     public Response getHoppedRelatives(final String id,
-            final int skip,
-            final int max,
+            final int offset,
+            final int limit,
             final boolean fullEntities,
             final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
@@ -198,11 +188,11 @@ public abstract class BaseResource {
                     Iterable<String> relatives = null;
                     EntityDefinition relative = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max,
+                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, offset, limit,
                                 uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max,
+                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, offset, limit,
                                 uriInfo.getRequestUri().getQuery());
                         relative = associationDefinition.getSourceEntity();
                     } else {
@@ -246,9 +236,9 @@ public abstract class BaseResource {
      *            resrouceUri for the entity/association
      * @param id
      *            either the association id or the association's source entity id
-     * @param skip
+     * @param offset
      *            number of results to skip
-     * @param max
+     * @param limit
      *            maximum number of results to return
      * @param uriInfo
      * @return A collection of entities that are the targets of the specified source in an
@@ -257,9 +247,9 @@ public abstract class BaseResource {
      */
 
     public Response getFullHoppedRelatives(final String id,
-            final int skip,
-            final int max, final UriInfo uriInfo) {
-        return getHoppedRelatives(id, skip, max, true, uriInfo);
+            final int offset,
+            final int limit, final UriInfo uriInfo) {
+        return getHoppedRelatives(id, offset, limit, true, uriInfo);
     }
 
     /**

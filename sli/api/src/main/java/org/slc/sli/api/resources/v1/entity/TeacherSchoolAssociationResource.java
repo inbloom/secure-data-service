@@ -43,14 +43,17 @@ public class TeacherSchoolAssociationResource extends BaseResource {
     }
     
     /**
-     * Returns all teacher-school-association entities 
+     * Returns all teacher-school-association entities for which the logged in User has permission and context.
      * 
-     * @param newEntityBody
      * @param uriInfo
+     * @param offset starting position in results to return to user
+     * @param limit maximum number of results to return to user (starting from offset)
      * @return
      */
     @GET
-    public Response getEntityCollection(@Context final UriInfo uriInfo) {
+    public Response getEntityCollection(@Context final UriInfo uriInfo,
+            @QueryParam("offset") @DefaultValue("0") final int offset,
+            @QueryParam("limit") @DefaultValue("50") final int limit) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 
@@ -76,10 +79,6 @@ public class TeacherSchoolAssociationResource extends BaseResource {
      *
      * @param id
      *            teacher-school-association id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
      * @param fullEntities
      *            whether or not the full entity should be returned or just the link.  Defaults to false
      * @param uriInfo
@@ -91,11 +90,9 @@ public class TeacherSchoolAssociationResource extends BaseResource {
     @Path("{id}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
     public Response getEntity(@PathParam("id") final String id,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
-        return super.getEntity(id, skip, max, fullEntities, uriInfo);
+        return super.getEntity(id, fullEntities, uriInfo);
     }
 
     /**
