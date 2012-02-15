@@ -82,6 +82,11 @@ public class TokenManager implements TokenStore {
     public void setEntityRepository(EntityRepository repo) {
         this.repo = repo;
     }
+    
+    //Injector 
+    public void setRolesToRightsResolver(RolesToRightsResolver r) {
+        this.rolesToRightsResolver = r;
+    }
 
     @Override
     public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
@@ -142,7 +147,9 @@ public class TokenManager implements TokenStore {
             result.setExpiration((Date) accessToken.get("expiration"));
             result.setTokenType((String) accessToken.get("token_type"));
             
-            //TODO - Also add the Refresh Token
+            Map<String, Object> refreshToken = (Map<String, Object>) accessToken.get("refresh_token");
+            
+            ExpiringOAuth2RefreshToken rt = new ExpiringOAuth2RefreshToken((String) refreshToken.get("value"), (Date) refreshToken.get("expiration"));
         }
         return result;
 
@@ -164,11 +171,12 @@ public class TokenManager implements TokenStore {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
         Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.access_token.refresh_token.value").is(tokenValue)), 0, 1);
         for (Entity cur : results) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> refreshToken = (Map<String, Object>) cur.getBody().get("refresh_token");
+            Map<String, Object> accessToken = (Map<String, Object>) cur.getBody().get("access_token");
+            Map<String, Object> refreshToken = (Map<String, Object>) accessToken.get("refresh_token");
             Date expirationDate = (Date) refreshToken.get("expiration");
             return new ExpiringOAuth2RefreshToken(tokenValue, expirationDate);
         }
