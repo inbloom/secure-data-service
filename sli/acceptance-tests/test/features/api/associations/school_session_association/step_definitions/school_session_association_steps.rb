@@ -51,6 +51,7 @@ end
 
 Given /^grading period "([^"]*)" is (\d+)$/ do |key, value|
   @gradingPeriod = {} if !defined? @gradingPeriod
+  value = convert(value)
   @gradingPeriod[key] = value
   @fields = {} if !defined? @fields
   @fields['gradingPeriod'] = @gradingPeriod
@@ -103,6 +104,7 @@ Then /^grading period "([^"]*)" should be "([^"]*)"$/ do |key, value|
 end
 
 Then /^grading period "([^"]*)" should be (\d+)$/ do |key, value|
+  value = convert(value)
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result.has_key?('gradingPeriod'), "Response does not contain gradingPeriod")

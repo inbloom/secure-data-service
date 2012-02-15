@@ -52,7 +52,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-<!-- 	<xs:element name="schoolSessionAssociation">
+ 	<xs:element name="schoolSessionAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a school with all its sessions.</xs:documentation>
 		</xs:annotation>
@@ -75,6 +75,6 @@
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-	</xs:element> -->
+	</xs:element>
 	
 </xs:schema>

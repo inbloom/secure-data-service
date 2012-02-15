@@ -1,16 +1,26 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * Test the smooks mappings for Student entity
@@ -18,7 +28,135 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author bsuzuki
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentEntityTest {
+
+    @Autowired
+    EntityValidator validator;
+
+    @Test
+    public void testValidStudent() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+
+        String targetSelector = "InterchangeStudent/Student";
+
+        String testData = "<InterchangeStudent xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-Student.xsd\">"
+                + "<Student>"
+                + "<StudentUniqueStateId>231101422</StudentUniqueStateId>"
+                + "<StudentIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
+                + "    <IdentificationCode>231101422</IdentificationCode>"
+                + "</StudentIdentificationCode>"
+                + "<Name Verification=\"verificationString\">"
+                + "    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>"
+                + "    <FirstName>Alfonso</FirstName>"
+                + "    <MiddleName>Ora</MiddleName>"
+                + "    <LastSurname>Steele</LastSurname>"
+                + "    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>"
+                + "    <MaidenName>Jimenez</MaidenName>"
+                + "</Name>"
+                + "<OtherName OtherNameType=\"Alias\">"
+                + "    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>"
+                + "    <FirstName>Alden</FirstName>"
+                + "    <MiddleName>Gannon</MiddleName>"
+                + "    <LastSurname>Horne</LastSurname>"
+                + "    <GenerationCodeSuffix>II</GenerationCodeSuffix>"
+                + "</OtherName>"
+                + "<Sex>Male</Sex>"
+                + "<BirthData>"
+                + "     <BirthDate>1999-07-12</BirthDate>"
+                + "     <CityOfBirth>Baltimore</CityOfBirth>"
+                + "     <StateOfBirthAbbreviation>MD</StateOfBirthAbbreviation>"
+                + "     <CountryOfBirthCode>US</CountryOfBirthCode>"
+                + "     <DateEnteredUS>2001-03-23</DateEnteredUS>"
+                + "     <MultipleBirthStatus>false</MultipleBirthStatus>"
+                + "</BirthData>"
+                + "<Address AddressType=\"Home\">"
+                + "    <StreetNumberName>555 Main Street</StreetNumberName>"
+                + "    <ApartmentRoomSuiteNumber>1A</ApartmentRoomSuiteNumber>"
+                + "    <BuildingSiteNumber>building site number</BuildingSiteNumber>"
+                + "    <City>Baltimore</City>"
+                + "    <StateAbbreviation>MD</StateAbbreviation>"
+                + "    <PostalCode>21218</PostalCode>"
+                + "    <NameOfCounty>Baltimore</NameOfCounty>"
+                + "    <CountyFIPSCode>USA123</CountyFIPSCode>"
+                + "    <CountryCode>USA</CountryCode>"
+                + "    <Latitude>245</Latitude>"
+                + "    <Longitude>432</Longitude>"
+                + "    <OpenDate>01-01-1969</OpenDate>"
+                + "    <CloseDate>12-12-2012</CloseDate>"
+                + "</Address>"
+                + "<Telephone TelephoneNumberType=\"mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
+                + "    <TelephoneNumber>410-555-0248</TelephoneNumber>"
+                + "</Telephone>"
+                + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
+                + "    <EmailAddress>asteele@email.com</EmailAddress>"
+                + "</ElectronicMail>"
+                + "<ProfileThumbnail>profilethumbnail</ProfileThumbnail>"
+                + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
+                + "<OldEthnicity>Hispanic</OldEthnicity>"
+                + "<Race>"
+                + "    <RacialCategory>White</RacialCategory>"
+                + "</Race>"
+                + "<EconomicDisadvantaged>true</EconomicDisadvantaged>"
+                + "<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>"
+                + "<StudentCharacteristics>"
+                + "    <Characteristic>Immigrant</Characteristic>"
+                + "    <BeginDate>2005-01-11</BeginDate>"
+                + "    <EndDate>2005-01-30</EndDate>"
+                + "    <DesignatedBy>School</DesignatedBy>"
+                + "</StudentCharacteristics>"
+                + "<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>"
+                + "<Languages>"
+                + "    <Language>English</Language>"
+                + "</Languages>"
+                + "<HomeLanguages>"
+                + "    <Language>English</Language>"
+                + "</HomeLanguages>"
+                + "<Disabilities>"
+                + "    <Disability>Deafness</Disability>"
+                + "    <DisabilityDiagnosis>Deaf</DisabilityDiagnosis>"
+                + "    <OrderOfDisability>3</OrderOfDisability>"
+                + "</Disabilities>"
+                + "<Section504Disabilities>"
+                + "    <Section504Disability>Other</Section504Disability>"
+                + "</Section504Disabilities>"
+                + "<DisplacementStatus>Other</DisplacementStatus>"
+                + "<ProgramParticipations>"
+                + "    <Program>Bilingual</Program>"
+                + "    <BeginDate>2011-01-11</BeginDate>"
+                + "    <EndDate>2011-01-11</EndDate>"
+                + "    <DesignatedBy>School</DesignatedBy>"
+                + "</ProgramParticipations>"
+                + "<LearningStyles>"
+                + "    <VisualLearning>1</VisualLearning>"
+                + "    <AuditoryLearning>1</AuditoryLearning>"
+                + "    <TactileLearning>1</TactileLearning>"
+                + "</LearningStyles>"
+                + "<CohortYears CohortYearType=\"9th grade\">"
+                + "    <SchoolYear>2010-2011</SchoolYear>"
+                + "</CohortYears>"
+                + "<StudentIndicators>"
+                + "    <IndicatorGroup>student</IndicatorGroup>"
+                + "    <IndicatorName>student</IndicatorName>"
+                + "    <Indicator>student</Indicator>"
+                + "    <BeginDate>2011-01-11</BeginDate>"
+                + "    <EndDate>2011-01-12</EndDate>"
+                + "    <DesignatedBy>School</DesignatedBy>"
+                + "</StudentIndicators>"
+                + "<LoginId>aStudent</LoginId>"
+                + "</Student></InterchangeStudent>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                testData);
+
+        Entity e = mock(Entity.class);
+
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("student");
+
+        Assert.assertTrue(validator.validate(e));
+    }
 
     @Test
     public void csvStudentTest() throws Exception {
@@ -297,7 +435,7 @@ public class StudentEntityTest {
         }
 
         assertEquals("Other", studentNeutralRecord.getAttributes().get("displacementStatus"));
-        
+
         List programParticipationsList = (List) studentNeutralRecord.getAttributes().get("programParticipations");
         Map programParticipationMap = (Map) programParticipationsList.get(0);
         EntityTestUtils.assertObjectInMapEquals(programParticipationMap, "program", "Bilingual");
