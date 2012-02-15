@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Schema which validates choices.
@@ -56,43 +57,72 @@ public class ChoiceSchema extends NeutralSchema {
         return (Long) getProperties().get(MAX_OCCURS);
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
         
-        if (getMinOccurs() < 2 && getMaxOccurs() == 1 && entity instanceof Map) {
-            Map<String, Object> datum = (Map<String, Object>) entity;
-            if (datum.size() > 1) {
-                return false;
+        if (getMaxOccurs() == 1) {
+            if (getMinOccurs() == 0 && entity == null) {
+                return true;
             }
-            Entry<String, Object> datumValue = datum.entrySet().iterator().next();
-            NeutralSchema fieldSchema = this.getFields().get(datumValue.getKey());
+            if (!(entity instanceof Map)) {
+                return addError(false, fieldName, entity, "Map", ErrorType.INVALID_DATATYPE, errors);
+            }
+            Map<?, ?> datum = (Map<?, ?>) entity;
+            if (datum.size() != 1) {
+                return addError(false, fieldName, entity, "Single Entry", ErrorType.INVALID_DATATYPE, errors);
+            }
+            Entry<?, ?> datumValue = datum.entrySet().iterator().next();
+            if (!(datumValue.getKey() instanceof String)) {
+                return addError(false, fieldName, entity, this.getFields().keySet().toArray(new String[0]),
+                        ErrorType.INVALID_CHOICE_TYPE, errors);
+            }
+            String key = (String) datumValue.getKey();
+            Object value = datumValue.getValue();
+            
+            NeutralSchema fieldSchema = this.getFields().get(key);
             if (fieldSchema == null) {
-                return false;
+                return addError(false, fieldName, entity, this.getFields().keySet().toArray(new String[0]),
+                        ErrorType.INVALID_CHOICE_TYPE, errors);
             }
-            if (fieldSchema.validate(datumValue.getValue())) {
+            if (fieldSchema.validate(key, value, errors, repo)) {
                 return true;
             }
         } else if (getMaxOccurs() > 1) {
             if (!(entity instanceof List)) {
-                return false;
+                return addError(false, fieldName, entity, "List", ErrorType.INVALID_DATATYPE, errors);
             }
-            List<Map<String, Object>> data = (List<Map<String, Object>>) entity;
-            if (data.size() < getMinOccurs()) {
-                return false;
-            } else if (data.size() > getMaxOccurs()) {
-                return false;
+            if (((List) entity).size() < getMinOccurs()) {
+                return addError(false, fieldName, entity, "min-length=" + this.getMinOccurs(), ErrorType.INVALID_VALUE,
+                        errors);
+            } else if (((List) entity).size() > getMaxOccurs()) {
+                return addError(false, fieldName, entity, "max-length=" + this.getMinOccurs(), ErrorType.INVALID_VALUE,
+                        errors);
             }
-            for (Map<String, Object> datum : data) {
-                if (datum.size() > 1) {
-                    return false;
+            
+            List<Object> data = (List<Object>) entity;
+            for (Object uncastedDatum : data) {
+                if (!(uncastedDatum instanceof Map)) {
+                    return addError(false, fieldName, entity, "Map", ErrorType.INVALID_DATATYPE, errors);
                 }
-                Entry<String, Object> datumValue = datum.entrySet().iterator().next();
-                NeutralSchema fieldSchema = this.getFields().get(datumValue.getKey());
+                Map<?, ?> datum = (Map<?, ?>) uncastedDatum;
+                if (datum.size() != 1) {
+                    return addError(false, fieldName, entity, "Single Entry", ErrorType.INVALID_DATATYPE, errors);
+                }
+                Entry<?, ?> datumValue = datum.entrySet().iterator().next();
+                if (!(datumValue.getKey() instanceof String)) {
+                    return addError(false, fieldName, entity, this.getFields().keySet().toArray(new String[0]),
+                            ErrorType.INVALID_CHOICE_TYPE, errors);
+                }
+                String key = (String) datumValue.getKey();
+                Object value = datumValue.getValue();
+                
+                NeutralSchema fieldSchema = this.getFields().get(key);
                 if (fieldSchema == null) {
-                    return false;
+                    return addError(false, fieldName, entity, this.getFields().keySet().toArray(new String[0]),
+                            ErrorType.INVALID_CHOICE_TYPE, errors);
                 }
-                if (!fieldSchema.validate(datumValue.getValue())) {
+                if (!fieldSchema.validate(key, value, errors, repo)) {
                     return false;
                 }
             }

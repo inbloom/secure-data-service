@@ -25,25 +25,25 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.BaseResource;
 
 /**
- * Prototype new api end points and versioning
+ * Prototype new api end points and versioning 
  * @author srupasinghe
  *
  */
-@Path("v1/schools")
+@Path("v1/teacher-school-associations")
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-public class SchoolResource extends BaseResource {
-
-    private static final String TYPE_PATH = "schools";
+public class TeacherSchoolAssociationResource extends BaseResource {
+    
+    private static final String TYPE_PATH = "teacher-school-associations";
 
     @Autowired
-    public SchoolResource(EntityDefinitionStore entityDefs) {
+    public TeacherSchoolAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, TYPE_PATH);
     }
-
+    
     /**
-     * Returns all School entities for which the logged in User has permission and context.
+     * Returns all teacher-school-association entities for which the logged in User has permission and context.
      * 
      * @param uriInfo
      * @param offset starting position in results to return to user
@@ -58,8 +58,8 @@ public class SchoolResource extends BaseResource {
     }
 
     /**
-     * Create a new school entity.
-     * 
+     * Create a new teacher-school-association entity.
+     *
      * @param newEntityBody
      *            entity data
      * @param uriInfo
@@ -75,69 +75,58 @@ public class SchoolResource extends BaseResource {
     }
 
     /**
-     * Get a single school entity
-     * 
+     * Get a single teacher-school-association entity 
+     *
      * @param id
-     *            The Id of the School.
+     *            teacher-school-association id
      * @param fullEntities
-     *            whether or not the full entity should be returned or just the link. Defaults to
-     *            false
+     *            whether or not the full entity should be returned or just the link.  Defaults to false
      * @param uriInfo
-     * @return A single school entity
+     * @return A single student entity
      * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
+     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}student
      */
     @GET
-    @Path("{schoolId}")
+    @Path("{id}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getEntity(@PathParam("schoolId") final String schoolId,
+    public Response getEntity(@PathParam("id") final String id,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
-        return super.getEntity(schoolId, fullEntities, uriInfo);
+        return super.getEntity(id, fullEntities, uriInfo);
     }
 
     /**
-     * Delete a school entity
-     * 
+     * Delete a teacher-school-association entity
+     *
+     * @param typePath
+     *            resourceUri of the entity
      * @param id
-     *            The Id of the School.
+     *            id of the entity
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{schoolId}")
-    public Response deleteEntity(@PathParam("schoolId") final String schoolId) {
-        return super.deleteEntity(schoolId);
+    @Path("{id}")
+    public Response deleteEntity(@PathParam("id") final String id) {
+        return super.deleteEntity(id);
     }
 
     /**
-     * Update an existing school entity.
-     * 
-     * @param schoolId
-     *            The Id of the School.
+     * Update an existing teacher-school-association entity.
+     *
+     * @param typePath
+     *            resourceUri for the entity
+     * @param id
+     *            id of the entity
      * @param newEntityBody
      *            entity data that will used to replace the existing entity data
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{schoolId}")
-    public Response updateEntity(@PathParam("schoolId") final String schoolId,
+    @Path("{id}")
+    public Response updateEntity(@PathParam("id") final String id,
             final EntityBody newEntityBody) {
-        return super.updateEntity(schoolId, newEntityBody);
-    }
-
-    /**
-     * Returns all the student-school-associations that
-     * reference the given school
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @return
-     */
-    @GET
-    @Path("{schoolId}/student-school-associations")
-    public Response getStudentSchoolAssociations(@PathParam("schoolId") final String schoolId) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        return super.updateEntity(id, newEntityBody);
     }
 }
